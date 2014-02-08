@@ -39,6 +39,9 @@ module tb;
 	// Outputs
 	wire [7:0] dout1;
 	wire [7:0] dout2;
+   
+   // Vars
+   integer i,j;
 
 	// Instantiate the Unit Under Test (UUT)
 	tld_para_simulacion uut (
@@ -77,6 +80,22 @@ module tb;
    end
    endtask
 
+   task peeka (input [9:0] a);
+   begin
+      a1 = a;
+      we1_n = 1;
+      repeat (4) @(posedge clk);
+   end
+   endtask
+
+   task peekb (input [9:0] a);
+   begin
+      a2 = a;
+      we2_n = 1;
+      repeat (4) @(posedge clk);
+   end
+   endtask
+
 	initial begin
 		// Initialize Inputs
 		clk = 0;
@@ -92,9 +111,28 @@ module tb;
       repeat (2) @(posedge clk);  
 
 		// Add stimulus here
-      pokea (0,8'h55);
-      pokeb (1,8'haa);
-
+      fork
+         begin
+            for (i=0;i<16;i=i+2)
+               pokea (i,i);
+         end
+         begin
+            for (j=1;j<16;j=j+2)
+               pokeb (j,j);
+         end
+      join
+      
+      fork
+         begin
+            for (i=0;i<16;i=i+2)
+               peeka (i);
+         end
+         begin
+            for (j=1;j<16;j=j+2)
+               peekb (j);
+         end
+      join
+      
       @(posedge clk);
       $finish;
 	end

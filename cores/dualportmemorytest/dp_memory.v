@@ -86,16 +86,20 @@ module dp_memory (
 							 end
 						  end
 			READ_M1:   begin
-			             a = a1;
-			             write_in_dout1 = 1;
+			             if (we1_n == 1) begin
+                        a = a1;
+                        write_in_dout1 = 1;
+                      end
 							 next_state = ACCESO_M2;
 						  end
 			WRITE_M1:  begin
-			             a = a1;
-			             enable_input_to_sram = 1;
-							 data_to_write = din1;
-							 oe_n = 1;
-							 we_n = 0;
+                      if (we1_n == 0) begin
+ 			               a = a1;
+                        enable_input_to_sram = 1;
+                        data_to_write = din1;
+                        oe_n = 1;
+                        we_n = 0;
+                      end
 							 next_state = ACCESO_M2;
 						  end
 			ACCESO_M2: begin
@@ -109,16 +113,20 @@ module dp_memory (
 							 end
 						  end
 			READ_M2:   begin
-			             a = a2;
-			             write_in_dout2 = 1;
-							 next_state = ACCESO_M1;
+                      if (we2_n == 1) begin
+                        a = a2;
+                        write_in_dout2 = 1;
+                      end
+                      next_state = ACCESO_M1;
 						  end
 			WRITE_M2:  begin
-			             a = a2;
-			             enable_input_to_sram = 1;
-							 data_to_write = din2;
-							 oe_n = 1;
-							 we_n = 0;
+                      if (we2_n == 0) begin
+                        a = a2;
+                        enable_input_to_sram = 1;
+                        data_to_write = din2;
+                        oe_n = 1;
+                        we_n = 0;
+                      end
 							 next_state = ACCESO_M1;
 						  end
        endcase
