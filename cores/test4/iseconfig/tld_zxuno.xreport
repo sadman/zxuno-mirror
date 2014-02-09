@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2014-02-08T23:32:22</DateModified>
+  <DateModified>2014-02-09T01:12:43</DateModified>
   <ModuleName>tld_zxuno</ModuleName>
-  <SummaryTimeStamp>Unknown</SummaryTimeStamp>
-  <SavedFilePath>C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test3/iseconfig/tld_zxuno.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test3\</ImplementationReportsDirectory>
+  <SummaryTimeStamp>2014-02-09T00:57:43</SummaryTimeStamp>
+  <SavedFilePath>C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test4/iseconfig/tld_zxuno.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test4\</ImplementationReportsDirectory>
   <DateInitialized>2014-02-07T00:51:32</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
