@@ -105,6 +105,7 @@ module ula (
 		seq <= seq + 1;
 
 	 wire clk7  = seq[1];
+    wire clk14 = seq[0];
     assign clkdac = seq[1];
     assign clkay = hc[0];
 
@@ -435,9 +436,8 @@ module ula (
 `define PORT_ATTR (a[7:0]==8'hFF)
 `define PORT_ULA (a[0]==1'b0)
 
-`define MASTERCPUCLK hc[0]
-//`define MASTERCPUCLK clk7
-//`define MASTERCPUCLK clk14
+`define MASTERCPUCLK hc[0]  // descomentar éste para un Z80 a 3.5MHz
+//`define MASTERCPUCLK clk7   // descomentar este para un Z80 a 7MHz
 
    reg CPUInternalClock = 0;
 	reg ioreqtw3 = 0;
@@ -525,8 +525,8 @@ module ula (
             dout = (ulaplus_register[7:6]==2'b00)? paldout :   // palette RAM data output bus if we want to read a palette entry
                     (ulaplus_register==8'h40)? {5'b00000,attr8x1,mode256x256,ulaplusenabled} :  // ULAplus mode register if we want to read entry $40
                     8'hFF;      //... or nothing
-         else if (!iorq_n && `PORT_ATTR && !rd_n && !viden_n)
-            dout = attrlatch1;  // port $FF reads current attribute just latched from memory
       end
+      if (!iorq_n && `PORT_ATTR && !rd_n && !viden_n)
+         dout = attrlatch1;  // port $FF reads current attribute just latched from memory. It's not contended.
 	end  
 endmodule
