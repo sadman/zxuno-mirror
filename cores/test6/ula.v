@@ -274,16 +274,21 @@ module ula (
 	wire [13:0] bitmapaddr = {vrampage,vc[7:6],vc[2:0],vc[5:3],ca};
 	wire [13:0] attraddr = {vrampage,3'b110,vc[7:5],vc[4:3],ca};
 	wire [13:0] attrtimexaddr = {1'b1,vc[7:6],vc[2:0],vc[5:3],ca};
+   reg bitmap_in_databus, attr_in_databus;
 
 	always @(*) begin
+      bitmap_in_databus = 1'b0;
+      attr_in_databus = 1'b0;
 		if (!video_read_in_progress /*|| hc[3:0]==11 || hc[3:0]==15*/) begin //last part added to widen Z window
 			va = 14'hZZZZ;
 		end
 		else if (hc[3:0]==8 || hc[3:0]==12) begin
 			va = bitmapaddr;
+         bitmap_in_databus = 1'b1;
 		end
 		else if (hc[3:0]==9 || hc[3:0]==10 || hc[3:0]==13 || hc[3:0]==14) begin
 			va = (attr8x1)? attrtimexaddr : attraddr;
+         attr_in_databus = 1'b1;
 		end
 		else begin
 			va = 14'hZZZZ;
@@ -526,7 +531,11 @@ module ula (
                     (ulaplus_register==8'h40)? {5'b00000,attr8x1,mode256x256,ulaplusenabled} :  // ULAplus mode register if we want to read entry $40
                     8'hFF;      //... or nothing
       end
-      if (!iorq_n && `PORT_ATTR && !rd_n && !viden_n)
-         dout = attrlatch1;  // port $FF reads current attribute just latched from memory. It's not contended.
+      if (!iorq_n && `PORT_ATTR && !rd_n /* && !viden_n*/) begin
+         if (bitmap_in_databus)
+            dout = datalatch;   // si estamos leyendo un byte de bitmap en este momento...
+         else if (attr_in_databus)   
+            dout = attrlatch1;  // si estamos leyendo un byte de atributos en este momento...
+      end
 	end  
 endmodule
