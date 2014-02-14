@@ -16,7 +16,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="46" />
+   <WVObjectSize size="43" />
    <wvobject fp_name="/tb_zxuno/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -167,6 +167,11 @@
       <obj_property name="ElementShortName">attr_in_databus</obj_property>
       <obj_property name="ObjectShortName">attr_in_databus</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/dout" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="divider34" type="divider">
       <obj_property name="label">DUAL PORT MEMORY</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -176,11 +181,6 @@
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/state" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">state[2:0]</obj_property>
-      <obj_property name="ObjectShortName">state[2:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/a2" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">a2[18:0]</obj_property>
@@ -201,15 +201,6 @@
       <obj_property name="ElementShortName">we2_n</obj_property>
       <obj_property name="ObjectShortName">we2_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/write_in_dout2" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">write_in_dout2</obj_property>
-      <obj_property name="ObjectShortName">write_in_dout2</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/data_to_write" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">data_to_write[7:0]</obj_property>
-      <obj_property name="ObjectShortName">data_to_write[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/a" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">a[18:0]</obj_property>
       <obj_property name="ObjectShortName">a[18:0]</obj_property>
@@ -219,10 +210,6 @@
       <obj_property name="ElementShortName">d[7:0]</obj_property>
       <obj_property name="ObjectShortName">d[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/enable_input_to_sram" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">enable_input_to_sram</obj_property>
-      <obj_property name="ObjectShortName">enable_input_to_sram</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/we_n" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">we_n</obj_property>

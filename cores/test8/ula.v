@@ -153,14 +153,14 @@ module ula (
 ///////////////////////////////////
 	
 	// /INT
-	reg rint_n = 1;
+	reg rint_n = 1'b1;
 	assign int_n = (rint_n)? 1'b1 : 1'b0;
 	
-	always @(posedge clk7) begin
-		if (vc == `BVSYNC && hc == 0)
-			rint_n <= 0;
-		else if (vc == `BVSYNC && hc == 64)
-			rint_n <= 1;
+	always @* begin
+		if (vc == `BVSYNC && hc >= 0 && hc < 64)
+			rint_n = 1'b0;
+      else
+         rint_n = 1'b1;
 	end
 		
 	//Y_N (for SPECTRA)
@@ -257,7 +257,7 @@ module ula (
 	// VIDEO_READ_IN_PROGRESS (VidC3)
 	reg video_read_in_progress;
 	always @(*) begin
-		if (!viden_dly_n && ( ((hc[3:0]==7 && seq==`SEQ3) || hc[3:0]>=8) && hc[3:0]<=15))
+		if (!viden_dly_n && ( (/*(hc[3:0]==7 && seq==`SEQ3) ||*/ hc[3:0]>=8) && hc[3:0]<=15))
 			video_read_in_progress = 1;
 		else
 			video_read_in_progress = 0;
@@ -523,9 +523,9 @@ module ula (
       bitmap_in_databus = 1'b0;
       attr_in_databus = 1'b0;
       if (video_read_in_progress) begin
-         if (hc[3:0]==9 || hc[3:0]==10 || hc[3:0]==13 || hc[3:0]==14)
+         if (hc[3:0]==8 || hc[3:0]==9 || hc[3:0]==12 || hc[3:0]==13)
             bitmap_in_databus = 1'b1;
-         if (hc[3:0]==11 || hc[3:0]==12 || hc[3:0]==15 || hc[3:0]==0)
+         if (hc[3:0]==10 || hc[3:0]==11 || hc[3:0]==14 || hc[3:0]==15)
             attr_in_databus = 1'b1;
       end
    end

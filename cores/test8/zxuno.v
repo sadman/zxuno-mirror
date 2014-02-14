@@ -182,8 +182,8 @@ module zxuno (
    .we_n_ram(we_n_ram)
    );
 
-   dp_memory_v2 dos_memorias (  // Controlador de memoria, que convierte a la SRAM en una memoria de doble puerto
-      .clk(ramclk),
+   dp_memory dos_memorias (  // Controlador de memoria, que convierte a la SRAM en una memoria de doble puerto
+      .clk(clk),
       .a1({3'b001,vrampage,1'b1,vram_addr}),
       .a2(addr_ram),
       .oe1_n(1'b0),

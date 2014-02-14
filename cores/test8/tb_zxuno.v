@@ -122,7 +122,11 @@ module ram512kb (
    reg [7:0] ram[0:524287];
    integer i;
    initial begin
-      for (i=0;i<524288;i=i+1)
+      for (i=0;i<16384*5+6144;i=i+1)
+         ram[i] = 0;
+      for (i=16384*5+6144;i<16384*5+6912;i=i+1)
+         ram[i] = 8'd56;
+      for (i=16384*5+6912;i<524288;i=i+1)
          ram[i] = 0;
    end
 
@@ -131,7 +135,7 @@ module ram512kb (
    
    always @* begin
       if (we_n==1'b0)
-         ram[a] = #35 d;
+         ram[a] = d;
       else
          dout = #45 ram[a];
    end
