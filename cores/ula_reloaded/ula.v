@@ -447,10 +447,12 @@ module ula (
             dout = PaletteEntryToCPU;
          else if (a==ULAPLUSDATA && PaletteReg[6]==1'b1)
             dout = {7'b0000000,ConfigReg};
-         else if (BitmapAddr)
+         /*else if (a[7:0]==TIMEXPORT && BitmapAddr)
             dout = BitmapData;
-         else if (AttrAddr)  
-            dout = AttrData;   // floating bus
+         else if (a[7:0]==TIMEXPORT && AttrAddr)  
+            dout = AttrData;   // floating bus */
+         else if (a[7:0]==TIMEXPORT && BorderPaper)
+            dout = AttrData;
       end
    end
          
@@ -463,87 +465,190 @@ module ula (
    end
    
    // CLK Contention control
-   `define CPUBASECLK hc[0]
+   `define CPUBASECLK clk7
+
+//   parameter
+//      IDLE = 0,
+//      CONTEND_MEM = 1,
+//      RELEASE_MEM = 2,
+//      CONTEND_IO = 3,
+//      RELEASE_IO = 4;
+//  
+//   reg CLKWait;
+//   reg RCLKCpu = 1'b0;
+//   reg StopCLK;
+//   always @* begin
+//     CLKWait = 1'b0;
+//     if (BorderPaper == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
+//       CLKWait = 1'b1;
+//   end
+//   
+//   always @(posedge `CPUBASECLK) begin
+//      if (StopCLK)
+//         RCLKCpu <= 1'b1;
+//      else
+//         RCLKCpu <= ~RCLKCpu;
+//   end
+//   assign cpuclk = RCLKCpu;
+//   
+//   reg [2:0] state = IDLE;
+//   reg [2:0] next_state;
+//   always @(posedge clk7)
+//      state <= next_state;
+//   
+//   always @* begin
+//      StopCLK = 1'b0;
+//      next_state = IDLE;
+//      case (state)
+//         IDLE : begin                  
+//                  if (a[15:14]==2'b01 && CLKWait && RCLKCpu==1'b1 && mreq_n==1'b1 && iorq_n==1'b1) begin
+//                    StopCLK = 1'b1;
+//                    next_state = CONTEND_MEM;
+//                  end
+//                  else if (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA) && CLKWait && RCLKCpu==1'b1) begin
+//                    StopCLK = 1'b1;
+//                    next_state = CONTEND_IO;
+//                  end
+//                  else begin
+//                    next_state = IDLE;
+//                  end
+//                end
+//         CONTEND_MEM : 
+//                begin
+//                  if (CLKWait == 1'b1) begin
+//                     next_state = CONTEND_MEM;
+//                     StopCLK = 1'b1;
+//                  end
+//                  else begin
+//                     next_state = RELEASE_MEM;
+//                  end
+//                end
+//         RELEASE_MEM :
+//                begin
+//                  if (mreq_n == 1'b0)
+//                     next_state = RELEASE_MEM;
+//                  else
+//                     next_state = IDLE;
+//                end
+//         CONTEND_IO : 
+//                begin
+//                  if (CLKWait == 1'b1) begin
+//                     next_state = CONTEND_IO;
+//                     StopCLK = 1'b1;
+//                  end
+//                  else begin
+//                     next_state = RELEASE_IO;
+//                  end
+//                end
+//         RELEASE_IO :
+//                begin
+//                  if (iorq_n == 1'b0)
+//                     next_state = RELEASE_IO;
+//                  else
+//                     next_state = IDLE;
+//                end
+//      endcase
+//   end
+
+/*
+    High byte   |         | 
+    in 40 - 7F? | Low bit | Contention pattern  
+    ------------+---------+-------------------
+         No     |  Reset  | N:1, C:3
+         No     |   Set   | N:4
+        Yes     |  Reset  | C:1, C:3
+        Yes     |   Set   | C:1, C:1, C:1, C:1
+
+The 'Contention pattern' column should be interpreted from left to right.
+An "N:n" entry means that no delay is applied at this cycle, and the Z80 
+continues uninterrupted for 'n' T states. A "C:n" entry means that the 
+ULA halts the Z80; the delay is exactly the same as would occur for a 
+contended memory access at this cycle (eg 6 T states at cycle 14335, 
+5 at 14336, etc on the 48K machine). After this delay, the Z80 then 
+continues for 'n' cycles.
+
+*/
 
    parameter
       IDLE = 0,
-      CONTEND_MEM = 1,
-      RELEASE_MEM = 2,
-      CONTEND_IO = 3,
-      RELEASE_IO = 4;
-      
+      CONTEND_T1 = 1,
+      DO_T2 = 2,
+      DO_REMAINDER = 3;
+
+   `define CONTENTED_IOPORT_IN_USE (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA))
+   
    reg CLKWait;
-   reg RCLKCpu;
+   reg RCLKCpu = 1'b0;
    reg StopCLK;
    always @* begin
      CLKWait = 1'b0;
-     if (BorderPaper == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd15)
+     if (BorderPaper == 1'b1 && hc[3:0]>=4'd3 && hc[3:0]<=4'd14)
        CLKWait = 1'b1;
    end
    
-   always @* begin
-      if (!StopCLK)
-         RCLKCpu = `CPUBASECLK;
+   always @(posedge `CPUBASECLK) begin
+      if (StopCLK)
+         RCLKCpu <= 1'b1;
       else
-         RCLKCpu = 1'b1;
+         RCLKCpu <= ~RCLKCpu;
    end
    assign cpuclk = RCLKCpu;
    
-   reg [2:0] state = IDLE;
-   reg [2:0] next_state;
+   reg [1:0] state = IDLE;
+   reg [1:0] next_state;
    always @(posedge clk7)
       state <= next_state;
    
    always @* begin
       StopCLK = 1'b0;
+      next_state = IDLE;
       case (state)
-         IDLE : begin                  
-                  if (a[15:14]==2'b01 && CLKWait && RCLKCpu==1'b1) begin
-                    StopCLK = 1'b1;
-                    next_state = CONTEND_MEM;
-                  end
-                  else if (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA) && CLKWait && RCLKCpu==1'b1) begin
-                    StopCLK = 1'b1;
-                    next_state = CONTEND_IO;
-                  end
-                  else begin
-                    next_state = IDLE;
-                  end
-                end
-         CONTEND_MEM : 
-                begin
-                  if (CLKWait == 1'b1) begin
-                     next_state = CONTEND_MEM;
+         IDLE : begin
+                  if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && cpuclk==1'b1 && CLKWait) begin
                      StopCLK = 1'b1;
+                     next_state = CONTEND_T1;
                   end
-                  else begin
-                     next_state = RELEASE_MEM;
-                  end
-                end
-         RELEASE_MEM :
-                begin
-                  if (mreq_n == 1'b0)
-                     next_state = RELEASE_MEM;
-                  else
-                     next_state = IDLE;
-                end
-         CONTEND_IO : 
-                begin
-                  if (CLKWait == 1'b1) begin
-                     next_state = CONTEND_IO;
+                  else if (`CONTENTED_IOPORT_IN_USE && CLKWait) begin
                      StopCLK = 1'b1;
+                     next_state = DO_T2;
                   end
                   else begin
-                     next_state = RELEASE_IO;
+                     StopCLK = 1'b0;
+                     next_state = IDLE;
                   end
                 end
-         RELEASE_IO :
+         CONTEND_T1 :
                 begin
-                  if (iorq_n == 1'b0)
-                     next_state = RELEASE_IO;
-                  else
-                     next_state = IDLE;
+                  if (CLKWait) begin
+                     StopCLK = 1'b1;
+                     next_state = CONTEND_T1;
+                  end
+                  else begin
+                     StopCLK = 1'b0;
+                     next_state = DO_T2;
+                  end
                 end
-      endcase
-   end
+         DO_T2 : 
+                begin
+                  if (`CONTENTED_IOPORT_IN_USE && CLKWait) begin
+                     StopCLK = 1'b1;
+                     next_state = DO_T2;
+                  end
+                  else begin
+                     StopCLK = 1'b0;
+                     next_state = DO_REMAINDER;
+                  end
+                end
+         DO_REMAINDER :
+                begin
+                  StopCLK = 1'b0;
+                  if (iorq_n==1'b0 || mreq_n==1'b0) begin
+                     next_state = DO_REMAINDER;
+                  end
+                  else begin
+                     next_state = IDLE;
+                  end
+                end
+     endcase
+   end     
 endmodule
