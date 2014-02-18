@@ -25,7 +25,7 @@
 module tb_ula;
 
 	// Inputs
-	reg clk7;
+	reg clk14;
 	reg wssclk;
 	reg rst_n;
 	reg [15:0] a;
@@ -56,7 +56,7 @@ module tb_ula;
 
 	// Instantiate the Unit Under Test (UUT)
 	ula uut (
-		.clk7(clk7), 
+		.clk14(clk14), 
 		.wssclk(wssclk), 
 		.rst_n(rst_n), 
 		.a(a), 
@@ -91,7 +91,7 @@ module tb_ula;
 
 	initial begin
 		// Initialize Inputs
-		clk7 = 0;
+		clk14 = 0;
 		wssclk = 0;
 		rst_n = 0;
 		a = 0;
@@ -111,7 +111,7 @@ module tb_ula;
 	end
    
    always begin
-      clk7 = #71.428571428571428571428571428571  ~clk7;
+      clk14 = #35.714285714285714285714285714286  ~clk14;
    end
    
    always begin
