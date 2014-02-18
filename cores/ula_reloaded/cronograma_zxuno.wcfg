@@ -16,7 +16,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="46" />
+   <WVObjectSize size="45" />
    <wvobject fp_name="/tb_zxuno/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -133,23 +133,18 @@
       <obj_property name="BkColor">128 128 255</obj_property>
       <obj_property name="TextColor">230 230 230</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/el_z80/clk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
+   <wvobject fp_name="/tb_zxuno/uut/el_z80/clk_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk_n</obj_property>
+      <obj_property name="ObjectShortName">clk_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/el_z80/A" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">A[15:0]</obj_property>
-      <obj_property name="ObjectShortName">A[15:0]</obj_property>
+   <wvobject fp_name="/tb_zxuno/uut/el_z80/a" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a[15:0]</obj_property>
+      <obj_property name="ObjectShortName">a[15:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/el_z80/di" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">di[7:0]</obj_property>
       <obj_property name="ObjectShortName">di[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/el_z80/dout" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">dout[7:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/el_z80/mreq_n" type="logic" db_ref_id="1">
