@@ -53,13 +53,13 @@ module dac (DACout, DACin, Clk, Reset);
 endmodule
 
 module mixer (
-	input clkdac,
-	input reset,
-	input ear,
-	input mic,
-	input spk,
-	input [7:0] ay1,
-	output audio
+	input wire clkdac,
+	input wire reset,
+	input wire ear,
+	input wire mic,
+	input wire spk,
+	input wire [7:0] ay1,
+	output wire audio
 	);
 
 	reg [8:0] mezcla = 0;

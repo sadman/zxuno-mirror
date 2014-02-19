@@ -52,7 +52,7 @@ module tb_zxuno;
 	// Instantiate the Unit Under Test (UUT)
 	zxuno uut (
 		.clk(clk), 
-		.wssclk(wssclk), 
+		.wssclk(wssclk),
       .power_on_reset_n(power_on_reset_n),
 		.r(r), 
 		.g(g), 
@@ -91,7 +91,7 @@ module tb_zxuno;
 		ear = 0;
       power_on_reset_n = 0;
 
-		// Wait 100 ns for global reset to finish
+		// Wait 500 ns for global reset to finish
       #500 power_on_reset_n = 1;  
 
 		// Add stimulus here

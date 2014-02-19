@@ -290,7 +290,7 @@ module ula (
       .din(din),
       .a1({InputToAttrOutput[7:6],1'b1,InputToAttrOutput[5:3]}),
       .a2({InputToAttrOutput[7:6],1'b0,InputToAttrOutput[2:0]}),
-      .a3(PaletteReg),
+      .a3(PaletteReg[5:0]),
       .do1(ULAplusPaperColour),
       .do2(ULAplusInkColour),
       .do3(PaletteEntryToCPU)
