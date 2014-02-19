@@ -570,12 +570,14 @@ continues for 'n' cycles.
 */
 
    parameter
-      IDLE = 0,
-      CONTEND_T1 = 1,
-      DO_T2 = 2,
-      DO_REMAINDER = 3;
+		T1 = 0,
+		T2 = 1,
+		T3_MEM = 2,
+		T3_IO = 3,
+		T4_IO = 4;
 
-   `define CONTENTED_IOPORT_IN_USE (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA))
+   `define CONTENDED_IOPORT_IN_USE (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA))
+	`define NOT_CONTENDED_IOPORT_IN_USE (iorq_n==1'b0 && a[0]!=1'b0 && a!=ULAPLUSADDR && a!=ULAPLUSDATA)
    
    reg CLKWait;
    reg RCLKCpu = 1'b0;
@@ -594,61 +596,65 @@ continues for 'n' cycles.
    end
    assign cpuclk = RCLKCpu;
    
-   reg [1:0] state = IDLE;
-   reg [1:0] next_state;
-   always @(posedge clk7)
+   reg [2:0] state = T1;
+   reg [2:0] next_state;
+   always @(posedge cpuclk)
       state <= next_state;
    
-   always @* begin
-      StopCLK = 1'b0;
-      next_state = IDLE;
+   always @* begin      
       case (state)
-         IDLE : begin
-                  if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && cpuclk==1'b1 && CLKWait) begin
-                     StopCLK = 1'b1;
-                     next_state = CONTEND_T1;
-                  end
-                  else if (`CONTENTED_IOPORT_IN_USE && CLKWait) begin
-                     StopCLK = 1'b1;
-                     next_state = DO_T2;
-                  end
-                  else begin
-                     StopCLK = 1'b0;
-                     next_state = IDLE;
-                  end
+         T1 : begin
+                if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && CLKWait) begin
+                   StopCLK = 1'b1;
+                   next_state = T1;
                 end
-         CONTEND_T1 :
-                begin
-                  if (CLKWait) begin
-                     StopCLK = 1'b1;
-                     next_state = CONTEND_T1;
-                  end
-                  else begin
-                     StopCLK = 1'b0;
-                     next_state = DO_T2;
-                  end
+                else if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && !CLKWait) begin
+                   StopCLK = 1'b0;
+						 next_state = T2;
                 end
-         DO_T2 : 
-                begin
-                  if (`CONTENTED_IOPORT_IN_USE && CLKWait) begin
-                     StopCLK = 1'b1;
-                     next_state = DO_T2;
-                  end
-                  else begin
-                     StopCLK = 1'b0;
-                     next_state = DO_REMAINDER;
-                  end
+                else begin
+					    StopCLK = 1'b0;
+                   next_state = T1;
                 end
-         DO_REMAINDER :
-                begin
+              end
+         T2 : begin
+                if (`CONTENDED_IOPORT_IN_USE && CLKWait) begin
+                   StopCLK = 1'b1;
+                   next_state = T2;
+                end
+					 else if ( (`CONTENDED_IOPORT_IN_USE && !CLKWait) || (`NOT_CONTENDED_IOPORT_IN_USE)) begin
                   StopCLK = 1'b0;
-                  if (iorq_n==1'b0 || mreq_n==1'b0) begin
-                     next_state = DO_REMAINDER;
-                  end
-                  else begin
-                     next_state = IDLE;
-                  end
+						next_state = T3_IO;
+					 end
+                else if (!mreq_n) begin
+                  StopCLK = 1'b0;
+						next_state = T3_MEM;
                 end
+					 else begin
+						StopCLK = 1'b0;
+						next_state = T1;
+				    end
+              end
+         T3_MEM :
+              begin
+				    StopCLK = 1'b0;
+                next_state = T1;
+              end
+         T3_IO :
+              begin
+                StopCLK = 1'b0;
+					 next_state = T4_IO;
+              end
+         T4_IO :
+              begin
+                StopCLK = 1'b0;
+					 next_state = T1;
+              end
+		   default : 
+			     begin
+				    StopCLK = 1'b0;
+				    next_state = T1;
+				  end
      endcase
    end     
 endmodule

@@ -10,7 +10,7 @@ Otra:           call 16384
 
 Codigo:         in a,(255)
                 cp 255
-                jr nz,Codigo
+                jr z,Codigo
                 out (254),a
                 ld bc,40feh
                 out (c),a
