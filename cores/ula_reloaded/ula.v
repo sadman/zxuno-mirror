@@ -582,7 +582,7 @@ continues for 'n' cycles.
    reg StopCLK;
    always @* begin
      CLKWait = 1'b0;
-     if (BorderPaper == 1'b1 && hc[3:0]>=4'd3 && hc[3:0]<=4'd14)
+     if (BorderPaper == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
        CLKWait = 1'b1;
    end
    
