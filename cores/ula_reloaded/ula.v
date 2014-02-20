@@ -131,7 +131,7 @@ module ula (
     reg BitmapAddr;
     reg AttrAddr;
     reg CALoad;
-    reg BorderPaper;
+    reg VideoEnable;
     
     // BitmapData register
     reg [7:0] BitmapData = 8'h00;
@@ -191,7 +191,7 @@ module ula (
     reg [7:0] InputToAttrOutput;
     always @* begin
       InputToAttrOutput = AttrData;
-      case ({BorderPaper,HR})
+      case ({VideoEnable,HR})
          2'b00 : InputToAttrOutput = {2'b00,Border,3'b000};
          2'b01,
          2'b11 : InputToAttrOutput = {2'b01,~HRInk,HRInk};
@@ -360,7 +360,7 @@ module ula (
       BitmapDataLoad = 1'b0;
       AttrDataLoad = 1'b0;
       SerializerLoad = 1'b0;
-      BorderPaper = 1'b0;
+      VideoEnable = 1'b0;
       AttrOutputLoad = 1'b0;
       BitmapAddr = 1'b0;
       AttrAddr = 1'b0;
@@ -372,7 +372,7 @@ module ula (
          CALoad = 1'b1;
       end
       if (hc>=(BHPIXEL+8) && hc<=(EHPIXEL+8) && vc>=BVPIXEL && vc<=EVPIXEL) begin  // VidEN_n is low here: paper area
-         BorderPaper = 1'b1;
+         VideoEnable = 1'b1;
          if (hc[2:0]==3'd4) begin
             SerializerLoad = 1'b1;  // updated every 8 pixel clocks, if we are in paper area
          end
@@ -451,7 +451,7 @@ module ula (
             dout = BitmapData;
          else if (a[7:0]==TIMEXPORT && AttrAddr)  
             dout = AttrData;   // floating bus */
-         else if (a[7:0]==TIMEXPORT && BorderPaper)
+         else if (a[7:0]==TIMEXPORT && VideoEnable)
             dout = AttrData;
       end
    end
@@ -479,7 +479,7 @@ module ula (
 //   reg StopCLK;
 //   always @* begin
 //     CLKWait = 1'b0;
-//     if (BorderPaper == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
+//     if (VideoEnable == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
 //       CLKWait = 1'b1;
 //   end
 //   
@@ -584,7 +584,7 @@ continues for 'n' cycles.
    reg StopCLK;
    always @* begin
      CLKWait = 1'b0;
-     if (BorderPaper == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
+     if (hc>=0 && hc<=255 && vc>=0 && vc<=191 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
        CLKWait = 1'b1;
    end
    
@@ -604,14 +604,35 @@ continues for 'n' cycles.
    always @* begin      
       case (state)
          T1 : begin
+			       // there is an address in range 4000-7FFF present, no mreq/iorq signals asserted,
+					 // and there is risk of colission: This is T1. Contend!
                 if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && CLKWait) begin
                    StopCLK = 1'b1;
                    next_state = T1;
                 end
-                else if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && !CLKWait) begin
+			       // there is an address in range 4000-7FFF present, no mreq/iorq signals asserted,
+					 // and there is no risk of colission: This is T1. Don't contend!
+                else if (mreq_n==1'b1 && iorq_n==1'b1 && (!CLKWait && a[15:14]==2'b01 || a[15:14]!=2'b01)) begin
                    StopCLK = 1'b0;
 						 next_state = T2;
                 end
+					 // MREQ is asserted. This must be T2, so we go to T3
+					 else if (mreq_n==1'b0) begin
+						StopCLK = 1'b0;
+						next_state = T3_MEM;
+				    end
+					 // there is an attempt to access an even I/O port and there is risk of colission:
+					 // This is T2. Contend!
+                else if (`CONTENDED_IOPORT_IN_USE && CLKWait) begin
+                   StopCLK = 1'b1;
+                   next_state = T2;
+                end
+					 // there is an attempt to access an odd I/O port, or it's an even I/O port but no
+					 // risk of contention: this is T2. Don't contend and go to T3
+					 else if ( (`CONTENDED_IOPORT_IN_USE && !CLKWait) || (`NOT_CONTENDED_IOPORT_IN_USE)) begin
+                  StopCLK = 1'b0;
+						next_state = T3_IO;
+					 end					 
                 else begin
 					    StopCLK = 1'b0;
                    next_state = T1;
