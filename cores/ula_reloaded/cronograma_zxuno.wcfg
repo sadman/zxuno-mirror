@@ -3,7 +3,7 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="C:/Documents and Settings/rodriguj/Mis documentos/zxspectrum/zxuno/cores/ula_reloaded/tb_zxuno_isim_beh.wdb" id="1" type="auto">
+      <db_ref path="C:/Users/rodriguj/Documents/zxspectrum/zxuno/cores/ula_reloaded/tb_zxuno_isim_beh.wdb" id="1" type="auto">
          <top_modules>
             <top_module name="glbl" />
             <top_module name="mapa_es" />
@@ -16,7 +16,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="47" />
+   <WVObjectSize size="51" />
    <wvobject fp_name="/tb_zxuno/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -127,6 +127,22 @@
       <obj_property name="ElementShortName">state[2:0]</obj_property>
       <obj_property name="ObjectShortName">state[2:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/ioreqall_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ioreqall_n</obj_property>
+      <obj_property name="ObjectShortName">ioreqall_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/Nor1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">Nor1</obj_property>
+      <obj_property name="ObjectShortName">Nor1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/Nor2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">Nor2</obj_property>
+      <obj_property name="ObjectShortName">Nor2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/CLKContention" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLKContention</obj_property>
+      <obj_property name="ObjectShortName">CLKContention</obj_property>
    </wvobject>
    <wvobject fp_name="divider20" type="divider">
       <obj_property name="label">CPU</obj_property>
