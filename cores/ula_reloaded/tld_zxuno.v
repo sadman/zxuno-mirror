@@ -60,6 +60,7 @@ module tld_zxuno (
    zxuno la_maquina (
     .clk(sysclk),
     .wssclk(wssclk),
+	 .power_on_reset_n(1'b1),
     .r(r),
     .g(g),
     .b(b),
