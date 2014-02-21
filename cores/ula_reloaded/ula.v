@@ -447,12 +447,12 @@ module ula (
             dout = PaletteEntryToCPU;
          else if (a==ULAPLUSDATA && PaletteReg[6]==1'b1)
             dout = {7'b0000000,ConfigReg};
-         /*else if (a[7:0]==TIMEXPORT && BitmapAddr)
+         else if (a[7:0]==TIMEXPORT && BitmapAddr)
             dout = BitmapData;
          else if (a[7:0]==TIMEXPORT && AttrAddr)  
-            dout = AttrData;   // floating bus */
-         else if (a[7:0]==TIMEXPORT && VideoEnable)
-            dout = AttrData;
+            dout = AttrData;   // floating bus
+         /*else if (a[7:0]==TIMEXPORT && VideoEnable)
+            dout = vramdata;*/
       end
    end
          
@@ -465,91 +465,6 @@ module ula (
    end
    
    // CLK Contention control
-   `define CPUBASECLK clk7
-
-//   parameter
-//      IDLE = 0,
-//      CONTEND_MEM = 1,
-//      RELEASE_MEM = 2,
-//      CONTEND_IO = 3,
-//      RELEASE_IO = 4;
-//  
-//   reg CLKWait;
-//   reg RCLKCpu = 1'b0;
-//   reg StopCLK;
-//   always @* begin
-//     CLKWait = 1'b0;
-//     if (VideoEnable == 1'b1 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
-//       CLKWait = 1'b1;
-//   end
-//   
-//   always @(posedge `CPUBASECLK) begin
-//      if (StopCLK)
-//         RCLKCpu <= 1'b1;
-//      else
-//         RCLKCpu <= ~RCLKCpu;
-//   end
-//   assign cpuclk = RCLKCpu;
-//   
-//   reg [2:0] state = IDLE;
-//   reg [2:0] next_state;
-//   always @(posedge clk7)
-//      state <= next_state;
-//   
-//   always @* begin
-//      StopCLK = 1'b0;
-//      next_state = IDLE;
-//      case (state)
-//         IDLE : begin                  
-//                  if (a[15:14]==2'b01 && CLKWait && RCLKCpu==1'b1 && mreq_n==1'b1 && iorq_n==1'b1) begin
-//                    StopCLK = 1'b1;
-//                    next_state = CONTEND_MEM;
-//                  end
-//                  else if (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA) && CLKWait && RCLKCpu==1'b1) begin
-//                    StopCLK = 1'b1;
-//                    next_state = CONTEND_IO;
-//                  end
-//                  else begin
-//                    next_state = IDLE;
-//                  end
-//                end
-//         CONTEND_MEM : 
-//                begin
-//                  if (CLKWait == 1'b1) begin
-//                     next_state = CONTEND_MEM;
-//                     StopCLK = 1'b1;
-//                  end
-//                  else begin
-//                     next_state = RELEASE_MEM;
-//                  end
-//                end
-//         RELEASE_MEM :
-//                begin
-//                  if (mreq_n == 1'b0)
-//                     next_state = RELEASE_MEM;
-//                  else
-//                     next_state = IDLE;
-//                end
-//         CONTEND_IO : 
-//                begin
-//                  if (CLKWait == 1'b1) begin
-//                     next_state = CONTEND_IO;
-//                     StopCLK = 1'b1;
-//                  end
-//                  else begin
-//                     next_state = RELEASE_IO;
-//                  end
-//                end
-//         RELEASE_IO :
-//                begin
-//                  if (iorq_n == 1'b0)
-//                     next_state = RELEASE_IO;
-//                  else
-//                     next_state = IDLE;
-//                end
-//      endcase
-//   end
-
 /*
     High byte   |         | 
     in 40 - 7F? | Low bit | Contention pattern  
@@ -568,114 +483,165 @@ contended memory access at this cycle (eg 6 T states at cycle 14335,
 continues for 'n' cycles.
 
 */
+//
+//   `define CPUBASECLK clk7
+//
+//   parameter
+//		T1 = 0,
+//		T2 = 1,
+//		T3_MEM = 2,
+//		T3_IO = 3,
+//		T4_IO = 4;
+//
+//   `define CONTENDED_IOPORT_IN_USE (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA))
+//	`define NOT_CONTENDED_IOPORT_IN_USE (iorq_n==1'b0 && a[0]!=1'b0 && a!=ULAPLUSADDR && a!=ULAPLUSDATA)
+//   
+//   reg CLKWait;
+//   reg RCLKCpu = 1'b0;
+//   reg StopCLK;
+//   always @* begin
+//     CLKWait = 1'b0;
+//     if (hc>=0 && hc<=255 && vc>=0 && vc<=191 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
+//       CLKWait = 1'b1;
+//   end
+//   
+//   always @(posedge `CPUBASECLK) begin
+//      if (StopCLK)
+//         RCLKCpu <= 1'b1;
+//      else
+//         RCLKCpu <= ~RCLKCpu;
+//   end
+//   
+//   reg [2:0] state = T1;
+//   reg [2:0] next_state;
+//   always @(posedge cpuclk)
+//      state <= next_state;
+//   
+//   always @* begin      
+//      case (state)
+//         T1 : begin
+//			       // there is an address in range 4000-7FFF present, no mreq/iorq signals asserted,
+//					 // and there is risk of colission: This is T1. Contend!
+//                if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && CLKWait) begin
+//                   StopCLK = 1'b1;
+//                   next_state = T1;
+//                end
+//			       // there is an address in range 4000-7FFF present, no mreq/iorq signals asserted,
+//					 // and there is no risk of colission: This is T1. Don't contend!
+//                else if (mreq_n==1'b1 && iorq_n==1'b1 && (!CLKWait && a[15:14]==2'b01 || a[15:14]!=2'b01)) begin
+//                   StopCLK = 1'b0;
+//						 next_state = T2;
+//                end
+//					 // MREQ is asserted. This must be T2, so we go to T3
+//					 else if (mreq_n==1'b0) begin
+//						StopCLK = 1'b0;
+//						next_state = T3_MEM;
+//				    end
+//					 // there is an attempt to access an even I/O port and there is risk of colission:
+//					 // This is T2. Contend!
+//                else if (`CONTENDED_IOPORT_IN_USE && CLKWait) begin
+//                   StopCLK = 1'b1;
+//                   next_state = T2;
+//                end
+//					 // there is an attempt to access an odd I/O port, or it's an even I/O port but no
+//					 // risk of contention: this is T2. Don't contend and go to T3
+//					 else if ( (`CONTENDED_IOPORT_IN_USE && !CLKWait) || (`NOT_CONTENDED_IOPORT_IN_USE)) begin
+//                  StopCLK = 1'b0;
+//						next_state = T3_IO;
+//					 end					 
+//                else begin
+//					    StopCLK = 1'b0;
+//                   next_state = T1;
+//                end
+//              end
+//         T2 : begin
+//                if (`CONTENDED_IOPORT_IN_USE && CLKWait) begin
+//                   StopCLK = 1'b1;
+//                   next_state = T2;
+//                end
+//					 else if ( (`CONTENDED_IOPORT_IN_USE && !CLKWait) || (`NOT_CONTENDED_IOPORT_IN_USE)) begin
+//                  StopCLK = 1'b0;
+//						next_state = T3_IO;
+//					 end
+//                else if (!mreq_n) begin
+//                  StopCLK = 1'b0;
+//						next_state = T3_MEM;
+//                end
+//					 else begin
+//						StopCLK = 1'b0;
+//						next_state = T1;
+//				    end
+//              end
+//         T3_MEM :
+//              begin
+//				    StopCLK = 1'b0;
+//                next_state = T1;
+//              end
+//         T3_IO :
+//              begin
+//                StopCLK = 1'b0;
+//					 next_state = T4_IO;
+//              end
+//         T4_IO :
+//              begin
+//                StopCLK = 1'b0;
+//					 next_state = T1;
+//              end
+//		   default : 
+//			     begin
+//				    StopCLK = 1'b0;
+//				    next_state = T1;
+//				  end
+//     endcase
+//   end     
+	//assign cpuclk = RCLKCpu;
 
-   parameter
-		T1 = 0,
-		T2 = 1,
-		T3_MEM = 2,
-		T3_IO = 3,
-		T4_IO = 4;
+///////////////////////////////////
+// CPU CLOCK GENERATION (Altwasser method)
+///////////////////////////////////
 
-   `define CONTENDED_IOPORT_IN_USE (iorq_n==1'b0 && (a[0]==1'b0 || a==ULAPLUSADDR || a==ULAPLUSDATA))
-	`define NOT_CONTENDED_IOPORT_IN_USE (iorq_n==1'b0 && a[0]!=1'b0 && a!=ULAPLUSADDR && a!=ULAPLUSDATA)
-   
-   reg CLKWait;
-   reg RCLKCpu = 1'b0;
-   reg StopCLK;
-   always @* begin
-     CLKWait = 1'b0;
-     if (hc>=0 && hc<=255 && vc>=0 && vc<=191 && hc[3:0]>=4'd4 && hc[3:0]<=4'd14)
-       CLKWait = 1'b1;
+`define MASTERCPUCLK clk7
+
+   reg CPUInternalClock = 0;
+	reg ioreqtw3 = 0;
+	reg mreqt23 = 0;
+
+   wire iorequla = !iorq_n && (a[0]==0);
+	wire iorequlaplus = !iorq_n && (a==ULAPLUSADDR || a==ULAPLUSDATA);
+	wire ioreqall_n = !(iorequlaplus || iorequla);
+
+	reg Border_n;
+	always @(*) begin
+		if (vc>=BVPIXEL && vc<=EVPIXEL && hc>=BHPIXEL && hc<=EHPIXEL)
+			Border_n = 1;
+		else
+			Border_n = 0;
+	end
+	wire Nor1 = (~(a[14] | ~ioreqall_n)) | 
+	            (~(~a[15] | ~ioreqall_n)) | 
+					( hc[3:0]<4'd4 /*|| hc[3:0]==4'd15*/ ) | 
+					(~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
+	wire Nor2 = ( hc[3:0]<4'd4 /*|| hc[3:0]==4'd15*/ ) | 
+	            ~Border_n |
+					~cpuclk |
+					ioreqall_n |
+					~ioreqtw3;
+	wire CLKContention = ~Nor1 | ~Nor2;
+
+	always @(posedge cpuclk) begin
+      if (!CLKContention) begin
+         ioreqtw3 <= ioreqall_n;
+         mreqt23 <= mreq_n;
+      end
+	end
+
+	always @(posedge `MASTERCPUCLK) begin
+		if (!CLKContention)
+			CPUInternalClock = ~CPUInternalClock;
+	   else
+		   CPUInternalClock = 1'b1;
    end
-   
-   always @(posedge `CPUBASECLK) begin
-      if (StopCLK)
-         RCLKCpu <= 1'b1;
-      else
-         RCLKCpu <= ~RCLKCpu;
-   end
-   assign cpuclk = RCLKCpu;
-   
-   reg [2:0] state = T1;
-   reg [2:0] next_state;
-   always @(posedge cpuclk)
-      state <= next_state;
-   
-   always @* begin      
-      case (state)
-         T1 : begin
-			       // there is an address in range 4000-7FFF present, no mreq/iorq signals asserted,
-					 // and there is risk of colission: This is T1. Contend!
-                if (a[15:14]==2'b01 && mreq_n==1'b1 && iorq_n==1'b1 && CLKWait) begin
-                   StopCLK = 1'b1;
-                   next_state = T1;
-                end
-			       // there is an address in range 4000-7FFF present, no mreq/iorq signals asserted,
-					 // and there is no risk of colission: This is T1. Don't contend!
-                else if (mreq_n==1'b1 && iorq_n==1'b1 && (!CLKWait && a[15:14]==2'b01 || a[15:14]!=2'b01)) begin
-                   StopCLK = 1'b0;
-						 next_state = T2;
-                end
-					 // MREQ is asserted. This must be T2, so we go to T3
-					 else if (mreq_n==1'b0) begin
-						StopCLK = 1'b0;
-						next_state = T3_MEM;
-				    end
-					 // there is an attempt to access an even I/O port and there is risk of colission:
-					 // This is T2. Contend!
-                else if (`CONTENDED_IOPORT_IN_USE && CLKWait) begin
-                   StopCLK = 1'b1;
-                   next_state = T2;
-                end
-					 // there is an attempt to access an odd I/O port, or it's an even I/O port but no
-					 // risk of contention: this is T2. Don't contend and go to T3
-					 else if ( (`CONTENDED_IOPORT_IN_USE && !CLKWait) || (`NOT_CONTENDED_IOPORT_IN_USE)) begin
-                  StopCLK = 1'b0;
-						next_state = T3_IO;
-					 end					 
-                else begin
-					    StopCLK = 1'b0;
-                   next_state = T1;
-                end
-              end
-         T2 : begin
-                if (`CONTENDED_IOPORT_IN_USE && CLKWait) begin
-                   StopCLK = 1'b1;
-                   next_state = T2;
-                end
-					 else if ( (`CONTENDED_IOPORT_IN_USE && !CLKWait) || (`NOT_CONTENDED_IOPORT_IN_USE)) begin
-                  StopCLK = 1'b0;
-						next_state = T3_IO;
-					 end
-                else if (!mreq_n) begin
-                  StopCLK = 1'b0;
-						next_state = T3_MEM;
-                end
-					 else begin
-						StopCLK = 1'b0;
-						next_state = T1;
-				    end
-              end
-         T3_MEM :
-              begin
-				    StopCLK = 1'b0;
-                next_state = T1;
-              end
-         T3_IO :
-              begin
-                StopCLK = 1'b0;
-					 next_state = T4_IO;
-              end
-         T4_IO :
-              begin
-                StopCLK = 1'b0;
-					 next_state = T1;
-              end
-		   default : 
-			     begin
-				    StopCLK = 1'b0;
-				    next_state = T1;
-				  end
-     endcase
-   end     
+
+   assign cpuclk = CPUInternalClock;
+
 endmodule
