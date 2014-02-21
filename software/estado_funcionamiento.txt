@@ -1,0 +1,17 @@
+PROGRAMA                 |  FUNCIONA?  |  COMENTARIOS
+-------------------------+-------------+-----------------------------------------------
+2048hrcd.tap             |     SI      | Demo del modo hi-res y hi-color del Timex 2048
+Aqua Plane.tap           |     ??      | Aun no lo he probado, pero deberia funcionar
+Arkanoid.tzx             |     NO      | Se cuelga justo después de cargarse
+c64hires.tap             |     SI      | Demo ULAplus con paleta de C64
+Cobra.tzx                |     NO      | Se cuelga al salir la primera pantalla del juego
+colorato.tap             |     SI      | Demo de color en alta resolución para SP48K
+floatspy.tap             |     SI      | Da algunos valores incorrectos antes de 14347
+HAM256.tap               |     SI      | Demo ULAplus + 256 colores asistido por CPU
+kv.tap                   |     NO      | Se cuelga justo al darle a ESPACIO para empezar a jugar
+Multicolour.tap          |     SI      | Demo simple de ciclo de paleta de color
+pacemuzx.tap             |     SI      | Emulador PacMan. Necesita modo +3 allRAM.
+Shock Megademo.tap       |     SI      | Probado hasta la segunda fase
+slideshow_timex_64.tap   |     SI      | Demo ULAplus + modo hicolor.
+test_2scrn_y_ay8192.tap  |     SI      | Demo shadow screen + música AY-3-8912
+ulatest3-modified.tap    |     NO      | Se cuelga al empezar el test
