@@ -16,7 +16,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="43" />
+   <WVObjectSize size="51" />
    <wvobject fp_name="/tb_zxuno/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -151,9 +151,19 @@
       <obj_property name="ElementShortName">attrlatch_n</obj_property>
       <obj_property name="ObjectShortName">attrlatch_n</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/datalatch" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">datalatch[7:0]</obj_property>
+      <obj_property name="ObjectShortName">datalatch[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/la_ula/aolatch_n" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">aolatch_n</obj_property>
       <obj_property name="ObjectShortName">aolatch_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/la_ula/attrlatch1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">attrlatch1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">attrlatch1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/la_ula/sload" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">sload</obj_property>
@@ -182,14 +192,23 @@
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/a1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a1[18:0]</obj_property>
+      <obj_property name="ObjectShortName">a1[18:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/dout1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/rd1_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd1_n</obj_property>
+      <obj_property name="ObjectShortName">rd1_n</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/a2" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">a2[18:0]</obj_property>
       <obj_property name="ObjectShortName">a2[18:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/dout2" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">dout2[7:0]</obj_property>
-      <obj_property name="ObjectShortName">dout2[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/din2" type="array" db_ref_id="1">
@@ -197,9 +216,18 @@
       <obj_property name="ObjectShortName">din2[7:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/we2_n" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">we2_n</obj_property>
-      <obj_property name="ObjectShortName">we2_n</obj_property>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/dout2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout2[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/rd2_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd2_n</obj_property>
+      <obj_property name="ObjectShortName">rd2_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/wr2_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr2_n</obj_property>
+      <obj_property name="ObjectShortName">wr2_n</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/a" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">a[18:0]</obj_property>
@@ -214,5 +242,15 @@
    <wvobject fp_name="/tb_zxuno/uut/dos_memorias/we_n" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">we_n</obj_property>
       <obj_property name="ObjectShortName">we_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/doutput1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">doutput1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">doutput1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_zxuno/uut/dos_memorias/doutput2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">doutput2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">doutput2[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
    </wvobject>
 </wave_config>

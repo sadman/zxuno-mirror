@@ -153,14 +153,14 @@ module ula (
 ///////////////////////////////////
 	
 	// /INT
-	reg rint_n = 1'b1;
-	assign int_n = (rint_n)? 1'b1 : 1'b0;
+	reg rint_n = 1;
+	assign int_n = rint_n;
 	
 	always @* begin
 		if (vc == `BVSYNC && hc >= 0 && hc < 64)
-			rint_n = 1'b0;
-      else
-         rint_n = 1'b1;
+			rint_n = 0;
+		else
+			rint_n = 1;
 	end
 		
 	//Y_N (for SPECTRA)
@@ -257,7 +257,7 @@ module ula (
 	// VIDEO_READ_IN_PROGRESS (VidC3)
 	reg video_read_in_progress;
 	always @(*) begin
-		if (!viden_dly_n && ( (/*(hc[3:0]==7 && seq==`SEQ3) ||*/ hc[3:0]>=8) && hc[3:0]<=15))
+		if (!viden_dly_n && ( ((hc[3:0]==7 && seq==`SEQ3) || hc[3:0]>=8) && hc[3:0]<=15))
 			video_read_in_progress = 1;
 		else
 			video_read_in_progress = 0;
@@ -502,11 +502,12 @@ module ula (
 		   end
 		   else if (!iorq_n && `PORT_BF3B && !wr_n)
             ulaplus_register <= din;     // ULAplus register and mode address (write only register)
-         else if (!iorq_n && `PORT_TIMEX && !wr_n)
-            attr8x1 <= din[1]; // Timex HiColour
 		   else if (!iorq_n && `PORT_ULA && !wr_n) begin
             {spk,mic,border} <= din[4:0];  // port $FE
          end
+      end
+      if (!iorq_n && `PORT_TIMEX && !wr_n) begin  // el puerto $FF no está contenido
+        attr8x1 <= din[1]; // Timex HiColour
       end
 	end
 	
@@ -523,7 +524,7 @@ module ula (
       bitmap_in_databus = 1'b0;
       attr_in_databus = 1'b0;
       if (video_read_in_progress) begin
-         if (hc[3:0]==8 || hc[3:0]==9 || hc[3:0]==12 || hc[3:0]==13)
+         if (hc[3:0]==9 || hc[3:0]==13)
             bitmap_in_databus = 1'b1;
          if (hc[3:0]==10 || hc[3:0]==11 || hc[3:0]==14 || hc[3:0]==15)
             attr_in_databus = 1'b1;
@@ -532,10 +533,12 @@ module ula (
 
    // Z80 gets values from ULA registers
 	always @(*) begin
-      if (bitmap_in_databus)
+      /*if (bitmap_in_databus)
         dout = datalatch;   // salida por defecto si estamos leyendo un byte de bitmap en este momento...
       else if (attr_in_databus)   
-        dout = attrlatch1;  // salida por defecto si estamos leyendo un byte de atributos en este momento...
+        dout = attrlatch1;  // salida por defecto si estamos leyendo un byte de atributos en este momento... */
+      if (!viden_dly_n)
+        dout = attrlatch1;      
       else
         dout = 8'hFF;
 

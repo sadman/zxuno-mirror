@@ -152,14 +152,6 @@ end T80_MCode;
 
 architecture rtl of T80_MCode is
 
-	constant aNone      : std_logic_vector(2 downto 0) := "111";
-	constant aBC        : std_logic_vector(2 downto 0) := "000";
-	constant aDE        : std_logic_vector(2 downto 0) := "001";
-	constant aXY        : std_logic_vector(2 downto 0) := "010";
-	constant aIOA       : std_logic_vector(2 downto 0) := "100";
-	constant aSP        : std_logic_vector(2 downto 0) := "101";
-	constant aZI        : std_logic_vector(2 downto 0) := "110";
-
 	function is_cc_true(
 		F : std_logic_vector(7 downto 0);
 		cc : bit_vector(2 downto 0)
@@ -625,7 +617,7 @@ begin
 				when 3 =>
 					Jump <= '1';
 					IncDec_16 <= "0111";
-					I_RETN <= '1';
+					--I_RETN <= '1';
 					SetEI <= '1';
 				when others => null;
 				end case;
@@ -815,7 +807,11 @@ begin
 				end case;
 			elsif IntCycle = '1' then
 				-- INT (IM 2)
-				MCycles <= "101";
+        if mode = 3 then
+          MCycles <= "011";
+        else
+          MCycles <= "101";
+        end if;
 				case to_integer(unsigned(MCycle)) is
 				when 1 =>
 					LDZ <= '1';
@@ -934,7 +930,7 @@ begin
 					case to_integer(unsigned(MCycle)) is
 					when 1 =>
 						Set_Addr_To <= aBC;
-						Set_BusB_To     <= "0111";
+						Set_BusB_To <= "0111";
 					when 2 =>
 						Write <= '1';
 						IORQ <= '1';

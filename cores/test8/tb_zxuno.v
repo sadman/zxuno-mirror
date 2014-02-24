@@ -137,6 +137,6 @@ module ram512kb (
       if (we_n==1'b0)
          ram[a] = d;
       else
-         dout = #45 ram[a];
+         dout = ram[a];
    end
 endmodule

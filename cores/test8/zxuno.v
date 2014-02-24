@@ -24,10 +24,6 @@ module zxuno (
     // Relojes
     input wire clk,     // 28MHz, reloj del sistema
     input wire wssclk,  // 5MHz, reloj de la señal WSS
-    input wire ramclk,  // 20MHz, reloj de la SRAM
-    
-    // Reset inicial poweron
-    input wire power_on_reset,
     
     // E/S
     output wire [2:0] r,
@@ -115,7 +111,7 @@ module zxuno (
       .A(cpuaddr),
       .dout(cpudout),
 
-      .reset_n(rst_n & mrst_n & ~power_on_reset),  // cualquiera de los resets
+      .reset_n(rst_n & mrst_n),  // cualquiera de los dos resets
       .clk(cpuclk),
       .wait_n(1'b1),
       .int_n(int_n),
@@ -128,7 +124,7 @@ module zxuno (
 	 // Clocks
     .clk28(clk),       // 28MHz master clock
     .wssclk(wssclk),   // 5MHz WSS clock
-    .rst_n(mrst_n & rst_n & ~power_on_reset),  // este será cualquiera de los resets
+    .rst_n(mrst_n & rst_n),  // este será cualquiera de los dos resets cuando los tengamos separados
 
 	 // CPU interface
 	 .a(cpuaddr),
@@ -164,8 +160,8 @@ module zxuno (
 
     mapper mapeador (
    .clk(clk),
-   .mrst_n(mrst_n & ~power_on_reset),   // reset total, para mapear la ROM interna del cargador de ROMs
-   .cpurst_n(rst_n & ~power_on_reset), // reset convencional, sin cambiar mapeo de ROM
+   .mrst_n(mrst_n),   // reset total, para mapear la ROM interna del cargador de ROMs
+   .cpurst_n(rst_n), // reset convencional, sin cambiar mapeo de ROM
    
    .a(cpuaddr),
    .mreq_n(mreq_n),
@@ -244,7 +240,7 @@ module zxuno (
   .O_IOB(),
   .O_IOB_OE_L(),
   .ENA(1'b1),
-  .RESET_L(rst_n & mrst_n & ~power_on_reset),  // cualquiera de los dos resets
+  .RESET_L(rst_n & mrst_n),  // cualquiera de los dos resets
   .CLK(clkay)
   );
 
@@ -254,7 +250,7 @@ module zxuno (
    // 8-bit mixer to generate different audio levels according to input sources
 	mixer audio_mix(
 		.clkdac(clkdac),
-		.reset(power_on_reset),
+		.reset(1'b0),
 		.mic(mic),
 		.spk(spk),
       .ear(ear),

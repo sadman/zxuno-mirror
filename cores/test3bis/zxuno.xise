@@ -15,6 +15,9 @@
   <version xil_pn:ise_version="12.4" xil_pn:schema_version="2"/>
 
   <files>
+    <file xil_pn:name="pines_zxuno.ucf" xil_pn:type="FILE_UCF">
+      <association xil_pn:name="Implementation"/>
+    </file>
     <file xil_pn:name="pal_sync_generator_progressive.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
@@ -27,69 +30,6 @@
       <association xil_pn:name="Implementation"/>
     </file>
     <file xil_pn:name="dp_memory.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="audio_management.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="ram64bytes.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="ula.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="pines_zxuno.ucf" xil_pn:type="FILE_UCF">
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="arbitrador.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="T80.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="T80_ALU.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="T80_MCode.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="T80_Pack.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="T80_Reg.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="T80a.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="tv80_to_t80_wrapper.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="rom.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="YM2149_linmix.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="ps2k.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation"/>
-      <association xil_pn:name="Implementation"/>
-    </file>
-    <file xil_pn:name="mapa_teclado_es.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation"/>
       <association xil_pn:name="Implementation"/>
     </file>
@@ -108,7 +48,7 @@
     <property xil_pn:name="Allow Unmatched Timing Group Constraints" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Asynchronous To Synchronous" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Auto Implementation Compile Order" xil_pn:value="true" xil_pn:valueState="default"/>
-    <property xil_pn:name="Auto Implementation Top" xil_pn:value="false" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Auto Implementation Top" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Automatic BRAM Packing" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Automatically Insert glbl Module in the Netlist" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Automatically Run Generate Target PROM/ACE File" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -122,7 +62,7 @@
     <property xil_pn:name="Change Device Speed To" xil_pn:value="-4" xil_pn:valueState="default"/>
     <property xil_pn:name="Change Device Speed To Post Trace" xil_pn:value="-4" xil_pn:valueState="default"/>
     <property xil_pn:name="Combinatorial Logic Optimization" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Compile EDK Simulation Library" xil_pn:value="false" xil_pn:valueState="default"/>
+    <property xil_pn:name="Compile EDK Simulation Library" xil_pn:value="false" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Compile SIMPRIM (Timing) Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Compile UNISIM (Functional) Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Compile XilinxCoreLib (CORE Generator) Simulation Library" xil_pn:value="true" xil_pn:valueState="default"/>
@@ -153,7 +93,7 @@
     <property xil_pn:name="Enable Debugging of Serial Mode BitStream" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Enable Hardware Co-Simulation" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Enable Internal Done Pipe" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Enable Message Filtering" xil_pn:value="true" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Enable Message Filtering" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Enable Outputs (Output Events)" xil_pn:value="Default (5)" xil_pn:valueState="default"/>
     <property xil_pn:name="Equivalent Register Removal XST" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Exclude Compilation of Deprecated EDK Cores" xil_pn:value="true" xil_pn:valueState="default"/>
@@ -229,8 +169,8 @@
     <property xil_pn:name="Number of Clock Buffers" xil_pn:value="24" xil_pn:valueState="default"/>
     <property xil_pn:name="Number of Paths in Error/Verbose Report" xil_pn:value="3" xil_pn:valueState="default"/>
     <property xil_pn:name="Number of Paths in Error/Verbose Report Post Trace" xil_pn:value="3" xil_pn:valueState="default"/>
-    <property xil_pn:name="Optimization Effort" xil_pn:value="High" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Optimization Goal" xil_pn:value="Area" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Optimization Effort" xil_pn:value="Normal" xil_pn:valueState="default"/>
+    <property xil_pn:name="Optimization Goal" xil_pn:value="Speed" xil_pn:valueState="default"/>
     <property xil_pn:name="Optimization Strategy (Cover Mode)" xil_pn:value="Area" xil_pn:valueState="default"/>
     <property xil_pn:name="Optimize Instantiated Primitives" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Other Bitgen Command Line Options" xil_pn:value="" xil_pn:valueState="default"/>
@@ -298,7 +238,7 @@
     <property xil_pn:name="Report Unconstrained Paths Post Trace" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Reset DCM if SHUTDOWN &amp; AGHIGH performed" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Reset On Configuration Pulse Width" xil_pn:value="100" xil_pn:valueState="default"/>
-    <property xil_pn:name="Resource Sharing" xil_pn:value="false" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Resource Sharing" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Retain Hierarchy" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Router Effort Level (Overrides Overall Level)" xil_pn:value="None" xil_pn:valueState="default"/>
     <property xil_pn:name="Run Design Rules Checker (DRC)" xil_pn:value="true" xil_pn:valueState="default"/>
@@ -308,8 +248,7 @@
     <property xil_pn:name="Run for Specified Time Translate" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Safe Implementation" xil_pn:value="No" xil_pn:valueState="default"/>
     <property xil_pn:name="Security" xil_pn:value="Enable Readback and Reconfiguration" xil_pn:valueState="default"/>
-    <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/zxuno/dos_memorias" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.dp_memory" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Map" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Route" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Selected Simulation Root Source Node Post-Translate" xil_pn:value="" xil_pn:valueState="default"/>
@@ -325,7 +264,7 @@
     <property xil_pn:name="Slice Packing" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Slice Utilization Ratio" xil_pn:value="100" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify 'define Macro Name and Value" xil_pn:value="" xil_pn:valueState="default"/>
-    <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="work.dp_memory" xil_pn:valueState="default"/>
+    <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="Default" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Map" xil_pn:value="Default" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Route" xil_pn:value="Default" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Post-Translate" xil_pn:value="Default" xil_pn:valueState="default"/>
@@ -358,8 +297,8 @@
     <property xil_pn:name="Use LOC Constraints" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="Use RLOC Constraints" xil_pn:value="Yes" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Smart Guide" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Use Synchronous Reset" xil_pn:value="Auto" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Use Synchronous Set" xil_pn:value="Auto" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Use Synchronous Reset" xil_pn:value="Yes" xil_pn:valueState="default"/>
+    <property xil_pn:name="Use Synchronous Set" xil_pn:value="Yes" xil_pn:valueState="default"/>
     <property xil_pn:name="Use Synthesis Constraints File" xil_pn:value="true" xil_pn:valueState="default"/>
     <property xil_pn:name="User Browsed Strategy Files" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="UserID Code (8 Digit Hexadecimal)" xil_pn:value="0xFFFFFFFF" xil_pn:valueState="default"/>
@@ -369,7 +308,7 @@
     <property xil_pn:name="Verilog Macros" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Wait for DLL Lock (Output Events)" xil_pn:value="Default (NoWait)" xil_pn:valueState="default"/>
     <property xil_pn:name="Working Directory" xil_pn:value="." xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Write Timing Constraints" xil_pn:value="true" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Write Timing Constraints" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="XOR Collapsing" xil_pn:value="true" xil_pn:valueState="default"/>
     <!--                                                                                  -->
     <!-- The following properties are for internal use only. These should not be modified.-->
@@ -389,9 +328,7 @@
     <property xil_pn:name="PROP_intWorkingDirUsed" xil_pn:value="No" xil_pn:valueState="non-default"/>
   </properties>
 
-  <bindings>
-    <binding xil_pn:location="/tld_zxuno" xil_pn:name="pines_zxuno.ucf"/>
-  </bindings>
+  <bindings/>
 
   <libraries/>
 

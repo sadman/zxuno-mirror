@@ -18,55 +18,179 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
+
 module dp_memory_v2 (
     input wire clk,  // 20MHz
     input wire [18:0] a1,
-    input wire [18:0] a2,
-    input wire oe1_n,
-    input wire oe2_n,
-    input wire we1_n,
-    input wire we2_n,
-    input wire [7:0] din1,
-    input wire [7:0] din2,
     output wire [7:0] dout1,
+    input wire rd1_n,
+    input wire [18:0] a2,
+    input wire [7:0] din2,
     output wire [7:0] dout2,
+    input wire rd2_n,
+    input wire wr2_n,
     
     output reg [18:0] a,
     inout wire [7:0] d,
-    output reg ce_n,
-    output reg oe_n,
     output reg we_n
     );
 
-   reg ff = 1'b0;
-	reg [7:0] doutput1 = 8'hFF;
-	reg [7:0] doutput2 = 8'hFF;
+   parameter
+      IDLE = 0,
+      READULA1 = 1,
+      ESPERAULA = 2,
+      ACCESOCPU1 = 3,
+      ESPERATOTAL = 4,
+      ACCESOCPU2 = 5,
+      ESPERACPU = 6,
+      READULA2 = 7;
 
-   always @(posedge clk) begin
-      ff <= ~ff;
-   end
-
-   reg [7:0] dsram;
-   assign d = dsram;
-   always @* begin
-      if (ff == 1'b0) begin
-         a = a1;
-         we_n = we1_n;
-         if (we1_n==1'b0)
-            dsram = din1;
-         else
-            dsram = 8'hZZ;
-      end
-      else begin
-         a = a2;
-         we_n = we2_n;
-         if (we2_n==1'b0)
-            dsram = din2;
-         else
-            dsram = 8'hZZ;
-      end
-   end
+   // Variables combinacionales
+   reg [7:0] dinput_to_sram;
+   reg write_to_dout1,write_to_dout2;
+   reg [2:0] proximo;
    
-   assign dout1 = (oe1_n == 1'b0)? d : 8'hZZ;
-   assign dout2 = (oe2_n == 1'b0)? d : 8'hZZ;
+   // Registros
+   reg [2:0] estado = IDLE;
+   reg [7:0] doutput1;
+   reg [7:0] doutput2;
+   
+   assign dout1 = doutput1;
+   assign dout2 = doutput2;
+   assign d = dinput_to_sram;
+   always @(posedge clk) begin
+      estado <= proximo;
+      if (write_to_dout1)
+         doutput1 <= d;
+      if (write_to_dout2)
+         doutput2 <= d;
+   end
+      
+/*
+
+1:
+
+Si hay peticion de R de la ULA
+   Atenderla(ULA1)
+   Mientras la peticion siga activa
+      Si hay petición de R/W de CPU
+         Atenderla(CPU1)
+         Mientras todas las peticiones sigan activas
+         Finmientras
+         Ir a 1:
+      Finsi
+   Finmientras
+   Ir a 1:
+Si no, si hay peticion R/W de la CPU
+  Atenderla(CPU2)
+  Mientras la peticion siga activa
+    Si hay peticion de R de la ULA
+      Atenderla(ULA2)
+      Mientras todas las peticion sigan activas
+      Finmientras
+      Ir a 1:
+    Finsi
+  Finmientra
+  Ir a 1:
+Finsi
+Ir a 1:      
+
+*/
+
+   always @* begin
+      a = a1;
+      we_n = 1'b1;
+      proximo = IDLE;
+      dinput_to_sram = 8'hZZ;
+      write_to_dout1 = 1'b0;
+      write_to_dout2 = 1'b0;
+      case (estado)
+         IDLE       : begin
+                        if (!rd1_n) begin
+                          a = a1;
+                          proximo = READULA1;
+                        end
+                        else if (!rd2_n || !wr2_n) begin
+                          a = a2;
+                          if (!wr2_n) begin
+                            dinput_to_sram = din2;
+                            we_n = 1'b0;
+                          end
+                          proximo = ACCESOCPU2;
+                        end
+                      end
+                      
+         READULA1   : begin
+                        a = a1;
+                        write_to_dout1 = 1'b1;
+                        proximo = ESPERAULA;
+                      end
+                      
+         ESPERAULA  : begin
+                        if (rd1_n && rd2_n && wr2_n) begin
+                          proximo = IDLE;
+                        end
+                        else if (rd1_n && (!rd2_n || !wr2_n)) begin
+                          a = a2;
+                          if (!wr2_n) begin
+                            dinput_to_sram = din2;
+                            we_n = 1'b0;
+                          end
+                          proximo = ACCESOCPU1;
+                        end
+                        else begin
+                          proximo = ESPERAULA;
+                        end
+                      end
+                      
+         ACCESOCPU1 : begin
+                        a = a2;
+                        if (!rd2_n) begin
+                           write_to_dout2 = 1'b1;
+                        end
+                        else if (!wr2_n) begin
+                           dinput_to_sram = din2;
+                           we_n = 1'b0;
+                        end
+                        proximo = ESPERATOTAL;
+                      end
+                      
+         ESPERATOTAL: begin
+                        if (!rd1_n || !rd2_n || wr2_n) begin
+                          proximo = ESPERATOTAL;
+                        end
+                      end
+
+         ACCESOCPU2 : begin
+                        a = a2;
+                        if (!rd2_n) begin
+                           write_to_dout2 = 1'b1;
+                        end
+                        else if (!wr2_n) begin
+                           dinput_to_sram = din2;
+                           we_n = 1'b0;
+                        end
+                        proximo = ESPERACPU;
+                      end
+                      
+         ESPERACPU :  begin
+                        if (rd1_n && rd2_n && wr2_n) begin
+                          proximo = IDLE;
+                        end
+                        else if (!rd1_n) begin
+                          a = a1;
+                          proximo = READULA2;
+                        end
+                        else begin
+                          proximo = ESPERACPU;
+                        end
+                      end
+
+         READULA2   : begin
+                        a = a1;
+                        write_to_dout1 = 1'b1;
+                        proximo = ESPERATOTAL;
+                      end
+      endcase
+   end
 endmodule
