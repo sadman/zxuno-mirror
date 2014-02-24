@@ -447,10 +447,14 @@ module ula (
             dout = PaletteEntryToCPU;
          else if (a==ULAPLUSDATA && PaletteReg[6]==1'b1)
             dout = {7'b0000000,ConfigReg};
-         else if (a[7:0]==TIMEXPORT && BitmapAddr)
-            dout = BitmapData;
-         else if (a[7:0]==TIMEXPORT && AttrAddr)  
-            dout = AttrData;   // floating bus
+         else if (a[7:0]==TIMEXPORT) begin
+            if (BitmapAddr)
+               dout = BitmapData;
+            else if (AttrAddr)  
+               dout = AttrData;   // floating bus
+            else
+               dout = 8'hFF;
+         end
       end
    end
          
