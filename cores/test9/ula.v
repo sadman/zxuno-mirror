@@ -168,7 +168,7 @@ module ula (
     reg [15:0] BitmapSerializerHR = 8'h00;
     wire SerialOutputHR = BitmapSerializerHR[15];
     always @(posedge clk14) begin
-      if (SerializerLoad) 
+      if (SerializerLoad && clk7)  // load enable only for a single 14MHz cycle
          BitmapSerializerHR <= {BitmapData,AttrData};
       else
          BitmapSerializerHR <= {BitmapSerializerHR[14:0],1'b0};
