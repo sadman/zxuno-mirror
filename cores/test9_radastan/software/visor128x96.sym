@@ -1,0 +1,4 @@
+BucPaleta	EQU 08009H
+BucPintaScans	EQU 0804CH
+Main		EQU 08000H
+Pantalla	EQU 0806DH
