@@ -7,12 +7,13 @@
                org 32768
 Main           di
 
-               ld hl,Pantalla+36h  ;offset de la paleta en los BMP
+               ;Convertir la paleta del BMP a paleta de ULAplus
+               ld hl,Pantalla+36h  ;offset de la paleta en los BMP. El formato de la paleta es BGRA
                ld bc,0bf3bh
                ld e,0
 BucPaleta      out (c),e
                ld b,0ffh
-               ld a,(hl)
+               ld a,(hl)   ; azul
                sra a
                sra a
                sra a
@@ -22,12 +23,12 @@ BucPaleta      out (c),e
                and 3
                ld d,a
                inc hl
-               ld a,(hl)
+               ld a,(hl)   ; verde
                and 11100000b
                or d
                ld d,a
                inc hl
-               ld a,(hl)
+               ld a,(hl)   ; rojo
                sra a
                sra a
                sra a
@@ -35,13 +36,13 @@ BucPaleta      out (c),e
                or d
                out (c),a
                inc hl
-               inc hl
+               inc hl      ; nos saltamos el byte de "alpha"
                ld b,0bfh
                inc e
                ld a,e
                cp 16
                jr nz,BucPaleta
-               
+
                ld a,64
                out (c),a
                ld b,0ffh
@@ -58,12 +59,12 @@ BucPintaScans  push bc
                add hl,bc
                pop bc
                djnz BucPintaScans
-               
+
                ei
-               
+
                ld bc,0
                call 7997 ;PAUSE 0
-               
+
                ld bc,0bf3bh
                ld a,64
                out (c),a
@@ -75,6 +76,6 @@ BucPintaScans  push bc
 
 
 Pantalla       equ $
-               incbin "moco.bmp"
-               
+               incbin "gravity.bmp"  ; <-- pon aqui el fichero BMP que quieras ver. Debe tener 6262 bytes de longitud
+
                end Main
