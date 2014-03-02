@@ -76,6 +76,6 @@ BucPintaScans  push bc
 
 
 Pantalla       equ $
-               incbin "gravity.bmp"  ; <-- pon aqui el fichero BMP que quieras ver. Debe tener 6262 bytes de longitud
+               incbin "familyguy.bmp"  ; <-- pon aqui el fichero BMP que quieras ver. Debe tener 6262 bytes de longitud
 
                end Main
