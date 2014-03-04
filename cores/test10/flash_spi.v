@@ -53,7 +53,8 @@ module flash_spi (
    reg ciclo_escritura = 1'b0;     // ciclo de escritura en curso
    reg [4:0] contador = 5'b00000;  // contador del FSM (ciclos)
    reg [7:0] data_to_flash;        // dato a enviar a la flash por DI
-   reg [7:0] data_to_cpu;          // dato a enviar a la CPU leido desde DO
+   reg [7:0] data_from_flash;      // dato a recibir desde la flash
+   reg [7:0] data_to_cpu;          // ultimo dato recibido correctamente
    
    assign flash_clk = contador[0];  // FLASH_CLK es la mitad que el reloj del módulo
    assign flash_di = data_to_flash[7];  // la transmisión es del bit 7 al 0
@@ -69,7 +70,8 @@ module flash_spi (
          ciclo_lectura <= 1'b1;
          ciclo_escritura <= 1'b0;
          contador <= 5'b00000;
-         data_to_cpu <= 8'h00;
+         data_to_cpu <= data_from_flash;
+         data_from_flash <= 8'h00;
       end
       
       // FSM para enviar un dato a la flash
@@ -89,7 +91,7 @@ module flash_spi (
       else if (ciclo_lectura==1'b1) begin
          if (contador!=5'b10000) begin
             if (flash_clk==1'b1)
-               data_to_cpu <= {data_to_cpu[6:0],flash_do};
+               data_from_flash <= {data_from_flash[6:0],flash_do};
             contador <= contador + 1;
          end
          else begin

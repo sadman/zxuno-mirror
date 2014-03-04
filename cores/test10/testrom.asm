@@ -39,6 +39,10 @@ rreg                    macro dir,dest
 Main                    di
                         ld sp,49151   ;stack fuera de la pagina de memoria que tocaremos
 
+                        ; Borramos la pantalla shadow, ya que Open SE IV parece que no la borra
+                        wreg MASTERMAPPER,7   ;paginamos la pantalla shadow
+                        call BorraBloque
+
                         ; Elige uno de los dos, para probar
                         call CopiaPlus3
                         ;call CopiaOpenSE
@@ -54,6 +58,8 @@ CopiaPlus3              wreg MASTERMAPPER,8   ;primera página de RAM que se conv
                         out (c),a  ;
                         ld a,00h   ;
                         out (c),a  ; A partir de aqui leemos secuencialmente
+
+                        in a,(c)   ; Primera lectura que se descarta...
 
                         call CopiaBloque   ;copia 16K de la flash a la página 8
 
@@ -86,6 +92,8 @@ CopiaOpenSE             wreg MASTERMAPPER,8   ;primera página de RAM que se conv
                         ld a,00h   ;
                         out (c),a  ; A partir de aqui leemos secuencialmente
 
+                        in a,(c)   ; Primera lectura que se descarta...
+
                         call CopiaBloque
 
                         wreg MASTERMAPPER,9
@@ -94,11 +102,6 @@ CopiaOpenSE             wreg MASTERMAPPER,8   ;primera página de RAM que se conv
                         call CopiaBloque
 
                         wreg FLASHCS,1    ;Deseleccionar flash
-
-                        ld bc,7ffdh
-                        ld a,0h
-                        out (c),a
-
                         ret
 
 CopiaBloque             ld hl,49152
@@ -110,6 +113,14 @@ BucCopia                in a,(c)        ;leemos de la flash...
                         ld a,d
                         or e
                         jr nz,BucCopia
+                        ret
+
+
+BorraBloque             ld hl,49152
+                        ld de,49153
+                        ld bc,16383
+                        ld (hl),l
+                        ldir
                         ret
 
                         end Main

@@ -189,7 +189,7 @@ module zxuno (
    );
 
    flash_spi la_flash (
-      .clk(clkflash),
+      .clk(clk7),
       .addr(zxuno_addr),
       .rd(zxuno_regrd),
       .wr(zxuno_regwr),
