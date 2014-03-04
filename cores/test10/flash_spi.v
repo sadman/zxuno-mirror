@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module flash_spi (
-   input wire clk,  // 50MHz o mas. Transferencia SPI en menos tiempo que lo que dura un ciclo de E/S en el Z80
+   input wire clk,         // 7MHz
    input wire [7:0] addr,  // numero de registro almacenado en puerto ZXUNOADDR. Este módulo atiende a $02 y $03
    input wire rd,          // lectura a un registro ZXUNO
    input wire wr,          // escritura a un registro ZXUNO
@@ -48,7 +48,7 @@ module flash_spi (
          pincs <= din[0];
    end   
 
-   // Modulo SPI. Reloj de la flash: 25MHz
+   // Modulo SPI. Reloj de la flash: 3.5MHz
    reg ciclo_lectura = 1'b0;       // ciclo de lectura en curso
    reg ciclo_escritura = 1'b0;     // ciclo de escritura en curso
    reg [4:0] contador = 5'b00000;  // contador del FSM (ciclos)

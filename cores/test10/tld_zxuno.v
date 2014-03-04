@@ -44,13 +44,13 @@ module tld_zxuno (
    input wire flash_miso
    );
 
-   wire wssclk,sysclk,clkflash;
+   wire wssclk,sysclk;
    relojes los_relojes_del_sistema (
     .CLKIN_IN(clk50mhz), 
     .CLKDV_OUT(wssclk), //  5MHz
     .CLKFX_OUT(sysclk), // 28MHz 
     .CLKIN_IBUFG_OUT(), 
-    .CLK0_OUT(clkflash), 
+    .CLK0_OUT(), 
     .LOCKED_OUT()
     );
 
@@ -61,7 +61,6 @@ module tld_zxuno (
    zxuno la_maquina (
     .clk(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
     .wssclk(wssclk),      //  5MHz, reloj para el WSS
-    .clkflash(clkflash),  // 50MHz reloj base para la SPI Flash
 	 .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
     .r(r),
     .g(g),

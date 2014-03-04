@@ -24,7 +24,6 @@ module zxuno (
     // Relojes
     input wire clk,      // 28MHz, reloj del sistema
     input wire wssclk,   //  5MHz, reloj de la señal WSS
-    input wire clkflash, // 50MHz, reloj para la SPI Flash
 	 input wire power_on_reset_n,
     
     // E/S
@@ -69,7 +68,7 @@ module zxuno (
    wire [7:0] ay_dout;
    wire bc1,bdir;
    wire oe_n_ay;   
-   wire clkay;  // suministrado por la ULA (3.5MHz) (también puede valer para el ZXMMC)
+   wire clkay;  // suministrado por la ULA (3.5MHz)
    wire clkdac; // suministrado por la ULA (7MHz)
 
    // Señales de acceso a registro de direcciones ZX-Uno
