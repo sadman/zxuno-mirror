@@ -224,7 +224,7 @@ rdfls2  ret
 ; ------------------------
 cad1    defm    'http://zxuno.speccy.org', 0
         defm    'ZX-Uno BIOS v0.100', 0
-        defm    'Copyright ', 127, ' 2014 ZX-Uno team', 0
+        defm    'Copyright ', 127, ' 2014 Equipo ZX-Uno', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
         defm    'Graphics:  normal, hi-color', 0
