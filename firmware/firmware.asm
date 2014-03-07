@@ -1,6 +1,6 @@
 
-        OUTPUT  firmware.rom
-
+        output  firmware_strings.rom
+        define  call_prnstr     rst     $10
         di
         ld      hl, finlog-1
         ld      de, $58ff
@@ -27,8 +27,8 @@ loop    ld      a, b
         bit     3, b
         jr      z, loop
 
-        jr      clean
-        jp      rdflsh
+;        jr      clean
+;        jp      rdflsh
 clean   inc     e               ; limpiar los 2/3 inferiores
         ld      h, b
         ld      b, $10
@@ -40,34 +40,38 @@ clean   inc     e               ; limpiar los 2/3 inferiores
         ld      b, 2
         ldir
 
+        ld      de, fincad-1    ; descomprimo cadenas
+        ld      hl, finstr-1
+        call    dzx7b
+
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         ld      bc, $0909
-        rst     $10
+        call_prnstr
         ld      bc, $020d
-        rst     $10
+        call_prnstr
         inc     c
-        rst     $10
+        call_prnstr
         ld      bc, $0010
-        rst     $10
+        call_prnstr
         inc     c
-        rst     $10
+        call_prnstr
         inc     c
-        rst     $10
+        call_prnstr
         ld      bc, $0b13
-        rst     $10
+        call_prnstr
         ld      bc, $0014
-        rst     $10
+        call_prnstr
         ld      bc, $0017
-        rst     $10
+        call_prnstr
 
         ld      hl, $2950
-        ld      de, $8800
+        ld      de, $9800
         ld      bc, $0022
-        rst     $28
+        call    rdflsh
         ld      hl, $2980
-        ld      de, $8000
+        ld      de, $9000
         ld      bc, $0800
-        rst     $28
+        call    rdflsh
         ld      bc, $fefe
         in      a, (c)
         rrca
@@ -84,35 +88,35 @@ clean   inc     e               ; limpiar los 2/3 inferiores
         call    window
         ld      ix, cad2
         ld      bc, $0203
-        rst     $10             ; ------------------
+        call_prnstr             ; ------------------
         inc     c
-        rst     $10             ; Please select
+        call_prnstr             ; Please select
         inc     c
-        rst     $10             ; |----------------|
+        call_prnstr             ; |----------------|
         inc     c
         push    ix
         push    ix
-        rst     $10             ; |                |
+        call_prnstr             ; |                |
         inc     c
         pop     ix
-        rst     $10             ; |                |
+        call_prnstr             ; |                |
         inc     c
         pop     ix
-        rst     $10             ; |                |
+        call_prnstr             ; |                |
         inc     c
-        rst     $10             ; | Enter Setup
+        call_prnstr             ; | Enter Setup
         ld      ix, cad3
         inc     c
-        rst     $10             ; |----------------|
+        call_prnstr             ; |----------------|
         ld      ix, cad5
         inc     c
-        rst     $10             ; | U and D move s |
+        call_prnstr             ; | U and D move s |
         inc     c
-        rst     $10             ; | ENTER to selec |
+        call_prnstr             ; | ENTER to selec |
         inc     c
-        rst     $10             ; | ESC to boot us |
+        call_prnstr             ; | ESC to boot us |
         inc     c
-        rst     $10             ; ------------------
+        call_prnstr             ; ------------------
 
 noesc   
 
@@ -219,36 +223,17 @@ l2980   defb    %01011001, %00011001, $04, $30, $ff, $ff, $ff, $ff
 
 rdfls2  ret
 
-; ------------------------
-; Messages
-; ------------------------
-cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.100', 0
-        defm    'Copyright ', 127, ' 2014 Equipo ZX-Uno', 0
-        defm    'Processor: Z80 3.5MHz', 0
-        defm    'Memory:    512K Ok', 0
-        defm    'Graphics:  normal, hi-color', 0
-        defm    'hi-res, ULAplus', 0
-        defm    'Booting:   Amstrad +3 ROM 4.0 English', 0
-        defm    'Press <F2> to Setup    <Esc> for Boot Menu', 0
-cad2    defb    3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 0
-        defm    1, '   Please select boot machine:    ', 1, 0
-cad3    defb    7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 0
-cad4    defm    1, '                                  ', 1, 0
-        defm    1, ' Enter Setup                      ', 1, 0
-cad5    defm    1, '    ', 12, ' and ', 13, ' to move selection     ', 1, 0
-        defm    1, '   ENTER to select boot machine   ', 1, 0
-        defm    1, '    ESC to boot using defaults    ', 1, 0
-        defb    5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 0
-
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
         incbin  logo256x64.rcs.zx7b
 finlog
+
+; -----------------------------------------------------------------------------
+; Compressed messages
+; -----------------------------------------------------------------------------
+        incbin  strings.bin.zx7b
+finstr
 
 ; -----------------------------------------------------------------------------
 ; ZX7 Backwards by Einar Saukas, Antonio Villena
@@ -477,3 +462,30 @@ pos30   ld      a, (de)
 ; 6x8 character set (128 characters x 4 rotations)
 ; -----------------------------------------------------------------------------
 chrset  incbin  fuente6x8.bin
+
+        block   $8000-$
+; ------------------------
+; Messages
+; ------------------------
+cad1    defm    'http://zxuno.speccy.org', 0
+        defm    'ZX-Uno BIOS v0.100', 0
+        defm    'Copyright ', 127, ' 2014 Equipo ZX-Uno', 0
+        defm    'Processor: Z80 3.5MHz', 0
+        defm    'Memory:    512K Ok', 0
+        defm    'Graphics:  normal, hi-color', 0
+        defm    'hi-res, ULAplus', 0
+        defm    'Booting:   Amstrad +3 ROM 4.0 English', 0
+        defm    'Press <F2> to Setup    <Esc> for Boot Menu', 0
+cad2    defb    3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 0
+        defm    1, '   Please select boot machine:    ', 1, 0
+cad3    defb    7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 0
+cad4    defm    1, '                                  ', 1, 0
+        defm    1, ' Enter Setup                      ', 1, 0
+cad5    defm    1, '    ', 12, ' and ', 13, ' to move selection     ', 1, 0
+        defm    1, '   ENTER to select boot machine   ', 1, 0
+        defm    1, '    ESC to boot using defaults    ', 1, 0
+        defb    5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 0
+fincad

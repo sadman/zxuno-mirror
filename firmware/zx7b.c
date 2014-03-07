@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
            "  <output_file>   Compressed output file\n\n"
            "Example: zx7b Cobra.scr Cobra.zx7\n"),
     exit(0);
-  if( argc!=3 )
+  if( argc!=3 && argc!=4 )
     printf("\nInvalid number of parameters\n"),
     exit(-1);
 
@@ -216,8 +216,6 @@ unsigned char *compress(Optimal *optimal, unsigned char *input_data, size_t inpu
       write_bit(1);
 
       /* sequence length */
-  if( (optimal[input_index].len-1 & 0xff)== 0xff)
-    printf("muymal\n");
       write_elias_gamma(optimal[input_index].len-1);
 
       /* sequence offset */
