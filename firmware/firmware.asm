@@ -1,16 +1,18 @@
-
         output  firmware_strings.rom
-        define  call_prnstr     rst     $10
+
+        define  call_prnstr     rst     $08
+        define  items   $8ffc
+        define  codcnt  $8ffe
+
         di
         ld      hl, finlog-1
-        ld      de, $58ff
+        ld      de, $9aff
+        defb    $3e ;$3a
+        jp      prnstr
         call    dzx7b           ; descomprimir
-
         inc     l
         inc     hl
         ld      b, $40          ; filtro RCS inverso
-        jr      loop
-        jp      prnstr
 loop    ld      a, b
         xor     c
         and     $f8
@@ -26,26 +28,113 @@ loop    ld      a, b
         inc     bc
         bit     3, b
         jr      z, loop
-
-;        jr      clean
-;        jp      rdflsh
-clean   inc     e               ; limpiar los 2/3 inferiores
-        ld      h, b
-        ld      b, $10
-        ld      (hl), l
+clean   ld      b, $13
         ldir
-        inc     d
-        inc     h
-        ld      (hl), $47
-        ld      b, 2
-        ldir
-
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
         call    dzx7b
-
-        ld      ix, cad1        ; imprimir cadenas BOOT screen
         ld      bc, $0909
+        jp      descad
+
+; ----------------------
+; THE 'KEYBOARD' ROUTINE
+; ----------------------
+        call    keyscn                  ; routine KEY_SCAN
+        ld      b, a                    ; save key in B
+        ld      hl, (codcnt)            ; KEYCOD - last key pressed / KEYCNT - debounce counter
+        xor     l                       ; compare to previous key.
+        jr      z, keymat               ; forward if a match.
+        xor     l                       ; reform original
+        jr      z, nokeyb               ; forward if zero - no key.
+        xor     a                       ; else clear accumulator.
+        cp      l                       ; compare with last.
+        jr      nz, reteiz              ; return if not zero.
+nokeyb  ld      l, b                    ; set L to original keycode
+        ld      h, 32                   ; set counter to thirty two.
+        jr      stoexi                  ; forward to store values and exit returning zero
+keymat  dec     h                       ; decrement the counter.
+        ld      a, h                    ; fetch counter to A.
+        cp      $1e                     ; compare to thirty.
+        jr      z, retkea               ; forward if so to return key in A.
+        xor     a                       ; clear accumulator.
+        cp      h                       ; is counter zero?
+        jr      nz, stoexi              ; forward if not to keep counting.
+        ld      h, 4                    ; else set counter to four.
+retkea  ld      a, l                    ; pick up previous key.
+stoexi  ld      (codcnt),hl             ; update KEYCOD/KEYCNT
+reteiz  ei
+        ret                             ; return.
+keyscn  ld      de, keytab-1&$ff
+        ld      bc, $fefe
+        ld      l, d
+keylop  in      a, (c)
+        cpl
+        and     $1f
+        ld      h, l
+        jr      z, rowemp
+nexkey  inc     l
+        srl     a
+        jr      nc, nexkey
+        ex      af, af
+        ld      a, l
+        cp      $25                     ;symbol, change here
+        jr      z, sympre
+        cp      $01                     ;shift, change here
+        jr      z, shipre
+        inc     d
+        dec     d
+        ld      d, l
+        jr      z, laszer
+        xor     a
+        ret
+shipre  ld      e, 39+keytab&$ff
+        defb    $c2                     ;JP NZ,xxxx
+sympre  ld      e, 79+keytab&$ff
+laszer  ex      af, af
+        jr      nz, nexkey
+rowemp  ld      a, h
+        add     a, 5
+        ld      l, a
+        rlc     b
+        jr      c, keylop
+        xor     a
+        ld      h, a
+        add     a, d
+        ret     z
+        add     a, e
+        ld      l, a
+        ld      a, (hl)
+        ret
+; ---------------
+; THE 'KEY TABLE'
+; ---------------
+keytab  defb    $00, $7a, $78, $63, $76 ;   SHIFT z x c v
+        defb    $61, $73, $64, $66, $67 ;       a s d f g
+        defb    $71, $77, $65, $72, $74 ;       q w e r t
+        defb    $31, $32, $33, $34, $35 ;       1 2 3 4 5
+        defb    $30, $39, $38, $37, $36 ;       0 9 8 7 6
+        defb    $70, $6f, $69, $75, $79 ;       p o i u y
+        defb    $0d, $6c, $6b, $6a, $68 ;   ENTER l k j h
+        defb    $20, $00, $6d, $6e, $62 ; SPACE SYM m n b
+        defb    $00, $5a, $58, $43, $56 ;   SHIFT Z X C V
+        defb    $41, $53, $44, $46, $47 ;       A S D F G
+        defb    $51, $57, $45, $52, $54 ;       Q W E R T
+        defb    $0a, $02, $33, $08, $01 ; DELLINE CAPSLOCK 3 INVVIDEO LEFT
+        defb    $05, $04, $03, $09, $07 ;     DEL  GRAPH  RIGHT  DOWN  UP
+        defb    $50, $4f, $49, $55, $59 ;       P O I U Y
+        defb    $0d, $4c, $4b, $4a, $48 ;   ENTER L K J H
+        defb    $06, $00, $4d, $4e, $42 ; SPACE SYM M N B
+        defb    $00, $3a, $60, $3f, $2f ;   SHIFT : £ ? /
+        defb    $7e, $7c, $5c, $7b, $7d ;       ~ | \ { }
+        defb    $51, $57, $45, $3c, $3e ;       Q W E < >
+        defb    $21, $40, $23, $24, $25 ;       ! @ # $ %
+        defb    $5f, $29, $28, $27, $26 ;       _ ) ( ' &
+        defb    $22, $3b, $7f, $5d, $5b ;       " ; ç ] [
+        defb    $0d, $3d, $2b, $2d, $5e ;   ENTER = + - ^
+        defb    $20, $00, $2e, $2c, $2a ; SPACE SYM . , *
+; end of key tables
+
+descad  ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr
         ld      bc, $020d
         call_prnstr
@@ -72,41 +161,72 @@ clean   inc     e               ; limpiar los 2/3 inferiores
         ld      de, $9000
         ld      bc, $0800
         call    rdflsh
-        ld      bc, $fefe
-        in      a, (c)
-        rrca
-        jr      c, noesc
-        ld      b, $7f
-        in      a, (c)
-        rrca
-        jr      c, noesc
 
-        call    clrscr
+        ei
+waitk   ld      a, (codcnt)
+        sub     6
+        jr      nz, waitk
+
+        di
+        call    clrscr          ; borro pantalla
+        ld      hl, $9800
+nument  ld      a, (hl)         ; calculo en L el número de entradas
+        inc     l
+        inc     a
+        jr      nz, nument
+        ld      a, l
+        cp      13
+        jr      c, mentre
+        ld      a, 13
+mentre  ld      h, a
+        ld      (items), hl
+        add     a, -16
+        cpl
+        rrca
+        ld      l, a
+        ld      a, h
+        add     a, 7
+        ld      e, a
+
         ld      a, %01001111    ; fondo azul tinta blanca
-        ld      hl, $0103       ; coordenadas X e Y
-        ld      de, $1c0c       ; anchura y altura de ventana
+        ld      h, $01          ; coordenada X
+        ld      d, $1c          ; anchura de ventana
+        push    hl
         call    window
         ld      ix, cad2
-        ld      bc, $0203
+        pop     bc
+        inc     b
         call_prnstr             ; ------------------
         inc     c
         call_prnstr             ; Please select
         inc     c
         call_prnstr             ; |----------------|
         inc     c
-        push    ix
-        push    ix
+        ld      iy, $9800
+nxtitm  ld      ix, cad4
         call_prnstr             ; |                |
-        inc     c
+        ld      a, (iy)
+        rlca
+        inc     a
+        rlca
+        ld      l, a
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        push    hl
         pop     ix
-        call_prnstr             ; |                |
+        ld      b, 4
+        call_prnstr
+        ld      b, 2
         inc     c
-        pop     ix
-        call_prnstr             ; |                |
-        inc     c
-        call_prnstr             ; | Enter Setup
+        inc     iyl
+        ld      a, (items+1)
+        dec     a
+        cp      iyl
+        jr      nz, nxtitm
         ld      ix, cad3
-        inc     c
         call_prnstr             ; |----------------|
         ld      ix, cad5
         inc     c
@@ -117,9 +237,6 @@ clean   inc     e               ; limpiar los 2/3 inferiores
         call_prnstr             ; | ESC to boot us |
         inc     c
         call_prnstr             ; ------------------
-
-noesc   
-
 
 binf    jr      binf
 
@@ -162,7 +279,7 @@ windo3  ex      af, af'
 clrscr  ld      hl, $4000
         ld      de, $4001
         ld      bc, $1b00
-        ld      (hl), l
+        ld      (hl), a
         ldir
         ret
 
@@ -185,8 +302,8 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: fast boot
 ;  21: active entry
-l2950   defb    $02, $00, $01, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+l2950   defb    $02, $00, $01, $01, $ff, $02, $00, $01
+        defb    $02, $00, $01, $02, $00, $01, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $00
@@ -209,24 +326,24 @@ l2980   defb    %01011001, %00011001, $04, $30, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K ROM             '
+        defm    'ZX Spectrum 48K ROM            ', 0
         defb    %01000100, %00000100, $00, $00, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum +2A English 4.1     '
+        defm    'ZX Spectrum +2A English 4.1    ', 0
         defb    %01010010, %00100010, $04, $00, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 128K Spanish        '
+        defm    'ZX Spectrum 128K Spanish       ', 0
 
 rdfls2  ret
 
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
-        incbin  logo256x64.rcs.zx7b
+        incbin  logo256x192.rcs.zx7b
 finlog
 
 ; -----------------------------------------------------------------------------
@@ -482,7 +599,6 @@ cad2    defb    3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 cad3    defb    7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
         defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 0
 cad4    defm    1, '                                  ', 1, 0
-        defm    1, ' Enter Setup                      ', 1, 0
 cad5    defm    1, '    ', 12, ' and ', 13, ' to move selection     ', 1, 0
         defm    1, '   ENTER to select boot machine   ', 1, 0
         defm    1, '    ESC to boot using defaults    ', 1, 0
