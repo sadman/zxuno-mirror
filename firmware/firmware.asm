@@ -2,13 +2,12 @@
 
         define  call_prnstr     rst     $08
         define  empstr  $8fd4
-        define  itmsel  $8fd3
-        define  itmoff  $8fd2
-        define  items   $8fd0
-        define  codcnt  $8fce
-        define  cmbcor  $8fcc
-        define  widcor  $8fca
-        
+        define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
+        define  items   $8fd0   ;lo: totales          hi: en pantalla
+        define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
+        define  cmbcor  $8fcc   ;lo: Y coord          hi: X coord
+        define  corwid  $8fca   ;lo: X attr coor      hi: attr width
+
         define  cmbpnt  $8f00
 
         di
@@ -18,7 +17,7 @@
         jp      prnstr
         ld      de, $9aff
         call    dzx7b           ; descomprimir
-        inc     l
+        inc     l 
         inc     hl
         ld      b, $40          ; filtro RCS inverso
 loop    ld      a, b
@@ -126,8 +125,8 @@ keytab  defb    $00, $7a, $78, $63, $76 ;   SHIFT z x c v
         defb    $00, $5a, $58, $43, $56 ;   SHIFT Z X C V
         defb    $41, $53, $44, $46, $47 ;       A S D F G
         defb    $51, $57, $45, $52, $54 ;       Q W E R T
-        defb    $0a, $02, $33, $08, $01 ; DELLINE CAPSLOCK 3 INVVIDEO LEFT
-        defb    $05, $04, $03, $09, $07 ;     DEL  GRAPH  RIGHT  DOWN  UP
+        defb    $0a, $02, $33, $08, $1e ; DELLINE CAPSLOCK 3 INVVIDEO LEFT
+        defb    $05, $04, $1f, $1d, $1c ;     DEL  GRAPH  RIGHT  UP   DOWN
         defb    $50, $4f, $49, $55, $59 ;       P O I U Y
         defb    $0d, $4c, $4b, $4a, $48 ;   ENTER L K J H
         defb    $06, $00, $4d, $4e, $42 ; SPACE SYM M N B
@@ -211,11 +210,11 @@ mentre  ld      h, a
         call_prnstr             ; |----------------|
         inc     c
         push    bc
-        ld      iy, (items+1)
+        ld      iy, (items)
 repblk  ld      ix, cad4
         call_prnstr             ; |                |
         inc     c
-        dec     iyl
+        dec     iyh
         jr      nz, repblk
         ld      ix, cad3
         call_prnstr             ; |----------------|
@@ -248,7 +247,7 @@ nxtitm  ld      a, (iy)
         inc     l
         ex      de, hl
         inc     iyl
-        ld      a, (items+1)
+        ld      a, (items)
         sub     b
         sub     iyl
         jr      nc, nxtitm
@@ -260,8 +259,8 @@ nxtitm  ld      a, (iy)
         ld      (hl), a
         inc     l
         ld      (hl), a
-        ld      e, iyl
-        inc     e
+        ld      a, (items+1)
+        ld      e, a
         ld      d, 32
         pop     hl
         ld      h, 4
@@ -307,7 +306,7 @@ combol  ex      af, af'
         srl     a
         add     a, 2
         ld      h, a
-        ld      (widcor), hl
+        ld      (corwid), hl
         ld      hl, cmbpnt+1
 combo1  ld      a, (hl)
         inc     l
@@ -326,7 +325,7 @@ combo2  ld      (hl), $20
         djnz    combo2
         ld      (hl), a
         ex      af, af'
-        ld      (itmsel), a
+        ld      (offsel+1), a
         cp      e
         jr      c, combo4
         add     a, d
@@ -337,16 +336,16 @@ combo3  dec     a
         sub     a, d
         defb    $fe ;cp xx
 combo4  ld      a, b
-combo5  ld      (itmoff), a
-        ld      iy, (items+1)
-        ld      iyh, iyl
+combo5  ld      (offsel), a
+        ld      iy, (items)
+        ld      iyl, iyh
         ld      bc, (cmbcor)
 combo6  ld      ix, empstr
         call_prnstr
         inc     c
         dec     iyl
         jr      nz, combo6
-        ld      a, (itmoff)
+        ld      a, (offsel)
         ld      bc, (cmbcor)
         add     a, a
         ld      h, cmbpnt>>8
@@ -363,15 +362,15 @@ combo7  ld      a, (hl)
         inc     c
         dec     iyh
         jr      nz, combo7
-combo8  ld      de, (widcor)
+combo8  ld      de, (corwid)
         ld      hl, (cmbcor)
         ld      h, e
         ld      a, (items+1)
         ld      e, a
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
-        ld      de, (widcor)
-        ld      hl, (itmoff)
+        ld      de, (corwid)
+        ld      hl, (offsel)
         ld      a, (cmbcor)
         add     a, h
         sub     l
@@ -381,14 +380,33 @@ combo8  ld      de, (widcor)
         ld      a, $46
         call    window
         call    waitky
-        cp      9
+        ld      bc, (items)
+        ld      hl, (offsel)
+        sub     $1c
         jr      nz, ndown
-        ld      a, (itmsel)
+        inc     h
+        ld      a, h
+        cp      c
+        jr      z, combo8
+        sub     l
+        cp      b
+        ld      (offsel), hl
+        jr      nz, combo8
+        ld      a, l
         inc     a
-        ld      (itmsel), a
-        jr      combo8
-ndown
-
+tcomb5  jr      combo5
+ndown   dec     a
+        jr      nz, nup
+        dec     h
+        jp      m, combo8
+        ld      a, h
+        cp      l
+        ld      (offsel), hl
+        jr      nc, combo8
+        ld      a, l
+        dec     a
+        jr      tcomb5
+nup
 
         ret
 
@@ -453,8 +471,8 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: fast boot
 ;  21: active entry
-l2950   defb    $02, $00, $01, $01, $ff, $02, $00, $01
-        defb    $02, $00, $01, $02, $00, $01, $ff, $ff
+l2950   defb    $02, $01, $00, $02, $01, $00, $02, $01
+        defb    $00, $02, $01, $00, $02, $01, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $00
