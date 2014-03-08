@@ -18,13 +18,14 @@ int main(int argc, char *argv[]){
   if( error )
     printf("\nError %u: %s\n", error, lodepng_error_text(error)),
     exit(-1);
-  if( width!= 96 || height!= 64 )
-    printf("\nError. Incorrect size, must be 96x64");
+  if( width!= 96 || height!= 56 )
+    printf("\nError. Incorrect size, must be 96x56\n"),
+    exit(-1);
   fo= fopen("fuente6x8.bin", "wb+");
   if( !fo )
-    printf("\nCannot create output file"),
+    printf("\nCannot create output file\n"),
     exit(-1);
-  for ( i= 0; i < 8; i++ )
+  for ( i= 0; i < 7; i++ )
     for ( j= 0; j < 16; j++ ){
       pixel= &image[((j|i<<7)*6)<<2];
       fondo= tinta= tospec(pixel[0], pixel[1], pixel[2]);
@@ -56,8 +57,8 @@ int main(int argc, char *argv[]){
         }
       }
     }
-  fwrite(output, 32*128, 1, fo);
+  fwrite(output, 32*112, 1, fo);
   fclose(fo);
-  printf("Done\n");
+  printf("\nDone\n");
   free(image);
 }

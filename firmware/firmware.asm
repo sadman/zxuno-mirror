@@ -93,18 +93,17 @@ keysc5  ld      a, h
         ld      l, a
         ld      a, (hl)
 keysc6  ld      hl, (codcnt)
-        jr      z, keyb2
-        res     7, l
+        jr      z, keysc8
         cp      l
-        ld      b, 32
-        jr      nz, keyb1
+        jr      nz, keysc7
         dec     h
-        jr      nz, keyb3
-        ld      b, 3
-keyb1   ld      h, b
+        jr      nz, keysc9
+        ld      h, 3
+        defb    $c2
+keysc7  ld      h, 32
         or      $80
-keyb2   ld      l, a
-keyb3   ld      (codcnt), hl
+keysc8  ld      l, a
+keysc9  ld      (codcnt), hl
         ei
         pop     hl
         pop     de
@@ -268,17 +267,6 @@ nxtitm  ld      a, (iy)
         ld      h, 4
         ld      a, 1
         call    combol
-;        push    hl
-;        pop     ix
-;        ld      b, 4
-;        call_prnstr
-;        ld      b, 2
-;        inc     c
-;        inc     iyl
-;        ld      a, (items+1)
-;        dec     a
-;        cp      iyl
-;        jr      nz, nxtitm
 
 binf    jr      binf
 
@@ -290,6 +278,7 @@ binf    jr      binf
 waitky  ld      a, (codcnt)
         sub     $80
         jr      c, waitky       ; Espero la pulsación de una tecla
+        ld      (codcnt), a
         ret
 
 ; -------------------------------------
@@ -309,15 +298,15 @@ combol  ex      af, af'
         add     a, h
         rra
         srl     a
-        ld      h, a
-        dec     h
+        ld      l, a
+        dec     l
         ld      a, d
         add     a, d
         add     a, d
         rra
         srl     a
         add     a, 2
-        ld      l, a
+        ld      h, a
         ld      (widcor), hl
         ld      hl, cmbpnt+1
 combo1  ld      a, (hl)
@@ -349,7 +338,7 @@ combo3  dec     a
         defb    $fe ;cp xx
 combo4  ld      a, b
 combo5  ld      (itmoff), a
-comb55  ld      iy, (items+1)
+        ld      iy, (items+1)
         ld      iyh, iyl
         ld      bc, (cmbcor)
 combo6  ld      ix, empstr
@@ -374,14 +363,20 @@ combo7  ld      a, (hl)
         inc     c
         dec     iyh
         jr      nz, combo7
+combo8  ld      de, (widcor)
+        ld      hl, (cmbcor)
+        ld      h, e
+        ld      a, (items+1)
+        ld      e, a
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
         ld      de, (widcor)
         ld      hl, (itmoff)
         ld      a, (cmbcor)
         add     a, h
         sub     l
         ld      l, a
-        ld      h, d
-        ld      d, e
+        ld      h, e
         ld      e, 1
         ld      a, $46
         call    window
@@ -391,7 +386,7 @@ combo7  ld      a, (hl)
         ld      a, (itmsel)
         inc     a
         ld      (itmsel), a
-        jr      comb55
+        jr      combo8
 ndown
 
 
@@ -556,7 +551,7 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
-        block   $2f27-$
+        block   $3127-$
 
 ; -----------------------------------------------------------------------------
 ; Print string routine
@@ -749,16 +744,22 @@ cad1    defm    'http://zxuno.speccy.org', 0
         defm    'hi-res, ULAplus', 0
         defm    'Booting:   Amstrad +3 ROM 4.0 English', 0
         defm    'Press <F2> to Setup    <Esc> for Boot Menu', 0
-cad2    defb    3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 0
-        defm    1, '   Please select boot machine:    ', 1, 0
-cad3    defb    7, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 8, 0
-cad4    defm    1, '                                  ', 1, 0
-cad5    defm    1, '    ', 12, ' and ', 13, ' to move selection     ', 1, 0
-        defm    1, '   ENTER to select boot machine   ', 1, 0
-        defm    1, '    ESC to boot using defaults    ', 1, 0
-        defb    5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-        defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 0
+cad2    defb    $12, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
+        defm    $10, '   Please select boot machine:    ', $10, 0
+cad3    defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $17, 0
+cad4    defm    $10, '                                  ', $10, 0
+cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 0
+        defm    $10, '   ENTER to select boot machine   ', $10, 0
+        defm    $10, '    ESC to boot using defaults    ', $10, 0
+        defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
 cad6    defb    'Enter Setup', 0
 fincad
