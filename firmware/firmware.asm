@@ -7,14 +7,16 @@
         define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
         define  cmbcor  $8fcc   ;lo: Y coord          hi: X coord
         define  corwid  $8fca   ;lo: X attr coor      hi: attr width
+        define  menuop  $8fc8   ;lo: X attr coor      hi: attr width
 
         define  cmbpnt  $8f00
 
-        di
+        ei
         ld      sp, $c000
-        ld      hl, finlog-1
-        defb    $3e ;$3a
+        im      1
+        jr      aqui
         jp      prnstr
+aqui    ld      hl, finlog-1
         ld      de, $9aff
         call    dzx7b           ; descomprimir
         inc     l 
@@ -39,7 +41,6 @@ clean   ld      b, $13
         ldir
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
-        call    dzx7b
         jp      descad
 
 ; ----------------------
@@ -114,33 +115,33 @@ keysc9  ld      (codcnt), hl
 ; ---------------
 ; THE 'KEY TABLE'
 ; ---------------
-keytab  defb    $00, $7a, $78, $63, $76 ;   SHIFT z x c v
-        defb    $61, $73, $64, $66, $67 ;       a s d f g
-        defb    $71, $77, $65, $72, $74 ;       q w e r t
-        defb    $31, $32, $33, $34, $35 ;       1 2 3 4 5
-        defb    $30, $39, $38, $37, $36 ;       0 9 8 7 6
-        defb    $70, $6f, $69, $75, $79 ;       p o i u y
-        defb    $0d, $6c, $6b, $6a, $68 ;   ENTER l k j h
-        defb    $20, $00, $6d, $6e, $62 ; SPACE SYM m n b
-        defb    $00, $5a, $58, $43, $56 ;   SHIFT Z X C V
-        defb    $41, $53, $44, $46, $47 ;       A S D F G
-        defb    $51, $57, $45, $52, $54 ;       Q W E R T
-        defb    $0a, $02, $33, $08, $1e ; DELLINE CAPSLOCK 3 INVVIDEO LEFT
-        defb    $05, $04, $1f, $1d, $1c ;     DEL  GRAPH  RIGHT  UP   DOWN
-        defb    $50, $4f, $49, $55, $59 ;       P O I U Y
-        defb    $0d, $4c, $4b, $4a, $48 ;   ENTER L K J H
-        defb    $06, $00, $4d, $4e, $42 ; SPACE SYM M N B
-        defb    $00, $3a, $60, $3f, $2f ;   SHIFT : £ ? /
-        defb    $7e, $7c, $5c, $7b, $7d ;       ~ | \ { }
-        defb    $51, $57, $45, $3c, $3e ;       Q W E < >
-        defb    $21, $40, $23, $24, $25 ;       ! @ # $ %
-        defb    $5f, $29, $28, $27, $26 ;       _ ) ( ' &
-        defb    $22, $3b, $7f, $5d, $5b ;       " ; ç ] [
-        defb    $0d, $3d, $2b, $2d, $5e ;   ENTER = + - ^
-        defb    $20, $00, $2e, $2c, $2a ; SPACE SYM . , *
-; end of key tables
+keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
+        defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
+        defb    $71, $77, $65, $72, $74 ; q       w       e       r       t
+        defb    $31, $32, $33, $34, $35 ; 1       2       3       4       5
+        defb    $30, $39, $38, $37, $36 ; 0       9       8       7       6
+        defb    $70, $6f, $69, $75, $79 ; p       o       i       u       y
+        defb    $0d, $6c, $6b, $6a, $68 ; Enter   l       k       j       h
+        defb    $20, $00, $6d, $6e, $62 ; Space   Symbol  m       n       b
+        defb    $00, $5a, $58, $43, $56 ; Caps    Z       X       C       V
+        defb    $41, $53, $44, $46, $47 ; A       S       D       F       G
+        defb    $51, $57, $45, $52, $54 ; Q       W       E       R       T
+        defb    $17, $19, $1a, $1b, $1e ; Edit    CapsLk  TruVid  InvVid  Left
+        defb    $18, $16, $1f, $1c, $1d ; Del     Graph   Right   Up      Down
+        defb    $50, $4f, $49, $55, $59 ; P       O       I       U       Y
+        defb    $0d, $4c, $4b, $4a, $48 ; Enter   L       K       J       H
+        defb    $0c, $00, $4d, $4e, $42 ; Break   Symbol  M       N       B
+        defb    $00, $3a, $60, $3f, $2f ; Caps    :       `       ?       /
+        defb    $7e, $7c, $5c, $7b, $7d ; ~       |       \       {       }
+        defb    $51, $57, $45, $3c, $3e ; Q       W       E       <       >
+        defb    $21, $40, $23, $24, $25 ; !       @       #       $       %
+        defb    $5f, $29, $28, $27, $26 ; _       )       (       '       &
+        defb    $22, $3b, $7f, $5d, $5b ; "       ;      (c)      ]       [
+        defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
+        defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-descad  ld      bc, $0909
+descad  call    dzx7b
+        ld      bc, $0909
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr
         ld      bc, $020d
@@ -168,14 +169,79 @@ descad  ld      bc, $0909
         ld      de, $9000
         ld      bc, $0800
         call    rdflsh
-        im      1
-        ei
+        xor     a
+        out     ($fe), a
 
 noesc   call    waitky
-        sub     6
+        cp      $0c
+        jr      z, boot
+        cp      $17
         jr      nz, noesc
 
-        call    clrscr          ; borro pantalla
+; Setup menu
+bios    out     ($fe), a
+        sbc     hl, hl
+        ld      (menuop), hl
+        ld      a, %01001111    ; fondo azul tinta blanca
+        ld      de, $2018
+        call    window
+        ld      a, %00111001    ; fondo blanco tinta azul
+        ld      e, $16
+        inc     l
+        call    window
+bios1   call    clrscr          ; borro pantalla
+        ld      ix, cad7
+        call_prnstr             ; menu superior
+        inc     c
+        call_prnstr             ; borde superior
+        inc     c
+        ld      iy, $090a
+bios2   ld      ix, cad8
+        call_prnstr
+        inc     c
+        dec     iyh
+        jr      nz, bios2
+        call_prnstr
+        inc     c
+bios3   ld      ix, cad8
+        call_prnstr
+        inc     c
+        dec     iyl
+        jr      nz, bios3
+        ld      ix, cad9
+        call_prnstr
+
+        ld      a, %00111000    ; fondo blanco tinta negra
+        ld      hl, $0102
+        ld      de, $0b01
+        call    window
+        ld      l, 8
+        call    window
+        ld      ix, cad10
+        ld      bc, $0202
+        call_prnstr             ; Harward tests
+        inc     c
+        call_prnstr             ; ---------------
+        inc     c
+        call_prnstr             ; Memory test
+        inc     c
+        call_prnstr             ; Sound test
+        inc     c
+        call_prnstr             ; Video test
+        inc     c
+        inc     c
+        call_prnstr             ; Options
+        inc     c
+        call_prnstr             ; ---------
+        inc     c
+        call_prnstr             ; Quiet Boot
+        inc     c
+        call_prnstr             ; SD Address
+
+bbbb    jr      bbbb
+
+; Boot list
+boot    call    clrscr          ; borro pantalla
         ld      hl, $9800
 nument  ld      a, (hl)         ; calculo en L el número de entradas
         inc     l
@@ -265,7 +331,8 @@ nxtitm  ld      a, (iy)
         pop     hl
         ld      h, 4
         ld      a, 1
-        call    combol
+tinval  call    combol
+        jr      c, tinval
 
 binf    jr      binf
 
@@ -290,7 +357,8 @@ waitky  ld      a, (codcnt)
 ; Returns:
 ;    A: item selected (-1 if break pressed)
 ; -------------------------------------
-combol  ex      af, af'
+combol  push    de
+        ex      af, af'
         ld      (cmbcor), hl
         ld      a, h
         add     a, h
@@ -326,31 +394,27 @@ combo2  ld      (hl), $20
         ld      (hl), a
         ex      af, af'
         ld      (offsel+1), a
-        cp      e
-        jr      c, combo4
-        add     a, d
-        inc     a
+        defb    $32
 combo3  dec     a
-        cp      c
+        inc     b
+        cp      e
         jr      nc, combo3
-        sub     a, d
-        defb    $fe ;cp xx
-combo4  ld      a, b
-combo5  ld      (offsel), a
+        ld      a, b
+combo4  ld      (offsel), a
         ld      iy, (items)
         ld      iyl, iyh
         ld      bc, (cmbcor)
-combo6  ld      ix, empstr
+combo5  ld      ix, empstr
         call_prnstr
         inc     c
         dec     iyl
-        jr      nz, combo6
+        jr      nz, combo5
         ld      a, (offsel)
         ld      bc, (cmbcor)
         add     a, a
         ld      h, cmbpnt>>8
         ld      l, a
-combo7  ld      a, (hl)
+combo6  ld      a, (hl)
         ld      ixl, a
         inc     l
         ld      a, (hl)
@@ -361,8 +425,8 @@ combo7  ld      a, (hl)
         pop     hl
         inc     c
         dec     iyh
-        jr      nz, combo7
-combo8  ld      de, (corwid)
+        jr      nz, combo6
+combo7  ld      de, (corwid)
         ld      hl, (cmbcor)
         ld      h, e
         ld      a, (items+1)
@@ -377,37 +441,45 @@ combo8  ld      de, (corwid)
         ld      l, a
         ld      h, e
         ld      e, 1
-        ld      a, $46
+        ld      a, %01000111
         call    window
         call    waitky
-        ld      bc, (items)
         ld      hl, (offsel)
-        sub     $1c
-        jr      nz, ndown
-        inc     h
-        ld      a, h
-        cp      c
-        jr      z, combo8
-        sub     l
-        cp      b
-        ld      (offsel), hl
-        jr      nz, combo8
-        ld      a, l
-        inc     a
-tcomb5  jr      combo5
-ndown   dec     a
-        jr      nz, nup
+        sub     $0d
+        jr      c, combob
+        jr      z, comboc
+        ld      bc, (items)
+        sub     $0f
+        jr      nz, combo9
         dec     h
-        jp      m, combo8
+        jp      m, combo7
         ld      a, h
         cp      l
         ld      (offsel), hl
-        jr      nc, combo8
+        jr      nc, combo7
         ld      a, l
         dec     a
-        jr      tcomb5
-nup
-
+combo8  jr      combo4
+combo9  dec     a
+        jr      nz, comboa
+        inc     h
+        ld      a, h
+        cp      c
+        jr      z, combo7
+        sub     l
+        cp      b
+        ld      (offsel), hl
+        jr      nz, combo7
+        ld      a, l
+        inc     a
+        jr      combo8
+comboa  ld      a, h
+        ld      hl, (cmbcor)
+combob  ccf
+        pop     de
+        ret
+comboc  ld      a, h
+        pop     de
         ret
 
 ; -------------------------------------
@@ -417,7 +489,9 @@ nup
 ;   HL: X coordinate (H) and Y coordinate (L)
 ;   DE: window width (D) and window height (E)
 ; -------------------------------------
-window  ld      c, h
+window  push    hl
+        push    de
+        ld      c, h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -431,15 +505,17 @@ windo2  ld      (hl), a
         inc     l
         djnz    windo2
         ex      af, af'
-        ld      a, 32
+        ld      a, l
         sub     d
-        add     a, l
+        add     a, 32
         ld      l, a
         jr      nc, windo3
         inc     h
 windo3  ex      af, af'
         dec     e
         jr      nz, windo1
+        pop     de
+        pop     hl
         ret
 
 ; ------------------------
@@ -447,8 +523,8 @@ windo3  ex      af, af'
 ; ------------------------
 clrscr  ld      hl, $4000
         ld      de, $4001
-        ld      bc, $1b00
-        ld      (hl), a
+        ld      bc, $17ff
+        ld      (hl), l
         ldir
         ret
 
@@ -780,4 +856,24 @@ cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
 cad6    defb    'Enter Setup', 0
+cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
+        defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $19, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
+cad8    defm    $10, '                         ', $10, '              ', $10, 0
+        defm    $10, '                         ', $16, $11, $11, $11, $11
+        defm    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $17, 0
+cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
+cad10   defb    'Hardware tests', 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, 0
+        defb    $1b, ' Memory test', 0
+        defb    $1b, ' Sound test', 0
+        defb    $1b, ' Video test', 0
+        defb    'Options', 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
+        defb    'Quiet Boot    [Enabled]', 0
+        defb    'SD Address    [DivMMC]', 0
 fincad
