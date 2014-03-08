@@ -1,14 +1,22 @@
         output  firmware_strings.rom
 
         define  call_prnstr     rst     $08
-        define  items   $8ffc
-        define  codcnt  $8ffe
+        define  empstr  $8fd4
+        define  itmsel  $8fd3
+        define  itmoff  $8fd2
+        define  items   $8fd0
+        define  codcnt  $8fce
+        define  cmbcor  $8fcc
+        define  widcor  $8fca
+        
+        define  cmbpnt  $8f00
 
         di
+        ld      sp, $c000
         ld      hl, finlog-1
-        ld      de, $9aff
         defb    $3e ;$3a
         jp      prnstr
+        ld      de, $9aff
         call    dzx7b           ; descomprimir
         inc     l
         inc     hl
@@ -33,78 +41,78 @@ clean   ld      b, $13
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
         call    dzx7b
-        ld      bc, $0909
         jp      descad
 
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
 ; ----------------------
-        call    keyscn                  ; routine KEY_SCAN
-        ld      b, a                    ; save key in B
-        ld      hl, (codcnt)            ; KEYCOD - last key pressed / KEYCNT - debounce counter
-        xor     l                       ; compare to previous key.
-        jr      z, keymat               ; forward if a match.
-        xor     l                       ; reform original
-        jr      z, nokeyb               ; forward if zero - no key.
-        xor     a                       ; else clear accumulator.
-        cp      l                       ; compare with last.
-        jr      nz, reteiz              ; return if not zero.
-nokeyb  ld      l, b                    ; set L to original keycode
-        ld      h, 32                   ; set counter to thirty two.
-        jr      stoexi                  ; forward to store values and exit returning zero
-keymat  dec     h                       ; decrement the counter.
-        ld      a, h                    ; fetch counter to A.
-        cp      $1e                     ; compare to thirty.
-        jr      z, retkea               ; forward if so to return key in A.
-        xor     a                       ; clear accumulator.
-        cp      h                       ; is counter zero?
-        jr      nz, stoexi              ; forward if not to keep counting.
-        ld      h, 4                    ; else set counter to four.
-retkea  ld      a, l                    ; pick up previous key.
-stoexi  ld      (codcnt),hl             ; update KEYCOD/KEYCNT
-reteiz  ei
-        ret                             ; return.
-keyscn  ld      de, keytab-1&$ff
+        push    af
+        ex      af, af'
+        push    af
+        push    bc
+        push    de
+        push    hl
+        ld      de, keytab-1&$ff
         ld      bc, $fefe
         ld      l, d
-keylop  in      a, (c)
+keyscn  in      a, (c)
         cpl
         and     $1f
         ld      h, l
-        jr      z, rowemp
-nexkey  inc     l
+        jr      z, keysc5
+keysc1  inc     l
         srl     a
-        jr      nc, nexkey
-        ex      af, af
+        jr      nc, keysc1
+        ex      af, af'
         ld      a, l
         cp      $25                     ;symbol, change here
-        jr      z, sympre
+        jr      z, keysc3
         cp      $01                     ;shift, change here
-        jr      z, shipre
+        jr      z, keysc2
         inc     d
         dec     d
         ld      d, l
-        jr      z, laszer
+        jr      z, keysc4
         xor     a
-        ret
-shipre  ld      e, 39+keytab&$ff
+        jr      keysc6
+keysc2  ld      e, 39+keytab&$ff
         defb    $c2                     ;JP NZ,xxxx
-sympre  ld      e, 79+keytab&$ff
-laszer  ex      af, af
-        jr      nz, nexkey
-rowemp  ld      a, h
+keysc3  ld      e, 79+keytab&$ff
+keysc4  ex      af, af'
+        jr      nz, keysc1
+keysc5  ld      a, h
         add     a, 5
         ld      l, a
         rlc     b
-        jr      c, keylop
+        jr      c, keyscn
         xor     a
         ld      h, a
         add     a, d
-        ret     z
+        jr      z, keysc6
         add     a, e
         ld      l, a
         ld      a, (hl)
-        ret
+keysc6  ld      hl, (codcnt)
+        jr      z, keyb2
+        res     7, l
+        cp      l
+        ld      b, 32
+        jr      nz, keyb1
+        dec     h
+        jr      nz, keyb3
+        ld      b, 3
+keyb1   ld      h, b
+        or      $80
+keyb2   ld      l, a
+keyb3   ld      (codcnt), hl
+        ei
+        pop     hl
+        pop     de
+        pop     bc
+        pop     af
+        ex      af, af'
+        pop     af
+        ret                             ; return.
 ; ---------------
 ; THE 'KEY TABLE'
 ; ---------------
@@ -134,7 +142,8 @@ keytab  defb    $00, $7a, $78, $63, $76 ;   SHIFT z x c v
         defb    $20, $00, $2e, $2c, $2a ; SPACE SYM . , *
 ; end of key tables
 
-descad  ld      ix, cad1        ; imprimir cadenas BOOT screen
+descad  ld      bc, $0909
+        ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr
         ld      bc, $020d
         call_prnstr
@@ -161,13 +170,13 @@ descad  ld      ix, cad1        ; imprimir cadenas BOOT screen
         ld      de, $9000
         ld      bc, $0800
         call    rdflsh
-
+        im      1
         ei
-waitk   ld      a, (codcnt)
-        sub     6
-        jr      nz, waitk
 
-        di
+noesc   call    waitky
+        sub     6
+        jr      nz, noesc
+
         call    clrscr          ; borro pantalla
         ld      hl, $9800
 nument  ld      a, (hl)         ; calculo en L el número de entradas
@@ -185,7 +194,7 @@ mentre  ld      h, a
         rrca
         ld      l, a
         ld      a, h
-        add     a, 7
+        add     a, 8
         ld      e, a
 
         ld      a, %01001111    ; fondo azul tinta blanca
@@ -202,30 +211,13 @@ mentre  ld      h, a
         inc     c
         call_prnstr             ; |----------------|
         inc     c
-        ld      iy, $9800
-nxtitm  ld      ix, cad4
+        push    bc
+        ld      iy, (items+1)
+repblk  ld      ix, cad4
         call_prnstr             ; |                |
-        ld      a, (iy)
-        rlca
-        inc     a
-        rlca
-        ld      l, a
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        push    hl
-        pop     ix
-        ld      b, 4
-        call_prnstr
-        ld      b, 2
         inc     c
-        inc     iyl
-        ld      a, (items+1)
-        dec     a
-        cp      iyl
-        jr      nz, nxtitm
+        dec     iyl
+        jr      nz, repblk
         ld      ix, cad3
         call_prnstr             ; |----------------|
         ld      ix, cad5
@@ -238,15 +230,179 @@ nxtitm  ld      ix, cad4
         inc     c
         call_prnstr             ; ------------------
 
+        ld      iy, $9800
+        ld      de, cmbpnt
+nxtitm  ld      a, (iy)
+        rlca
+        inc     a
+        rlca
+        ld      l, a
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ex      de, hl
+        ld      (hl), e
+        inc     l
+        ld      (hl), d
+        inc     l
+        ex      de, hl
+        inc     iyl
+        ld      a, (items+1)
+        sub     b
+        sub     iyl
+        jr      nc, nxtitm
+        ex      de, hl
+        ld      (hl), cad6&$ff
+        inc     l
+        ld      (hl), cad6>>8
+        inc     l
+        ld      (hl), a
+        inc     l
+        ld      (hl), a
+        ld      e, iyl
+        inc     e
+        ld      d, 32
+        pop     hl
+        ld      h, 4
+        ld      a, 1
+        call    combol
+;        push    hl
+;        pop     ix
+;        ld      b, 4
+;        call_prnstr
+;        ld      b, 2
+;        inc     c
+;        inc     iyl
+;        ld      a, (items+1)
+;        dec     a
+;        cp      iyl
+;        jr      nz, nxtitm
+
 binf    jr      binf
 
+; -------------------------------------
+; Wait for a key
+; Returns:
+;    A: ascii code of the key
+; -------------------------------------
+waitky  ld      a, (codcnt)
+        sub     $80
+        jr      c, waitky       ; Espero la pulsación de una tecla
+        ret
+
+; -------------------------------------
+; Show a combo list to select one element
+; Parameters:
+; 8f80: list of pointers (last is $ffff)
+;    A: preselected one
+;   HL: X coord (H) and Y coord (L) of the first element
+;   DE: window width (D) and window height (E)
+; Returns:
+;    A: item selected (-1 if break pressed)
+; -------------------------------------
+combol  ex      af, af'
+        ld      (cmbcor), hl
+        ld      a, h
+        add     a, h
+        add     a, h
+        rra
+        srl     a
+        ld      h, a
+        dec     h
+        ld      a, d
+        add     a, d
+        add     a, d
+        rra
+        srl     a
+        add     a, 2
+        ld      l, a
+        ld      (widcor), hl
+        ld      hl, cmbpnt+1
+combo1  ld      a, (hl)
+        inc     l
+        inc     l
+        inc     a
+        jr      nz, combo1
+        srl     l
+        dec     l
+        ld      c, l
+        ld      h, e
+        ld      b, d
+        ld      (items), hl
+        ld      hl, empstr
+combo2  ld      (hl), $20
+        inc     l
+        djnz    combo2
+        ld      (hl), a
+        ex      af, af'
+        ld      (itmsel), a
+        cp      e
+        jr      c, combo4
+        add     a, d
+        inc     a
+combo3  dec     a
+        cp      c
+        jr      nc, combo3
+        sub     a, d
+        defb    $fe ;cp xx
+combo4  ld      a, b
+combo5  ld      (itmoff), a
+comb55  ld      iy, (items+1)
+        ld      iyh, iyl
+        ld      bc, (cmbcor)
+combo6  ld      ix, empstr
+        call_prnstr
+        inc     c
+        dec     iyl
+        jr      nz, combo6
+        ld      a, (itmoff)
+        ld      bc, (cmbcor)
+        add     a, a
+        ld      h, cmbpnt>>8
+        ld      l, a
+combo7  ld      a, (hl)
+        ld      ixl, a
+        inc     l
+        ld      a, (hl)
+        inc     l
+        ld      ixh, a
+        push    hl
+        call_prnstr
+        pop     hl
+        inc     c
+        dec     iyh
+        jr      nz, combo7
+        ld      de, (widcor)
+        ld      hl, (itmoff)
+        ld      a, (cmbcor)
+        add     a, h
+        sub     l
+        ld      l, a
+        ld      h, d
+        ld      d, e
+        ld      e, 1
+        ld      a, $46
+        call    window
+        call    waitky
+        cp      9
+        jr      nz, ndown
+        ld      a, (itmsel)
+        inc     a
+        ld      (itmsel), a
+        jr      comb55
+ndown
+
+
+        ret
 
 ; -------------------------------------
 ; Draw a window in the attribute area
 ; Parameters:
 ;    A: attribute color
 ;   HL: X coordinate (H) and Y coordinate (L)
-;   DE: window with (D) and window height (E)
+;   DE: window width (D) and window height (E)
 ; -------------------------------------
 window  ld      c, h
         add     hl, hl
@@ -604,4 +760,5 @@ cad5    defm    1, '    ', 12, ' and ', 13, ' to move selection     ', 1, 0
         defm    1, '    ESC to boot using defaults    ', 1, 0
         defb    5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
         defb    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 0
+cad6    defb    'Enter Setup', 0
 fincad
