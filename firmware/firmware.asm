@@ -7,7 +7,7 @@
         define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
         define  cmbcor  $8fcc   ;lo: Y coord          hi: X coord
         define  corwid  $8fca   ;lo: X attr coor      hi: attr width
-        define  menuop  $8fc8   ;lo: X attr coor      hi: attr width
+        define  menuop  $8fc8   ;lo: menu superior    hi: submenu
 
         define  cmbpnt  $8f00
 
@@ -174,22 +174,22 @@ descad  call    dzx7b
 
 noesc   call    waitky
         cp      $0c
-        jr      z, boot
+        jp      z, boot
         cp      $17
         jr      nz, noesc
 
 ; Setup menu
 bios    out     ($fe), a
-        sbc     hl, hl
-        ld      (menuop), hl
         ld      a, %01001111    ; fondo azul tinta blanca
-        ld      de, $2018
+        ld      hl, $0017
+        ld      de, $2001
         call    window
         ld      a, %00111001    ; fondo blanco tinta azul
-        ld      e, $16
-        inc     l
+        ld      l, h
+        ld      e, $17
         call    window
-bios1   call    clrscr          ; borro pantalla
+        ld      (menuop), hl
+        call    clrscr          ; borro pantalla
         ld      ix, cad7
         call_prnstr             ; menu superior
         inc     c
@@ -197,23 +197,136 @@ bios1   call    clrscr          ; borro pantalla
         inc     c
         ld      iy, $090a
 bios2   ld      ix, cad8
-        call_prnstr
+        call_prnstr             ; |        |     |
         inc     c
         dec     iyh
         jr      nz, bios2
-        call_prnstr
+        call_prnstr             ; borde medio
         inc     c
 bios3   ld      ix, cad8
-        call_prnstr
+        call_prnstr             ; |        |     |
         inc     c
         dec     iyl
         jr      nz, bios3
         ld      ix, cad9
-        call_prnstr
+        call_prnstr             ; borde inferior
+        inc     c
+        call_prnstr             ; info
+bios4   ld      a, %01001111    ; fondo azul tinta blanca
+        ld      hl, 0
+        ;sbc     hl, hl
+        ld      de, $2001
+        call    window
+        di
+        ld      c, $4
+        ld      hl, $405f
+bios5   ld      d, b
+        ld      e, b
+        ld      b, $18
+bios6   ld      sp, hl
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     sp
+        push    de
+        dec     sp
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     h
+        djnz    bios6
+        ld      de, $e820
+        add     hl, de
+        dec     c
+        jr      nz, bios5
+bios7   ld      c, 2
+bios8   ld      d, b
+        ld      e, b
+        ld      b, $10
+bios9   ld      sp, hl
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     sp
+        push    de
+        dec     sp
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     h
+        djnz    bios9
+        ld      de, $f020
+        add     hl, de
+        dec     c
+        jr      nz, bios8
+        bit     0, h
+        ld      hl, $481f
+        jr      nz, bios7
+        ei
+        ld      sp, $c000
+        ld      ix, cad11
+        ld      bc, $1a0b
+        call_prnstr             ; borde medio
+        ld      hl, (menuop)
+        ld      de, $0401
+        ld      a, %01111001    ; fondo blanco tinta azul
+        dec     l
+        jp      m, menu0
+        jr      z, menu1
+        dec     l
+        jr      z, menu2
+        dec     l
+        jr      z, menu3
+        dec     l
+        jr      z, menu4
+        dec     l
+        jr      z, menu5
 
+menu5   ld      h, 28
+        call    window
+        jr      tosel
+
+menu4   ld      h, 20
+        ld      d, 8
+        call    window
+        jr      tosel
+
+menu3   ld      h, 16
+        call    window
+        jr      tosel
+
+menu2   ld      h, 9
+        ld      d, 7
+        call    window
+        jr      tosel
+
+menu1   ld      h, 5
+        call    window
+        jr      tosel
+
+menu0   inc     l
+        inc     d
+        ld      h, l
+        call    window
         ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
-        ld      de, $0b01
+        ld      d, $0b
         call    window
         ld      l, 8
         call    window
@@ -238,7 +351,21 @@ bios3   ld      ix, cad8
         inc     c
         call_prnstr             ; SD Address
 
-bbbb    jr      bbbb
+tosel   call    waitky
+        ld      hl, (menuop)
+        sub     $1e
+        jr      nz, noiz
+        dec     l
+        jp      m, tosel
+guarsa  ld      (menuop), hl
+        jp      bios4
+noiz    dec     a
+        jr      nz, tosel
+        inc     l
+        ld      a, l
+        cp      6
+        jr      z, tosel
+        jr      guarsa
 
 ; Boot list
 boot    call    clrscr          ; borro pantalla
@@ -547,7 +674,7 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: fast boot
 ;  21: active entry
-l2950   defb    $02, $01, $00, $02, $01, $00, $02, $01
+l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $00, $02, $01, $00, $02, $01, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -831,13 +958,13 @@ chrset  incbin  fuente6x8.bin
 ; ------------------------
 cad1    defm    'http://zxuno.speccy.org', 0
         defm    'ZX-Uno BIOS v0.100', 0
-        defm    'Copyright ', 127, ' 2014 Equipo ZX-Uno', 0
+        defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
         defm    'Graphics:  normal, hi-color', 0
         defm    'hi-res, ULAplus', 0
         defm    'Booting:   Amstrad +3 ROM 4.0 English', 0
-        defm    'Press <F2> to Setup    <Esc> for Boot Menu', 0
+        defm    'Press <Edit> to Setup    <Break> Boot Menu', 0
 cad2    defb    $12, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -861,11 +988,11 @@ cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $19, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
 cad8    defm    $10, '                         ', $10, '              ', $10, 0
-        defm    $10, '                         ', $16, $11, $11, $11, $11
-        defm    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $17, 0
+        defm    $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
+        defb    '     BIOS v0.100    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -876,4 +1003,7 @@ cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Quiet Boot    [Enabled]', 0
         defb    'SD Address    [DivMMC]', 0
+cad11   defb    $16, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
+
 fincad
