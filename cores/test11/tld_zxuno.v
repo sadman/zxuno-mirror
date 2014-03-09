@@ -48,6 +48,11 @@ module tld_zxuno (
    output wire sd_mosi,    
    input wire sd_miso,
    
+//   output wire ss,
+//   output wire sclk,
+//   output wire mosi,
+//   output wire miso,
+   
    output wire testled   // nos servirá como testigo de uso de la SPI
    );
 
@@ -92,6 +97,11 @@ module tld_zxuno (
     .sd_mosi(sd_mosi),
     .sd_miso(sd_miso)
     );
+    
+//    assign ss = sd_cs_n;
+//    assign sclk = sd_clk;
+//    assign mosi = sd_mosi;
+//    assign miso = sd_miso;
     
     assign testled = (!flash_cs_n || !sd_cs_n);
 

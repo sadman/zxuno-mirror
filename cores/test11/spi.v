@@ -57,13 +57,16 @@ module spi (
          contador <= 5'b00000;
          data_to_cpu <= data_from_spi;
          data_from_spi <= 8'h00;
+         data_to_spi <= 8'hFF;  // mientras leemos, MOSI debe estar a nivel alto!
       end
       
       // FSM para enviar un dato a la spi
       else if (ciclo_escritura==1'b1) begin
          if (contador!=5'b10000) begin
-            if (spi_clk==1'b1)
+            if (spi_clk==1'b1) begin
                data_to_spi <= {data_to_spi[6:0],1'b0};
+               data_from_spi <= {data_from_spi[6:0],spi_do};
+            end
             contador <= contador + 1;
          end
          else begin
