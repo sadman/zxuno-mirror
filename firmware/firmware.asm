@@ -146,24 +146,20 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
 descad  call    dzx7b
         ld      bc, $0909
         ld      ix, cad1        ; imprimir cadenas BOOT screen
-        call_prnstr
+        call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
-        call_prnstr
-        inc     c
-        call_prnstr
-        ld      bc, $0010
-        call_prnstr
-        inc     c
-        call_prnstr
-        inc     c
-        call_prnstr
+        call_prnstr             ; ZX-Uno BIOS v0.100
+        call_prnstr             ; Copyright
+        ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
+        call_prnstr             ; Processor
+        call_prnstr             ; Memory
+        call_prnstr             ; Graphics
         ld      bc, $0b13
-        call_prnstr
-        ld      bc, $0014
-        call_prnstr
-        ld      bc, $0017
-        call_prnstr
-
+        call_prnstr             ; hi-res, ULAplus
+        ld      b, a
+        call_prnstr             ; Booting
+        ld      c, $17
+        call_prnstr             ; Press <Edit> to Setup
         ld      hl, $2950
         ld      de, $9800
         ld      bc, $0022
@@ -195,37 +191,35 @@ bios    out     ($fe), a
         call    clrscr          ; borro pantalla
         ld      ix, cad7
         call_prnstr             ; menu superior
-        inc     c
         call_prnstr             ; borde superior
-        inc     c
         ld      iy, $090a
 bios2   ld      ix, cad8
         call_prnstr             ; |        |     |
-        inc     c
         dec     iyh
         jr      nz, bios2
         call_prnstr             ; borde medio
-        inc     c
 bios3   ld      ix, cad8
         call_prnstr             ; |        |     |
-        inc     c
         dec     iyl
         jr      nz, bios3
         ld      ix, cad9
         call_prnstr             ; borde inferior
-        inc     c
         call_prnstr             ; info
-bios4   ld      a, %01001111    ; fondo azul tinta blanca
-        ld      hl, 0
-        ;sbc     hl, hl
+bios4   ld      a, %00111001    ; fondo blanco tinta azul
+        ld      hl, $0102
+        ld      de, $1214
+        call    window
+        ld      a, %01001111    ; fondo azul tinta blanca
+        dec     h
+        ld      l, h
         ld      de, $2001
         call    window
         di
-        ld      c, $4
+        ld      c, $14
         ld      hl, $405f
-bios5   ld      d, b
+        ld      d, b
         ld      e, b
-        ld      b, $18
+bios5   ld      b, 8
 bios6   ld      sp, hl
         push    de
         push    de
@@ -246,41 +240,15 @@ bios6   ld      sp, hl
         push    de
         inc     h
         djnz    bios6
-        ld      de, $e820
-        add     hl, de
-        dec     c
+        ld      a, l
+        add     a, $20
+        ld      l, a
+        jr      c, bios7
+        ld      a, h
+        sub     8
+        ld      h, a
+bios7   dec     c
         jr      nz, bios5
-bios7   ld      c, 2
-bios8   ld      d, b
-        ld      e, b
-        ld      b, $10
-bios9   ld      sp, hl
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        inc     sp
-        push    de
-        dec     sp
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        inc     h
-        djnz    bios9
-        ld      de, $f020
-        add     hl, de
-        dec     c
-        jr      nz, bios8
-        bit     0, h
-        ld      hl, $481f
-        jr      nz, bios7
         ei
         ld      sp, $c000
         ld      ix, cad11
@@ -321,12 +289,15 @@ menu2   ld      h, 9
 
 menu1   ld      h, 5
         call    window
+        ld      a, %00111000    ; fondo blanco tinta negra
+        ld      hl, $0102
+        ld      d, $12
+        call    window
         ld      ix, cad12
         ld      bc, $0202
         call_prnstr
-        inc     c
         call_prnstr
-        ld      b, 21
+        ld      bc, $1503
         call_prnstr
         ld      iy, $9800
         ld      ix, cmbpnt
@@ -418,35 +389,10 @@ menu0   inc     l
         call    window
         ld      ix, cad13
         ld      bc, $1b0c
-        call_prnstr             ; Select Screen
-        inc     c
-        call_prnstr             ; Select Item
-        inc     c
-        call_prnstr             ; Change
-        inc     c
-        call_prnstr             ; Save & Exit
-        inc     c
-        call_prnstr             ; Exit
+        call    prnmul          ; Select Screen ...
         ld      ix, cad10
         ld      bc, $0202
-        call_prnstr             ; Harward tests
-        inc     c
-        call_prnstr             ; ---------------
-        inc     c
-        call_prnstr             ; Memory test
-        inc     c
-        call_prnstr             ; Sound test
-        inc     c
-        call_prnstr             ; Video test
-        inc     c
-        inc     c
-        call_prnstr             ; Options
-        inc     c
-        call_prnstr             ; ---------
-        inc     c
-        call_prnstr             ; Quiet Boot
-        inc     c
-        call_prnstr             ; SD Address
+        call    prnmul          ; Harward tests ...
         ld      de, $1201
         call    listas
         defb    $04
@@ -457,9 +403,9 @@ menu0   inc     l
         defb    $ff
         defw    cad14
         defw    cad15
-        defw    cad14
-        defw    cad15
-        defw    cad14
+        defw    cad16
+        defw    cad17
+        defw    cad18
         ;jr      c,  se ha pulsado esc
         jr      nz, tosel1
 ; ejecuto esto si se ha pulsado enter
@@ -509,31 +455,19 @@ mentre  ld      h, a
         ld      ix, cad2
         pop     bc
         inc     b
-        call_prnstr             ; ------------------
-        inc     c
-        call_prnstr             ; Please select
-        inc     c
-        call_prnstr             ; |----------------|
-        inc     c
+        call_prnstr
+        call_prnstr
+        call_prnstr
         push    bc
         ld      iy, (items)
 repblk  ld      ix, cad4
         call_prnstr             ; |                |
-        inc     c
         dec     iyh
         jr      nz, repblk
         ld      ix, cad3
         call_prnstr             ; |----------------|
         ld      ix, cad5
-        inc     c
-        call_prnstr             ; | U and D move s |
-        inc     c
-        call_prnstr             ; | ENTER to selec |
-        inc     c
-        call_prnstr             ; | ESC to boot us |
-        inc     c
-        call_prnstr             ; ------------------
-
+        call    prnmul
         ld      iy, $9800
         ld      ix, cmbpnt
         ld      de, tmpbuf
@@ -648,7 +582,6 @@ combo4  ld      (offsel), a
         ld      bc, (cmbcor)
 combo5  ld      ix, empstr
         call_prnstr
-        inc     c
         dec     iyl
         jr      nz, combo5
         ld      a, (offsel)
@@ -665,7 +598,6 @@ combo6  ld      a, (hl)
         push    hl
         call_prnstr
         pop     hl
-        inc     c
         dec     iyh
         jr      nz, combo6
 combo7  ld      de, (corwid)
@@ -775,16 +707,42 @@ lista4  call    window
         ld      a, (hl)
         ld      ixl, a
         ld      bc, $1b02
-lista5  call_prnstr
-        inc     c
-        add     a, (ix)
-        jr      nz, lista5
+        call    prnmul
         call    waitky
+
+
+        di
+        ld      c, $9
+        ld      hl, $405f
+        ld      de, 0
+lista5  ld      b, 8
+list55  ld      sp, hl
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     sp
+        push    de
+        inc     h
+        djnz    list55
+        ld      a, l
+        add     a, $20
+        ld      l, a
+        jr      c, list56
+        ld      a, h
+        sub     8
+        ld      h, a
+list56  dec     c
+        jr      nz, lista5
+        ld      sp, $bffa
+        ei
 ;; borrar aqui la pantalla de ayuda
 
         pop     ix
         pop     de
         pop     hl
+        ld      a, (codcnt)
         cp      $1c
         jr      nz, lista7
         ld      a, iyl
@@ -859,6 +817,12 @@ clrscr  ld      hl, $4000
         ldir
         ret
 
+prnmul  call_prnstr
+        add     a, (ix)
+        jr      nz, prnmul
+        inc     ix
+        ret
+
 ; ------------------------
 ; Read from SPI flash
 ; Parameters:
@@ -878,7 +842,7 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: fast boot
 ;  21: active entry
-l2950   defb    $02, $01, $00, $02, $01, $00, $02, $01
+l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -978,7 +942,7 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
-        block   $3127-$
+        block   $3126-$
 
 ; -----------------------------------------------------------------------------
 ; Print string routine
@@ -1020,6 +984,7 @@ prnch1  xor     $fc
         ld      e, a
         defb    $3e             ; salta la siguiente instruccion
 posf    pop     bc
+        inc     c
         ret
 
 pos0    ld      a, (ix)
@@ -1187,7 +1152,7 @@ cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
-        defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
 cad6    defb    'Enter Setup', 0
 cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
         defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -1205,10 +1170,11 @@ cad10   defb    'Hardware tests', 0
         defb    $1b, ' Memory test', 0
         defb    $1b, ' Sound test', 0
         defb    $1b, ' Video test', 0
+        defb    ' ', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Quiet Boot    [Enabled]', 0
-        defb    'SD Address    [DivMMC]', 0
+        defb    'SD Address    [DivMMC]', 0, 0
 cad11   defb    $16, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
 cad12   defb    'Name               Slot', 0
@@ -1218,7 +1184,7 @@ cad13   defb    $1c, ' ', $1d, ' Sel.Screen', 0
         defb    $1e, ' ', $1f, ' Sel.Item', 0
         defb    'Enter Change', 0
         defb    'Graph Save&Exi', 0
-        defb    'Break Exit', 0
+        defb    'Break Exit', 0, 0
 cad14   defb    'Run a diagnos-', 0
         defb    'tic test on', 0
         defb    'your system', 0
@@ -1226,4 +1192,14 @@ cad14   defb    'Run a diagnos-', 0
 cad15   defb    'Performs a', 0
         defb    'sound test on', 0
         defb    'your system', 0, 0
+cad16   defb    'Performs a', 0
+        defb    'video test on', 0
+        defb    'your system', 0, 0
+cad17   defb    'Hide the whole', 0
+        defb    'boot screen', 0
+        defb    'when enabled', 0, 0
+cad18   defb    'Toggle between', 0
+        defb    'ports of ZXMMC', 0
+        defb    'or DivMMC', 0, 0
+
 fincad
