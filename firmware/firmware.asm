@@ -1,15 +1,17 @@
         output  firmware_strings.rom
 
         define  call_prnstr     rst     $08
-        define  empstr  $8fd4
-        define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
-        define  items   $8fd0   ;lo: totales          hi: en pantalla
-        define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
-        define  cmbcor  $8fcc   ;lo: Y coord          hi: X coord
-        define  corwid  $8fca   ;lo: X attr coor      hi: attr width
-        define  menuop  $8fc8   ;lo: menu superior    hi: submenu
 
         define  cmbpnt  $8f00
+        define  colcmb  $8fc6   ;solo lo: color de lista
+        define  menuop  $8fc8   ;lo: menu superior    hi: submenu
+        define  corwid  $8fca   ;lo: X attr coor      hi: attr width
+        define  cmbcor  $8fcc   ;lo: Y coord          hi: X coord
+        define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
+        define  items   $8fd0   ;lo: totales          hi: en pantalla
+        define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
+        define  empstr  $8fd4
+        define  tmpbuf  $9900
 
         ei
         ld      sp, $c000
@@ -94,6 +96,7 @@ keysc5  ld      a, h
         ld      a, (hl)
 keysc6  ld      hl, (codcnt)
         jr      z, keysc8
+        res     7, l
         cp      l
         jr      nz, keysc7
         dec     h
@@ -300,25 +303,108 @@ bios9   ld      sp, hl
 
 menu5   ld      h, 28
         call    window
-        jr      tosel
+        jp      tosel
 
 menu4   ld      h, 20
         ld      d, 8
         call    window
-        jr      tosel
+        jp      tosel
 
 menu3   ld      h, 16
         call    window
-        jr      tosel
+        jp      tosel
 
 menu2   ld      h, 9
         ld      d, 7
         call    window
-        jr      tosel
+        jp      tosel
 
 menu1   ld      h, 5
         call    window
-        jr      tosel
+        ld      ix, cad12
+        ld      bc, $0202
+        call_prnstr
+        inc     c
+        call_prnstr
+        ld      b, 21
+        call_prnstr
+        ld      iy, $9800
+        ld      ix, cmbpnt
+        ld      de, tmpbuf
+        ld      b, e
+        ld      a, %00111001
+        ld      (colcmb), a
+menu11  ld      a, (iy)
+        inc     iyl
+        inc     a
+        jr      z, menu14
+        dec     a
+        rlca
+        rlca
+        ld      l, a
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        inc     l
+        add     hl, hl
+        ld      c, (hl)
+        ld      a, l
+        add     a, $1e
+        ld      l, a
+        ld      (ix+0), e
+        ld      (ix+1), d
+        inc     ixl
+        inc     ixl
+        ld      a, c
+        ld      c, $17
+        ldir
+        ld      h, d
+        ld      l, e
+        inc     e
+        ld      (hl), b
+        dec     l
+menu12  inc     c
+        sub     10
+        jr      nc, menu12
+        add     a, 10+$30
+        ld      (hl), a
+        dec     l
+        dec     c
+        ld      a, $20
+        jr      z, menu13
+        ld      a, c
+        add     a, $30
+menu13  ld      (hl), a
+        dec     l
+        ld      (hl), $20
+        jr      menu11
+menu14  ld      (ix+1), $ff
+        ld      hl, $1201
+        ld      (corwid), hl
+        ld      hl, $0204
+        ld      d, $17
+        ld      a, iyl
+        dec     a
+        cp      $12
+        jr      c, menu15
+        ld      a, $12
+menu15  ld      e, a
+        xor     a
+menu16  call    combol
+        ld      a, (codcnt)
+        cp      $1e
+        jr      z, menu17
+        cp      $1f
+        jr      nz, menu16
+menu17  ld      hl, $0104
+        ld      d, $12
+        ld      a, (items+1)
+        ld      e, a
+        ld      a, %00111001
+        call    window
+        ld      a, (codcnt)
+        jr      tosel1
 
 menu0   inc     l
         inc     d
@@ -326,10 +412,21 @@ menu0   inc     l
         call    window
         ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
-        ld      d, $0b
+        ld      d, $12
         call    window
         ld      l, 8
         call    window
+        ld      ix, cad13
+        ld      bc, $1b0c
+        call_prnstr             ; Select Screen
+        inc     c
+        call_prnstr             ; Select Item
+        inc     c
+        call_prnstr             ; Change
+        inc     c
+        call_prnstr             ; Save & Exit
+        inc     c
+        call_prnstr             ; Exit
         ld      ix, cad10
         ld      bc, $0202
         call_prnstr             ; Harward tests
@@ -350,9 +447,25 @@ menu0   inc     l
         call_prnstr             ; Quiet Boot
         inc     c
         call_prnstr             ; SD Address
+        ld      de, $1201
+        call    listas
+        defb    $04
+        defb    $05
+        defb    $06
+        defb    $0a
+        defb    $0b
+        defb    $ff
+        defw    cad14
+        defw    cad15
+        defw    cad14
+        defw    cad15
+        defw    cad14
+        ;jr      c,  se ha pulsado esc
+        jr      nz, tosel1
+; ejecuto esto si se ha pulsado enter
 
 tosel   call    waitky
-        ld      hl, (menuop)
+tosel1  ld      hl, (menuop)
         sub     $1e
         jr      nz, noiz
         dec     l
@@ -382,7 +495,7 @@ mentre  ld      h, a
         ld      (items), hl
         add     a, -16
         cpl
-        rrca
+        rra
         ld      l, a
         ld      a, h
         add     a, 8
@@ -422,10 +535,13 @@ repblk  ld      ix, cad4
         call_prnstr             ; ------------------
 
         ld      iy, $9800
-        ld      de, cmbpnt
+        ld      ix, cmbpnt
+        ld      de, tmpbuf
+        ld      b, e
 nxtitm  ld      a, (iy)
-        rlca
+        inc     iyl
         inc     a
+        rlca
         rlca
         ld      l, a
         ld      h, 9
@@ -433,30 +549,43 @@ nxtitm  ld      a, (iy)
         add     hl, hl
         add     hl, hl
         add     hl, hl
-        ex      de, hl
-        ld      (hl), e
-        inc     l
-        ld      (hl), d
-        inc     l
-        ex      de, hl
-        inc     iyl
+        ld      (ix+0), e
+        ld      (ix+1), d
+        inc     ixl
+        inc     ixl
+        ld      c, $21
+        push    hl
+tdecl   dec     l
+        dec     c
+        ld      a, (hl)
+        cp      $20
+        jr      z, tdecl
+        pop     hl
+        ld      a, l
+        sub     $20
+        ld      l, a
+        jr      nz, ovetec
+        dec     h
+ovetec  ldir
+        xor     a
+        ld      (de), a
+        inc     de
         ld      a, (items)
-        sub     b
+        sub     2
         sub     iyl
         jr      nc, nxtitm
-        ex      de, hl
-        ld      (hl), cad6&$ff
-        inc     l
-        ld      (hl), cad6>>8
-        inc     l
-        ld      (hl), a
-        inc     l
-        ld      (hl), a
+        ld      (ix+0), cad6&$ff
+        ld      (ix+1), cad6>>8
+        ld      (ix+3), a
         ld      a, (items+1)
         ld      e, a
         ld      d, 32
+        ld      hl, $1a02
+        ld      (corwid), hl
         pop     hl
         ld      h, 4
+        ld      a, %01001111
+        ld      (colcmb), a
         ld      a, 1
 tinval  call    combol
         jr      c, tinval
@@ -477,7 +606,8 @@ waitky  ld      a, (codcnt)
 ; -------------------------------------
 ; Show a combo list to select one element
 ; Parameters:
-; 8f80: list of pointers (last is $ffff)
+;(corwid)
+; cmbpnt: list of pointers (last is $ffff)
 ;    A: preselected one
 ;   HL: X coord (H) and Y coord (L) of the first element
 ;   DE: window width (D) and window height (E)
@@ -487,21 +617,6 @@ waitky  ld      a, (codcnt)
 combol  push    de
         ex      af, af'
         ld      (cmbcor), hl
-        ld      a, h
-        add     a, h
-        add     a, h
-        rra
-        srl     a
-        ld      l, a
-        dec     l
-        ld      a, d
-        add     a, d
-        add     a, d
-        rra
-        srl     a
-        add     a, 2
-        ld      h, a
-        ld      (corwid), hl
         ld      hl, cmbpnt+1
 combo1  ld      a, (hl)
         inc     l
@@ -558,7 +673,7 @@ combo7  ld      de, (corwid)
         ld      h, e
         ld      a, (items+1)
         ld      e, a
-        ld      a, %01001111    ; fondo azul tinta blanca
+        ld      a, (colcmb)
         call    window
         ld      de, (corwid)
         ld      hl, (offsel)
@@ -608,6 +723,95 @@ combob  ccf
 comboc  ld      a, h
         pop     de
         ret
+
+; -------------------------------------
+; Show a normal list only in attribute area width elements
+; in not consecutive lines
+; Parameters:
+;    A: preselected one
+;   PC: list of Y positions
+;   DE: window width (D) and X position (E)
+; Returns:
+;    A: item selected
+;    Carry on: if no Enter pressed
+; -------------------------------------
+listas  inc     a
+        ld      iyl, a
+        pop     hl
+        push    hl
+        xor     a
+        defb    $32
+lista1  inc     hl
+        inc     a
+        inc     (hl)
+        jr      nz, lista1
+        ld      ixl, a
+        pop     hl
+lista2  ld      iyh, iyl
+        ld      ixh, ixl
+        push    hl
+        push    de
+lista3  push    hl
+        ld      l, (hl)
+        ld      h, e
+        ld      e, 1
+        ld      a, %00111001    ; fondo blanco tinta azul
+        dec     iyh
+        jr      nz, lista4
+        ld      a, %01000111
+lista4  call    window
+        pop     hl
+        inc     hl
+        dec     ixh
+        jr      nz, lista3
+        ld      a, iyl
+        add     a, a
+        ld      c, a
+        add     hl, bc
+        push    ix
+        ld      a, (hl)
+        ld      ixh, a
+        dec     hl
+        ld      a, (hl)
+        ld      ixl, a
+        ld      bc, $1b02
+lista5  call_prnstr
+        inc     c
+        add     a, (ix)
+        jr      nz, lista5
+        call    waitky
+;; borrar aqui la pantalla de ayuda
+
+        pop     ix
+        pop     de
+        pop     hl
+        cp      $1c
+        jr      nz, lista7
+        ld      a, iyl
+        dec     a
+        jr      z, lista2
+lista6  ld      iyl, a
+        jr      lista2
+lista7  cp      $1d
+        jr      nz, lista8
+        ld      a, iyl
+        cp      ixl
+        jr      nc, lista2
+        inc     a
+        jr      lista6
+lista8  push    ix
+        pop     de
+        add     hl, de
+        add     hl, de
+        add     hl, de
+        inc     hl
+        dec     iyl
+        cp      $0d
+        jr      nz, lista9
+        ld      a, iyl
+        jp      (hl)
+lista9  scf
+        jp      (hl)
 
 ; -------------------------------------
 ; Draw a window in the attribute area
@@ -674,9 +878,9 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: fast boot
 ;  21: active entry
-l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
-        defb    $00, $02, $01, $00, $02, $01, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+l2950   defb    $02, $01, $00, $02, $01, $00, $02, $01
+        defb    $02, $01, $00, $02, $01, $00, $02, $01
+        defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $00
         defb    $01
@@ -687,28 +891,30 @@ rdfls1  cp      $80
         ldir
         ret
 ; 32 entradas
-;    00: AAAAABBB A= RAM offset    B= ROM SRAM size (000=8)  ff==empty entry
-;    01: AAAAABBB A= slot offset   B= slot size     (000=8)
-;    02: port 1ffd
-;    03: port 7ffd
+;    00: RAM offset     
+;    01: B= ROM SRAM size
+;    02: slot offset
+;    03: B= slot size
+;    04: port 1ffd
+;    05: port 7ffd
 ;    ...
 ;    10-1f: CRCs
 ;    20-3f: Name
-l2980   defb    %01011001, %00011001, $04, $30, $ff, $ff, $ff, $ff
+l2980   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K ROM            ', 0
-        defb    %01000100, %00000100, $00, $00, $ff, $ff, $ff, $ff
+        defm    'ZX Spectrum 48K ROM             '
+        defb    $08, 4, $00, 4, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum +2A English 4.1    ', 0
-        defb    %01010010, %00100010, $04, $00, $ff, $ff, $ff, $ff
+        defm    'ZX Spectrum +2A English 4.1     '
+        defb    $0a, 2, 20, 2, $04, $00, $ff, $ff ;$04
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 128K Spanish       ', 0
+        defm    'ZX Spectrum 128K Spanish        '
 
 rdfls2  ret
 
@@ -1005,5 +1211,19 @@ cad10   defb    'Hardware tests', 0
         defb    'SD Address    [DivMMC]', 0
 cad11   defb    $16, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
-
+cad12   defb    'Name               Slot', 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
+        defb    $11, $11, $11, $11, 0
+cad13   defb    $1c, ' ', $1d, ' Sel.Screen', 0
+        defb    $1e, ' ', $1f, ' Sel.Item', 0
+        defb    'Enter Change', 0
+        defb    'Graph Save&Exi', 0
+        defb    'Break Exit', 0
+cad14   defb    'Run a diagnos-', 0
+        defb    'tic test on', 0
+        defb    'your system', 0
+        defb    'memory', 0, 0
+cad15   defb    'Performs a', 0
+        defb    'sound test on', 0
+        defb    'your system', 0, 0
 fincad
