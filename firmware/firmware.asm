@@ -207,7 +207,7 @@ bios3   ld      ix, cad8
         call_prnstr             ; info
 bios4   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
-        ld      de, $1214
+        ld      de, $1514
         call    window
         ld      a, %01001111    ; fondo azul tinta blanca
         dec     h
@@ -252,8 +252,8 @@ bios7   dec     c
         ei
         ld      sp, $c000
         ld      ix, cad11
-        ld      bc, $1a0b
-        call_prnstr             ; borde medio
+        ld      bc, $1908
+        call    prnmul          ; borde medio
         ld      hl, (menuop)
         ld      de, $0401
         ld      a, %01111001    ; fondo blanco tinta azul
@@ -409,6 +409,31 @@ menu0   inc     l
         ;jr      c,  se ha pulsado esc
         jr      nz, tosel1
 ; ejecuto esto si se ha pulsado enter
+        ld      hl, cmbpnt
+        cp      3
+        jr      c, notimp
+
+        ld      (hl), cad23&$ff
+        inc     l
+        ld      (hl), cad23>>8
+        inc     l
+        ld      (hl), cad24&$ff
+        inc     l
+        ld      (hl), cad24>>8
+        inc     l
+        inc     l
+        ld      (hl), $ff
+        call    popupw
+        jp      bios4
+
+notimp  ld      (hl), cad22&$ff
+        inc     l
+        ld      (hl), cad22>>8
+        inc     l
+        inc     l
+        ld      (hl), $ff
+        call    popupw
+tttt  jr  tttt
 
 tosel   call    waitky
 tosel1  ld      hl, (menuop)
@@ -709,8 +734,9 @@ lista4  call    window
         ld      bc, $1b02
         call    prnmul
         call    waitky
-
-
+        ld      a, (codcnt)
+        cp      $0d
+        jr      z, list10
         di
         ld      c, $9
         ld      hl, $405f
@@ -737,8 +763,6 @@ list56  dec     c
         jr      nz, lista5
         ld      sp, $bffa
         ei
-;; borrar aqui la pantalla de ayuda
-
         pop     ix
         pop     de
         pop     hl
@@ -763,12 +787,18 @@ lista8  push    ix
         add     hl, de
         add     hl, de
         inc     hl
-        dec     iyl
-        cp      $0d
-        jr      nz, lista9
-        ld      a, iyl
-        jp      (hl)
 lista9  scf
+        jp      (hl)
+list10  pop     de
+        pop     hl
+        pop     hl
+        inc     e
+        add     hl, de
+        add     hl, de
+        add     hl, de
+        dec     hl
+        ld      a, iyl
+        dec     a
         jp      (hl)
 
 ; -------------------------------------
@@ -807,6 +837,65 @@ windo3  ex      af, af'
         pop     hl
         ret
 
+
+; -------------------------------------
+; Draw a window in the attribute area
+; Parameters:
+; cmbpnt: list of pointers (last is $ffff)
+;    A: preselected one
+;   HL: X coord (H) and Y coord (L) of the first element
+;   DE: window width (D) and window height (E)
+; Returns:
+;    A: item selected (-1 if break pressed)
+popupw  ld      hl, cmbpnt+1
+popup1  ld      a, (hl)
+        inc     l
+        inc     l
+        inc     a
+        jr      nz, popup1
+        srl     l
+        dec     l
+        ld      a, l
+        ld      iyl, a
+        add     a, 2
+        ld      e, a
+        add     a, -23
+        cpl
+        rra
+        ld      l, a
+        ld      a, %01001111    ; fondo azul tinta blanca
+        ld      h, $09
+        ld      d, $0d
+        push    de
+        push    hl
+        call    window
+        ld      ix, cad19
+        ld      bc, $0c09
+        call_prnstr
+popup2  ld      ix, cad20
+        call_prnstr
+        dec     iyl
+        jr      nz, popup2
+        call_prnstr
+        ld      hl, $0b0a
+        ld      (corwid), hl
+        ld      a, %01001111
+        ld      (colcmb), a
+        xor     a
+        pop     hl
+        pop     de
+        inc     l
+        inc     h
+        inc     h
+        inc     h
+        inc     h
+        inc     h
+        dec     e
+        dec     e
+        call    combol
+
+        ret
+        
 ; ------------------------
 ; Clear the screen
 ; ------------------------
@@ -1175,8 +1264,14 @@ cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Quiet Boot    [Enabled]', 0
         defb    'SD Address    [DivMMC]', 0, 0
-cad11   defb    $16, $11, $11, $11, $11, $11, $11, $11
+cad11   defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0, 0
 cad12   defb    'Name               Slot', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    $11, $11, $11, $11, 0
@@ -1201,5 +1296,12 @@ cad17   defb    'Hide the whole', 0
 cad18   defb    'Toggle between', 0
         defb    'ports of ZXMMC', 0
         defb    'or DivMMC', 0, 0
-
+cad19   defb    $12, $11, $11, $11, ' Options ', $11, $11, $11, $13, 0
+cad20   defb    $10, '               ', $10, 0
+cad21   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $15, 0
+cad22   defb    'Not implem.', 0        
+cad23   defb    'Enabled', 0        
+cad24   defb    'Disabled', 0        
+        
 fincad
