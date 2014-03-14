@@ -1,0 +1,35 @@
+Colossus Chess v4.2 for Sinclair ZX Spectrum +3
+Note: the disk handling routines are +3DOS compatible (not Disciple)
+
+Loading:
+from the +3 Basic command prompt, type
+load"colossus.bas" [ENTER]
+
+Original game (c) 1986 Martin Bryant
+Published by CDS Software Ltd.
+Spectrum +3 disk conversion and printer routines (c) 1996 Cristian Secara
+
+During the game, the file handling commands are the same as for tape.
+Printer routines are based on +3 Basic "copy exp" command. To change from
+parallel to serial or to modify the baud rate, use the standard +3 Basic
+commands BEFORE loading Colossus Chess.
+
+The Colossus Chess files were transferred from MS-DOS environment to *.DSK
+disk image using CPCFS v:0.85.3 (c) 1996 Derik van Zuetphen.
+You may use the *.DSK with the X128 Spectrum Emulator (c) James McKay.
+If you like to run the present Colossus Chess package on an original
++3 Spectrum, you have to transfer all files from the *.DSK disk image to a
+(temporar) directory by using CPCFS, then copy all files to a +3DOS compatible
+diskette.
+One way to do this is to use the PC2PLUS3 patch based on the Sydex's 22DISK
+conversion program, using 720K DSDD diskettes.
+Other way - I have no idea!
+(22DISK may be obtained from http://www.sydex.com)
+
+Send any question or comment to this address:
+"Cristian Secara" <secarica@fx.ro>
+If this will change, I will try to update this readme with the new address.
+
+Cristian Secara alias Uselesssoft
+ased on +3 Basic "copy exp" command. To change from
+parallel to serial
