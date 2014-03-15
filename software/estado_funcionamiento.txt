@@ -5,12 +5,11 @@ Aqua Plane.tap           |     SI      | Reportada por jepalza
 Abadía del Crimen        |     SI      | Reportada por JULIO
 Arkanoid.tap             |     SI      | Es la versión que necesita del puerto $FF :)
 c64hires.tap             |     SI      | Demo ULAplus con paleta de C64
-Cobra.tzx                |     NO      | Se cuelga al salir la primera pantalla del juego
-Cobra (Hit Squad).tzx    |     NO      | Igual que Cobra.tzx. Esta versión no usa el puerto $FF
+Cobra.tzx                |     SI      | La versión para 48K, con puerto $FF :)
 colorato.tap             |     SI      | Demo de color en alta resolución para SP48K
 floatspy.tap             |     SI      | Da algunos valores incorrectos antes de 14347
 HAM256.tap               |     SI      | Demo ULAplus + 256 colores asistido por CPU
-kv.tap                   |     NO      | Se cuelga justo al darle a ESPACIO para empezar a jugar
+kv.tap                   |     SI      | Resuelto fallo en T80.vhdl, instrucción LD A,R
 Multicolour.tap          |     SI      | Demo simple de ciclo de paleta de color
 pacemuzx.tap             |     SI      | Emulador PacMan. Necesita modo +3 allRAM.
 Shock Megademo.tap       |     SI      | Probado hasta la segunda fase
