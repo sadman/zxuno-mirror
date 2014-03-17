@@ -162,7 +162,7 @@ descad  call    dzx7b
         call_prnstr             ; Press <Edit> to Setup
         ld      hl, $2950
         ld      de, $9800
-        ld      bc, $0022
+        ld      bc, $0024
         call    rdflsh
         ld      hl, $2980
         ld      de, $9000
@@ -306,9 +306,8 @@ menu1   ld      h, 5
         ld      a, %00111001
         ld      (colcmb), a
 menu11  ld      a, (iy)
-        inc     iyl
         inc     a
-        jr      z, menu14
+        jr      z, menu15
         dec     a
         rlca
         rlca
@@ -327,6 +326,14 @@ menu11  ld      a, (iy)
         ld      (ix+1), d
         inc     ixl
         inc     ixl
+        ld      a, ($9820)
+        cp      iyl
+        ld      a, $1b
+        jr      z, menu12
+        ld      a, ' '
+menu12  ld      (de), a
+        inc     e
+        inc     iyl
         ld      a, c
         ld      c, $17
         ldir
@@ -335,47 +342,46 @@ menu11  ld      a, (iy)
         inc     e
         ld      (hl), b
         dec     l
-menu12  inc     c
+menu13  inc     c
         sub     10
-        jr      nc, menu12
+        jr      nc, menu13
         add     a, 10+$30
         ld      (hl), a
         dec     l
         dec     c
         ld      a, $20
-        jr      z, menu13
+        jr      z, menu14
         ld      a, c
         add     a, $30
-menu13  ld      (hl), a
+menu14  ld      (hl), a
         dec     l
         ld      (hl), $20
         jr      menu11
-menu14  ld      (ix+1), $ff
+menu15  ld      (ix+1), $ff
         ld      hl, $1201
         ld      (corwid), hl
-        ld      hl, $0204
+        ld      hl, $0104
         ld      d, $17
         ld      a, iyl
-        dec     a
         cp      $12
-        jr      c, menu15
+        jr      c, menu16
         ld      a, $12
-menu15  ld      e, a
-        xor     a
-menu16  call    combol
+menu16  ld      e, a
+        ld      a, ($9820)
+menu17  call    combol
         ld      a, (codcnt)
         cp      $1e
-        jr      z, menu17
+        jr      z, menu18
         cp      $1f
-        jr      nz, menu16
-menu17  ld      hl, $0104
+        jr      nz, menu17
+menu18  ld      hl, $0104
         ld      d, $12
         ld      a, (items+1)
         ld      e, a
         ld      a, %00111001
         call    window
         ld      a, (codcnt)
-        jr      tosel1
+        jp      tosel1
 
 menu0   inc     l
         inc     d
@@ -393,7 +399,21 @@ menu0   inc     l
         ld      ix, cad10
         ld      bc, $0202
         call    prnmul          ; Harward tests ...
+        ld      a, ($9821)      ; fast boot
+        ld      ix, cad25
+        dec     a
+        jr      nz, menu00
+        ld      ixl, cad26 & $ff
+menu00  ld      bc, $0f0a
+        call_prnstr
+        ld      a, ($9822)      ; Read SD protocol
+        ld      ixl, cad29 & $ff
+        dec     a
+        jr      nz, menu01
+        ld      ixl, cad30 & $ff
+menu01  call_prnstr
         ld      de, $1201
+        ld      a, (menuop+1)
         call    listas
         defb    $04
         defb    $05
@@ -406,34 +426,41 @@ menu0   inc     l
         defw    cad16
         defw    cad17
         defw    cad18
-        ;jr      c,  se ha pulsado esc
-        jr      nz, tosel1
-; ejecuto esto si se ha pulsado enter
-        ld      hl, cmbpnt
-        cp      3
-        jr      c, notimp
+        jr      c, izdeot
+        ld      (menuop+1), a
 
-        ld      (hl), cad23&$ff
-        inc     l
-        ld      (hl), cad23>>8
-        inc     l
-        ld      (hl), cad24&$ff
-        inc     l
-        ld      (hl), cad24>>8
-        inc     l
-        inc     l
-        ld      (hl), $ff
+; ejecuto esto si se ha pulsado enter
+        cp      3
+        ld      hl, $9822
+        jr      c, notimp
+        jr      nz, sdprot
+        dec     l
         call    popupw
+        defw    cad23
+        defw    cad24
+        defw    $ffff
+        jp      bios4
+sdprot  call    popupw
+        defw    cad27
+        defw    cad28
+        defw    $ffff
+        jp      bios4
+notimp  inc     l
+        call    popupw
+        defw    cad22
+        defw    $ffff
         jp      bios4
 
-notimp  ld      (hl), cad22&$ff
-        inc     l
-        ld      (hl), cad22>>8
-        inc     l
-        inc     l
-        ld      (hl), $ff
-        call    popupw
-tttt  jr  tttt
+izdeot  cp      $1f
+        jr      z, tosel1
+        cp      $0c
+        jp      z, tttt
+        ld      a, iyl
+        dec     a
+        ld      (menuop+1), a
+        jp      bios4
+
+tttt    jr      tttt
 
 tosel   call    waitky
 tosel1  ld      hl, (menuop)
@@ -792,11 +819,10 @@ lista9  scf
 list10  pop     de
         pop     hl
         pop     hl
-        inc     e
         add     hl, de
         add     hl, de
         add     hl, de
-        dec     hl
+        inc     hl
         ld      a, iyl
         dec     a
         jp      (hl)
@@ -839,27 +865,26 @@ windo3  ex      af, af'
 
 
 ; -------------------------------------
-; Draw a window in the attribute area
+; Draw a pop up list with options
 ; Parameters:
-; cmbpnt: list of pointers (last is $ffff)
-;    A: preselected one
-;   HL: X coord (H) and Y coord (L) of the first element
-;   DE: window width (D) and window height (E)
-; Returns:
-;    A: item selected (-1 if break pressed)
-popupw  ld      hl, cmbpnt+1
-popup1  ld      a, (hl)
-        inc     l
-        inc     l
-        inc     a
+;   PC: list of pointers to options (last is $ffff)
+;   HL: pointer to variable item
+popupw  exx
+        pop     hl
+        ld      de, cmbpnt
+        ldi
+popup1  ldi
+        ldi
+        inc     (hl)
         jr      nz, popup1
-        srl     l
-        dec     l
-        ld      a, l
+        ldi
+        push    hl
+        srl     e
+        ld      a, e
+        inc     e
+        dec     a
         ld      iyl, a
-        add     a, 2
-        ld      e, a
-        add     a, -23
+        add     a, -21
         cpl
         rra
         ld      l, a
@@ -881,7 +906,6 @@ popup2  ld      ix, cad20
         ld      (corwid), hl
         ld      a, %01001111
         ld      (colcmb), a
-        xor     a
         pop     hl
         pop     de
         inc     l
@@ -892,8 +916,14 @@ popup2  ld      ix, cad20
         inc     h
         dec     e
         dec     e
+        exx
+        ld      a, (hl)
+popup3  exx
         call    combol
-
+        exx
+        jr      c, popup3
+        ret     nz
+        ld      (hl), a
         ret
         
 ; ------------------------
@@ -929,14 +959,17 @@ rdflsh  ld      a, h
         ldir
         ret
 ;  00-1f: index to entries
-;  20: fast boot
-;  21: active entry
+;  20: active entry
+;  21: fast boot
+;  22: SD protocol: 0: ZXMMC, 1: DivMMC
 l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $01
         defb    $00
         defb    $01
+        defb    0   ; para que not implemented sea 0
 
 rdfls1  cp      $80
         jp      nz, rdfls2
@@ -1262,8 +1295,8 @@ cad10   defb    'Hardware tests', 0
         defb    ' ', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
-        defb    'Quiet Boot    [Enabled]', 0
-        defb    'SD Address    [DivMMC]', 0, 0
+        defb    'Quiet Boot', 0
+        defb    'SD Address', 0, 0
 cad11   defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
@@ -1300,8 +1333,14 @@ cad19   defb    $12, $11, $11, $11, ' Options ', $11, $11, $11, $13, 0
 cad20   defb    $10, '               ', $10, 0
 cad21   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
-cad22   defb    'Not implem.', 0        
-cad23   defb    'Enabled', 0        
-cad24   defb    'Disabled', 0        
+cad22   defb    'Not implem.', 0
+cad23   defb    'Enabled', 0
+cad24   defb    'Disabled', 0
+cad25   defb    '[Enabled]', 0
+cad26   defb    '[Disabled]', 0
+cad27   defb    'ZXMMC', 0
+cad28   defb    'DivMMC', 0
+cad29   defb    '[ZXMMC]', 0
+cad30   defb    '[DivMMC]', 0
         
 fincad
