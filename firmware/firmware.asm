@@ -287,17 +287,29 @@ menu2   ld      h, 9
         call    window
         jp      tosel
 
-menu1   ld      h, 5
+menu1   push    hl
+        ld      h, 5
         call    window
         ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
         ld      d, $12
         call    window
-        ld      ix, cad12
+        ld      ix, cad12       ; Name Slot
         ld      bc, $0202
         call_prnstr
         call_prnstr
         ld      bc, $1503
+        call_prnstr
+        ld      bc, $1b0c
+        call_prnstr
+        call_prnstr
+        ld      c, $11
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      c, $0e
+        call_prnstr
+        call_prnstr
         call_prnstr
         ld      iy, $9800
         ld      ix, cmbpnt
@@ -360,21 +372,89 @@ menu14  ld      (hl), a
 menu15  ld      (ix+1), $ff
         ld      hl, $1201
         ld      (corwid), hl
-        ld      hl, $0104
         ld      d, $17
         ld      a, iyl
         cp      $12
         jr      c, menu16
         ld      a, $12
 menu16  ld      e, a
-        ld      a, ($9820)
-menu17  call    combol
+        pop     af
+menu17  ld      hl, $0104
+        call    combol
+        ld      (menuop+1), a
         ld      a, (codcnt)
-        cp      $1e
-        jr      z, menu18
-        cp      $1f
-        jr      nz, menu17
-menu18  ld      hl, $0104
+        sub     $0d
+escesc  jr      c, escesc
+        jr      z, menu19
+        sub     $1e-$0d
+        jr      z, menu1f
+        dec     a
+        jr      z, menu1f
+        ld      a, (menuop+1)
+        jr      menu17
+menu19  ld      hl, tmpbuf
+        ld      (hl), 1
+menu1a  call    popupw
+        defw    cad31
+        defw    cad32
+        defw    cad33
+        defw    cad34
+        defw    cad35
+        defw    $ffff
+        ld      a, (codcnt)
+        sub     $0e
+        jr      nc, menu1a
+        inc     a
+        jr      nz, tbios4
+        ld      a, (menuop+1)
+        ld      b, (hl)
+        inc     b
+        djnz    menu1b
+        or      a               ; move up
+        jr      z, tbios4
+        ld      hl, $9820
+        ld      b, (hl)
+        cp      b
+        jr      nz, menukk
+        dec     (hl)
+menukk  dec     a
+        cp      b
+        jr      nz, menull
+        inc     (hl)
+menull  ld      (menuop+1), a
+menuoo  ld      l, a
+        ld      a, (hl)
+        inc     l
+        ld      b, (hl)
+        ld      (hl), a
+        dec     l
+        ld      (hl), b
+        jr      tbios4
+menu1b  djnz    menu1c
+        ld      ($9820), a      ; set active
+tbios4  jp      bios4
+menu1c  djnz    menu1d
+        ld      b, a            ; move down
+        call    nument
+        sub     2
+        cp      b
+        jr      z, tbios4
+        ld      a, b
+        ld      l, $20
+        ld      b, (hl)
+        cp      b
+        jr      nz, menumm
+        inc     (hl)
+menumm  inc     a
+        cp      b
+        jr      nz, menunn
+        dec     (hl)
+menunn  ld      (menuop+1), a
+        dec     a
+        jr      menuoo
+menu1d
+
+menu1f  ld      hl, $0104
         ld      d, $12
         ld      a, (items+1)
         ld      e, a
@@ -395,7 +475,11 @@ menu0   inc     l
         call    window
         ld      ix, cad13
         ld      bc, $1b0c
-        call    prnmul          ; Select Screen ...
+        call_prnstr             ; Select Screen ...
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
         ld      ix, cad10
         ld      bc, $0202
         call    prnmul          ; Harward tests ...
@@ -468,7 +552,13 @@ tosel1  ld      hl, (menuop)
         jr      nz, noiz
         dec     l
         jp      m, tosel
-guarsa  ld      (menuop), hl
+guarsa  ld      a, l
+        ld      h, 0
+        dec     a
+        jr      nz, guars1
+        ld      a, ($9820)
+        ld      h, a
+guars1  ld      (menuop), hl
         jp      bios4
 noiz    dec     a
         jr      nz, tosel
@@ -480,12 +570,7 @@ noiz    dec     a
 
 ; Boot list
 boot    call    clrscr          ; borro pantalla
-        ld      hl, $9800
-nument  ld      a, (hl)         ; calculo en L el número de entradas
-        inc     l
-        inc     a
-        jr      nz, nument
-        ld      a, l
+        call    nument
         cp      13
         jr      c, mentre
         ld      a, 13
@@ -573,10 +658,24 @@ ovetec  ldir
         ld      a, %01001111
         ld      (colcmb), a
         ld      a, 1
-tinval  call    combol
-        jr      c, tinval
+        call    combol
+;        jr      c, atras
 
 binf    jr      binf
+
+
+; -------------------------------------
+; Read number of boot entries
+; Returns:
+;    A: number of boot entries
+; -------------------------------------
+nument  ld      hl, $9800
+numen1  ld      a, (hl)         ; calculo en L el número de entradas
+        inc     l
+        inc     a
+        jr      nz, numen1
+        ld      a, l
+        ret
 
 ; -------------------------------------
 ; Wait for a key
@@ -598,7 +697,7 @@ waitky  ld      a, (codcnt)
 ;   HL: X coord (H) and Y coord (L) of the first element
 ;   DE: window width (D) and window height (E)
 ; Returns:
-;    A: item selected (-1 if break pressed)
+;    A: item selected
 ; -------------------------------------
 combol  push    de
         ex      af, af'
@@ -672,10 +771,10 @@ combo7  ld      de, (corwid)
         call    waitky
         ld      hl, (offsel)
         sub     $0d
-        jr      c, combob
-        jr      z, comboc
+        jr      c, comboa
+        jr      z, comboa
         ld      bc, (items)
-        sub     $0f
+        sub     $1c-$0d
         jr      nz, combo9
         dec     h
         jp      m, combo7
@@ -686,7 +785,7 @@ combo7  ld      de, (corwid)
         ld      a, l
         dec     a
 combo8  jr      combo4
-combo9  dec     a
+combo9  dec     a               ; $1d
         jr      nz, comboa
         inc     h
         ld      a, h
@@ -700,11 +799,6 @@ combo9  dec     a
         inc     a
         jr      combo8
 comboa  ld      a, h
-        ld      hl, (cmbcor)
-combob  ccf
-        pop     de
-        ret
-comboc  ld      a, h
         pop     de
         ret
 
@@ -895,7 +989,8 @@ popup1  ldi
         push    hl
         call    window
         ld      ix, cad19
-        ld      bc, $0c09
+        ld      b, $0c
+        ld      c, l
         call_prnstr
 popup2  ld      ix, cad20
         call_prnstr
@@ -909,20 +1004,16 @@ popup2  ld      ix, cad20
         pop     hl
         pop     de
         inc     l
-        inc     h
-        inc     h
-        inc     h
-        inc     h
-        inc     h
+        ld      a, h
+        add     a, 5
+        ld      h, a
         dec     e
         dec     e
         exx
         ld      a, (hl)
-popup3  exx
+        exx
         call    combol
         exx
-        jr      c, popup3
-        ret     nz
         ld      (hl), a
         ret
         
@@ -1308,11 +1399,14 @@ cad11   defb    ' ', $10, 0
 cad12   defb    'Name               Slot', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    $11, $11, $11, $11, 0
-cad13   defb    $1c, ' ', $1d, ' Sel.Screen', 0
-        defb    $1e, ' ', $1f, ' Sel.Item', 0
+cad13   defb    $1e, ' ', $1f, ' Sel.Screen', 0
+        defb    $1c, ' ', $1d, ' Sel.Item', 0
         defb    'Enter Change', 0
         defb    'Graph Save&Exi', 0
-        defb    'Break Exit', 0, 0
+        defb    'Break Exit', 0
+        defb    'N   Add Entry', 0
+        defb    'C   Check CRCs', 0
+        defb    'R   Recovery', 0
 cad14   defb    'Run a diagnos-', 0
         defb    'tic test on', 0
         defb    'your system', 0
@@ -1342,5 +1436,10 @@ cad27   defb    'ZXMMC', 0
 cad28   defb    'DivMMC', 0
 cad29   defb    '[ZXMMC]', 0
 cad30   defb    '[DivMMC]', 0
+cad31   defb    'Move Up', 0
+cad32   defb    'Set Active', 0
+cad33   defb    'Move Down', 0
+cad34   defb    'Rename', 0
+cad35   defb    'Delete', 0
         
 fincad
