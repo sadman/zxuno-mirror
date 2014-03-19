@@ -45,29 +45,29 @@ Main                    di
 
                         ; Elige uno, para probar
                         ;-------------------------------------------------  ROM de 48K con DIVMMC
-;                         wreg MASTERMAPPER,11
-;                         ld hl,0
-;                         ld de,49152
-;                         ld bc,16384
-;                         ldir
-;                         ld bc,1ffdh
-;                         ld a,2
-;                         out (c),a
-;                         ld b,7fh
-;                         ld a,10h
-;                         out (c),a
-;                         call CopiaESXDOS
-;                         wreg MASTERCONF,2   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado
-;                         jp 0                ;Vamonos a ella.
+                         wreg MASTERMAPPER,11
+                         ld hl,0
+                         ld de,49152
+                         ld bc,16384
+                         ldir
+                         ld bc,1ffdh
+                         ld a,2
+                         out (c),a
+                         ld b,7fh
+                         ld a,10h
+                         out (c),a
+                         call CopiaESXDOS
+                         wreg MASTERCONF,2   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado
+                         jp 0                ;Vamonos a ella.
                         ;------------------------------------------------- ROM del +3 con DIVMMC
-                        call CopiaPlus3
-                        call CopiaESXDOS
-                        wreg MASTERCONF,2   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado
-                        jp 0                ;Vamonos a ella.
+;                        call CopiaPlus3
+;                        call CopiaESXDOS
+;                        wreg MASTERCONF,2   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado
+;                        jp 0                ;Vamonos a ella.
                         ;------------------------------------------------- ROM SE IV sin DIVMMC
-                        ;call CopiaOpenSE
-                        ;wreg MASTERCONF,0   ;Fin del modo boot. La nueva ROM está en su sitio y activada. No hay DIVMMC
-                        ;jp 0                ;Vamonos a ella.
+;                        call CopiaOpenSE
+;                        wreg MASTERCONF,0   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC no está activado
+;                        jp 0                ;Vamonos a ella.
                         ;-------------------------------------------------
 
 CopiaESXDOS             wreg MASTERMAPPER,12   ;Borramos los 32KB de DIVMMC

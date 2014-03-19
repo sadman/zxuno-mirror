@@ -56,6 +56,7 @@ module zxuno (
 
    // Señales de la CPU
    wire mreq_n,iorq_n,rd_n,wr_n,int_n,m1_n,nmi_n,rfsh_n;
+   wire enable_nmi_n;
    wire [15:0] cpuaddr;
    wire [7:0] cpudin;
    wire [7:0] cpudout;
@@ -128,7 +129,7 @@ module zxuno (
       .clk(cpuclk),
       .wait_n(1'b1),
       .int_n(int_n),
-      .nmi_n(nmi_n),
+      .nmi_n(nmi_n | enable_nmi_n),
       .busrq_n(1'b1),
       .di(cpudin)
   );
@@ -143,7 +144,7 @@ module zxuno (
 	 // Clocks
     .clk14(clk14),     // 14MHz master clock
     .wssclk(wssclk),   // 5MHz WSS clock
-    .rst_n(mrst_n & rst_n & power_on_reset_n),  // este será cualquiera de los dos resets cuando los tengamos separados
+    .rst_n(mrst_n & rst_n & power_on_reset_n),
 
 	 // CPU interface
 	 .a(cpuaddr),
@@ -235,8 +236,9 @@ module zxuno (
       .wr_n(wr_n),
       .m1_n(m1_n),        // Necesarios para implementar DIVMMC
       .rfsh_n(rfsh_n),
+      .enable_nmi_n(enable_nmi_n),
    
-   // Internface con la ULA
+   // Interface con la ULA
       .vramaddr(vram_addr),
       .vramdout(vram_dout),
    
@@ -257,10 +259,10 @@ module zxuno (
       .ps2data(dataps2),
       .rows(kbdrow),
       .cols(kbdcol),
-      .joy(kbd_joy),
-      .rst(rst_n),
-      .nmi(nmi_n),
-      .mrst(mrst_n)
+      .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
+      .rst(rst_n),   // esto son salidas, no entradas
+      .nmi(nmi_n),   // Señales de reset y NMI
+      .mrst(mrst_n)  // generadas por pulsaciones especiales del teclado
       );
 
 ///////////////////////////////////

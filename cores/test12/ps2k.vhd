@@ -301,6 +301,10 @@ begin
                   when KEY_KPPUNTO  => if isctrl='1' and isalt='1' then
                                          rst <= '0'; -- reset al hacer ctrl-alt-supr
                                        end if;
+                  when KEY_KP4      => joy(1) <= pressed; -- dato entregado por el joystick: izquierda
+                  when KEY_KP6      => joy(0) <= pressed; -- dato entregado por el joystick: derecha
+                  when KEY_KP8      => joy(3) <= pressed; -- dato entregado por el joystick: arriba
+                  when KEY_KP5      => joy(2) <= pressed; -- dato entregado por el joystick: abajo
                   when others=> null;
                 end case;
               else -- process extended keys
@@ -314,16 +318,12 @@ begin
                                        joy(4) <= pressed; -- dato entregado por el joystick
                   when KEY_LEFT     => keys(0)(0) <= pressed; -- Left (Caps 5)
                                        keys(3)(4) <= pressed;
-                                       joy(1) <= pressed; -- dato entregado por el joystick
                   when KEY_DOWN     => keys(0)(0) <= pressed; -- Down (Caps 6)
                                        keys(4)(4) <= pressed;
-                                       joy(2) <= pressed; -- dato entregado por el joystick
                   when KEY_UP       => keys(0)(0) <= pressed; -- Up (Caps 7)
                                        keys(4)(3) <= pressed;
-                                       joy(3) <= pressed; -- dato entregado por el joystick
                   when KEY_RIGHT    => keys(0)(0) <= pressed; -- Right (Caps 8)
                                        keys(4)(2) <= pressed;
-                                       joy(0) <= pressed; -- dato entregado por el joystick
                   when KEY_SUP      => if isctrl='1' and isalt='1' then
                                          rst <= '0'; -- reset al hacer ctrl-alt-supr
                                        end if;

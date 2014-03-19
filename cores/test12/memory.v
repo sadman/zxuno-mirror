@@ -37,6 +37,7 @@ module memory (
    input wire wr_n,
    input wire m1_n,
    input wire rfsh_n,
+   output wire enable_nmi_n,
    
    // Interface con la ULA
    input wire [13:0] vramaddr,
@@ -57,20 +58,20 @@ module memory (
       MASTERCONF = 8'h00,
       MASTERMAPPER = 8'h01;
 
-   reg enable_boot = 1'b1;
-   reg enable_divmmc = 1'b0;
+   reg initial_boot_mode = 1'b1;
+   reg divmmc_is_enabled = 1'b0;
    always @(posedge clk) begin
       if (!mrst_n)
-         {enable_divmmc,enable_boot} <= 2'b01;
-      else if (addr==MASTERCONF && iow && enable_boot)
-         {enable_divmmc,enable_boot} <= din[1:0];
+         {divmmc_is_enabled,initial_boot_mode} <= 2'b01;
+      else if (addr==MASTERCONF && iow && initial_boot_mode)
+         {divmmc_is_enabled,initial_boot_mode} <= din[1:0];
    end
    
    reg [4:0] mastermapper = 5'h00;
    always @(posedge clk) begin
       if (!mrst_n)
          mastermapper <= 5'h00;
-      else if (addr==MASTERMAPPER && iow && enable_boot)
+      else if (addr==MASTERMAPPER && iow && initial_boot_mode)
          mastermapper <= din[4:0];
    end
    
@@ -80,20 +81,20 @@ module memory (
    wire mapram_mode = divmmc_ctrl[6];
    wire conmem = divmmc_ctrl[7];
    always @(posedge clk) begin
-      if (!mrst_n)
+      if (!mrst_n || !rst_n)
          divmmc_ctrl <= 8'h00;
       else if (a[7:0]==8'he3 && !iorq_n && !wr_n)
          divmmc_ctrl <= din;
    end
 
-
    // DIVMMC automapper
-   reg divmmc_paged = 1'b0;
-   reg ready_to_map = 1'b0;
+   reg divmmc_is_paged = 1'b0;
+   reg divmmc_status_after_m1 = 1'b0;
+   assign enable_nmi_n = divmmc_is_enabled & divmmc_is_paged;
    always @(posedge clk) begin
-      if (!mrst_n) begin
-         divmmc_paged <= 1'b0;
-         ready_to_map <= 1'b0;
+      if (!mrst_n || !rst_n) begin
+         divmmc_is_paged <= 1'b0;
+         divmmc_status_after_m1 <= 1'b0;
       end
       else begin
          if (!mreq_n && !rd_n && !m1_n && (a==16'h0000 || 
@@ -101,20 +102,19 @@ module memory (
                                            a==16'h0038 ||
                                            a==16'h0066 ||
                                            a==16'h04C6 ||
-                                           a==16'h0562)
-                                          ) begin  // automapper diferido (siguiente ciclo)
-           ready_to_map <= 1'b1;
+                                           a==16'h0562)) begin  // automapper diferido (siguiente ciclo)
+           divmmc_status_after_m1 <= 1'b1;
          end
          else if (!mreq_n && !rd_n && !m1_n && a[15:8]==8'h3D) begin  // automapper no diferido (ciclo actual)
-            divmmc_paged <= 1'b1;
-            ready_to_map <= 1'b1;
+            divmmc_is_paged <= 1'b1;
+            divmmc_status_after_m1 <= 1'b1;
          end
          else if (!mreq_n && !rd_n && !m1_n && a[15:3]==13'b0001111111111) begin  // desconexión de automapper diferido
-            ready_to_map <= 1'b0;
+            divmmc_status_after_m1 <= 1'b0;
          end
       end
       if (!rfsh_n && !mreq_n) begin  // tras el ciclo M1, aquí es cuando realmente se hace el mapping
-         divmmc_paged <= ready_to_map;
+         divmmc_is_paged <= divmmc_status_after_m1;
       end
    end
     
@@ -136,8 +136,8 @@ module memory (
    wire [2:0] banco_ram = bank128[2:0];
    wire vrampage = bank128[3];
    wire [1:0] banco_rom = {bankplus3[2],bank128[4]};
-   wire modo_paginacion = bankplus3[0];
-   wire [1:0] configuracion_mapa_plus3 = bankplus3[2:1];
+   wire amstrad_allram_page_mode = bankplus3[0];
+   wire [1:0] plus3_memory_arrangement = bankplus3[2:1];
    
    always @(posedge clk) begin
       if (!mrst_n || !rst_n) begin
@@ -164,7 +164,7 @@ module memory (
       addr_port2 = 19'h00000;
       
       if (!mreq_n && a[15:14]==2'b00) begin   // la CPU quiere acceder al espacio de ROM, $0000-$3FFF
-         if (enable_boot) begin   // en el modo boot, sólo se accede a la ROM interna
+         if (initial_boot_mode) begin   // en el modo boot, sólo se accede a la ROM interna
             oe_memory_n = 1'b1;
             oe_bootrom_n = 1'b0;
             we2_n = 1'b1;
@@ -172,7 +172,7 @@ module memory (
          else begin  // estamos en modo normal de ejecución
 
             // TODO: añadir aquí el codigo para comprobar si ha de paginarse la ROM del DIVMMC!!!!!!!!!!
-            if (enable_divmmc && (divmmc_paged || conmem)) begin  // DivMMC ha entrado en modo automapper o está mapeado a la fuerza
+            if (divmmc_is_enabled && (divmmc_is_paged || conmem)) begin  // DivMMC ha entrado en modo automapper o está mapeado a la fuerza
                if (a[13]==1'b0) begin // Si estamos en los primeros 8K
                   if (conmem || !mapram_mode) begin
                      addr_port2 = {6'b011000,a[12:0]};
@@ -195,12 +195,12 @@ module memory (
                end
             end
                     
-            else if (!modo_paginacion) begin   // en el modo normal de paginación, hay 4 bancos de ROMs
+            else if (!amstrad_allram_page_mode) begin   // en el modo normal de paginación, hay 4 bancos de ROMs
                addr_port2 = {3'b010,banco_rom,a[13:0]};
                we2_n = 1'b1;
             end
             else begin   // en el modo especial de paginación, tenemos el all-RAM
-               case (configuracion_mapa_plus3)
+               case (plus3_memory_arrangement)
                   2'b00 : addr_port2 = {2'b00,`PAGE0,a[13:0]};
                   2'b01,
                   2'b10,
@@ -211,11 +211,11 @@ module memory (
       end
       
       else if (!mreq_n && a[15:14]==2'b01) begin   // la CPU quiere acceder al espacio de RAM de $4000-$7FFF
-         if (enable_boot || !modo_paginacion) begin   // en modo normal de paginación, o en modo boot, hacemos lo mismo, que es
+         if (initial_boot_mode || !amstrad_allram_page_mode) begin   // en modo normal de paginación, o en modo boot, hacemos lo mismo, que es
             addr_port2 = {2'b00,`PAGE5,a[13:0]};      // paginar el banco 5 de RAM aquí
          end
          else begin   // en el modo especial de paginación del +3...
-            case (configuracion_mapa_plus3)
+            case (plus3_memory_arrangement)
                2'b00 : addr_port2 = {2'b00,`PAGE1,a[13:0]};
                2'b01,
                2'b10 : addr_port2 = {2'b00,`PAGE5,a[13:0]};
@@ -225,11 +225,11 @@ module memory (
       end
       
       else if (!mreq_n && a[15:14]==2'b10) begin   // la CPU quiere acceder al espacio de RAM de $8000-$BFFF
-         if (enable_boot || !modo_paginacion) begin
+         if (initial_boot_mode || !amstrad_allram_page_mode) begin
             addr_port2 = {2'b00,`PAGE2,a[13:0]};
          end
          else begin   // en el modo especial de paginación del +3...
-            case (configuracion_mapa_plus3)
+            case (plus3_memory_arrangement)
                2'b00 : addr_port2 = {2'b00,`PAGE2,a[13:0]};
                2'b01,
                2'b10,
@@ -239,15 +239,15 @@ module memory (
       end
 
       else if (!mreq_n && a[15:14]==2'b11) begin   // la CPU quiere acceder al espacio de RAM de $C000-$FFFF
-         if (enable_boot) begin  // en el modo de boot, este area contiene una página de 16K de la SRAM, la que sea
+         if (initial_boot_mode) begin  // en el modo de boot, este area contiene una página de 16K de la SRAM, la que sea
             addr_port2 = {mastermapper,a[13:0]};
          end
          else begin
-            if (!modo_paginacion) begin
+            if (!amstrad_allram_page_mode) begin
                addr_port2 = {2'b00,banco_ram,a[13:0]};
             end
             else begin
-               case (configuracion_mapa_plus3)
+               case (plus3_memory_arrangement)
                   2'b00,
                   2'b10,
                   2'b11 : addr_port2 = {2'b00,`PAGE3,a[13:0]};
@@ -304,7 +304,7 @@ module memory (
          oe_n = 1'b0;
       end
       else if (addr==MASTERCONF && ior) begin
-         dout = {6'h00,enable_divmmc,enable_boot};
+         dout = {6'h00,divmmc_is_enabled,initial_boot_mode};
          oe_n = 1'b0;
       end
       else if (addr==MASTERMAPPER && ior) begin

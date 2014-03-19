@@ -65,6 +65,8 @@ module tv80n_wrapper (
 		.D(d)
 	);
 	
-	assign dout = (!wr_n && rd_n)? d : 8'bzzzzzzzz;
-	assign d = (!rd_n && wr_n)? di : 8'bzzzzzzzz;
+	assign dout = d; //(!wr_n && rd_n)? d : 8'bzzzzzzzz;
+	assign d = (!m1_n && !iorq_n)? 8'hFF :  // nos aseguramos de enviar FFh en caso de INTA
+              (wr_n)?             di    : 
+                                  8'bzzzzzzzz;
 endmodule
