@@ -10,6 +10,7 @@
         define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
         define  items   $8fd0   ;lo: totales          hi: en pantalla
         define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
+                       ; inputs  lo: cursor position  hi: max length
         define  empstr  $8fd4
         define  tmpbuf  $9900
 
@@ -207,7 +208,7 @@ bios3   ld      ix, cad8
         call_prnstr             ; info
 bios4   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
-        ld      de, $1514
+        ld      de, $1614
         call    window
         ld      a, %01001111    ; fondo azul tinta blanca
         dec     h
@@ -387,9 +388,9 @@ menu17  ld      hl, $0104
 escesc  jr      c, escesc
         jr      z, menu19
         sub     $1e-$0d
-        jr      z, menu1f
+        jp      z, menu1f
         dec     a
-        jr      z, menu1f
+        jp      z, menu1f
         ld      a, (menuop+1)
         jr      menu17
 menu19  ld      hl, tmpbuf
@@ -438,7 +439,7 @@ menu1c  djnz    menu1d
         call    nument
         sub     2
         cp      b
-        jr      z, tbios4
+ttios4  jr      z, tbios4
         ld      a, b
         ld      l, $20
         ld      b, (hl)
@@ -452,8 +453,104 @@ menumm  inc     a
 menunn  ld      (menuop+1), a
         dec     a
         jr      menuoo
-menu1d
-
+menu1d  djnz    menu1e
+        ld      l, a
+        dec     h
+;        ld      h, $98
+        ld      a, (hl)
+        inc     a
+        rlca
+        rlca
+        ld      l, a
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        push    hl
+        ld      de, empstr
+        call    str2tmp
+        ld      hl, $0309
+        ld      de, $1a07
+        ld      a, e            ;%00000111 fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        sub     l               ; fondo negro tinta blanca
+        ld      iyl, c
+        ld      hl, $030c
+        ld      de, $1801
+        call    window
+        ld      bc, $0308
+        call_prnstr
+        call_prnstr
+        call_prnstr
+menu1d1 push    ix
+        call_prnstr
+        pop     ix
+        dec     iyl
+        jr      nz, menu1d1
+        call_prnstr
+        call_prnstr
+        ld      bc, $040c
+        ld      hl, $20ff
+        call    inputs
+        ld      hl, $1708
+        ld      de, $0608
+        ld      a, %00111001    ; fondo blanco tinta azul
+        call    window
+        ld      a, (codcnt)
+        cp      $0c
+        pop     hl
+        jr      z, ttios4
+        ld      a, (items)
+        or      a
+        jr      z, ttios4
+        ld      c, a
+        sub     32
+        jr      z, menu1d3
+        cpl
+menu1d2 dec     l
+        ld      (hl), 32
+        dec     a
+        jp      p, menu1d2
+menu1d3 dec     l
+        ex      de, hl
+        ld      h, empstr>>8
+        ld      a, empstr-1&$ff
+        add     a, c
+        ld      l, a
+        lddr
+kbios4  jp      bios4
+menu1e  dec     h
+        ld      l, $20
+        cp      (hl)
+        jr      c, menu1ea
+        ld      l, (hl)
+        inc     l
+        ld      b, (hl)
+        inc     b
+        jr      nz, menu1e0
+        dec     l
+        jr      z, kbios4
+        ld      l, $20
+menu1ea dec     (hl)
+menu1e0 ld      l, a
+menu1e1 inc     l
+        ld      a, (hl)
+        dec     l
+        ld      (hl), a
+        inc     l
+        or      a
+        jp      p, menu1e1
+        add     a, l
+        ld      hl, menuop+1
+        cp      (hl)
+        jr      nz, kbios4
+        dec     (hl)
+        jr      kbios4
 menu1f  ld      hl, $0104
         ld      d, $12
         ld      a, (items+1)
@@ -624,23 +721,7 @@ nxtitm  ld      a, (iy)
         ld      (ix+1), d
         inc     ixl
         inc     ixl
-        ld      c, $21
-        push    hl
-tdecl   dec     l
-        dec     c
-        ld      a, (hl)
-        cp      $20
-        jr      z, tdecl
-        pop     hl
-        ld      a, l
-        sub     $20
-        ld      l, a
-        jr      nz, ovetec
-        dec     h
-ovetec  ldir
-        xor     a
-        ld      (de), a
-        inc     de
+        call    str2tmp
         ld      a, (items)
         sub     2
         sub     iyl
@@ -665,6 +746,30 @@ binf    jr      binf
 
 
 ; -------------------------------------
+; Transforms space finished string to a null terminated one
+;   HL: end of origin string
+;   DE: start of moved string
+; -------------------------------------
+str2tmp ld      c, $21
+        push    hl
+tdecl   dec     l
+        dec     c
+        ld      a, (hl)
+        cp      $20
+        jr      z, tdecl
+        pop     hl
+        ld      a, l
+        sub     $20
+        ld      l, a
+        jr      nz, ovetec
+        dec     h
+ovetec  ldir
+        xor     a
+        ld      (de), a
+        inc     de
+        ret
+
+; -------------------------------------
 ; Read number of boot entries
 ; Returns:
 ;    A: number of boot entries
@@ -687,6 +792,156 @@ waitky  ld      a, (codcnt)
         jr      c, waitky       ; Espero la pulsación de una tecla
         ld      (codcnt), a
         ret
+
+; -------------------------------------
+; Input a string by the keyboard
+; Parameters:
+; empstr: input and output string
+;     HL: max length (H) and cursor position (L)
+;     BC: X coord (B) and Y coord (C)
+; -------------------------------------
+inputs  ld      (offsel), hl
+input1  push    bc
+        ld      ix, empstr
+        call_prnstr
+        push    ix
+        pop     hl
+        ld      a, l
+        sub     empstr+1&$ff
+        ld      (items), a
+        ld      e, a
+        add     a, b
+        ld      b, a
+        ld      a, (offsel)
+        inc     a
+        jr      nz, input2
+        ld      a, e
+        ld      (offsel), a
+input2  ld      e, 32
+        defb    $32
+input3  ld      (hl), e
+        inc     l
+        ld      a, l
+        sub     empstr+33&$ff
+        jr      nz, input3
+        ld      (hl), a
+        dec     c
+        call_prnstr
+        pop     bc
+input4  ld      a, (offsel)
+        add     a, b
+        ld      l, a
+        and     %11111100
+        ld      d, a
+        xor     l
+        ld      h, $80
+        ld      e, a
+        jr      z, input5
+        dec     e
+input5  xor     $fc
+input6  rrc     h
+        rrc     h
+        inc     a
+        jr      nz, input6
+        ld      a, d
+        rrca
+        ld      d, a
+        rrca
+        add     a, d
+        add     a, e
+        ld      e, a
+        ld      a, c
+        and     %00011000
+        or      %01000000
+        ld      d, a
+        ld      a, c
+        and     %00000111
+        rrca
+        rrca
+        rrca
+        add     a, e
+        ld      e, a
+        ld      l, $08
+input7  ld      a, (de)
+        xor     h
+        ld      (de), a
+        inc     d
+        dec     l
+        jr      nz, input7
+        ld      h, $80
+input8  ld      a, (codcnt)
+        sub     $80
+        jr      nc, inputa
+        dec     l
+        jr      nz, input8
+        dec     h
+        jr      nz, input8
+input9  jr      input4
+inputa  ld      (codcnt), a
+        cp      $0e
+        ret     c
+        ld      hl, (offsel)
+        cp      $18
+        jr      nz, inputb
+        dec     l
+        jp      m, input1
+        ld      (offsel), hl
+        ld      a, 33
+        sub     l
+        push    bc
+        ld      c, a
+        ld      b, 0
+        ld      a, l
+        add     a, empstr&$ff
+        ld      l, a
+        ld      h, empstr>>8
+        ld      d, h
+        ld      e, l
+        inc     l
+        ldir
+        pop     bc
+        jr      inpute
+inputb  sub     $1e
+        jr      nz, inputd
+        dec     l
+        jp      m, input1
+inputc  jp      inputs
+inputd  dec     a
+        ld      a, (items)
+        jr      nz, inputf
+        cp      l
+        jr      nz, inputg
+inpute  jp      input1
+inputf  cp      h
+        jr      z, input9
+        ld      a, l
+        add     a, empstr&$ff
+        ld      l, a
+        ld      h, empstr>>8
+        ld      a, (codcnt)
+        inc     (hl)
+        dec     (hl)
+        jr      nz, inputh
+        ld      (hl), a
+        inc     l
+        ld      (hl), 0
+inputg  ld      hl, (offsel)
+        inc     l
+        jr      inputc
+inputh  ex      af, af'
+        ld      a, empstr+33&$ff
+        sub     l
+        push    bc
+        ld      c, a
+        ld      b, 0
+        ld      l, empstr+32&$ff
+        ld      de, empstr+33
+        lddr
+        inc     l
+        ex      af, af'
+        ld      (hl), a
+        pop     bc
+        jr      inputg
 
 ; -------------------------------------
 ; Show a combo list to select one element
@@ -975,18 +1230,33 @@ popup1  ldi
         push    hl
         srl     e
         ld      a, e
-        inc     e
         dec     a
         ld      iyl, a
-        add     a, -21
+        add     a, -24
         cpl
         rra
         ld      l, a
-        ld      a, %01001111    ; fondo azul tinta blanca
+        ld      h, $16
+        ld      d, 1
+        ld      a, %00000111    ; fondo negro tinta blanca
+        call    window
+        ld      a, e
+        inc     e
+        ld      h, e
+        push    hl
+        add     a, l
+        ld      l, a
+        ld      h, $0a
+        ld      de, $0d01
+        ld      a, %00000111    ; fondo negro tinta blanca
+        call    window
+        pop     hl
+        ld      e, h
+        dec     l
         ld      h, $09
-        ld      d, $0d
         push    de
         push    hl
+        ld      a, %01001111    ; fondo azul tinta blanca
         call    window
         ld      ix, cad19
         ld      b, $0c
@@ -1160,8 +1430,7 @@ getbit  ld      a, (hl)
 ; -----------------------------------------------------------------------------
 ; Print string routine
 ; Parameters:
-;   B: X coord
-;   C: Y coord
+;  BC: X coord (B) and Y coord (C)
 ;  IX: null terminated string
 ; -----------------------------------------------------------------------------
 prnstr  push    bc
@@ -1441,5 +1710,17 @@ cad32   defb    'Set Active', 0
 cad33   defb    'Move Down', 0
 cad34   defb    'Rename', 0
 cad35   defb    'Delete', 0
-        
+cad36   defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    ' Rename ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
+        defb    $10, ' ', $1e, ' ', $1f, ' Enter accept  Break cancel ', $10, 0
+        defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $17, 0
+        defb    $10, '                                ', $10, 0
+        defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $15, 0
+cad37   defb    '12345678901234567890123456789012', 0
 fincad
