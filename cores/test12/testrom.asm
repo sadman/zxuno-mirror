@@ -44,7 +44,7 @@ Main                    di
                         call BorraBloque
 
                         ; Elige uno, para probar
-                        ;-------------------------------------------------  ROM de 48K con DIVMMC
+                        ;-------------------------------------------------  ROM de 48K con DIVMMC (se copia la interna)
                          wreg MASTERMAPPER,11
                          ld hl,0
                          ld de,49152
@@ -70,16 +70,25 @@ Main                    di
 ;                        jp 0                ;Vamonos a ella.
                         ;-------------------------------------------------
 
-CopiaESXDOS             wreg MASTERMAPPER,12   ;Borramos los 32KB de DIVMMC
+CopiaESXDOS             wreg MASTERMAPPER,16   ;Borramos los 128KB de la RAM del DIVMMC (bancos 16 a 23)
                         call BorraBloque
-                        wreg MASTERMAPPER,13
+                        wreg MASTERMAPPER,17
                         call BorraBloque
-                        wreg MASTERMAPPER,14
+                        wreg MASTERMAPPER,18
                         call BorraBloque
-                        wreg MASTERMAPPER,15
+                        wreg MASTERMAPPER,19
+                        call BorraBloque
+                        wreg MASTERMAPPER,20
+                        call BorraBloque
+                        wreg MASTERMAPPER,21
+                        call BorraBloque
+                        wreg MASTERMAPPER,22
+                        call BorraBloque
+                        wreg MASTERMAPPER,23
                         call BorraBloque
 
                         wreg MASTERMAPPER,12  ;En los primeros 8KB del bloque 12 está la ROM del DIVMMC (ESXDOS)
+
                         wreg FLASHCS,0        ;linea CS de la flash a nivel bajo. Necesario antes de emitir comandos SPI
                         wreg FLASHSPI,3       ;comando de lectura de la flash
                         ld a,04h   ;

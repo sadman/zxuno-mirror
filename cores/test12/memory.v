@@ -77,7 +77,7 @@ module memory (
    
    // DIVMMC control register
    reg [7:0] divmmc_ctrl = 8'h00;
-   wire [1:0] divmmc_sram_page = divmmc_ctrl[1:0];
+   wire [3:0] divmmc_sram_page = divmmc_ctrl[3:0];
    wire mapram_mode = divmmc_ctrl[6];
    wire conmem = divmmc_ctrl[7];
    always @(posedge clk) begin
@@ -179,17 +179,17 @@ module memory (
                      we2_n = 1'b1;  // en este modo, la ROM es intocable
                   end
                   else begin  // mapram mode
-                     addr_port2 = {6'b011111,a[12:0]};  // pagina 3 de la SRAM del DIVMMC
+                     addr_port2 = {2'b10,4'b0011,a[12:0]};  // pagina 3 de la SRAM del DIVMMC
                      we2_n = 1'b1;
                   end
                end
                else begin  // Si estamos en los segundos 8K
                   if (conmem || !mapram_mode) begin
-                     addr_port2 = {3'b011,divmmc_sram_page,1'b1,a[12:0]};
+                     addr_port2 = {2'b10,divmmc_sram_page,a[12:0]};
                   end
                   else begin  // mapram mode
-                     addr_port2 = {3'b011,divmmc_sram_page,1'b1,a[12:0]};
-                     if (mapram_mode && divmmc_sram_page==2'b11)
+                     addr_port2 = {2'b10,divmmc_sram_page,a[12:0]};
+                     if (mapram_mode && divmmc_sram_page==4'b0011)
                         we2_n = 1'b1;  // en este modo, la ROM es intocable
                   end
                end
