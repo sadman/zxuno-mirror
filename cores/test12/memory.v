@@ -42,6 +42,7 @@ module memory (
    // Interface con la ULA
    input wire [13:0] vramaddr,
    output wire [7:0] vramdout,
+   output wire issue2_keyboard_enabled,
    
    // Interface para registros ZXUNO
    input wire [7:0] addr,
@@ -60,11 +61,16 @@ module memory (
 
    reg initial_boot_mode = 1'b1;
    reg divmmc_is_enabled = 1'b0;
+   reg divmmc_nmi_is_disabled = 1'b0;
+   reg issue2_keyboard = 1'b0;
+   
+   assign issue2_keyboard_enabled = issue2_keyboard;
+
    always @(posedge clk) begin
       if (!mrst_n)
-         {divmmc_is_enabled,initial_boot_mode} <= 2'b01;
+         {issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= 4'b0001;
       else if (addr==MASTERCONF && iow && initial_boot_mode)
-         {divmmc_is_enabled,initial_boot_mode} <= din[1:0];
+         {issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= din[3:0];
    end
    
    reg [4:0] mastermapper = 5'h00;
@@ -90,7 +96,7 @@ module memory (
    // DIVMMC automapper
    reg divmmc_is_paged = 1'b0;
    reg divmmc_status_after_m1 = 1'b0;
-   assign enable_nmi_n = divmmc_is_enabled & divmmc_is_paged;
+   assign enable_nmi_n = divmmc_is_enabled & divmmc_is_paged & ~divmmc_nmi_is_disabled;
    always @(posedge clk) begin
       if (!mrst_n || !rst_n) begin
          divmmc_is_paged <= 1'b0;
@@ -100,7 +106,7 @@ module memory (
          if (!mreq_n && !rd_n && !m1_n && (a==16'h0000 || 
                                            a==16'h0008 ||
                                            a==16'h0038 ||
-                                           a==16'h0066 ||
+                                           (a==16'h0066 && divmmc_nmi_is_disabled==1'b0) ||
                                            a==16'h04C6 ||
                                            a==16'h0562)) begin  // automapper diferido (siguiente ciclo)
            divmmc_status_after_m1 <= 1'b1;

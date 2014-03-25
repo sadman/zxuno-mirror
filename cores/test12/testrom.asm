@@ -45,7 +45,7 @@ Main                    di
 
                         ; Elige uno, para probar
                         ;-------------------------------------------------  ROM de 48K con DIVMMC (se copia la interna)
-                         wreg MASTERMAPPER,11
+                         wreg MASTERMAPPER,11    ;Donde estaría la ROM 3
                          ld hl,0
                          ld de,49152
                          ld bc,16384
@@ -57,17 +57,24 @@ Main                    di
                          ld a,10h
                          out (c),a
                          call CopiaESXDOS
-                         wreg MASTERCONF,2   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado
+                         wreg MASTERCONF,1010b   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado. Teclado issue 2
                          jp 0                ;Vamonos a ella.
                         ;------------------------------------------------- ROM del +3 con DIVMMC
 ;                        call CopiaPlus3
 ;                        call CopiaESXDOS
 ;                        wreg MASTERCONF,2   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado
 ;                        jp 0                ;Vamonos a ella.
-                        ;------------------------------------------------- ROM SE IV sin DIVMMC
-;                        call CopiaOpenSE
-;                        wreg MASTERCONF,0   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC no está activado
-;                        jp 0                ;Vamonos a ella.
+                        ;------------------------------------------------- ROM SE IV con DIVMMC, sin NMI en DIVMMC
+;                         call CopiaOpenSE
+;                         ld bc,1ffdh
+;                         ld a,2
+;                         out (c),a
+;                         ld b,7fh
+;                         ld a,10h
+;                         out (c),a
+;                         call CopiaESXDOS
+;                         wreg MASTERCONF,110b   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado pero sin NMI
+;                         jp 0                ;Vamonos a ella.
                         ;-------------------------------------------------
 
 CopiaESXDOS             wreg MASTERMAPPER,16   ;Borramos los 128KB de la RAM del DIVMMC (bancos 16 a 23)
@@ -139,22 +146,17 @@ CopiaPlus3              wreg MASTERMAPPER,8   ;primera página de RAM que se conv
                         ret
 
 
-CopiaOpenSE             wreg MASTERMAPPER,8   ;primera página de RAM que se convertirá en ROM
-                        wreg FLASHCS,0        ;linea CS de la flash a nivel bajo
-                        wreg FLASHSPI,3       ;comando de lectura de la flash
+CopiaOpenSE             wreg MASTERMAPPER,11   ;Solo copiamos la ROM 1 de la SE Basic, como ROM 3.
+                        wreg FLASHCS,0         ;linea CS de la flash a nivel bajo
+                        wreg FLASHSPI,3        ;comando de lectura de la flash
                         ld a,04h   ;
                         out (c),a  ; Dirección donde se encuentra
-                        ld a,00h   ; la ROM en la flash: 040000h
+                        ld a,40h   ; la ROM en la flash: 044000h
                         out (c),a  ;
                         ld a,00h   ;
                         out (c),a  ; A partir de aqui leemos secuencialmente
 
                         in a,(c)   ; Primera lectura que se descarta...
-
-                        call CopiaBloque
-
-                        wreg MASTERMAPPER,9
-                        select FLASHSPI
 
                         call CopiaBloque
 

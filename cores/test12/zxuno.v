@@ -99,6 +99,7 @@ module zxuno (
    wire [4:0] kbdcol;
    wire [7:0] kbdrow;
    wire mrst_n,rst_n;  // los dos resets suministrados por el teclado
+   wire issue2_keyboard;
    
    // Interfaz kempston
    wire [4:0] kbd_joy;
@@ -169,6 +170,7 @@ module zxuno (
     .clkay(clkay),
     .clkdac(clkdac),
     .clkkbd(clkkbd),
+    .issue2_keyboard(issue2_keyboard),
 
     // Video
 	 .r(r),
@@ -241,6 +243,7 @@ module zxuno (
    // Interface con la ULA
       .vramaddr(vram_addr),
       .vramdout(vram_dout),
+      .issue2_keyboard_enabled(issue2_keyboard),
    
    // Interface para registros ZXUNO
       .addr(zxuno_addr),

@@ -50,6 +50,7 @@ module ula (
     output wire clkay,
     output wire clkdac,
     output wire clkkbd,
+    input wire issue2_keyboard,
 
     // Video
 	 output wire [2:0] r,
@@ -440,7 +441,7 @@ module ula (
       dout = 8'hFF;
       if (iorq_n==1'b0 && rd_n==1'b0) begin
          if (a[0]==1'b0)
-            dout = {1'b1,ear,1'b1,kbd};
+            dout = {1'b1,issue2_keyboard^ear,1'b1,kbd};
          else if (a==ULAPLUSADDR)
             dout = {1'b0,PaletteReg};
          else if (a==ULAPLUSDATA && PaletteReg[6]==1'b0)
