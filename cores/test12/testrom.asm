@@ -57,7 +57,7 @@ Main                    di
                          ld a,10h
                          out (c),a
                          call CopiaESXDOS
-                         wreg MASTERCONF,1010b   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado. Teclado issue 2
+                         wreg MASTERCONF,010b   ;Fin del modo boot. La nueva ROM está en su sitio y activada. DIVMMC está activado.
                          jp 0                ;Vamonos a ella.
                         ;------------------------------------------------- ROM del +3 con DIVMMC
 ;                        call CopiaPlus3

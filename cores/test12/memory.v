@@ -119,7 +119,7 @@ module memory (
             divmmc_status_after_m1 <= 1'b0;
          end
       end
-      if (!rfsh_n && !mreq_n) begin  // tras el ciclo M1, aquí es cuando realmente se hace el mapping
+      if (m1_n==1'b1 /*!rfsh_n && !mreq_n*/) begin  // tras el ciclo M1, aquí es cuando realmente se hace el mapping
          divmmc_is_paged <= divmmc_status_after_m1;
       end
    end
