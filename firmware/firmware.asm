@@ -212,7 +212,9 @@ bios3   ld      ix, cad8
         ld      ix, cad9
         call_prnstr             ; borde inferior
         call_prnstr             ; info
-bios4   ld      a, %00111001    ; fondo blanco tinta azul
+bios4   call    bios5
+        jr      bios4
+bios5   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
         ld      de, $1614
         call    window
@@ -226,8 +228,8 @@ bios4   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $405f
         ld      d, b
         ld      e, b
-bios5   ld      b, 8
-bios6   ld      sp, hl
+bios6   ld      b, 8
+bios7   ld      sp, hl
         push    de
         push    de
         push    de
@@ -246,18 +248,18 @@ bios6   ld      sp, hl
         push    de
         push    de
         inc     h
-        djnz    bios6
+        djnz    bios7
         ld      a, l
         add     a, $20
         ld      l, a
-        jr      c, bios7
+        jr      c, bios8
         ld      a, h
         sub     8
         ld      h, a
-bios7   dec     c
-        jr      nz, bios5
+bios8   dec     c
+        jr      nz, bios6
         ei
-        ld      sp, $c000
+        ld      sp, $bffe
         ld      ix, cad11
         ld      bc, $1908
         call    prnmul          ; borde medio
@@ -323,26 +325,36 @@ main2   call_prnstr
         defw    cad23
         defw    cad24
         defw    $ffff
-        jr      main5
+        ret
 main3   call    popupw
         defw    cad27
         defw    cad28
         defw    $ffff
-        jr      main5
+        ret
 main4   inc     l
         call    popupw
         defw    cad22
         defw    $ffff
-main5   jp      bios4
-main6   cp      $1f
-        jr      z, main8
-        cp      $0c
+        ret
+main6   cp      $0c
         jp      z, tttt
-        ld      a, iyl
+        ld      hl, (menuop)
+        cp      $1e
+        jr      nz, notiz
+        dec     l
+        jp      p, main8
+notiz   cp      $1f
+        jr      nz, notde
+        res     2, l
+        dec     l
+        jr      nz, main8
+notde   ld      a, iyl
         dec     a
         ld      (menuop+1), a
-        jr      main5
+        ret
+
 tttt    jr      tttt
+
 main7   call    waitky
 main8   ld      hl, (menuop)
         sub     $1e
@@ -356,7 +368,7 @@ main9   ld      a, l
         ld      a, ($9820)
         ld      h, a
 maina   ld      (menuop), hl
-        jr      main5
+        ret
 mainb   dec     a
         jr      nz, main7
         inc     l
@@ -510,7 +522,7 @@ romsd   ld      l, a
         jr      romsf
 romse   djnz    romsg
         ld      ($9820), a      ; set active
-romsf   jp      bios4
+romsf   ret
 romsg   djnz    romsk
         ld      b, a            ; move down
         call    nument
@@ -599,7 +611,7 @@ romsn   dec     l
         add     a, c
         ld      l, a
         lddr
-romso   jp      bios4
+        ret
 romsp   dec     h
         ld      l, $20
         cp      (hl)
@@ -610,7 +622,7 @@ romsp   dec     h
         inc     b
         jr      nz, romsr
         dec     l
-        jr      z, romso
+        ret     z
         ld      l, $20
 romsq   dec     (hl)
 romsr   ld      l, a
@@ -624,9 +636,9 @@ romss   inc     l
         add     a, l
         ld      hl, menuop+1
         cp      (hl)
-        jr      nz, romso
+        ret     nz
         dec     (hl)
-        jr      romso
+        ret
 romst   ld      hl, $0104
         ld      d, $12
         ld      a, (items+1)
@@ -653,6 +665,53 @@ menu4   ld      h, 20
 exit    ld      h, 28
         call    window
         call    help
+        ld      ix, cad37
+        ld      bc, $0202
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      de, $1201
+        ld      a, (menuop+1)
+        call    listas
+        defb    $02
+        defb    $03
+        defb    $04
+        defb    $05
+        defb    $ff
+        defw    cad38
+        defw    cad39
+        defw    cad40
+        defw    cad41
+        jp      c, main6
+        ld      (menuop+1), a
+        ld      hl, $0707
+        ld      de, $1207
+        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        ld      bc, $0809
+        ld      ix, cad42
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      a, (menuop+1)
+        ld      b, a
+        djnz    exit1
+        ld      ix, cad44
+exit1   djnz    exit2
+        ld      ix, cad45
+exit2   djnz    exit3
+        ld      ix, cad46
+exit3   ld      bc, $0806
+        call_prnstr
+        call_prnstr
+        call_prnstr
+
         jp      main7
 
 ; Boot list
@@ -1127,7 +1186,7 @@ list55  ld      sp, hl
         ld      h, a
 list56  dec     c
         jr      nz, lista5
-        ld      sp, $bffa
+        ld      sp, $bff8
         ei
         pop     ix
         pop     de
@@ -1728,5 +1787,47 @@ cad36   defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $15, 0
-cad37   defb    0
+cad37   defb    'Save Changes & Exit', 0
+        defb    'Discard Changes & Exit', 0
+        defb    'Save Changes', 0
+        defb    'Discard Changes', 0
+cad38   defb    'Exit system', 0
+        defb    'setup after', 0
+        defb    'saving the', 0
+        defb    'changes', 0, 0
+cad39   defb    'Exit system', 0
+        defb    'setup without', 0
+        defb    'saving any', 0
+        defb    'changes', 0, 0
+cad40   defb    'Save Changes', 0
+        defb    'done so far to', 0
+        defb    'any of the', 0
+        defb    'setup options', 0, 0
+cad41   defb    'Discard Chan-', 0
+        defb    'ges done so', 0
+        defb    'far to any of', 0
+        defb    'the setup', 0
+        defb    'options', 0, 0
+cad42   defb    $10, '                      ', $10, 0
+        defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $17, 0
+        defb    $10, '                      ', $10, 0
+        defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $15, 0
+cad43   defb    $12, $11, $11, $11, ' Save and Exit ', $11, $11, $11, $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, '  Save conf. & Exit?  ', $10, 0
+cad44   defb    $12, ' Exit Without Saving ', $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, ' Quit without saving? ', $10, 0
+cad45   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, '  Save configuration? ', $10, 0
+cad46   defb    $12, ' Load Previous Values ', $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, ' Load previous values?', $10, 0
+        
+
 fincad
