@@ -1477,7 +1477,7 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
-        block   $310c-$
+        block   $310d-$
 
 help    ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
@@ -1544,12 +1544,14 @@ pos0    ld      a, (ix)
         add     hl, hl
         add     hl, hl
         add     hl, hl
-        ld      bc, $0408
-pos00   ldi
-        dec     e
+        ld      b, 4
+pos00   ld      a, (hl)
+        ld      (de), a
+        inc     l
         inc     d
-        ldi
-        dec     e
+        ld      a, (hl)
+        ld      (de), a
+        inc     l
         inc     d
         djnz    pos00
         ld      hl, $f800
@@ -1565,8 +1567,9 @@ pos1    ld      a, (ix)
         add     hl, hl
         add     hl, hl
         add     hl, hl
-        set     3, l
-        set     4, l
+        ld      a, $18
+        or      l
+        ld      l, a
         ld      bc, $04fc
 pos10   ld      a, (de)
         xor     (hl)
