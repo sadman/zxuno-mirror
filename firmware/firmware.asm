@@ -3,7 +3,7 @@
         define  call_prnstr     rst     $08
 
         define  cmbpnt  $8f00
-        define  colcmb  $8fc6   ;solo lo: color de lista
+        define  colcmb  $8fc6   ;lo: color de lista   hi: temporal
         define  menuop  $8fc8   ;lo: menu superior    hi: submenu
         define  corwid  $8fca   ;lo: X attr coor      hi: attr width
         define  cmbcor  $8fcc   ;lo: Y coord          hi: X coord
@@ -17,7 +17,7 @@
         ei
         ld      sp, $c000
         im      1
-        jr      aqui
+        jr      start
         jp      prnstr
 
 jmptbl  defw    main
@@ -27,11 +27,11 @@ jmptbl  defw    main
         defw    menu4
         defw    exit
 
-aqui    call    dzx7bl          ; descomprimir
+start   call    dzx7bl          ; descomprimir
         inc     l 
         inc     hl
         ld      b, $40          ; filtro RCS inverso
-looa    ld      a, b
+start1  ld      a, b
         xor     c
         and     $f8
         xor     c
@@ -45,10 +45,10 @@ looa    ld      a, b
         ldi
         inc     bc
         bit     3, b
-        jr      z, looa
+        jr      z, start1
         ld      b, $13
         ldir
-        jp      descad
+        jp      start2
 
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
@@ -148,7 +148,7 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-descad  ld      de, fincad-1    ; descomprimo cadenas
+start2  ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
         call    dzx7b
         ld      bc, $0909
@@ -167,22 +167,20 @@ descad  ld      de, fincad-1    ; descomprimo cadenas
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-        ld      hl, $2950
-        ld      de, $9800
-        ld      bc, $0024
-        call    rdflsh
-        ld      hl, $2980
-        ld      de, $9000
-        ld      bc, $0800
-        call    rdflsh
+        call    loadch
         xor     a
         out     ($fe), a
-
-noesc   call    waitky
+start3  djnz    start4
+        dec     c
+        jp      z, conti
+start4  ld      a, (codcnt)
+        sub     $80
+        jr      c, start3
+        ld      (codcnt), a
         cp      $0c
         jp      z, boot
         cp      $17
-        jr      nz, noesc
+        jr      nz, start3
 
 ; Setup menu
 bios    out     ($fe), a
@@ -280,6 +278,12 @@ bios8   dec     c
         ld      a, %01111001    ; fondo blanco tinta azul
         ret
 
+; after 1 second continue boot
+conti   ld      a, 2
+        out     ($fe), a
+        di
+        halt
+
 main    inc     d
         ld      h, l
         call    window
@@ -337,7 +341,9 @@ main4   inc     l
         defw    $ffff
         ret
 main6   cp      $0c
-        jp      z, tttt
+        call    z, notab
+        cp      $16
+        call    z, notar
         ld      hl, (menuop)
         cp      $1e
         jr      nz, notiz
@@ -352,11 +358,12 @@ notde   ld      a, iyl
         dec     a
         ld      (menuop+1), a
         ret
-
-tttt    jr      tttt
-
 main7   call    waitky
 main8   ld      hl, (menuop)
+        cp      $0c
+        call    z, notab
+        cp      $16
+        call    z, notar
         sub     $1e
         jr      nz, mainb
         dec     l
@@ -474,9 +481,20 @@ roms7   ld      hl, $0104
         ld      (menuop+1), a
         ld      a, (codcnt)
         sub     $0d
-roms8   jr      c, roms8
-        jr      z, roms9
-        sub     $1e-$0d
+        jr      nc, roms85
+notab   push    af
+        ld      a, 1
+        call    exitg
+        pop     af
+        ret
+roms85  jr      z, roms9
+        sub     $16-$0d
+        jr      nz, roms8
+notar   push    af
+        call    exitg
+        pop     af
+        ret
+roms8   sub     $1e-$16
         jp      z, romst
         dec     a
         jp      z, romst
@@ -685,7 +703,8 @@ exit    ld      h, 28
         defw    cad41
         jp      c, main6
         ld      (menuop+1), a
-        ld      hl, $0707
+exitg   ld      (colcmb+1), a
+        ld      hl, $0709
         ld      de, $1207
         ld      a, %00000111     ;%00000111 fondo negro tinta blanca
         call    window
@@ -693,13 +712,13 @@ exit    ld      h, 28
         dec     l
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
-        ld      bc, $0809
+        ld      bc, $080b
         ld      ix, cad42
         call_prnstr
         call_prnstr
         call_prnstr
         call_prnstr
-        ld      a, (menuop+1)
+        ld      a, (colcmb+1)
         ld      b, a
         djnz    exit1
         ld      ix, cad44
@@ -707,12 +726,31 @@ exit1   djnz    exit2
         ld      ix, cad45
 exit2   djnz    exit3
         ld      ix, cad46
-exit3   ld      bc, $0806
+exit3   ld      bc, $0808
         call_prnstr
         call_prnstr
         call_prnstr
-
-        jp      main7
+        xor     a
+        call    yesno
+        ld      hl, $1708
+        ld      de, $0208
+        ld      a, %00111001    ; fondo blanco tinta azul
+        call    window
+        ld      a, (codcnt)
+        cp      $0c
+        ret     z
+        dec     ixl
+        ret     z
+        ld      a, (colcmb+1)
+        ld      b, a
+        djnz    exit4
+        jr      exit7
+exit4   djnz    exit5
+        jp      savech
+exit5   djnz    exit6
+        jp      loadch
+exit6   call    savech
+exit7   jp      conti
 
 ; Boot list
 boot    call    clrscr          ; borro pantalla
@@ -793,6 +831,40 @@ nxtitm  ld      a, (iy)
 
 binf    jr      binf
 
+; -------------------------------------
+; Yes or not dialog
+;    A: if 0 preselected Yes, if 1 preselected No
+; Returns:
+;    A: 0: yes, 1: no
+; -------------------------------------
+yesno   inc     a
+yesno1  ld      ixl, a
+yesno2  ld      hl, $0b0d
+        ld      de, $0801
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        sub     d               ; %01000111 fondo negro tinta blanca
+        ld      d, 3
+        ld      b, ixl
+        djnz    yesno3
+        ld      h, $11
+        dec     d
+yesno3  call    window
+        call    waitky
+        add     a, $100-$1f
+        jr      nz, yesno4
+        add     a, ixl
+        jr      z, yesno
+yesno4  inc     a
+        jr      nz, yesno5
+        dec     a
+        add     a, ixl
+        jr      z, yesno1
+yesno5  add     a, $1e-$0c
+        cp      2
+        jr      nc, yesno2
+        ld      a, ixl
+        ret
 
 ; -------------------------------------
 ; Transforms space finished string to a null terminated one
@@ -1353,6 +1425,23 @@ prnmul  call_prnstr
         ret
 
 ; ------------------------
+; Save flash structures from $9800 to $29500 and from $9000 to $29800
+; ------------------------
+savech  ret
+
+; ------------------------
+; Load flash structures from $29500 to $9800 and from $29800 to $9000
+; ------------------------
+loadch  ld      hl, $2950
+        ld      de, $9800
+        ld      bc, $0024
+        call    rdflsh
+        ld      hl, $2980
+        ld      de, $9000
+        ld      bc, $0800
+;        call    rdflsh
+        
+; ------------------------
 ; Read from SPI flash
 ; Parameters:
 ;   HL: source address without last 4 bits
@@ -1815,7 +1904,7 @@ cad42   defb    $10, '                      ', $10, 0
         defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $17, 0
-        defb    $10, '                      ', $10, 0
+        defb    $10, '      Yes     No      ', $10, 0
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
