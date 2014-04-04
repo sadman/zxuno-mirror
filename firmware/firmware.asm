@@ -5,6 +5,8 @@
         defb    dir, dato
       endm
 
+        define  dummy   0
+
         define  call_prnstr     rst     $28
         define  zxuno_port      $fc3b
         define  master_conf     0
@@ -23,6 +25,10 @@
                        ; inputs  lo: cursor position  hi: max length
         define  empstr  $8fd4
         define  active  $9820
+        define  quietb  $9821
+        define  divmap  $9822
+        define  nmidiv  $9823
+        define  keyiss  $9824
         define  tmpbuf  $9900
 
         ei
@@ -298,10 +304,84 @@ bios8   dec     c
         ret
 
 ; after 1 second continue boot
-conti   ld      a, 2
+conti   
+      IF  dummy
+        ld      a, 2
         out     ($fe), a
         di
         halt
+      ELSE
+        ld      bc, zxuno_port
+        xor     a
+        out     (c), a
+        inc     b
+        ld      e, %00100000    ; leo 3 bits
+        ld      hl, keyiss
+conti1  cp      (hl)
+        rl      e
+        dec     l
+        jr      nc, conti1
+        ld      a, e
+        rla
+        ld      de, tmpbuf
+        push    de
+        ld      hl, conti2
+        ld      bc, conti6-conti2
+        ldir
+        ret
+conti2  ld      bc, zxuno_port+$100
+        out     (c), a
+        dec     a
+        ld      (tmpbuff+conti5-conti2+2), a
+        ld      a, (active)
+        rlca
+        rlca
+        ld      l, a
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        push    hl
+        pop     ix
+conti3  ld      a, (ix+1)
+        ld      iyl, a
+        ld      a, (ix+2)
+        rlca
+        rlca
+        rlca
+        ld      l, a
+        ld      h, 6
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+conti4  ld      a, master_mapper
+        dec     b
+        out     (c), a
+        inc     b
+        ld      a, (ix)
+        inc     (ix)
+        out     (c), a
+        ld      de, $c000
+        ld      a, $40
+        call    rdflsh
+        ld      de, $0040
+        add     hl, de
+        dec     (ix+1)
+        jr      z, conti5
+        dec     iyl
+        jr      z, conti3
+        jr      conti4
+conti5  wreg    master_conf, 0
+        ld      bc, $1ffd
+        ld      a, (ix+4)
+        out     (c), a
+        ld      b, $7f
+        ld      a, (ix+5)
+        out     (c), a
+        rst     0
+conti6
+      ENDIF
 
 main    inc     d
         ld      h, l
@@ -310,19 +390,24 @@ main    inc     d
         ld      ix, cad10
         ld      bc, $0202
         call    prnmul          ; Harward tests ...
-        ld      a, ($9821)      ; fast boot
+        ld      iy, quietb
+        ld      bc, $0f0a
+main1   ld      a, (iy)
         ld      ix, cad25
         dec     a
-        jr      nz, main1
+        jr      nz, main2
         ld      ixl, cad26 & $ff
-main1   ld      bc, $0f0a
-        call_prnstr
-        ld      a, ($9822)      ; Read SD protocol
+main2   call_prnstr
+        inc     iyl
+        ld      a, $24
+        cp      iyl
+        jr      nz, main1
+        ld      a, (iy)
         ld      ixl, cad29 & $ff
         dec     a
-        jr      nz, main2
+        jr      nz, main25
         ld      ixl, cad30 & $ff
-main2   call_prnstr
+main25  call_prnstr
         ld      de, $1201
         ld      a, (menuop+1)
         call    listas
@@ -331,30 +416,36 @@ main2   call_prnstr
         defb    $06
         defb    $0a
         defb    $0b
+        defb    $0c
+        defb    $0d
         defb    $ff
         defw    cad14
         defw    cad15
         defw    cad16
         defw    cad17
         defw    cad18
+        defw    cad1a
+        defw    cad1b
         jr      c, main6
         ld      (menuop+1), a
         cp      3
-        ld      hl, $9822
+        ld      hl, divmap
         jr      c, main4
-        jr      nz, main3
-        dec     l
+        add     a, $1e
+        ld      l, a
+        cp      $24
+        jr      z, main35
         call    popupw
         defw    cad23
         defw    cad24
         defw    $ffff
         ret
-main3   call    popupw
+main35  call    popupw
         defw    cad27
         defw    cad28
         defw    $ffff
         ret
-main4   inc     l
+main4   ld      l, $25
         call    popupw
         defw    cad22
         defw    $ffff
@@ -1464,11 +1555,11 @@ savech  ret
 ; ------------------------
 loadch  ld      hl, $2950
         ld      de, $9800
-        ld      bc, $0024
+        ld      a, $01
         call    rdflsh
         ld      hl, $2980
         ld      de, $9000
-        ld      bc, $0800
+        ld      a, $08
 ;        call    rdflsh
         
 ; ------------------------
@@ -1476,13 +1567,16 @@ loadch  ld      hl, $2950
 ; Parameters:
 ;   HL: source address without last 4 bits
 ;   DE: destination address
-;   BC: number of bytes to read
+;    A: number of pages (256 bytes) to read
 ; ------------------------
-rdflsh  ld      a, h
+      IF  dummy
+rdflsh  ld      b, a
+        ld      a, h
         cp      $29
-        jp      nz, rdfls2
+        ret     nz
         ld      a, l
         cp      $50
+        ld      c, 0
         jr      nz, rdfls1
         ld      hl, l2950
         ldir
@@ -1490,18 +1584,20 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: active entry
 ;  21: fast boot
-;  22: SD protocol: 0: ZXMMC, 1: DivMMC
+;  22: DivMMC  0: Disable, 1: Enable
 l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $01
-        defb    $00
-        defb    $01
+        defb    $01             ; active
+        defb    $00             ; quiet
+        defb    $01             ; DivMMC
+        defb    $00             ; NMI-DivMMC
+        defb    $00             ; Issue
         defb    0   ; para que not implemented sea 0
 
 rdfls1  cp      $80
-        jp      nz, rdfls2
+        ret     nz
         ld      hl, l2980
         ldir
         ret
@@ -1530,8 +1626,45 @@ l2980   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 128K Spanish        '
-
-rdfls2  ret
+      ELSE
+rdflsh  ld      bc, zxuno_port+$100
+        ex      af, af'
+        xor     a
+        push    hl
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
+        pop     hl
+        push    hl
+        out     (c), h
+        out     (c), l
+        out     (c), a
+        ex      af, af'
+        ex      de, hl
+rdfls1  ld      e, $20
+rdfls2  ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        dec     e
+        jr      nz, rdfls2
+        dec     a
+        jr      nz, rdfls1
+        wreg    flash_cs, 1
+        pop     hl
+        ret
+      ENDIF
 
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
@@ -1839,7 +1972,9 @@ cad10   defb    'Hardware tests', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Quiet Boot', 0
-        defb    'SD Address', 0, 0
+        defb    'DivMMC', 0
+        defb    'NMI-DivMMC', 0
+        defb    'Keyboard', 0, 0
 cad11   defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
@@ -1872,22 +2007,33 @@ cad16   defb    'Performs a', 0
 cad17   defb    'Hide the whole', 0
         defb    'boot screen', 0
         defb    'when enabled', 0, 0
-cad18   defb    'Toggle between', 0
-        defb    'ports of ZXMMC', 0
-        defb    'or DivMMC', 0, 0
+cad18   defb    'Enable RAM and', 0
+        defb    'ROM on DivMMC ', 0
+        defb    'interface.', 0
+        defb    'Ports are', 0
+        defb    'available', 0, 0
+cad1a   defb    'Disable for', 0
+        defb    'better compa-', 0
+        defb    'tibility with', 0
+        defb    'SE Basic IV', 0, 0
+cad1b   defb    'Behaviour of', 0
+        defb    'bit 6 on port', 0
+        defb    '$FE depends', 0
+        defb    'on hardware', 0
+        defb    'issue', 0, 0
 cad19   defb    $12, $11, $11, $11, ' Options ', $11, $11, $11, $13, 0
 cad20   defb    $10, '               ', $10, 0
 cad21   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
 cad22   defb    'Not implem.', 0
-cad23   defb    'Enabled', 0
-cad24   defb    'Disabled', 0
 cad25   defb    '[Enabled]', 0
 cad26   defb    '[Disabled]', 0
-cad27   defb    'ZXMMC', 0
-cad28   defb    'DivMMC', 0
-cad29   defb    '[ZXMMC]', 0
-cad30   defb    '[DivMMC]', 0
+cad29   defb    '[Issue 2]', 0
+cad30   defb    '[Issue 3]', 0
+cad23   defb    'Enabled', 0
+cad24   defb    'Disabled', 0
+cad27   defb    'Issue 2', 0
+cad28   defb    'Issue 3', 0
 cad31   defb    'Move Up', 0
 cad32   defb    'Set Active', 0
 cad33   defb    'Move Down', 0
