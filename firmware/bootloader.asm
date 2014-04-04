@@ -1,0 +1,46 @@
+      macro wreg  dir, dato
+        rst     $30
+        defb    dir, dato
+      endm
+
+        output  bootloader.rom
+        define  zxuno_port      $fc3b
+        define  master_conf     0
+        define  master_mapper   1
+        define  flash_spi       2
+        define  flash_cs        3
+        di
+        ld      sp, $c000-11
+        ld      a, 2            ; byte mas significativo de direccion
+        wreg    master_mapper, 8  ; paginamos la ROM en $c000
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
+        out     (c), a          ; envia direccion 02c000, a=02,h=c0,l=00
+        ld      de, $c761       ; tras el out (c), h de bffc se ejecuta
+        push    de              ; un rst 0 para iniciar la nueva ROM
+        ld      d, (hl)         ; en $bffc para evitar que el cambio de ROM
+        push    de              ; colisione con la siguiente instruccion
+        add     hl, sp
+        out     (c), h
+        out     (c), l
+        dec     hl              ; Primera lectura que se descarta...
+boot    ini
+        inc     b
+        ini
+        inc     b
+        cp      h               ; compruebo si la direccion es 0000 (final)
+        jr      c, boot         ; repito si no lo es
+        wreg    flash_cs, 1     ; desactivando spi
+        dec     b
+        out     (c), h          ; a master_conf quiero enviar un 0 para pasar
+        inc     b               ; a modo normal, pero el ultimo out lo ubico
+        jp      $bffd-11
+
+rst30   ld      bc, zxuno_port + $100
+        pop     hl
+        outi
+        ld      b, (zxuno_port >> 8)+2
+        outi
+        jp      (hl)
+
+        ;block   $4000-$

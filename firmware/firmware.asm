@@ -1,6 +1,11 @@
         output  firmware_strings.rom
 
         define  call_prnstr     rst     $08
+        define  zxuno_port      $fc3b
+        define  master_conf     0
+        define  master_mapper   1
+        define  flash_spi       2
+        define  flash_cs        3
 
         define  cmbpnt  $8f00
         define  colcmb  $8fc6   ;lo: color de lista   hi: temporal
