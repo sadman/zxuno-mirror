@@ -1,6 +1,11 @@
         output  firmware_strings.rom
 
-        define  call_prnstr     rst     $08
+      macro wreg  dir, dato
+        rst     $20
+        defb    dir, dato
+      endm
+
+        define  call_prnstr     rst     $28
         define  zxuno_port      $fc3b
         define  master_conf     0
         define  master_mapper   1
@@ -17,12 +22,36 @@
         define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
                        ; inputs  lo: cursor position  hi: max length
         define  empstr  $8fd4
+        define  active  $9820
         define  tmpbuf  $9900
 
         ei
         ld      sp, $c000
         im      1
-        jr      start
+        ld      hl, finlog-1
+        ld      de, $9aff
+        call    dzx7b           ; descomprimir
+        inc     l 
+        inc     hl
+        ld      b, $40          ; filtro RCS inverso
+start   ld      a, b
+        xor     c
+        and     $f8
+        xor     c
+        ld      d, a
+        xor     b
+        xor     c
+        rlca
+        rlca
+        jp      start1
+
+rst20   pop     hl
+        outi
+        ld      b, (zxuno_port >> 8)+2
+        outi
+        jp      (hl)
+
+rst28   push    bc
         jp      prnstr
 
 jmptbl  defw    main
@@ -32,33 +61,10 @@ jmptbl  defw    main
         defw    menu4
         defw    exit
 
-start   call    dzx7bl          ; descomprimir
-        inc     l 
-        inc     hl
-        ld      b, $40          ; filtro RCS inverso
-start1  ld      a, b
-        xor     c
-        and     $f8
-        xor     c
-        ld      d, a
-        xor     b
-        xor     c
-        rlca
-        rlca
-        ld      e, a
-        inc     bc
-        ldi
-        inc     bc
-        bit     3, b
-        jr      z, start1
-        ld      b, $13
-        ldir
-        jp      start2
-
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
 ; ----------------------
-        push    af
+rst38   push    af
         ex      af, af'
         push    af
         push    bc
@@ -153,7 +159,15 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start2  ld      de, fincad-1    ; descomprimo cadenas
+start1  ld      e, a
+        inc     bc
+        ldi
+        inc     bc
+        bit     3, b
+        jp      z, start
+        ld      b, $13
+        ldir
+        ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
         call    dzx7b
         ld      bc, $0909
@@ -175,17 +189,17 @@ start2  ld      de, fincad-1    ; descomprimo cadenas
         call    loadch
         xor     a
         out     ($fe), a
-start3  djnz    start4
+start2  djnz    start3
         dec     c
         jp      z, conti
-start4  ld      a, (codcnt)
+start3  ld      a, (codcnt)
         sub     $80
-        jr      c, start3
+        jr      c, start2
         ld      (codcnt), a
         cp      $0c
         jp      z, boot
         cp      $17
-        jr      nz, start3
+        jr      nz, start2
 
 ; Setup menu
 bios    out     ($fe), a
@@ -377,7 +391,7 @@ main9   ld      a, l
         ld      h, 0
         dec     a
         jr      nz, maina
-        ld      a, ($9820)
+        ld      a, (active)
         ld      h, a
 maina   ld      (menuop), hl
         ret
@@ -440,7 +454,7 @@ roms1   ld      a, (iy)
         ld      (ix+1), d
         inc     ixl
         inc     ixl
-        ld      a, ($9820)
+        ld      a, (active)
         cp      iyl
         ld      a, $1b
         jr      z, roms2
@@ -525,7 +539,7 @@ romsa   call    popupw
         djnz    romse
         or      a               ; move up
         jr      z, romsf
-        ld      hl, $9820
+        ld      hl, active
         ld      b, (hl)
         cp      b
         jr      nz, romsb
@@ -544,7 +558,7 @@ romsd   ld      l, a
         ld      (hl), b
         jr      romsf
 romse   djnz    romsg
-        ld      ($9820), a      ; set active
+        ld      (active), a     ; set active
 romsf   ret
 romsg   djnz    romsk
         ld      b, a            ; move down
@@ -761,9 +775,9 @@ exit7   jp      conti
 boot    call    clrscr          ; borro pantalla
         call    nument
         cp      13
-        jr      c, mentre
+        jr      c, boot1
         ld      a, 13
-mentre  ld      h, a
+boot1   ld      h, a
         ld      (items), hl
         add     a, -16
         cpl
@@ -772,7 +786,6 @@ mentre  ld      h, a
         ld      a, h
         add     a, 8
         ld      e, a
-
         ld      a, %01001111    ; fondo azul tinta blanca
         ld      h, $01          ; coordenada X
         ld      d, $1c          ; anchura de ventana
@@ -786,10 +799,10 @@ mentre  ld      h, a
         call_prnstr
         push    bc
         ld      iy, (items)
-repblk  ld      ix, cad4
+boot2   ld      ix, cad4
         call_prnstr             ; |                |
         dec     iyh
-        jr      nz, repblk
+        jr      nz, boot2
         ld      ix, cad3
         call_prnstr             ; |----------------|
         ld      ix, cad5
@@ -798,7 +811,7 @@ repblk  ld      ix, cad4
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
-nxtitm  ld      a, (iy)
+boot3   ld      a, (iy)
         inc     iyl
         inc     a
         rlca
@@ -817,7 +830,7 @@ nxtitm  ld      a, (iy)
         ld      a, (items)
         sub     2
         sub     iyl
-        jr      nc, nxtitm
+        jr      nc, boot3
         ld      (ix+0), cad6&$ff
         ld      (ix+1), cad6>>8
         ld      (ix+3), a
@@ -830,9 +843,19 @@ nxtitm  ld      a, (iy)
         ld      h, 4
         ld      a, %01001111
         ld      (colcmb), a
-        ld      a, 1
-        call    combol
-;        jr      c, atras
+        ld      a, (active)
+boot4   call    combol
+        ld      b, a
+        ld      a, (codcnt)
+        cp      $0d
+        ld      a, b
+        jp      c, conti
+        jr      nz, boot4
+        ld      a, (items)
+        dec     a
+        cp      b
+        ld      a, $17
+        jp      z, bios
 
 binf    jr      binf
 
@@ -1080,7 +1103,8 @@ inputh  ex      af, af'
 ; Returns:
 ;    A: item selected
 ; -------------------------------------
-combol  push    de
+combol  push    hl
+        push    de
         ex      af, af'
         ld      (cmbcor), hl
         ld      hl, cmbpnt+1
@@ -1181,6 +1205,7 @@ combo9  dec     a               ; $1d
         jr      combo8
 comboa  ld      a, h
         pop     de
+        pop     hl
         ret
 
 ; -------------------------------------
@@ -1520,9 +1545,6 @@ finlog
         incbin  strings.bin.zx7b
 finstr
 
-dzx7bl  ld      hl, finlog-1
-        ld      de, $9aff
-        
 ; -----------------------------------------------------------------------------
 ; ZX7 Backwards by Einar Saukas, Antonio Villena
 ; Parameters:
@@ -1585,15 +1607,14 @@ help    ld      a, %00111000    ; fondo blanco tinta negra
         call_prnstr
         call_prnstr
         call_prnstr
-
+        push    bc
 ; -----------------------------------------------------------------------------
 ; Print string routine
 ; Parameters:
 ;  BC: X coord (B) and Y coord (C)
 ;  IX: null terminated string
 ; -----------------------------------------------------------------------------
-prnstr  push    bc
-        ld      a, b
+prnstr  ld      a, b
         and     %11111100
         ld      d, a
         xor     b
