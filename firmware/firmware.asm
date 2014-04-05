@@ -5,7 +5,7 @@
         defb    dir, dato
       endm
 
-        define  dummy   0
+        define  dummy   1
 
         define  call_prnstr     rst     $28
         define  zxuno_port      $fc3b
@@ -24,12 +24,13 @@
         define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
                        ; inputs  lo: cursor position  hi: max length
         define  empstr  $8fd4
-        define  active  $9820
-        define  quietb  $9821
-        define  divmap  $9822
-        define  nmidiv  $9823
-        define  keyiss  $9824
-        define  tmpbuf  $9900
+        define  indexe  $9500
+        define  active  $9520
+        define  quietb  $9521
+        define  divmap  $9522
+        define  nmidiv  $9523
+        define  keyiss  $9524
+        define  tmpbuf  $a000
 
         ei
         ld      sp, $c000
@@ -304,7 +305,7 @@ bios8   dec     c
         ret
 
 ; after 1 second continue boot
-conti   
+conti
       IF  dummy
         ld      a, 2
         out     ($fe), a
@@ -339,6 +340,7 @@ conti2  ld      bc, zxuno_port+$100
         ld      l, a
         ld      h, 9
         add     hl, hl
+        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -518,7 +520,7 @@ roms    push    hl
         call_prnstr
         call_prnstr
         call_prnstr
-        ld      iy, $9800
+        ld      iy, $9500
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
@@ -533,6 +535,7 @@ roms1   ld      a, (iy)
         ld      l, a
         ld      h, 9
         add     hl, hl
+        inc     h
         add     hl, hl
         add     hl, hl
         inc     l
@@ -680,6 +683,7 @@ romsk   djnz    romsp
         ld      l, a
         ld      h, 9
         add     hl, hl
+        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -854,6 +858,7 @@ exit3   ld      bc, $0808
         ld      a, (colcmb+1)
         ld      b, a
         djnz    exit4
+        call    loadch
         jr      exit7
 exit4   djnz    exit5
         jp      savech
@@ -898,7 +903,7 @@ boot2   ld      ix, cad4
         call_prnstr             ; |----------------|
         ld      ix, cad5
         call    prnmul
-        ld      iy, $9800
+        ld      iy, $9500
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
@@ -910,6 +915,7 @@ boot3   ld      a, (iy)
         ld      l, a
         ld      h, 9
         add     hl, hl
+        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -1014,7 +1020,7 @@ ovetec  ldir
 ; Returns:
 ;    A: number of boot entries
 ; -------------------------------------
-nument  ld      hl, $9800
+nument  ld      hl, $9500
 numen1  ld      a, (hl)         ; calculo en L el número de entradas
         inc     l
         inc     a
@@ -1546,21 +1552,73 @@ prnmul  call_prnstr
         ret
 
 ; ------------------------
-; Save flash structures from $9800 to $29500 and from $9000 to $29800
+; Save flash structures from $9500 to $29500 and from $9800 to $29800
 ; ------------------------
-savech  ret
-
-; ------------------------
-; Load flash structures from $29500 to $9800 and from $29800 to $9000
-; ------------------------
-loadch  ld      hl, $2950
+savech  ld      hl, $0295
         ld      de, $9800
         ld      a, $01
-        call    rdflsh
-        ld      hl, $2980
+        call    wrflsh
+        ld      hl, $0298
         ld      de, $9000
         ld      a, $08
-;        call    rdflsh
+; ------------------------
+; Read from SPI flash
+; Parameters:
+;   HL: source address without last 4 bits
+;   DE: destination address
+;    A: number of pages (256 bytes) to read
+; ------------------------
+      IF  dummy
+wrflsh  ret
+      ELSE
+wrflsh  ld      bc, zxuno_port+$100
+        ex      af, af'
+        xor     a
+        push    hl
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 6    ; envío write enable
+       wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+       wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 6    ; envío write enable
+        pop     hl
+        push    hl
+        out     (c), h
+        out     (c), l
+        out     (c), a
+        ex      af, af'
+        ex      de, hl
+rdfls1  ld      e, $20
+rdfls2  ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        dec     e
+        jr      nz, rdfls2
+        dec     a
+        jr      nz, rdfls1
+        wreg    flash_cs, 1
+        pop     hl
+        ret
+      ENDIF
+
+; ------------------------
+; Load flash structures from $29000 to $9000
+; ------------------------
+loadch  ld      hl, $0290
+        ld      de, $9000
+        ld      a, $10
         
 ; ------------------------
 ; Read from SPI flash
@@ -1570,22 +1628,27 @@ loadch  ld      hl, $2950
 ;    A: number of pages (256 bytes) to read
 ; ------------------------
       IF  dummy
-rdflsh  ld      b, a
-        ld      a, h
-        cp      $29
+rdflsh  ld      a, h
+        cp      $02
         ret     nz
         ld      a, l
-        cp      $50
-        ld      c, 0
-        jr      nz, rdfls1
-        ld      hl, l2950
+        cp      $90
+        ret     nz
+        ld      bc, l0298-l0295
+        ld      hl, l0295
+        ld      d, $95
+        ldir
+        ld      de, $9800
+        ld      bc, l0300-l0298
         ldir
         ret
 ;  00-1f: index to entries
 ;  20: active entry
-;  21: fast boot
-;  22: DivMMC  0: Disable, 1: Enable
-l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
+;  21: fast boot    0: Disable, 1: Enable
+;  22: DivMMC       0: Disable, 1: Enable
+;  23: NMI-DivMMC   0: Disable, 1: Enable
+;  24: Issue        0: Issue 2, 1: Issue 3
+l0295   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -1596,11 +1659,6 @@ l2950   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $00             ; Issue
         defb    0   ; para que not implemented sea 0
 
-rdfls1  cp      $80
-        ret     nz
-        ld      hl, l2980
-        ldir
-        ret
 ; 32 entradas
 ;    00: RAM offset     
 ;    01: B= ROM SRAM size
@@ -1611,7 +1669,7 @@ rdfls1  cp      $80
 ;    ...
 ;    10-1f: CRCs
 ;    20-3f: Name
-l2980   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
+l0298   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -1626,6 +1684,7 @@ l2980   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 128K Spanish        '
+l0300
       ELSE
 rdflsh  ld      bc, zxuno_port+$100
         ex      af, af'
