@@ -197,7 +197,7 @@ start1  ld      e, a
         xor     a
         out     ($fe), a
 start2  djnz    start3
-        dec     c
+        dec     e
         jp      z, conti
 start3  ld      a, (codcnt)
         sub     $80
@@ -304,15 +304,86 @@ bios8   dec     c
         ld      a, %01111001    ; fondo blanco tinta azul
         ret
 
+exit    ld      h, 28
+        call    window
+        call    help
+        ld      ix, cad37
+        ld      bc, $0202
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      de, $1201
+        ld      a, (menuop+1)
+        call    listas
+        defb    $02
+        defb    $03
+        defb    $04
+        defb    $05
+        defb    $ff
+        defw    cad38
+        defw    cad39
+        defw    cad40
+        defw    cad41
+        jp      c, main6
+        ld      (menuop+1), a
+exitg   ld      (colcmb+1), a
+        ld      hl, $0709
+        ld      de, $1207
+        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        ld      bc, $080b
+        ld      ix, cad42
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      a, (colcmb+1)
+        ld      b, a
+        djnz    exit1
+        ld      ix, cad44
+exit1   djnz    exit2
+        ld      ix, cad45
+exit2   djnz    exit3
+        ld      ix, cad46
+exit3   ld      bc, $0808
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        xor     a
+        call    yesno
+        ld      hl, $1708
+        ld      de, $0208
+        ld      a, %00111001    ; fondo blanco tinta azul
+        call    window
+        ld      a, (codcnt)
+        cp      $0c
+        ret     z
+        dec     ixl
+        ret     z
+        ld      a, (colcmb+1)
+        ld      b, a
+        djnz    exit4
+        call    loadch
+        jr      conti
+exit4   djnz    exit5
+        jp      savech
+exit5   djnz    exit6
+        jp      loadch
+exit6   call    savech
+
 ; after 1 second continue boot
-conti
       IF  dummy
-        ld      a, 2
+conti   ld      a, 2
         out     ($fe), a
         di
         halt
       ELSE
-        ld      bc, zxuno_port
+conti   ld      bc, zxuno_port
         xor     a
         out     (c), a
         inc     b
@@ -333,8 +404,15 @@ conti1  cp      (hl)
 conti2  ld      bc, zxuno_port+$100
         out     (c), a
         dec     a
-        ld      (tmpbuff+conti5-conti2+2), a
-        ld      a, (active)
+        ld      (tmpbuf+conti5-conti2+2), a
+        and     $02
+        jr      z, conti25
+        wreg    master_mapper, 12
+        ld      hl, $0295
+        ld      de, $c000
+        ld      a, $20
+        call    rdflsh
+conti25 ld      a, (active)
         rlca
         rlca
         ld      l, a
@@ -794,79 +872,6 @@ menu4   ld      h, 20
         call    window
         jp      main7
 
-exit    ld      h, 28
-        call    window
-        call    help
-        ld      ix, cad37
-        ld      bc, $0202
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        ld      de, $1201
-        ld      a, (menuop+1)
-        call    listas
-        defb    $02
-        defb    $03
-        defb    $04
-        defb    $05
-        defb    $ff
-        defw    cad38
-        defw    cad39
-        defw    cad40
-        defw    cad41
-        jp      c, main6
-        ld      (menuop+1), a
-exitg   ld      (colcmb+1), a
-        ld      hl, $0709
-        ld      de, $1207
-        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
-        call    window
-        dec     h
-        dec     l
-        ld      a, %01001111    ; fondo azul tinta blanca
-        call    window
-        ld      bc, $080b
-        ld      ix, cad42
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        ld      a, (colcmb+1)
-        ld      b, a
-        djnz    exit1
-        ld      ix, cad44
-exit1   djnz    exit2
-        ld      ix, cad45
-exit2   djnz    exit3
-        ld      ix, cad46
-exit3   ld      bc, $0808
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        xor     a
-        call    yesno
-        ld      hl, $1708
-        ld      de, $0208
-        ld      a, %00111001    ; fondo blanco tinta azul
-        call    window
-        ld      a, (codcnt)
-        cp      $0c
-        ret     z
-        dec     ixl
-        ret     z
-        ld      a, (colcmb+1)
-        ld      b, a
-        djnz    exit4
-        call    loadch
-        jr      exit7
-exit4   djnz    exit5
-        jp      savech
-exit5   djnz    exit6
-        jp      loadch
-exit6   call    savech
-exit7   jp      conti
-
 ; Boot list
 boot    call    clrscr          ; borro pantalla
         call    nument
@@ -946,15 +951,16 @@ boot4   call    combol
         ld      a, (codcnt)
         cp      $0d
         ld      a, b
-        jp      c, conti
+        jr      c, boot5
         jr      nz, boot4
         ld      a, (items)
         dec     a
         cp      b
         ld      a, $17
         jp      z, bios
-
-binf    jr      binf
+        ld      a, b
+        ld      (active), a
+boot5   jp      conti
 
 ; -------------------------------------
 ; Yes or not dialog
@@ -1552,71 +1558,66 @@ prnmul  call_prnstr
         ret
 
 ; ------------------------
-; Save flash structures from $9500 to $29500 and from $9800 to $29800
-; ------------------------
-savech  ld      hl, $0295
-        ld      de, $9800
-        ld      a, $01
-        call    wrflsh
-        ld      hl, $0298
-        ld      de, $9000
-        ld      a, $08
-; ------------------------
-; Read from SPI flash
-; Parameters:
-;   HL: source address without last 4 bits
-;   DE: destination address
-;    A: number of pages (256 bytes) to read
+; Save flash structures from $9500 to $2b500 and from $9800 to $2b800
 ; ------------------------
       IF  dummy
-wrflsh  ret
+savech  ret
       ELSE
-wrflsh  ld      bc, zxuno_port+$100
-        ex      af, af'
-        xor     a
-        push    hl
+savech  xor     a
+        ld      hl, $9000
+        ld      bc, zxuno_port+$100
+        exx
+        ld      de, $02b0
+        ld      bc, zxuno_port+$100
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
-       wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-       wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 6    ; envío write enable
-        pop     hl
-        push    hl
-        out     (c), h
-        out     (c), l
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, $20  ; envío sector erase
+        out     (c), d
+        out     (c), e
         out     (c), a
-        ex      af, af'
-        ex      de, hl
-rdfls1  ld      e, $20
-rdfls2  ini
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 6    ; envío write enable
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+savec1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 2    ; page program
+        out     (c), d
+        out     (c), e
+        out     (c), a
+        ld      a, $20
+        exx
+savec2  inc     b
+        outi
         inc     b
-        ini
+        outi
         inc     b
-        ini
+        outi
         inc     b
-        ini
+        outi
         inc     b
-        ini
+        outi
         inc     b
-        ini
+        outi
         inc     b
-        ini
+        outi
         inc     b
-        ini
-        inc     b
-        dec     e
-        jr      nz, rdfls2
+        outi
         dec     a
-        jr      nz, rdfls1
-        wreg    flash_cs, 1
-        pop     hl
+        jr      nz, savec2
+        exx
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        inc     e
+        bit     4, e
+        jr      nz, savec1
         ret
       ENDIF
 
 ; ------------------------
 ; Load flash structures from $29000 to $9000
 ; ------------------------
-loadch  ld      hl, $0290
+loadch  ld      hl, $02b0
         ld      de, $9000
         ld      a, $10
         
@@ -1632,14 +1633,14 @@ rdflsh  ld      a, h
         cp      $02
         ret     nz
         ld      a, l
-        cp      $90
+        cp      $b0
         ret     nz
-        ld      bc, l0298-l0295
-        ld      hl, l0295
+        ld      bc, l02b8-l02b5
+        ld      hl, l02b5
         ld      d, $95
         ldir
         ld      de, $9800
-        ld      bc, l0300-l0298
+        ld      bc, l0300-l02b8
         ldir
         ret
 ;  00-1f: index to entries
@@ -1648,7 +1649,7 @@ rdflsh  ld      a, h
 ;  22: DivMMC       0: Disable, 1: Enable
 ;  23: NMI-DivMMC   0: Disable, 1: Enable
 ;  24: Issue        0: Issue 2, 1: Issue 3
-l0295   defb    $02, $01, $00, $ff, $01, $00, $02, $01
+l02b5   defb    $02, $01, $00, $ff, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $02, $01, $00, $02, $01, $00, $02, $01
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -1669,7 +1670,7 @@ l0295   defb    $02, $01, $00, $ff, $01, $00, $02, $01
 ;    ...
 ;    10-1f: CRCs
 ;    20-3f: Name
-l0298   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
+l02b8   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
