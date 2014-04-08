@@ -1,4 +1,5 @@
         output  loadf.bin
+        define  debug   0
       macro wreg  dir, dato
         call    rst20
         defb    dir, dato
@@ -18,7 +19,7 @@ l8000   xor     a
         ld      hl, rom
         ld      bc, zxuno_port+$100
         exx
-        ld      de, $02c0
+        ld      de, $02c0+debug*1280
         ld      bc, zxuno_port+$100
 savec1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable

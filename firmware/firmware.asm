@@ -1,11 +1,10 @@
         output  firmware_strings.rom
+        define  debug   0
 
       macro wreg  dir, dato
         rst     $20
         defb    dir, dato
       endm
-
-        define  dummy   1
 
         define  call_prnstr     rst     $28
         define  zxuno_port      $fc3b
@@ -377,7 +376,7 @@ exit5   djnz    exit6
 exit6   call    savech
 
 ; after 1 second continue boot
-      IF  dummy
+      IF  debug
 conti   ld      a, 2
         out     ($fe), a
         di
@@ -1560,16 +1559,27 @@ prnmul  call_prnstr
 ; ------------------------
 ; Save flash structures from $9500 to $2b500 and from $9800 to $2b800
 ; ------------------------
-      IF  dummy
+      IF  debug
 savech  ret
       ELSE
-savech  xor     a
+savech  ld      bc, zxuno_port+$100
+        ld      a, $10
         ld      hl, $9000
-        ld      bc, zxuno_port+$100
         exx
         ld      de, $02b0
+
+; ------------------------
+; Write to SPI flash
+; Parameters:
+;    A: number of pages (256 bytes) to write
+;   DE: target address without last byte
+;  BC': zxuno_port+$100 (constant)
+;  HL': source address from memory
+; ------------------------
+wrflsh  ex      af, af'
+        xor     a
         ld      bc, zxuno_port+$100
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+wrfls1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
@@ -1578,17 +1588,18 @@ savech  xor     a
         out     (c), e
         out     (c), a
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+wrfls2  call    waits5
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-savec1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 2    ; page program
         out     (c), d
         out     (c), e
         out     (c), a
         ld      a, $20
         exx
-savec2  inc     b
+wrfls3  inc     b
         outi
         inc     b
         outi
@@ -1605,12 +1616,25 @@ savec2  inc     b
         inc     b
         outi
         dec     a
-        jr      nz, savec2
+        jr      nz, wrfls3
         exx
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        inc     e
-        bit     4, e
-        jr      nz, savec1
+        ex      af, af'
+        dec     a
+        ret     z
+        ex      af, af'
+        ld      a, e
+        and     $0f
+        jr      nz, wrfls2
+        ld      hl, wrfls1
+        push    hl
+waits5  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 5    ; envío read status
+        in      a, (c)
+waits6  in      a, (c)
+        and     1
+        jr      nz, waits6
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         ret
       ENDIF
 
@@ -1624,11 +1648,11 @@ loadch  ld      hl, $02b0
 ; ------------------------
 ; Read from SPI flash
 ; Parameters:
-;   HL: source address without last 4 bits
+;   HL: source address without last byte
 ;   DE: destination address
 ;    A: number of pages (256 bytes) to read
 ; ------------------------
-      IF  dummy
+      IF  debug
 rdflsh  ld      a, h
         cp      $02
         ret     nz
