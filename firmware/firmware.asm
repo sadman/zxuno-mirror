@@ -193,7 +193,9 @@ start1  ld      e, a
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
         call    loadch
+      IF  debug
         xor     a
+      ENDIF
         out     ($fe), a
 start2  djnz    start3
         dec     e
@@ -385,7 +387,6 @@ conti   ld      a, 2
 conti   ld      bc, zxuno_port
         xor     a
         out     (c), a
-        inc     b
         ld      e, %00100000    ; leo 3 bits
         ld      hl, keyiss
 conti1  cp      (hl)
@@ -597,7 +598,7 @@ roms    push    hl
         call_prnstr
         call_prnstr
         call_prnstr
-        ld      iy, $9500
+        ld      iy, indexe
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
@@ -907,7 +908,7 @@ boot2   ld      ix, cad4
         call_prnstr             ; |----------------|
         ld      ix, cad5
         call    prnmul
-        ld      iy, $9500
+        ld      iy, indexe
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
@@ -1025,7 +1026,7 @@ ovetec  ldir
 ; Returns:
 ;    A: number of boot entries
 ; -------------------------------------
-nument  ld      hl, $9500
+nument  ld      hl, indexe
 numen1  ld      a, (hl)         ; calculo en L el número de entradas
         inc     l
         inc     a
@@ -1724,6 +1725,7 @@ rdflsh  ld      bc, zxuno_port+$100
         out     (c), a
         ex      af, af'
         ex      de, hl
+        in      f, (c)
 rdfls1  ld      e, $20
 rdfls2  ini
         inc     b

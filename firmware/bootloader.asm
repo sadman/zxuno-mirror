@@ -10,7 +10,8 @@
         define  flash_spi       2
         define  flash_cs        3
         di
-        ld      sp, $c000-11
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
+        ld      sp, $c000-14
         ld      a, 2            ; byte mas significativo de direccion
         wreg    master_mapper, 8  ; paginamos la ROM en $c000
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
@@ -26,15 +27,13 @@
         dec     hl              ; Primera lectura que se descarta...
 boot    ini
         inc     b
-        ini
-        inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
         jr      c, boot         ; repito si no lo es
         wreg    flash_cs, 1     ; desactivando spi
         dec     b
         out     (c), h          ; a master_conf quiero enviar un 0 para pasar
         inc     b               ; a modo normal, pero el ultimo out lo ubico
-        jp      $bffd-11
+        jp      $bffd-14
 
 rst30   ld      bc, zxuno_port + $100
         pop     hl
