@@ -19516,11 +19516,12 @@ L3AE6:  PUSH    DE              ; save STKEND
 L3AF2:  di
         ld      h, b
         ld      b, 0
-        ld      de, $bfff-121
+        ld      de, $bfff-127
         ldir
-        jp      $bffd-L3B44+L3AFE
-L3AFE:  ld      bc, zxuno_port + $100
-        ld      a, 7            ; byte mas significativo de direccion
+        jp      $bffd-L3B4A+L3AFE
+L3AFE:  ld      a, 7            ; byte mas significativo de direccion
+        ld      bc, zxuno_port + $100
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
         wreg    master_conf, 1  ; ponemos BOOTM a 1
         wreg    master_mapper, 8  ; paginamos la ROM en $c000
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
@@ -19529,9 +19530,9 @@ L3AFE:  ld      bc, zxuno_port + $100
         ld      hl, $c000
         out     (c), h
         out     (c), l
-        dec     hl              ; Primera lectura que se descarta...
         ld      sp, hl
-L3B22:  ini
+        in      f, (c)
+L3B28:  ini
         inc     b
         ini
         inc     b
@@ -19540,17 +19541,17 @@ L3B22:  ini
         ini
         inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
-        jr      c, L3B22        ; repito si no lo es
+        jr      c, L3B28        ; repito si no lo es
         wreg    flash_cs, 1     ; desactivando spi
         wreg    master_conf, 0  ; ponemos BOOTM a 1
         rst     0
-L3B3C:  pop     hl
+L3B42:  pop     hl
         outi
         ld      b, (zxuno_port >> 8)+2
         outi
         jp      (hl)
 
-L3B44:  DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF; 124 bytes
+L3B4A:  DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF; 118 bytes
         DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
         DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
         DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
@@ -19564,8 +19565,7 @@ L3B44:  DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF; 124 bytes
         DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
         DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
         DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
-        DEFB    $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF;
-        DEFB    $FF, $FF, $FF, $FF;
+        DEFB    $FF, $FF, $FF, $FF, $FF, $FF;
 
 ; ------------------------------
 ; THE 'SERIES GENERATOR' ROUTINE
@@ -20777,7 +20777,7 @@ L3D00:  DEFB    %00000000
 ; 30    3880
 ; 4     38fd
 ; 26    39f9
-; 124   3b44
+; 118   3b44
 ; 285   3be1
 ;-----
-; 563 bytes
+; 557 bytes

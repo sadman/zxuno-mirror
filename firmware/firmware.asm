@@ -2,11 +2,19 @@
         define  debug   0
 
       macro wreg  dir, dato
-        rst     $20
+        rst     $30
         defb    dir, dato
       endm
 
-        define  call_prnstr     rst     $28
+      macro xreg  dir, dato
+        ld      hl, dato | dir<<8
+        dec     b
+        out     (c), h
+        inc     b
+        out     (c), l
+      endm
+
+        define  call_prnstr     rst     $20
         define  zxuno_port      $fc3b
         define  master_conf     0
         define  master_mapper   1
@@ -51,13 +59,7 @@ start   ld      a, b
         rlca
         jp      start1
 
-rst20   pop     hl
-        outi
-        ld      b, (zxuno_port >> 8)+2
-        outi
-        jp      (hl)
-
-rst28   push    bc
+rst20   push    bc
         jp      prnstr
 
 jmptbl  defw    main
@@ -66,6 +68,12 @@ jmptbl  defw    main
         defw    menu3
         defw    menu4
         defw    exit
+
+rst30   pop     hl
+        outi
+        ld      b, (zxuno_port >> 8)+2
+        outi
+        jp      (hl)
 
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
@@ -383,8 +391,72 @@ conti   ld      a, 2
         out     ($fe), a
         di
         halt
+
+rdflsh  ld      a, h
+        cp      $02
+        ret     nz
+        ld      a, l
+        cp      $b0
+        ret     nz
+        ld      bc, l02b8-l02b5
+        ld      hl, l02b5
+        ld      d, $95
+        ldir
+        ld      de, $9800
+        ld      bc, l0300-l02b8
+        ldir
+        ret
+;  00-1f: index to entries
+;  20: active entry
+;  21: fast boot    0: Disable, 1: Enable
+;  22: DivMMC       0: Disable, 1: Enable
+;  23: NMI-DivMMC   0: Disable, 1: Enable
+;  24: Issue        0: Issue 2, 1: Issue 3
+l02b5   defb    $02, $01, $00, $03, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $03             ; active
+        defb    $00             ; quiet
+        defb    $00             ; DivMMC
+        defb    $01             ; NMI-DivMMC
+        defb    $01             ; Issue
+        defb    0   ; para que not implemented sea 0
+
+; 32 entradas
+;    00: RAM offset     
+;    01: B= ROM SRAM size
+;    02: slot offset
+;    03: B= slot size
+;    04: port 1ffd
+;    05: port 7ffd
+;    ...
+;    10-1f: CRCs
+;    20-3f: Name
+l02b8   defb    $08, 1, $00, 1, $00, $00, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'ZX Spectrum 48K Cargando Leches '
+        defb    $08, 4, $01, 4, $00, $00, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'ZX +3e DivMMC                   '
+        defb    $0a, 2, $05, 2, $04, $00, $ff, $ff ;$04
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'SE Basic IV 4.0 Anya            '
+        defb    $08, 1, $07, 1, $00, $00, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'ZX Spectrum 48K                 '
+l0300
       ELSE
-conti   ld      bc, zxuno_port
+conti   di
+        ld      bc, zxuno_port
         xor     a
         out     (c), a
         ld      e, %00100000    ; leo 3 bits
@@ -404,18 +476,19 @@ conti1  cp      (hl)
 conti2  ld      bc, zxuno_port+$100
         out     (c), a
         dec     a
-        ld      (tmpbuf+conti5-conti2+2), a
+        ld      (tmpbuf+conti5-conti2+1), a
         and     $02
         jr      z, conti25
-        wreg    master_mapper, 12
+        xreg    master_mapper, 12
         ld      hl, $0295
         ld      de, $c000
         ld      a, $20
-        call    rdflsh
-conti25 ld      a, (active)
-        rlca
-        rlca
-        ld      l, a
+        call    tmpbuf+rdflsh-conti2
+conti25 ld      hl, active
+        ld      l, (hl)
+        ld      l, (hl)
+        add     hl, hl
+        add     hl, hl
         ld      h, 9
         add     hl, hl
         inc     h
@@ -427,11 +500,12 @@ conti25 ld      a, (active)
 conti3  ld      a, (ix+1)
         ld      iyl, a
         ld      a, (ix+2)
+        add     a, 12
         rlca
         rlca
         rlca
         ld      l, a
-        ld      h, 6
+        ld      h, 0
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -444,7 +518,7 @@ conti4  ld      a, master_mapper
         out     (c), a
         ld      de, $c000
         ld      a, $40
-        call    rdflsh
+        call    tmpbuf+rdflsh-conti2
         ld      de, $0040
         add     hl, de
         dec     (ix+1)
@@ -452,7 +526,11 @@ conti4  ld      a, master_mapper
         dec     iyl
         jr      z, conti3
         jr      conti4
-conti5  wreg    master_conf, 0
+conti5  ld      a, 0
+        dec     b
+        out     (c), d
+        inc     b
+        out     (c), a
         ld      bc, $1ffd
         ld      a, (ix+4)
         out     (c), a
@@ -460,6 +538,51 @@ conti5  wreg    master_conf, 0
         ld      a, (ix+5)
         out     (c), a
         rst     0
+
+; ------------------------
+; Read from SPI flash
+; Parameters:
+;   DE: destination address
+;   HL: source address without last byte
+;    A: number of pages (256 bytes) to read
+; ------------------------
+rdflsh  ex      af, af'
+        xor     a
+        push    hl
+        xreg    flash_cs, 0     ; activamos spi, enviando un 0
+        xreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
+        pop     hl
+        push    hl
+        out     (c), h
+        out     (c), l
+        out     (c), a
+        ex      af, af'
+        ex      de, hl
+        in      f, (c)
+rdfls1  ld      e, $20
+rdfls2  ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        dec     e
+        jr      nz, rdfls2
+        dec     a
+        jr      nz, rdfls1
+        xreg    flash_cs, 1
+        pop     hl
+        ret
 conti6
       ENDIF
 
@@ -906,18 +1029,20 @@ boot2   ld      ix, cad4
         jr      nz, boot2
         ld      ix, cad3
         call_prnstr             ; |----------------|
-        ld      ix, cad5
-        call    prnmul
+        ld      ix, cad5 
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
         ld      iy, indexe
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
-boot3   ld      a, (iy)
+boot3   ld      l, (iy)
         inc     iyl
-        inc     a
-        rlca
-        rlca
-        ld      l, a
+        inc     l
+        add     hl, hl
+        add     hl, hl
         ld      h, 9
         add     hl, hl
         inc     h
@@ -1004,7 +1129,7 @@ yesno5  add     a, $1e-$0c
 ; -------------------------------------
 str2tmp ld      c, $21
         push    hl
-tdecl   dec     l
+tdecl   dec     hl
         dec     c
         ld      a, (hl)
         cp      $20
@@ -1013,7 +1138,7 @@ tdecl   dec     l
         ld      a, l
         sub     $20
         ld      l, a
-        jr      nz, ovetec
+        jr      nc, ovetec
         dec     h
 ovetec  ldir
         xor     a
@@ -1624,6 +1749,7 @@ wrfls3  inc     b
         dec     a
         ret     z
         ex      af, af'
+        inc     e
         ld      a, e
         and     $0f
         jr      nz, wrfls2
@@ -1642,115 +1768,12 @@ waits6  in      a, (c)
 ; ------------------------
 ; Load flash structures from $29000 to $9000
 ; ------------------------
-loadch  ld      hl, $02b0
-        ld      de, $9000
-        ld      a, $10
-        
-; ------------------------
-; Read from SPI flash
-; Parameters:
-;   HL: source address without last byte
-;   DE: destination address
-;    A: number of pages (256 bytes) to read
-; ------------------------
-      IF  debug
-rdflsh  ld      a, h
-        cp      $02
-        ret     nz
-        ld      a, l
-        cp      $b0
-        ret     nz
-        ld      bc, l02b8-l02b5
-        ld      hl, l02b5
-        ld      d, $95
-        ldir
-        ld      de, $9800
-        ld      bc, l0300-l02b8
-        ldir
-        ret
-;  00-1f: index to entries
-;  20: active entry
-;  21: fast boot    0: Disable, 1: Enable
-;  22: DivMMC       0: Disable, 1: Enable
-;  23: NMI-DivMMC   0: Disable, 1: Enable
-;  24: Issue        0: Issue 2, 1: Issue 3
-l02b5   defb    $02, $01, $00, $ff, $01, $00, $02, $01
-        defb    $02, $01, $00, $02, $01, $00, $02, $01
-        defb    $02, $01, $00, $02, $01, $00, $02, $01
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $01             ; active
-        defb    $00             ; quiet
-        defb    $01             ; DivMMC
-        defb    $00             ; NMI-DivMMC
-        defb    $00             ; Issue
-        defb    0   ; para que not implemented sea 0
-
-; 32 entradas
-;    00: RAM offset     
-;    01: B= ROM SRAM size
-;    02: slot offset
-;    03: B= slot size
-;    04: port 1ffd
-;    05: port 7ffd
-;    ...
-;    10-1f: CRCs
-;    20-3f: Name
-l02b8   defb    $0b, 4, $03, 1, $04, $30, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K ROM             '
-        defb    $08, 4, $00, 4, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum +2A English 4.1     '
-        defb    $0a, 2, 20, 2, $04, $00, $ff, $ff ;$04
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 128K Spanish        '
-l0300
-      ELSE
-rdflsh  ld      bc, zxuno_port+$100
-        ex      af, af'
-        xor     a
-        push    hl
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        pop     hl
-        push    hl
-        out     (c), h
-        out     (c), l
-        out     (c), a
-        ex      af, af'
-        ex      de, hl
-        in      f, (c)
-rdfls1  ld      e, $20
-rdfls2  ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        dec     e
-        jr      nz, rdfls2
-        dec     a
-        jr      nz, rdfls1
+loadch  ld      bc, zxuno_port+$100
         wreg    flash_cs, 1
-        pop     hl
-        ret
-      ENDIF
+        ld      de, $9000
+        ld      hl, $02b0
+        ld      a, $10
+        jp      rdflsh
 
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
@@ -2036,7 +2059,7 @@ cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
-        defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
 cad6    defb    'Enter Setup', 0
 cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
         defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11

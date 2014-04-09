@@ -15,9 +15,10 @@
         ld      bc, fin-l8000
         lddr
         jp      l8000
-l8000   xor     a
+l8000   ld      bc, zxuno_port+$100
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
+        xor     a
         ld      hl, rom
-        ld      bc, zxuno_port+$100
         exx
         ld      de, $02c0+debug*1280
         ld      bc, zxuno_port+$100
