@@ -1,5 +1,5 @@
         output  loadf.bin
-        define  debug   1
+        define  debug   0
       macro wreg  dir, dato
         call    rst20
         defb    dir, dato

@@ -1,17 +1,9 @@
         output  firmware_strings.rom
-        define  debug   0
+        define  debug   1
 
       macro wreg  dir, dato
         rst     $30
         defb    dir, dato
-      endm
-
-      macro xreg  dir, dato
-        ld      hl, dato | dir<<8
-        dec     b
-        out     (c), h
-        inc     b
-        out     (c), l
       endm
 
         define  call_prnstr     rst     $20
@@ -249,7 +241,7 @@ bios4   call    bios5
         jr      bios4
 bios5   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
-        ld      de, $1614
+        ld      de, $1814
         call    window
         ld      a, %01001111    ; fondo azul tinta blanca
         dec     h
@@ -365,14 +357,10 @@ exit3   ld      bc, $0808
         call_prnstr
         xor     a
         call    yesno
-        ld      hl, $1708
-        ld      de, $0208
-        ld      a, %00111001    ; fondo blanco tinta azul
-        call    window
+        dec     a
+        ret     z
         ld      a, (codcnt)
         cp      $0c
-        ret     z
-        dec     ixl
         ret     z
         ld      a, (colcmb+1)
         ld      b, a
@@ -479,7 +467,7 @@ conti2  ld      bc, zxuno_port+$100
         ld      (tmpbuf+conti5-conti2+1), a
         and     $02
         jr      z, conti25
-        xreg    master_mapper, 12
+        wreg    master_mapper, 12
         ld      hl, $0295
         ld      de, $c000
         ld      a, $20
@@ -549,8 +537,8 @@ conti5  ld      a, 0
 rdflsh  ex      af, af'
         xor     a
         push    hl
-        xreg    flash_cs, 0     ; activamos spi, enviando un 0
-        xreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
         pop     hl
         push    hl
         out     (c), h
@@ -580,7 +568,7 @@ rdfls2  ini
         jr      nz, rdfls2
         dec     a
         jr      nz, rdfls1
-        xreg    flash_cs, 1
+        wreg    flash_cs, 1
         pop     hl
         ret
 conti6
@@ -632,7 +620,7 @@ main25  call_prnstr
         jr      c, main6
         ld      (menuop+1), a
         cp      3
-        ld      hl, divmap
+        ld      h, divmap >> 8
         jr      c, main4
         add     a, $1e
         ld      l, a
@@ -875,8 +863,8 @@ romsj   ld      (menuop+1), a
         dec     a
         jr      romsd
 romsk   djnz    romsp
-        ld      l, a
-        dec     h
+        ld      l, a            ; rename
+        ld      h, indexe >> 8
         ld      a, (hl)
         inc     a
         rlca
@@ -945,8 +933,7 @@ romsn   dec     l
         ld      l, a
         lddr
         ret
-romsp   dec     h
-        ld      l, $20
+romsp   ld      hl, active      ; delete
         cp      (hl)
         jr      c, romsq
         ld      l, (hl)
@@ -2135,12 +2122,12 @@ cad20   defb    $10, '               ', $10, 0
 cad21   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
 cad22   defb    'Not implem.', 0
-cad25   defb    '[Enabled]', 0
-cad26   defb    '[Disabled]', 0
+cad25   defb    '[Disabled]', 0
+cad26   defb    '[Enabled]', 0
 cad29   defb    '[Issue 2]', 0
 cad30   defb    '[Issue 3]', 0
-cad23   defb    'Enabled', 0
-cad24   defb    'Disabled', 0
+cad23   defb    'Disabled', 0
+cad24   defb    'Enabled', 0
 cad27   defb    'Issue 2', 0
 cad28   defb    'Issue 3', 0
 cad31   defb    'Move Up', 0
@@ -2201,6 +2188,10 @@ cad45   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
 cad46   defb    $12, ' Load Previous Values ', $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Load previous values?', $10, 0
-        
-
 fincad
+
+; todo
+; * Hacer que funcione DivMMC
+; * Añadir carga normal y cargando leches
+; * Añadir CRCs
+
