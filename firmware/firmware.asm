@@ -329,15 +329,7 @@ exit    ld      h, 28
         jp      c, main6
         ld      (menuop+1), a
 exitg   ld      (colcmb+1), a
-        ld      hl, $0709
-        ld      de, $1207
-        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
-        call    window
-        dec     h
-        dec     l
-        ld      a, %01001111    ; fondo azul tinta blanca
-        call    window
-        ld      bc, $080b
+        call    bloq1
         ld      ix, cad42
         call_prnstr
         call_prnstr
@@ -412,31 +404,31 @@ l02b5   defb    $02, $01, $00, $03, $ff, $ff, $ff, $ff
         defb    0   ; para que not implemented sea 0
 
 ; 32 entradas
-;    00: RAM offset     
-;    01: B= ROM SRAM size
-;    02: slot offset
-;    03: B= slot size
+;    00: slot offset
+;    01: slot size
+;    02: RAM offset     
+;    03: ROM SRAM size
 ;    04: port 1ffd
 ;    05: port 7ffd
 ;    ...
 ;    10-1f: CRCs
 ;    20-3f: Name
-l02b8   defb    $08, 1, $00, 1, $00, $00, $ff, $ff
+l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 48K Cargando Leches '
-        defb    $08, 4, $01, 4, $00, $00, $ff, $ff
+        defb    $01, 4, $08, 4, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX +3e DivMMC                   '
-        defb    $0a, 2, $05, 2, $04, $00, $ff, $ff ;$04
+        defb    $05, 2, $0a, 2, $04, $00, $ff, $ff ;$04
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'SE Basic IV 4.0 Anya            '
-        defb    $08, 1, $07, 1, $00, $00, $ff, $ff
+        defb    $07, 1, $08, 1, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -444,27 +436,22 @@ l02b8   defb    $08, 1, $00, 1, $00, $00, $ff, $ff
 l0300
       ELSE
 conti   di
-        ld      bc, zxuno_port
-        xor     a
-        out     (c), a
-        ld      e, %00100000    ; leo 3 bits
+        ld      a, %00100000    ; leo 3 bits
         ld      hl, keyiss
-conti1  cp      (hl)
-        rl      e
+conti1  rr      (hl)
+        adc     a, a
         dec     l
         jr      nc, conti1
-        ld      a, e
-        rla
+        add     a, a
         ld      de, tmpbuf
         push    de
         ld      hl, conti2
         ld      bc, conti6-conti2
         ldir
         ret
-conti2  ld      bc, zxuno_port+$100
-        out     (c), a
-        dec     a
-        ld      (tmpbuf+conti5-conti2+1), a
+conti2  ld      (tmpbuf+conti5-conti2+1), a
+        ld      bc, zxuno_port+$100
+        wreg    master_conf, 1
         and     $02
         jr      z, conti25
         wreg    master_mapper, 12
@@ -485,9 +472,9 @@ conti25 ld      hl, active
         add     hl, hl
         push    hl
         pop     ix
-conti3  ld      a, (ix+1)
+conti3  ld      a, (ix+3)
         ld      iyl, a
-        ld      a, (ix+2)
+        ld      a, (ix)
         add     a, 12
         rlca
         rlca
@@ -501,15 +488,15 @@ conti4  ld      a, master_mapper
         dec     b
         out     (c), a
         inc     b
-        ld      a, (ix)
-        inc     (ix)
+        ld      a, (ix+2)
+        inc     (ix+2)
         out     (c), a
         ld      de, $c000
         ld      a, $40
         call    tmpbuf+rdflsh-conti2
         ld      de, $0040
         add     hl, de
-        dec     (ix+1)
+        dec     (ix+3)
         jr      z, conti5
         dec     iyl
         jr      z, conti3
@@ -520,7 +507,7 @@ conti5  ld      a, 0
         inc     b
         out     (c), a
         ld      bc, $1ffd
-        ld      a, (ix+4)
+        ld      a, (ix+2)
         out     (c), a
         ld      b, $7f
         ld      a, (ix+5)
@@ -573,6 +560,17 @@ rdfls2  ini
         ret
 conti6
       ENDIF
+
+bloq1   ld      hl, $0709
+        ld      de, $1207
+        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        ld      bc, $080b
+        ret
 
 main    inc     d
         ld      h, l
@@ -715,24 +713,20 @@ roms    push    hl
         ld      b, e
         ld      a, %00111001
         ld      (colcmb), a
-roms1   ld      a, (iy)
-        inc     a
+roms1   ld      l, (iy)
+        inc     l
         jr      z, roms5
-        dec     a
-        rlca
-        rlca
-        ld      l, a
+        dec     l
+        add     hl, hl
+        add     hl, hl
         ld      h, 9
         add     hl, hl
         inc     h
         add     hl, hl
         add     hl, hl
-        inc     l
         add     hl, hl
         ld      c, (hl)
-        ld      a, l
-        add     a, $1e
-        ld      l, a
+        set     5, l
         ld      (ix+0), e
         ld      (ix+1), d
         inc     ixl
@@ -800,7 +794,33 @@ roms8   sub     $1e-$16
         jp      z, romst
         dec     a
         jp      z, romst
-        ld      a, (menuop+1)
+        sub     $6e-$1f         ; n= New Entry
+        jr      nz, roms87
+        ld      ix, cad48
+        call    prnhel
+        call    bloq1
+        dec     c
+        ld      iyl, 4
+roms86  ld      ix, cad42
+        call_prnstr
+        dec     iyl
+        jr      nz, roms86
+        ld      ixl, cad50 & $ff
+        call_prnstr
+        ld      c, 8
+        ld      ix, cad47
+        call_prnstr
+        call_prnstr
+        ld      ix, tmpbuf
+        ld      de, $003f
+        call    lbytes
+
+        di
+        halt
+
+
+
+roms87  ld      a, (menuop+1)
         jr      roms7
 roms9   ld      hl, tmpbuf
         ld      (hl), 1
@@ -1473,8 +1493,7 @@ lista4  call    window
         dec     hl
         ld      a, (hl)
         ld      ixl, a
-        ld      bc, $1b02
-        call    prnmul
+        call    prnhel
         call    waitky
         ld      a, (codcnt)
         cp      $0d
@@ -1662,7 +1681,7 @@ clrscr  ld      hl, $4000
         ld      (hl), l
         ldir
         ret
-
+prnhel  ld      bc, $1b02
 prnmul  call_prnstr
         add     a, (ix)
         jr      nz, prnmul
@@ -1763,18 +1782,6 @@ loadch  ld      bc, zxuno_port+$100
         jp      rdflsh
 
 ; -----------------------------------------------------------------------------
-; Compressed and RCS filtered logo
-; -----------------------------------------------------------------------------
-        incbin  logo256x192.rcs.zx7b
-finlog
-
-; -----------------------------------------------------------------------------
-; Compressed messages
-; -----------------------------------------------------------------------------
-        incbin  strings.bin.zx7b
-finstr
-
-; -----------------------------------------------------------------------------
 ; ZX7 Backwards by Einar Saukas, Antonio Villena
 ; Parameters:
 ;   HL: source address (compressed data)
@@ -1822,7 +1829,391 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
-        block   $310d-$
+lbytes  di                      ; disable interrupts
+        ld      a, $0f          ; make the border white and mic off.
+        out     ($fe), a        ; output to port.
+        push    ix
+        pop     hl              ; pongo la direccion de comienzo en hl
+        exx                     ; salvo de, en caso de volver al cargador estandar y para hacer luego el checksum
+        ld      c, a
+ultr0   defb    $2a             ; en (1220) bit bajo de l=1 alto de h=0
+ultr1   jr      nz, ultr3       ; return if at any time space is pressed.
+ultr2   ld      b, 0
+        call    lsampl          ; leo la duracion de un pulso (positivo o negativo)
+        jr      nc, ultr1       ; si el pulso es muy largo retorno a bucle
+        ld      a, b
+        cp      40              ; si el contador esta entre 24 y 40
+        jr      nc, ultr4       ; y se reciben 8 pulsos (me falta inicializar hl a 00ff)
+        cp      24
+        rl      l
+        jr      nz, ultr4
+ultr3   exx
+lbreak  ret     nz              ; return if at any time space is pressed.
+lstart  call    ldedg1          ; routine ld-edge-1
+        jr      nc, lbreak      ; back to ld-break with time out and no edge present on tape
+        xor     a               ; set up 8-bit outer loop counter for approx 0.45 second delay
+ldwait  add     hl, hl
+        djnz    ldwait          ; self loop to ld-wait (for 256 times)
+        dec     a               ; decrease outer loop counter.
+        jr      nz, ldwait      ; back to ld-wait, if not zero, with zero in b.
+        call    ldedg2          ; routine ld-edge-2
+        jr      nc, lbreak      ; back to ld-break if no edges at all.
+leader  ld      b, $9c          ; two edges must be spaced apart.
+        call    ldedg2          ; routine ld-edge-2
+        jr      nc, lbreak      ; back to ld-break if time-out
+        ld      a, $c6          ; two edges must be spaced apart.
+        cp      b               ; compare
+        jr      nc, lstart      ; back to ld-start if too close together for a lead-in.
+        inc     h               ; proceed to test 256 edged sample.
+        jr      nz, leader      ; back to ld-leader while more to do.
+ldsync  ld      b, $c9          ; two edges must be spaced apart.
+        call    ldedg1          ; routine ld-edge-1
+        jr      nc, lbreak      ; back to ld-break with time-out.
+        ld      a, b            ; fetch augmented timing value from b.
+        cp      $d4             ; compare 
+        jr      nc, ldsync      ; back to ld-sync if gap too big, that is, a normal lead-in edge gap
+        call    ldedg1          ; routine ld-edge-1
+        ret     nc              ; return with time-out.
+        ld      a, c            ; fetch long-term mask from c
+        xor     $03             ; and make blue/yellow.
+        ld      c, a            ; store the new long-term byte.
+        jr      marker          ; forward to ld-marker 
+ldloop  ex      af, af'         ; restore entry flags and type in a.
+        jr      nz, ldflag      ; forward to ld-flag if awaiting initial flag, to be discarded
+        ld      (ix), l         ; place loaded byte at memory location.
+        inc     ix              ; increment byte pointer.
+        dec     de              ; decrement length.
+        defb    $c2
+ldflag  inc     l               ; compare type in a with first byte in l.
+        ret     nz              ; return if no match e.g. code vs. data.
+        ex      af, af'         ; store the flags.
+marker  ld      l, $01          ; initialize as %00000001
+l8bits  ld      b, $b2          ; timing.
+        call    ldedg2          ; routine ld-edge-2 increments b relative to gap between 2 edges
+        ret     nc              ; return with time-out.
+        ld      a, $cb          ; the comparison byte.
+        cp      b               ; compare to incremented value of b.
+        rl      l               ; rotate the carry bit into l.
+        jr      nc, l8bits      ; jump back to ld-8-bits
+        ld      a, h            ; fetch the running parity byte.
+        xor     l               ; include the new byte.
+        ld      h, a            ; and store back in parity register.
+        ld      a, d            ; check length of
+        or      e               ; expected bytes.
+        jr      nz, ldloop      ; back to ld-loop while there are more.
+        ld      a, h            ; fetch parity byte.
+        cp      1               ; set carry if zero.
+        ret                     ; return
+ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono guia
+        rr      h               ; de las ultracargas, si los ultimos 8 pulsos
+        cp      10              ; son de tono guia h debe valer ff
+        jr      nc, ultr2
+        inc     h
+        inc     h
+        jr      nz, ultr0       ; si detecto sincronismo sin 8 pulsos de tono guia retorno a bucle
+        call    lsampl          ; leo pulso negativo de sincronismo
+        ld      l, $01          ; hl vale 0001, marker para leer 16 bits en hl (checksum y byte flag)
+        call    get16           ; leo 16 bits, ahora temporizo cada 2 pulsos
+        inc     l               ; lo comparo con el que me encuentro en la ultracarga
+        ret     nz              ; salgo si no coinciden
+        ld      a, h            ; xoreo el checksum con en byte flag, resultado en a
+        cpl
+        exx                     ; guardo checksum por duplicado en h' y l'
+        push    hl              ; pongo direccion de comienzo en pila
+        ld      c, a
+        ld      a, $d8          ; a' tiene que valer esto para entrar en raudo
+        ex      af, af'
+        exx
+        ld      h, $01          ; leo 8 bits en hl
+        call    get16
+        push    hl
+        pop     ix
+        pop     de              ; recupero en de la direccion de comienzo del bloque
+        inc     c               ; pongo en flag z el signo del pulso
+        ld      bc, $effe       ; este valor es el que necesita b para entrar en raudo
+        jp      z, ult55
+        ld      h, $30
+ultr5   in      f, (c)
+        jp      pe, ultr5
+        call    l30c3           ; salto a raudo segun el signo del pulso en flag z
+        jr      ultr7
+ult55   ld      h, $2e
+ultr6   in      f, (c)
+        jp      po, ultr6
+        call    l2f03           ; salto a raudo
+ultr7   exx                     ; ya se ha acabado la ultracarga (raudo)
+        ld      b,e
+        ld      e,c
+        ld      c,d
+        ld      a,ixh
+        inc     b
+        dec     b
+        jr      z,ultr8
+        inc     c
+ultr8   xor     (hl)
+        inc     hl
+        djnz    ultr8
+        dec     c
+        jp      nz,ultr8
+        push    hl              ; ha ido bien
+        xor     e
+        ld      h,b
+        ld      l,e
+        ld      d,b
+        ld      e,b
+        pop     ix              ; ix debe apuntar al siguiente byte despues del bloque
+        ret     nz              ; si no coincide el checksum salgo con carry desactivado
+        scf
+        ret
+get16   ld      b, 0
+        call    lsampl
+        call    lsampl
+        ld      a, b
+        cp      12
+        adc     hl, hl
+        jr      nc, get16
+        ret
+ldedg2  call    ldedg1          ; call routine ld-edge-1 below.
+        ret     nc              ; return if space pressed or time-out.
+ldedg1  ld      a, $16          ; a delay value of twenty two.
+ldelay  dec     a               ; decrement counter
+        jr      nz, ldelay      ; loop back to ld-delay 22 times.
+        and     a               ; clear carry.
+lsampl  inc     b               ; increment the time-out counter.
+        ret     z               ; return with failure when $ff passed.
+        ld      a, $7f          ; prepare to read keyboard and ear port
+        in      a, ($fe)        ; row $7ffe. bit 6 is ear, bit 0 is space key.
+        rra                     ; test outer key the space. (bit 6 moves to 5)
+        ret     nc              ; return if space pressed.  >>>
+        xor     c               ; compare with initial long-term state.
+        and     $20             ; isolate bit 5
+        jr      z, lsampl       ; back to ld-sample if no edge.
+        ld      a, c            ; fetch comparison value.
+        xor     $27             ; switch the bits
+        ld      c, a            ; and put back in c for long-term.
+        out     ($fe), a        ; send to port to effect the change of colour. 
+        scf                     ; set carry flag signaling edge found within time allowed
+        ret                     ; return.
+
+; -----------------------------------------------------------------------------
+; Compressed and RCS filtered logo
+; -----------------------------------------------------------------------------
+        incbin  logo256x192.rcs.zx7b
+finlog
+
+; -----------------------------------------------------------------------------
+; Compressed messages
+; -----------------------------------------------------------------------------
+        incbin  strings.bin.zx7b
+finstr
+
+
+        block   $2dbf-$
+
+l2dbf   inc     h               ;4
+        jr      nc, l2dcd       ;7/12     46/48
+        xor     b               ;4
+        xor     $9c             ;7
+        ld      (de), a         ;7
+        inc     de              ;6
+        ld      a, $dc          ;7
+        ex      af, af'         ;4
+        in      l, (c)          ;12
+        jp      (hl)            ;4
+l2dcd   xor     b               ;4
+        add     a, a            ;4
+        ret     c               ;5
+        add     a, a            ;4
+        ex      af, af'         ;4
+        out     ($fe), a        ;11
+        in      l, (c)          ;12
+        jp      (hl)            ;4
+
+        block   $2dff-$         ; 40 bytes
+
+l2dff   in      l, (c)
+        jp      (hl)
+
+        block   $2e0d-$         ; 11 bytes
+
+        defb    $ec, $ec, $01   ; 0d
+        defb    $ec, $ec, $02   ; 10
+        defb    $ec, $ec, $03   ; 13
+        defb    $ec, $ec, $04   ; 16
+        defb    $ec, $ec, $05   ; 19
+        defb    $ec, $ec, $06   ; 1c
+        defb    $ec, $ec, $07   ; 1f
+        defb    $ec, $ec, $08   ; 22
+        defb    $ec, $ec, $09   ; 25
+        defb    $ed, $ed, $0a   ; 28
+        defb    $ed, $ed, $0b   ; 2b
+        defb    $ed, $ed, $0c   ; 2e
+        defb    $ed, $ed, $0d   ; 31
+        defb    $ed, $ed, $0e   ; 34
+        defb    $ed, $ed, $7f   ; 37
+        defb    $ed, $ed, $7f   ; 3a
+        defb    $ed, $ed, $7f   ; 3d
+        defb    $ed, $ed, $7f   ; 40
+        defb    $ed, $ee, $7f   ; 43 --
+        defb    $ee, $ee, $7f   ; 46 --
+        defb    $ee, $ee, $7f   ; 49
+        defb    $ee, $ee, $7f   ; 4c
+        defb    $ee, $ee, $7f   ; 4f
+        defb    $ee, $ee, $7f   ; 52
+        defb    $ee, $ee, $0f   ; 55
+        defb    $ee, $ee, $10   ; 58
+        defb    $ee, $ee, $11   ; 5b
+        defb    $ee, $ef, $12   ; 5e
+        defb    $ee, $ef, $13   ; 61
+        defb    $ef, $ef, $14   ; 64
+        defb    $ef, $ef, $15   ; 67
+        defb    $ef, $ef, $16   ; 6a
+        defb    $ef, $ef, $17   ; 6d
+        defb    $ef, $ef, $18   ; 70
+        defb    $ef, $ef, $19   ; 73
+        defb    $ef, $ef, $1a   ; 76
+        defb    $ef, $1b, $1c   ; 79
+        defb    $ef, $1d, $1e   ; 7c
+        defb    $ef             ; 7f
+        defb    $ec, $ec, $1f   ; 80
+        defb    $ec, $ec, $20   ; 83
+        defb    $ec, $ec, $21   ; 86
+        defb    $ec, $ec, $22   ; 89
+        defb    $ec, $ec, $23   ; 8c
+        defb    $ed, $ed, $7e   ; 8f
+        defb    $ed, $ed, $7d   ; 92
+        defb    $ed, $ed, $7f   ; 95
+        defb    $ed, $ed, $7f   ; 98
+        defb    $ed, $ee, $7f   ; 9b --
+        defb    $ee, $ee, $7f   ; 9e
+        defb    $ee, $ee, $7f   ; a1
+        defb    $ee, $ee, $7d   ; a4
+        defb    $ee, $ee, $7e   ; a7
+        defb    $ee, $ef, $24   ; aa
+        defb    $ef, $ef, $25   ; ad
+        defb    $ef, $ef, $26   ; b0
+        defb    $ef, $ef, $27   ; b3
+        defb    $ef, $ef, $28   ; b6
+        defb    $ef, $29, $2a   ; b9
+        defb    $2b, $2c, $2d   ; bc
+l2ebf   in      l, (c)
+        jp      (hl)
+
+        block   $2eff-$         ; 61 bytes
+
+l2eff   ld      a, r            ;9        49 (41 sin borde)
+        ld      l, a            ;4
+        ld      b, (hl)         ;7
+l2f03   ld      a, ixl          ;8
+        ld      r, a            ;9
+        ld      a, b            ;4
+        ex      af, af'         ;4
+        dec     h               ;4
+        in      l, (c)          ;12
+        jp      (hl)            ;4
+
+        block   $2fbf-$         ; 178 bytes
+
+l2fbf   in      l, (c)
+        jp      (hl)
+
+        block   $2ff5-$         ; 51 bytes
+
+l2ff5   xor     b
+        add     a, a
+        ret     c
+        add     a, a
+        ex      af, af'
+        out     ($fe), a
+        in      l, (c)
+        jp      (hl)
+l2fff   inc     h
+        jr      nc, l2ff5
+        xor     b
+        xor     $9c
+        ld      (de), a
+        inc     de
+        ld      a, $dc
+        ex      af, af'
+        in      l, (c)
+        jp      (hl)
+        defb    $ec, $ec, $01   ; 0d
+        defb    $ec, $ec, $02   ; 10
+        defb    $ec, $ec, $03   ; 13
+        defb    $ec, $ec, $04   ; 16
+        defb    $ec, $ec, $05   ; 19
+        defb    $ec, $ec, $06   ; 1c
+        defb    $ec, $ec, $07   ; 1f
+        defb    $ec, $ec, $08   ; 22
+        defb    $ec, $ec, $09   ; 25
+        defb    $ed, $ed, $0a   ; 28
+        defb    $ed, $ed, $0b   ; 2b
+        defb    $ed, $ed, $0c   ; 2e
+        defb    $ed, $ed, $0d   ; 31
+        defb    $ed, $ed, $0e   ; 34
+        defb    $ed, $ed, $7f   ; 37
+        defb    $ed, $ed, $7f   ; 3a
+        defb    $ed, $ed, $7f   ; 3d
+        defb    $ed, $ed, $7f   ; 40
+        defb    $ed, $ee, $7f   ; 43 --
+        defb    $ee, $ee, $7f   ; 46 --
+        defb    $ee, $ee, $7f   ; 49
+        defb    $ee, $ee, $7f   ; 4c
+        defb    $ee, $ee, $7f   ; 4f
+        defb    $ee, $ee, $7f   ; 52
+        defb    $ee, $ee, $0f   ; 55
+        defb    $ee, $ee, $10   ; 58
+        defb    $ee, $ee, $11   ; 5b
+        defb    $ee, $ef, $12   ; 5e
+        defb    $ee, $ef, $13   ; 61
+        defb    $ef, $ef, $14   ; 64
+        defb    $ef, $ef, $15   ; 67
+        defb    $ef, $ef, $16   ; 6a
+        defb    $ef, $ef, $17   ; 6d
+        defb    $ef, $ef, $18   ; 70
+        defb    $ef, $ef, $19   ; 73
+        defb    $ef, $ef, $1a   ; 76
+        defb    $ef, $1b, $1c   ; 79
+        defb    $ef, $1d, $1e   ; 7c
+        defb    $ef             ; 7f
+        defb    $ec, $ec, $1f   ; 80
+        defb    $ec, $ec, $20   ; 83
+        defb    $ec, $ec, $21   ; 86
+        defb    $ec, $ec, $22   ; 89
+        defb    $ec, $ec, $23   ; 8c
+        defb    $ed, $ed, $7e   ; 8f
+        defb    $ed, $ed, $7d   ; 92
+        defb    $ed, $ed, $7f   ; 95
+        defb    $ed, $ed, $7f   ; 98
+        defb    $ed, $ee, $7f   ; 9b --
+        defb    $ee, $ee, $7f   ; 9e
+        defb    $ee, $ee, $7f   ; a1
+        defb    $ee, $ee, $7d   ; a4
+        defb    $ee, $ee, $7e   ; a7
+        defb    $ee, $ef, $24   ; aa
+        defb    $ef, $ef, $25   ; ad
+        defb    $ef, $ef, $26   ; b0
+        defb    $ef, $ef, $27   ; b3
+        defb    $ef, $ef, $28   ; b6
+        defb    $ef, $29, $2a   ; b9
+        defb    $2b, $2c, $2d   ; bc
+l30bf   ld      a, r
+        ld      l, a
+        ld      b, (hl)
+l30c3   ld      a, ixl
+        ld      r, a
+        ld      a, b
+        ex      af, af'
+        dec     h
+        in      l, (c)
+        jp      (hl)
+
+        block   $30ff-$         ; 50 bytes
+
+l30ff   in      l,(c)
+        jp      (hl)
+
+        block   $310d-$         ; 11 bytes
 
 help    ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
@@ -2087,7 +2478,7 @@ cad13   defb    $1e, ' ', $1f, ' Sel.Screen', 0
         defb    'Enter Change', 0
         defb    'Graph Save&Exi', 0
         defb    'Break Exit', 0
-        defb    'N   Add Entry', 0
+        defb    'N   New Entry', 0
         defb    'C   Check CRCs', 0
         defb    'R   Recovery', 0
 cad14   defb    'Run a diagnos-', 0
@@ -2173,7 +2564,7 @@ cad42   defb    $10, '                      ', $10, 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $17, 0
         defb    $10, '      Yes     No      ', $10, 0
-        defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
+cad50   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
 cad43   defb    $12, $11, $11, $11, ' Save and Exit ', $11, $11, $11, $11, $13, 0
@@ -2188,6 +2579,13 @@ cad45   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
 cad46   defb    $12, ' Load Previous Values ', $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Load previous values?', $10, 0
+cad47   defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
+        defb    $10, ' Header:              ', $10, 0
+cad48   defb    'Press play on', 0
+        defb    'tape & follow', 0
+        defb    'the progress', 0
+        defb    'Break to', 0
+        defb    'cancel', 0, 0
 fincad
 
 ; todo
