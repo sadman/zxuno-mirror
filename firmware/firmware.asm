@@ -21,7 +21,8 @@
         define  codcnt  $8fce   ;lo: codigo ascii     hi: repdel
         define  items   $8fd0   ;lo: totales          hi: en pantalla
         define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
-                       ; inputs  lo: cursor position  hi: max length
+                      ; inputs   lo: cursor position  hi: max length
+                      ; otro     lo: pagina actual    hi: mascara paginas
         define  empstr  $8fd4
         define  indexe  $9500
         define  active  $9520
@@ -783,7 +784,7 @@ notab   push    af
         call    exitg
         pop     af
         ret
-roms85  jr      z, roms9
+roms85  jp      z, roms9
         sub     $16-$0d
         jr      nz, roms8
 notar   push    af
@@ -795,33 +796,109 @@ roms8   sub     $1e-$16
         dec     a
         jp      z, romst
         sub     $6e-$1f         ; n= New Entry
-        jr      nz, roms87
+        jp      nz, roms87
         ld      ix, cad48
         call    prnhel
         call    bloq1
         dec     c
-        ld      iyl, 4
+        dec     c
+        ld      iyl, 5
 roms86  ld      ix, cad42
         call_prnstr
         dec     iyl
         jr      nz, roms86
         ld      ixl, cad50 & $ff
         call_prnstr
-        ld      c, 8
-        ld      ix, cad47
+        ld      c, b
         call_prnstr
+        call    romcyb
+        ld      ixl, cad47 & $ff
         call_prnstr
         ld      ix, tmpbuf
         ld      de, $003f
         call    lbytes
+        ld      bc, $1109
+        jr      nc, romer
+        ld      hl, tmpbuf+$2c
+        ld      a, (hl)
+        push    af
+        ld      (hl), 0
+        ld      ixl, $1f
+        call_prnstr
+        pop     af
+        ld      (tmpbuf+$2c), a
+        ld      de, tmpbuf+$40
+        ld      hl, cad52
+        ld      bc, cad53-cad52
+        ldir
+        ld      a, (tmpbuf)
+        ld      iyh, a
+        add     a, $30
+        ld      (tmpbuf+$4b), a
+        ld      hl, %00001010
+rms001  ld      (offsel), hl
+        ld      bc, $7ffd
+        out     (c), h
+        call    romcyb
+        ld      (empstr), a
+        push    bc
+        ld      ix, tmpbuf+$40
+        ld      b, $09
+        call_prnstr
+        inc     (ix-8)
+        ld      ix, $c000
+        ld      de, $4000
+        call    lbytes
+        pop     bc
+        jr      nc, romer
+        ld      b, $17
+        ld      ix, cad53
+        call_prnstr
+        ld      hl, (offsel)
+        inc     h
+        rr      l
+        jr      nc, rms002
+        inc     h
+rms002  dec     iyh
+        jr      nz, rms001
+        ei
+        call    romcyb
+        ld      ix, cad54
+        call_prnstr
+        ld      hl, %0100011101000111 ; fondo negro tinta blanca
+        ld      ($5800+11*32+18), hl
+        ld      hl, $0200
+        dec     c
+        ld      b, $18
+        call    inputs
 
+
+;savech  ld      bc, zxuno_port+$100
+;        ld      a, $10
+;        ld      hl, $9000
+;        exx
+;        ld      de, $02b0
+
+ di
+ halt
+;        ld      ixl, cad51 & $ff
+;        call_prnstr
+romlo   
+
+
+romer   call    romcyb
+        ld      ix, cad49
+        call_prnstr
+        call    romcyb
+        ld      ix, cad51
+        call_prnstr
         di
         halt
 
 
 
 roms87  ld      a, (menuop+1)
-        jr      roms7
+        jp      roms7
 roms9   ld      hl, tmpbuf
         ld      (hl), 1
 romsa   call    popupw
@@ -900,7 +977,7 @@ romsk   djnz    romsp
         ld      de, empstr
         call    str2tmp
         ld      hl, $0309
-        ld      de, $1a07
+        ld      de, $1b07
         ld      a, e            ;%00000111 fondo negro tinta blanca
         call    window
         dec     h
@@ -927,7 +1004,7 @@ romsl   push    ix
         ld      hl, $20ff
         call    inputs
         ld      hl, $1708
-        ld      de, $0608
+        ld      de, $0708
         ld      a, %00111001    ; fondo blanco tinta azul
         call    window
         ld      a, (codcnt)
@@ -987,6 +1064,22 @@ romst   ld      hl, $0104
         call    window
         ld      a, (codcnt)
         jp      main8
+
+romcal  ld      a, iyl
+romca1  sub     5
+        jr      nc, romca1
+        add     a, 5+9
+        ld      c, a
+        ret
+
+romcyb  call    romcal
+        inc     iyl
+        ld      b, 8
+        ld      ix, cad42
+        call_prnstr
+        inc     b
+        dec     c
+        ret
 
 menu2   ld      h, 9
         ld      d, 7
@@ -1201,12 +1294,14 @@ input1  push    bc
         jr      nz, input2
         ld      a, e
         ld      (offsel), a
-input2  ld      e, 32
+input2  ld      de, (offsel)
+        ld      e, ' '
         defb    $32
 input3  ld      (hl), e
         inc     l
         ld      a, l
-        sub     empstr+33&$ff
+        sub     empstr+2&$ff
+        sub     d
         jr      nz, input3
         ld      (hl), a
         dec     c
@@ -1914,10 +2009,10 @@ ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono g
         call    lsampl          ; leo pulso negativo de sincronismo
         ld      l, $01          ; hl vale 0001, marker para leer 16 bits en hl (checksum y byte flag)
         call    get16           ; leo 16 bits, ahora temporizo cada 2 pulsos
+        ld      a, l
         inc     l               ; lo comparo con el que me encuentro en la ultracarga
         ret     nz              ; salgo si no coinciden
-        ld      a, h            ; xoreo el checksum con en byte flag, resultado en a
-        cpl
+        xor     h               ; xoreo el checksum con en byte flag, resultado en a
         exx                     ; guardo checksum por duplicado en h' y l'
         push    hl              ; pongo direccion de comienzo en pila
         ld      c, a
@@ -1929,9 +2024,9 @@ ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono g
         push    hl
         pop     ix
         pop     de              ; recupero en de la direccion de comienzo del bloque
-        inc     c               ; pongo en flag z el signo del pulso
+        rr      c               ; pongo en flag z el signo del pulso
         ld      bc, $effe       ; este valor es el que necesita b para entrar en raudo
-        jp      z, ult55
+        jp      nc, ult55
         ld      h, $30
 ultr5   in      f, (c)
         jp      pe, ultr5
@@ -1942,25 +2037,25 @@ ultr6   in      f, (c)
         jp      po, ultr6
         call    l2f03           ; salto a raudo
 ultr7   exx                     ; ya se ha acabado la ultracarga (raudo)
-        ld      b,e
-        ld      e,c
-        ld      c,d
-        ld      a,ixh
+        ld      b, e
+        ld      e, c
+        ld      c, d
+        sbc     a, a
         inc     b
         dec     b
-        jr      z,ultr8
+        jr      z, ultr8
         inc     c
 ultr8   xor     (hl)
         inc     hl
         djnz    ultr8
         dec     c
-        jp      nz,ultr8
+        jp      nz, ultr8
         push    hl              ; ha ido bien
         xor     e
-        ld      h,b
-        ld      l,e
-        ld      d,b
-        ld      e,b
+;        ld      h, b
+;        ld      l, e
+;        ld      d, b
+;        ld      e, b
         pop     ix              ; ix debe apuntar al siguiente byte despues del bloque
         ret     nz              ; si no coincide el checksum salgo con carry desactivado
         scf
@@ -2527,17 +2622,17 @@ cad33   defb    'Move Down', 0
 cad34   defb    'Rename', 0
 cad35   defb    'Delete', 0
 cad36   defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
-        defb    ' Rename ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
-        defb    $10, ' ', $1e, ' ', $1f, ' Enter accept  Break cancel ', $10, 0
+        defb    ' Rename ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
+        defb    $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
         defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
-        defb    $11, $11, $11, $11, $11, $11, $17, 0
-        defb    $10, '                                ', $10, 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
+        defb    $10, '                                 ', $10, 0
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
-        defb    $11, $11, $11, $11, $11, $11, $15, 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $15, 0
 cad37   defb    'Save Changes & Exit', 0
         defb    'Discard Changes & Exit', 0
         defb    'Save Changes', 0
@@ -2567,6 +2662,8 @@ cad42   defb    $10, '                      ', $10, 0
 cad50   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
+        defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
+cad47   defb    'Header:', 0
 cad43   defb    $12, $11, $11, $11, ' Save and Exit ', $11, $11, $11, $11, $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save conf. & Exit?  ', $10, 0
@@ -2579,13 +2676,17 @@ cad45   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
 cad46   defb    $12, ' Load Previous Values ', $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Load previous values?', $10, 0
-cad47   defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
-        defb    $10, ' Header:              ', $10, 0
 cad48   defb    'Press play on', 0
         defb    'tape & follow', 0
         defb    'the progress', 0
         defb    'Break to', 0
         defb    'cancel', 0, 0
+cad49   defb    'Loading Error', 0
+cad51   defb    'Any key to return', 0
+cad52   defb    'Block 1 of 1:', 0
+cad53   defb    'Done', 0
+cad54   defb    'Slot position:', 0
+
 fincad
 
 ; todo
