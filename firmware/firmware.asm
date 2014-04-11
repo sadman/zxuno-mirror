@@ -238,7 +238,9 @@ bios3   ld      ix, cad8
         ld      ix, cad9
         call_prnstr             ; borde inferior
         call_prnstr             ; info
-bios4   call    bios5
+bios4   ld      a, $07
+        out     ($fe), a
+        call    bios5
         jr      bios4
 bios5   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
@@ -818,7 +820,7 @@ roms86  ld      ix, cad42
         ld      de, $003f
         call    lbytes
         ld      bc, $1109
-        jr      nc, romer
+        jp      nc, romer
         ld      hl, tmpbuf+$2c
         ld      a, (hl)
         push    af
@@ -850,7 +852,7 @@ rms001  ld      (offsel), hl
         ld      de, $4000
         call    lbytes
         pop     bc
-        jr      nc, romer
+        jp      nc, romer
         ld      b, $17
         ld      ix, cad53
         call_prnstr
@@ -871,31 +873,82 @@ rms002  dec     iyh
         dec     c
         ld      b, $18
         call    inputs
-
-
-;savech  ld      bc, zxuno_port+$100
-;        ld      a, $10
-;        ld      hl, $9000
-;        exx
-;        ld      de, $02b0
-
- di
- halt
-;        ld      ixl, cad51 & $ff
-;        call_prnstr
-romlo   
-
-
+        rrca
+        ret     nc
+        ld      hl, items
+        ld      a, l
+        dec     (hl)
+        ld      l, empstr & $ff
+        ret     m
+        jr      z, rms004
+;        add     a, (hl)
+;        ld      b, a
+;        sub     (hl)
+rms003  add     a, 10
+;        djnz    rms003
+        inc     l
+rms004  add     a, (hl)
+        cp      20
+        ret     nc
+        push    af
+        add     a, 12
+        rlca
+        rlca
+        rlca
+        ld      l, a
+        ld      h, 0
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ex      de, hl
+        exx
+        call    nument
+        dec     l
+        ld      (hl), l
+        add     hl, hl
+        add     hl, hl
+        ld      h, 9
+        add     hl, hl
+        inc     h
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        pop     af
+        ld      (hl), a
+        inc     l
+        ex      de, hl
+        ld      hl, tmpbuf ;aaaaaaaaaaa
+        ld      a, (hl)
+        ld      iyh, a
+        ld      bc, $003f
+        ldir
+        ld      hl, %00001010
+rms005  ld      (offsel), hl
+        ld      bc, $7ffd
+        out     (c), h
+        ld      bc, zxuno_port+$100
+        ld      a, $40
+        ld      hl, $c000
+        exx
+        call    wrflsh
+        inc     de
+        exx
+        ld      hl, (offsel)
+        inc     h
+        rr      l
+        jr      nc, rms006
+        inc     h
+rms006  dec     iyh
+        jr      nz, rms005
+        ret
 romer   call    romcyb
         ld      ix, cad49
         call_prnstr
+romfi   ei
         call    romcyb
         ld      ix, cad51
         call_prnstr
-        di
-        halt
-
-
+        jp      waitky
 
 roms87  ld      a, (menuop+1)
         jp      roms7
@@ -1787,6 +1840,7 @@ prnmul  call_prnstr
 ; Save flash structures from $9500 to $2b500 and from $9800 to $2b800
 ; ------------------------
       IF  debug
+wrflsh
 savech  ret
       ELSE
 savech  ld      bc, zxuno_port+$100
@@ -2690,7 +2744,8 @@ cad54   defb    'Slot position:', 0
 fincad
 
 ; todo
+; * bug esquina en rename
+; * hacer carga de máquina
 ; * Hacer que funcione DivMMC
-; * Añadir carga normal y cargando leches
 ; * Añadir CRCs
 
