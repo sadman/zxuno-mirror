@@ -341,11 +341,11 @@ exitg   ld      (colcmb+1), a
         ld      a, (colcmb+1)
         ld      b, a
         djnz    exit1
-        ld      ix, cad44
-exit1   djnz    exit2
-        ld      ix, cad45
-exit2   djnz    exit3
         ld      ix, cad46
+exit1   djnz    exit2
+        ld      ix, cad47
+exit2   djnz    exit3
+        ld      ix, cad48
 exit3   ld      bc, $0808
         call_prnstr
         call_prnstr
@@ -510,7 +510,7 @@ conti5  ld      a, 0
         inc     b
         out     (c), a
         ld      bc, $1ffd
-        ld      a, (ix+2)
+        ld      a, (ix+4)
         out     (c), a
         ld      b, $7f
         ld      a, (ix+5)
@@ -585,20 +585,20 @@ main    inc     d
         ld      iy, quietb
         ld      bc, $0f0a
 main1   ld      a, (iy)
-        ld      ix, cad25
+        ld      ix, cad24
         dec     a
         jr      nz, main2
-        ld      ixl, cad26 & $ff
+        ld      ixl, cad25 & $ff
 main2   call_prnstr
         inc     iyl
         ld      a, $24
         cp      iyl
         jr      nz, main1
         ld      a, (iy)
-        ld      ixl, cad29 & $ff
+        ld      ixl, cad26 & $ff
         dec     a
         jr      nz, main25
-        ld      ixl, cad30 & $ff
+        ld      ixl, cad27 & $ff
 main25  call_prnstr
         ld      de, $1201
         ld      a, (menuop+1)
@@ -616,8 +616,8 @@ main25  call_prnstr
         defw    cad16
         defw    cad17
         defw    cad18
-        defw    cad1a
-        defw    cad1b
+        defw    cad19
+        defw    cad20
         jr      c, main6
         ld      (menuop+1), a
         cp      3
@@ -628,18 +628,18 @@ main25  call_prnstr
         cp      $24
         jr      z, main35
         call    popupw
-        defw    cad23
-        defw    cad24
+        defw    cad28
+        defw    cad29
         defw    $ffff
         ret
 main35  call    popupw
-        defw    cad27
-        defw    cad28
+        defw    cad30
+        defw    cad31
         defw    $ffff
         ret
 main4   ld      l, $25
         call    popupw
-        defw    cad22
+        defw    cad23
         defw    $ffff
         ret
 main6   cp      $0c
@@ -799,7 +799,7 @@ roms8   sub     $1e-$16
         jp      z, romst
         sub     $6e-$1f         ; n= New Entry
         jp      nz, roms87
-        ld      ix, cad48
+        ld      ix, cad49
         call    prnhel
         call    bloq1
         dec     c
@@ -809,12 +809,13 @@ roms86  ld      ix, cad42
         call_prnstr
         dec     iyl
         jr      nz, roms86
-        ld      ixl, cad50 & $ff
+        ld      ixl, cad43 & $ff
         call_prnstr
+        ld      ixl, cad44 & $ff
         ld      c, b
         call_prnstr
         call    romcyb
-        ld      ixl, cad47 & $ff
+        ld      ixl, cad45 & $ff
         call_prnstr
         ld      ix, tmpbuf
         ld      de, $003f
@@ -942,7 +943,7 @@ rms006  dec     iyh
         jr      nz, rms005
         ret
 romer   call    romcyb
-        ld      ix, cad49
+        ld      ix, cad50
         call_prnstr
 romfi   ei
         call    romcyb
@@ -955,11 +956,11 @@ roms87  ld      a, (menuop+1)
 roms9   ld      hl, tmpbuf
         ld      (hl), 1
 romsa   call    popupw
-        defw    cad31
         defw    cad32
         defw    cad33
         defw    cad34
         defw    cad35
+        defw    cad36
         defw    $ffff
         ld      a, (codcnt)
         sub     $0e
@@ -1791,11 +1792,11 @@ popup1  ldi
         push    hl
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
-        ld      ix, cad19
+        ld      ix, cad21
         ld      b, $0c
         ld      c, l
         call_prnstr
-popup2  ld      ix, cad20
+popup2  ld      ix, cad22
         call_prnstr
         dec     iyl
         jr      nz, popup2
@@ -2648,34 +2649,34 @@ cad18   defb    'Enable RAM and', 0
         defb    'interface.', 0
         defb    'Ports are', 0
         defb    'available', 0, 0
-cad1a   defb    'Disable for', 0
+cad19   defb    'Disable for', 0
         defb    'better compa-', 0
         defb    'tibility with', 0
         defb    'SE Basic IV', 0, 0
-cad1b   defb    'Behaviour of', 0
+cad20   defb    'Behaviour of', 0
         defb    'bit 6 on port', 0
         defb    '$FE depends', 0
         defb    'on hardware', 0
         defb    'issue', 0, 0
-cad19   defb    $12, $11, $11, $11, ' Options ', $11, $11, $11, $13, 0
-cad20   defb    $10, '               ', $10, 0
-cad21   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+cad21   defb    $12, $11, $11, $11, ' Options ', $11, $11, $11, $13, 0
+cad22   defb    $10, '               ', $10, 0
+        defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
-cad22   defb    'Not implem.', 0
-cad25   defb    '[Disabled]', 0
-cad26   defb    '[Enabled]', 0
-cad29   defb    '[Issue 2]', 0
-cad30   defb    '[Issue 3]', 0
-cad23   defb    'Disabled', 0
-cad24   defb    'Enabled', 0
-cad27   defb    'Issue 2', 0
-cad28   defb    'Issue 3', 0
-cad31   defb    'Move Up', 0
-cad32   defb    'Set Active', 0
-cad33   defb    'Move Down', 0
-cad34   defb    'Rename', 0
-cad35   defb    'Delete', 0
-cad36   defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+cad23   defb    'Not implem.', 0
+cad24   defb    '[Disabled]', 0
+cad25   defb    '[Enabled]', 0
+cad26   defb    '[Issue 2]', 0
+cad27   defb    '[Issue 3]', 0
+cad28   defb    'Disabled', 0
+cad29   defb    'Enabled', 0
+cad30   defb    'Issue 2', 0
+cad31   defb    'Issue 3', 0
+cad32   defb    'Move Up', 0
+cad33   defb    'Set Active', 0
+cad34   defb    'Move Down', 0
+cad35   defb    'Rename', 0
+cad36   defb    'Delete', 0
+        defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    ' Rename ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
         defb    $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
         defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
@@ -2713,29 +2714,29 @@ cad42   defb    $10, '                      ', $10, 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $17, 0
         defb    $10, '      Yes     No      ', $10, 0
-cad50   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
+cad43   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
-        defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
-cad47   defb    'Header:', 0
-cad43   defb    $12, $11, $11, $11, ' Save and Exit ', $11, $11, $11, $11, $13, 0
+        defb    $12, $11, $11, $11, ' Save and Exit ', $11, $11, $11, $11, $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save conf. & Exit?  ', $10, 0
-cad44   defb    $12, ' Exit Without Saving ', $11, $13, 0
+cad44   defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
+cad45   defb    'Header:', 0
+cad46   defb    $12, ' Exit Without Saving ', $11, $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Quit without saving? ', $10, 0
-cad45   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
+cad47   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save configuration? ', $10, 0
-cad46   defb    $12, ' Load Previous Values ', $13, 0
+cad48   defb    $12, ' Load Previous Values ', $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Load previous values?', $10, 0
-cad48   defb    'Press play on', 0
+cad49   defb    'Press play on', 0
         defb    'tape & follow', 0
         defb    'the progress', 0
         defb    'Break to', 0
         defb    'cancel', 0, 0
-cad49   defb    'Loading Error', 0
+cad50   defb    'Loading Error', 0
 cad51   defb    'Any key to return', 0
 cad52   defb    'Block 1 of 1:', 0
 cad53   defb    'Done', 0
