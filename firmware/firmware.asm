@@ -27,10 +27,13 @@
         define  indexe  $9500
         define  active  $9520
         define  quietb  $9521
-        define  divmap  $9522
-        define  nmidiv  $9523
-        define  keyiss  $9524
+        define  checkc  $9522
+        define  divmap  $9523
+        define  nmidiv  $9524
+        define  keyiss  $9525
         define  tmpbuf  $a000
+        define  check   $a1e8
+
 
         ei
         ld      sp, $c000
@@ -38,19 +41,13 @@
         ld      hl, finlog-1
         ld      de, $9aff
         call    dzx7b           ; descomprimir
-        inc     l 
-        inc     hl
-        ld      b, $40          ; filtro RCS inverso
-start   ld      a, b
-        xor     c
-        and     $f8
-        xor     c
-        ld      d, a
-        xor     b
-        xor     c
-        rlca
-        rlca
-        jp      start1
+        ld      hl, crccal
+        ld      de, check
+        ld      c, $18
+        ldir
+        inc     b
+        ld      hl, crctab
+        jp      start
 
 rst20   push    bc
         jp      prnstr
@@ -166,12 +163,25 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start1  ld      e, a
+start   inc     b
+        ldir
+        ld      hl, $8000
+        ld      b, $40          ; filtro RCS inverso
+start1  ld      a, b
+        xor     c
+        and     $f8
+        xor     c
+        ld      d, a
+        xor     b
+        xor     c
+        rlca
+        rlca
+        ld      e, a
         inc     bc
         ldi
         inc     bc
         bit     3, b
-        jp      z, start
+        jr      z, start1
         ld      b, $13
         ldir
         ld      de, fincad-1    ; descomprimo cadenas
@@ -392,15 +402,17 @@ rdflsh  ld      a, h
 ;  00-1f: index to entries
 ;  20: active entry
 ;  21: fast boot    0: Disable, 1: Enable
-;  22: DivMMC       0: Disable, 1: Enable
-;  23: NMI-DivMMC   0: Disable, 1: Enable
-;  24: Issue        0: Issue 2, 1: Issue 3
+;  22: Check CRC    0: Disable, 1: Enable
+;  23: DivMMC       0: Disable, 1: Enable
+;  24: NMI-DivMMC   0: Disable, 1: Enable
+;  25: Issue        0: Issue 2, 1: Issue 3
 l02b5   defb    $02, $01, $00, $03, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $03             ; active
         defb    $00             ; quiet
+        defb    $01             ; checkcrc
         defb    $00             ; DivMMC
         defb    $01             ; NMI-DivMMC
         defb    $01             ; Issue
@@ -449,7 +461,7 @@ conti1  rr      (hl)
         ld      de, tmpbuf
         push    de
         ld      hl, conti2
-        ld      bc, conti6-conti2
+        ld      bc, conti6-conti2 ; cuidado b no siempre vale 0
         ldir
         ret
 conti2  ld      (tmpbuf+conti5-conti2+1), a
@@ -497,6 +509,44 @@ conti4  ld      a, master_mapper
         ld      de, $c000
         ld      a, $40
         call    tmpbuf+rdflsh-conti2
+        push    hl
+        push    bc
+        call    check
+        push    ix
+        pop     hl
+        ld      a, iyl
+        add     a, a
+        add     $0e
+        ld      c, a
+        add     hl, bc
+        ld      a, (hl)
+        inc     l
+        ld      h, (hl)
+        ld      l, a
+        sbc     hl, de
+        pop     bc
+        jr      z, cont45
+        add     hl, de
+        push    de
+        ld      de, cad55+19
+        call    wtohex
+        pop     hl
+        ld      de, cad55+33
+        call    wtohex
+        ld      b, (zxuno_port+$100)>>8
+        wreg    master_conf, 0
+        push    ix
+        ld      ix, cad55
+        ld      bc, $0016
+        call_prnstr
+        call_prnstr
+        pop     ix
+        ei
+        call    waitky
+        di
+        ld      bc, zxuno_port+$100
+        wreg    master_conf, 1
+cont45  pop     hl
         ld      de, $0040
         add     hl, de
         dec     (ix+3)
@@ -516,6 +566,30 @@ conti5  ld      a, 0
         ld      a, (ix+5)
         out     (c), a
         rst     0
+
+; ------------------------
+; Print Hexadecimal number
+; Parameters:
+;   DE: destination address
+;   HL: 4 digit number
+; ------------------------
+wtohex  ld      b, 4
+wtohe1  ld      a, $3
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        cp      $3a
+        jr      c, wtohe2
+        add     a, 7
+wtohe2  ld      (de), a
+        inc     e
+        djnz    wtohe1
+        ret
 
 ; ------------------------
 ; Read from SPI flash
@@ -591,7 +665,7 @@ main1   ld      a, (iy)
         ld      ixl, cad25 & $ff
 main2   call_prnstr
         inc     iyl
-        ld      a, $24
+        ld      a, keyiss&$ff
         cp      iyl
         jr      nz, main1
         ld      a, (iy)
@@ -610,11 +684,13 @@ main25  call_prnstr
         defb    $0b
         defb    $0c
         defb    $0d
+        defb    $0e
         defb    $ff
         defw    cad14
         defw    cad15
         defw    cad16
         defw    cad17
+        defw    cad56
         defw    cad18
         defw    cad19
         defw    cad20
@@ -625,7 +701,7 @@ main25  call_prnstr
         jr      c, main4
         add     a, $1e
         ld      l, a
-        cp      $24
+        cp      keyiss&$ff
         jr      z, main35
         call    popupw
         defw    cad28
@@ -2115,14 +2191,6 @@ ultr8   xor     (hl)
         ret     nz              ; si no coincide el checksum salgo con carry desactivado
         scf
         ret
-get16   ld      b, 0
-        call    lsampl
-        call    lsampl
-        ld      a, b
-        cp      12
-        adc     hl, hl
-        jr      nc, get16
-        ret
 ldedg2  call    ldedg1          ; call routine ld-edge-1 below.
         ret     nc              ; return if space pressed or time-out.
 ldedg1  ld      a, $16          ; a delay value of twenty two.
@@ -2158,7 +2226,9 @@ finlog
 finstr
 
 
-        block   $2dbf-$
+        block   $2bbf-$
+
+crctab  incbin  crctable.bin
 
 l2dbf   inc     h               ;4
         jr      nc, l2dcd       ;7/12     46/48
@@ -2179,7 +2249,31 @@ l2dcd   xor     b               ;4
         in      l, (c)          ;12
         jp      (hl)            ;4
 
-        block   $2dff-$         ; 40 bytes
+crccal  ld      bc, $4001       ;4c2b > d432
+        ld      hl, $bfff
+        defb    $11
+crcca1  xor     (hl)
+        ld      e, a
+        ex      de, hl
+        ld      a, h
+        ld      h, check+$18 >> 8
+        xor     (hl)
+        inc     h
+        ld      h, (hl)
+        ex      de, hl
+        cpi
+        jp      pe, check+7
+        ld      e, a
+        ret
+
+get16   ld      b, 0
+        call    lsampl
+        call    lsampl
+        ld      a, b
+        cp      12
+        adc     hl, hl
+        jr      nc, get16
+        ret
 
 l2dff   in      l, (c)
         jp      (hl)
@@ -2609,6 +2703,7 @@ cad10   defb    'Hardware tests', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Quiet Boot', 0
+        defb    'Check CRC', 0
         defb    'DivMMC', 0
         defb    'NMI-DivMMC', 0
         defb    'Keyboard', 0, 0
@@ -2741,6 +2836,11 @@ cad51   defb    'Any key to return', 0
 cad52   defb    'Block 1 of 1:', 0
 cad53   defb    'Done', 0
 cad54   defb    'Slot position:', 0
+cad55   defb    'Invalid CRC in ROM 0000. Must be 0000', 0
+        defb    'Press any key to continue                 ', 0
+cad56   defb    'Check CRC in', 0
+        defb    'all ROMs. Slow', 0
+        defb    'but safer', 0, 0
 
 fincad
 
@@ -2749,4 +2849,3 @@ fincad
 ; * hacer carga de máquina
 ; * Hacer que funcione DivMMC
 ; * Añadir CRCs
-
