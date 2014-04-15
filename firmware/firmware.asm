@@ -510,32 +510,26 @@ conti4  ld      a, master_mapper
         ld      a, $40
         call    tmpbuf+rdflsh-conti2
         push    hl
-        push    bc
         call    check
+        ld      c, zxuno_port&$ff
         push    ix
-        pop     hl
         ld      a, iyl
         add     a, a
-        add     $0e
-        ld      c, a
-        add     hl, bc
-        ld      a, (hl)
-        inc     l
-        ld      h, (hl)
-        ld      l, a
+        add     a, ixl
+        ld      ixl, a
+        ld      l, (ix+$0e)
+        ld      h, (ix+$0f)
         sbc     hl, de
-        pop     bc
         jr      z, cont45
         add     hl, de
         push    de
         ld      de, cad55+19
         call    wtohex
         pop     hl
-        ld      de, cad55+33
+        ld      e, cad55+33&$ff
         call    wtohex
-        ld      b, (zxuno_port+$100)>>8
+        ld      b, zxuno_port+$100>>8
         wreg    master_conf, 0
-        push    ix
         ld      ix, cad55
         ld      bc, $0016
         call_prnstr
@@ -2249,20 +2243,22 @@ l2dcd   xor     b               ;4
         in      l, (c)          ;12
         jp      (hl)            ;4
 
-crccal  ld      bc, $4001       ;4c2b > d432
-        ld      hl, $bfff
+crccal  ld      c, check+$18 >> 8
+        ld      hl, $bfff       ;4c2b > d432
         defb    $11
-crcca1  xor     (hl)
+crcca1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
         ld      e, a
         ex      de, hl
         ld      a, h
-        ld      h, check+$18 >> 8
+        ld      h, c
         xor     (hl)
         inc     h
         ld      h, (hl)
         ex      de, hl
-        cpi
-        jp      pe, check+7
+        inc     l
+        jp      nz, check+6
+        inc     h
+        jr      nz, crcca1
         ld      e, a
         ret
 
