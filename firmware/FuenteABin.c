@@ -29,7 +29,8 @@ int main(int argc, char *argv[]){
     for ( j= 0; j < 16; j++ ){
       pixel= &image[((j|i<<7)*6)<<2];
       fondo= tinta= tospec(pixel[0], pixel[1], pixel[2]);
-      for ( m= 0; m < 4; m++ ){
+//      for ( m= 0; m < 4; m++ ){
+      for ( m= 3; m < 4; m++ ){
         for ( k= 0; k < 8; k++ ){
           celda= 0;
           for ( l= 0; l < 6; l++ ){
@@ -57,7 +58,8 @@ int main(int argc, char *argv[]){
         }
       }
     }
-  fwrite(output, 32*112, 1, fo);
+  fwrite(output, 8*112, 1, fo);
+//  fwrite(output, 32*112, 1, fo);
   fclose(fo);
   printf("\nDone\n");
   free(image);

@@ -32,25 +32,24 @@
         define  nmidiv  $9524
         define  keyiss  $9525
         define  tmpbuf  $a000
-        define  check   $a1e8
-
+        define  stack   $ad00
+        define  alto    $b000-crctab+
 
         ei
-        ld      sp, $c000
+        ld      sp, stack
         im      1
         ld      hl, finlog-1
         ld      de, $9aff
         call    dzx7b           ; descomprimir
-        ld      hl, crccal
-        ld      de, check
-        ld      c, $18
+        ld      hl, conti
+        ld      de, $b580-chrend+conti
+        ld      bc, chrend-conti
         ldir
-        inc     b
-        ld      hl, crctab
+        ld      hl, $bfff
         jp      start
 
 rst20   push    bc
-        jp      prnstr
+        jp      alto prnstr
 
 jmptbl  defw    main
         defw    roms
@@ -163,13 +162,32 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start   xor     a
+start   ex      de, hl
+        dec     l
+start1  ld      c, 8
+        lddr
+        push    hl
+        ld      c, 3
+start2  ld      hl, $0008
+        add     hl, de
+        ld      b, 8
+start3  ld      a, (hl)
+        rlca
+        rlca
+        ld      (de), a
+        dec     de
+        dec     hl
+        djnz    start3
+        dec     c
+        jr      nz, start2
+        pop     hl
+        ld      a, d
+        sub     $b1
+        jr      nz, start1
         out     ($fe), a
-        inc     b
-        ldir
         ld      hl, $8000
         ld      b, $40          ; filtro RCS inverso
-start1  ld      a, b
+start4  ld      a, b
         xor     c
         and     $f8
         xor     c
@@ -183,7 +201,7 @@ start1  ld      a, b
         ldi
         inc     bc
         bit     3, b
-        jr      z, start1
+        jr      z, start4
         ld      b, $13
         ldir
         ld      de, fincad-1    ; descomprimo cadenas
@@ -206,17 +224,17 @@ start1  ld      a, b
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
         call    loadch
-start2  djnz    start3
+start5  djnz    start6
         dec     e
-        jp      z, conti
-start3  ld      a, (codcnt)
+        jp      z, alto conti
+start6  ld      a, (codcnt)
         sub     $80
-        jr      c, start2
+        jr      c, start5
         ld      (codcnt), a
         cp      $0c
         jp      z, boot
         cp      $17
-        jr      nz, start2
+        jr      nz, start5
 
 ; Setup menu
 bios    out     ($fe), a
@@ -295,7 +313,7 @@ bios7   ld      sp, hl
 bios8   dec     c
         jr      nz, bios6
         ei
-        ld      sp, $bffe
+        ld      sp, stack-2
         ld      ix, cad11
         ld      bc, $1908
         call    prnmul          ; borde medio
@@ -369,266 +387,13 @@ exit3   ld      bc, $0808
         ld      b, a
         djnz    exit4
         call    loadch
-        jr      conti
+        jp      alto conti
 exit4   djnz    exit5
         jp      savech
 exit5   djnz    exit6
         jp      loadch
 exit6   call    savech
-
-; after 1 second continue boot
-      IF  debug
-conti   ld      a, 2
-        out     ($fe), a
-        di
-        halt
-
-rdflsh  ld      a, h
-        cp      $02
-        ret     nz
-        ld      a, l
-        cp      $b0
-        ret     nz
-        ld      bc, l02b8-l02b5
-        ld      hl, l02b5
-        ld      d, $95
-        ldir
-        ld      de, $9800
-        ld      bc, l0300-l02b8
-        ldir
-        ret
-;  00-1f: index to entries
-;  20: active entry
-;  21: fast boot    0: Disable, 1: Enable
-;  22: Check CRC    0: Disable, 1: Enable
-;  23: DivMMC       0: Disable, 1: Enable
-;  24: NMI-DivMMC   0: Disable, 1: Enable
-;  25: Issue        0: Issue 2, 1: Issue 3
-l02b5   defb    $02, $01, $00, $03, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $03             ; active
-        defb    $00             ; quiet
-        defb    $01             ; checkcrc
-        defb    $00             ; DivMMC
-        defb    $01             ; NMI-DivMMC
-        defb    $01             ; Issue
-        defb    0   ; para que not implemented sea 0
-
-; 32 entradas
-;    00: slot offset
-;    01: slot size
-;    02: RAM offset     
-;    03: ROM SRAM size
-;    04: port 1ffd
-;    05: port 7ffd
-;    ...
-;    10-1f: CRCs
-;    20-3f: Name
-l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K Cargando Leches '
-        defb    $01, 4, $08, 4, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX +3e DivMMC                   '
-        defb    $05, 2, $0a, 2, $04, $00, $ff, $ff ;$04
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'SE Basic IV 4.0 Anya            '
-        defb    $07, 1, $08, 1, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K                 '
-l0300
-      ELSE
-conti   di
-        ld      a, %00100000    ; leo 3 bits
-        ld      hl, keyiss
-conti1  rr      (hl)
-        adc     a, a
-        dec     l
-        jr      nc, conti1
-        add     a, a
-        ld      de, tmpbuf
-        push    de
-        ld      hl, conti2
-        ld      bc, conti6-conti2 ; cuidado b no siempre vale 0
-        ldir
-        ret
-conti2  ld      (tmpbuf+conti5-conti2+1), a
-        ld      bc, zxuno_port+$100
-        wreg    master_conf, 1
-        and     $02
-        jr      z, conti25
-        wreg    master_mapper, 12
-        ld      hl, $0295
-        ld      de, $c000
-        ld      a, $20
-        call    tmpbuf+rdflsh-conti2
-conti25 ld      hl, active
-        ld      l, (hl)
-        ld      l, (hl)
-        add     hl, hl
-        add     hl, hl
-        ld      h, 9
-        add     hl, hl
-        inc     h
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        push    hl
-        pop     ix
-conti3  ld      a, (ix+3)
-        ld      iyl, a
-        ld      a, (ix)
-        add     a, 12
-        rlca
-        rlca
-        rlca
-        ld      l, a
-        ld      h, 0
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-conti4  ld      a, master_mapper
-        dec     b
-        out     (c), a
-        inc     b
-        ld      a, (ix+2)
-        inc     (ix+2)
-        out     (c), a
-        ld      de, $c000
-        ld      a, $40
-        call    tmpbuf+rdflsh-conti2
-        push    hl
-        call    check
-        ld      c, zxuno_port&$ff
-        push    ix
-        ld      a, iyl
-        add     a, a
-        add     a, ixl
-        ld      ixl, a
-        ld      l, (ix+$0e)
-        ld      h, (ix+$0f)
-        sbc     hl, de
-        jr      z, cont45
-        add     hl, de
-        push    de
-        ld      de, cad55+19
-        call    tmpbuf+wtohex-conti2
-        pop     hl
-        ld      e, cad55+33&$ff
-        call    tmpbuf+wtohex-conti2
-        ld      b, zxuno_port+$100>>8
-        wreg    master_conf, 0
-        ld      ix, cad55
-        ld      bc, $0016
-        call_prnstr
-        call_prnstr
-        ei
-        call    waitky
-        di
-        ld      bc, zxuno_port+$100
-        wreg    master_conf, 1
-cont45  pop     ix
-        pop     hl
-        ld      de, $0040
-        add     hl, de
-        dec     (ix+3)
-        jr      z, conti5
-        dec     iyl
-        jr      z, conti3
-        jr      conti4
-conti5  ld      a, 0
-        dec     b
-        out     (c), d
-        inc     b
-        out     (c), a
-        ld      bc, $1ffd
-        ld      a, (ix+4)
-        out     (c), a
-        ld      b, $7f
-        ld      a, (ix+5)
-        out     (c), a
-        rst     0
-
-; ------------------------
-; Print Hexadecimal number
-; Parameters:
-;   DE: destination address
-;   HL: 4 digit number
-; ------------------------
-wtohex  ld      b, 4
-wtohe1  ld      a, $3
-        add     hl, hl
-        adc     a, a
-        add     hl, hl
-        adc     a, a
-        add     hl, hl
-        adc     a, a
-        add     hl, hl
-        adc     a, a
-        cp      $3a
-        jr      c, wtohe2
-        add     a, 7
-wtohe2  ld      (de), a
-        inc     e
-        djnz    wtohe1
-        ret
-
-; ------------------------
-; Read from SPI flash
-; Parameters:
-;   DE: destination address
-;   HL: source address without last byte
-;    A: number of pages (256 bytes) to read
-; ------------------------
-rdflsh  ex      af, af'
-        xor     a
-        push    hl
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        pop     hl
-        push    hl
-        out     (c), h
-        out     (c), l
-        out     (c), a
-        ex      af, af'
-        ex      de, hl
-        in      f, (c)
-rdfls1  ld      e, $20
-rdfls2  ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        ini
-        inc     b
-        dec     e
-        jr      nz, rdfls2
-        dec     a
-        jr      nz, rdfls1
-        wreg    flash_cs, 1
-        pop     hl
-        ret
-conti6
-      ENDIF
+        jp      alto conti
 
 bloq1   ld      hl, $0709
         ld      de, $1207
@@ -1307,7 +1072,7 @@ boot4   call    combol
         jp      z, bios
         ld      a, b
         ld      (active), a
-boot5   jp      conti
+boot5   jp      alto conti
 
 ; -------------------------------------
 ; Yes or not dialog
@@ -1379,17 +1144,6 @@ numen1  ld      a, (hl)         ; calculo en L el número de entradas
         inc     a
         jr      nz, numen1
         ld      a, l
-        ret
-
-; -------------------------------------
-; Wait for a key
-; Returns:
-;    A: ascii code of the key
-; -------------------------------------
-waitky  ld      a, (codcnt)
-        sub     $80
-        jr      c, waitky       ; Espero la pulsación de una tecla
-        ld      (codcnt), a
         ret
 
 ; -------------------------------------
@@ -1739,7 +1493,7 @@ list55  ld      sp, hl
         ld      h, a
 list56  dec     c
         jr      nz, lista5
-        ld      sp, $bff8
+        ld      sp, stack-8
         ei
         pop     ix
         pop     de
@@ -1888,7 +1642,18 @@ popup2  ld      ix, cad22
         exx
         ld      (hl), a
         ret
-        
+
+; -------------------------------------
+; Wait for a key
+; Returns:
+;    A: ascii code of the key
+; -------------------------------------
+waitky  ld      a, (codcnt)
+        sub     $80
+        jr      c, waitky       ; Espero la pulsación de una tecla
+        ld      (codcnt), a
+        ret
+
 ; ------------------------
 ; Clear the screen
 ; ------------------------
@@ -1997,7 +1762,7 @@ loadch  ld      bc, zxuno_port+$100
         ld      de, $9000
         ld      hl, $02b0
         ld      a, $10
-        jp      rdflsh
+        jp      alto rdflsh
 
 ; -----------------------------------------------------------------------------
 ; ZX7 Backwards by Einar Saukas, Antonio Villena
@@ -2150,15 +1915,15 @@ ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono g
         rr      c               ; pongo en flag z el signo del pulso
         ld      bc, $effe       ; este valor es el que necesita b para entrar en raudo
         jp      nc, ult55
-        ld      h, $30
+        ld      h, $2e
 ultr5   in      f, (c)
         jp      pe, ultr5
-        call    l30c3           ; salto a raudo segun el signo del pulso en flag z
+        call    l3ec3           ; salto a raudo segun el signo del pulso en flag z
         jr      ultr7
-ult55   ld      h, $2e
+ult55   ld      h, $2c
 ultr6   in      f, (c)
         jp      po, ultr6
-        call    l2f03           ; salto a raudo
+        call    l3d03           ; salto a raudo
 ultr7   exx                     ; ya se ha acabado la ultracarga (raudo)
         ld      b, e
         ld      e, c
@@ -2205,6 +1970,15 @@ lsampl  inc     b               ; increment the time-out counter.
         scf                     ; set carry flag signaling edge found within time allowed
         ret                     ; return.
 
+get16   ld      b, 0
+        call    lsampl
+        call    lsampl
+        ld      a, b
+        cp      12
+        adc     hl, hl
+        jr      nc, get16
+        ret
+
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
@@ -2218,33 +1992,255 @@ finlog
 finstr
 
 
-        block   $2bbf-$
+; after 1 second continue boot
+      IF  debug
+conti   ld      a, 2
+        out     ($fe), a
+        di
+        halt
 
-crctab  incbin  crctable.bin
+rdflsh  ld      a, h
+        cp      $02
+        ret     nz
+        ld      a, l
+        cp      $b0
+        ret     nz
+        ld      bc, l02b8-l02b5
+        ld      hl, l02b5
+        ld      d, $95
+        ldir
+        ld      de, $9800
+        ld      bc, l0300-l02b8
+        ldir
+        ret
+;  00-1f: index to entries
+;  20: active entry
+;  21: fast boot    0: Disable, 1: Enable
+;  22: Check CRC    0: Disable, 1: Enable
+;  23: DivMMC       0: Disable, 1: Enable
+;  24: NMI-DivMMC   0: Disable, 1: Enable
+;  25: Issue        0: Issue 2, 1: Issue 3
+l02b5   defb    $02, $01, $00, $03, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $03             ; active
+        defb    $00             ; quiet
+        defb    $01             ; checkcrc
+        defb    $00             ; DivMMC
+        defb    $01             ; NMI-DivMMC
+        defb    $01             ; Issue
+        defb    0   ; para que not implemented sea 0
 
-l2dbf   inc     h               ;4
-        jr      nc, l2dcd       ;7/12     46/48
-        xor     b               ;4
-        xor     $9c             ;7
-        ld      (de), a         ;7
-        inc     de              ;6
-        ld      a, $dc          ;7
-        ex      af, af'         ;4
-        in      l, (c)          ;12
-        jp      (hl)            ;4
-l2dcd   xor     b               ;4
-        add     a, a            ;4
-        ret     c               ;5
-        add     a, a            ;4
-        ex      af, af'         ;4
-        out     ($fe), a        ;11
-        in      l, (c)          ;12
-        jp      (hl)            ;4
+; 32 entradas
+;    00: slot offset
+;    01: slot size
+;    02: RAM offset     
+;    03: ROM SRAM size
+;    04: port 1ffd
+;    05: port 7ffd
+;    ...
+;    10-1f: CRCs
+;    20-3f: Name
+l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'ZX Spectrum 48K Cargando Leches '
+        defb    $01, 4, $08, 4, $00, $00, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'ZX +3e DivMMC                   '
+        defb    $05, 2, $0a, 2, $04, $00, $ff, $ff ;$04
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'SE Basic IV 4.0 Anya            '
+        defb    $07, 1, $08, 1, $00, $00, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'ZX Spectrum 48K                 '
+l0300
+      ELSE
+conti   di
+        ld      a, %00100000    ; leo 3 bits
+        ld      hl, keyiss
+conti1  rr      (hl)
+        adc     a, a
+        dec     l
+        jr      nc, conti1
+        add     a, a
+conti2  ld      (alto conti5+1), a
+        ld      bc, zxuno_port+$100
+        wreg    master_conf, 1
+        and     $02
+        jr      z, conti25
+        wreg    master_mapper, 12
+        ld      hl, $0295
+        ld      de, $c000
+        ld      a, $20
+        call    alto rdflsh
+conti25 ld      hl, active
+        ld      l, (hl)
+        ld      l, (hl)
+        add     hl, hl
+        add     hl, hl
+        ld      h, 9
+        add     hl, hl
+        inc     h
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        push    hl
+        pop     ix
+conti3  ld      a, (ix+3)
+        ld      iyl, a
+        ld      a, (ix)
+        add     a, 12
+        rlca
+        rlca
+        rlca
+        ld      l, a
+        ld      h, 0
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+conti4  ld      a, master_mapper
+        dec     b
+        out     (c), a
+        inc     b
+        ld      a, (ix+2)
+        inc     (ix+2)
+        out     (c), a
+        ld      de, $c000
+        ld      a, $40
+        call    alto rdflsh
+        push    hl
+        call    alto check
+        push    ix
+        ld      a, iyl
+        add     a, a
+        add     a, ixl
+        ld      ixl, a
+        ld      l, (ix+$0e)
+        ld      h, (ix+$0f)
+        sbc     hl, de
+        jr      z, cont45
+        add     hl, de
+        push    de
+        ld      de, cad55+19
+        call    alto wtohex
+        pop     hl
+        ld      e, cad55+33&$ff
+        call    alto wtohex
+        ld      ix, cad55
+        ld      bc, $0016
+        call    alto prnstr-1
+        call    alto prnstr-1
+        ld      c, $fe
+cont44  in      a, (c)
+        or      $e0
+        inc     a
+        jr      z, cont44
+cont45  ld      bc, zxuno_port+$100
+        pop     ix
+        pop     hl
+        ld      de, $0040
+        add     hl, de
+        dec     (ix+3)
+        jr      z, conti5
+        dec     iyl
+        jr      z, conti3
+        jr      conti4
+conti5  ld      a, 0
+        dec     b
+        out     (c), d
+        inc     b
+        out     (c), a
+        ld      bc, $1ffd
+        ld      a, (ix+4)
+        out     (c), a
+        ld      b, $7f
+        ld      a, (ix+5)
+        out     (c), a
+        rst     0
 
-crccal  ld      c, check+$18 >> 8
+; ------------------------
+; Print Hexadecimal number
+; Parameters:
+;   DE: destination address
+;   HL: 4 digit number
+; ------------------------
+wtohex  ld      b, 4
+wtohe1  ld      a, $3
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        cp      $3a
+        jr      c, wtohe2
+        add     a, 7
+wtohe2  ld      (de), a
+        inc     e
+        djnz    wtohe1
+        ret
+
+; ------------------------
+; Read from SPI flash
+; Parameters:
+;   DE: destination address
+;   HL: source address without last byte
+;    A: number of pages (256 bytes) to read
+; ------------------------
+rdflsh  ex      af, af'
+        xor     a
+        push    hl
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
+        pop     hl
+        push    hl
+        out     (c), h
+        out     (c), l
+        out     (c), a
+        ex      af, af'
+        ex      de, hl
+        in      f, (c)
+rdfls1  ld      e, $20
+rdfls2  ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        ini
+        inc     b
+        dec     e
+        jr      nz, rdfls2
+        dec     a
+        jr      nz, rdfls1
+        wreg    flash_cs, 1
+        pop     hl
+        ret
+      ENDIF
+
+check   ld      c, $b0
         ld      hl, $bfff       ;4c2b > d432
         defb    $11
-crcca1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
+check1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
         ld      e, a
         ex      de, hl
         ld      a, h
@@ -2254,25 +2250,234 @@ crcca1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
         ld      h, (hl)
         ex      de, hl
         inc     l
-        jp      nz, check+6
+        jp      nz, alto check1
         inc     h
-        jr      nz, crcca1
+        jr      nz, check1
         ld      e, a
         ret
 
-get16   ld      b, 0
-        call    lsampl
-        call    lsampl
-        ld      a, b
-        cp      12
-        adc     hl, hl
-        jr      nc, get16
+help    ld      a, %00111000    ; fondo blanco tinta negra
+        ld      hl, $0102
+        ld      d, $12
+        call    window
+        ld      l, 8
+        call    window
+        ld      ix, cad13
+        ld      bc, $1b0c
+        call_prnstr             ; Select Screen ...
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        push    bc
+; -----------------------------------------------------------------------------
+; Print string routine
+; Parameters:
+;  BC: X coord (B) and Y coord (C)
+;  IX: null terminated string
+; -----------------------------------------------------------------------------
+prnstr  ld      a, b
+        and     %11111100
+        ld      d, a
+        xor     b
+        ld      e, a
+        jr      z, prnch1
+        dec     e
+prnch1  xor     $fc
+        ld      l, a
+        ld      h, alto prnstr>>8
+        ld      l, (hl)
+        push    hl
+        ld      a, d
+        rrca
+        ld      d, a
+        rrca
+        add     a, d
+        add     a, e
+        ld      e, a
+        ld      a, c
+        and     %00011000
+        or      %01000000
+        ld      d, a
+        ld      a, c
+        and     %00000111
+        rrca
+        rrca
+        rrca
+        add     a, e
+        ld      e, a
+        defb    $3e             ; salta la siguiente instruccion
+posf    pop     bc
+        inc     c
         ret
 
-l2dff   in      l, (c)
+pos0    ld      a, (ix)
+        inc     ix
+        add     a, a
+        jr      z, posf
+        ld      l, a
+        ld      h, $0b
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ld      b, 4
+pos00   ld      a, (hl)
+        ld      (de), a
+        inc     l
+        inc     d
+        ld      a, (hl)
+        ld      (de), a
+        inc     l
+        inc     d
+        djnz    pos00
+        ld      hl, $f800
+        add     hl, de
+        ex      de, hl
+pos1    ld      a, (ix)
+        inc     ix
+        add     a, a
+        jr      z, posf
+        ld      l, a
+        ld      h, $0b
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ld      a, $18
+        or      l
+        ld      l, a
+        ld      bc, $04fc
+pos10   ld      a, (de)
+        xor     (hl)
+        and     c
+        xor     (hl)
+        ld      (de), a
+        inc     e
+        ld      a, (hl)
+        and     c
+        ld      (de), a
+        inc     d
+        inc     l
+        ld      a, (hl)
+        and     c
+        ld      (de), a
+        dec     e
+        ld      a, (de)
+        xor     (hl)
+        and     c
+        xor     (hl)
+        ld      (de), a
+        inc     d
+        inc     l
+        djnz    pos10
+        ld      hl, $f801
+        add     hl, de
+        ex      de, hl
+pos2    ld      a, (ix)
+        inc     ix
+        add     a, a
+tposf   jr      z, posf
+        ld      l, a
+        ld      h, $0b
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        set     4, l
+        ld      bc, $04f0
+pos20   ld      a, (de)
+        xor     (hl)
+        and     c
+        xor     (hl)
+        ld      (de), a
+        inc     e
+        ld      a, (hl)
+        and     c
+        ld      (de), a
+        inc     d
+        inc     l
+        ld      a, (hl)
+        and     c
+        ld      (de), a
+        dec     e
+        ld      a, (de)
+        xor     (hl)
+        and     c
+        xor     (hl)
+        ld      (de), a
+        inc     d
+        inc     l
+        djnz    pos20
+        ld      hl, $f801
+        add     hl, de
+        ex      de, hl
+pos3    ld      a, (ix)
+        inc     ix
+        add     a, a
+        jr      z, tposf
+        ld      l, a
+        ld      h, $0b
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        set     3, l
+        ld      b, 4
+pos30   ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     d
+        inc     l
+        ld      a, (de)
+        xor     (hl)
+        ld      (de), a
+        inc     d
+        inc     l
+        djnz    pos30
+        ld      hl, $f801
+        add     hl, de
+        ex      de, hl
+        jp      alto pos0
+
+        defb    pos0-crctab & $ff
+        defb    pos1-crctab & $ff
+        defb    pos2-crctab & $ff
+        defb    pos3-crctab & $ff
+
+; -----------------------------------------------------------------------------
+; 6x8 character set (128 characters x 1 rotation)
+; -----------------------------------------------------------------------------
+crctab  incbin  crctable.bin
+chrset  incbin  fuente6x8.bin
+chrend
+
+        block   $3bbf-$
+
+l3bbf   inc     h               ;4
+        jr      nc, l3bcd       ;7/12     46/48
+        xor     b               ;4
+        xor     $9c             ;7
+        ld      (de), a         ;7
+        inc     de              ;6
+        ld      a, $dc          ;7
+        ex      af, af'         ;4
+        in      l, (c)          ;12
+        jp      (hl)            ;4
+l3bcd   xor     b               ;4
+        add     a, a            ;4
+        ret     c               ;5
+        add     a, a            ;4
+        ex      af, af'         ;4
+        out     ($fe), a        ;11
+        in      l, (c)          ;12
+        jp      (hl)            ;4
+
+        block   $3bff-$         ; X bytes
+
+l3bff   in      l, (c)
         jp      (hl)
 
-        block   $2e0d-$         ; 11 bytes
+        block   $3c0d-$         ; 11 bytes
 
         defb    $ec, $ec, $01   ; 0d
         defb    $ec, $ec, $02   ; 10
@@ -2334,15 +2539,15 @@ l2dff   in      l, (c)
         defb    $ef, $ef, $28   ; b6
         defb    $ef, $29, $2a   ; b9
         defb    $2b, $2c, $2d   ; bc
-l2ebf   in      l, (c)
+l3cbf   in      l, (c)
         jp      (hl)
 
-        block   $2eff-$         ; 61 bytes
+        block   $3cff-$         ; 61 bytes
 
-l2eff   ld      a, r            ;9        49 (41 sin borde)
+l3cff   ld      a, r            ;9        49 (41 sin borde)
         ld      l, a            ;4
         ld      b, (hl)         ;7
-l2f03   ld      a, ixl          ;8
+l3d03   ld      a, ixl          ;8
         ld      r, a            ;9
         ld      a, b            ;4
         ex      af, af'         ;4
@@ -2350,14 +2555,14 @@ l2f03   ld      a, ixl          ;8
         in      l, (c)          ;12
         jp      (hl)            ;4
 
-        block   $2fbf-$         ; 178 bytes
+        block   $3dbf-$         ; 178 bytes
 
-l2fbf   in      l, (c)
+l3dbf   in      l, (c)
         jp      (hl)
 
-        block   $2ff5-$         ; 51 bytes
+        block   $3df5-$         ; 51 bytes
 
-l2ff5   xor     b
+l3df5   xor     b
         add     a, a
         ret     c
         add     a, a
@@ -2365,8 +2570,8 @@ l2ff5   xor     b
         out     ($fe), a
         in      l, (c)
         jp      (hl)
-l2fff   inc     h
-        jr      nc, l2ff5
+l3dff   inc     h
+        jr      nc, l3df5
         xor     b
         xor     $9c
         ld      (de), a
@@ -2435,10 +2640,10 @@ l2fff   inc     h
         defb    $ef, $ef, $28   ; b6
         defb    $ef, $29, $2a   ; b9
         defb    $2b, $2c, $2d   ; bc
-l30bf   ld      a, r
+l3ebf   ld      a, r
         ld      l, a
         ld      b, (hl)
-l30c3   ld      a, ixl
+l3ec3   ld      a, ixl
         ld      r, a
         ld      a, b
         ex      af, af'
@@ -2446,205 +2651,10 @@ l30c3   ld      a, ixl
         in      l, (c)
         jp      (hl)
 
-        block   $30ff-$         ; 50 bytes
+        block   $3eff-$         ; 50 bytes
 
-l30ff   in      l,(c)
+l3eff   in      l,(c)
         jp      (hl)
-
-        block   $310d-$         ; 11 bytes
-
-help    ld      a, %00111000    ; fondo blanco tinta negra
-        ld      hl, $0102
-        ld      d, $12
-        call    window
-        ld      l, 8
-        call    window
-        ld      ix, cad13
-        ld      bc, $1b0c
-        call_prnstr             ; Select Screen ...
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        push    bc
-; -----------------------------------------------------------------------------
-; Print string routine
-; Parameters:
-;  BC: X coord (B) and Y coord (C)
-;  IX: null terminated string
-; -----------------------------------------------------------------------------
-prnstr  ld      a, b
-        and     %11111100
-        ld      d, a
-        xor     b
-        ld      e, a
-        jr      z, prnch1
-        dec     e
-prnch1  xor     $fc
-        ld      l, a
-        ld      h, prnstr>>8
-        ld      l, (hl)
-        push    hl
-        ld      a, d
-        rrca
-        ld      d, a
-        rrca
-        add     a, d
-        add     a, e
-        ld      e, a
-        ld      a, c
-        and     %00011000
-        or      %01000000
-        ld      d, a
-        ld      a, c
-        and     %00000111
-        rrca
-        rrca
-        rrca
-        add     a, e
-        ld      e, a
-        defb    $3e             ; salta la siguiente instruccion
-posf    pop     bc
-        inc     c
-        ret
-
-pos0    ld      a, (ix)
-        inc     ix
-        add     a, a
-        jr      z, posf
-        ld      l, a
-        ld      h, 3
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        ld      b, 4
-pos00   ld      a, (hl)
-        ld      (de), a
-        inc     l
-        inc     d
-        ld      a, (hl)
-        ld      (de), a
-        inc     l
-        inc     d
-        djnz    pos00
-        ld      hl, $f800
-        add     hl, de
-        ex      de, hl
-pos1    ld      a, (ix)
-        inc     ix
-        add     a, a
-        jr      z, posf
-        ld      l, a
-        ld      h, 3
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        ld      a, $18
-        or      l
-        ld      l, a
-        ld      bc, $04fc
-pos10   ld      a, (de)
-        xor     (hl)
-        and     c
-        xor     (hl)
-        ld      (de), a
-        inc     e
-        ld      a, (hl)
-        and     c
-        ld      (de), a
-        inc     d
-        inc     l
-        ld      a, (hl)
-        and     c
-        ld      (de), a
-        dec     e
-        ld      a, (de)
-        xor     (hl)
-        and     c
-        xor     (hl)
-        ld      (de), a
-        inc     d
-        inc     l
-        djnz    pos10
-        ld      hl, $f801
-        add     hl, de
-        ex      de, hl
-pos2    ld      a, (ix)
-        inc     ix
-        add     a, a
-tposf   jr      z, posf
-        ld      l, a
-        ld      h, 3
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        set     4, l
-        ld      bc, $04f0
-pos20   ld      a, (de)
-        xor     (hl)
-        and     c
-        xor     (hl)
-        ld      (de), a
-        inc     e
-        ld      a, (hl)
-        and     c
-        ld      (de), a
-        inc     d
-        inc     l
-        ld      a, (hl)
-        and     c
-        ld      (de), a
-        dec     e
-        ld      a, (de)
-        xor     (hl)
-        and     c
-        xor     (hl)
-        ld      (de), a
-        inc     d
-        inc     l
-        djnz    pos20
-        ld      hl, $f801
-        add     hl, de
-        ex      de, hl
-pos3    ld      a, (ix)
-        inc     ix
-        add     a, a
-        jr      z, tposf
-        ld      l, a
-        ld      h, 3
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        set     3, l
-        ld      b, 4
-pos30   ld      a, (de)
-        xor     (hl)
-        ld      (de), a
-        inc     d
-        inc     l
-        ld      a, (de)
-        xor     (hl)
-        ld      (de), a
-        inc     d
-        inc     l
-        djnz    pos30
-        ld      hl, $f801
-        add     hl, de
-        ex      de, hl
-        jp      pos0
-
-        defb    pos0 & $ff
-        defb    pos1 & $ff
-        defb    pos2 & $ff
-        defb    pos3 & $ff
-
-; -----------------------------------------------------------------------------
-; 6x8 character set (128 characters x 4 rotations)
-; -----------------------------------------------------------------------------
-chrset  incbin  fuente6x8.bin
 
         block   $8000-$
 ; ------------------------
