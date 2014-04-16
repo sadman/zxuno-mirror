@@ -1,7 +1,7 @@
 #include <stdio.h>
 FILE *fi, *fo;
 int i;
-unsigned char mem[0x4004+0x43], start_ram, length_ram, out1ffd, out7ffd, checksum, a, b;
+unsigned char mem[0x4004+0x43], checksum, a, b;
 unsigned short j, k, crc, tab[]= {
   0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
   0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
@@ -79,10 +79,6 @@ int main(int argc, char *argv[]) {
   if( argc!=8 )
     printf("\nInvalid number of parameters\n"),
     exit(-1);
-  start_ram= strtol(argv[1], NULL, 16);
-  length_ram= strtol(argv[2], NULL, 16);
-  out1ffd= strtol(argv[3], NULL, 16);
-  out7ffd= strtol(argv[4], NULL, 16);
   fi= fopen(argv[6], "rb");
   if( !fi )
     printf("\nInput file not found: %s\n", argv[6]),
@@ -119,10 +115,10 @@ int main(int argc, char *argv[]) {
   }
   fseek(fo, 0, SEEK_SET);
   mem[0x4007]= j;
-  mem[0x4008]= start_ram;
-  mem[0x4009]= length_ram;
-  mem[0x400a]= out1ffd;
-  mem[0x400b]= out7ffd;
+  mem[0x4008]= atoi(argv[1]);
+  mem[0x4009]= atoi(argv[2]);
+  mem[0x400a]= atoi(argv[3]);
+  mem[0x400b]= atoi(argv[4]);
   parseHex(argv[5]);
   for ( checksum= 0xff, k= 0x4007; k<0x4046; ++k )
     checksum^= mem[k];

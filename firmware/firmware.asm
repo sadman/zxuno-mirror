@@ -163,7 +163,9 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start   inc     b
+start   xor     a
+        out     ($fe), a
+        inc     b
         ldir
         ld      hl, $8000
         ld      b, $40          ; filtro RCS inverso
@@ -204,10 +206,6 @@ start1  ld      a, b
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
         call    loadch
-      IF  debug
-        xor     a
-      ENDIF
-        out     ($fe), a
 start2  djnz    start3
         dec     e
         jp      z, conti
@@ -524,23 +522,23 @@ conti4  ld      a, master_mapper
         add     hl, de
         push    de
         ld      de, cad55+19
-        call    wtohex
+        call    tmpbuf+wtohex-conti2
         pop     hl
         ld      e, cad55+33&$ff
-        call    wtohex
+        call    tmpbuf+wtohex-conti2
         ld      b, zxuno_port+$100>>8
         wreg    master_conf, 0
         ld      ix, cad55
         ld      bc, $0016
         call_prnstr
         call_prnstr
-        pop     ix
         ei
         call    waitky
         di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 1
-cont45  pop     hl
+cont45  pop     ix
+        pop     hl
         ld      de, $0040
         add     hl, de
         dec     (ix+3)
