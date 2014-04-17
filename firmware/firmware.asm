@@ -38,14 +38,14 @@
         ei
         ld      sp, stack
         im      1
-        ld      hl, finlog-1
-        ld      de, $9aff
-        call    dzx7b           ; descomprimir
         ld      hl, conti
         ld      de, $b580-chrend+conti
         ld      bc, chrend-conti
         ldir
-        ld      hl, $bfff
+        call    loadch
+        ld      de, fincad-1    ; descomprimo cadenas
+        ld      hl, finstr-1
+        call    dzx7b
         jp      start
 
 rst20   push    bc
@@ -162,8 +162,8 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start   ex      de, hl
-        dec     l
+start   ld      hl, $b57f
+        ld      de, $bfff
 start1  ld      c, 8
         lddr
         push    hl
@@ -185,7 +185,14 @@ start3  ld      a, (hl)
         sub     $b1
         jr      nz, start1
         out     ($fe), a
-        ld      hl, $8000
+        ld      a, (quietb)
+        dec     a
+        jr      z, start5
+        ld      hl, finlog-1
+        ld      de, $7aff
+        call    dzx7b           ; descomprimir
+        inc     l
+        inc     hl
         ld      b, $40          ; filtro RCS inverso
 start4  ld      a, b
         xor     c
@@ -204,9 +211,6 @@ start4  ld      a, b
         jr      z, start4
         ld      b, $13
         ldir
-        ld      de, fincad-1    ; descomprimo cadenas
-        ld      hl, finstr-1
-        call    dzx7b
         ld      bc, $0909
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
@@ -223,7 +227,6 @@ start4  ld      a, b
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-        call    loadch
 start5  djnz    start6
         dec     e
         jp      z, alto conti
@@ -2117,6 +2120,9 @@ conti4  ld      a, master_mapper
         ld      de, $c000
         ld      a, $40
         call    alto rdflsh
+        ld      a, (checkc)
+        dec     a
+        jr      nz, cont46
         push    hl
         call    alto check
         push    ix
@@ -2147,7 +2153,7 @@ cont44  in      a, (c)
 cont45  ld      bc, zxuno_port+$100
         pop     ix
         pop     hl
-        ld      de, $0040
+cont46  ld      de, $0040
         add     hl, de
         dec     (ix+3)
         jr      z, conti5
@@ -2852,4 +2858,3 @@ fincad
 ; * bug esquina en rename
 ; * hacer carga de máquina
 ; * Hacer que funcione DivMMC
-; * Añadir CRCs
