@@ -32,14 +32,14 @@
         define  nmidiv  $9524
         define  keyiss  $9525
         define  tmpbuf  $a000
-        define  stack   $ad00
-        define  alto    $b000-crctab+
+        define  stack   $ab00
+        define  alto    $ae00-crctab+
 
         ei
         ld      sp, stack
         im      1
         ld      hl, conti
-        ld      de, $b580-chrend+conti
+        ld      de, $b400-chrend+conti
         ld      bc, chrend-conti
         ldir
         call    loadch
@@ -162,30 +162,21 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start   ld      hl, $b57f
-        ld      de, $bfff
-start1  ld      c, 8
-        lddr
-        push    hl
-        ld      c, 3
-start2  ld      hl, $0008
-        add     hl, de
-        ld      b, 8
-start3  ld      a, (hl)
-        rlca
-        rlca
+start   ld      hl, $b000
+        ld      de, $b400
+start1  ld      b, $04
+start2  ld      a, (hl)
+        rrca
+        rrca
         ld      (de), a
-        dec     de
-        dec     hl
-        djnz    start3
-        dec     c
-        jr      nz, start2
-        pop     hl
-        ld      a, d
-        sub     $b1
-        jr      nz, start1
-        out     ($fe), a
+        inc     de
+        cpi
+        jp      pe, start2
+        jr      nc, start1
+;        bit     6, d
+;        jr      z, start1
         ld      a, (quietb)
+        out     ($fe), a
         dec     a
         jr      z, start5
         ld      hl, finlog-1
@@ -2321,9 +2312,7 @@ pos0    ld      a, (ix)
         add     a, a
         jr      z, posf
         ld      l, a
-        ld      h, $0b
-        add     hl, hl
-        add     hl, hl
+        ld      h, $2c
         add     hl, hl
         add     hl, hl
         ld      b, 4
@@ -2344,14 +2333,9 @@ pos1    ld      a, (ix)
         add     a, a
         jr      z, posf
         ld      l, a
-        ld      h, $0b
+        ld      h, $2f
         add     hl, hl
         add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        ld      a, $18
-        or      l
-        ld      l, a
         ld      bc, $04fc
 pos10   ld      a, (de)
         xor     (hl)
@@ -2384,12 +2368,9 @@ pos2    ld      a, (ix)
         add     a, a
 tposf   jr      z, posf
         ld      l, a
-        ld      h, $0b
+        ld      h, $2e
         add     hl, hl
         add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        set     4, l
         ld      bc, $04f0
 pos20   ld      a, (de)
         xor     (hl)
@@ -2422,12 +2403,9 @@ pos3    ld      a, (ix)
         add     a, a
         jr      z, tposf
         ld      l, a
-        ld      h, $0b
+        ld      h, $2d
         add     hl, hl
         add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        set     3, l
         ld      b, 4
 pos30   ld      a, (de)
         xor     (hl)
@@ -2454,6 +2432,7 @@ pos30   ld      a, (de)
 ; 6x8 character set (128 characters x 1 rotation)
 ; -----------------------------------------------------------------------------
 crctab  incbin  crctable.bin
+        defs    $80
 chrset  incbin  fuente6x8.bin
 chrend
 

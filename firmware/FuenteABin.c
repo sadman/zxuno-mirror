@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
           celda<<= 1;
           celda|= fondo != tospec(pixel[0], pixel[1], pixel[2]);
         }
-        output[outpos++]= celda>>4&0x03 | celda<<4&0xf0;
+        output[outpos++]= celda<<2;
       }
     }
   fwrite(output, outpos, 1, fo);
