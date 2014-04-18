@@ -24,6 +24,7 @@
                       ; inputs   lo: cursor position  hi: max length
                       ; otro     lo: pagina actual    hi: mascara paginas
         define  empstr  $8fd4
+        define  config  $9000
         define  indexe  $9500
         define  active  $9520
         define  quietb  $9521
@@ -206,7 +207,7 @@ start4  ld      a, b
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
-        call_prnstr             ; ZX-Uno BIOS v0.100
+        call_prnstr             ; ZX-Uno BIOS v0.200
         call_prnstr             ; Copyright
         ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
         call_prnstr             ; Processor
@@ -1673,7 +1674,7 @@ savech  ret
       ELSE
 savech  ld      bc, zxuno_port+$100
         ld      a, $10
-        ld      hl, $9000
+        ld      hl, config
         exx
         ld      de, $02b0
 
@@ -1730,7 +1731,7 @@ wrfls3  inc     b
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         ex      af, af'
         dec     a
-        ret     z
+        jr      z, waits5
         ex      af, af'
         inc     e
         ld      a, e
@@ -1753,7 +1754,7 @@ waits6  in      a, (c)
 ; ------------------------
 loadch  ld      bc, zxuno_port+$100
         wreg    flash_cs, 1
-        ld      de, $9000
+        ld      de, config
         ld      hl, $02b0
         ld      a, $10
         jp      alto rdflsh
@@ -1811,6 +1812,7 @@ lbytes  di                      ; disable interrupts
         out     ($fe), a        ; output to port.
         push    ix
         pop     hl              ; pongo la direccion de comienzo en hl
+        ld      c, 2
         exx                     ; salvo de, en caso de volver al cargador estandar y para hacer luego el checksum
         ld      c, a
 ultr0   defb    $2a             ; en (1220) bit bajo de l=1 alto de h=0
@@ -1863,8 +1865,8 @@ ldloop  ex      af, af'         ; restore entry flags and type in a.
         defb    $c2
 ldflag  inc     l               ; compare type in a with first byte in l.
         ret     nz              ; return if no match e.g. code vs. data.
-        ex      af, af'         ; store the flags.
-marker  ld      l, $01          ; initialize as %00000001
+marker  ex      af, af'         ; store the flags.
+        ld      l, $01          ; initialize as %00000001
 l8bits  ld      b, $b2          ; timing.
         call    ldedg2          ; routine ld-edge-2 increments b relative to gap between 2 edges
         ret     nc              ; return with time-out.
@@ -1909,12 +1911,12 @@ ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono g
         rr      c               ; pongo en flag z el signo del pulso
         ld      bc, $effe       ; este valor es el que necesita b para entrar en raudo
         jp      nc, ult55
-        ld      h, $2e
+        ld      h, $3e
 ultr5   in      f, (c)
         jp      pe, ultr5
         call    l3ec3           ; salto a raudo segun el signo del pulso en flag z
         jr      ultr7
-ult55   ld      h, $2c
+ult55   ld      h, $3c
 ultr6   in      f, (c)
         jp      po, ultr6
         call    l3d03           ; salto a raudo
@@ -2127,10 +2129,10 @@ conti4  ld      a, master_mapper
         jr      z, cont45
         add     hl, de
         push    de
-        ld      de, cad55+19
+        ld      de, cad55+33
         call    alto wtohex
         pop     hl
-        ld      e, cad55+33&$ff
+        ld      e, cad55+19&$ff
         call    alto wtohex
         ld      ix, cad55
         ld      bc, $0016
@@ -2234,7 +2236,7 @@ rdfls2  ini
         ret
       ENDIF
 
-check   ld      c, $b0
+check   ld      c, alto crctab>>8
         ld      hl, $bfff       ;4c2b > d432
         defb    $11
 check1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
@@ -2646,7 +2648,7 @@ l3eff   in      l,(c)
 ; Messages
 ; ------------------------
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.100', 0
+        defm    'ZX-Uno BIOS v0.200', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -2681,7 +2683,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '     BIOS v0.100    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '     BIOS v0.200    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
