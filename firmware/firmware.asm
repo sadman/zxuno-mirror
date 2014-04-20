@@ -54,7 +54,7 @@ rst20   push    bc
 
 jmptbl  defw    main
         defw    roms
-        defw    menu2
+        defw    upgrad
         defw    menu3
         defw    menu4
         defw    exit
@@ -207,7 +207,7 @@ start4  ld      a, b
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
-        call_prnstr             ; ZX-Uno BIOS v0.200
+        call_prnstr             ; ZX-Uno BIOS v0.210
         call_prnstr             ; Copyright
         ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
         call_prnstr             ; Processor
@@ -330,7 +330,6 @@ bios8   dec     c
         ret
 
 exit    ld      h, 28
-        call    window
         call    help
         ld      ix, cad37
         ld      bc, $0202
@@ -339,7 +338,6 @@ exit    ld      h, 28
         call_prnstr
         call_prnstr
         ld      de, $1201
-        ld      a, (menuop+1)
         call    listas
         defb    $02
         defb    $03
@@ -403,7 +401,6 @@ bloq1   ld      hl, $0709
 
 main    inc     d
         ld      h, l
-        call    window
         call    help
         ld      ix, cad10
         ld      bc, $0202
@@ -427,7 +424,6 @@ main2   call_prnstr
         ld      ixl, cad27 & $ff
 main25  call_prnstr
         ld      de, $1201
-        ld      a, (menuop+1)
         call    listas
         defb    $04
         defb    $05
@@ -627,45 +623,8 @@ roms8   sub     $1e-$16
         jp      z, romst
         sub     $6e-$1f         ; n= New Entry
         jp      nz, roms87
-        ld      ix, cad49
-        call    prnhel
-        call    bloq1
-        dec     c
-        dec     c
-        ld      iyl, 5
-roms86  ld      ix, cad42
-        call_prnstr
-        dec     iyl
-        jr      nz, roms86
-        ld      ixl, cad43 & $ff
-        call_prnstr
-        ld      ixl, cad44 & $ff
-        ld      c, b
-        call_prnstr
-        call    romcyb
-        ld      ixl, cad45 & $ff
-        call_prnstr
-        ld      ix, tmpbuf
-        ld      de, $003f
-        call    lbytes
-        ld      bc, $1109
+        call    loadta
         jp      nc, romer
-        ld      hl, tmpbuf+$2c
-        ld      a, (hl)
-        push    af
-        ld      (hl), 0
-        ld      ixl, $1f
-        call_prnstr
-        pop     af
-        ld      (tmpbuf+$2c), a
-        ld      de, tmpbuf+$40
-        ld      hl, cad52
-        ld      bc, cad53-cad52
-        ldir
-        ld      a, (tmpbuf)
-        ld      iyh, a
-        add     a, $30
-        ld      (tmpbuf+$4b), a
         ld      hl, %00001010
 rms001  ld      (offsel), hl
         ld      bc, $7ffd
@@ -674,7 +633,7 @@ rms001  ld      (offsel), hl
         ld      (empstr), a
         push    bc
         ld      ix, tmpbuf+$40
-        ld      b, $09
+;        ld      b, $09
         call_prnstr
         inc     (ix-8)
         ld      ix, $c000
@@ -772,8 +731,8 @@ rms006  dec     iyh
         ret
 romer   call    romcyb
         ld      ix, cad50
-        call_prnstr
-romfi   ei
+romfi   call_prnstr
+        ei
         call    romcyb
         ld      ix, cad51
         call_prnstr
@@ -963,10 +922,105 @@ romcyb  call    romcal
         dec     c
         ret
 
-menu2   ld      h, 9
+upgrad  ld      h, 9
         ld      d, 7
-        call    window
-        jp      main7
+        call    help
+        ld      ix, cad57
+        ld      bc, $0202
+        call_prnstr             ; Upgrade machine
+        call_prnstr             ; Upgrade BIOS
+        ld      de, $1201
+        call    listas
+        defb    $02
+        defb    $03
+        defb    $ff
+        defw    cad58
+        defw    cad59
+        jp      c, main6
+        ld      (menuop+1), a
+        ld      ix, upgra0
+        call    delhel
+upgra0  ld      sp, stack-2
+        call    loadta
+        jp      nc, romer
+        ld      hl, (menuop+1)
+        rr      l
+        jr      c, upgra4
+        cp      $3c
+        jp      nz, romer
+        ld      de, tmpbuf+$40
+        ld      hl, cad60
+        ld      bc, cad61-cad60
+        ldir
+        call    romcyb
+        ld      ix, tmpbuf+$40
+        call_prnstr
+upgra1  ld      a, tmpbuf+$54 & $ff
+        sub     iyh
+        ld      l, a
+        ld      h, tmpbuf>>8
+        ld      (hl), 'o'
+        call    shaon
+        ld      ix, $4000
+        ld      de, $4000
+        call    lbytes
+        push    af
+        ld      a, 21
+        sub     iyh
+        call    alto copyme
+        call    shaoff
+        pop     af
+        jp      nc, romer
+        dec     iyl
+        call    romcyb
+        ld      ix, tmpbuf+$40
+;        ld      b, $09
+        call_prnstr
+        dec     iyh
+        jr      nz, upgra1
+        ld      iyh, 12
+        call    shaon
+        exx
+upgra2  ld      a, 21
+        sub     iyh
+        call    alto saveme
+        ld      a, $40
+        ld      hl, $4000
+        exx
+        call    wrflsh
+        inc     de
+        exx
+        dec     iyh
+        jr      nz, upgra2
+        call    shaoff
+        call    romcyb
+        ld      ix, cad61
+upgra3  jp      romfi
+upgra4  cp      $31
+        jp      nz, romer
+        call    romcyb
+        ld      ix, tmpbuf+$40
+        call_prnstr
+        ld      ix, $c000
+        ld      de, $4000
+        call    lbytes
+        jp      nc, romer
+        ld      bc, $170a
+        ld      ix, cad53
+        call_prnstr
+        call    check
+        ld      hl, (tmpbuf+7)
+        sbc     hl, de
+        jp      nz, romer
+        ld      a, $40
+        ld      hl, $c000
+        ld      bc, zxuno_port+$100
+        exx
+        ld      de, $02c0
+        call    wrflsh
+        call    romcyb
+        ld      ix, cad62
+        jr      upgra3
 
 menu3   ld      h, 16
         call    window
@@ -1068,6 +1122,72 @@ boot4   call    combol
         ld      a, b
         ld      (active), a
 boot5   jp      alto conti
+
+
+; -------------------------------------
+;  Carry: 0 -> from 4000 to C000, shadow on , pre  page
+;         1 -> from C000 to 4000, shadow off, post page
+; -------------------------------------
+shaoff  scf
+shao1   ld      bc, $4000
+        ld      d, b
+        ld      e, c
+        ld      hl, $c000
+        jr      c, shao2
+        ex      de, hl
+shao2   ldir
+        ret     nc
+        ld      a, $07
+        defb    $d2
+shaon   ld      a, $0f
+copy58  ld      bc, $7ffd
+        out     (c), a
+        jr      nc, shao1
+        ret
+
+; -------------------------------------
+; Shows the window of Load from Tape
+; -------------------------------------
+loadta  ld      ix, cad49
+        call    prnhel
+        call    bloq1
+        dec     c
+        dec     c
+        ld      iyl, 5
+loadt1  ld      ix, cad42
+        call_prnstr
+        dec     iyl
+        jr      nz, loadt1
+        ld      ixl, cad43 & $ff
+        call_prnstr
+        ld      ixl, cad44 & $ff
+        ld      c, b
+        call_prnstr
+        call    romcyb
+        ld      ixl, cad45 & $ff
+        call_prnstr
+        ld      ix, tmpbuf
+        ld      de, $003f
+        call    lbytes
+        ld      bc, $1109
+        ret     nc
+        ld      hl, tmpbuf+$2c
+        ld      a, (hl)
+        push    af
+        ld      (hl), 0
+        ld      ixl, $1f
+        call_prnstr
+        pop     af
+        ld      (tmpbuf+$2c), a
+        ld      de, tmpbuf+$40
+        ld      hl, cad52
+        ld      bc, cad53-cad52
+        ldir
+loadt2  ld      a, (tmpbuf)
+        ld      iyh, a
+        sub     $d0
+        ld      (tmpbuf+$4b), a
+        ret
 
 ; -------------------------------------
 ; Yes or not dialog
@@ -1420,7 +1540,8 @@ comboa  ld      a, h
 ;    A: item selected
 ;    Carry on: if no Enter pressed
 ; -------------------------------------
-listas  inc     a
+listas  ld      a, (menuop+1)
+        inc     a
         ld      iyl, a
         pop     hl
         push    hl
@@ -1464,32 +1585,9 @@ lista4  call    window
         ld      a, (codcnt)
         cp      $0d
         jr      z, list10
-        di
-        ld      c, $9
-        ld      hl, $405f
-        ld      de, 0
-lista5  ld      b, 8
-list55  ld      sp, hl
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        inc     sp
-        push    de
-        inc     h
-        djnz    list55
-        ld      a, l
-        add     a, $20
-        ld      l, a
-        jr      c, list56
-        ld      a, h
-        sub     8
-        ld      h, a
-list56  dec     c
-        jr      nz, lista5
-        ld      sp, stack-8
-        ei
+        ld      ix, list57
+        jp      delhel
+list57  ld      sp, stack-8
         pop     ix
         pop     de
         pop     hl
@@ -1526,6 +1624,36 @@ list10  pop     de
         ld      a, iyl
         dec     a
         jp      (hl)
+
+; -------------------------------------
+; Deletes the upper right area (help)
+; -------------------------------------
+delhel  di
+        ld      c, $9
+        ld      hl, $405f
+        ld      de, 0
+lista5  ld      b, 8
+list55  ld      sp, hl
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     sp
+        push    de
+        inc     h
+        djnz    list55
+        ld      a, l
+        add     a, $20
+        ld      l, a
+        jr      c, list56
+        ld      a, h
+        sub     8
+        ld      h, a
+list56  dec     c
+        jr      nz, lista5
+        ei
+        jp      (ix)
 
 ; -------------------------------------
 ; Draw a window in the attribute area
@@ -1990,6 +2118,7 @@ finstr
 
 ; after 1 second continue boot
       IF  debug
+copyme
 conti   ld      a, 2
         out     ($fe), a
         di
@@ -2123,8 +2252,8 @@ conti4  ld      a, master_mapper
         add     a, a
         add     a, ixl
         ld      ixl, a
-        ld      l, (ix+$0e)
-        ld      h, (ix+$0f)
+        ld      l, (ix+$06)
+        ld      h, (ix+$07)
         sbc     hl, de
         jr      z, cont45
         add     hl, de
@@ -2165,6 +2294,64 @@ conti5  ld      a, 0
         ld      a, (ix+5)
         out     (c), a
         rst     0
+
+; -------------------------------------
+; Put page A in mode 1 and copies from 4000 to C000
+;      A: page number
+; -------------------------------------
+copyme  ld      bc, zxuno_port+$100
+        wreg    master_conf, 1
+        ld      de, $c000 | master_mapper
+        dec     b
+        out     (c), e
+        inc     b
+        out     (c), a
+        dec     e
+        push    bc
+        ld      bc, $4000
+        ld      h, b
+        ld      l, c
+        ldir
+        call    alto check
+        pop     bc
+        wreg    master_conf, 0
+        ld      a, iyh
+        add     a, a
+        add     a, 5
+        ld      l, a
+        ld      h, tmpbuf>>8
+        ld      c, (hl)
+        inc     l
+        ld      b, (hl)
+        ex      de, hl
+        sbc     hl, bc
+        ret     z
+        pop     de
+        add     hl, hl
+        ex      (sp), hl
+        push    de
+        ret
+
+; -------------------------------------
+; Put page A in mode 1 and copies from C000 to 4000
+;      A: page number
+; -------------------------------------
+saveme  ld      bc, zxuno_port+$100
+        wreg    master_conf, 1
+        ld      hl, $c000 | master_mapper
+        dec     b
+        out     (c), l
+        inc     b
+        out     (c), a
+        dec     l
+        push    bc
+        ld      bc, $4000
+        ld      d, b
+        ld      e, c
+        ldir
+        pop     bc
+        wreg    master_conf, 0
+        ret
 
 ; ------------------------
 ; Print Hexadecimal number
@@ -2255,7 +2442,8 @@ check1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
         ld      e, a
         ret
 
-help    ld      a, %00111000    ; fondo blanco tinta negra
+help    call    window
+        ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
         ld      d, $12
         call    window
@@ -2648,7 +2836,7 @@ l3eff   in      l,(c)
 ; Messages
 ; ------------------------
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.200', 0
+        defm    'ZX-Uno BIOS v0.210', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -2683,7 +2871,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '     BIOS v0.200    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '     BIOS v0.210    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -2832,10 +3020,19 @@ cad55   defb    'Invalid CRC in ROM 0000. Must be 0000', 0
 cad56   defb    'Check CRC in', 0
         defb    'all ROMs. Slow', 0
         defb    'but safer', 0, 0
-
+cad57   defb    'Upgrade machine', 0
+        defb    'Upgrade BIOS', 0
+cad58   defb    'Upgrade entire', 0
+        defb    'machine, BIOS', 0
+        defb    'included', 0, 0
+cad59   defb    'Upgrade only', 0
+        defb    'the BIOS', 0
+        defb    'firmware', 0, 0
+cad60   defb    'Status:[            ]', 0
+cad61   defb    'Machine upgraded', 0
+cad62   defb    'BIOS upgraded', 0
 fincad
 
 ; todo
 ; * bug esquina en rename
-; * hacer carga de máquina
 ; * Hacer que funcione DivMMC

@@ -4,3 +4,5 @@ fcut      firmware_strings.rom  8000 -8000  strings.bin
 zx7b      strings.bin           strings.bin.zx7b
 sjasmplus firmware.asm
 fcut      firmware_strings.rom  0000  4000  firmware.rom
+GenRom    0 0 0 0 'BIOS' firmware.rom firmware.tap
+CgLeches  firmware.tap firmware.wav

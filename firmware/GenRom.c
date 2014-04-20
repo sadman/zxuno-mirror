@@ -64,7 +64,7 @@ int parseHex(char * name){
 int main(int argc, char *argv[]) {
   if( argc==1 )
     printf("\n"
-    "GenRom v0.01, generates a TAP for loading a ROM in the ZX-Uno, 2012-12-27\n\n"
+    "GenRom v0.02, generates a TAP for loading a ROM in the ZX-Uno, 2012-12-27\n\n"
     "  GenRom         <start_ram> <length_ram> <byte_1FFD> <byte_7FFD>\n"
     "                 <name> <input_file> <output_file>\n\n"
     "  <start_ram>    Number of start bank to SRAM, between 08 and 0f (in hex)\n"
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
       b= a ^ crc,
       crc= tab[b] ^ (crc>>8&0xff ),
       checksum^= a;
-    *(unsigned short*)(mem+0x4014+(j-i)*2)= crc;
+    *(unsigned short*)(mem+0x400c+(j-i)*2)= crc;
     mem[0x4003]= checksum;
     fwrite(mem, 1, 0x4004, fo);
   }

@@ -14,25 +14,3 @@ GenRom 8  1 0 32 "'Planetoids (1983)'"               Planetoids.rom     Planetoi
 GenRom 8  1 0 32 "'Space Raiders (1983)'"            SpaceRaiders.rom   SpaceRaiders.tap
 GenRom 8  1 0 32 "'Deathchase (1983)'"               Deathchase.rom     Deathchase.tap
 GenRom 8  1 0 32 "'Manic Miner (1983)'"              ManicMiner.rom     ManicMiner.tap
-
-sjasmplus 2b500.asm
-copy /b ESXMMC.BIN+                   ^
-        2b500.bin+                    ^
-        \zxuno\firmware\firmware.rom+ ^
-        leches.rom+                   ^
-        mmces3eE.rom+                 ^
-        se.rom+                       ^
-        48.rom+                       ^
-        JetPac.rom+                   ^
-        Pssst.rom+                    ^
-        Cookie.rom+                   ^
-        TranzAm.rom+                  ^
-        MasterChess.rom+              ^
-        Backgammon.rom+               ^
-        HungryHorace.rom+             ^
-        HoraceSpiders.rom+            ^
-        Planetoids.rom+               ^
-        SpaceRaiders.rom+             ^
-        ManicMiner.rom+               ^
-        Deathchase.rom                ^
-    roms_29500.bin
