@@ -26,10 +26,10 @@ module rom (
     output reg [7:0] dout
     );
 
-   reg [7:0] mem[0:16383];
+   reg [7:0] mem[0:63];
    initial begin  // usa $readmemb/$readmemh dependiendo del formato del fichero que contenga la ROM
-      //$readmemh ("rom_cargando_leches_48k_hex.txt", mem, 0);
-      $readmemb ("rom_48k_bin.txt", mem, 0);
+      $readmemh ("bootloader_hex.txt", mem, 0);
+      //$readmemb ("rom_48k_bin.txt", mem, 0);
 		//$readmemh ("testcontenida_hex.txt", mem, 0);
    end
    

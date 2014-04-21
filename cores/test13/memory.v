@@ -64,22 +64,27 @@ module memory (
    reg divmmc_is_enabled = 1'b0;
    reg divmmc_nmi_is_disabled = 1'b0;
    reg issue2_keyboard = 1'b0;
+   reg masterconf_frozen = 1'b0;
    
    assign issue2_keyboard_enabled = issue2_keyboard;
-   assign in_boot_mode = initial_boot_mode;
+   assign in_boot_mode = ~masterconf_frozen;
 
    always @(posedge clk) begin
-      if (!mrst_n)
+      if (!mrst_n) begin
          {issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= 4'b0001;
-      else if (addr==MASTERCONF && iow && initial_boot_mode)
+         masterconf_frozen <= 1'b0;
+      end
+      else if (addr==MASTERCONF && iow && !masterconf_frozen) begin
          {issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= din[3:0];
+         masterconf_frozen <= din[7];
+      end
    end
    
    reg [4:0] mastermapper = 5'h00;
    always @(posedge clk) begin
       if (!mrst_n)
          mastermapper <= 5'h00;
-      else if (addr==MASTERMAPPER && iow && initial_boot_mode)
+      else if (addr==MASTERMAPPER && iow && !masterconf_frozen)
          mastermapper <= din[4:0];
    end
    
@@ -298,8 +303,8 @@ module memory (
    rom boot_rom (
       .clk(mclk),
       .a(a[13:0]),
-      .we(!mreq_n && !wr_n && a[15:14]==2'b00),
-      .din(din),
+      .we(1'b0), // !mreq_n && !wr_n && a[15:14]==2'b00),
+      .din(),  // (din),
       .dout(bootrom_dout)
     );    
 
