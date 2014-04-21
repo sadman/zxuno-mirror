@@ -1,0 +1,1 @@
+\zz\Xilinx\12.1\ISE_DS\ISE\bin\nt64\promgen.exe %*
