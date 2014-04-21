@@ -207,7 +207,7 @@ start4  ld      a, b
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
-        call_prnstr             ; ZX-Uno BIOS v0.210
+        call_prnstr             ; ZX-Uno BIOS v0.220
         call_prnstr             ; Copyright
         ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
         call_prnstr             ; Processor
@@ -219,10 +219,12 @@ start4  ld      a, b
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-start5  ld      a, (codcnt)
-        sub     $18
-        ld      d, b
-        jr      z, start55
+start5  ld      d, a
+        ld      bc, zxuno_port
+        out     (c), a
+        inc     b
+        in      a, (c)
+        jp      m, start55
         ld      d, 2
 start55 djnz    start6
         dec     de
@@ -2198,7 +2200,7 @@ l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
 l0300
       ELSE
 conti   di
-        ld      a, %00100000    ; leo 3 bits
+        ld      a, %00101000    ; leo 3 bits
         ld      hl, keyiss
 conti1  rr      (hl)
         adc     a, a
@@ -2859,7 +2861,7 @@ l3eff   in      l,(c)
 ; Messages
 ; ------------------------
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.210', 0
+        defm    'ZX-Uno BIOS v0.220', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -2894,7 +2896,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '     BIOS v0.210    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '     BIOS v0.220    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3057,6 +3059,7 @@ cad62   defb    'BIOS upgraded', 0
 fincad
 
 ; todo
+; * generar tablas CRC por código
 ; * bug esquina en rename
 ; * descomprimir en lugar de copiar codigo alto
 ; * Hacer que funcione DivMMC

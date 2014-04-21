@@ -1,4 +1,4 @@
-sjasmplus 2b500.asm
+../sjasmplus 2b500.asm
 copy /b ESXMMC.BIN+                   ^
         2b500.bin+                    ^
         ..\firmware.rom+              ^
@@ -20,7 +20,6 @@ copy /b ESXMMC.BIN+                   ^
 cd ..
 call  make.bat
 cd roms
-copy ..\firmware.tap .
 call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\test13\tld_zxuno.bit
 srec_cat  tld_zxuno.mcs   -Intel                    ^
           roms_29500.bin  -binary -offset 0x29500   ^
@@ -34,4 +33,9 @@ copy /b tld_zxuno.bin+    ^
         2b500.bin+        ^
         ..\firmware.rom   ^
     machine.bin
-..\GenRom 0 0 0 0 'Machine' machine.bin machine.tap
+copy ..\firmware.rom .
+GenRom 0 0 0 0 'BIOS'    firmware.rom firmware.tap
+GenRom 0 0 0 0 'Machine' machine.bin  machine.tap
+CgLeches firmware.tap firmware.wav
+CgLeches machine.tap  machine.wav
+
