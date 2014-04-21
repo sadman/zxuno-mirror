@@ -219,17 +219,24 @@ start4  ld      a, b
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-start5  djnz    start6
-        dec     e
+start5  ld      a, (codcnt)
+        sub     $18
+        ld      d, b
+        jr      z, start55
+        ld      d, 2
+start55 djnz    start6
+        dec     de
+        ld      a, d
+        or      e
         jp      z, alto conti
 start6  ld      a, (codcnt)
         sub     $80
-        jr      c, start5
+        jr      c, start55
         ld      (codcnt), a
         cp      $0c
         jp      z, boot
         cp      $17
-        jr      nz, start5
+        jr      nz, start55
 
 ; Setup menu
 bios    out     ($fe), a
@@ -2118,6 +2125,7 @@ finstr
 
 ; after 1 second continue boot
       IF  debug
+saveme
 copyme
 conti   ld      a, 2
         out     ($fe), a
@@ -3035,4 +3043,5 @@ fincad
 
 ; todo
 ; * bug esquina en rename
+; * descomprimir en lugar de copiar codigo alto
 ; * Hacer que funcione DivMMC
