@@ -2215,6 +2215,21 @@ conti2  ld      (alto conti5+1), a
         ld      de, $c000
         ld      a, $20
         call    alto rdflsh
+        ld      a, 16
+conti24 ld      de, $c000 | master_mapper
+        dec     b
+        out     (c), e
+        inc     b
+        push    bc
+        out     (c), a
+        ld      bc, $3fff
+        ld      hl, $c000
+        ld      (hl), l
+        ldir
+        pop     bc
+        inc     a
+        cp      24
+        jr      nz, conti24
 conti25 ld      hl, active
         ld      l, (hl)
         ld      l, (hl)
