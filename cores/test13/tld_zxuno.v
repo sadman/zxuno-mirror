@@ -73,7 +73,7 @@ module tld_zxuno (
    zxuno la_maquina (
     .clk(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
     .wssclk(wssclk),      //  5MHz, reloj para el WSS
-	 .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
+    .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
     .r(r),
     .g(g),
     .b(b),

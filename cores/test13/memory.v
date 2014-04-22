@@ -84,7 +84,7 @@ module memory (
    always @(posedge clk) begin
       if (!mrst_n)
          mastermapper <= 5'h00;
-      else if (addr==MASTERMAPPER && iow && !masterconf_frozen)
+      else if (addr==MASTERMAPPER && iow && initial_boot_mode)
          mastermapper <= din[4:0];
    end
    

@@ -27,7 +27,11 @@ module rom (
     );
 
    reg [7:0] mem[0:63];
+   integer i;
    initial begin  // usa $readmemb/$readmemh dependiendo del formato del fichero que contenga la ROM
+      for (i=0;i<64;i=i+1) begin
+        mem[i] = 8'h00;
+      end
       $readmemh ("bootloader_hex.txt", mem, 0);
       //$readmemb ("rom_48k_bin.txt", mem, 0);
 		//$readmemh ("testcontenida_hex.txt", mem, 0);
@@ -35,7 +39,7 @@ module rom (
    
    always @(posedge clk) begin
      if (we)
-        mem[a] <= din;
-     dout <= mem[a];
+        mem[a[5:0]] <= din;
+     dout <= mem[a[5:0]];
    end
 endmodule
