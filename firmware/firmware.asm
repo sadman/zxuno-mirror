@@ -2207,7 +2207,8 @@ conti1  rr      (hl)
         dec     l
         jr      nc, conti1
         add     a, a
-conti2  ld      (alto conti5+1), a
+        xor     %00001100       ; invierto I2KB y DISNMI
+        ld      (alto conti5+1), a
         ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         and     $02
@@ -2218,7 +2219,7 @@ conti2  ld      (alto conti5+1), a
         ld      a, $20
         call    alto rdflsh
         ld      a, 16
-conti24 ld      de, $c000 | master_mapper
+conti2  ld      de, $c000 | master_mapper
         dec     b
         out     (c), e
         inc     b
@@ -2231,7 +2232,7 @@ conti24 ld      de, $c000 | master_mapper
         pop     bc
         inc     a
         cp      24
-        jr      nz, conti24
+        jr      nz, conti2
 conti25 ld      hl, active
         ld      l, (hl)
         ld      l, (hl)
