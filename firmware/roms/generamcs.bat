@@ -1,4 +1,4 @@
-../sjasmplus 2b500.asm
+..\sjasmplus 2b500.asm
 copy /b ESXMMC.BIN+                   ^
         2b500.bin+                    ^
         ..\firmware.rom+              ^
