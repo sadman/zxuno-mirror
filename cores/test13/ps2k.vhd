@@ -11,6 +11,7 @@ entity ps2k is port (
     rows    : in  std_logic_vector(7 downto 0);
     cols    : out std_logic_vector(4 downto 0);
     joy     : out std_logic_vector(4 downto 0);
+    scancode: out std_logic_vector(7 downto 0);
     rst     : out std_logic;
     nmi     : out std_logic;
     mrst    : out std_logic);
@@ -53,6 +54,7 @@ begin
             bit_count <= (others => '0');
             if parity = '1' then -- nueva pulsacion completa en shiftreg.
               pressed <= '1';
+              scancode <= shiftreg(7 downto 0);
               if isextend='1' and shiftreg(7 downto 0)=KEY_RELEASED then  -- procesar la secuencia E0 F0 key
                 isextend <= '1';
               else

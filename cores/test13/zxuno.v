@@ -101,6 +101,8 @@ module zxuno (
    wire [7:0] kbdrow;
    wire mrst_n,rst_n;  // los dos resets suministrados por el teclado
    wire issue2_keyboard;
+   wire [7:0] scancode;  // scancode original desde el teclado PC
+   wire read_scancode = (zxuno_addr==8'h04 && zxuno_regrd);
    
    // Interfaz kempston
    wire [4:0] kbd_joy;
@@ -108,12 +110,15 @@ module zxuno (
    
    assign kbdrow = cpuaddr[15:8];  // las filas del teclado son A8-A15 de la CPU
 
-   assign cpudin = (oe_n_romyram==1'b0)?   memory_dout :
-                   (oe_n_ay==1'b0)?        ay_dout :
-                   (oe_n_kempston==1'b0)?  {3'b000,kbd_joy} :
-                   (oe_n_zxunoaddr==1'b0)? zxuno_addr_to_cpu :
-                   (oe_n_spi==1'b0)? spi_dout :
-                                           ula_dout;
+   // Asignación de dato para la CPU segun la decodificación de todos los dispositivos
+   // conectados a ella.
+   assign cpudin = (oe_n_romyram==1'b0)?        memory_dout :
+                   (oe_n_ay==1'b0)?             ay_dout :
+                   (oe_n_kempston==1'b0)?       {3'b000,kbd_joy} :
+                   (oe_n_zxunoaddr==1'b0)?      zxuno_addr_to_cpu :
+                   (oe_n_spi==1'b0)?            spi_dout :
+                   (read_scancode==1'b1)?       scancode :
+                                                ula_dout;
 
    tv80n_wrapper el_z80 (
       .m1_n(m1_n),
@@ -266,6 +271,7 @@ module zxuno (
       .rows(kbdrow),
       .cols(kbdcol),
       .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
+      .scancode(scancode),  // El scancode original desde el teclado
       .rst(rst_n),   // esto son salidas, no entradas
       .nmi(nmi_n),   // Señales de reset y NMI
       .mrst(mrst_n)  // generadas por pulsaciones especiales del teclado
