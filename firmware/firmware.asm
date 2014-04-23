@@ -12,6 +12,7 @@
         define  master_mapper   1
         define  flash_spi       2
         define  flash_cs        3
+        define  scan_code       4
 
         define  cmbpnt  $8f00
         define  colcmb  $8fc6   ;lo: color de lista   hi: temporal
@@ -36,17 +37,19 @@
         define  stack   $ab00
         define  alto    $ae00-crctab+
 
-        ei
         ld      sp, stack
-        im      1
+        ld      a, scan_code
+        ld      bc, zxuno_port
+        out     (c), a
+        inc     b
+        in      f, (c)
+        push    af
         ld      hl, conti
         ld      de, $b400-chrend+conti
         ld      bc, chrend-conti
         ldir
         call    loadch
-        ld      de, fincad-1    ; descomprimo cadenas
-        ld      hl, finstr-1
-        call    dzx7b
+        ei
         jp      start
 
 rst20   push    bc
@@ -163,7 +166,11 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start   ld      hl, $b000
+start   im      1
+        ld      de, fincad-1    ; descomprimo cadenas
+        ld      hl, finstr-1
+        call    dzx7b
+        ld      hl, $b000
         ld      de, $b400
 start1  ld      b, $04
 start2  ld      a, (hl)
@@ -174,19 +181,17 @@ start2  ld      a, (hl)
         cpi
         jp      pe, start2
         jr      nc, start1
-;        bit     6, d
-;        jr      z, start1
         ld      a, (quietb)
         out     ($fe), a
         dec     a
-        jr      z, start5
+        jr      z, start4
         ld      hl, finlog-1
         ld      de, $7aff
         call    dzx7b           ; descomprimir
         inc     l
         inc     hl
         ld      b, $40          ; filtro RCS inverso
-start4  ld      a, b
+start3  ld      a, b
         xor     c
         and     $f8
         xor     c
@@ -200,7 +205,7 @@ start4  ld      a, b
         ldi
         inc     bc
         bit     3, b
-        jr      z, start4
+        jr      z, start3
         ld      b, $13
         ldir
         ld      bc, $0909
@@ -219,28 +224,27 @@ start4  ld      a, b
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-start5  ld      d, a
-        ld      bc, zxuno_port
-        out     (c), a
-        inc     b
-        in      a, (c)
-        jp      m, start55
-        ld      d, 2
-start55 djnz    start6
+start4  ld      d, a
+        pop     af
+        jr      nz, start5
+        ld      d, a
+start5  djnz    start6
         dec     de
         ld      a, d
         or      e
         jp      z, alto conti
 start6  ld      a, (codcnt)
         sub     $80
-        jr      c, start55
+        jr      c, start5
         ld      (codcnt), a
         cp      $0c
         jp      z, boot
         cp      $17
-        jr      nz, start55
+        jr      nz, start5
 
-; Setup menu
+;++++++++++++++++++++++++++++++++++
+;++++++++    Enter Setup   ++++++++
+;++++++++++++++++++++++++++++++++++
 bios    out     ($fe), a
         ld      a, %01001111    ; fondo azul tinta blanca
         ld      hl, $0017
@@ -256,23 +260,23 @@ bios    out     ($fe), a
         call_prnstr             ; menu superior
         call_prnstr             ; borde superior
         ld      iy, $090a
-bios2   ld      ix, cad8
+bios1   ld      ix, cad8
         call_prnstr             ; |        |     |
         dec     iyh
-        jr      nz, bios2
+        jr      nz, bios1
         call_prnstr             ; borde medio
-bios3   ld      ix, cad8
+bios2   ld      ix, cad8
         call_prnstr             ; |        |     |
         dec     iyl
-        jr      nz, bios3
+        jr      nz, bios2
         ld      ix, cad9
         call_prnstr             ; borde inferior
         call_prnstr             ; info
-bios4   ld      a, $07
+bios3   ld      a, $07
         out     ($fe), a
-        call    bios5
-        jr      bios4
-bios5   ld      a, %00111001    ; fondo blanco tinta azul
+        call    bios4
+        jr      bios3
+bios4   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
         ld      de, $1814
         call    window
@@ -286,8 +290,8 @@ bios5   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $405f
         ld      d, b
         ld      e, b
-bios6   ld      b, 8
-bios7   ld      sp, hl
+bios5   ld      b, 8
+bios6   ld      sp, hl
         push    de
         push    de
         push    de
@@ -306,16 +310,16 @@ bios7   ld      sp, hl
         push    de
         push    de
         inc     h
-        djnz    bios7
+        djnz    bios6
         ld      a, l
         add     a, $20
         ld      l, a
-        jr      c, bios8
+        jr      c, bios7
         ld      a, h
         sub     8
         ld      h, a
-bios8   dec     c
-        jr      nz, bios6
+bios7   dec     c
+        jr      nz, bios5
         ei
         ld      sp, stack-2
         ld      ix, cad11
@@ -338,76 +342,8 @@ bios8   dec     c
         ld      a, %01111001    ; fondo blanco tinta azul
         ret
 
-exit    ld      h, 28
-        call    help
-        ld      ix, cad37
-        ld      bc, $0202
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        ld      de, $1201
-        call    listas
-        defb    $02
-        defb    $03
-        defb    $04
-        defb    $05
-        defb    $ff
-        defw    cad38
-        defw    cad39
-        defw    cad40
-        defw    cad41
-        jp      c, main6
-        ld      (menuop+1), a
-exitg   ld      (colcmb+1), a
-        call    bloq1
-        ld      ix, cad42
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        ld      a, (colcmb+1)
-        ld      b, a
-        djnz    exit1
-        ld      ix, cad46
-exit1   djnz    exit2
-        ld      ix, cad47
-exit2   djnz    exit3
-        ld      ix, cad48
-exit3   ld      bc, $0808
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        xor     a
-        call    yesno
-        dec     a
-        ret     z
-        ld      a, (codcnt)
-        cp      $0c
-        ret     z
-        ld      a, (colcmb+1)
-        ld      b, a
-        djnz    exit4
-        call    loadch
-        jp      alto conti
-exit4   djnz    exit5
-        jp      savech
-exit5   djnz    exit6
-        jp      loadch
-exit6   call    savech
-        jp      alto conti
-
-bloq1   ld      hl, $0709
-        ld      de, $1207
-        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
-        call    window
-        dec     h
-        dec     l
-        ld      a, %01001111    ; fondo azul tinta blanca
-        call    window
-        ld      bc, $080b
-        ret
-
+;****  Main Menu  ****
+;*********************
 main    inc     d
         ld      h, l
         call    help
@@ -429,9 +365,9 @@ main2   call_prnstr
         ld      a, (iy)
         ld      ixl, cad26 & $ff
         dec     a
-        jr      nz, main25
+        jr      nz, main3
         ld      ixl, cad27 & $ff
-main25  call_prnstr
+main3   call_prnstr
         ld      de, $1201
         call    listas
         defb    $04
@@ -455,70 +391,72 @@ main25  call_prnstr
         ld      (menuop+1), a
         cp      3
         ld      h, divmap >> 8
-        jr      c, main4
+        jr      c, main5
         add     a, $1e
         ld      l, a
         cp      keyiss&$ff
-        jr      z, main35
+        jr      z, main4
         call    popupw
         defw    cad28
         defw    cad29
         defw    $ffff
         ret
-main35  call    popupw
+main4   call    popupw
         defw    cad30
         defw    cad31
         defw    $ffff
         ret
-main4   ld      l, $25
+main5   ld      l, $25
         call    popupw
         defw    cad23
         defw    $ffff
         ret
 main6   cp      $0c
-        call    z, notab
+        call    z, roms8
         cp      $16
-        call    z, notar
+        call    z, romsa
         ld      hl, (menuop)
         cp      $1e
-        jr      nz, notiz
+        jr      nz, main7
         dec     l
-        jp      p, main8
-notiz   cp      $1f
-        jr      nz, notde
+        jp      p, maina
+main7   cp      $1f
+        jr      nz, main8
         res     2, l
         dec     l
-        jr      nz, main8
-notde   ld      a, iyl
+        jr      nz, maina
+main8   ld      a, iyl
         dec     a
         ld      (menuop+1), a
         ret
-main7   call    waitky
-main8   ld      hl, (menuop)
+main9   call    waitky
+maina   ld      hl, (menuop)
         cp      $0c
-        call    z, notab
+        call    z, roms8
         cp      $16
-        call    z, notar
+        call    z, romsa
         sub     $1e
-        jr      nz, mainb
+        jr      nz, maind
         dec     l
-        jp      m, main7
-main9   ld      a, l
+        jp      m, main9
+mainb   ld      a, l
         ld      h, 0
         dec     a
-        jr      nz, maina
+        jr      nz, mainc
         ld      a, (active)
         ld      h, a
-maina   ld      (menuop), hl
+mainc   ld      (menuop), hl
         ret
-mainb   dec     a
-        jr      nz, main7
+maind   dec     a
+        jr      nz, main9
         inc     l
         ld      a, l
         cp      6
-        jr      z, main7
-        jr      main9
+        jr      z, main9
+        jr      mainb
 
+;****  Roms Menu  ****
+;*********************
 roms    push    hl
         ld      h, 5
         call    window
@@ -613,53 +551,52 @@ roms7   ld      hl, $0104
         ld      (menuop+1), a
         ld      a, (codcnt)
         sub     $0d
-        jr      nc, roms85
-notab   push    af
+        jr      nc, roms9
+roms8   push    af
         ld      a, 1
         call    exitg
         pop     af
         ret
-roms85  jp      z, roms9
+roms9   jp      z, roms15
         sub     $16-$0d
-        jr      nz, roms8
-notar   push    af
+        jr      nz, romsb
+romsa   push    af
         call    exitg
         pop     af
         ret
-roms8   sub     $1e-$16
-        jp      z, romst
+romsb   sub     $1e-$16
+        jp      z, roms27
         dec     a
-        jp      z, romst
+        jp      z, roms27
         sub     $6e-$1f         ; n= New Entry
-        jp      nz, roms87
+        jp      nz, roms14
         call    loadta
-        jp      nc, romer
+        jp      nc, roms12
         ld      hl, %00001010
-rms001  ld      (offsel), hl
+romsc   ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
         call    romcyb
         ld      (empstr), a
         push    bc
         ld      ix, tmpbuf+$40
-;        ld      b, $09
         call_prnstr
         inc     (ix-8)
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
         pop     bc
-        jp      nc, romer
+        jp      nc, roms12
         ld      b, $17
         ld      ix, cad53
         call_prnstr
         ld      hl, (offsel)
         inc     h
         rr      l
-        jr      nc, rms002
+        jr      nc, romsd
         inc     h
-rms002  dec     iyh
-        jr      nz, rms001
+romsd   dec     iyh
+        jr      nz, romsc
         ei
         call    romcyb
         ld      ix, cad54
@@ -677,14 +614,14 @@ rms002  dec     iyh
         dec     (hl)
         ld      l, empstr & $ff
         ret     m
-        jr      z, rms004
+        jr      z, romsf
 ;        add     a, (hl)
 ;        ld      b, a
 ;        sub     (hl)
-rms003  add     a, 10
-;        djnz    rms003
+romse   add     a, 10
+;        djnz    romse
         inc     l
-rms004  add     a, (hl)
+romsf   add     a, (hl)
         cp      20
         ret     nc
         push    af
@@ -720,7 +657,7 @@ rms004  add     a, (hl)
         ld      bc, $003f
         ldir
         ld      hl, %00001010
-rms005  ld      (offsel), hl
+roms10  ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
         ld      bc, zxuno_port+$100
@@ -733,25 +670,24 @@ rms005  ld      (offsel), hl
         ld      hl, (offsel)
         inc     h
         rr      l
-        jr      nc, rms006
+        jr      nc, roms11
         inc     h
-rms006  dec     iyh
-        jr      nz, rms005
+roms11  dec     iyh
+        jr      nz, roms10
         ret
-romer   call    romcyb
+roms12  call    romcyb
         ld      ix, cad50
-romfi   call_prnstr
+roms13  call_prnstr
         ei
         call    romcyb
         ld      ix, cad51
         call_prnstr
         jp      waitky
-
-roms87  ld      a, (menuop+1)
+roms14  ld      a, (menuop+1)
         jp      roms7
-roms9   ld      hl, tmpbuf
+roms15  ld      hl, tmpbuf
         ld      (hl), 1
-romsa   call    popupw
+roms16  call    popupw
         defw    cad32
         defw    cad33
         defw    cad34
@@ -760,56 +696,56 @@ romsa   call    popupw
         defw    $ffff
         ld      a, (codcnt)
         sub     $0e
-        jr      nc, romsa
+        jr      nc, roms16
         inc     a
-        jr      nz, romsf
+        ret     nz
         ld      a, (menuop+1)
         ld      b, (hl)
         inc     b
-        djnz    romse
+        djnz    roms1a
         or      a               ; move up
-        jr      z, romsf
+        ret     z
         ld      hl, active
         ld      b, (hl)
         cp      b
-        jr      nz, romsb
+        jr      nz, roms17
         dec     (hl)
-romsb   dec     a
+roms17  dec     a
         cp      b
-        jr      nz, romsc
+        jr      nz, roms18
         inc     (hl)
-romsc   ld      (menuop+1), a
-romsd   ld      l, a
+roms18  ld      (menuop+1), a
+roms19  ld      l, a
         ld      a, (hl)
         inc     l
         ld      b, (hl)
         ld      (hl), a
         dec     l
         ld      (hl), b
-        jr      romsf
-romse   djnz    romsg
+        ret
+roms1a  djnz    roms1b
         ld      (active), a     ; set active
-romsf   ret
-romsg   djnz    romsk
+        ret
+roms1b  djnz    roms1f
         ld      b, a            ; move down
         call    nument
         sub     2
         cp      b
-romsh   jr      z, romsf
+roms1c  ret     z
         ld      a, b
         ld      l, $20
         ld      b, (hl)
         cp      b
-        jr      nz, romsi
+        jr      nz, roms1d
         inc     (hl)
-romsi   inc     a
+roms1d  inc     a
         cp      b
-        jr      nz, romsj
+        jr      nz, roms1e
         dec     (hl)
-romsj   ld      (menuop+1), a
+roms1e  ld      (menuop+1), a
         dec     a
-        jr      romsd
-romsk   djnz    romsp
+        jr      roms19
+roms1f  djnz    roms23
         ld      l, a            ; rename
         ld      h, indexe >> 8
         ld      a, (hl)
@@ -843,11 +779,11 @@ romsk   djnz    romsp
         call_prnstr
         call_prnstr
         call_prnstr
-romsl   push    ix
+roms20  push    ix
         call_prnstr
         pop     ix
         dec     iyl
-        jr      nz, romsl
+        jr      nz, roms20
         call_prnstr
         call_prnstr
         ld      bc, $040c
@@ -860,19 +796,19 @@ romsl   push    ix
         ld      a, (codcnt)
         cp      $0c
         pop     hl
-        jr      z, romsh
+        jr      z, roms1c
         ld      a, (items)
         or      a
-        jr      z, romsh
+        jr      z, roms1c
         ld      c, a
         sub     32
-        jr      z, romsn
+        jr      z, roms22
         cpl
-romsm   dec     l
+roms21  dec     l
         ld      (hl), 32
         dec     a
-        jp      p, romsm
-romsn   dec     l
+        jp      p, roms21
+roms22  dec     l
         ex      de, hl
         ld      h, empstr>>8
         ld      a, empstr-1&$ff
@@ -880,57 +816,43 @@ romsn   dec     l
         ld      l, a
         lddr
         ret
-romsp   ld      hl, active      ; delete
+roms23  ld      hl, active      ; delete
         cp      (hl)
-        jr      c, romsq
+        jr      c, roms24
         ld      l, (hl)
         inc     l
         ld      b, (hl)
         inc     b
-        jr      nz, romsr
+        jr      nz, roms25
         dec     l
         ret     z
         ld      l, $20
-romsq   dec     (hl)
-romsr   ld      l, a
-romss   inc     l
+roms24  dec     (hl)
+roms25  ld      l, a
+roms26  inc     l
         ld      a, (hl)
         dec     l
         ld      (hl), a
         inc     l
         or      a
-        jp      p, romss
+        jp      p, roms26
         add     a, l
         ld      hl, menuop+1
         cp      (hl)
         ret     nz
         dec     (hl)
         ret
-romst   ld      hl, $0104
+roms27  ld      hl, $0104
         ld      d, $12
         ld      a, (items+1)
         ld      e, a
         ld      a, %00111001
         call    window
         ld      a, (codcnt)
-        jp      main8
+        jp      maina
 
-romcal  ld      a, iyl
-romca1  sub     5
-        jr      nc, romca1
-        add     a, 5+9
-        ld      c, a
-        ret
-
-romcyb  call    romcal
-        inc     iyl
-        ld      b, 8
-        ld      ix, cad42
-        call_prnstr
-        inc     b
-        dec     c
-        ret
-
+;*** Upgrade Menu ***
+;*********************
 upgrad  ld      h, 9
         ld      d, 7
         call    help
@@ -947,16 +869,16 @@ upgrad  ld      h, 9
         defw    cad59
         jp      c, main6
         ld      (menuop+1), a
-        ld      ix, upgra0
+        ld      ix, upgra1
         call    delhel
-upgra0  ld      sp, stack-2
+upgra1  ld      sp, stack-2
         call    loadta
-        jp      nc, romer
+        jp      nc, roms12
         ld      hl, (menuop+1)
         rr      l
-        jr      c, upgra4
+        jr      c, upgra5
         cp      $3c
-        jp      nz, romer
+        jp      nz, roms12
         ld      de, tmpbuf+$40
         ld      hl, cad60
         ld      bc, cad61-cad60
@@ -964,7 +886,7 @@ upgra0  ld      sp, stack-2
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
-upgra1  ld      a, tmpbuf+$54 & $ff
+upgra2  ld      a, tmpbuf+$54 & $ff
         sub     iyh
         ld      l, a
         ld      h, tmpbuf>>8
@@ -979,18 +901,17 @@ upgra1  ld      a, tmpbuf+$54 & $ff
         call    alto copyme
         call    shaoff
         pop     af
-        jp      nc, romer
+        jp      nc, roms12
         dec     iyl
         call    romcyb
         ld      ix, tmpbuf+$40
-;        ld      b, $09
         call_prnstr
         dec     iyh
-        jr      nz, upgra1
+        jr      nz, upgra2
         ld      iyh, 12
         call    shaon
         exx
-upgra2  ld      a, 21
+upgra3  ld      a, 21
         sub     iyh
         call    alto saveme
         ld      a, $40
@@ -1000,27 +921,27 @@ upgra2  ld      a, 21
         inc     de
         exx
         dec     iyh
-        jr      nz, upgra2
+        jr      nz, upgra3
         call    shaoff
         call    romcyb
         ld      ix, cad61
-upgra3  jp      romfi
-upgra4  cp      $31
-        jp      nz, romer
+upgra4  jp      roms13
+upgra5  cp      $31
+        jp      nz, roms12
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
-        jp      nc, romer
+        jp      nc, roms12
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
         call    check
         ld      hl, (tmpbuf+7)
         sbc     hl, de
-        jp      nz, romer
+        jp      nz, roms12
         ld      a, $40
         ld      hl, $c000
         ld      bc, zxuno_port+$100
@@ -1029,18 +950,85 @@ upgra4  cp      $31
         call    wrflsh
         call    romcyb
         ld      ix, cad62
-        jr      upgra3
+        jr      upgra4
 
+;****  Boot Menu  ****
+;*********************
 menu3   ld      h, 16
         call    window
-        jp      main7
+        jp      main9
 
+;*** Security Menu ***
+;*********************
 menu4   ld      h, 20
         ld      d, 8
         call    window
-        jp      main7
+        jp      main9
 
-; Boot list
+;****  Exit Menu  ****
+;*********************
+exit    ld      h, 28
+        call    help
+        ld      ix, cad37
+        ld      bc, $0202
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      de, $1201
+        call    listas
+        defb    $02
+        defb    $03
+        defb    $04
+        defb    $05
+        defb    $ff
+        defw    cad38
+        defw    cad39
+        defw    cad40
+        defw    cad41
+        jp      c, main6
+        ld      (menuop+1), a
+exitg   ld      (colcmb+1), a
+        call    bloq1
+        ld      ix, cad42
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ld      a, (colcmb+1)
+        ld      b, a
+        djnz    exit1
+        ld      ix, cad46
+exit1   djnz    exit2
+        ld      ix, cad47
+exit2   djnz    exit3
+        ld      ix, cad48
+exit3   ld      bc, $0808
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        xor     a
+        call    yesno
+        dec     a
+        ret     z
+        ld      a, (codcnt)
+        cp      $0c
+        ret     z
+        ld      a, (colcmb+1)
+        ld      b, a
+        djnz    exit4
+        call    loadch
+        jp      alto conti
+exit4   djnz    exit5
+        jp      savech
+exit5   djnz    exit6
+        jp      loadch
+exit6   call    savech
+        jp      alto conti
+
+;++++++++++++++++++++++++++++++++++
+;++++++++     Boot list    ++++++++
+;++++++++++++++++++++++++++++++++++
 boot    call    clrscr          ; borro pantalla
         call    nument
         cp      13
@@ -1134,6 +1122,36 @@ boot5   jp      alto conti
 
 
 ; -------------------------------------
+; Prits a blank line in the actual line
+; -------------------------------------
+romcyb  ld      a, iyl
+romcy1  sub     5
+        jr      nc, romcy1
+        add     a, 5+9
+        ld      c, a
+        inc     iyl
+        ld      b, 8
+        ld      ix, cad42
+        call_prnstr
+        inc     b
+        dec     c
+        ret
+
+; -------------------------------------
+; Generates a determined box with shadow
+; -------------------------------------
+bloq1   ld      hl, $0709
+        ld      de, $1207
+        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        ld      bc, $080b
+        ret
+
+; -------------------------------------
 ;  Carry: 0 -> from 4000 to C000, shadow on , pre  page
 ;         1 -> from C000 to 4000, shadow off, post page
 ; -------------------------------------
@@ -1149,7 +1167,7 @@ shao2   ldir
         ld      a, $07
         defb    $d2
 shaon   ld      a, $0f
-copy58  ld      bc, $7ffd
+        ld      bc, $7ffd
         out     (c), a
         jr      nc, shao1
         ret
@@ -1240,18 +1258,18 @@ yesno5  add     a, $1e-$0c
 ; -------------------------------------
 str2tmp ld      c, $21
         push    hl
-tdecl   dec     hl
+str2t1  dec     hl
         dec     c
         ld      a, (hl)
         cp      $20
-        jr      z, tdecl
+        jr      z, str2t1
         pop     hl
         ld      a, l
         sub     $20
         ld      l, a
-        jr      nc, ovetec
+        jr      nc, str2t2
         dec     h
-ovetec  ldir
+str2t2  ldir
         xor     a
         ld      (de), a
         inc     de
@@ -1593,10 +1611,38 @@ lista4  call    window
         call    waitky
         ld      a, (codcnt)
         cp      $0d
-        jr      z, list10
-        ld      ix, list57
-        jp      delhel
-list57  ld      sp, stack-8
+        jr      z, listaa
+        ld      ix, lista5
+; -------------------------------------
+; Deletes the upper right area (help)
+; -------------------------------------
+delhel  di
+        ld      c, $9
+        ld      hl, $405f
+        ld      de, 0
+delhe1  ld      b, 8
+delhe2  ld      sp, hl
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     sp
+        push    de
+        inc     h
+        djnz    delhe2
+        ld      a, l
+        add     a, $20
+        ld      l, a
+        jr      c, delhe3
+        ld      a, h
+        sub     8
+        ld      h, a
+delhe3  dec     c
+        jr      nz, delhe1
+        ei
+        jp      (ix)
+lista5  ld      sp, stack-8
         pop     ix
         pop     de
         pop     hl
@@ -1612,7 +1658,7 @@ lista7  cp      $1d
         jr      nz, lista8
         ld      a, iyl
         cp      ixl
-        jr      nc, lista2
+        jp      nc, lista2
         inc     a
         jr      lista6
 lista8  push    ix
@@ -1623,7 +1669,7 @@ lista8  push    ix
         inc     hl
 lista9  scf
         jp      (hl)
-list10  pop     de
+listaa  pop     de
         pop     hl
         pop     hl
         add     hl, de
@@ -1633,36 +1679,6 @@ list10  pop     de
         ld      a, iyl
         dec     a
         jp      (hl)
-
-; -------------------------------------
-; Deletes the upper right area (help)
-; -------------------------------------
-delhel  di
-        ld      c, $9
-        ld      hl, $405f
-        ld      de, 0
-lista5  ld      b, 8
-list55  ld      sp, hl
-        push    de
-        push    de
-        push    de
-        push    de
-        push    de
-        inc     sp
-        push    de
-        inc     h
-        djnz    list55
-        ld      a, l
-        add     a, $20
-        ld      l, a
-        jr      c, list56
-        ld      a, h
-        sub     8
-        ld      h, a
-list56  dec     c
-        jr      nz, lista5
-        ei
-        jp      (ix)
 
 ; -------------------------------------
 ; Draw a window in the attribute area
@@ -1706,6 +1722,7 @@ windo3  ex      af, af'
 ; Parameters:
 ;   PC: list of pointers to options (last is $ffff)
 ;   HL: pointer to variable item
+; -------------------------------------
 popupw  exx
         pop     hl
         ld      de, cmbpnt
@@ -1795,6 +1812,10 @@ clrscr  ld      hl, $4000
         ld      (hl), l
         ldir
         ret
+
+; -------------------------------
+; Prints some lines, end with 0,0
+; -------------------------------
 prnhel  ld      bc, $1b02
 prnmul  call_prnstr
         add     a, (ix)
@@ -2073,10 +2094,6 @@ ultr8   xor     (hl)
         jp      nz, ultr8
         push    hl              ; ha ido bien
         xor     e
-;        ld      h, b
-;        ld      l, e
-;        ld      d, b
-;        ld      e, b
         pop     ix              ; ix debe apuntar al siguiente byte despues del bloque
         ret     nz              ; si no coincide el checksum salgo con carry desactivado
         scf
@@ -2102,7 +2119,6 @@ lsampl  inc     b               ; increment the time-out counter.
         out     ($fe), a        ; send to port to effect the change of colour. 
         scf                     ; set carry flag signaling edge found within time allowed
         ret                     ; return.
-
 get16   ld      b, 0
         call    lsampl
         call    lsampl
@@ -2199,6 +2215,10 @@ l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
         defm    'ZX Spectrum 48K                 '
 l0300
       ELSE
+
+;++++++++++++++++++++++++++++++++++
+;++++++++    Start ROM     ++++++++
+;++++++++++++++++++++++++++++++++++
 conti   di
         ld      a, %00101000    ; leo 3 bits
         ld      hl, keyiss
@@ -2208,11 +2228,11 @@ conti1  rr      (hl)
         jr      nc, conti1
         add     a, a
         xor     %00001100       ; invierto I2KB y DISNMI
-        ld      (alto conti5+1), a
+        ld      (alto conti9+1), a
         ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         and     $02
-        jr      z, conti25
+        jr      z, conti3
         wreg    master_mapper, 12
         ld      hl, $0295
         ld      de, $c000
@@ -2233,7 +2253,7 @@ conti2  ld      de, $c000 | master_mapper
         inc     a
         cp      24
         jr      nz, conti2
-conti25 ld      hl, active
+conti3  ld      hl, active
         ld      l, (hl)
         ld      l, (hl)
         add     hl, hl
@@ -2246,7 +2266,7 @@ conti25 ld      hl, active
         add     hl, hl
         push    hl
         pop     ix
-conti3  ld      a, (ix+3)
+conti4  ld      a, (ix+3)
         ld      iyl, a
         ld      a, (ix)
         add     a, 12
@@ -2258,7 +2278,7 @@ conti3  ld      a, (ix+3)
         add     hl, hl
         add     hl, hl
         add     hl, hl
-conti4  ld      a, master_mapper
+conti5  ld      a, master_mapper
         dec     b
         out     (c), a
         inc     b
@@ -2270,7 +2290,7 @@ conti4  ld      a, master_mapper
         call    alto rdflsh
         ld      a, (checkc)
         dec     a
-        jr      nz, cont46
+        jr      nz, conti8
         push    hl
         call    alto check
         push    ix
@@ -2281,7 +2301,7 @@ conti4  ld      a, master_mapper
         ld      l, (ix+$06)
         ld      h, (ix+$07)
         sbc     hl, de
-        jr      z, cont45
+        jr      z, conti7
         add     hl, de
         push    de
         ld      de, cad55+33
@@ -2294,21 +2314,21 @@ conti4  ld      a, master_mapper
         call    alto prnstr-1
         call    alto prnstr-1
         ld      c, $fe
-cont44  in      a, (c)
+conti6  in      a, (c)
         or      $e0
         inc     a
-        jr      z, cont44
-cont45  ld      bc, zxuno_port+$100
+        jr      z, conti6
+conti7  ld      bc, zxuno_port+$100
         pop     ix
         pop     hl
-cont46  ld      de, $0040
+conti8  ld      de, $0040
         add     hl, de
         dec     (ix+3)
-        jr      z, conti5
+        jr      z, conti9
         dec     iyl
-        jr      z, conti3
-        jr      conti4
-conti5  ld      a, 0
+        jr      z, conti4
+        jr      conti5
+conti9  ld      a, 0
         dec     b
         out     (c), d
         inc     b
@@ -2482,6 +2502,7 @@ help    call    window
         call_prnstr
         call_prnstr
         push    bc
+
 ; -----------------------------------------------------------------------------
 ; Print string routine
 ; Parameters:
@@ -2644,12 +2665,16 @@ pos30   ld      a, (de)
         defb    pos2-crctab & $ff
         defb    pos3-crctab & $ff
 
+; ----------
+; CRC Table
+; ----------
+crctab  incbin  crctable.bin
+        defs    $80
+
 ; -----------------------------------------------------------------------------
 ; 6x8 character set (128 characters x 1 rotation)
 ; -----------------------------------------------------------------------------
-crctab  incbin  crctable.bin
-        defs    $80
-chrset  incbin  fuente6x8.bin
+        incbin  fuente6x8.bin
 chrend
 
         block   $3bbf-$
@@ -2857,10 +2882,15 @@ l3ec3   ld      a, ixl
 l3eff   in      l,(c)
         jp      (hl)
 
+
+;++++++++++++++++++++++++++++++++++++++++
+;++++++++++++++++++++++++++++++++++++++++
+;++++++++++++               +++++++++++++
+;++++++++++++    MESSAGES   +++++++++++++
+;++++++++++++               +++++++++++++
+;++++++++++++++++++++++++++++++++++++++++
+;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
-; ------------------------
-; Messages
-; ------------------------
 cad1    defm    'http://zxuno.speccy.org', 0
         defm    'ZX-Uno BIOS v0.220', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
@@ -3063,4 +3093,3 @@ fincad
 ; * generar tablas CRC por código
 ; * bug esquina en rename
 ; * descomprimir en lugar de copiar codigo alto
-; * Hacer que funcione DivMMC
