@@ -7,7 +7,7 @@
 ;  24: NMI-DivMMC   0: Disable, 1: Enable
 ;  25: Issue        0: Issue 2, 1: Issue 3
 l02b5   defb    $02, $01, $00, $03, $04, $05, $06, $07
-        defb    $08, $09, $0a, $0b, $0c, $0d, $ff, $ff
+        defb    $08, $09, $0a, $0b, $0c, $0d, $0e, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $03             ; active
@@ -31,7 +31,7 @@ l02b5   defb    $02, $01, $00, $03, $04, $05, $06, $07
 
         block   $300-$
 
-l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
+l02b8   defb    $00, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $eb, $54, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -46,61 +46,66 @@ l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'SE Basic IV 4.0 Anya            '
-        defb    $07, 1, $08, 1, $00, $00, $ff, $ff
+        defb    $07, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $1b, $fe, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 48K                 '
 
-        defb    $08, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $08, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $b8, $18, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Manic Miner (1983)              '
-        defb    $09, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $09, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $15, $e7, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Jet Set Willy (1984)            '
-        defb    $0a, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $0a, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $e9, $45, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Lala Prologue (2010)            '
-        defb    $0b, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $0b, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $7d, $63, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Deathchase (1983)               '
-        defb    $0c, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $0c, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $dd, $26, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Master Chess (1983)             '
-        defb    $0d, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $0d, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $49, $34, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Backgammon (1983)               '
-        defb    $0e, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $0e, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $c0, $54, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Hungry Horace (1982)            '
-        defb    $0f, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $0f, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $67, $54, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Horace & the Spiders (1983)     '
-        defb    $10, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $10, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $aa, $fc, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Planetoids (1982)               '
-        defb    $11, 1, $08, 1, $00, $20, $ff, $ff
+        defb    $11, 1, $0b, 1, $04, $30, $ff, $ff
         defb    $7a, $69, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'Space Raiders (1982)            '
+        defb    $12, 1, $0b, 1, $04, $30, $ff, $ff
+        defb    $4d, $5b, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defm    'Misco Jones (2013)              '
         
         block   $b00-$

@@ -18,7 +18,8 @@ copy /b ESXMMC.BIN+                   ^
         HungryHorace.rom+             ^
         HoraceSpiders.rom+            ^
         Planetoids.rom+               ^
-        SpaceRaiders.rom              ^
+        SpaceRaiders.rom+             ^
+        MiscoJones.rom                ^
     roms_29500.bin
 call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\test13\tld_zxuno.bit
 srec_cat  tld_zxuno.mcs   -Intel                    ^
@@ -33,7 +34,7 @@ copy /b tld_zxuno.bin+    ^
         2b500.bin+        ^
         ..\firmware.rom   ^
     machine.bin
-GenRom 0 0 0 0 'BIOS' ..\firmware.rom firmware.tap
+GenRom 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
 GenRom 0 0 0 0 'Machine' machine.bin  machine.tap
 CgLeches firmware.tap firmware.wav
 CgLeches machine.tap  machine.wav

@@ -928,6 +928,9 @@ upgra3  ld      a, 21
 upgra4  jp      roms13
 upgra5  cp      $31
         jp      nz, roms12
+        ld      a, (tmpbuf+1)
+        cp      $ca
+        jp      nz, roms12
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
