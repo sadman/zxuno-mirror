@@ -147,7 +147,7 @@ module zxuno (
    always @(posedge clk)
       clkdiv <= clkdiv + 1;
    
-   ula la_ula (
+   ula_radas la_ula (
 	 // Clocks
     .clk14(clk14),     // 14MHz master clock
     .wssclk(wssclk),   // 5MHz WSS clock
