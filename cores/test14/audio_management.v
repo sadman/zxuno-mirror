@@ -65,14 +65,14 @@ module mixer (
 
 	reg [9:0] mezcla = 10'h000;
 	wire [7:0] beeper = ({ear,spk,mic}==3'b000)? 8'd17 :
-							  ({ear,spk,mic}==3'b001)? 8'd36 :
-					        ({ear,spk,mic}==3'b010)? 8'd184 :
-					        ({ear,spk,mic}==3'b011)? 8'd192 :
-					        ({ear,spk,mic}==3'b100)? 8'd22 :
-		                 ({ear,spk,mic}==3'b101)? 8'd48 :
-					        ({ear,spk,mic}==3'b110)? 8'd244 : 8'd255;
+						({ear,spk,mic}==3'b001)? 8'd36 :
+					    ({ear,spk,mic}==3'b010)? 8'd184 :
+					    ({ear,spk,mic}==3'b011)? 8'd192 :
+					    ({ear,spk,mic}==3'b100)? 8'd22 :
+		                ({ear,spk,mic}==3'b101)? 8'd48 :
+					    ({ear,spk,mic}==3'b110)? 8'd244 : 8'd255;
 	
-   wire [9:0] mezcla10bits = {2'b00,ay1} + {2'b00,ay2} + {2'b00,beeper} + 10'd896;
+   wire [9:0] mezcla10bits = {2'b00,ay1} + {2'b00,ay2} + {2'b00,beeper} ;
 	
 	always @(posedge clkdac)
 		mezcla <= mezcla10bits;

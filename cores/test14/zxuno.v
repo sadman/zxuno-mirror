@@ -334,8 +334,8 @@ module zxuno (
 		.reset(1'b0),
 		.mic(mic),
 		.spk(spk),
-      .ear(ear),
-      .ay1(ay1_audio),
+        .ear(ear),
+        .ay1(ay1_audio),
 		.ay2(ay2_audio),
 		.audio(audio_out)
 	);
