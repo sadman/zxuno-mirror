@@ -625,7 +625,8 @@ romsf   add     a, (hl)
         cp      20
         ret     nc
         push    af
-        add     a, 12
+        adc     a, c
+;        add     a, 12
         rlca
         rlca
         rlca
@@ -638,9 +639,19 @@ romsf   add     a, (hl)
         exx
         call    nument
         dec     l
-        ld      (hl), l
-        add     hl, hl
-        add     hl, hl
+        ld      e, l
+        ld      a, -1
+romst   inc     a
+        ld      b, e
+        ld      l, 0
+romsu   cp      (hl)
+        jr      z, romst
+        inc     l
+        djnz    romsu
+        ld      (hl), a
+        add     a, a
+        add     a, a
+        ld      l, a
         ld      h, 9
         add     hl, hl
         inc     h
@@ -651,10 +662,10 @@ romsf   add     a, (hl)
         ld      (hl), a
         inc     l
         ex      de, hl
-        ld      hl, tmpbuf ;aaaaaaaaaaa
+        ld      hl, tmpbuf
         ld      a, (hl)
         ld      iyh, a
-        ld      bc, $003f
+        ld      c, $3f
         ldir
         ld      hl, %00001010
 roms10  ld      (offsel), hl
