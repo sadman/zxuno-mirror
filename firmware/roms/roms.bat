@@ -1,4 +1,4 @@
-GenRom 11 1 4 48 "'ZX Spectrum 48K Cargando Leches'" leches.rom         leches.tap
+GenRom 8  4 0 0  "'ZX Spectrum 48K Cargando Leches'" leches.rom         leches.tap
 GenRom 8  4 0 0  "'ZX +3e DivMMC'"                   mmces3eE.rom       mmces3eE.tap
 GenRom 10 2 4 0  "'SE Basic IV 4.0 Anya'"            se.rom             se.tap
 GenRom 11 1 4 48 "'ZX Spectrum 48K'"                 48.rom             48.tap

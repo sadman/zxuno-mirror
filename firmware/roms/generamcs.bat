@@ -21,7 +21,7 @@ copy /b ESXMMC.BIN+                   ^
         SpaceRaiders.rom+             ^
         MiscoJones.rom                ^
     roms_29500.bin
-call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\test13\tld_zxuno.bit
+call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\test14\tld_zxuno.bit
 srec_cat  tld_zxuno.mcs   -Intel                    ^
           roms_29500.bin  -binary -offset 0x29500   ^
           -o prom.mcs     -Intel                    ^

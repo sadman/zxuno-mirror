@@ -2280,7 +2280,7 @@ conti3  ld      hl, active
         add     hl, hl
         push    hl
         pop     ix
-conti4  ld      a, (ix+3)
+conti4  ld      a, (ix+1)
         ld      iyl, a
         ld      a, (ix)
         add     a, 12

@@ -31,8 +31,8 @@ l02b5   defb    $02, $01, $00, $03, $04, $05, $06, $07
 
         block   $300-$
 
-l02b8   defb    $00, 1, $0b, 1, $04, $30, $ff, $ff
-        defb    $eb, $54, $ff, $ff, $ff, $ff, $ff, $ff
+l02b8   defb    $00, 1, $08, 4, $00, $00, $ff, $ff
+        defb    $21, $53, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 48K Cargando Leches '
