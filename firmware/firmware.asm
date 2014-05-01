@@ -1,5 +1,5 @@
         output  firmware_strings.rom
-        define  debug   0
+        define  debug   1
 
       macro wreg  dir, dato
         rst     $30
@@ -577,7 +577,6 @@ romsc   ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
         call    romcyb
-        ld      (empstr), a
         push    bc
         ld      ix, tmpbuf+$40
         call_prnstr
@@ -606,7 +605,7 @@ romsd   dec     iyh
         ld      hl, $0200
         dec     c
         ld      b, $18
-        call    inputs
+        call    inputv
         rrca
         ret     nc
         ld      hl, items
@@ -694,7 +693,37 @@ roms13  call_prnstr
         ld      ix, cad51
         call_prnstr
         jp      waitky
-roms14  ld      a, (menuop+1)
+roms14  sub     $72-$6e         ; r= Recovery
+        jr      nz, roms149
+        ld      hl, $0309
+        ld      de, $1b08
+        ld      a, %00000111    ; fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        sub     l               ; fondo negro tinta blanca
+        ld      iyl, 4
+        ld      hl, $030c
+        ld      de, $1801
+        ld      ix, cad63
+        call    window
+        ld      bc, $0208
+        call    prnmul
+        ld      bc, $040c
+        ld      hl, $20ff
+        call    inputv
+
+        ld      bc, $040e
+        ld      hl, $02ff
+        call    inputv
+
+  di
+  halt
+        ret
+
+roms149 ld      a, (menuop+1)
         jp      roms7
 roms15  ld      hl, tmpbuf
         ld      (hl), 1
@@ -786,7 +815,7 @@ roms1f  djnz    roms23
         ld      hl, $030c
         ld      de, $1801
         call    window
-        ld      bc, $0308
+        ld      bc, $0208
         call_prnstr
         call_prnstr
         call_prnstr
@@ -815,7 +844,7 @@ roms20  push    ix
         sub     32
         jr      z, roms22
         cpl
-roms21  dec     l
+roms21  dec     hl
         ld      (hl), 32
         dec     a
         jp      p, roms21
@@ -1309,6 +1338,8 @@ numen1  ld      a, (hl)         ; calculo en L el número de entradas
 ;     HL: max length (H) and cursor position (L)
 ;     BC: X coord (B) and Y coord (C)
 ; -------------------------------------
+inputv  xor     a
+        ld      (empstr), a
 inputs  ld      (offsel), hl
 input1  push    bc
         ld      ix, empstr
@@ -1318,6 +1349,7 @@ input1  push    bc
         ld      a, l
         sub     empstr+1&$ff
         ld      (items), a
+        ld      r, a
         ld      e, a
         add     a, b
         ld      b, a
@@ -1339,7 +1371,25 @@ input3  ld      (hl), e
         dec     c
         call_prnstr
         pop     bc
-input4  ld      a, (offsel)
+input4  ld      a, r
+        cpl
+        ld      r, a
+        call    cursor
+        ld      h, $80
+input5  ld      a, (codcnt)
+        sub     $80
+        jr      nc, input7
+        dec     l
+        jr      nz, input5
+        dec     h
+        jr      nz, input5
+input6  jr      input4
+input7  ld      (codcnt), a
+        cp      $0e
+        jr      nc, input8
+        ld      a, r
+        ret     p
+cursor  ld      a, (offsel)
         add     a, b
         ld      l, a
         and     %11111100
@@ -1347,13 +1397,13 @@ input4  ld      a, (offsel)
         xor     l
         ld      h, $80
         ld      e, a
-        jr      z, input5
+        jr      z, curso1
         dec     e
-input5  xor     $fc
-input6  rrc     h
+curso1  xor     $fc
+curso2  rrc     h
         rrc     h
         inc     a
-        jr      nz, input6
+        jr      nz, curso2
         ld      a, d
         rrca
         ld      d, a
@@ -1373,27 +1423,16 @@ input6  rrc     h
         add     a, e
         ld      e, a
         ld      l, $08
-input7  ld      a, (de)
+curso3  ld      a, (de)
         xor     h
         ld      (de), a
         inc     d
         dec     l
-        jr      nz, input7
-        ld      h, $80
-input8  ld      a, (codcnt)
-        sub     $80
-        jr      nc, inputa
-        dec     l
-        jr      nz, input8
-        dec     h
-        jr      nz, input8
-input9  jr      input4
-inputa  ld      (codcnt), a
-        cp      $0e
-        ret     c
-        ld      hl, (offsel)
+        jr      nz, curso3
+        ret
+input8  ld      hl, (offsel)
         cp      $18
-        jr      nz, inputb
+        jr      nz, input9
         dec     l
         jp      m, input1
         ld      (offsel), hl
@@ -1411,20 +1450,20 @@ inputa  ld      (codcnt), a
         inc     l
         ldir
         pop     bc
-        jr      inpute
-inputb  sub     $1e
-        jr      nz, inputd
+        jr      inputc
+input9  sub     $1e
+        jr      nz, inputb
         dec     l
         jp      m, input1
-inputc  jp      inputs
-inputd  dec     a
+inputa  jp      inputs
+inputb  dec     a
         ld      a, (items)
-        jr      nz, inputf
+        jr      nz, inputd
         cp      l
-        jr      nz, inputg
-inpute  jp      input1
-inputf  cp      h
-        jr      z, input9
+        jr      nz, inpute
+inputc  jp      input1
+inputd  cp      h
+        jr      z, input6
         ld      a, l
         add     a, empstr&$ff
         ld      l, a
@@ -1432,14 +1471,14 @@ inputf  cp      h
         ld      a, (codcnt)
         inc     (hl)
         dec     (hl)
-        jr      nz, inputh
+        jr      nz, inputf
         ld      (hl), a
         inc     l
         ld      (hl), 0
-inputg  ld      hl, (offsel)
+inpute  ld      hl, (offsel)
         inc     l
-        jr      inputc
-inputh  ex      af, af'
+        jr      inputa
+inputf  ex      af, af'
         ld      a, empstr+33&$ff
         sub     l
         push    bc
@@ -1452,7 +1491,7 @@ inputh  ex      af, af'
         ex      af, af'
         ld      (hl), a
         pop     bc
-        jr      inputg
+        jr      inpute
 
 ; -------------------------------------
 ; Show a combo list to select one element
@@ -2185,7 +2224,7 @@ rdflsh  ld      a, h
 ;  23: DivMMC       0: Disable, 1: Enable
 ;  24: NMI-DivMMC   0: Disable, 1: Enable
 ;  25: Issue        0: Issue 2, 1: Issue 3
-l02b5   defb    $02, $01, $00, $03, $ff, $ff, $ff, $ff
+l02b5   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -3020,15 +3059,15 @@ cad33   defb    'Set Active', 0
 cad34   defb    'Move Down', 0
 cad35   defb    'Rename', 0
 cad36   defb    'Delete', 0
-        defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    ' Rename ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
-        defb    $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
-        defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    ' ', $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
+        defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
-        defb    $10, '                                 ', $10, 0
-        defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    ' ', $10, '                                 ', $10, 0
+        defb    ' ', $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $15, 0
@@ -3101,9 +3140,24 @@ cad59   defb    'Upgrade only', 0
 cad60   defb    'Status:[            ]', 0
 cad61   defb    'Machine upgraded', 0
 cad62   defb    'BIOS upgraded', 0
+cad63   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    ' Recovery ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
+        defb    ' ', $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
+        defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
+        defb    ' ', $10, 'Name                             ', $10, 0
+        defb    ' ', $10, '                                 ', $10, 0
+        defb    ' ', $10, 'Slot Size Bank Size  1FFD  7FFD  ', $10, 0
+        defb    ' ', $10, '                                 ', $10, 0
+        defb    ' ', $14, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
+
 fincad
 
 ; todo
 ; * generar tablas CRC por código
-; * bug esquina en rename
 ; * descomprimir en lugar de copiar codigo alto
