@@ -1,5 +1,5 @@
         output  firmware_strings.rom
-        define  debug   1
+        define  debug   0
 
       macro wreg  dir, dato
         rst     $30
