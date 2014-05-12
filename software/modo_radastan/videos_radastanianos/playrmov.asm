@@ -9,16 +9,19 @@ include "errors.inc"
 ; Cada frame: 6144 bytes con el bitmap en el formato radastaniano +
 ;             16 bytes para la paleta (entradas 0-15)
 
+; Version 0.2 : arreglado el problema del stack. Gracias a Miguel Ângelo Guerreiro
+;               Se borra la pantalla al terminar la reproducción
 ; Version 0.1 : necesita que el stack esté por debajo de 49152
 ;              (ej. CLEAR 49151 antes de ejecutar el comando)
 
 ;Para ensamblar con PASMO como archivo binario (no TAP)
 
 BORDERCLR           equ 23624
+PAPERCOLOR          equ 23693
 ULAPLUSADDR         equ 0bf3bh
 ULAPLUSDATA         equ 0ff3bh
 BANKM               equ 7ffdh
-
+PILA                equ 3deah   ;valor sugerido por Miguel Ângelo para poner la pila en el área de comando
 
                     org 2000h  ;comienzo de la ejecución de los comandos ESXDOS.
 
@@ -30,9 +33,10 @@ Main                proc
 
                     di
                     ld (BackupSP),sp
-                    ld sp,Pila
+                    ld sp,PILA
                     ei
                     call PlayFichero
+                    call Cls
 
                     ld sp,(BackupSP)
                     ret
@@ -130,13 +134,6 @@ SetupVideoMemory    proc
 
 RestoreVideoMemory  proc
                     di
-                    ld a,(BORDERCLR)
-                    sra a
-                    sra a
-                    sra a
-                    and 7
-                    out (254),a
-
                     ld bc,BANKM
                     ld a,00010000b   ;banco 0, pantalla normal, ROM 3
                     out (c),a
@@ -191,6 +188,28 @@ NoTestColorOscuro   inc ix
                     endp
 
 
+Cls                 proc
+                    ld a,(BORDERCLR)
+                    sra a
+                    sra a
+                    sra a
+                    and 7
+                    out (254),a
+                    ld hl,16384
+                    ld de,16385
+                    ld bc,6143
+                    ld (hl),l
+                    ldir
+                    inc hl
+                    inc de
+                    ld bc,767
+                    ld a,(PAPERCOLOR)
+                    ld (hl),a
+                    ldir
+                    ret
+                    endp
+
+
                     ;   01234567890123456789012345678901
 Uso                 db " playrmov moviefile.rdm",13,13
                     db "Plays a video file encoded for",13
@@ -199,8 +218,5 @@ Uso                 db " playrmov moviefile.rdm",13,13
 FHandle             db 0
 Banco               db 0
 BackupSP            dw 0
-
-                    ds 64
-Pila                equ $   ;Puntero de pila mientras ejecutamos este comando.
 
 BufferNFich         equ $   ;resto de la RAM para el nombre del fichero
