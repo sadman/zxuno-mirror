@@ -27,17 +27,16 @@ Main                proc
                     or l
                     jr z,PrintUso  ;si no se ha especificado nombre de fichero, imprimir uso
                     call RecogerNFile
-                    ld hl,0
-                    add hl,sp
-                    ld a,h
-                    cp 0c0h        ;comprobar que la pila está por debajo de C000h
-                    jr nc,WarningStack  ;y si no es así, error
 
+                    di
+                    ld (BackupSP),sp
+                    ld sp,Pila
+                    ei
                     call PlayFichero
+
+                    ld sp,(BackupSP)
                     ret
 
-WarningStack        ld hl,MensajeStack
-                    jr BucPrintMsg
 PrintUso            ld hl,Uso
 BucPrintMsg         ld a,(hl)
                     or a
@@ -194,22 +193,14 @@ NoTestColorOscuro   inc ix
 
                     ;   01234567890123456789012345678901
 Uso                 db " playrmov moviefile.rdm",13,13
-                    db "Plays a video file encoded to be"
-                    db "used with the Radastan video mo-"
-                    db "de. The video is a series of fra"
-                    db "mes, each one 6144 bytes, plus",13
-                    db "16 bytes for palette entries",13
-                    db "0-15",13,0
-
-                    ;   01234567890123456789012345678901
-MensajeStack        db "ERROR. Stack in C000-FFFF area.",13
-                    db "Please, move it down by issuing",13
-                    db "CLEAR addr at the BASIC prompt",13
-                    db "with addr being lower than 49152"
-                    db "We apologize for any inconve-",13
-                    db "nients.",13,0
+                    db "Plays a video file encoded for",13
+                    db "the ",34,"Radastan",34," video mode.",13,0
 
 FHandle             db 0
 Banco               db 0
+BackupSP            dw 0
+
+                    ds 64
+Pila                equ $   ;Puntero de pila mientras ejecutamos este comando.
 
 BufferNFich         equ $   ;resto de la RAM para el nombre del fichero
