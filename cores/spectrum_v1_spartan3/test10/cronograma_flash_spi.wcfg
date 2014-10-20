@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/tb_flash_spi_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_flash_spi" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/tb_flash_spi/flash_do" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">flash_do</obj_property>
+      <obj_property name="ObjectShortName">flash_do</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/dout" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/oe_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">oe_n</obj_property>
+      <obj_property name="ObjectShortName">oe_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/flash_cs_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">flash_cs_n</obj_property>
+      <obj_property name="ObjectShortName">flash_cs_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/flash_clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">flash_clk</obj_property>
+      <obj_property name="ObjectShortName">flash_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/uut/data_to_cpu" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_to_cpu[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_to_cpu[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/uut/data_to_flash" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_to_flash[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_to_flash[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/flash_di" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">flash_di</obj_property>
+      <obj_property name="ObjectShortName">flash_di</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/rd" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd</obj_property>
+      <obj_property name="ObjectShortName">rd</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/wr" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr</obj_property>
+      <obj_property name="ObjectShortName">wr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/din" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">din[7:0]</obj_property>
+      <obj_property name="ObjectShortName">din[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/uut/ciclo_lectura" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ciclo_lectura</obj_property>
+      <obj_property name="ObjectShortName">ciclo_lectura</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_flash_spi/uut/contador" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">contador[4:0]</obj_property>
+      <obj_property name="ObjectShortName">contador[4:0]</obj_property>
+   </wvobject>
+</wave_config>

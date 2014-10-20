@@ -1,0 +1,8 @@
+Storage Target: SPI Flash Single FPGA
+4M
+FF
+prom
+C:\Users\rodriguj\Documents\zxspectrum\zxuno\repositorio\cores\test14/
+
+MCS
+No

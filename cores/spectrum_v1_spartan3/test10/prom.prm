@@ -1,0 +1,18 @@
+PROMGEN: Xilinx Prom Generator M.81d
+Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o C:\Users\rodriguj\Documents\zxspectrum\zxuno\repositorio\cores\test10//prom -s 512 -u 0000 C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/tld_zxuno.bit -data_file up 30000 C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/algunas_roms.bin -spi 
+
+PROM C:\Users\rodriguj\Documents\zxspectrum\zxuno\repositorio\cores\test10\prom.prm map: Tue Mar 04 22:34:10 2014
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          512K
+PROM start    0000:0000
+PROM end      0007:ffff
+PROM checksum 04e197a2
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0002:94ff     Mar 04 20:22:29 2014 C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/tld_zxuno.bit
+    0003:0000    0004:7fff     Mar 04 00:50:46 2014 C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/algunas_roms.bin

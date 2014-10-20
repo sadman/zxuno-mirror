@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test3/tld_zxuno.xst" -ofn "C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test3/tld_zxuno.syr" 

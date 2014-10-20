@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/proyectos_xilinx/zxuno/dualportmemorytest/tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="23" />
+   <wvobject fp_name="divider13" type="divider">
+      <obj_property name="label">Sistema</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/a1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a1[9:0]</obj_property>
+      <obj_property name="ObjectShortName">a1[9:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/oe1_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">oe1_n</obj_property>
+      <obj_property name="ObjectShortName">oe1_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/we1_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">we1_n</obj_property>
+      <obj_property name="ObjectShortName">we1_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/din1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">din1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">din1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dout1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout1[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/a2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a2[9:0]</obj_property>
+      <obj_property name="ObjectShortName">a2[9:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/oe2_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">oe2_n</obj_property>
+      <obj_property name="ObjectShortName">oe2_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/we2_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">we2_n</obj_property>
+      <obj_property name="ObjectShortName">we2_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/din2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">din2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">din2[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/dout2" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout2[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout2[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider12" type="divider">
+      <obj_property name="label">Controlador</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">state[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/enable_input_to_sram" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">enable_input_to_sram</obj_property>
+      <obj_property name="ObjectShortName">enable_input_to_sram</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/data_to_write" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_to_write[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data_to_write[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/write_in_dout1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">write_in_dout1</obj_property>
+      <obj_property name="ObjectShortName">write_in_dout1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/write_in_dout2" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">write_in_dout2</obj_property>
+      <obj_property name="ObjectShortName">write_in_dout2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/a" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">a[9:0]</obj_property>
+      <obj_property name="ObjectShortName">a[9:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/d" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">d[7:0]</obj_property>
+      <obj_property name="ObjectShortName">d[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/oe_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">oe_n</obj_property>
+      <obj_property name="ObjectShortName">oe_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb/uut/el_controlador/we_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">we_n</obj_property>
+      <obj_property name="ObjectShortName">we_n</obj_property>
+   </wvobject>
+</wave_config>

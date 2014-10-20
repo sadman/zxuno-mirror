@@ -1,0 +1,12 @@
+# PROMGEN: Xilinx Prom Generator M.81d
+# Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION M.81d
+DATE            03/04/2014 - 22:34
+SOURCE          C:\Users\rodriguj\Documents\zxspectrum\zxuno\repositorio\cores\test10\prom.mcs
+DEVICE          512K
+DATA_WIDTH      1
+FILL_DATA       0xFF
+SIGNATURE       0x04E197A2
+START_ADDRESS   0x00000000 END_ADDRESS 0x000294FF DIRECTION_UP   "C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/tld_zxuno.bit" 3s250etq144
+START_ADDRESS   0x00030000 END_ADDRESS 0x00047FFF DIRECTION_UP   "C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test10/algunas_roms.bin" DATAFILE

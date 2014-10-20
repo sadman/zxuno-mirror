@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated   -->
+<!--     by the Xilinx ISE software.  Any direct editing or        -->
+<!--     changes made to this file may result in unpredictable     -->
+<!--     behavior or data corruption.  It is strongly advised that -->
+<!--     users do not edit the contents of this file.              -->
+<!--                                                               -->
+<!-- Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.    -->
+
+<messages>
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/T80.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/T80_ALU.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/T80_MCode.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/T80_Pack.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/T80_Reg.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/T80a.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/YM2149_linmix.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/arbitrador.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/audio_management.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/dp_memory.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/lut.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/mapa_teclado_es.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/pal_sync_generator_progressive.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/ps2k.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/relojes.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/rom.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/tld_zxuno.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/tv80_to_t80_wrapper.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/ula.v\&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1677" ><arg fmt="%s" index="1">Analyzing Verilog file \&quot;C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/test9/zxuno.v\&quot; into library work</arg>
+</msg>
+
+</messages>
+
