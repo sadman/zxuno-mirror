@@ -1,3 +1,0 @@
-# Output products list for <relojes>
-relojes_flist.txt
-relojes_xmdf.tcl
