@@ -44,6 +44,7 @@ module memory (
    output wire [7:0] vramdout,
    output wire issue2_keyboard_enabled,
    output wire timming_ula,
+   output wire disable_contention,
    
    // Interface para registros ZXUNO
    input wire [7:0] addr,
@@ -66,19 +67,21 @@ module memory (
    reg divmmc_nmi_is_disabled = 1'b0;
    reg issue2_keyboard = 1'b0;
    reg timming = 1'b0;
+   reg disable_cont = 1'b0;
    reg masterconf_frozen = 1'b0;
    
    assign issue2_keyboard_enabled = issue2_keyboard;
    assign in_boot_mode = ~masterconf_frozen;
    assign timming_ula = timming;
+   assign disable_contention = disable_cont;
 
    always @(posedge clk) begin
       if (!mrst_n) begin
-         {timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= 5'b00001;
+         {disable_cont,timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= 6'b000001;
          masterconf_frozen <= 1'b0;
       end
       else if (addr==MASTERCONF && iow && !masterconf_frozen) begin
-         {timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= din[4:0];
+         {disable_cont,timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= din[5:0];
          //masterconf_frozen <= din[7];  //quitar este comentario cuando Antonio añada el timming a la BIOS
       end
    end

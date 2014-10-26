@@ -111,6 +111,7 @@ module zxuno (
    // Configuración ULA
    wire timming_ula;
    wire issue2_keyboard;
+   wire disable_contention;
    
    assign kbdrow = cpuaddr[15:8];  // las filas del teclado son A8-A15 de la CPU
 
@@ -182,6 +183,7 @@ module zxuno (
     .clkkbd(clkkbd),
     .issue2_keyboard(issue2_keyboard),
     .timming(timming_ula),
+    .disable_contention(disable_contention),
 
     // Video
 	 .r(r),
@@ -256,6 +258,7 @@ module zxuno (
       .vramdout(vram_dout),
       .issue2_keyboard_enabled(issue2_keyboard),
       .timming_ula(timming_ula),
+      .disable_contention(disable_contention),
    
    // Interface para registros ZXUNO
       .addr(zxuno_addr),

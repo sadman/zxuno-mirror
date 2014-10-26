@@ -52,6 +52,7 @@ module ula_radas (
     output wire clkkbd,
     input wire issue2_keyboard,
     input wire timming,
+    input wire disable_contention,
 
     // Video
 	 output wire [2:0] r,
@@ -391,28 +392,30 @@ module ula_radas (
       
       if (!RadasEnabled) begin   // Control para los modos estándar
       
-         if (hc[2:0]==3'd4) begin // hc=4,12,20,28,etc
+         if (hc[2:0]==3'd2) begin // hc=4,12,20,28,etc
             AttrOutputLoad = 1'b1;  // updated every 8 pixel clocks
          end
-         if (hc[2:0]==3'd3) begin
+         if (hc[2:0]==3'd1) begin
             CALoad = 1'b1;
          end
          if (hc>=(BHPIXEL+8) && hc<=(EHPIXEL+8) && vc>=BVPIXEL && vc<=EVPIXEL) begin  // VidEN_n is low here: paper area
             VideoEnable = 1'b1;
-            if (hc[2:0]==3'd4) begin
-               SerializerLoad = 1'b1;  // updated every 8 pixel clocks, if we are in paper area
+            if (hc[2:0]==3'd2) begin
+                SerializerLoad = 1'b1;  // updated every 8 pixel clocks, if we are in paper area
             end
-            if (hc[3:0]==4'd8 || hc[3:0]==4'd12) begin
+         end
+         if (hc>=BHPIXEL && hc<=EHPIXEL && vc>=BVPIXEL && vc<=EVPIXEL) begin
+            if (hc[3:0]==4'd6 || hc[3:0]==4'd10) begin
                BitmapAddr = 1'b1;
             end
-            if (hc[3:0]==4'd9 || hc[3:0]==4'd13) begin
+            if (hc[3:0]==4'd7 || hc[3:0]==4'd11) begin
                BitmapAddr = 1'b1;
                BitmapDataLoad = 1'b1;
             end
-            if (hc[3:0]==4'd10 || hc[3:0]==4'd14) begin
+            if (hc[3:0]==4'd8 || hc[3:0]==4'd12) begin
                AttrAddr = 1'b1;
             end
-            if (hc[3:0]==4'd11 || hc[3:0]==4'd15) begin
+            if (hc[3:0]==4'd9 || hc[3:0]==4'd13) begin
                AttrAddr = 1'b1;
                AttrDataLoad = 1'b1;
             end
@@ -546,7 +549,7 @@ module ula_radas (
 	end
 
 	always @(posedge `MASTERCPUCLK) begin
-		if (!CLKContention || RadasEnabled)
+		if (!CLKContention || RadasEnabled || disable_contention)
 			CPUInternalClock = ~CPUInternalClock;
 	   else
 		   CPUInternalClock = 1'b1;
