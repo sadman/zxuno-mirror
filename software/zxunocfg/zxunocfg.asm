@@ -1,7 +1,3 @@
-; API de ESXDOS.
-include "esxdos.inc"
-include "errors.inc"
-
 ;Para ensamblar con PASMO como archivo binario (no TAP)
 
 ZXUNOADDR           equ 0fc3bh
@@ -33,6 +29,9 @@ PrintAndExit        call PrintCurrentMode
 ;------------------------------------------------------
 
 PrintCurrentMode    proc
+                    ld a,(QuietMode)
+                    or a
+                    ret nz
                     ld bc,ZXUNOADDR
                     ld a,0   ;MASTERCONF
                     out (c),a
@@ -123,6 +122,8 @@ OtroChar            ld a,(hl)
                     jp z,ParseKeyboard
                     cp "h"
                     jp z,ParseHelp
+                    cp "q"
+                    jp z,ParseQuiet
                     jp ErrorInvalidArg
 
 ParseTimming        ld a,(hl)
@@ -217,7 +218,16 @@ ParseHelp           ld a,(hl)
                     scf
                     ret
 
-ErrorInvalidArg     ld a,2
+ParseQuiet          ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,1
+                    ld (QuietMode),a
+                    jp OtroChar
+
+ErrorInvalidArg     ld a,0
+                    ld hl,ErrorMsg
                     scf
                     ret
                     endp
@@ -235,16 +245,18 @@ BucPrintMsg         ld a,(hl)
 ;------------------------------------------------------
 
                     ;   01234567890123456789012345678901
-Uso                 db "zxunocfg [-h] [-tA] [-cB] [-kC]",13,13
-                    db "Configure/print ZX-UNO options:",13
-                    db " No switches: print config.",13
-                    db " -h : shows this help",13
+Uso                 db "ZXUNOCFG v1.0",13
+                    db "Configure/print ZX-UNO options",13,13
+                    db "Usage: zxunocfg [switches]",13
+                    db " No switches: print config",13
+                    db " -h : shows this help and exits",13
+                    db " -q : silent operation",13
                     db " -tA: choose ULA timmings",13
                     db "      A=48:   48K timmings",13
                     db "      A=128: 128K timmings",13
                     db " -cB: en/dis contention",13
-                    db "      B=y: enable it",13
-                    db "      B=n: disable it",13
+                    db "      B=y: enable contention",13
+                    db "      B=n: disable contention",13
                     db " -kC: choose keyboard mode",13
                     db "      C=2: issue 2 keyboard",13
                     db "      C=3: issue 3 keyboard",13,13
@@ -263,7 +275,9 @@ ContEnabledStr      db "ENABLED",13,0
 ContDisabledStr     db "DISABLED",13,0
 CurrConfString3     db "   Keyboard: ISSUE ",0
 
+ErrorMsg            db "Invalid option. Use zxunocfg -","h"+80h
 
 ConfValue           db 0
+QuietMode           db 0
 
 BufferParam         equ $   ;resto de la RAM para el nombre del fichero
