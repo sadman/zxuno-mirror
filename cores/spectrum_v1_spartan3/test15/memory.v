@@ -30,7 +30,7 @@ module memory (
    input wire [15:0] a,
    input wire [7:0] din,  // proveniente del bus de datos de salida de la CPU
    output reg [7:0] dout, // hacia el bus de datos de entrada de la CPU
-   output reg oe_n,       // el dato es valido   
+   output reg oe_n,       // el dato es valido
    input wire mreq_n,
    input wire iorq_n,
    input wire rd_n,
@@ -38,26 +38,26 @@ module memory (
    input wire m1_n,
    input wire rfsh_n,
    output wire enable_nmi_n,
-   
+
    // Interface con la ULA
    input wire [13:0] vramaddr,
    output wire [7:0] vramdout,
    output wire issue2_keyboard_enabled,
    output wire timming_ula,
    output wire disable_contention,
-   
+
    // Interface para registros ZXUNO
    input wire [7:0] addr,
    input wire ior,
    input wire iow,
    output wire in_boot_mode,
-   
+
    // Interface con la SRAM
    output wire [18:0] sram_addr,
    inout wire [7:0] sram_data,
    output wire sram_we_n
    );
-   
+
    parameter
       MASTERCONF = 8'h00,
       MASTERMAPPER = 8'h01;
@@ -69,7 +69,7 @@ module memory (
    reg timming = 1'b0;
    reg disable_cont = 1'b0;
    reg masterconf_frozen = 1'b0;
-   
+
    assign issue2_keyboard_enabled = issue2_keyboard;
    assign in_boot_mode = ~masterconf_frozen;
    assign timming_ula = timming;
@@ -80,12 +80,15 @@ module memory (
          {disable_cont,timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= 6'b000001;
          masterconf_frozen <= 1'b0;
       end
-      else if (addr==MASTERCONF && iow && !masterconf_frozen) begin
-         {disable_cont,timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= din[5:0];
-         //masterconf_frozen <= din[7];  //quitar este comentario cuando Antonio añada el timming a la BIOS
+      else if (addr==MASTERCONF && iow) begin
+         {disable_cont,timming,issue2_keyboard} <= din[5:3];
+         if (!masterconf_frozen) begin
+            masterconf_frozen <= din[7];
+            {divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= din[2:0];
+         end
       end
    end
-   
+
    reg [4:0] mastermapper = 5'h00;
    always @(posedge clk) begin
       if (!mrst_n)
@@ -325,7 +328,7 @@ module memory (
          oe_n = 1'b0;
       end
       else if (addr==MASTERCONF && ior) begin
-         dout = {6'h00,divmmc_is_enabled,initial_boot_mode};
+         dout = {masterconf_frozen,1'b0,disable_cont,timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode};
          oe_n = 1'b0;
       end
       else if (addr==MASTERMAPPER && ior) begin
