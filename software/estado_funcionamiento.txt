@@ -8,7 +8,7 @@ c64hires.tap             |     SI      | Demo ULAplus con paleta de C64
 Cobra.tzx                |     SI      | La versión para 48K, con puerto $FF :)
 colorato.tap             |     SI      | Demo de color en alta resolución para SP48K
 floatspy.tap             |     SI      | Da algunos valores incorrectos antes de 14347
-HAM256.tap               |     SI      | Demo ULAplus + 256 colores asistido por CPU
+HAM256.tap               |   PARCIAL   | Demo ULAplus + 256 colores asistido por CPU. Imagen con glitches
 kv.tap                   |     SI      | Resuelto fallo en T80.vhdl, instrucción LD A,R
 Multicolour.tap          |     SI      | Demo simple de ciclo de paleta de color
 pacemuzx.tap             |     SI      | Emulador PacMan. Necesita modo +3 allRAM.
