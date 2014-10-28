@@ -491,10 +491,8 @@ module ula_radas (
          else if (a==ULAPLUSDATA && PaletteReg[6]==1'b1)
             dout = {7'b0000000,ConfigReg};
          else if (a[7:0]==TIMEXPORT) begin
-            if (BitmapAddr)
-               dout = BitmapData;
-            else if (AttrAddr)  
-               dout = AttrData;   // floating bus
+            if (BitmapAddr || AttrAddr)
+               dout = vramdata;
             else
                dout = 8'hFF;
          end
@@ -513,7 +511,7 @@ module ula_radas (
 // CPU CLOCK GENERATION (Altwasser method)
 ///////////////////////////////////
 
-`define MASTERCPUCLK clk7
+`define MASTERCPUCLK clk17
 
    reg CPUInternalClock = 0;
 	reg ioreqtw3 = 0;
@@ -548,15 +546,15 @@ module ula_radas (
       end
 	end
 
-	always @(posedge `MASTERCPUCLK) begin
-		if (!CLKContention || RadasEnabled || disable_contention)
-			CPUInternalClock = ~CPUInternalClock;
-	   else
-		   CPUInternalClock = 1'b1;
-   end
+//	always @(posedge `MASTERCPUCLK) begin
+//		if (!CLKContention || RadasEnabled || disable_contention)
+//			CPUInternalClock <= ~CPUInternalClock;
+//	   else
+//		   CPUInternalClock <= 1'b1;
+//   end
 
-   assign cpuclk = CPUInternalClock;
+//   assign cpuclk = CPUInternalClock;
 
-//    assign cpuclk = (!CLKContention || RadasEnabled)? ~hc[0] : 1'b1;
+   assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? ~hc[0] : 1'b1;
 
 endmodule

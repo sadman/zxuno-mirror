@@ -50,7 +50,7 @@ module pal_sync_generator_sinclair (
       EVSYNC           = 251;
 
 	reg [8:0] hc = 9'h000;
-	reg [8:0] vc = 9'h000;
+	reg [8:0] vc = 9'h137;  // linea 311
 
 	assign hcnt = hc;
 	assign vcnt = vc;
