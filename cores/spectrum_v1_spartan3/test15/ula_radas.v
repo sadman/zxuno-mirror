@@ -511,7 +511,7 @@ module ula_radas (
 // CPU CLOCK GENERATION (Altwasser method)
 ///////////////////////////////////
 
-`define MASTERCPUCLK clk17
+`define MASTERCPUCLK clk7
 
    reg CPUInternalClock = 0;
 	reg ioreqtw3 = 0;
@@ -522,7 +522,7 @@ module ula_radas (
 	wire ioreqall_n = !(iorequlaplus || iorequla);
 
 	reg Border_n;
-	always @(*) begin
+	always @* begin
 		if (vc>=BVPIXEL && vc<=EVPIXEL && hc>=BHPIXEL && hc<=EHPIXEL)
 			Border_n = 1;
 		else
@@ -530,9 +530,9 @@ module ula_radas (
 	end
 	wire Nor1 = (~(a[14] | ~ioreqall_n)) | 
 	            (~(~a[15] | ~ioreqall_n)) | 
-					( hc[3:0]<4'd4 ) | 
+					( (hc[3:0]<4'd4 /*|| hc[3:0]>=4'd14*/) ) | 
 					(~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
-	wire Nor2 = ( hc[3:0]<4'd4 ) | 
+	wire Nor2 = ( (hc[3:0]<4'd4 /*|| hc[3:0]>=4'd14*/) ) | 
 	            ~Border_n |
 					~cpuclk |
 					ioreqall_n |
@@ -546,15 +546,46 @@ module ula_radas (
       end
 	end
 
-//	always @(posedge `MASTERCPUCLK) begin
-//		if (!CLKContention || RadasEnabled || disable_contention)
-//			CPUInternalClock <= ~CPUInternalClock;
-//	   else
-//		   CPUInternalClock <= 1'b1;
-//   end
+	always @(posedge `MASTERCPUCLK) begin
+		if (!CLKContention || RadasEnabled || disable_contention)
+			CPUInternalClock <= ~CPUInternalClock;
+	   else
+		   CPUInternalClock <= 1'b1;
+   end
 
 //   assign cpuclk = CPUInternalClock;
 
-   assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? ~hc[0] : 1'b1;
+// assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? ~hc[0] : 1'b1;
+
+
+///////////////////////////////////
+// CPU CLOCK GENERATION (CSmith method)
+///////////////////////////////////
+
+    reg MayContend_n;
+    always @* begin  // esto era negedge clk7 en el esquemático
+       if (hc[3:0]>4'd3 && Border_n==1'b1)
+         MayContend_n <= 1'b0;
+       else
+         MayContend_n <= 1'b1;
+    end
+    
+    reg CauseContention_n;
+    always @* begin
+        if ((a[15:14]==2'b01 || !ioreqall_n) && !RadasEnabled && !disable_contention)
+            CauseContention_n = 1'b0;
+        else
+            CauseContention_n = 1'b1;
+    end
+    
+    reg CancelContention = 1'b1;
+    always @(posedge cpuclk) begin
+        if (!mreq_n || !ioreqall_n)
+            CancelContention <= 1'b1;
+        else
+            CancelContention <= 1'b0;
+    end
+    
+    assign cpuclk = (~(MayContend_n | CauseContention_n | CancelContention)) | hc[0];
 
 endmodule

@@ -10,7 +10,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="31" />
+   <WVObjectSize size="34" />
    <wvobject fp_name="/tb_ula/clk14" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk14</obj_property>
       <obj_property name="ObjectShortName">clk14</obj_property>
@@ -40,6 +40,18 @@
    <wvobject fp_name="/tb_ula/uut/VideoEnable" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">VideoEnable</obj_property>
       <obj_property name="ObjectShortName">VideoEnable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ula/uut/MayContend_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">MayContend_n</obj_property>
+      <obj_property name="ObjectShortName">MayContend_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ula/uut/CauseContention_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CauseContention_n</obj_property>
+      <obj_property name="ObjectShortName">CauseContention_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ula/uut/CancelContention" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CancelContention</obj_property>
+      <obj_property name="ObjectShortName">CancelContention</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_ula/uut/BitmapAddr" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">BitmapAddr</obj_property>
