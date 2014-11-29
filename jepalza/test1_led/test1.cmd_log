@@ -1,0 +1,54 @@
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx4-tqg144-2 test1.ngc test1.ngd  
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc3s100e-tq144-5 test1.ngc test1.ngd  
+map -intstyle ise -p xc3s100e-tq144-5 -cm area -ir off -pr off -c 100 -o test1_map.ncd test1.ngd test1.pcf 
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx9-tqg144-3 test1.ngc test1.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+par -w -intstyle ise -ol high -mt off test1_map.ncd test1.ncd test1.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml test1.twx test1.ncd -o test1.twr test1.pcf -ucf pines_zxuno.ucf 
+bitgen -intstyle ise -f test1.ut test1.ncd 
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx9-tqg144-2 test1.ngc test1.ngd  
+map -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+par -w -intstyle ise -ol high -mt off test1_map.ncd test1.ncd test1.pcf 
+trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml test1.twx test1.ncd -o test1.twr test1.pcf -ucf pines_zxuno.ucf 
+bitgen -intstyle ise -f test1.ut test1.ncd 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx9-tqg144-2 test1.ngc test1.ngd  
+map -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+par -w -intstyle ise -ol high -mt off test1_map.ncd test1.ncd test1.pcf 
+trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml test1.twx test1.ncd -o test1.twr test1.pcf -ucf pines_zxuno.ucf 
+bitgen -intstyle ise -f test1.ut test1.ncd 
+netgen -intstyle ise -insert_glbl true -w -dir netgen/synthesis -ofmt verilog -sim test1.ngc test1_synthesis.v 
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx9-tqg144-2 test1.ngc test1.ngd  
+map -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+par -w -intstyle ise -ol high -mt off test1_map.ncd test1.ncd test1.pcf 
+trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml test1.twx test1.ncd -o test1.twr test1.pcf -ucf pines_zxuno.ucf 
+bitgen -intstyle ise -f test1.ut test1.ncd 
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx9-tqg144-3 test1.ngc test1.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+par -w -intstyle ise -ol high -mt off test1_map.ncd test1.ncd test1.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml test1.twx test1.ncd -o test1.twr test1.pcf -ucf pines_zxuno.ucf 
+bitgen -intstyle ise -f test1.ut test1.ncd 
+xst -intstyle ise -ifn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.xst" -ofn "C:/a/ZX_ONE/test_led_zxuno_v2/test1.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc pines_zxuno.ucf -p xc6slx9-tqg144-3 test1.ngc test1.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o test1_map.ncd test1.ngd test1.pcf 
+par -w -intstyle ise -ol high -mt off test1_map.ncd test1.ncd test1.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml test1.twx test1.ncd -o test1.twr test1.pcf -ucf pines_zxuno.ucf 
+bitgen -intstyle ise -f test1.ut test1.ncd 

@@ -1,0 +1,3 @@
+# reloj y prueba de LED
+NET "clk50mhz" LOC="P55" | IOSTANDARD = LVTTL;
+NET "testled"  LOC="P10" | IOSTANDARD = LVTTL;

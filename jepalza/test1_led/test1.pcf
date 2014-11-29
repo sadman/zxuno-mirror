@@ -1,0 +1,9 @@
+//! **************************************************************************
+// Written by: Map P.40xd on Fri Nov 28 09:03:09 2014
+//! **************************************************************************
+
+SCHEMATIC START;
+COMP "testled" LOCATE = SITE "P10" LEVEL 1;
+COMP "clk50mhz" LOCATE = SITE "P55" LEVEL 1;
+SCHEMATIC END;
+
