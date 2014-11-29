@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\a\ZX_UNO_DOS\test9\tld_zxuno.ncd
+OUTFILE=C:\a\ZX_UNO_DOS\test9\tld_zxuno.bit
+FAMILY=Spartan6
+PART=xc6slx9-3tqg144
+WORKINGDIR=C:\a\ZX_UNO_DOS\test9
+LICENSE=WebPack
+USER_INFO=206146466_0_0_971

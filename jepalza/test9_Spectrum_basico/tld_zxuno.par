@@ -1,0 +1,219 @@
+Release 14.3 par P.40xd (nt64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+INGEPAL::  Sat Nov 29 19:51:28 2014
+
+par -w -intstyle ise -ol high -mt off tld_zxuno_map.ncd tld_zxuno.ncd
+tld_zxuno.pcf 
+
+
+Constraints file: tld_zxuno.pcf.
+Loading device for application Rf_Device from file '6slx9.nph' in environment C:\Xilinx\14.3\ISE_DS\ISE\.
+   "tld_zxuno" is an NCD, version 3.2, device xc6slx9, package tqg144, speed -3
+
+Initializing temperature to 85.000 Celsius. (default - Range: 0.000 to 85.000 Celsius)
+Initializing voltage to 1.140 Volts. (default - Range: 1.140 to 1.260 Volts)
+
+INFO:Par:282 - No user timing constraints were detected or you have set the option to ignore timing constraints ("par
+   -x"). Place and Route will run in "Performance Evaluation Mode" to automatically improve the performance of all
+   internal clocks in this design. Because there are not defined timing requirements, a timing score will not be
+   reported in the PAR report in this mode. The PAR timing summary will list the performance achieved for each clock.
+   Note: For the fastest runtime, set the effort level to "std".  For best performance, set the effort level to "high".
+
+Device speed data version:  "PRODUCTION 1.23 2012-10-12".
+
+
+
+Device Utilization Summary:
+
+Slice Logic Utilization:
+  Number of Slice Registers:                   773 out of  11,440    6%
+    Number used as Flip Flops:                 771
+    Number used as Latches:                      2
+    Number used as Latch-thrus:                  0
+    Number used as AND/OR logics:                0
+  Number of Slice LUTs:                      2,160 out of   5,720   37%
+    Number used as logic:                    2,072 out of   5,720   36%
+      Number using O6 output only:           1,640
+      Number using O5 output only:             105
+      Number using O5 and O6:                  327
+      Number used as ROM:                        0
+    Number used as Memory:                      68 out of   1,440    4%
+      Number used as Dual Port RAM:             62
+        Number using O6 output only:            38
+        Number using O5 output only:             2
+        Number using O5 and O6:                 22
+      Number used as Single Port RAM:            0
+      Number used as Shift Register:             6
+        Number using O6 output only:             6
+        Number using O5 output only:             0
+        Number using O5 and O6:                  0
+    Number used exclusively as route-thrus:     20
+      Number with same-slice register load:      7
+      Number with same-slice carry load:        13
+      Number with other load:                    0
+
+Slice Logic Distribution:
+  Number of occupied Slices:                   808 out of   1,430   56%
+  Nummber of MUXCYs used:                      328 out of   2,860   11%
+  Number of LUT Flip Flop pairs used:        2,325
+    Number with an unused Flip Flop:         1,581 out of   2,325   68%
+    Number with an unused LUT:                 165 out of   2,325    7%
+    Number of fully used LUT-FF pairs:         579 out of   2,325   24%
+    Number of slice register sites lost
+      to control set restrictions:               0 out of  11,440    0%
+
+  A LUT Flip Flop pair for this architecture represents one LUT paired with
+  one Flip Flop within a slice.  A control set is a unique combination of
+  clock, reset, set, and enable signals for a registered element.
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+
+IO Utilization:
+  Number of bonded IOBs:                        45 out of     102   44%
+    Number of LOCed IOBs:                       45 out of      45  100%
+
+Specific Feature Utilization:
+  Number of RAMB16BWERs:                         8 out of      32   25%
+  Number of RAMB8BWERs:                          0 out of      64    0%
+  Number of BUFIO2/BUFIO2_2CLKs:                 1 out of      32    3%
+    Number used as BUFIO2s:                      1
+    Number used as BUFIO2_2CLKs:                 0
+  Number of BUFIO2FB/BUFIO2FB_2CLKs:             1 out of      32    3%
+    Number used as BUFIO2FBs:                    1
+    Number used as BUFIO2FB_2CLKs:               0
+  Number of BUFG/BUFGMUXs:                       8 out of      16   50%
+    Number used as BUFGs:                        8
+    Number used as BUFGMUX:                      0
+  Number of DCM/DCM_CLKGENs:                     1 out of       4   25%
+    Number used as DCMs:                         1
+    Number used as DCM_CLKGENs:                  0
+  Number of ILOGIC2/ISERDES2s:                   0 out of     200    0%
+  Number of IODELAY2/IODRP2/IODRP2_MCBs:         0 out of     200    0%
+  Number of OLOGIC2/OSERDES2s:                   0 out of     200    0%
+  Number of BSCANs:                              0 out of       4    0%
+  Number of BUFHs:                               0 out of     128    0%
+  Number of BUFPLLs:                             0 out of       8    0%
+  Number of BUFPLL_MCBs:                         0 out of       4    0%
+  Number of DSP48A1s:                            0 out of      16    0%
+  Number of ICAPs:                               0 out of       1    0%
+  Number of MCBs:                                0 out of       2    0%
+  Number of PCILOGICSEs:                         0 out of       2    0%
+  Number of PLL_ADVs:                            0 out of       2    0%
+  Number of PMVs:                                0 out of       1    0%
+  Number of STARTUPs:                            0 out of       1    0%
+  Number of SUSPEND_SYNCs:                       0 out of       1    0%
+
+
+Overall effort level (-ol):   High 
+Router effort level (-rl):    High 
+
+Starting initial Timing Analysis.  REAL time: 4 secs 
+Finished initial Timing Analysis.  REAL time: 4 secs 
+
+WARNING:Par:288 - The signal la_maquina/la_ula/palette/Mram_lut11_RAMD_O has no load.  PAR will not attempt to route this signal.
+WARNING:Par:288 - The signal la_maquina/la_ula/palette/Mram_lut12_RAMD_O has no load.  PAR will not attempt to route this signal.
+WARNING:Par:288 - The signal la_maquina/el_z80/TheCPU/u0/Regs/Mram_RegsL11_RAMD_D1_O has no load.  PAR will not attempt to route this
+   signal.
+WARNING:Par:288 - The signal la_maquina/el_z80/TheCPU/u0/Regs/Mram_RegsH11_RAMD_D1_O has no load.  PAR will not attempt to route this
+   signal.
+Starting Router
+
+
+Phase  1  : 12729 unrouted;      REAL time: 4 secs 
+
+Phase  2  : 11675 unrouted;      REAL time: 5 secs 
+
+Phase  3  : 5528 unrouted;      REAL time: 9 secs 
+
+Phase  4  : 5703 unrouted; (Par is working to improve performance)     REAL time: 10 secs 
+
+Updating file: tld_zxuno.ncd with current fully routed design.
+
+Phase  5  : 0 unrouted; (Par is working to improve performance)     REAL time: 20 secs 
+
+Phase  6  : 0 unrouted; (Par is working to improve performance)     REAL time: 21 secs 
+
+Phase  7  : 0 unrouted; (Par is working to improve performance)     REAL time: 21 secs 
+
+Phase  8  : 0 unrouted; (Par is working to improve performance)     REAL time: 21 secs 
+
+Phase  9  : 0 unrouted; (Par is working to improve performance)     REAL time: 21 secs 
+
+Phase 10  : 0 unrouted; (Par is working to improve performance)     REAL time: 21 secs 
+Total REAL time to Router completion: 21 secs 
+Total CPU time to Router completion: 22 secs 
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+Generating "PAR" statistics.
+INFO:Par:459 - The Clock Report is not displayed in the non timing-driven mode.
+Timing Score: 0 (Setup: 0, Hold: 0)
+
+Asterisk (*) preceding a constraint indicates it was not met.
+   This may be due to a setup or hold violation.
+
+----------------------------------------------------------------------------------------------------------
+  Constraint                                |    Check    | Worst Case |  Best Case | Timing |   Timing   
+                                            |             |    Slack   | Achievable | Errors |    Score   
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net la_ | SETUP       |         N/A|    14.186ns|     N/A|           0
+  maquina/la_ula/CPUInternalClock_BUFG      | HOLD        |     0.393ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net la_ | SETUP       |         N/A|     7.544ns|     N/A|           0
+  maquina/la_ula/syncs/hc_0_BUFG            | HOLD        |     0.435ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net la_ | SETUP       |         N/A|     3.095ns|     N/A|           0
+  maquina/clk14_BUFG                        | HOLD        |     0.457ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net la_ | SETUP       |         N/A|     4.586ns|     N/A|           0
+  maquina/la_ula/syncs/rhcnt_4_BUFG         | HOLD        |     0.401ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net la_ | SETUP       |         N/A|     6.708ns|     N/A|           0
+  maquina/la_ula/clk7_BUFG                  | HOLD        |     0.428ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net sys | SETUP       |         N/A|     3.037ns|     N/A|           0
+  clk                                       | HOLD        |     0.415ns|            |       0|           0
+                                            | MINPERIOD   |         N/A|     3.124ns|     N/A|           0
+----------------------------------------------------------------------------------------------------------
+  Autotimespec constraint for clock net wss | SETUP       |         N/A|     3.578ns|     N/A|           0
+  clk                                       | HOLD        |     0.444ns|            |       0|           0
+----------------------------------------------------------------------------------------------------------
+
+
+All constraints were met.
+INFO:Timing:2761 - N/A entries in the Constraints List may indicate that the 
+   constraint is not analyzed due to the following: No paths covered by this 
+   constraint; Other constraints intersect with this constraint; or This 
+   constraint was disabled by a Path Tracing Control. Please run the Timespec 
+   Interaction Report (TSI) via command line (trce tsi) or Timing Analyzer GUI.
+
+
+Generating Pad Report.
+
+All signals are completely routed.
+
+WARNING:Par:283 - There are 4 loadless signals in this design. This design will cause Bitgen to issue DRC warnings.
+
+Total REAL time to PAR completion: 22 secs 
+Total CPU time to PAR completion: 23 secs 
+
+Peak Memory Usage:  355 MB
+
+Placer: Placement generated during map.
+Routing: Completed - No errors found.
+
+Number of error messages: 0
+Number of warning messages: 6
+Number of info messages: 2
+
+Writing design to file tld_zxuno.ncd
+
+
+
+PAR done!

@@ -1,0 +1,11 @@
+# PROMGEN: Xilinx Prom Generator O.40d
+# Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION O.40d
+DATE            11/29/2014 - 19:47
+SOURCE          C:\a\ZX_UNO_DOS\test9\spectrum_basico_zxuno_v2.mcs
+DEVICE          1024K
+DATA_WIDTH      1
+FILL_DATA       0xFF
+SIGNATURE       0x0B265D96
+START_ADDRESS   0x00000000 END_ADDRESS 0x0005327B DIRECTION_UP   "C:/a/ZX_UNO_DOS/test9/tld_zxuno.bit" 6slx9tqg144

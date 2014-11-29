@@ -1,0 +1,200 @@
+Release 14.3 Map P.40xd (nt64)
+Xilinx Map Application Log File for Design 'tld_zxuno'
+
+Design Information
+------------------
+Command Line   : map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol
+high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off
+-pr off -lc off -power off -o tld_zxuno_map.ncd tld_zxuno.ngd tld_zxuno.pcf 
+Target Device  : xc6slx9
+Target Package : tqg144
+Target Speed   : -3
+Mapper Version : spartan6 -- $Revision: 1.55 $
+Mapped Date    : Sat Nov 29 19:50:52 2014
+
+Mapping design into LUTs...
+Running directed packing...
+Running delay-based LUT packing...
+Updating timing models...
+INFO:Map:215 - The Interim Design Summary has been generated in the MAP Report
+   (.mrp).
+Running timing-driven placement...
+Total REAL time at the beginning of Placer: 7 secs 
+Total CPU  time at the beginning of Placer: 7 secs 
+
+Phase 1.1  Initial Placement Analysis
+Phase 1.1  Initial Placement Analysis (Checksum:36e66dfc) REAL time: 7 secs 
+
+Phase 2.7  Design Feasibility Check
+Phase 2.7  Design Feasibility Check (Checksum:36e66dfc) REAL time: 8 secs 
+
+Phase 3.31  Local Placement Optimization
+Phase 3.31  Local Placement Optimization (Checksum:36e66dfc) REAL time: 8 secs 
+
+Phase 4.2  Initial Placement for Architecture Specific Features
+
+Phase 4.2  Initial Placement for Architecture Specific Features
+(Checksum:53af42b2) REAL time: 11 secs 
+
+Phase 5.36  Local Placement Optimization
+Phase 5.36  Local Placement Optimization (Checksum:53af42b2) REAL time: 11 secs 
+
+Phase 6.30  Global Clock Region Assignment
+Phase 6.30  Global Clock Region Assignment (Checksum:53af42b2) REAL time: 11 secs 
+
+Phase 7.3  Local Placement Optimization
+Phase 7.3  Local Placement Optimization (Checksum:53af42b2) REAL time: 11 secs 
+
+Phase 8.5  Local Placement Optimization
+Phase 8.5  Local Placement Optimization (Checksum:53af42b2) REAL time: 11 secs 
+
+Phase 9.8  Global Placement
+......................
+............................
+..........................................................................................................................................................................................
+..............................................................................................................................................................
+.........................
+Phase 9.8  Global Placement (Checksum:a96ac8a0) REAL time: 23 secs 
+
+Phase 10.5  Local Placement Optimization
+Phase 10.5  Local Placement Optimization (Checksum:a96ac8a0) REAL time: 23 secs 
+
+Phase 11.18  Placement Optimization
+Phase 11.18  Placement Optimization (Checksum:6bd3302d) REAL time: 31 secs 
+
+Phase 12.5  Local Placement Optimization
+Phase 12.5  Local Placement Optimization (Checksum:6bd3302d) REAL time: 31 secs 
+
+Phase 13.34  Placement Validation
+Phase 13.34  Placement Validation (Checksum:5b47acdd) REAL time: 31 secs 
+
+Total REAL time to Placer completion: 31 secs 
+Total CPU  time to Placer completion: 31 secs 
+Running post-placement packing...
+Writing output files...
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST>. 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> and DESKEW(5). 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> found no EXTERN driver in CLKFB path.
+ 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> found non-EXTERN block <BUFG> in
+CLKFB path. 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> found NO extern 
+WARNING:PhysDesignRules:372 - Gated clock. Clock net
+   la_maquina/ay1/env_reset_GND_111_o_AND_216_o is sourced by a combinatorial
+   pin. This is not good design practice. Use the CE pin to control the loading
+   of data into the flip-flop.
+WARNING:PhysDesignRules:372 - Gated clock. Clock net
+   la_maquina/ay1/env_reset_GND_111_o_AND_215_o is sourced by a combinatorial
+   pin. This is not good design practice. Use the CE pin to control the loading
+   of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal
+   <la_maquina/la_ula/palette/Mram_lut11_RAMD_O> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <la_maquina/la_ula/palette/Mram_lut12_RAMD_O> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <la_maquina/el_z80/TheCPU/u0/Regs/Mram_RegsL11_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <la_maquina/el_z80/TheCPU/u0/Regs/Mram_RegsH11_RAMD_D1_O> is incomplete. The
+   signal does not drive any load pins in the design.
+
+Design Summary
+--------------
+
+Design Summary:
+Number of errors:      0
+Number of warnings:    6
+Slice Logic Utilization:
+  Number of Slice Registers:                   773 out of  11,440    6%
+    Number used as Flip Flops:                 771
+    Number used as Latches:                      2
+    Number used as Latch-thrus:                  0
+    Number used as AND/OR logics:                0
+  Number of Slice LUTs:                      2,160 out of   5,720   37%
+    Number used as logic:                    2,072 out of   5,720   36%
+      Number using O6 output only:           1,640
+      Number using O5 output only:             105
+      Number using O5 and O6:                  327
+      Number used as ROM:                        0
+    Number used as Memory:                      68 out of   1,440    4%
+      Number used as Dual Port RAM:             62
+        Number using O6 output only:            38
+        Number using O5 output only:             2
+        Number using O5 and O6:                 22
+      Number used as Single Port RAM:            0
+      Number used as Shift Register:             6
+        Number using O6 output only:             6
+        Number using O5 output only:             0
+        Number using O5 and O6:                  0
+    Number used exclusively as route-thrus:     20
+      Number with same-slice register load:      7
+      Number with same-slice carry load:        13
+      Number with other load:                    0
+
+Slice Logic Distribution:
+  Number of occupied Slices:                   808 out of   1,430   56%
+  Nummber of MUXCYs used:                      328 out of   2,860   11%
+  Number of LUT Flip Flop pairs used:        2,325
+    Number with an unused Flip Flop:         1,581 out of   2,325   68%
+    Number with an unused LUT:                 165 out of   2,325    7%
+    Number of fully used LUT-FF pairs:         579 out of   2,325   24%
+    Number of unique control sets:             111
+    Number of slice register sites lost
+      to control set restrictions:             449 out of  11,440    3%
+
+  A LUT Flip Flop pair for this architecture represents one LUT paired with
+  one Flip Flop within a slice.  A control set is a unique combination of
+  clock, reset, set, and enable signals for a registered element.
+  The Slice Logic Distribution report is not meaningful if the design is
+  over-mapped for a non-slice resource or if Placement fails.
+
+IO Utilization:
+  Number of bonded IOBs:                        45 out of     102   44%
+    Number of LOCed IOBs:                       45 out of      45  100%
+
+Specific Feature Utilization:
+  Number of RAMB16BWERs:                         8 out of      32   25%
+  Number of RAMB8BWERs:                          0 out of      64    0%
+  Number of BUFIO2/BUFIO2_2CLKs:                 1 out of      32    3%
+    Number used as BUFIO2s:                      1
+    Number used as BUFIO2_2CLKs:                 0
+  Number of BUFIO2FB/BUFIO2FB_2CLKs:             1 out of      32    3%
+    Number used as BUFIO2FBs:                    1
+    Number used as BUFIO2FB_2CLKs:               0
+  Number of BUFG/BUFGMUXs:                       8 out of      16   50%
+    Number used as BUFGs:                        8
+    Number used as BUFGMUX:                      0
+  Number of DCM/DCM_CLKGENs:                     1 out of       4   25%
+    Number used as DCMs:                         1
+    Number used as DCM_CLKGENs:                  0
+  Number of ILOGIC2/ISERDES2s:                   0 out of     200    0%
+  Number of IODELAY2/IODRP2/IODRP2_MCBs:         0 out of     200    0%
+  Number of OLOGIC2/OSERDES2s:                   0 out of     200    0%
+  Number of BSCANs:                              0 out of       4    0%
+  Number of BUFHs:                               0 out of     128    0%
+  Number of BUFPLLs:                             0 out of       8    0%
+  Number of BUFPLL_MCBs:                         0 out of       4    0%
+  Number of DSP48A1s:                            0 out of      16    0%
+  Number of ICAPs:                               0 out of       1    0%
+  Number of MCBs:                                0 out of       2    0%
+  Number of PCILOGICSEs:                         0 out of       2    0%
+  Number of PLL_ADVs:                            0 out of       2    0%
+  Number of PMVs:                                0 out of       1    0%
+  Number of STARTUPs:                            0 out of       1    0%
+  Number of SUSPEND_SYNCs:                       0 out of       1    0%
+
+Average Fanout of Non-Clock Nets:                4.46
+
+Peak Memory Usage:  394 MB
+Total REAL time to MAP completion:  34 secs 
+Total CPU time to MAP completion:   34 secs 
+
+Mapping completed.
+See MAP report file "tld_zxuno_map.mrp" for details.

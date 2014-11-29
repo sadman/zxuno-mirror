@@ -1,0 +1,17 @@
+PROMGEN: Xilinx Prom Generator O.40d
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o C:\a\ZX_UNO_DOS\test9//spectrum_basico_zxuno_v2 -s 1024 -u 0 C:\a\ZX_UNO_DOS\test9\tld_zxuno.bit -spi 
+
+PROM C:\a\ZX_UNO_DOS\test9\spectrum_basico_zxuno_v2.prm map: Sat Nov 29 19:47:27 2014
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          1024K
+PROM start    0000:0000
+PROM end      000f:ffff
+PROM checksum 0b265d96
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0005:327b     Nov 29 19:44:41 2014 C:/a/ZX_UNO_DOS/test9/tld_zxuno.bit
