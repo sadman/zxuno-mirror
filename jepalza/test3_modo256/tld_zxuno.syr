@@ -1,0 +1,650 @@
+Release 14.3 - xst P.40xd (nt64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.08 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.08 secs
+ 
+--> Reading design: tld_zxuno.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "tld_zxuno.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "tld_zxuno"
+Output Format                      : NGC
+Target Device                      : xc6slx9-3-tqg144
+
+---- Source Options
+Top Module Name                    : tld_zxuno
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v" into library work
+Parsing module <pal_sync_generator_progressive>.
+Analyzing Verilog file "C:\a\ZX_UNO_DOS\test3_modo256\dp_memory.v" into library work
+Parsing module <dp_memory>.
+Analyzing Verilog file "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v" into library work
+Parsing module <zxuno>.
+Analyzing Verilog file "C:\a\ZX_UNO_DOS\test3_modo256\relojes.v" into library work
+Parsing module <relojes>.
+Analyzing Verilog file "C:\a\ZX_UNO_DOS\test3_modo256\tld_zxuno.v" into library work
+Parsing module <tld_zxuno>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating module <tld_zxuno>.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\tld_zxuno.v" Line 47: Result of 3-bit expression is truncated to fit in 2-bit target.
+
+Elaborating module <relojes>.
+
+Elaborating module <BUFG>.
+
+Elaborating module <IBUFG>.
+
+Elaborating module <DCM_SP(CLK_FEEDBACK="1X",CLKDV_DIVIDE=10.0,CLKFX_DIVIDE=25,CLKFX_MULTIPLY=14,CLKIN_DIVIDE_BY_2="FALSE",CLKIN_PERIOD=20.0,CLKOUT_PHASE_SHIFT="NONE",DESKEW_ADJUST="SYSTEM_SYNCHRONOUS",DFS_FREQUENCY_MODE="LOW",DLL_FREQUENCY_MODE="LOW",DUTY_CYCLE_CORRECTION="TRUE",FACTORY_JF=16'b1100000010000000,PHASE_SHIFT=0,STARTUP_WAIT="FALSE")>.
+
+Elaborating module <zxuno>.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v" Line 48: Result of 17-bit expression is truncated to fit in 16-bit target.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v" Line 57: Result of 17-bit expression is truncated to fit in 16-bit target.
+
+Elaborating module <dp_memory>.
+
+Elaborating module <pal_sync_generator_progressive>.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v" Line 82: Result of 10-bit expression is truncated to fit in 9-bit target.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v" Line 85: Result of 10-bit expression is truncated to fit in 9-bit target.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v" Line 94: Result of 10-bit expression is truncated to fit in 9-bit target.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v" Line 97: Result of 10-bit expression is truncated to fit in 9-bit target.
+WARNING:HDLCompiler:413 - "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v" Line 203: Result of 32-bit expression is truncated to fit in 8-bit target.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <tld_zxuno>.
+    Related source file is "C:\a\ZX_UNO_DOS\test3_modo256\tld_zxuno.v".
+INFO:Xst:3210 - "C:\a\ZX_UNO_DOS\test3_modo256\tld_zxuno.v" line 49: Output port <CLKIN_IBUFG_OUT> of the instance <los_relojes_del_sistema> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\a\ZX_UNO_DOS\test3_modo256\tld_zxuno.v" line 49: Output port <CLK0_OUT> of the instance <los_relojes_del_sistema> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\a\ZX_UNO_DOS\test3_modo256\tld_zxuno.v" line 49: Output port <LOCKED_OUT> of the instance <los_relojes_del_sistema> is unconnected or connected to loadless signal.
+    Found 2-bit register for signal <divs>.
+    Found 2-bit adder for signal <divs[1]_GND_1_o_add_1_OUT> created at line 47.
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred   2 D-type flip-flop(s).
+Unit <tld_zxuno> synthesized.
+
+Synthesizing Unit <relojes>.
+    Related source file is "C:\a\ZX_UNO_DOS\test3_modo256\relojes.v".
+    Summary:
+	no macro.
+Unit <relojes> synthesized.
+
+Synthesizing Unit <zxuno>.
+    Related source file is "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v".
+INFO:Xst:3210 - "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v" line 77: Output port <dout2> of the instance <dos_memorias> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v" line 77: Output port <ce_n> of the instance <dos_memorias> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\a\ZX_UNO_DOS\test3_modo256\zxuno.v" line 77: Output port <oe_n> of the instance <dos_memorias> is unconnected or connected to loadless signal.
+    Found 16-bit register for signal <pokeaddr>.
+    Found 16-bit register for signal <vramaddr>.
+    Found 16-bit adder for signal <vramaddr[15]_GND_6_o_add_3_OUT> created at line 48.
+    Found 16-bit adder for signal <pokeaddr[15]_GND_6_o_add_12_OUT> created at line 57.
+    Found 9-bit comparator greater for signal <n0001> created at line 49
+    Found 9-bit comparator greater for signal <h[8]_PWR_6_o_LessThan_16_o> created at line 61
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+	inferred  32 D-type flip-flop(s).
+	inferred   2 Comparator(s).
+	inferred   3 Multiplexer(s).
+Unit <zxuno> synthesized.
+
+Synthesizing Unit <dp_memory>.
+    Related source file is "C:\a\ZX_UNO_DOS\test3_modo256\dp_memory.v".
+        ACCESO_M1 = 1
+        READ_M1 = 2
+        WRITE_M1 = 3
+        ACCESO_M2 = 4
+        READ_M2 = 5
+        WRITE_M2 = 6
+    Found 8-bit register for signal <doutput1>.
+    Found 8-bit register for signal <doutput2>.
+    Found 3-bit register for signal <state>.
+    Found finite state machine <FSM_0> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 4                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Power Up State     | 001                                            |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 19-bit 8-to-1 multiplexer for signal <a> created at line 77.
+    Found 1-bit tristate buffer for signal <d<7>> created at line 135
+    Found 1-bit tristate buffer for signal <d<6>> created at line 135
+    Found 1-bit tristate buffer for signal <d<5>> created at line 135
+    Found 1-bit tristate buffer for signal <d<4>> created at line 135
+    Found 1-bit tristate buffer for signal <d<3>> created at line 135
+    Found 1-bit tristate buffer for signal <d<2>> created at line 135
+    Found 1-bit tristate buffer for signal <d<1>> created at line 135
+    Found 1-bit tristate buffer for signal <d<0>> created at line 135
+    Found 1-bit tristate buffer for signal <dout1<7>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<6>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<5>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<4>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<3>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<2>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<1>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<0>> created at line 136
+    Found 1-bit tristate buffer for signal <dout2<7>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<6>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<5>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<4>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<3>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<2>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<1>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<0>> created at line 137
+    Summary:
+	inferred  16 D-type flip-flop(s).
+	inferred   9 Multiplexer(s).
+	inferred  24 Tristate(s).
+	inferred   1 Finite State Machine(s).
+Unit <dp_memory> synthesized.
+
+Synthesizing Unit <pal_sync_generator_progressive>.
+    Related source file is "C:\a\ZX_UNO_DOS\test3_modo256\pal_sync_generator_progressive.v".
+    Found 9-bit register for signal <rvcnt>.
+    Found 9-bit register for signal <hc>.
+    Found 9-bit register for signal <vc>.
+    Found 1-bit register for signal <rsync>.
+    Found 1-bit register for signal <in_visible_region>.
+    Found 137-bit register for signal <wss_data>.
+    Found 8-bit register for signal <wss_cnt>.
+    Found 1-bit register for signal <wss_mstate>.
+    Found 9-bit register for signal <rhcnt>.
+    Found 9-bit adder for signal <rvcnt[8]_GND_32_o_add_5_OUT> created at line 82.
+    Found 9-bit adder for signal <rhcnt[8]_GND_32_o_add_7_OUT> created at line 85.
+    Found 9-bit adder for signal <vc[8]_GND_32_o_add_15_OUT> created at line 94.
+    Found 9-bit adder for signal <hc[8]_GND_32_o_add_17_OUT> created at line 97.
+    Found 8-bit subtractor for signal <GND_32_o_GND_32_o_sub_83_OUT<7:0>> created at line 203.
+    Summary:
+	inferred   5 Adder/Subtractor(s).
+	inferred 184 D-type flip-flop(s).
+	inferred  22 Multiplexer(s).
+Unit <pal_sync_generator_progressive> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 8
+ 16-bit adder                                          : 2
+ 2-bit adder                                           : 1
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 4
+# Registers                                            : 14
+ 1-bit register                                        : 3
+ 137-bit register                                      : 1
+ 16-bit register                                       : 2
+ 2-bit register                                        : 1
+ 8-bit register                                        : 3
+ 9-bit register                                        : 4
+# Comparators                                          : 2
+ 9-bit comparator greater                              : 2
+# Multiplexers                                         : 34
+ 1-bit 2-to-1 multiplexer                              : 18
+ 19-bit 2-to-1 multiplexer                             : 2
+ 19-bit 8-to-1 multiplexer                             : 1
+ 3-bit 2-to-1 multiplexer                              : 9
+ 32-bit 2-to-1 multiplexer                             : 1
+ 8-bit 2-to-1 multiplexer                              : 3
+# Tristates                                            : 24
+ 1-bit tristate buffer                                 : 24
+# FSMs                                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+Synthesizing (advanced) Unit <pal_sync_generator_progressive>.
+The following registers are absorbed into counter <hc>: 1 register on signal <hc>.
+The following registers are absorbed into counter <rhcnt>: 1 register on signal <rhcnt>.
+The following registers are absorbed into counter <rvcnt>: 1 register on signal <rvcnt>.
+The following registers are absorbed into counter <vc>: 1 register on signal <vc>.
+The following registers are absorbed into counter <wss_cnt>: 1 register on signal <wss_cnt>.
+Unit <pal_sync_generator_progressive> synthesized (advanced).
+
+Synthesizing (advanced) Unit <tld_zxuno>.
+The following registers are absorbed into counter <divs>: 1 register on signal <divs>.
+Unit <tld_zxuno> synthesized (advanced).
+
+Synthesizing (advanced) Unit <zxuno>.
+The following registers are absorbed into counter <vramaddr>: 1 register on signal <vramaddr>.
+The following registers are absorbed into counter <pokeaddr>: 1 register on signal <pokeaddr>.
+Unit <zxuno> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Counters                                             : 8
+ 16-bit up counter                                     : 2
+ 2-bit up counter                                      : 1
+ 8-bit down counter                                    : 1
+ 9-bit up counter                                      : 4
+# Registers                                            : 156
+ Flip-Flops                                            : 156
+# Comparators                                          : 2
+ 9-bit comparator greater                              : 2
+# Multiplexers                                         : 33
+ 1-bit 2-to-1 multiplexer                              : 18
+ 19-bit 2-to-1 multiplexer                             : 2
+ 19-bit 8-to-1 multiplexer                             : 1
+ 3-bit 2-to-1 multiplexer                              : 9
+ 32-bit 2-to-1 multiplexer                             : 1
+ 8-bit 2-to-1 multiplexer                              : 2
+# FSMs                                                 : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <la_maquina/dos_memorias/FSM_0> on signal <state[1:3]> with gray encoding.
+-------------------
+ State | Encoding
+-------------------
+ 001   | 000
+ 010   | 001
+ 100   | 011
+ 110   | 010
+ 101   | 110
+-------------------
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_7> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_6> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_5> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_4> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_3> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_2> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_1> of sequential type is unconnected in block <tld_zxuno>.
+WARNING:Xst:2677 - Node <la_maquina/dos_memorias/doutput2_0> of sequential type is unconnected in block <tld_zxuno>.
+
+Optimizing unit <tld_zxuno> ...
+
+Optimizing unit <pal_sync_generator_progressive> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block tld_zxuno, actual ratio is 6.
+
+Final Macro Processing ...
+
+Processing Unit <tld_zxuno> :
+	Found 137-bit shift register for signal <la_maquina/syncs/wss_data_136>.
+Unit <tld_zxuno> processed.
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 92
+ Flip-Flops                                            : 92
+# Shift Registers                                      : 1
+ 137-bit shift register                                : 1
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : tld_zxuno.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 362
+#      GND                         : 1
+#      INV                         : 8
+#      LUT1                        : 62
+#      LUT2                        : 14
+#      LUT3                        : 17
+#      LUT4                        : 25
+#      LUT5                        : 28
+#      LUT6                        : 61
+#      MUXCY                       : 69
+#      VCC                         : 1
+#      XORCY                       : 76
+# FlipFlops/Latches                : 93
+#      FD                          : 20
+#      FDE                         : 38
+#      FDR                         : 15
+#      FDRE                        : 20
+# Shift Registers                  : 5
+#      SRLC32E                     : 5
+# Clock Buffers                    : 4
+#      BUFG                        : 4
+# IO Buffers                       : 40
+#      IBUFG                       : 1
+#      IOBUF                       : 8
+#      OBUF                        : 31
+# DCMs                             : 1
+#      DCM_SP                      : 1
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx9tqg144-3 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:              85  out of  11440     0%  
+ Number of Slice LUTs:                  220  out of   5720     3%  
+    Number used as Logic:               215  out of   5720     3%  
+    Number used as Memory:                5  out of   1440     0%  
+       Number used as SRL:                5
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:    221
+   Number with an unused Flip Flop:     136  out of    221    61%  
+   Number with an unused LUT:             1  out of    221     0%  
+   Number of fully used LUT-FF pairs:    84  out of    221    38%  
+   Number of unique control sets:        11
+
+IO Utilization: 
+ Number of IOs:                          40
+ Number of bonded IOBs:                  40  out of    102    39%  
+    IOB Flip Flops/Latches:               8
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                4  out of     16    25%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk50mhz                           | DCM_SP:CLKFX           | 13    |
+divs_1                             | BUFG                   | 70    |
+clk50mhz                           | DCM_SP:CLKDV           | 15    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -3
+
+   Minimum period: 5.413ns (Maximum Frequency: 184.757MHz)
+   Minimum input arrival time before clock: 1.903ns
+   Maximum output required time after clock: 7.953ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk50mhz'
+  Clock period: 1.743ns (frequency: 573.652MHz)
+  Total number of paths / destination ports: 437 / 38
+-------------------------------------------------------------------------
+Delay:               3.113ns (Levels of Logic = 1)
+  Source:            la_maquina/dos_memorias/state_FSM_FFd3 (FF)
+  Destination:       la_maquina/dos_memorias/doutput1_7 (FF)
+  Source Clock:      clk50mhz rising 0.6X
+  Destination Clock: clk50mhz rising 0.6X
+
+  Data Path: la_maquina/dos_memorias/state_FSM_FFd3 to la_maquina/dos_memorias/doutput1_7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q              28   0.447   1.339  la_maquina/dos_memorias/state_FSM_FFd3 (la_maquina/dos_memorias/state_FSM_FFd3)
+     LUT2:I0->O            8   0.203   0.802  la_maquina/dos_memorias/state_write_in_dout11 (la_maquina/dos_memorias/write_in_dout1)
+     FDE:CE                    0.322          la_maquina/dos_memorias/doutput1_0
+    ----------------------------------------
+    Total                      3.113ns (0.972ns logic, 2.141ns route)
+                                       (31.2% logic, 68.8% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'divs_1'
+  Clock period: 5.413ns (frequency: 184.757MHz)
+  Total number of paths / destination ports: 1818 / 145
+-------------------------------------------------------------------------
+Delay:               5.413ns (Levels of Logic = 5)
+  Source:            la_maquina/syncs/vc_4 (FF)
+  Destination:       la_maquina/syncs/in_visible_region (FF)
+  Source Clock:      divs_1 rising
+  Destination Clock: divs_1 rising
+
+  Data Path: la_maquina/syncs/vc_4 to la_maquina/syncs/in_visible_region
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               7   0.447   0.878  la_maquina/syncs/vc_4 (la_maquina/syncs/vc_4)
+     LUT2:I0->O            6   0.203   0.745  la_maquina/syncs/GND_32_o_GND_32_o_AND_7_o2_SW0 (N4)
+     LUT6:I5->O            5   0.205   0.819  la_maquina/syncs/GND_32_o_GND_32_o_AND_7_o2 (la_maquina/syncs/GND_32_o_GND_32_o_AND_7_o2)
+     LUT6:I4->O            2   0.203   0.721  la_maquina/syncs/_n0398_inv22 (la_maquina/syncs/_n0398_inv22)
+     LUT6:I4->O            1   0.203   0.684  la_maquina/syncs/_n0398_inv (la_maquina/syncs/_n0398_inv)
+     LUT5:I3->O            1   0.203   0.000  la_maquina/syncs/in_visible_region_glue_rst (la_maquina/syncs/in_visible_region_glue_rst)
+     FD:D                      0.102          la_maquina/syncs/in_visible_region
+    ----------------------------------------
+    Total                      5.413ns (1.566ns logic, 3.846ns route)
+                                       (28.9% logic, 71.1% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk50mhz'
+  Total number of paths / destination ports: 8 / 8
+-------------------------------------------------------------------------
+Offset:              1.903ns (Levels of Logic = 1)
+  Source:            sram_data<7> (PAD)
+  Destination:       la_maquina/dos_memorias/doutput1_7 (FF)
+  Destination Clock: clk50mhz rising 0.6X
+
+  Data Path: sram_data<7> to la_maquina/dos_memorias/doutput1_7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IOBUF:IO->O           1   1.222   0.579  sram_data_7_IOBUF (N24)
+     FDE:D                     0.102          la_maquina/dos_memorias/doutput1_7
+    ----------------------------------------
+    Total                      1.903ns (1.324ns logic, 0.579ns route)
+                                       (69.6% logic, 30.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'divs_1'
+  Total number of paths / destination ports: 629 / 35
+-------------------------------------------------------------------------
+Offset:              7.953ns (Levels of Logic = 4)
+  Source:            la_maquina/syncs/rvcnt_4 (FF)
+  Destination:       sram_data<7> (PAD)
+  Source Clock:      divs_1 rising
+
+  Data Path: la_maquina/syncs/rvcnt_4 to sram_data<7>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              9   0.447   1.194  la_maquina/syncs/rvcnt_4 (la_maquina/syncs/rvcnt_4)
+     LUT6:I0->O            2   0.203   0.864  la_maquina/pokea1 (la_maquina/pokea1)
+     LUT4:I0->O           25   0.203   1.440  la_maquina/pokea3 (la_maquina/pokea)
+     LUT4:I0->O            9   0.203   0.829  la_maquina/dos_memorias/enable_input_to_sram_inv1 (la_maquina/dos_memorias/enable_input_to_sram_inv)
+     OBUF:I->O                 2.571          sram_we_n_OBUF (sram_we_n)
+    ----------------------------------------
+    Total                      7.953ns (3.627ns logic, 4.326ns route)
+                                       (45.6% logic, 54.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk50mhz'
+  Total number of paths / destination ports: 123 / 34
+-------------------------------------------------------------------------
+Offset:              5.515ns (Levels of Logic = 2)
+  Source:            la_maquina/dos_memorias/state_FSM_FFd2 (FF)
+  Destination:       sram_data<7> (PAD)
+  Source Clock:      clk50mhz rising 0.6X
+
+  Data Path: la_maquina/dos_memorias/state_FSM_FFd2 to sram_data<7>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q              28   0.447   1.463  la_maquina/dos_memorias/state_FSM_FFd2 (la_maquina/dos_memorias/state_FSM_FFd2)
+     LUT4:I1->O            9   0.205   0.829  la_maquina/dos_memorias/enable_input_to_sram_inv1 (la_maquina/dos_memorias/enable_input_to_sram_inv)
+     OBUF:I->O                 2.571          sram_we_n_OBUF (sram_we_n)
+    ----------------------------------------
+    Total                      5.515ns (3.223ns logic, 2.292ns route)
+                                       (58.4% logic, 41.6% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock clk50mhz
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk50mhz       |    4.353|         |         |         |
+divs_1         |    3.889|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock divs_1
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+divs_1         |    5.413|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 7.00 secs
+Total CPU time to Xst completion: 7.01 secs
+ 
+--> 
+
+Total memory usage is 262212 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   16 (   0 filtered)
+Number of infos    :    6 (   0 filtered)
+

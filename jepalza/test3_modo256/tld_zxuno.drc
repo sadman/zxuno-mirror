@@ -1,0 +1,23 @@
+Release 14.3 Drc P.40xd (nt64)
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+Sat Nov 29 19:50:23 2014
+
+drc -z tld_zxuno.ncd tld_zxuno.pcf
+
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST>. 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> and DESKEW(5). 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> found no EXTERN driver in CLKFB path.
+ 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> found non-EXTERN block <BUFG> in
+CLKFB path. 
+Now executing Pdr_LogDcm_DeskewExtern::DoCheck for
+block<los_relojes_del_sistema/DCM_SP_INST> found NO extern 
+INFO:PhysDesignRules:1861 - To achieve optimal frequency synthesis performance
+   with the CLKFX and CLKFX180 outputs of the DCM comp
+   los_relojes_del_sistema/DCM_SP_INST, consult the device Data Sheet.
+DRC detected 0 errors and 0 warnings.
