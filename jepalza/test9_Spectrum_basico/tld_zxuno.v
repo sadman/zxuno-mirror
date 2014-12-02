@@ -22,7 +22,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module tld_zxuno (
-   output wire modopaltemporal, // temporal para forzar modo PAL
+   output wire modopal,  //  para forzar modo PAL
+	output wire modontsc, //  para forzar modo NTSC
 	
    input wire clk50mhz,
 
@@ -41,8 +42,10 @@ module tld_zxuno (
    output wire sram_we_n
    );
    
-	// temporal para activar forzado el modo PAL
-	assign modopaltemporal = 1'b1;
+	//  para activar forzado el modo PAL
+	assign modopal = 1'b1;
+	//  para activar forzado el modo NTSC
+	assign modontsc = 1'b0;
 
    wire wssclk,sysclk;
    relojes los_relojes_del_sistema (

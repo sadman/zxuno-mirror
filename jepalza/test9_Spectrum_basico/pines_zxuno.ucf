@@ -6,7 +6,8 @@ CONFIG PROHIBIT=P60;
 # reloj y prueba de LED
 NET "clk50mhz" LOC="P55" | IOSTANDARD = LVCMOS33;
 #NET "testled"  LOC="P10" | IOSTANDARD = LVCMOS33;
-NET "modopaltemporal" LOC="P66" | IOSTANDARD = LVCMOS33;
+NET "modopal"   LOC="P66" | IOSTANDARD = LVCMOS33;
+NET "modontsc"  LOC="P67" | IOSTANDARD = LVCMOS33;
 
 # Video output
 NET "r<0>"  LOC="P88" | IOSTANDARD = LVCMOS33;
