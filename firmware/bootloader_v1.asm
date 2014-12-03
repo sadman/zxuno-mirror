@@ -13,11 +13,11 @@
         ld      bc, zxuno_port + $100
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
         ld      sp, $c000-17
-        ld      a, $0a          ; byte mas significativo de direccion
+        ld      a, 2            ; byte mas significativo de direccion
         wreg    master_mapper, 8  ; paginamos la ROM en $c000
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        out     (c), a          ; envia direccion 0ac000, a=0a,h=c0,l=00
+        out     (c), a          ; envia direccion 02c000, a=02,h=c0,l=00
         ld      de, $e961       ; tras el out (c), h de bffc se ejecuta
         push    de              ; un jp (hl) hl=0 para iniciar la nueva ROM
         ld      d, (hl)         ; en $bffc para evitar que el cambio de ROM

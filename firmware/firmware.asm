@@ -2131,22 +2131,19 @@ ult55   ld      h, $3c
 ultr6   in      f, (c)
         jp      po, ultr6
         call    l3d03           ; salto a raudo
-ultr7   exx                     ; ya se ha acabado la ultracarga (raudo)
+ultr7   sbc     a, a
+        exx                     ; ya se ha acabado la ultracarga (raudo)
+        dec     de
         ld      b, e
-        ld      e, c
-        ld      c, d
-        sbc     a, a
         inc     b
-        dec     b
-        jr      z, ultr8
-        inc     c
+        inc     d
 ultr8   xor     (hl)
         inc     hl
         djnz    ultr8
-        dec     c
+        dec     d
         jp      nz, ultr8
         push    hl              ; ha ido bien
-        xor     e
+        xor     c
         pop     ix              ; ix debe apuntar al siguiente byte despues del bloque
         ret     nz              ; si no coincide el checksum salgo con carry desactivado
         scf
@@ -2156,7 +2153,7 @@ ldedg2  call    ldedg1          ; call routine ld-edge-1 below.
 ldedg1  ld      a, $16          ; a delay value of twenty two.
 ldelay  dec     a               ; decrement counter
         jr      nz, ldelay      ; loop back to ld-delay 22 times.
-        and     a               ; clear carry.
+;        and     a               ; clear carry.
 lsampl  inc     b               ; increment the time-out counter.
         ret     z               ; return with failure when $ff passed.
         ld      a, $7f          ; prepare to read keyboard and ear port
