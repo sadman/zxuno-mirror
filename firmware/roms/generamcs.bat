@@ -28,13 +28,9 @@ srec_cat  tld_zxuno.mcs   -Intel                    ^
           -o prom.mcs     -Intel                    ^
           -line-length=44                           ^
           -line-termination=nl
-srec_cat  tld_zxuno.mcs     -Intel  ^
+srec_cat  prom.mcs     -Intel       ^
           -o tld_zxuno.bin  -binary
-copy /b tld_zxuno.bin+    ^
-        ESXMMC.BIN+       ^
-        aa000.bin+        ^
-        ..\firmware.rom   ^
-    machine.bin
+..\fcut tld_zxuno.bin 54000 5c000 machine.bin
 GenRom 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
 GenRom 0 0 0 0 'Machine' machine.bin  machine.tap
 CgLeches firmware.tap firmware.wav
