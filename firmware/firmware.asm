@@ -392,7 +392,7 @@ main3   call_prnstr
         cp      3
         ld      h, divmap >> 8
         jr      c, main5
-        add     a, $1e
+        add     a, active-2&$ff
         ld      l, a
         cp      keyiss&$ff
         jr      z, main4
@@ -406,7 +406,7 @@ main4   call    popupw
         defw    cad31
         defw    $ffff
         ret
-main5   ld      l, $25
+main5   ld      l, keyiss&$ff
         call    popupw
         defw    cad23
         defw    $ffff
