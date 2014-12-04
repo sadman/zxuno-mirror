@@ -1,9 +1,9 @@
 cd ..
 call  make.bat
 cd roms
-..\sjasmplus 2b500.asm
+..\sjasmplus aa000.asm
 copy /b ESXMMC.BIN+                   ^
-        2b500.bin+                    ^
+        aa000.bin+                    ^
         ..\firmware.rom+              ^
         leches.rom+                   ^
         mmces3eE.rom+                 ^
@@ -20,10 +20,11 @@ copy /b ESXMMC.BIN+                   ^
         Planetoids.rom+               ^
         SpaceRaiders.rom+             ^
         MiscoJones.rom                ^
-    roms_29500.bin
-call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\test14\tld_zxuno.bit
+    roms_a8000.bin
+call promgen  -w -spi -p mcs -o tld_zxuno.mcs       ^
+              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test14\tld_zxuno.bit
 srec_cat  tld_zxuno.mcs   -Intel                    ^
-          roms_29500.bin  -binary -offset 0x29500   ^
+          roms_a8000.bin  -binary -offset 0xa8000   ^
           -o prom.mcs     -Intel                    ^
           -line-length=44                           ^
           -line-termination=nl
@@ -31,7 +32,7 @@ srec_cat  tld_zxuno.mcs     -Intel  ^
           -o tld_zxuno.bin  -binary
 copy /b tld_zxuno.bin+    ^
         ESXMMC.BIN+       ^
-        2b500.bin+        ^
+        aa000.bin+        ^
         ..\firmware.rom   ^
     machine.bin
 GenRom 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap

@@ -26,14 +26,14 @@
                       ; otro     lo: pagina actual    hi: mascara paginas
         define  empstr  $8fd4
         define  config  $9000
-        define  indexe  $9500
-        define  active  $9520
-        define  quietb  $9521
-        define  checkc  $9522
-        define  divmap  $9523
-        define  nmidiv  $9524
-        define  keyiss  $9525
-        define  tmpbuf  $a000
+        define  indexe  $a000
+        define  active  $a040
+        define  quietb  $a041
+        define  checkc  $a042
+        define  divmap  $a043
+        define  nmidiv  $a044
+        define  keyiss  $a045
+        define  tmpbuf  $a100
         define  stack   $ab00
         define  alto    $ae00-crctab+
 
@@ -989,7 +989,7 @@ upgra5  cp      $31
         ld      hl, $c000
         ld      bc, zxuno_port+$100
         exx
-        ld      de, $02c0
+        ld      de, $0ac0
         call    wrflsh
         call    romcyb
         ld      ix, cad62
@@ -1121,7 +1121,6 @@ boot3   ld      l, (iy)
         add     hl, hl
         ld      h, 9
         add     hl, hl
-        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -1877,17 +1876,17 @@ prnmul  call_prnstr
         ret
 
 ; ------------------------
-; Save flash structures from $9500 to $2b500 and from $9800 to $2b800
+; Save flash structures from $9000 to $aa000 and from $a000 to $ab000
 ; ------------------------
       IF  debug
 wrflsh
 savech  ret
       ELSE
 savech  ld      bc, zxuno_port+$100
-        ld      a, $10
+        ld      a, $20
         ld      hl, config
         exx
-        ld      de, $02b0
+        ld      de, $0aa0
 
 ; ------------------------
 ; Write to SPI flash
@@ -1961,13 +1960,13 @@ waits6  in      a, (c)
       ENDIF
 
 ; ------------------------
-; Load flash structures from $29000 to $9000
+; Load flash structures from $aa000 to $9000
 ; ------------------------
 loadch  ld      bc, zxuno_port+$100
         wreg    flash_cs, 1
         ld      de, config
-        ld      hl, $02b0
-        ld      a, $10
+        ld      hl, $0aa0
+        ld      a, $11
         jp      alto rdflsh
 
 ; -----------------------------------------------------------------------------
@@ -2206,34 +2205,16 @@ rdflsh  ld      a, h
         ld      a, l
         cp      $b0
         ret     nz
-        ld      bc, l02b8-l02b5
-        ld      hl, l02b5
-        ld      d, $95
+        ld      bc, l0ab0-l0aa0
+        ld      hl, l0aa0
+        ld      d, $90
         ldir
-        ld      de, $9800
-        ld      bc, l0300-l02b8
+        ld      de, $a000
+        ld      c, $50;l0ac0-l0ab0
         ldir
         ret
-;  00-1f: index to entries
-;  20: active entry
-;  21: fast boot    0: Disable, 1: Enable
-;  22: Check CRC    0: Disable, 1: Enable
-;  23: DivMMC       0: Disable, 1: Enable
-;  24: NMI-DivMMC   0: Disable, 1: Enable
-;  25: Issue        0: Issue 2, 1: Issue 3
-l02b5   defb    $02, $01, $00, $03, $02, $01, $00, $03
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $03             ; active
-        defb    $00             ; quiet
-        defb    $01             ; checkcrc
-        defb    $00             ; DivMMC
-        defb    $01             ; NMI-DivMMC
-        defb    $01             ; Issue
-        defb    0   ; para que not implemented sea 0
 
-; 32 entradas
+; 64 entradas
 ;    00: slot offset
 ;    01: slot size
 ;    02: RAM offset     
@@ -2243,7 +2224,7 @@ l02b5   defb    $02, $01, $00, $03, $02, $01, $00, $03
 ;    ...
 ;    10-1f: CRCs
 ;    20-3f: Name
-l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
+l0aa0   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -2263,7 +2244,31 @@ l02b8   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 48K                 '
-l0300
+
+;  00-3f: index to entries
+;  40: active entry
+;  41: fast boot    0: Disable, 1: Enable
+;  42: Check CRC    0: Disable, 1: Enable
+;  43: DivMMC       0: Disable, 1: Enable
+;  44: NMI-DivMMC   0: Disable, 1: Enable
+;  45: Issue        0: Issue 2, 1: Issue 3
+l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $03             ; active
+        defb    $00             ; quiet
+        defb    $01             ; checkcrc
+        defb    $00             ; DivMMC
+        defb    $01             ; NMI-DivMMC
+        defb    $01             ; Issue
+        defb    0   ; para que not implemented sea 0
+
+l0ac0
       ELSE
 
 ;++++++++++++++++++++++++++++++++++
@@ -2284,7 +2289,7 @@ conti1  rr      (hl)
         and     $02
         jr      z, conti3
         wreg    master_mapper, 12
-        ld      hl, $0295
+        ld      hl, $0a80
         ld      de, $c000
         ld      a, $20
         call    alto rdflsh
