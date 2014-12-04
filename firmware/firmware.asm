@@ -495,7 +495,6 @@ roms1   ld      l, (iy)
         add     hl, hl
         ld      h, 9
         add     hl, hl
-        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -653,7 +652,6 @@ romsu   cp      (hl)
         ld      l, a
         ld      h, 9
         add     hl, hl
-        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -795,7 +793,6 @@ roms1f  djnz    roms23
         ld      l, a
         ld      h, 9
         add     hl, hl
-        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -2315,7 +2312,6 @@ conti3  ld      hl, active
         add     hl, hl
         ld      h, 9
         add     hl, hl
-        inc     h
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -2329,7 +2325,7 @@ conti4  ld      a, (ix+1)
         rlca
         rlca
         ld      l, a
-        ld      h, 0
+        ld      h, 1
         add     hl, hl
         add     hl, hl
         add     hl, hl
