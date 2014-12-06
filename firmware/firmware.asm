@@ -2197,10 +2197,10 @@ conti   ld      a, 2
         halt
 
 rdflsh  ld      a, h
-        cp      $02
+        cp      $0a
         ret     nz
         ld      a, l
-        cp      $b0
+        cp      $a0
         ret     nz
         ld      bc, l0ab0-l0aa0
         ld      hl, l0aa0
