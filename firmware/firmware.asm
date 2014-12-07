@@ -1,5 +1,5 @@
         output  firmware_strings.rom
-        define  debug   0
+        define  debug   1
 
       macro wreg  dir, dato
         rst     $30
@@ -272,6 +272,15 @@ bios2   ld      ix, cad8
         ld      ix, cad9
         call_prnstr             ; borde inferior
         call_prnstr             ; info
+        ld      hl, %0111111001111110
+        ld      ($55fc), hl
+        ld      ($55fe), hl
+        ld      ($56fc), hl
+        ld      ($56fe), hl
+        ld      hl, %0100111001001010
+        ld      ($5afc), hl
+        ld      hl, %0100110101001100
+        ld      ($5afe), hl
 bios3   ld      a, $07
         out     ($fe), a
         call    bios4
@@ -2978,7 +2987,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '     BIOS v0.220    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '   BIOS v0.220    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
