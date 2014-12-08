@@ -147,8 +147,10 @@ module zxuno (
   );
 
    reg [1:0] clkdiv = 2'b00;
-   wire clk14 = clkdiv[0];
-   wire clk7 = clkdiv[1];
+   wire clk14; // = clkdiv[0];
+   BUFG master_clk (.I(clkdiv[0]), .O(clk14));
+   wire clk7; // = clkdiv[1];
+   BUFG pixel_clk (.I(clkdiv[1]), .O(clk7));
    always @(posedge clk)
       clkdiv <= clkdiv + 1;
    
