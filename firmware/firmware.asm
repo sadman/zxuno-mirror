@@ -30,9 +30,12 @@
         define  active  $a040
         define  quietb  $a041
         define  checkc  $a042
-        define  divmap  $a043
-        define  nmidiv  $a044
-        define  keyiss  $a045
+        define  keyiss  $a043
+        define  timmin  $a044
+        define  conten  $a045
+        define  divmap  $a046
+        define  nmidiv  $a047
+        define  siemp0  $a048
         define  tmpbuf  $a100
         define  stack   $ab00
         define  alto    $ae00-crctab+
@@ -181,6 +184,7 @@ start2  ld      a, (hl)
         cpi
         jp      pe, start2
         jr      nc, start1
+        dec     e
         ld      a, (quietb)
         out     ($fe), a
         dec     a
@@ -212,7 +216,7 @@ start3  ld      a, b
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
-        call_prnstr             ; ZX-Uno BIOS v0.220
+        call_prnstr             ; ZX-Uno BIOS v0.221
         call_prnstr             ; Copyright
         ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
         call_prnstr             ; Processor
@@ -376,7 +380,34 @@ main2   call_prnstr
         dec     a
         jr      nz, main3
         ld      ixl, cad27 & $ff
-main3   call_prnstr
+main3   dec     a
+        jr      nz, mait4
+        ld      ixl, cadv8 & $ff
+mait4   call_prnstr
+        inc     iyl
+        ld      a, (iy)
+        ld      ixl, cadv9 & $ff
+        dec     a
+        jr      nz, mait5
+        ld      ixl, cadva & $ff
+mait5   dec     a
+        jr      nz, mait6
+        ld      ixl, cadv8 & $ff
+mait6   call_prnstr
+mait7   inc     iyl
+        ld      a, (iy)
+        ld      ixl, cad24 & $ff
+        dec     a
+        jr      nz, mait8
+        ld      ixl, cad25 & $ff
+mait8   dec     a
+        jr      nz, mait9
+        ld      ixl, cadv8 & $ff
+mait9   call_prnstr
+        ld      a, nmidiv&$ff
+        cp      iyl
+        jr      nz, mait7
+
         ld      de, $1201
         call    listas
         defb    $04
@@ -387,24 +418,29 @@ main3   call_prnstr
         defb    $0c
         defb    $0d
         defb    $0e
+        defb    $0f
+        defb    $10
         defb    $ff
         defw    cad14
         defw    cad15
         defw    cad16
         defw    cad17
         defw    cad56
+        defw    cad20
+        defw    cad64
+        defw    cad65
         defw    cad18
         defw    cad19
-        defw    cad20
         jr      c, main6
         ld      (menuop+1), a
         cp      3
-        ld      h, divmap >> 8
+        ld      h, active >> 8
         jr      c, main5
         add     a, active-2&$ff
         ld      l, a
-        cp      keyiss&$ff
+        sub     keyiss&$ff
         jr      z, main4
+        jr      nc, mait2
         call    popupw
         defw    cad28
         defw    cad29
@@ -413,9 +449,24 @@ main3   call_prnstr
 main4   call    popupw
         defw    cad30
         defw    cad31
+        defw    cadv2
         defw    $ffff
         ret
-main5   ld      l, keyiss&$ff
+mait2   dec     a
+        jr      nz, mait3
+        call    popupw
+        defw    cadv3
+        defw    cadv4
+        defw    cadv2
+        defw    $ffff
+        ret
+mait3   call    popupw
+        defw    cad28
+        defw    cad29
+        defw    cadv2
+        defw    $ffff
+        ret
+main5   ld      l, siemp0&$ff
         call    popupw
         defw    cad23
         defw    $ffff
@@ -2269,9 +2320,11 @@ l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $03             ; active
         defb    $00             ; quiet
         defb    $01             ; checkcrc
-        defb    $00             ; DivMMC
-        defb    $01             ; NMI-DivMMC
-        defb    $01             ; Issue
+        defb    $02             ; Issue
+        defb    $02             ; Timming
+        defb    $02             ; Contended
+        defb    $02             ; DivMMC
+        defb    $02             ; NMI-DivMMC
         defb    0   ; para que not implemented sea 0
 
 l0ac0
@@ -2281,26 +2334,68 @@ l0ac0
 ;++++++++    Start ROM     ++++++++
 ;++++++++++++++++++++++++++++++++++
 conti   di
-        ld      a, %00101000    ; leo 3 bits
-        ld      hl, keyiss
-conti1  rr      (hl)
-        adc     a, a
+        ld      hl, active
+        ld      l, (hl)
+        ld      l, (hl)
+        add     hl, hl
+        add     hl, hl
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        push    hl
+        pop     ix
+        xor     a
+        ld      hl, conten
+        rr      (hl)
+        jr      z, ccon1
+        bit     2, (ix+6)
+        jr      z, ccon1
+        ccf
+ccon1   adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
         dec     l
-        jr      nc, conti1
-        add     a, a
-        xor     %00001100       ; invierto I2KB y DISNMI
+        rr      (hl)
+        jr      z, ccon2
+        bit     3, (ix+6)
+        jr      z, ccon2
+        ccf
+ccon2   adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMMING
+        dec     l
+        rr      (hl)
+        jr      z, ccon3
+        bit     4, (ix+6)
+        jr      z, ccon3
+        ccf
+ccon3   adc     a, a            ; 0 0 0 0 0 /DISCONT TIMMING /I2KB
+        ld      l, nmidiv & $ff
+        rr      (hl)
+        jr      z, conti1
+        bit     0, (ix+6)
+        jr      z, conti1
+        ccf
+conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMMING /I2KB /DISNMI
+        dec     l
+        rr      (hl)
+        jr      z, conti2
+        bit     1, (ix+6)
+        jr      z, conti2
+        ccf
+conti2  adc     a, a            ; 0 0 0 /DISCONT TIMMING /I2KB /DISNMI DIVEN
+        add     a, a            ; 0    0 /DISCONT TIMMING /I2KB /DISNMI DIVEN 0
+        xor     %10101100       ; LOCK 0  DISCONT TIMMING  I2KB  DISNMI DIVEN 0
         ld      (alto conti9+1), a
         ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         and     $02
-        jr      z, conti3
+        jr      z, conti4
         wreg    master_mapper, 12
         ld      hl, $0a80
         ld      de, $c000
         ld      a, $20
         call    alto rdflsh
         ld      a, 16
-conti2  ld      de, $c000 | master_mapper
+conti3  ld      de, $c000 | master_mapper
         dec     b
         out     (c), e
         inc     b
@@ -2313,19 +2408,7 @@ conti2  ld      de, $c000 | master_mapper
         pop     bc
         inc     a
         cp      24
-        jr      nz, conti2
-conti3  ld      hl, active
-        ld      l, (hl)
-        ld      l, (hl)
-        add     hl, hl
-        add     hl, hl
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        push    hl
-        pop     ix
+        jr      nz, conti3
 conti4  ld      a, (ix+1)
         ld      iyl, a
         ld      a, (ix)
@@ -2952,7 +3035,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.220', 0
+        defm    'ZX-Uno BIOS v0.221', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -2987,7 +3070,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.220    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '   BIOS v0.221    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -2999,9 +3082,11 @@ cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Quiet Boot', 0
         defb    'Check CRC', 0
+        defb    'Keyboard', 0
+        defb    'Timming', 0
+        defb    'Contended', 0
         defb    'DivMMC', 0
-        defb    'NMI-DivMMC', 0
-        defb    'Keyboard', 0, 0
+        defb    'NMI-DivMMC', 0, 0
 cad11   defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
@@ -3053,14 +3138,20 @@ cad22   defb    $10, '               ', $10, 0
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $15, 0
 cad23   defb    'Not implem.', 0
-cad24   defb    '[Disabled]', 0
-cad25   defb    '[Enabled]', 0
-cad26   defb    '[Issue 2]', 0
-cad27   defb    '[Issue 3]', 0
 cad28   defb    'Disabled', 0
 cad29   defb    'Enabled', 0
 cad30   defb    'Issue 2', 0
 cad31   defb    'Issue 3', 0
+cadv2   defb    'Auto', 0
+cadv3   defb    '48K', 0
+cadv4   defb    '128K', 0
+cad24   defb    '[Disabled]', 0
+cad25   defb    '[Enabled]', 0
+cad26   defb    '[Issue 2]', 0
+cad27   defb    '[Issue 3]', 0
+cadv8   defb    '[Auto]', 0
+cadv9   defb    '[48K ]', 0
+cadva   defb    '[128K]', 0
 cad32   defb    'Move Up', 0
 cad33   defb    'Set Active', 0
 cad34   defb    'Move Down', 0
@@ -3162,6 +3253,13 @@ cad63   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
+cad64   defb    'Set timmings', 0
+        defb    '224T if 48K', 0
+        defb    '228T if 128K', 0, 0
+cad65   defb    'Memory usually', 0
+        defb    'contended.', 0
+        defb    'Disabled on', 0
+        defb    'Pentagon 128K', 0, 0
 
 fincad
 
