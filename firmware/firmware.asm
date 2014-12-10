@@ -1,5 +1,5 @@
         output  firmware_strings.rom
-        define  debug   0
+        define  debug   1
 
       macro wreg  dir, dato
         rst     $30
@@ -37,7 +37,7 @@
         define  nmidiv  $a047
         define  siemp0  $a048
         define  tmpbuf  $a100
-        define  stack   $ab00
+        define  stack   $aab0
         define  alto    $ae00-crctab+
 
         ld      sp, stack
@@ -216,7 +216,7 @@ start3  ld      a, b
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
-        call_prnstr             ; ZX-Uno BIOS v0.221
+        call_prnstr             ; ZX-Uno BIOS version
         call_prnstr             ; Copyright
         ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
         call_prnstr             ; Processor
@@ -364,7 +364,7 @@ main    inc     d
         ld      bc, $0202
         call    prnmul          ; Harward tests ...
         ld      iy, quietb
-        ld      bc, $0f0a
+        ld      bc, $0f0b
 main1   ld      a, (iy)
         ld      ix, cad24
         dec     a
@@ -407,22 +407,23 @@ mait9   call_prnstr
         ld      a, nmidiv&$ff
         cp      iyl
         jr      nz, mait7
-
         ld      de, $1201
         call    listas
         defb    $04
         defb    $05
         defb    $06
-        defb    $0a
+        defb    $07
         defb    $0b
         defb    $0c
         defb    $0d
         defb    $0e
         defb    $0f
         defb    $10
+        defb    $11
         defb    $ff
         defw    cad14
         defw    cad15
+        defw    cad66
         defw    cad16
         defw    cad17
         defw    cad56
@@ -433,10 +434,10 @@ mait9   call_prnstr
         defw    cad19
         jr      c, main6
         ld      (menuop+1), a
-        cp      3
+        cp      4
         ld      h, active >> 8
         jr      c, main5
-        add     a, active-2&$ff
+        add     a, active-3&$ff
         ld      l, a
         sub     keyiss&$ff
         jr      z, main4
@@ -466,7 +467,12 @@ mait3   call    popupw
         defw    cadv2
         defw    $ffff
         ret
-main5   ld      l, siemp0&$ff
+main5   and     a
+        jp      z, alto ramtst
+        dec     a
+        dec     a
+        jr      z, tape
+        ld      l, siemp0&$ff
         call    popupw
         defw    cad23
         defw    $ffff
@@ -489,6 +495,66 @@ main8   ld      a, iyl
         dec     a
         ld      (menuop+1), a
         ret
+
+tape    call    bomain
+        ld      bc, $0214
+        ld      ix, cad51
+        call_prnstr             ; Press any key to continue
+        ld      hl, $4881
+        ld      de, $00ee
+        ld      c, 8
+tape0   ld      b, 18
+tape1   ld      (hl), %00001111
+        inc     l
+        djnz    tape1
+        add     hl, de
+        dec     c
+        jr      nz, tape0
+        ld      hl, %0100100000001000
+        ld      ($5968), hl
+        ld      hl, %0000100001001000
+        ld      ($596a), hl
+tape2   ld      h, b
+        ld      l, b
+        ld      bc, $7ffe
+        ld      de, $1820
+tape3   in      a, (c)
+        jp      po, tape4
+        defb    $e2
+tape4   ld      a, d
+        inc     hl
+        xor     $10
+        out     (c), a
+        djnz    tape3
+        ld      a, (codcnt)
+        sub     $80
+        ret     nc
+        dec     e
+        jr      nz, tape3
+        ld      a, h
+        sub     7
+        jr      nc, tape5
+        xor     a
+tape5   cp      17
+        jr      z, tap55
+        jr      c, tape6
+        ld      a, 17
+tap55   srl     l
+tape6   add     a, $81
+        rl      l
+        ld      de, $5991
+        ld      hl, $5992
+        ld      c, $11
+        ld      (hl), %01000000
+        lddr
+        ld      l, a
+        ld      (hl), %01111111
+        jr      nc, tape2
+        ld      (hl), %01000111
+        inc     l
+        ld      (hl), %01111000
+        jr      tape2
+
 main9   call    waitky
 maina   ld      hl, (menuop)
         cp      $0c
@@ -746,8 +812,8 @@ roms11  dec     iyh
 roms12  call    romcyb
         ld      ix, cad50
 roms13  call_prnstr
-        ei
         call    romcyb
+toanyk  ei
         ld      ix, cad51
         call_prnstr
         jp      waitky
@@ -1038,7 +1104,7 @@ upgra5  cp      $31
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
-        call    check
+        call    alto check
         ld      hl, (tmpbuf+7)
         sbc     hl, de
         jp      nz, roms12
@@ -1218,7 +1284,6 @@ boot4   call    combol
         ld      a, b
         ld      (active), a
 boot5   jp      alto conti
-
 
 ; -------------------------------------
 ; Prits a blank line in the actual line
@@ -1932,6 +1997,18 @@ prnmul  call_prnstr
         inc     ix
         ret
 
+bomain  ld      ix, cad67
+        ld      bc, $0209
+        call_prnstr             ; Performing...
+        inc     c
+        ld      iyh, 7
+ramts1  ld      ixl, cad68&$ff
+        call_prnstr
+        dec     iyh
+        jr      nz, ramts1
+        ld      bc, zxuno_port+$100
+        ret
+
 ; ------------------------
 ; Save flash structures from $9000 to $aa000 and from $a000 to $ab000
 ; ------------------------
@@ -2346,42 +2423,38 @@ conti   di
         add     hl, hl
         push    hl
         pop     ix
+        ld      a, (ix+6)
+        push    af
+        rrca
+        rrca
+        ld      d, a
         xor     a
         ld      hl, conten
         rr      (hl)
         jr      z, ccon1
-        bit     2, (ix+6)
-        jr      z, ccon1
-        ccf
-ccon1   adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
+        rr      d
+        adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
         dec     l
         rr      (hl)
         jr      z, ccon2
-        bit     3, (ix+6)
-        jr      z, ccon2
-        ccf
-ccon2   adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMMING
+        rr      d
+        adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMMING
         dec     l
         rr      (hl)
         jr      z, ccon3
-        bit     4, (ix+6)
-        jr      z, ccon3
-        ccf
-ccon3   adc     a, a            ; 0 0 0 0 0 /DISCONT TIMMING /I2KB
+        rr      d
+        adc     a, a            ; 0 0 0 0 0 /DISCONT TIMMING /I2KB
         ld      l, nmidiv & $ff
         rr      (hl)
         jr      z, conti1
-        bit     0, (ix+6)
-        jr      z, conti1
-        ccf
-conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMMING /I2KB /DISNMI
+        pop     de
+        rr      d
+        adc     a, a            ; 0 0 0 0 /DISCONT TIMMING /I2KB /DISNMI
         dec     l
         rr      (hl)
         jr      z, conti2
-        bit     1, (ix+6)
-        jr      z, conti2
-        ccf
-conti2  adc     a, a            ; 0 0 0 /DISCONT TIMMING /I2KB /DISNMI DIVEN
+        rr      d
+        adc     a, a            ; 0 0 0 /DISCONT TIMMING /I2KB /DISNMI DIVEN
         add     a, a            ; 0    0 /DISCONT TIMMING /I2KB /DISNMI DIVEN 0
         xor     %10101100       ; LOCK 0  DISCONT TIMMING  I2KB  DISNMI DIVEN 0
         ld      (alto conti9+1), a
@@ -2543,30 +2616,6 @@ saveme  ld      bc, zxuno_port+$100
         ret
 
 ; ------------------------
-; Print Hexadecimal number
-; Parameters:
-;   DE: destination address
-;   HL: 4 digit number
-; ------------------------
-wtohex  ld      b, 4
-wtohe1  ld      a, $3
-        add     hl, hl
-        adc     a, a
-        add     hl, hl
-        adc     a, a
-        add     hl, hl
-        adc     a, a
-        add     hl, hl
-        adc     a, a
-        cp      $3a
-        jr      c, wtohe2
-        add     a, 7
-wtohe2  ld      (de), a
-        inc     e
-        djnz    wtohe1
-        ret
-
-; ------------------------
 ; Read from SPI flash
 ; Parameters:
 ;   DE: destination address
@@ -2612,6 +2661,92 @@ rdfls2  ini
         ret
       ENDIF
 
+; ------------------------
+; Print Hexadecimal number
+; Parameters:
+;   DE: destination address
+;   HL: 4 digit number
+; ------------------------
+wtohex  ld      b, 4
+wtohe1  ld      a, $3
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        add     hl, hl
+        adc     a, a
+        cp      $3a
+        jr      c, wtohe2
+        add     a, 7
+wtohe2  ld      (de), a
+        inc     e
+        djnz    wtohe1
+        ret
+
+; ---------------
+; RAM Memory test
+; ---------------
+ramtst  di
+        call    bomain
+        wreg    master_conf, 1
+        ld      bc, $040b
+ramts2  dec     b
+        dec     b
+ramts3  ld      de, cad71
+        push    bc
+        ld      bc, zxuno_port
+        ld      a, master_mapper
+        out     (c), a
+        inc     b
+        push    iy
+        pop     hl
+        out     (c), h
+        ld      b, 2
+        call    alto wtohe1
+        pop     bc
+        ld      ixl, cad71&$ff
+        call    alto prnstr-1
+        dec     c
+        inc     b
+        inc     b
+        ld      ixl, cad69&$ff
+        ld      hl, $c000
+ramts4  ld      a, (hl)
+        xor     l
+        ld      (hl), a
+        ld      e, a
+        ld      a, (hl)
+        xor     l
+        ld      (hl), a
+        xor     l
+        xor     e
+        jr      z, ramts5
+        ld      ixl, cad70&$ff
+ramts5  inc     hl
+        bit     4, h
+        jr      z, ramts4
+        call    alto prnstr-1
+        inc     iyh
+        ld      a, iyh
+        and     $07
+        jr      nz, ramts2
+        ld      c, $0b
+        ld      a, b
+        add     a, 4
+        ld      b, a
+        ld      a, iyh
+        cp      32
+        jr      nz, ramts3
+        ld      bc, zxuno_port+$100
+        wreg    master_conf, 0
+        ld      bc, $0214
+        jp      toanyk
+
+; ---------
+; CRC check
+; ---------
 check   ld      c, alto crctab>>8
         ld      hl, $bfff       ;4c2b > d432
         defb    $11
@@ -3035,7 +3170,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.221', 0
+        defm    'ZX-Uno BIOS v0.222', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3070,12 +3205,13 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.221    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '   BIOS v0.222    ', $7f, '2014 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
         defb    $1b, ' Memory test', 0
         defb    $1b, ' Sound test', 0
+        defb    $1b, ' Tape test', 0
         defb    $1b, ' Video test', 0
         defb    ' ', 0
         defb    'Options', 0
@@ -3260,7 +3396,13 @@ cad65   defb    'Memory usually', 0
         defb    'contended.', 0
         defb    'Disabled on', 0
         defb    'Pentagon 128K', 0, 0
-
+cad66   defb    'Performs a', 0
+        defb    'tape test', 0, 0
+cad67   defb    'Performing...', 0
+cad68   defb    '                       ', 0
+cad69   defb    ' OK', 0
+cad70   defb    ' Er', 0
+cad71   defb    '00', 0
 fincad
 
 ; todo
