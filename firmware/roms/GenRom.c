@@ -83,22 +83,22 @@ int main(int argc, char *argv[]) {
     "  <output_file>  Output TAP file\n\n"
     "All params are mandatory\n\n"),
     exit(0);
-  if( argc!=8 )
+  if( argc!=9 )
     printf("\nInvalid number of parameters\n"),
     exit(-1);
-  fi= fopen(argv[6], "rb");
+  fi= fopen(argv[7], "rb");
   if( !fi )
-    printf("\nInput file not found: %s\n", argv[6]),
+    printf("\nInput file not found: %s\n", argv[7]),
     exit(-1);
   fseek(fi, 0, SEEK_END);
   i= ftell(fi);
   fseek(fi, 0, SEEK_SET);
   if( i&0x3fff )
-    printf("\nInput file size must be multiple of 16384: %s\n", argv[6]),
+    printf("\nInput file size must be multiple of 16384: %s\n", argv[7]),
     exit(-1);
-  fo= fopen(argv[7], "wb+");
+  fo= fopen(argv[8], "wb+");
   if( !fo )
-    printf("\nCannot create output file: %s\n", argv[7]),
+    printf("\nCannot create output file: %s\n", argv[8]),
     exit(-1);
   fwrite(mem, 1, 0x43, fo);
   j= i>>14;
@@ -122,11 +122,20 @@ int main(int argc, char *argv[]) {
   }
   fseek(fo, 0, SEEK_SET);
   mem[0x4007]= j;
-  mem[0x4008]= atoi(argv[1]);
-  mem[0x4009]= atoi(argv[2]);
-  mem[0x400a]= atoi(argv[3]);
-  mem[0x400b]= atoi(argv[4]);
-  parseHex(argv[5]);
+  mem[0x4008]= atoi(argv[2]);
+  mem[0x4009]= atoi(argv[3]);
+  mem[0x400a]= atoi(argv[4]);
+  mem[0x400b]= atoi(argv[5]);
+  mem[0x400c]= 0b00010100;
+  for ( i= 0; i<strlen(argv[1]); i++ )
+    switch( argv[1][i] ){
+      case 'i': mem[0x400c]^= 0b00010000; break;
+      case 't': mem[0x400c]^= 0b00001000; break;
+      case 'c': mem[0x400c]^= 0b00000100; break;
+      case 'd': mem[0x400c]^= 0b00000010; break;
+      case 'n': mem[0x400c]^= 0b00000001;
+    }
+  parseHex(argv[6]);
   for ( checksum= 0xff, k= 0x4007; k<0x4046; ++k )
     checksum^= mem[k];
   mem[0x4046]= checksum;

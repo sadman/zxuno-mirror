@@ -1,5 +1,5 @@
         output  firmware_strings.rom
-        define  debug   1
+        define  debug   0
 
       macro wreg  dir, dato
         rst     $30
@@ -2423,38 +2423,43 @@ conti   di
         add     hl, hl
         push    hl
         pop     ix
-        ld      a, (ix+6)
-        push    af
-        rrca
-        rrca
-        ld      d, a
+        ld      d, (ix+6)
         xor     a
         ld      hl, conten
         rr      (hl)
         jr      z, ccon1
-        rr      d
-        adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
+        bit     2, d
+        jr      z, ccon1
+        ccf
+ccon1   adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
         dec     l
         rr      (hl)
         jr      z, ccon2
-        rr      d
-        adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMMING
+        bit     3, d
+        jr      z, ccon2
+        ccf
+ccon2   adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMMING
         dec     l
         rr      (hl)
         jr      z, ccon3
-        rr      d
-        adc     a, a            ; 0 0 0 0 0 /DISCONT TIMMING /I2KB
+        bit     4, d
+        jr      z, ccon3
+        ccf
+ccon3   adc     a, a            ; 0 0 0 0 0 /DISCONT TIMMING /I2KB
         ld      l, nmidiv & $ff
         rr      (hl)
         jr      z, conti1
-        pop     de
-        rr      d
-        adc     a, a            ; 0 0 0 0 /DISCONT TIMMING /I2KB /DISNMI
+        bit     0, d
+        jr      z, conti1
+        ccf
+conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMMING /I2KB /DISNMI
         dec     l
         rr      (hl)
         jr      z, conti2
-        rr      d
-        adc     a, a            ; 0 0 0 /DISCONT TIMMING /I2KB /DISNMI DIVEN
+        bit     1, d
+        jr      z, conti2
+        ccf
+conti2  adc     a, a            ; 0 0 0 /DISCONT TIMMING /I2KB /DISNMI DIVEN
         add     a, a            ; 0    0 /DISCONT TIMMING /I2KB /DISNMI DIVEN 0
         xor     %10101100       ; LOCK 0  DISCONT TIMMING  I2KB  DISNMI DIVEN 0
         ld      (alto conti9+1), a

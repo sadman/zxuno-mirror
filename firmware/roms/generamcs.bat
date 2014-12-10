@@ -35,10 +35,10 @@ srec_cat  tld_zxuno_av.mcs   -Intel                 ^
           -o prom_av.mcs     -Intel                 ^
           -line-length=44                           ^
           -line-termination=nl
-rem srec_cat  prom.mcs     -Intel       ^
-rem           -o tld_zxuno.bin  -binary
-rem ..\fcut tld_zxuno.bin 54000 5c000 machine.bin
-rem GenRom 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
-rem GenRom 0 0 0 0 'Machine' machine.bin  machine.tap
-rem CgLeches firmware.tap firmware.wav
-rem CgLeches machine.tap  machine.wav
+srec_cat  prom_av.mcs     -Intel     ^
+          -o tld_zxuno.bin  -binary
+..\fcut tld_zxuno.bin 54000 5c000 machine.bin
+GenRom 0 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
+GenRom 0 0 0 0 0 'Machine' machine.bin  machine.tap
+CgLeches firmware.tap firmware.wav
+CgLeches machine.tap  machine.wav
