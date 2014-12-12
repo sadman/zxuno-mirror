@@ -24,7 +24,7 @@ copy /b ESXMMC.BIN+                   ^
 call promgen  -w -spi -p mcs -o tld_zxuno_es.mcs       ^
               -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test14\tld_zxuno_es.bit
 call promgen  -w -spi -p mcs -o tld_zxuno_av.mcs          ^
-              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test14\tld_zxuno.bit
+              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test15\tld_zxuno.bit
 srec_cat  tld_zxuno_es.mcs   -Intel                 ^
           roms_a8000.bin  -binary -offset 0xa8000   ^
           -o prom_es.mcs     -Intel                 ^
