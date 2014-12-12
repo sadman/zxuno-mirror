@@ -1,8 +1,0 @@
-INTSTYLE=ise
-INFILE=C:\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\tld_zxuno.ncd
-OUTFILE=C:\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\tld_zxuno.bit
-FAMILY=Spartan6
-PART=xc6slx9-3tqg144
-WORKINGDIR=C:\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15
-LICENSE=WebPack
-USER_INFO=0_0_036

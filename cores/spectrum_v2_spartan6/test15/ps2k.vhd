@@ -300,6 +300,8 @@ begin
                   when KEY_F5       => if isctrl='1' and isalt='1' then
                                          nmi <= '0';  -- NMI
                                        end if;
+                  when KEY_F10      => keys(0)(0) <= pressed;
+                                       keys(4)(1) <= pressed; -- Modo gráfico, para pulsar F10 en la BIOS
                   when KEY_KPPUNTO  => if isctrl='1' and isalt='1' then
                                          rst <= '0'; -- reset al hacer ctrl-alt-supr
                                        end if;

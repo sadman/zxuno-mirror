@@ -478,12 +478,20 @@ module ula_radas (
       end
    end
 
+	reg post_processed_ear;  // EAR signal after being altered by the keyboard current issue
+	always @* begin
+		if (issue2_keyboard)
+			post_processed_ear = ear ^ (spk | mic);
+		else
+			post_processed_ear = ear ^ spk;
+    end
+
    // Z80 gets values from registers (or floating bus)
    always @* begin
       dout = 8'hFF;
       if (iorq_n==1'b0 && rd_n==1'b0) begin
          if (a[0]==1'b0)
-            dout = {1'b1,issue2_keyboard^ear,1'b1,kbd};
+            dout = {1'b1,post_processed_ear,1'b1,kbd};
          else if (a==ULAPLUSADDR)
             dout = {1'b0,PaletteReg};
          else if (a==ULAPLUSDATA && PaletteReg[6]==1'b0)
@@ -586,6 +594,6 @@ module ula_radas (
             CancelContention <= 1'b0;
     end
     
-    assign cpuclk = (~(MayContend_n | CauseContention_n | CancelContention)) | hc[0];
+    assign cpuclk = (~(MayContend_n | CauseContention_n | CancelContention)) | ~hc[0];
 
 endmodule

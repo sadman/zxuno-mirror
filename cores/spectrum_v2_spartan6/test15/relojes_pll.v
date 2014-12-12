@@ -1,3 +1,4 @@
+// file: pll.v
 // 
 // (c) Copyright 2008 - 2010 Xilinx, Inc. All rights reserved.
 // 
@@ -54,27 +55,83 @@
 // Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 // Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// CLK_OUT1    28.000      0.000       N/A      342.857        N/A
+// CLK_OUT1    28.218      0.000       N/A      341.754        N/A
 //
 //----------------------------------------------------------------------------
 // Input Clock   Input Freq (MHz)   Input Jitter (UI)
 //----------------------------------------------------------------------------
 // primary              50            0.010
 
-// The following must be inserted into your Verilog file for this
-// core to be instantiated. Change the instance name and port connections
-// (in parentheses) to your own signal names.
+`timescale 1ps/1ps
 
-//----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
+(* CORE_GENERATION_INFO = "pll,clk_wiz_v1_8,{component_name=pll,use_phase_alignment=false,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=true,feedback_source=FDBK_AUTO,primtype_sel=DCM_CLKGEN,num_out_clk=1,clkin1_period=20.000,clkin2_period=20.000,use_power_down=false,use_reset=false,use_locked=false,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=AUTO,manual_override=true}" *)
+module pll
+ (// Clock in ports
+  input wire        CLK_IN1,
+  // Clock out ports
+  output wire       CLK_OUT1,
+  // Dynamic reconfiguration ports
+  input wire        PROGCLK,
+  input wire        PROGDATA,
+  input wire        PROGEN,
+  output wire       PROGDONE
+ );
 
-  pll instance_name
-   (// Clock in ports
-    .CLK_IN1            (CLK_IN1),      // IN
-    // Clock out ports
-    .CLK_OUT1           (CLK_OUT1),     // OUT
-    // Dynamic reconfiguration ports
-    .PROGCLK            (PROGCLK),      // IN
-    .PROGDATA           (PROGDATA),     // IN
-    .PROGEN             (PROGEN),       // IN
-    .PROGDONE           (PROGDONE));    // OUT
-// INST_TAG_END ------ End INSTANTIATION Template ---------
+  // Input buffering
+  //------------------------------------
+  wire clkin1;
+  IBUFG clkin1_buf
+   (.O (clkin1),
+    .I (CLK_IN1));
+
+
+  // Clocking primitive
+  //------------------------------------
+  // Instantiation of the DCM primitive
+  //    * Unused inputs are tied off
+  //    * Unused outputs are labeled unused
+  wire        locked_int;
+  wire [2:1]  status_int;
+  wire        clkfx;
+  wire        clkfx180_unused;
+  wire        clkfxdv_unused;
+
+  DCM_CLKGEN
+  #(.CLKFXDV_DIVIDE        (2),
+    .CLKFX_DIVIDE          (102),
+    .CLKFX_MULTIPLY        (57),
+    .SPREAD_SPECTRUM       ("NONE"),
+    .STARTUP_WAIT          ("FALSE"),
+    .CLKIN_PERIOD          (20.000),
+    .CLKFX_MD_MAX          (0.000))
+   dcm_clkgen_inst
+    // Input clock
+   (.CLKIN                 (clkin1),
+    // Output clocks
+    .CLKFX                 (clkfx),
+    .CLKFX180              (clkfx180_unused),
+    .CLKFXDV               (clkfxdv_unused),
+    // Ports for dynamic reconfiguration
+    .PROGCLK               (PROGCLK),
+    .PROGDATA              (PROGDATA),
+    .PROGEN                (PROGEN),
+    .PROGDONE              (PROGDONE),
+    // Other control and status signals
+    .FREEZEDCM             (1'b0),
+    .LOCKED                (locked_int),
+    .STATUS                (status_int),
+    .RST                   (1'b0));
+
+
+  // Output buffering
+  //-----------------------------------
+
+
+  BUFG clkout1_buf
+   (.O   (CLK_OUT1),
+    .I   (clkfx));
+
+
+
+
+endmodule
