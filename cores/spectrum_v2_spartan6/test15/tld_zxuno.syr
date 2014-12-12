@@ -1,0 +1,2399 @@
+Release 12.4 - xst M.81d (nt64)
+Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.53 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.53 secs
+ 
+--> Reading design: tld_zxuno.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "tld_zxuno.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "tld_zxuno"
+Output Format                      : NGC
+Target Device                      : xc6slx9-3-tqg144
+
+---- Source Options
+Top Module Name                    : tld_zxuno
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : NO
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ipcore_dir/pll.v\" into library work
+Parsing module <pll>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\spi.v\" into library work
+Parsing module <spi>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\rom.v\" into library work
+Parsing module <rom>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\pal_sync_generator_sinclair.v\" into library work
+Parsing module <pal_sync_generator_sinclair>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\lut.v\" into library work
+Parsing module <lut>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\dp_memory.v\" into library work
+Parsing module <dp_memory>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\zxunoregs.v\" into library work
+Parsing module <zxunoregs>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ula_radas.v\" into library work
+Parsing module <ula_radas>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\tv80_to_t80_wrapper.v\" into library work
+Parsing module <tv80n_wrapper>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\turbosound.v\" into library work
+Parsing module <turbosound>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\memory.v\" into library work
+Parsing module <memory>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\flash_spi.v\" into library work
+Parsing module <flash_and_sd>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\audio_management.v\" into library work
+Parsing module <dac>.
+Parsing module <mixer>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\zxuno.v\" into library work
+Parsing module <zxuno>.
+Analyzing Verilog file \"\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\tld_zxuno.v\" into library work
+Parsing module <tld_zxuno>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_Pack.vhd" into library work
+Parsing package <T80_Pack>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_Reg.vhd" into library work
+Parsing entity <T80_Reg>.
+Parsing architecture <rtl> of entity <t80_reg>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_MCode.vhd" into library work
+Parsing entity <T80_MCode>.
+Parsing architecture <rtl> of entity <t80_mcode>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_ALU.vhd" into library work
+Parsing entity <T80_ALU>.
+Parsing architecture <rtl> of entity <t80_alu>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80.vhd" into library work
+Parsing entity <T80>.
+Parsing architecture <rtl> of entity <t80>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" into library work
+Parsing entity <YM2149>.
+Parsing architecture <RTL> of entity <ym2149>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80a.vhd" into library work
+Parsing entity <T80a>.
+Parsing architecture <rtl> of entity <t80a>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\mapa_teclado_es.vhd" into library work
+Parsing package <mapa_es>.
+Parsing package body <mapa_es>.
+Parsing VHDL file "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ps2k.vhd" into library work
+Parsing entity <ps2k>.
+Parsing architecture <behavioral> of entity <ps2k>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating module <tld_zxuno>.
+
+Elaborating module <pll>.
+
+Elaborating module <IBUFG>.
+
+Elaborating module <DCM_CLKGEN(CLKFXDV_DIVIDE=2,CLKFX_DIVIDE=25,CLKFX_MULTIPLY=14,SPREAD_SPECTRUM="NONE",STARTUP_WAIT="FALSE",CLKIN_PERIOD=20.0,CLKFX_MD_MAX=0.0)>.
+WARNING:HDLCompiler:1127 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ipcore_dir/pll.v" Line 111: Assignment to clkfx180_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ipcore_dir/pll.v" Line 112: Assignment to clkfxdv_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ipcore_dir/pll.v" Line 120: Assignment to locked_int ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ipcore_dir/pll.v" Line 121: Assignment to status_int ignored, since the identifier is never used
+
+Elaborating module <BUFG>.
+WARNING:HDLCompiler:1016 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\zxuno.v" Line 155: Port y_n is not connected to this instance
+
+Elaborating module <zxuno>.
+
+Elaborating module <tv80n_wrapper>.
+Going to vhdl side to elaborate module T80a
+
+Elaborating entity <T80a> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80_MCode> (architecture <rtl>) with generics from library <work>.
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_MCode.vhd" Line 1369: xy_state should be on the sensitivity list of the process
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_MCode.vhd" Line 1427: xy_state should be on the sensitivity list of the process
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_MCode.vhd" Line 1465: xy_state should be on the sensitivity list of the process
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\T80_MCode.vhd" Line 1514: xy_state should be on the sensitivity list of the process
+
+Elaborating entity <T80_ALU> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80_Reg> (architecture <rtl>) from library <work>.
+Back to verilog to continue elaboration
+WARNING:HDLCompiler:413 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\zxuno.v" Line 153: Result of 3-bit expression is truncated to fit in 2-bit target.
+
+Elaborating module <ula_radas>.
+
+Elaborating module <pal_sync_generator_sinclair>.
+WARNING:HDLCompiler:413 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\pal_sync_generator_sinclair.v" Line 64: Result of 10-bit expression is truncated to fit in 9-bit target.
+WARNING:HDLCompiler:413 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\pal_sync_generator_sinclair.v" Line 67: Result of 10-bit expression is truncated to fit in 9-bit target.
+WARNING:HDLCompiler:413 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\ula_radas.v" Line 232: Result of 6-bit expression is truncated to fit in 5-bit target.
+
+Elaborating module <lut>.
+
+Elaborating module <zxunoregs>.
+
+Elaborating module <flash_and_sd>.
+
+Elaborating module <spi>.
+WARNING:HDLCompiler:413 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\spi.v" Line 70: Result of 6-bit expression is truncated to fit in 5-bit target.
+WARNING:HDLCompiler:413 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\spi.v" Line 83: Result of 6-bit expression is truncated to fit in 5-bit target.
+
+Elaborating module <memory>.
+
+Elaborating module <dp_memory>.
+
+Elaborating module <rom>.
+Reading initialization file \"bootloader_hex.txt\".
+WARNING:HDLCompiler:1680 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\rom.v" Line 35: Signal <mem> in initial block is partially initialized.
+WARNING:HDLCompiler:552 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\memory.v" Line 312: Input port din[7] is not connected on this instance
+Going to vhdl side to elaborate module ps2k
+
+Elaborating entity <ps2k> (architecture <behavioral>) from library <work>.
+Back to verilog to continue elaboration
+
+Elaborating module <turbosound>.
+Going to vhdl side to elaborate module YM2149
+
+Elaborating entity <YM2149> (architecture <RTL>) from library <work>.
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 166. Case statement is complete. others clause is never selected
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 222. Case statement is complete. others clause is never selected
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 293: ioa_inreg should be on the sensitivity list of the process
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 298: iob_inreg should be on the sensitivity list of the process
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 302. Case statement is complete. others clause is never selected
+WARNING:HDLCompiler:92 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 447: reg should be on the sensitivity list of the process
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 526. Case statement is complete. others clause is never selected
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 586. Case statement is complete. others clause is never selected
+Back to verilog to continue elaboration
+Going to vhdl side to elaborate module YM2149
+
+Elaborating entity <YM2149> (architecture <RTL>) from library <work>.
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 166. Case statement is complete. others clause is never selected
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 222. Case statement is complete. others clause is never selected
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 302. Case statement is complete. others clause is never selected
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 526. Case statement is complete. others clause is never selected
+INFO:HDLCompiler:679 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 586. Case statement is complete. others clause is never selected
+WARNING:HDLCompiler:758 - "\Users\rodriguj\Documents\zxspectrum\zxuno\cores\spectrum_v2_spartan6\test15\YM2149_linmix.vhd" Line 62: Replacing existing netlist YM2149(RTL)
+Back to verilog to continue elaboration
+
+Elaborating module <mixer>.
+
+Elaborating module <dac>.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <tld_zxuno>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/tld_zxuno.v".
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/tld_zxuno.v" line 68: Output port <PROGDONE> of the instance <reloj_maestro> is unconnected or connected to loadless signal.
+    Summary:
+	no macro.
+Unit <tld_zxuno> synthesized.
+
+Synthesizing Unit <pll>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ipcore_dir/pll.v".
+    Summary:
+	no macro.
+Unit <pll> synthesized.
+
+Synthesizing Unit <zxuno>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/zxuno.v".
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/zxuno.v" line 128: Output port <halt_n> of the instance <el_z80> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/zxuno.v" line 128: Output port <busak_n> of the instance <el_z80> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/zxuno.v" line 155: Output port <y_n> of the instance <la_ula> is unconnected or connected to loadless signal.
+    Found 2-bit register for signal <clkdiv>.
+    Found 2-bit adder for signal <clkdiv[1]_GND_6_o_add_16_OUT> created at line 153.
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred   2 D-type flip-flop(s).
+	inferred   6 Multiplexer(s).
+Unit <zxuno> synthesized.
+
+Synthesizing Unit <tv80n_wrapper>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/tv80_to_t80_wrapper.v".
+    Found 1-bit tristate buffer for signal <d<7>> created at line 69
+    Found 1-bit tristate buffer for signal <d<6>> created at line 69
+    Found 1-bit tristate buffer for signal <d<5>> created at line 69
+    Found 1-bit tristate buffer for signal <d<4>> created at line 69
+    Found 1-bit tristate buffer for signal <d<3>> created at line 69
+    Found 1-bit tristate buffer for signal <d<2>> created at line 69
+    Found 1-bit tristate buffer for signal <d<1>> created at line 69
+    Found 1-bit tristate buffer for signal <d<0>> created at line 69
+INFO:Xst:2774 - HDL ADVISOR - KEEP property attached to signal d<7> may hinder XST clustering optimizations.
+    Summary:
+	inferred   1 Multiplexer(s).
+	inferred   8 Tristate(s).
+Unit <tv80n_wrapper> synthesized.
+
+Synthesizing Unit <T80a>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80a.vhd".
+        Mode = 0
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80a.vhd" line 150: Output port <IntE> of the instance <u0> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80a.vhd" line 150: Output port <Stop> of the instance <u0> is unconnected or connected to loadless signal.
+    Found 1-bit register for signal <IORQ_n_i>.
+    Found 1-bit register for signal <WR_n_i>.
+    Found 1-bit register for signal <Reset_s>.
+    Found 1-bit register for signal <Req_Inhibit>.
+    Found 1-bit register for signal <MReq_Inhibit>.
+    Found 1-bit register for signal <RD>.
+    Found 1-bit register for signal <MREQ>.
+    Found 8-bit register for signal <DI_Reg>.
+    Found 1-bit tristate buffer for signal <MREQ_n> created at line 133
+    Found 1-bit tristate buffer for signal <IORQ_n> created at line 134
+    Found 1-bit tristate buffer for signal <RD_n> created at line 135
+    Found 1-bit tristate buffer for signal <WR_n> created at line 136
+    Found 1-bit tristate buffer for signal <RFSH_n> created at line 137
+    Found 1-bit tristate buffer for signal <A<15>> created at line 138
+    Found 1-bit tristate buffer for signal <A<14>> created at line 138
+    Found 1-bit tristate buffer for signal <A<13>> created at line 138
+    Found 1-bit tristate buffer for signal <A<12>> created at line 138
+    Found 1-bit tristate buffer for signal <A<11>> created at line 138
+    Found 1-bit tristate buffer for signal <A<10>> created at line 138
+    Found 1-bit tristate buffer for signal <A<9>> created at line 138
+    Found 1-bit tristate buffer for signal <A<8>> created at line 138
+    Found 1-bit tristate buffer for signal <A<7>> created at line 138
+    Found 1-bit tristate buffer for signal <A<6>> created at line 138
+    Found 1-bit tristate buffer for signal <A<5>> created at line 138
+    Found 1-bit tristate buffer for signal <A<4>> created at line 138
+    Found 1-bit tristate buffer for signal <A<3>> created at line 138
+    Found 1-bit tristate buffer for signal <A<2>> created at line 138
+    Found 1-bit tristate buffer for signal <A<1>> created at line 138
+    Found 1-bit tristate buffer for signal <A<0>> created at line 138
+    Found 1-bit tristate buffer for signal <D<7>> created at line 139
+    Found 1-bit tristate buffer for signal <D<6>> created at line 139
+    Found 1-bit tristate buffer for signal <D<5>> created at line 139
+    Found 1-bit tristate buffer for signal <D<4>> created at line 139
+    Found 1-bit tristate buffer for signal <D<3>> created at line 139
+    Found 1-bit tristate buffer for signal <D<2>> created at line 139
+    Found 1-bit tristate buffer for signal <D<1>> created at line 139
+    Found 1-bit tristate buffer for signal <D<0>> created at line 139
+    WARNING:Xst:2404 -  FFs/Latches <Wait_s<0:0>> (without init value) have a constant value of 1 in block <T80a>.
+    Summary:
+	inferred  15 D-type flip-flop(s).
+	inferred  11 Multiplexer(s).
+	inferred  29 Tristate(s).
+Unit <T80a> synthesized.
+
+Synthesizing Unit <T80>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80.vhd".
+        Mode = 0
+        IOWait = 1
+        Flag_C = 0
+        Flag_N = 1
+        Flag_P = 2
+        Flag_X = 3
+        Flag_H = 4
+        Flag_Y = 5
+        Flag_Z = 6
+        Flag_S = 7
+    Found 1-bit register for signal <RFSH_n>.
+    Found 1-bit register for signal <M1_n>.
+    Found 1-bit register for signal <Alternate>.
+    Found 1-bit register for signal <Arith16_r>.
+    Found 1-bit register for signal <BTR_r>.
+    Found 1-bit register for signal <Z16_r>.
+    Found 1-bit register for signal <Save_ALU_r>.
+    Found 1-bit register for signal <PreserveC_r>.
+    Found 1-bit register for signal <XY_Ind>.
+    Found 1-bit register for signal <INT_s>.
+    Found 1-bit register for signal <NMI_s>.
+    Found 1-bit register for signal <OldNMI_n>.
+    Found 1-bit register for signal <Halt_FF>.
+    Found 1-bit register for signal <NMICycle>.
+    Found 1-bit register for signal <IntCycle>.
+    Found 1-bit register for signal <IntE_FF1>.
+    Found 1-bit register for signal <IntE_FF2>.
+    Found 1-bit register for signal <No_BTR>.
+    Found 1-bit register for signal <Auto_Wait_t1>.
+    Found 1-bit register for signal <Auto_Wait_t2>.
+    Found 16-bit register for signal <SP>.
+    Found 8-bit register for signal <F>.
+    Found 8-bit register for signal <Ap>.
+    Found 8-bit register for signal <Fp>.
+    Found 8-bit register for signal <ACC>.
+    Found 16-bit register for signal <A>.
+    Found 16-bit register for signal <TmpAddr>.
+    Found 16-bit register for signal <PC>.
+    Found 8-bit register for signal <IR>.
+    Found 8-bit register for signal <DO>.
+    Found 8-bit register for signal <I>.
+    Found 8-bit register for signal <R>.
+    Found 2-bit register for signal <ISet>.
+    Found 2-bit register for signal <XY_State>.
+    Found 2-bit register for signal <IStatus>.
+    Found 3-bit register for signal <MCycles>.
+    Found 3-bit register for signal <TState>.
+    Found 3-bit register for signal <Pre_XY_F_M>.
+    Found 5-bit register for signal <Read_To_Reg_r>.
+    Found 4-bit register for signal <ALU_Op_r>.
+    Found 3-bit register for signal <MCycle>.
+    Found 3-bit register for signal <RegAddrA_r>.
+    Found 3-bit register for signal <RegAddrB_r>.
+    Found 3-bit register for signal <RegAddrC>.
+    Found 1-bit register for signal <IncDecZ>.
+    Found 16-bit register for signal <RegBusA_r>.
+    Found 8-bit register for signal <BusB>.
+    Found 8-bit register for signal <BusA>.
+    Found 7-bit adder for signal <R[6]_GND_42_o_add_15_OUT> created at line 1241.
+    Found 16-bit adder for signal <TmpAddr[15]_GND_42_o_add_46_OUT> created at line 1241.
+    Found 16-bit adder for signal <PC[15]_DI_Reg[7]_add_69_OUT> created at line 566.
+    Found 16-bit adder for signal <PC[15]_GND_42_o_add_70_OUT> created at line 1241.
+    Found 16-bit adder for signal <RegBusC[15]_DI_Reg[7]_add_81_OUT> created at line 579.
+    Found 16-bit adder for signal <SP[15]_GND_42_o_add_88_OUT> created at line 1241.
+    Found 16-bit adder for signal <RegBusA[15]_GND_42_o_add_221_OUT> created at line 1253.
+    Found 3-bit adder for signal <Pre_XY_F_M[2]_GND_42_o_add_273_OUT> created at line 1241.
+    Found 3-bit adder for signal <MCycle[2]_GND_42_o_add_278_OUT> created at line 1241.
+    Found 3-bit adder for signal <TState[2]_GND_42_o_add_286_OUT> created at line 1241.
+    Found 16-bit subtractor for signal <GND_42_o_GND_42_o_sub_74_OUT<15:0>> created at line 1308.
+    Found 16-bit subtractor for signal <GND_42_o_GND_42_o_sub_88_OUT<15:0>> created at line 1308.
+    Found 16-bit subtractor for signal <RegBusA[15]_GND_42_o_sub_223_OUT<15:0>> created at line 1320.
+    Found 16-bit 7-to-1 multiplexer for signal <Set_Addr_To[2]_PC[15]_wide_mux_48_OUT> created at line 486.
+    Found 8-bit 3-to-1 multiplexer for signal <Special_LD[1]_ACC[7]_wide_mux_112_OUT> created at line 615.
+    Found 1-bit 3-to-1 multiplexer for signal <Special_LD[1]_F[7]_Mux_113_o> created at line 615.
+    Found 1-bit 3-to-1 multiplexer for signal <Special_LD[1]_F[7]_Mux_114_o> created at line 615.
+    Found 1-bit 3-to-1 multiplexer for signal <Special_LD[1]_F[7]_Mux_115_o> created at line 615.
+    Found 1-bit 3-to-1 multiplexer for signal <Special_LD[1]_F[7]_Mux_116_o> created at line 615.
+    Found 8-bit 11-to-1 multiplexer for signal <Set_BusB_To[3]_X_42_o_wide_mux_249_OUT> created at line 881.
+    Found 8-bit 3-to-1 multiplexer for signal <_n1484> created at line 615.
+    Found 3-bit comparator equal for signal <T_Res> created at line 344
+    Found 3-bit comparator equal for signal <MCycles[2]_MCycle[2]_equal_275_o> created at line 1065
+    WARNING:Xst:2404 -  FFs/Latches <BusReq_s<0:0>> (without init value) have a constant value of 0 in block <T80>.
+    WARNING:Xst:2404 -  FFs/Latches <BusAck<0:0>> (without init value) have a constant value of 0 in block <T80>.
+    Summary:
+	inferred  11 Adder/Subtractor(s).
+	inferred 217 D-type flip-flop(s).
+	inferred   2 Comparator(s).
+	inferred 275 Multiplexer(s).
+Unit <T80> synthesized.
+
+Synthesizing Unit <T80_MCode>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80_mcode.vhd".
+        Mode = 0
+        Flag_C = 0
+        Flag_N = 1
+        Flag_P = 2
+        Flag_X = 3
+        Flag_H = 4
+        Flag_Y = 5
+        Flag_Z = 6
+        Flag_S = 7
+WARNING:Xst:647 - Input <F<1:1>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <F<3:5>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 1-bit 8-to-1 multiplexer for signal <IR[5]_F[7]_Mux_192_o> created at line 172.
+    Found 4-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_wide_mux_507_OUT> created at line 250.
+    Found 4-bit 3-to-1 multiplexer for signal <Set_BusA_To> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Read_To_Reg> created at line 250.
+    Found 3-bit 3-to-1 multiplexer for signal <MCycles> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_Mux_512_o> created at line 250.
+    Found 3-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_wide_mux_513_OUT> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Write> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Read_To_Acc> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <LDZ> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <LDW> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Inc_WZ> created at line 250.
+    Found 3-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_wide_mux_519_OUT> created at line 250.
+    Found 4-bit 3-to-1 multiplexer for signal <IncDec_16> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Save_ALU> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <PreserveC> created at line 250.
+    Found 4-bit 3-to-1 multiplexer for signal <ALU_Op> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Jump> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_Mux_535_o> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <IORQ> created at line 250.
+    Summary:
+	inferred 403 Multiplexer(s).
+Unit <T80_MCode> synthesized.
+
+Synthesizing Unit <T80_ALU>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80_alu.vhd".
+        Mode = 0
+        Flag_C = 0
+        Flag_N = 1
+        Flag_P = 2
+        Flag_X = 3
+        Flag_H = 4
+        Flag_Y = 5
+        Flag_Z = 6
+        Flag_S = 7
+WARNING:Xst:647 - Input <F_In<3:3>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <F_In<5:5>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 6-bit adder for signal <n0124> created at line 116.
+    Found 5-bit adder for signal <n0123> created at line 116.
+    Found 3-bit adder for signal <n0122> created at line 116.
+    Found 9-bit adder for signal <GND_44_o_GND_44_o_add_21_OUT> created at line 1241.
+    Found 9-bit adder for signal <GND_44_o_GND_44_o_add_24_OUT> created at line 1241.
+    Found 8-bit subtractor for signal <GND_44_o_GND_44_o_sub_29_OUT<7:0>> created at line 1308.
+    Found 9-bit subtractor for signal <GND_44_o_GND_44_o_sub_32_OUT<8:0>> created at line 1308.
+    Found 8-bit 8-to-1 multiplexer for signal <IR[5]_GND_44_o_wide_mux_42_OUT> created at line 309.
+    Found 5-bit comparator greater for signal <GND_44_o_GND_44_o_LessThan_24_o> created at line 235
+    Found 4-bit comparator greater for signal <PWR_15_o_BusA[3]_LessThan_27_o> created at line 240
+    Found 4-bit comparator greater for signal <GND_44_o_BusA[3]_LessThan_28_o> created at line 241
+    Found 8-bit comparator greater for signal <PWR_15_o_BusA[7]_LessThan_31_o> created at line 246
+    Summary:
+	inferred   7 Adder/Subtractor(s).
+	inferred   4 Comparator(s).
+	inferred  58 Multiplexer(s).
+Unit <T80_ALU> synthesized.
+
+Synthesizing Unit <T80_Reg>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/t80_reg.vhd".
+    Found 8x8-bit dual-port RAM <Mram_RegsH> for signal <RegsH>.
+    Found 8x8-bit dual-port RAM <Mram_RegsL> for signal <RegsL>.
+    Summary:
+	inferred   4 RAM(s).
+Unit <T80_Reg> synthesized.
+
+Synthesizing Unit <ula_radas>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ula_radas.v".
+        BHPIXEL = 0
+        EHPIXEL = 255
+        BVPIXEL = 0
+        EVPIXEL = 191
+        BVSYNC = 248
+        TIMEXPORT = 8'b11111111
+        ULAPLUSADDR = 16'b1011111100111011
+        ULAPLUSDATA = 16'b1111111100111011
+WARNING:Xst:647 - Input <wssclk> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:653 - Signal <y_n> is used but never assigned. This sourceless signal will be automatically connected to value GND.
+    Found 8-bit register for signal <BitmapData>.
+    Found 8-bit register for signal <AttrData>.
+    Found 3-bit register for signal <Border>.
+    Found 8-bit register for signal <BitmapSerializer>.
+    Found 16-bit register for signal <BitmapSerializerHR>.
+    Found 6-bit register for signal <TimexConfigReg>.
+    Found 8-bit register for signal <AttrOutput>.
+    Found 5-bit register for signal <FlashCounter>.
+    Found 7-bit register for signal <PaletteReg>.
+    Found 2-bit register for signal <ConfigReg>.
+    Found 16-bit register for signal <AttrPlusOutput>.
+    Found 5-bit register for signal <CA>.
+    Found 1-bit register for signal <mic>.
+    Found 1-bit register for signal <spk>.
+    Found 1-bit register for signal <CancelContention>.
+    Found 1-bit register for signal <clk7>.
+    Found 5-bit adder for signal <FlashCounter[4]_GND_56_o_add_33_OUT> created at line 232.
+    Found 9-bit adder for signal <hcd> created at line 358.
+    Found 16x9-bit Read Only RAM for signal <Std9bitColour>
+    Found 8-bit 4-to-1 multiplexer for signal <InputToAttrOutput> created at line 198.
+    Found 1-bit tristate buffer for signal <va<13>> created at line 359
+    Found 1-bit tristate buffer for signal <va<12>> created at line 359
+    Found 1-bit tristate buffer for signal <va<11>> created at line 359
+    Found 1-bit tristate buffer for signal <va<10>> created at line 359
+    Found 1-bit tristate buffer for signal <va<9>> created at line 359
+    Found 1-bit tristate buffer for signal <va<8>> created at line 359
+    Found 1-bit tristate buffer for signal <va<7>> created at line 359
+    Found 1-bit tristate buffer for signal <va<6>> created at line 359
+    Found 1-bit tristate buffer for signal <va<5>> created at line 359
+    Found 1-bit tristate buffer for signal <va<4>> created at line 359
+    Found 1-bit tristate buffer for signal <va<3>> created at line 359
+    Found 1-bit tristate buffer for signal <va<2>> created at line 359
+    Found 1-bit tristate buffer for signal <va<1>> created at line 359
+    Found 1-bit tristate buffer for signal <va<0>> created at line 359
+    Found 9-bit comparator lessequal for signal <n0137> created at line 429
+    Found 9-bit comparator lessequal for signal <n0139> created at line 429
+    Found 9-bit comparator lessequal for signal <n0195> created at line 504
+    Found 9-bit comparator lessequal for signal <n0207> created at line 526
+    Found 9-bit comparator lessequal for signal <n0209> created at line 526
+    Found 4-bit comparator greater for signal <GND_56_o_hc[3]_LessThan_122_o> created at line 567
+    Summary:
+	inferred   1 RAM(s).
+	inferred   2 Adder/Subtractor(s).
+	inferred  96 D-type flip-flop(s).
+	inferred   6 Comparator(s).
+	inferred  84 Multiplexer(s).
+	inferred  14 Tristate(s).
+Unit <ula_radas> synthesized.
+
+Synthesizing Unit <pal_sync_generator_sinclair>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/pal_sync_generator_sinclair.v".
+        END_COUNT_H_48K = 447
+        END_COUNT_V_48K = 311
+        END_COUNT_H_128K = 455
+        END_COUNT_V_128K = 310
+        BHBLANK = 320
+        EHBLANK = 415
+        BHSYNC = 344
+        EHSYNC = 375
+        BVPERIOD = 248
+        EVPERIOD = 255
+        BVSYNC = 248
+        EVSYNC = 251
+    Found 9-bit register for signal <vc>.
+    Found 9-bit register for signal <hc>.
+    Found 9-bit adder for signal <vc[8]_GND_57_o_add_7_OUT> created at line 64.
+    Found 9-bit adder for signal <hc[8]_GND_57_o_add_9_OUT> created at line 67.
+    Found 9-bit comparator lessequal for signal <n0019> created at line 75
+    Found 9-bit comparator lessequal for signal <n0021> created at line 75
+    Found 9-bit comparator lessequal for signal <n0024> created at line 75
+    Found 9-bit comparator lessequal for signal <n0026> created at line 75
+    Found 9-bit comparator lessequal for signal <n0030> created at line 79
+    Found 9-bit comparator lessequal for signal <n0032> created at line 79
+    Found 9-bit comparator lessequal for signal <n0035> created at line 79
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+	inferred  18 D-type flip-flop(s).
+	inferred   7 Comparator(s).
+	inferred   4 Multiplexer(s).
+Unit <pal_sync_generator_sinclair> synthesized.
+
+Synthesizing Unit <lut>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/lut.v".
+    Found 64x8-bit dual-port RAM <Mram_lut> for signal <lut>.
+    Summary:
+	inferred   2 RAM(s).
+Unit <lut> synthesized.
+
+Synthesizing Unit <zxunoregs>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/zxunoregs.v".
+        IOADDR = 16'b1111110000111011
+        IODATA = 16'b1111110100111011
+WARNING:Xst:647 - Input <mrst_n> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 8-bit register for signal <raddr>.
+    Found 1-bit tristate buffer for signal <dout<7>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<6>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<5>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<4>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<3>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<2>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<1>> created at line 54
+    Found 1-bit tristate buffer for signal <dout<0>> created at line 54
+    Summary:
+	inferred   8 D-type flip-flop(s).
+	inferred   8 Tristate(s).
+Unit <zxunoregs> synthesized.
+
+Synthesizing Unit <flash_and_sd>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/flash_spi.v".
+        CSPIN = 8'b00000011
+        SPIPORT = 8'b00000010
+        SDCS = 8'b00011111
+        SDSPI = 8'b00111111
+        DIVCS = 8'b11100111
+        DIVSPI = 8'b11101011
+WARNING:Xst:647 - Input <a<15:8>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 1-bit register for signal <sdpincs>.
+    Found 1-bit register for signal <flashpincs>.
+    Summary:
+	inferred   2 D-type flip-flop(s).
+	inferred   1 Multiplexer(s).
+Unit <flash_and_sd> synthesized.
+
+Synthesizing Unit <spi>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/spi.v".
+    Found 1-bit register for signal <ciclo_lectura>.
+    Found 5-bit register for signal <contador>.
+    Found 8-bit register for signal <data_to_spi>.
+    Found 8-bit register for signal <data_to_cpu>.
+    Found 8-bit register for signal <data_from_spi>.
+    Found 1-bit register for signal <ciclo_escritura>.
+    Found 5-bit adder for signal <contador[4]_GND_83_o_add_14_OUT> created at line 83.
+    Found 1-bit tristate buffer for signal <dout<7>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<6>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<5>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<4>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<3>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<2>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<1>> created at line 92
+    Found 1-bit tristate buffer for signal <dout<0>> created at line 92
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred  31 D-type flip-flop(s).
+	inferred   2 Multiplexer(s).
+	inferred   8 Tristate(s).
+Unit <spi> synthesized.
+
+Synthesizing Unit <memory>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/memory.v".
+        MASTERCONF = 8'b00000000
+        MASTERMAPPER = 8'b00000001
+WARNING:Xst:2898 - Port 'din', unconnected in block instance 'boot_rom', is tied to GND.
+WARNING:Xst:647 - Input <rfsh_n> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/memory.v" line 292: Output port <ce_n> of the instance <dos_memorias> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/memory.v" line 292: Output port <oe_n> of the instance <dos_memorias> is unconnected or connected to loadless signal.
+    Found 1-bit register for signal <divmmc_is_enabled>.
+    Found 1-bit register for signal <divmmc_nmi_is_disabled>.
+    Found 1-bit register for signal <issue2_keyboard>.
+    Found 1-bit register for signal <timming>.
+    Found 1-bit register for signal <disable_cont>.
+    Found 1-bit register for signal <masterconf_frozen>.
+    Found 5-bit register for signal <mastermapper>.
+    Found 8-bit register for signal <divmmc_ctrl>.
+    Found 1-bit register for signal <divmmc_is_paged>.
+    Found 1-bit register for signal <divmmc_status_after_m1>.
+    Found 8-bit register for signal <bank128>.
+    Found 8-bit register for signal <bankplus3>.
+    Found 1-bit register for signal <initial_boot_mode>.
+    Found 4x3-bit Read Only RAM for signal <_n0294>
+    Summary:
+	inferred   1 RAM(s).
+	inferred  38 D-type flip-flop(s).
+	inferred  52 Multiplexer(s).
+Unit <memory> synthesized.
+
+Synthesizing Unit <dp_memory>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/dp_memory.v".
+        ACCESO_M1 = 1
+        READ_M1 = 2
+        WRITE_M1 = 3
+        ACCESO_M2 = 4
+        READ_M2 = 5
+        WRITE_M2 = 6
+    Found 8-bit register for signal <doutput1>.
+    Found 8-bit register for signal <doutput2>.
+    Found 3-bit register for signal <state>.
+    Found finite state machine <FSM_0> for signal <state>.
+    -----------------------------------------------------------------------
+    | States             | 5                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 4                                              |
+    | Clock              | clk (rising_edge)                              |
+    | Power Up State     | 001                                            |
+    | Encoding           | auto                                           |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 19-bit 8-to-1 multiplexer for signal <a> created at line 77.
+    Found 1-bit tristate buffer for signal <d<7>> created at line 135
+    Found 1-bit tristate buffer for signal <d<6>> created at line 135
+    Found 1-bit tristate buffer for signal <d<5>> created at line 135
+    Found 1-bit tristate buffer for signal <d<4>> created at line 135
+    Found 1-bit tristate buffer for signal <d<3>> created at line 135
+    Found 1-bit tristate buffer for signal <d<2>> created at line 135
+    Found 1-bit tristate buffer for signal <d<1>> created at line 135
+    Found 1-bit tristate buffer for signal <d<0>> created at line 135
+    Found 1-bit tristate buffer for signal <dout1<7>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<6>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<5>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<4>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<3>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<2>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<1>> created at line 136
+    Found 1-bit tristate buffer for signal <dout1<0>> created at line 136
+    Found 1-bit tristate buffer for signal <dout2<7>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<6>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<5>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<4>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<3>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<2>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<1>> created at line 137
+    Found 1-bit tristate buffer for signal <dout2<0>> created at line 137
+    Summary:
+	inferred  16 D-type flip-flop(s).
+	inferred   9 Multiplexer(s).
+	inferred  24 Tristate(s).
+	inferred   1 Finite State Machine(s).
+Unit <dp_memory> synthesized.
+
+Synthesizing Unit <rom>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/rom.v".
+WARNING:Xst:647 - Input <a<13:6>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 64x8-bit single-port RAM <Mram_mem> for signal <mem>.
+    Found 8-bit register for signal <dout>.
+    Summary:
+	inferred   1 RAM(s).
+	inferred   8 D-type flip-flop(s).
+Unit <rom> synthesized.
+
+Synthesizing Unit <ps2k>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ps2k.vhd".
+    Found 1-bit register for signal <nmi>.
+    Found 1-bit register for signal <mrst>.
+    Found 5-bit register for signal <lastclk>.
+    Found 1-bit register for signal <parity>.
+    Found 4-bit register for signal <bit_count>.
+    Found 9-bit register for signal <shiftreg>.
+    Found 1-bit register for signal <pressed>.
+    Found 8-bit register for signal <scancode>.
+    Found 1-bit register for signal <isextend>.
+    Found 1-bit register for signal <isshift>.
+    Found 1-bit register for signal <isalt>.
+    Found 5-bit register for signal <joy>.
+    Found 5-bit register for signal <keys<7>>.
+    Found 5-bit register for signal <keys<6>>.
+    Found 5-bit register for signal <keys<5>>.
+    Found 5-bit register for signal <keys<4>>.
+    Found 5-bit register for signal <keys<3>>.
+    Found 5-bit register for signal <keys<2>>.
+    Found 5-bit register for signal <keys<1>>.
+    Found 5-bit register for signal <keys<0>>.
+    Found 1-bit register for signal <isctrl>.
+    Found 1-bit register for signal <rst>.
+    Found 4-bit adder for signal <bit_count[3]_GND_120_o_add_5_OUT> created at line 1241.
+    Found 4-bit comparator greater for signal <bit_count[3]_PWR_30_o_LessThan_5_o> created at line 49
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred  80 D-type flip-flop(s).
+	inferred   1 Comparator(s).
+	inferred 140 Multiplexer(s).
+Unit <ps2k> synthesized.
+
+Synthesizing Unit <turbosound>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v".
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 49: Output port <O_IOA> of the instance <ay1> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 49: Output port <O_IOB> of the instance <ay1> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 49: Output port <O_IOA_OE_L> of the instance <ay1> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 49: Output port <O_IOB_OE_L> of the instance <ay1> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 71: Output port <O_IOA> of the instance <ay2> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 71: Output port <O_IOB> of the instance <ay2> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 71: Output port <O_IOA_OE_L> of the instance <ay2> is unconnected or connected to loadless signal.
+INFO:Xst:3010 - "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/turbosound.v" line 71: Output port <O_IOB_OE_L> of the instance <ay2> is unconnected or connected to loadless signal.
+    Found 1-bit register for signal <ay_select>.
+    Summary:
+	inferred   1 D-type flip-flop(s).
+	inferred   2 Multiplexer(s).
+Unit <turbosound> synthesized.
+
+Synthesizing Unit <YM2149>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ym2149_linmix.vhd".
+    Found 1-bit register for signal <env_hold>.
+    Found 1-bit register for signal <env_reset>.
+    Found 8-bit register for signal <reg<0>>.
+    Found 8-bit register for signal <reg<1>>.
+    Found 8-bit register for signal <reg<2>>.
+    Found 8-bit register for signal <reg<3>>.
+    Found 8-bit register for signal <reg<4>>.
+    Found 8-bit register for signal <reg<5>>.
+    Found 8-bit register for signal <reg<6>>.
+    Found 8-bit register for signal <reg<7>>.
+    Found 8-bit register for signal <reg<8>>.
+    Found 8-bit register for signal <reg<9>>.
+    Found 8-bit register for signal <reg<10>>.
+    Found 8-bit register for signal <reg<11>>.
+    Found 8-bit register for signal <reg<12>>.
+    Found 8-bit register for signal <reg<13>>.
+    Found 8-bit register for signal <reg<14>>.
+    Found 8-bit register for signal <reg<15>>.
+    Found 1-bit register for signal <ena_div>.
+    Found 1-bit register for signal <ena_div_noise>.
+    Found 4-bit register for signal <cnt_div>.
+    Found 1-bit register for signal <noise_div>.
+    Found 5-bit register for signal <noise_gen_cnt>.
+    Found 17-bit register for signal <poly17>.
+    Found 12-bit register for signal <tone_gen_cnt<1>>.
+    Found 12-bit register for signal <tone_gen_cnt<2>>.
+    Found 12-bit register for signal <tone_gen_cnt<3>>.
+    Found 3-bit register for signal <tone_gen_op>.
+    Found 1-bit register for signal <env_ena>.
+    Found 16-bit register for signal <env_gen_cnt>.
+    Found 8-bit register for signal <dac_amp>.
+    Found 10-bit register for signal <audio_mix>.
+    Found 10-bit register for signal <audio_final>.
+    Found 8-bit register for signal <O_AUDIO>.
+    Found 8-bit register for signal <ioa_inreg>.
+    Found 8-bit register for signal <iob_inreg>.
+    Found 8-bit register for signal <addr>.
+    Found 1-bit register for signal <env_inc>.
+    Found 1-bit register for signal <env_vol<4>>.
+    Found 1-bit register for signal <env_vol<3>>.
+    Found 1-bit register for signal <env_vol<2>>.
+    Found 1-bit register for signal <env_vol<1>>.
+    Found 1-bit register for signal <env_vol<0>>.
+    Found 5-bit adder for signal <noise_gen_cnt[4]_GND_125_o_add_87_OUT> created at line 351.
+    Found 12-bit adder for signal <tone_gen_cnt[1][11]_GND_125_o_add_107_OUT> created at line 385.
+    Found 12-bit adder for signal <tone_gen_cnt[2][11]_GND_125_o_add_111_OUT> created at line 385.
+    Found 12-bit adder for signal <tone_gen_cnt[3][11]_GND_125_o_add_115_OUT> created at line 385.
+    Found 16-bit adder for signal <env_gen_cnt[15]_GND_125_o_add_136_OUT> created at line 412.
+    Found 5-bit adder for signal <env_vol[4]_GND_125_o_add_148_OUT> created at line 466.
+    Found 5-bit adder for signal <env_vol[4]_PWR_38_o_add_149_OUT> created at line 468.
+    Found 10-bit adder for signal <audio_mix[9]_GND_125_o_add_165_OUT> created at line 593.
+    Found 4-bit subtractor for signal <GND_125_o_GND_125_o_sub_79_OUT<3:0>> created at line 323.
+    Found 5-bit subtractor for signal <GND_125_o_GND_125_o_sub_84_OUT<4:0>> created at line 337.
+    Found 12-bit subtractor for signal <GND_125_o_GND_125_o_sub_99_OUT<11:0>> created at line 373.
+    Found 12-bit subtractor for signal <GND_125_o_GND_125_o_sub_102_OUT<11:0>> created at line 373.
+    Found 12-bit subtractor for signal <GND_125_o_GND_125_o_sub_105_OUT<11:0>> created at line 373.
+    Found 16-bit subtractor for signal <GND_125_o_GND_125_o_sub_134_OUT<15:0>> created at line 402.
+    Found 8x1-bit Read Only RAM for signal <busctrl_addr>
+    Found 16x1-bit Read Only RAM for signal <addr[3]_GND_125_o_Mux_24_o>
+    Found 32x8-bit Read Only RAM for signal <GND_125_o_PWR_38_o_wide_mux_163_OUT>
+    Found 8-bit 16-to-1 multiplexer for signal <addr[3]_reg[15][7]_wide_mux_75_OUT> created at line 277.
+    Found 1-bit 4-to-1 multiplexer for signal <tone_ena_l> created at line 515.
+    Found 1-bit 4-to-1 multiplexer for signal <tone_src> created at line 515.
+    Found 5-bit 4-to-1 multiplexer for signal <chan_vol> created at line 515.
+    Found 1-bit 4-to-1 multiplexer for signal <noise_ena_l> created at line 515.
+    Found 5-bit comparator greater for signal <n0103> created at line 347
+    Found 12-bit comparator lessequal for signal <n0126> created at line 381
+    Found 12-bit comparator lessequal for signal <n0134> created at line 381
+    Found 12-bit comparator lessequal for signal <n0142> created at line 381
+    Found 16-bit comparator lessequal for signal <n0161> created at line 408
+    Summary:
+	inferred   3 RAM(s).
+	inferred  14 Adder/Subtractor(s).
+	inferred 281 D-type flip-flop(s).
+	inferred   5 Comparator(s).
+	inferred  41 Multiplexer(s).
+Unit <YM2149> synthesized.
+
+Synthesizing Unit <mixer>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/audio_management.v".
+    Found 10-bit register for signal <mezcla>.
+    Found 9-bit adder for signal <n0041[8:0]> created at line 75.
+    Found 10-bit adder for signal <n0038> created at line 75.
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+	inferred  10 D-type flip-flop(s).
+Unit <mixer> synthesized.
+
+Synthesizing Unit <dac>.
+    Related source file is "/users/rodriguj/documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/audio_management.v".
+    Found 1-bit register for signal <DACout>.
+    Found 12-bit register for signal <SigmaLatch>.
+    Found 12-bit adder for signal <DeltaAdder> created at line 38.
+    Found 12-bit adder for signal <SigmaAdder> created at line 39.
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+	inferred  13 D-type flip-flop(s).
+Unit <dac> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 15
+ 16x1-bit single-port Read Only RAM                    : 2
+ 16x9-bit single-port Read Only RAM                    : 1
+ 32x8-bit single-port Read Only RAM                    : 2
+ 4x3-bit single-port Read Only RAM                     : 1
+ 64x8-bit dual-port RAM                                : 2
+ 64x8-bit single-port RAM                              : 1
+ 8x1-bit single-port Read Only RAM                     : 2
+ 8x8-bit dual-port RAM                                 : 4
+# Adders/Subtractors                                   : 57
+ 10-bit adder                                          : 3
+ 12-bit adder                                          : 8
+ 12-bit subtractor                                     : 6
+ 16-bit adder                                          : 6
+ 16-bit addsub                                         : 2
+ 16-bit subtractor                                     : 3
+ 2-bit adder                                           : 1
+ 3-bit adder                                           : 4
+ 4-bit adder                                           : 1
+ 4-bit subtractor                                      : 2
+ 5-bit adder                                           : 9
+ 5-bit subtractor                                      : 2
+ 6-bit adder                                           : 1
+ 7-bit adder                                           : 1
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 6
+ 9-bit subtractor                                      : 1
+# Registers                                            : 212
+ 1-bit register                                        : 80
+ 10-bit register                                       : 5
+ 12-bit register                                       : 7
+ 16-bit register                                       : 9
+ 17-bit register                                       : 2
+ 2-bit register                                        : 5
+ 3-bit register                                        : 10
+ 4-bit register                                        : 4
+ 5-bit register                                        : 17
+ 6-bit register                                        : 1
+ 7-bit register                                        : 1
+ 8-bit register                                        : 68
+ 9-bit register                                        : 3
+# Comparators                                          : 30
+ 12-bit comparator lessequal                           : 6
+ 16-bit comparator lessequal                           : 2
+ 3-bit comparator equal                                : 2
+ 4-bit comparator greater                              : 4
+ 5-bit comparator greater                              : 3
+ 8-bit comparator greater                              : 1
+ 9-bit comparator lessequal                            : 12
+# Multiplexers                                         : 1130
+ 1-bit 2-to-1 multiplexer                              : 531
+ 1-bit 3-to-1 multiplexer                              : 16
+ 1-bit 4-to-1 multiplexer                              : 6
+ 1-bit 8-to-1 multiplexer                              : 1
+ 12-bit 2-to-1 multiplexer                             : 6
+ 16-bit 2-to-1 multiplexer                             : 37
+ 16-bit 7-to-1 multiplexer                             : 1
+ 19-bit 2-to-1 multiplexer                             : 7
+ 19-bit 8-to-1 multiplexer                             : 1
+ 2-bit 2-to-1 multiplexer                              : 7
+ 3-bit 2-to-1 multiplexer                              : 130
+ 3-bit 3-to-1 multiplexer                              : 3
+ 4-bit 2-to-1 multiplexer                              : 157
+ 4-bit 3-to-1 multiplexer                              : 4
+ 5-bit 2-to-1 multiplexer                              : 106
+ 5-bit 4-to-1 multiplexer                              : 2
+ 6-bit 2-to-1 multiplexer                              : 1
+ 8-bit 11-to-1 multiplexer                             : 1
+ 8-bit 16-to-1 multiplexer                             : 2
+ 8-bit 2-to-1 multiplexer                              : 102
+ 8-bit 3-to-1 multiplexer                              : 2
+ 8-bit 4-to-1 multiplexer                              : 1
+ 8-bit 8-to-1 multiplexer                              : 1
+ 9-bit 2-to-1 multiplexer                              : 5
+# Tristates                                            : 91
+ 1-bit tristate buffer                                 : 91
+# FSMs                                                 : 1
+# Xors                                                 : 15
+ 1-bit xor2                                            : 9
+ 1-bit xor8                                            : 5
+ 8-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+WARNING:Xst:1710 - FF/Latch <iob_inreg_7> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_6> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_5> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_4> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_3> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_2> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_1> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_0> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_7> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_6> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_5> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_4> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_3> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_2> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_1> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_0> (without init value) has a constant value of 0 in block <ay2>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_7> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_6> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_5> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_4> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_3> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_2> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_1> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <iob_inreg_0> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_7> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_6> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_5> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_4> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_3> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_2> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_1> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1710 - FF/Latch <ioa_inreg_0> (without init value) has a constant value of 0 in block <ay1>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <bankplus3_3> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <bankplus3_4> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <bankplus3_5> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <bankplus3_6> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <bankplus3_7> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <divmmc_ctrl_4> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <divmmc_ctrl_5> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <bank128_6> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <bank128_7> of sequential type is unconnected in block <bootrom_rom_y_ram>.
+WARNING:Xst:2677 - Node <reg_1_4> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_1_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_1_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_1_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_3_4> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_3_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_3_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_3_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_6_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_6_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_6_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_5_4> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_5_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_5_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_5_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_8_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_8_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_8_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_9_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_9_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_9_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_10_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_10_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_10_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_13_4> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_13_5> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_13_6> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_13_7> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <audio_final_0> of sequential type is unconnected in block <ay1>.
+WARNING:Xst:2677 - Node <reg_1_4> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_1_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_1_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_1_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_3_4> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_3_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_3_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_3_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_6_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_6_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_6_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_5_4> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_5_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_5_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_5_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_8_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_8_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_8_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_9_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_9_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_9_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_10_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_10_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_10_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_13_4> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_13_5> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_13_6> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <reg_13_7> of sequential type is unconnected in block <ay2>.
+WARNING:Xst:2677 - Node <audio_final_0> of sequential type is unconnected in block <ay2>.
+
+Synthesizing (advanced) Unit <T80>.
+The following registers are absorbed into counter <TState>: 1 register on signal <TState>.
+Unit <T80> synthesized (advanced).
+
+Synthesizing (advanced) Unit <T80_Reg>.
+INFO:Xst:3048 - The small RAM <Mram_RegsH1> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEH_1>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIH>           |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrC>         |          |
+    |     doB            | connected to signal <DOCH>          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3048 - The small RAM <Mram_RegsL1> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEL_1>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIL>           |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrC>         |          |
+    |     doB            | connected to signal <DOCL>          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3031 - HDL ADVISOR - The RAM <Mram_RegsH> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEH_0>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIH>           |          |
+    |     doA            | connected to signal <DOAH>          |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrB>         |          |
+    |     doB            | connected to signal <DOBH>          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3031 - HDL ADVISOR - The RAM <Mram_RegsL> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEL_0>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIL>           |          |
+    |     doA            | connected to signal <DOAL>          |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrB>         |          |
+    |     doB            | connected to signal <DOBL>          |          |
+    -----------------------------------------------------------------------
+Unit <T80_Reg> synthesized (advanced).
+
+Synthesizing (advanced) Unit <YM2149>.
+The following registers are absorbed into accumulator <audio_mix>: 1 register on signal <audio_mix>.
+The following registers are absorbed into counter <cnt_div>: 1 register on signal <cnt_div>.
+The following registers are absorbed into counter <noise_gen_cnt>: 1 register on signal <noise_gen_cnt>.
+The following registers are absorbed into counter <tone_gen_cnt_1>: 1 register on signal <tone_gen_cnt_1>.
+The following registers are absorbed into counter <tone_gen_cnt_2>: 1 register on signal <tone_gen_cnt_2>.
+The following registers are absorbed into counter <tone_gen_cnt_3>: 1 register on signal <tone_gen_cnt_3>.
+The following registers are absorbed into counter <env_gen_cnt>: 1 register on signal <env_gen_cnt>.
+INFO:Xst:3048 - The small RAM <Mram_GND_125_o_PWR_38_o_wide_mux_163_OUT> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 32-word x 8-bit                     |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <GND_125_o_env_vol[4]_mux_162_OUT> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to internal node          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3022 - HDL ADVISOR - Characteristics of the register <env_reset> prevent it from being combined with the RAM <Mram_addr[3]_GND_125_o_Mux_24_o> for implementation as read-only block RAM.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16-word x 1-bit                     |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <addr<3:0>>     |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to internal node          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3048 - The small RAM <Mram_addr[3]_GND_125_o_Mux_24_o> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+INFO:Xst:3031 - HDL ADVISOR - The RAM <Mram_busctrl_addr> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 1-bit                      |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <(I_BDIR,I_BC2,I_BC1)> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <busctrl_addr>  |          |
+    -----------------------------------------------------------------------
+Unit <YM2149> synthesized (advanced).
+
+Synthesizing (advanced) Unit <dac>.
+The following registers are absorbed into accumulator <SigmaLatch>: 1 register on signal <SigmaLatch>.
+Unit <dac> synthesized (advanced).
+
+Synthesizing (advanced) Unit <lut>.
+INFO:Xst:3048 - The small RAM <Mram_lut> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 64-word x 8-bit                     |          |
+    |     clkA           | connected to signal <clk>           | rise     |
+    |     weA            | connected to signal <load>          | high     |
+    |     addrA          | connected to signal <a3>            |          |
+    |     diA            | connected to signal <din>           |          |
+    |     doA            | connected to signal <do3>           |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 64-word x 8-bit                     |          |
+    |     addrB          | connected to signal <a1>            |          |
+    |     doB            | connected to signal <do1>           |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3048 - The small RAM <Mram_lut1> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 64-word x 8-bit                     |          |
+    |     clkA           | connected to signal <clk>           | rise     |
+    |     weA            | connected to signal <load>          | high     |
+    |     addrA          | connected to signal <a3>            |          |
+    |     diA            | connected to signal <din>           |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 64-word x 8-bit                     |          |
+    |     addrB          | connected to signal <a2>            |          |
+    |     doB            | connected to signal <do2>           |          |
+    -----------------------------------------------------------------------
+Unit <lut> synthesized (advanced).
+
+Synthesizing (advanced) Unit <memory>.
+INFO:Xst:3048 - The small RAM <Mram__n0294> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 4-word x 3-bit                      |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <bankplus3<2:1>> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to internal node          |          |
+    -----------------------------------------------------------------------
+Unit <memory> synthesized (advanced).
+
+Synthesizing (advanced) Unit <pal_sync_generator_sinclair>.
+The following registers are absorbed into counter <hc>: 1 register on signal <hc>.
+The following registers are absorbed into counter <vc>: 1 register on signal <vc>.
+Unit <pal_sync_generator_sinclair> synthesized (advanced).
+
+Synthesizing (advanced) Unit <ps2k>.
+The following registers are absorbed into counter <bit_count>: 1 register on signal <bit_count>.
+Unit <ps2k> synthesized (advanced).
+
+Synthesizing (advanced) Unit <rom>.
+INFO:Xst:3048 - The small RAM <Mram_mem> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 64-word x 8-bit                     |          |
+    |     clkA           | connected to signal <clk>           | rise     |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <a>             |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to internal node          |          |
+    -----------------------------------------------------------------------
+Unit <rom> synthesized (advanced).
+
+Synthesizing (advanced) Unit <spi>.
+The following registers are absorbed into counter <contador>: 1 register on signal <contador>.
+Unit <spi> synthesized (advanced).
+
+Synthesizing (advanced) Unit <ula_radas>.
+The following registers are absorbed into counter <FlashCounter>: 1 register on signal <FlashCounter>.
+INFO:Xst:3031 - HDL ADVISOR - The RAM <Mram_Std9bitColour> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16-word x 9-bit                     |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <(AttrOutput<6>,StdPixelColour)> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <Std9bitColour> |          |
+    -----------------------------------------------------------------------
+Unit <ula_radas> synthesized (advanced).
+
+Synthesizing (advanced) Unit <zxuno>.
+The following registers are absorbed into counter <clkdiv>: 1 register on signal <clkdiv>.
+Unit <zxuno> synthesized (advanced).
+WARNING:Xst:2677 - Node <bank128_6> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <bank128_7> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <divmmc_ctrl_4> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <divmmc_ctrl_5> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <bankplus3_3> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <bankplus3_4> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <bankplus3_5> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <bankplus3_6> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <bankplus3_7> of sequential type is unconnected in block <memory>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_sliced1_-1> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_sliced1_0> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_0> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_1> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_2> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_3> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_4> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_5> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_6> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <AttrPlusOutput_7> of sequential type is unconnected in block <ula_radas>.
+WARNING:Xst:2677 - Node <reg_1_4> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_1_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_1_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_1_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_3_4> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_3_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_3_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_3_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_6_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_6_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_6_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_5_4> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_5_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_5_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_5_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_9_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_9_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_9_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_8_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_8_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_8_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_10_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_10_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_10_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_13_4> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_13_5> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_13_6> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <reg_13_7> of sequential type is unconnected in block <YM2149>.
+WARNING:Xst:2677 - Node <audio_final_0> of sequential type is unconnected in block <YM2149>.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 15
+ 16x1-bit single-port distributed Read Only RAM        : 2
+ 16x9-bit single-port distributed Read Only RAM        : 1
+ 32x8-bit single-port distributed Read Only RAM        : 2
+ 4x3-bit single-port distributed Read Only RAM         : 1
+ 64x8-bit dual-port distributed RAM                    : 2
+ 64x8-bit single-port distributed RAM                  : 1
+ 8x1-bit single-port distributed Read Only RAM         : 2
+ 8x8-bit dual-port distributed RAM                     : 4
+# Adders/Subtractors                                   : 35
+ 10-bit adder                                          : 1
+ 12-bit adder                                          : 1
+ 12-bit subtractor                                     : 6
+ 16-bit adder                                          : 4
+ 16-bit addsub                                         : 2
+ 16-bit subtractor                                     : 3
+ 3-bit adder                                           : 3
+ 5-bit adder                                           : 5
+ 5-bit subtractor                                      : 2
+ 6-bit adder                                           : 1
+ 7-bit adder                                           : 1
+ 8-bit adder                                           : 1
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 3
+ 9-bit subtractor                                      : 1
+# Counters                                             : 19
+ 12-bit up counter                                     : 6
+ 16-bit up counter                                     : 2
+ 2-bit up counter                                      : 1
+ 3-bit up counter                                      : 1
+ 4-bit down counter                                    : 2
+ 4-bit up counter                                      : 1
+ 5-bit up counter                                      : 4
+ 9-bit up counter                                      : 2
+# Accumulators                                         : 3
+ 10-bit up accumulator                                 : 2
+ 12-bit up accumulator                                 : 1
+# Registers                                            : 859
+ Flip-Flops                                            : 859
+# Comparators                                          : 30
+ 12-bit comparator lessequal                           : 6
+ 16-bit comparator lessequal                           : 2
+ 3-bit comparator equal                                : 2
+ 4-bit comparator greater                              : 4
+ 5-bit comparator greater                              : 3
+ 8-bit comparator greater                              : 1
+ 9-bit comparator lessequal                            : 12
+# Multiplexers                                         : 1216
+ 1-bit 16-to-1 multiplexer                             : 16
+ 1-bit 2-to-1 multiplexer                              : 600
+ 1-bit 3-to-1 multiplexer                              : 16
+ 1-bit 4-to-1 multiplexer                              : 24
+ 1-bit 8-to-1 multiplexer                              : 1
+ 12-bit 2-to-1 multiplexer                             : 6
+ 16-bit 2-to-1 multiplexer                             : 36
+ 16-bit 7-to-1 multiplexer                             : 1
+ 19-bit 2-to-1 multiplexer                             : 7
+ 19-bit 8-to-1 multiplexer                             : 1
+ 2-bit 2-to-1 multiplexer                              : 7
+ 3-bit 2-to-1 multiplexer                              : 129
+ 3-bit 3-to-1 multiplexer                              : 3
+ 4-bit 2-to-1 multiplexer                              : 155
+ 4-bit 3-to-1 multiplexer                              : 4
+ 5-bit 2-to-1 multiplexer                              : 105
+ 6-bit 2-to-1 multiplexer                              : 1
+ 8-bit 11-to-1 multiplexer                             : 1
+ 8-bit 2-to-1 multiplexer                              : 95
+ 8-bit 3-to-1 multiplexer                              : 2
+ 8-bit 8-to-1 multiplexer                              : 1
+ 9-bit 2-to-1 multiplexer                              : 5
+# FSMs                                                 : 1
+# Xors                                                 : 15
+ 1-bit xor2                                            : 9
+ 1-bit xor8                                            : 5
+ 8-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:2261 - The FF/Latch <ay2/ioa_inreg_7> in Unit <turbosound> is equivalent to the following 31 FFs/Latches, which will be removed : <ay2/ioa_inreg_6> <ay2/ioa_inreg_5> <ay2/ioa_inreg_4> <ay2/ioa_inreg_3> <ay2/ioa_inreg_2> <ay2/ioa_inreg_1> <ay2/ioa_inreg_0> <ay2/iob_inreg_7> <ay2/iob_inreg_6> <ay2/iob_inreg_5> <ay2/iob_inreg_4> <ay2/iob_inreg_3> <ay2/iob_inreg_2> <ay2/iob_inreg_1> <ay2/iob_inreg_0> <ay1/ioa_inreg_7> <ay1/ioa_inreg_6> <ay1/ioa_inreg_5> <ay1/ioa_inreg_4> <ay1/ioa_inreg_3> <ay1/ioa_inreg_2> <ay1/ioa_inreg_1> <ay1/ioa_inreg_0> <ay1/iob_inreg_7> <ay1/iob_inreg_6> <ay1/iob_inreg_5> <ay1/iob_inreg_4> <ay1/iob_inreg_3> <ay1/iob_inreg_2> <ay1/iob_inreg_1> <ay1/iob_inreg_0> 
+WARNING:Xst:1710 - FF/Latch <ay2/ioa_inreg_7> (without init value) has a constant value of 0 in block <turbosound>. This FF/Latch will be trimmed during the optimization process.
+Analyzing FSM <MFsm> for best encoding.
+Optimizing FSM <la_maquina/bootrom_rom_y_ram/dos_memorias/FSM_0> on signal <state[1:3]> with gray encoding.
+-------------------
+ State | Encoding
+-------------------
+ 001   | 000
+ 010   | 001
+ 100   | 011
+ 110   | 010
+ 101   | 110
+-------------------
+INFO:Xst:2261 - The FF/Latch <ay2/addr_1> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_1> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_5> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_5> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_2> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_2> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_6> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_6> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_3> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_3> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_7> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_7> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_0> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_0> 
+INFO:Xst:2261 - The FF/Latch <ay2/addr_4> in Unit <turbosound> is equivalent to the following FF/Latch, which will be removed : <ay1/addr_4> 
+WARNING:Xst:3002 - This design contains one or more registers/latches that are directly
+   incompatible with the Spartan6 architecture. The two primary causes of this is
+   either a register or latch described with both an asynchronous set and
+   asynchronous reset, or a register or latch described with an asynchronous
+   set or reset which however has an initialization value of the opposite 
+   polarity (i.e. asynchronous reset with an initialization value of 1).
+    While this circuit can be built, it creates a sub-optimal implementation
+   in terms of area, power and performance. For a more optimal implementation
+   Xilinx highly recommends one of the following:
+
+          1) Remove either the set or reset from all registers and latches
+             if not needed for required functionality
+          2) Modify the code in order to produce a synchronous set
+             and/or reset (both is preferred)
+          3) Ensure all registers have the same initialization value as the
+             described asynchronous set or reset polarity
+          4) Use the -async_to_sync option to transform the asynchronous
+             set/reset to synchronous operation
+             (timing simulation highly recommended when using this option)
+
+  Please refer to http://www.xilinx.com search string "Spartan6 asynchronous set/reset" for more details.
+
+  List of register instances with asynchronous set and reset:
+    ay1/env_vol_4 in unit <turbosound>
+    ay1/env_vol_3 in unit <turbosound>
+    ay1/env_vol_2 in unit <turbosound>
+    ay1/env_vol_1 in unit <turbosound>
+    ay1/env_inc in unit <turbosound>
+    ay1/env_vol_0 in unit <turbosound>
+    ay2/env_vol_4 in unit <turbosound>
+    ay2/env_vol_3 in unit <turbosound>
+    ay2/env_vol_2 in unit <turbosound>
+    ay2/env_vol_1 in unit <turbosound>
+    ay2/env_inc in unit <turbosound>
+    ay2/env_vol_0 in unit <turbosound>
+
+WARNING:Xst:2040 - Unit tv80n_wrapper: 8 multi-source signals are replaced by logic (pull-up yes): d<0>, d<1>, d<2>, d<3>, d<4>, d<5>, d<6>, d<7>.
+WARNING:Xst:2042 - Unit zxunoregs: 8 internal tristates are replaced by logic (pull-up yes): dout<0>, dout<1>, dout<2>, dout<3>, dout<4>, dout<5>, dout<6>, dout<7>.
+WARNING:Xst:2042 - Unit ula_radas: 14 internal tristates are replaced by logic (pull-up yes): va<0>, va<10>, va<11>, va<12>, va<13>, va<1>, va<2>, va<3>, va<4>, va<5>, va<6>, va<7>, va<8>, va<9>.
+WARNING:Xst:2042 - Unit T80a: 29 internal tristates are replaced by logic (pull-up yes): A<0>, A<10>, A<11>, A<12>, A<13>, A<14>, A<15>, A<1>, A<2>, A<3>, A<4>, A<5>, A<6>, A<7>, A<8>, A<9>, D<0>, D<1>, D<2>, D<3>, D<4>, D<5>, D<6>, D<7>, IORQ_n, MREQ_n, RD_n, RFSH_n, WR_n.
+WARNING:Xst:2042 - Unit spi: 8 internal tristates are replaced by logic (pull-up yes): dout<0>, dout<1>, dout<2>, dout<3>, dout<4>, dout<5>, dout<6>, dout<7>.
+
+Optimizing unit <tld_zxuno> ...
+
+Optimizing unit <rom> ...
+
+Optimizing unit <ps2k> ...
+
+Optimizing unit <ula_radas> ...
+
+Optimizing unit <pal_sync_generator_sinclair> ...
+
+Optimizing unit <mixer> ...
+
+Optimizing unit <flash_and_sd> ...
+
+Optimizing unit <spi> ...
+
+Optimizing unit <zxunoregs> ...
+
+Optimizing unit <tv80n_wrapper> ...
+
+Optimizing unit <T80> ...
+
+Optimizing unit <T80_ALU> ...
+
+Optimizing unit <T80_MCode> ...
+
+Optimizing unit <turbosound> ...
+WARNING:Xst:2677 - Node <la_maquina/el_z80/TheCPU/u0/RFSH_n> of sequential type is unconnected in block <tld_zxuno>.
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block tld_zxuno, actual ratio is 59.
+FlipFlop la_maquina/el_z80/TheCPU/IORQ_n_i has been replicated 1 time(s)
+FlipFlop la_maquina/el_z80/TheCPU/u0/A_0 has been replicated 1 time(s)
+FlipFlop la_maquina/el_z80/TheCPU/u0/IR_2 has been replicated 2 time(s)
+FlipFlop la_maquina/el_z80/TheCPU/u0/IR_5 has been replicated 1 time(s)
+FlipFlop la_maquina/el_z80/TheCPU/u0/IR_6 has been replicated 1 time(s)
+FlipFlop la_maquina/el_z80/TheCPU/u0/IR_7 has been replicated 2 time(s)
+
+Final Macro Processing ...
+
+Processing Unit <tld_zxuno> :
+	Found 2-bit shift register for signal <la_maquina/el_teclado/shiftreg_7>.
+Unit <tld_zxuno> processed.
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 1030
+ Flip-Flops                                            : 1030
+# Shift Registers                                      : 1
+ 2-bit shift register                                  : 1
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : tld_zxuno.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 3617
+#      GND                         : 1
+#      INV                         : 141
+#      LUT1                        : 155
+#      LUT2                        : 225
+#      LUT3                        : 262
+#      LUT4                        : 327
+#      LUT5                        : 479
+#      LUT6                        : 1144
+#      MUXCY                       : 394
+#      MUXF7                       : 101
+#      MUXF8                       : 8
+#      VCC                         : 1
+#      XORCY                       : 379
+# FlipFlops/Latches                : 1035
+#      FD                          : 114
+#      FDC                         : 57
+#      FDC_1                       : 1
+#      FDCE                        : 90
+#      FDCE_1                      : 2
+#      FDE                         : 237
+#      FDE_1                       : 8
+#      FDP                         : 35
+#      FDPE                        : 29
+#      FDPE_1                      : 2
+#      FDR                         : 31
+#      FDRE                        : 409
+#      FDS                         : 3
+#      FDSE                        : 13
+#      LDC                         : 4
+# RAMS                             : 42
+#      RAM16X1D                    : 20
+#      RAM32M                      : 2
+#      RAM64M                      : 2
+#      RAM64X1D                    : 10
+#      RAM64X1S                    : 8
+# Shift Registers                  : 1
+#      SRLC16E                     : 1
+# Clock Buffers                    : 6
+#      BUFG                        : 6
+# IO Buffers                       : 55
+#      IBUF                        : 5
+#      IBUFG                       : 1
+#      IOBUF                       : 8
+#      OBUF                        : 41
+# DCMs                             : 1
+#      DCM_CLKGEN                  : 1
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx9tqg144-3 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:            1035  out of  11440     9%  
+ Number of Slice LUTs:                 2818  out of   5720    49%  
+    Number used as Logic:              2733  out of   5720    47%  
+    Number used as Memory:               85  out of   1440     5%  
+       Number used as RAM:               84
+       Number used as SRL:                1
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:   3200
+   Number with an unused Flip Flop:    2165  out of   3200    67%  
+   Number with an unused LUT:           382  out of   3200    11%  
+   Number of fully used LUT-FF pairs:   653  out of   3200    20%  
+   Number of unique control sets:       156
+
+IO Utilization: 
+ Number of IOs:                          55
+ Number of bonded IOBs:                  55  out of    102    53%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                6  out of     16    37%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-------------------------------------------------------------------------------------------------------------+----------------------------------------------+-------+
+Clock Signal                                                                                                 | Clock buffer(FF name)                        | Load  |
+-------------------------------------------------------------------------------------------------------------+----------------------------------------------+-------+
+reloj_maestro/clkfx                                                                                          | BUFG                                         | 37    |
+la_maquina/clkdiv_1                                                                                          | BUFG                                         | 71    |
+la_maquina/la_ula/syncs/hc_4                                                                                 | BUFG                                         | 80    |
+la_maquina/la_ula/clk7                                                                                       | BUFG                                         | 131   |
+la_maquina/clkdiv_0                                                                                          | NONE(la_maquina/la_ula/BitmapSerializerHR_15)| 17    |
+la_maquina/cpuclk(la_maquina/la_ula/cpuclk3:O)                                                               | BUFG(*)(la_maquina/la_ula/CancelContention)  | 262   |
+la_maquina/la_ula/syncs/hc_0                                                                                 | BUFG                                         | 476   |
+la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_282_o(la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_282_o1:O)| NONE(*)(la_maquina/dos_ays/ay1/env_vol_4_LDC)| 1     |
+la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_283_o(la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_283_o1:O)| NONE(*)(la_maquina/dos_ays/ay1/env_inc_LDC)  | 1     |
+la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_282_o(la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_282_o1:O)| NONE(*)(la_maquina/dos_ays/ay2/env_vol_4_LDC)| 1     |
+la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_283_o(la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_283_o1:O)| NONE(*)(la_maquina/dos_ays/ay2/env_inc_LDC)  | 1     |
+-------------------------------------------------------------------------------------------------------------+----------------------------------------------+-------+
+(*) These 5 clock signal(s) are generated by combinatorial logic,
+and XST is not able to identify which are the primary clock signals.
+Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -3
+
+   Minimum period: 16.784ns (Maximum Frequency: 59.582MHz)
+   Minimum input arrival time before clock: 7.985ns
+   Maximum output required time after clock: 13.447ns
+   Maximum combinational path delay: 10.006ns
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'reloj_maestro/clkfx'
+  Clock period: 3.296ns (frequency: 303.423MHz)
+  Total number of paths / destination ports: 47 / 29
+-------------------------------------------------------------------------
+Delay:               3.296ns (Levels of Logic = 1)
+  Source:            la_maquina/bootrom_rom_y_ram/dos_memorias/state_FSM_FFd2 (FF)
+  Destination:       la_maquina/bootrom_rom_y_ram/dos_memorias/doutput2_7 (FF)
+  Source Clock:      reloj_maestro/clkfx rising
+  Destination Clock: reloj_maestro/clkfx rising
+
+  Data Path: la_maquina/bootrom_rom_y_ram/dos_memorias/state_FSM_FFd2 to la_maquina/bootrom_rom_y_ram/dos_memorias/doutput2_7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q              32   0.447   1.520  la_maquina/bootrom_rom_y_ram/dos_memorias/state_FSM_FFd2 (la_maquina/bootrom_rom_y_ram/dos_memorias/state_FSM_FFd2)
+     LUT3:I0->O            8   0.205   0.802  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_a6121 (N107)
+     FDE:CE                    0.322          la_maquina/bootrom_rom_y_ram/dos_memorias/doutput2_0
+    ----------------------------------------
+    Total                      3.296ns (0.974ns logic, 2.322ns route)
+                                       (29.6% logic, 70.4% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'la_maquina/clkdiv_1'
+  Clock period: 10.082ns (frequency: 99.187MHz)
+  Total number of paths / destination ports: 4756 / 148
+-------------------------------------------------------------------------
+Delay:               10.082ns (Levels of Logic = 7)
+  Source:            la_maquina/bootrom_rom_y_ram/initial_boot_mode (FF)
+  Destination:       la_maquina/dos_ays/ay_select (FF)
+  Source Clock:      la_maquina/clkdiv_1 rising
+  Destination Clock: la_maquina/clkdiv_1 rising
+
+  Data Path: la_maquina/bootrom_rom_y_ram/initial_boot_mode to la_maquina/dos_ays/ay_select
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDSE:C->Q            18   0.447   1.414  la_maquina/bootrom_rom_y_ram/initial_boot_mode (la_maquina/bootrom_rom_y_ram/initial_boot_mode)
+     LUT6:I0->O           20   0.203   1.093  la_maquina/bootrom_rom_y_ram/Mmux_oe_bootrom_n11 (la_maquina/bootrom_rom_y_ram/oe_bootrom_n)
+     LUT3:I2->O            1   0.205   0.827  la_maquina/bootrom_rom_y_ram/Mmux_dout131_SW6 (N467)
+     LUT6:I2->O            1   0.203   0.827  la_maquina/el_z80/d<3>LogicTrst2 (la_maquina/el_z80/d<3>LogicTrst1)
+     LUT5:I1->O            2   0.203   0.845  la_maquina/el_z80/d<3>LogicTrst3 (la_maquina/el_z80/d<3>LogicTrst2)
+     LUT6:I3->O           46   0.205   1.719  la_maquina/el_z80/d<3>LogicTrst13 (la_maquina/cpudout<3>)
+     LUT4:I1->O            1   0.205   0.580  la_maquina/dos_ays/bdir_din[7]_AND_245_o_SW0 (N373)
+     LUT6:I5->O            1   0.205   0.579  la_maquina/dos_ays/bdir_din[7]_AND_245_o (la_maquina/dos_ays/bdir_din[7]_AND_245_o)
+     FDPE:CE                   0.322          la_maquina/dos_ays/ay_select
+    ----------------------------------------
+    Total                     10.082ns (2.198ns logic, 7.884ns route)
+                                       (21.8% logic, 78.2% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'la_maquina/la_ula/syncs/hc_4'
+  Clock period: 6.688ns (frequency: 149.510MHz)
+  Total number of paths / destination ports: 2310 / 160
+-------------------------------------------------------------------------
+Delay:               6.688ns (Levels of Logic = 6)
+  Source:            la_maquina/el_teclado/shiftreg_1 (FF)
+  Destination:       la_maquina/el_teclado/keys_0_0 (FF)
+  Source Clock:      la_maquina/la_ula/syncs/hc_4 rising
+  Destination Clock: la_maquina/la_ula/syncs/hc_4 rising
+
+  Data Path: la_maquina/el_teclado/shiftreg_1 to la_maquina/el_teclado/keys_0_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q             50   0.447   1.776  la_maquina/el_teclado/shiftreg_1 (la_maquina/el_teclado/shiftreg_1)
+     LUT3:I0->O            4   0.205   0.684  la_maquina/el_teclado/GND_120_o_shiftreg[7]_equal_28_o<7>11 (la_maquina/el_teclado/N223)
+     LUT6:I5->O            3   0.205   1.015  la_maquina/el_teclado/GND_120_o_shiftreg[7]_equal_28_o<7>2 (la_maquina/el_teclado/GND_120_o_shiftreg[7]_equal_28_o)
+     LUT6:I0->O            1   0.203   0.000  la_maquina/el_teclado/out14_G (N858)
+     MUXF7:I1->O           1   0.140   0.580  la_maquina/el_teclado/out14 (la_maquina/el_teclado/out13)
+     LUT6:I5->O            1   0.205   0.924  la_maquina/el_teclado/out16 (la_maquina/el_teclado/GND_120_o_reduce_or_40_o)
+     LUT6:I1->O            1   0.203   0.000  la_maquina/el_teclado/Mmux_keys[0][4]_shiftreg[7]_mux_53_OUT36 (la_maquina/el_teclado/keys[0][4]_shiftreg[7]_mux_53_OUT<0>)
+     FDE:D                     0.102          la_maquina/el_teclado/keys_0_0
+    ----------------------------------------
+    Total                      6.688ns (1.710ns logic, 4.978ns route)
+                                       (25.6% logic, 74.4% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'la_maquina/la_ula/clk7'
+  Clock period: 10.231ns (frequency: 97.739MHz)
+  Total number of paths / destination ports: 4096 / 330
+-------------------------------------------------------------------------
+Delay:               10.231ns (Levels of Logic = 7)
+  Source:            la_maquina/la_ula/ConfigReg_1 (FF)
+  Destination:       la_maquina/la_ula/palette/Mram_lut11 (RAM)
+  Source Clock:      la_maquina/la_ula/clk7 rising
+  Destination Clock: la_maquina/la_ula/clk7 rising
+
+  Data Path: la_maquina/la_ula/ConfigReg_1 to la_maquina/la_ula/palette/Mram_lut11
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q            38   0.447   1.721  la_maquina/la_ula/ConfigReg_1 (la_maquina/la_ula/ConfigReg_1)
+     LUT5:I0->O            4   0.203   0.931  la_maquina/la_ula/Mmux_AttrDataLoad111 (la_maquina/la_ula/N43)
+     LUT4:I0->O            1   0.203   0.944  la_maquina/la_ula/Mmux_TimexConfigLoad111_SW0 (N457)
+     LUT6:I0->O            8   0.203   0.907  la_maquina/la_ula/Mmux_dout12211 (la_maquina/la_ula/N52)
+     LUT5:I3->O            1   0.203   0.808  la_maquina/el_z80/d<0>LogicTrst9 (la_maquina/el_z80/d<0>LogicTrst9)
+     LUT6:I3->O            1   0.205   0.580  la_maquina/el_z80/d<0>LogicTrst10 (la_maquina/el_z80/d<0>LogicTrst10)
+     LUT6:I5->O            2   0.205   0.617  la_maquina/el_z80/d<0>LogicTrst11_SW0_SW0_SW0_SW0_SW0_SW0_SW0 (N601)
+     LUT6:I5->O           50   0.205   1.547  la_maquina/el_z80/d<0>LogicTrst13 (la_maquina/cpudout<0>)
+     RAM64M:DIA                0.303          la_maquina/la_ula/palette/Mram_lut11
+    ----------------------------------------
+    Total                     10.231ns (2.177ns logic, 8.054ns route)
+                                       (21.3% logic, 78.7% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'la_maquina/clkdiv_0'
+  Clock period: 2.361ns (frequency: 423.612MHz)
+  Total number of paths / destination ports: 32 / 17
+-------------------------------------------------------------------------
+Delay:               2.361ns (Levels of Logic = 1)
+  Source:            la_maquina/la_ula/clk7 (FF)
+  Destination:       la_maquina/la_ula/clk7 (FF)
+  Source Clock:      la_maquina/clkdiv_0 rising
+  Destination Clock: la_maquina/clkdiv_0 rising
+
+  Data Path: la_maquina/la_ula/clk7 to la_maquina/la_ula/clk7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q              17   0.447   1.027  la_maquina/la_ula/clk7 (la_maquina/la_ula/clk7)
+     INV:I->O              1   0.206   0.579  la_maquina/la_ula/clk7_INV_172_o1_INV_0 (la_maquina/la_ula/clk7_INV_172_o)
+     FD:D                      0.102          la_maquina/la_ula/clk7
+    ----------------------------------------
+    Total                      2.361ns (0.755ns logic, 1.606ns route)
+                                       (32.0% logic, 68.0% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'la_maquina/cpuclk'
+  Clock period: 16.784ns (frequency: 59.582MHz)
+  Total number of paths / destination ports: 2091311 / 730
+-------------------------------------------------------------------------
+Delay:               8.392ns (Levels of Logic = 6)
+  Source:            la_maquina/el_z80/TheCPU/u0/IR_0 (FF)
+  Destination:       la_maquina/el_z80/TheCPU/MREQ (FF)
+  Source Clock:      la_maquina/cpuclk rising
+  Destination Clock: la_maquina/cpuclk falling
+
+  Data Path: la_maquina/el_z80/TheCPU/u0/IR_0 to la_maquina/el_z80/TheCPU/MREQ
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q           136   0.447   2.076  la_maquina/el_z80/TheCPU/u0/IR_0 (la_maquina/el_z80/TheCPU/u0/IR_0)
+     LUT5:I3->O           18   0.203   1.050  la_maquina/el_z80/TheCPU/u0/mcode/_n11867<7>11 (la_maquina/el_z80/TheCPU/u0/mcode/N66)
+     LUT4:I3->O            7   0.205   0.774  la_maquina/el_z80/TheCPU/u0/mcode/_n11899<7>1 (la_maquina/el_z80/TheCPU/u0/mcode/_n11899)
+     LUT6:I5->O            1   0.205   0.684  la_maquina/el_z80/TheCPU/_n0157_inv22 (la_maquina/el_z80/TheCPU/_n0157_inv21)
+     LUT6:I4->O            2   0.203   0.617  la_maquina/el_z80/TheCPU/_n0157_inv24 (la_maquina/el_z80/TheCPU/_n0157_inv23)
+     LUT6:I5->O            2   0.205   0.617  la_maquina/el_z80/TheCPU/_n0157_inv26 (la_maquina/el_z80/N7)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/el_z80/TheCPU/_n0157_inv1 (la_maquina/el_z80/TheCPU/_n0157_inv)
+     FDCE_1:CE                 0.322          la_maquina/el_z80/TheCPU/MREQ
+    ----------------------------------------
+    Total                      8.392ns (1.995ns logic, 6.397ns route)
+                                       (23.8% logic, 76.2% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'la_maquina/la_ula/syncs/hc_0'
+  Clock period: 9.051ns (frequency: 110.483MHz)
+  Total number of paths / destination ports: 79852 / 1016
+-------------------------------------------------------------------------
+Delay:               9.051ns (Levels of Logic = 13)
+  Source:            la_maquina/dos_ays/ay1/reg_11_7 (FF)
+  Destination:       la_maquina/dos_ays/ay1/env_gen_cnt_15 (FF)
+  Source Clock:      la_maquina/la_ula/syncs/hc_0 rising
+  Destination Clock: la_maquina/la_ula/syncs/hc_0 rising
+
+  Data Path: la_maquina/dos_ays/ay1/reg_11_7 to la_maquina/dos_ays/ay1/env_gen_cnt_15
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             3   0.447   1.015  la_maquina/dos_ays/ay1/reg_11_7 (la_maquina/dos_ays/ay1/reg_11_7)
+     LUT6:I0->O            1   0.203   0.944  la_maquina/dos_ays/ay1/reg[12][7]_GND_125_o_equal_133_o<7>2 (la_maquina/dos_ays/ay1/reg[12][7]_GND_125_o_equal_133_o<7>1)
+     LUT6:I0->O           15   0.203   0.982  la_maquina/dos_ays/ay1/reg[12][7]_GND_125_o_equal_133_o<7>3 (la_maquina/dos_ays/ay1/reg[12][7]_GND_125_o_equal_133_o)
+     LUT2:I1->O            2   0.205   0.864  la_maquina/dos_ays/ay1/Mmux_GND_125_o_GND_125_o_mux_134_OUT11 (la_maquina/dos_ays/ay1/GND_125_o_GND_125_o_mux_134_OUT<0>)
+     LUT4:I0->O            1   0.203   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_lut<0> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_lut<0>)
+     MUXCY:S->O            1   0.172   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<0> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<0>)
+     MUXCY:CI->O           1   0.019   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<1> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<1>)
+     MUXCY:CI->O           1   0.019   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<2> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<2>)
+     MUXCY:CI->O           1   0.019   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<3> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<3>)
+     MUXCY:CI->O           1   0.019   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<4> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<4>)
+     MUXCY:CI->O           1   0.019   0.000  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<5> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<5>)
+     MUXCY:CI->O           1   0.213   0.944  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<6> (la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<6>)
+     LUT6:I0->O            2   0.203   0.721  la_maquina/dos_ays/ay1/Mcompar_GND_125_o_env_gen_cnt[15]_LessThan_136_o_cy<7> (la_maquina/dos_ays/ay1/GND_125_o_env_gen_cnt[15]_LessThan_136_o)
+     LUT2:I0->O           16   0.203   1.004  la_maquina/dos_ays/ay1/_n05781 (la_maquina/dos_ays/ay1/_n0578)
+     FDRE:R                    0.430          la_maquina/dos_ays/ay1/env_gen_cnt_0
+    ----------------------------------------
+    Total                      9.051ns (2.577ns logic, 6.474ns route)
+                                       (28.5% logic, 71.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'la_maquina/clkdiv_1'
+  Total number of paths / destination ports: 6 / 5
+-------------------------------------------------------------------------
+Offset:              7.985ns (Levels of Logic = 6)
+  Source:            ear (PAD)
+  Destination:       la_maquina/dos_ays/ay_select (FF)
+  Destination Clock: la_maquina/clkdiv_1 rising
+
+  Data Path: ear to la_maquina/dos_ays/ay_select
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             8   1.222   1.050  ear_IBUF (ear_IBUF)
+     LUT6:I2->O            1   0.203   0.808  la_maquina/el_z80/d<6>LogicTrst12 (la_maquina/el_z80/d<6>LogicTrst11)
+     LUT5:I2->O            1   0.205   0.808  la_maquina/el_z80/d<6>LogicTrst14_SW0 (N512)
+     LUT6:I3->O            3   0.205   0.755  la_maquina/el_z80/d<6>LogicTrst15 (la_maquina/el_z80/d<6>LogicTrst14)
+     LUT6:I4->O           25   0.203   1.421  la_maquina/el_z80/d<6>LogicTrst17 (la_maquina/cpudout<6>)
+     LUT6:I3->O            1   0.205   0.579  la_maquina/dos_ays/bdir_din[7]_AND_245_o (la_maquina/dos_ays/bdir_din[7]_AND_245_o)
+     FDPE:CE                   0.322          la_maquina/dos_ays/ay_select
+    ----------------------------------------
+    Total                      7.985ns (2.565ns logic, 5.420ns route)
+                                       (32.1% logic, 67.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'reloj_maestro/clkfx'
+  Total number of paths / destination ports: 16 / 16
+-------------------------------------------------------------------------
+Offset:              1.940ns (Levels of Logic = 1)
+  Source:            sram_data<7> (PAD)
+  Destination:       la_maquina/bootrom_rom_y_ram/dos_memorias/doutput2_7 (FF)
+  Destination Clock: reloj_maestro/clkfx rising
+
+  Data Path: sram_data<7> to la_maquina/bootrom_rom_y_ram/dos_memorias/doutput2_7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IOBUF:IO->O           2   1.222   0.616  sram_data_7_IOBUF (N375)
+     FDE:D                     0.102          la_maquina/bootrom_rom_y_ram/dos_memorias/doutput1_7
+    ----------------------------------------
+    Total                      1.940ns (1.324ns logic, 0.616ns route)
+                                       (68.2% logic, 31.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'la_maquina/la_ula/syncs/hc_4'
+  Total number of paths / destination ports: 192 / 88
+-------------------------------------------------------------------------
+Offset:              6.433ns (Levels of Logic = 5)
+  Source:            clkps2 (PAD)
+  Destination:       la_maquina/el_teclado/keys_7_4 (FF)
+  Destination Clock: la_maquina/la_ula/syncs/hc_4 rising
+
+  Data Path: clkps2 to la_maquina/el_teclado/keys_7_4
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             3   1.222   0.898  clkps2_IBUF (clkps2_IBUF)
+     LUT6:I2->O            6   0.203   0.973  la_maquina/el_teclado/PWR_30_o_ps2clk_AND_192_o1 (la_maquina/el_teclado/PWR_30_o_ps2clk_AND_192_o)
+     LUT4:I1->O            8   0.205   0.803  la_maquina/el_teclado/_n0585111 (la_maquina/el_teclado/N234)
+     LUT4:I3->O            4   0.205   0.684  la_maquina/el_teclado/_n1415_inv21 (la_maquina/el_teclado/N330)
+     LUT6:I5->O            5   0.205   0.714  la_maquina/el_teclado/_n1035_inv9 (la_maquina/el_teclado/_n1035_inv)
+     FDE:CE                    0.322          la_maquina/el_teclado/keys_7_0
+    ----------------------------------------
+    Total                      6.433ns (2.362ns logic, 4.071ns route)
+                                       (36.7% logic, 63.3% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'la_maquina/la_ula/clk7'
+  Total number of paths / destination ports: 129 / 13
+-------------------------------------------------------------------------
+Offset:              5.561ns (Levels of Logic = 5)
+  Source:            ear (PAD)
+  Destination:       la_maquina/la_ula/PaletteReg_6 (FF)
+  Destination Clock: la_maquina/la_ula/clk7 rising
+
+  Data Path: ear to la_maquina/la_ula/PaletteReg_6
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             8   1.222   1.050  ear_IBUF (ear_IBUF)
+     LUT6:I2->O            1   0.203   0.808  la_maquina/el_z80/d<6>LogicTrst12 (la_maquina/el_z80/d<6>LogicTrst11)
+     LUT5:I2->O            1   0.205   0.808  la_maquina/el_z80/d<6>LogicTrst14_SW0 (N512)
+     LUT6:I3->O            3   0.205   0.755  la_maquina/el_z80/d<6>LogicTrst15 (la_maquina/el_z80/d<6>LogicTrst14)
+     LUT6:I4->O           25   0.203   0.000  la_maquina/el_z80/d<6>LogicTrst17 (la_maquina/cpudout<6>)
+     FDE:D                     0.102          la_maquina/la_ula/PaletteReg_6
+    ----------------------------------------
+    Total                      5.561ns (2.140ns logic, 3.421ns route)
+                                       (38.5% logic, 61.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'la_maquina/cpuclk'
+  Total number of paths / destination ports: 3 / 3
+-------------------------------------------------------------------------
+Offset:              5.686ns (Levels of Logic = 5)
+  Source:            ear (PAD)
+  Destination:       la_maquina/el_z80/TheCPU/u0/IR_6 (FF)
+  Destination Clock: la_maquina/cpuclk rising
+
+  Data Path: ear to la_maquina/el_z80/TheCPU/u0/IR_6
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             8   1.222   1.050  ear_IBUF (ear_IBUF)
+     LUT6:I2->O            1   0.203   0.808  la_maquina/el_z80/d<6>LogicTrst12 (la_maquina/el_z80/d<6>LogicTrst11)
+     LUT5:I2->O            1   0.205   0.808  la_maquina/el_z80/d<6>LogicTrst14_SW0 (N512)
+     LUT6:I3->O            3   0.205   0.879  la_maquina/el_z80/d<6>LogicTrst15 (la_maquina/el_z80/d<6>LogicTrst14)
+     LUT6:I3->O            2   0.205   0.000  la_maquina/el_z80/TheCPU/u0/Mmux_IR[7]_IR[7]_mux_154_OUT71 (la_maquina/el_z80/TheCPU/u0/IR[7]_IR[7]_mux_154_OUT<6>)
+     FDCE:D                    0.102          la_maquina/el_z80/TheCPU/u0/IR_6
+    ----------------------------------------
+    Total                      5.686ns (2.142ns logic, 3.545ns route)
+                                       (37.7% logic, 62.3% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'la_maquina/la_ula/syncs/hc_0'
+  Total number of paths / destination ports: 17 / 17
+-------------------------------------------------------------------------
+Offset:              5.561ns (Levels of Logic = 5)
+  Source:            ear (PAD)
+  Destination:       la_maquina/dos_ays/ay1/reg_0_6 (FF)
+  Destination Clock: la_maquina/la_ula/syncs/hc_0 rising
+
+  Data Path: ear to la_maquina/dos_ays/ay1/reg_0_6
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             8   1.222   1.050  ear_IBUF (ear_IBUF)
+     LUT6:I2->O            1   0.203   0.808  la_maquina/el_z80/d<6>LogicTrst12 (la_maquina/el_z80/d<6>LogicTrst11)
+     LUT5:I2->O            1   0.205   0.808  la_maquina/el_z80/d<6>LogicTrst14_SW0 (N512)
+     LUT6:I3->O            3   0.205   0.755  la_maquina/el_z80/d<6>LogicTrst15 (la_maquina/el_z80/d<6>LogicTrst14)
+     LUT6:I4->O           25   0.203   0.000  la_maquina/el_z80/d<6>LogicTrst17 (la_maquina/cpudout<6>)
+     FDRE:D                    0.102          la_maquina/dos_ays/ay2/reg_0_6
+    ----------------------------------------
+    Total                      5.561ns (2.140ns logic, 3.421ns route)
+                                       (38.5% logic, 61.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'la_maquina/la_ula/clk7'
+  Total number of paths / destination ports: 554 / 34
+-------------------------------------------------------------------------
+Offset:              13.447ns (Levels of Logic = 9)
+  Source:            la_maquina/la_ula/ConfigReg_1 (FF)
+  Destination:       sram_data<5> (PAD)
+  Source Clock:      la_maquina/la_ula/clk7 rising
+
+  Data Path: la_maquina/la_ula/ConfigReg_1 to sram_data<5>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q            38   0.447   1.721  la_maquina/la_ula/ConfigReg_1 (la_maquina/la_ula/ConfigReg_1)
+     LUT5:I0->O            4   0.203   0.931  la_maquina/la_ula/Mmux_AttrDataLoad111 (la_maquina/la_ula/N43)
+     LUT4:I0->O            1   0.203   0.944  la_maquina/la_ula/Mmux_TimexConfigLoad111_SW0 (N457)
+     LUT6:I0->O            8   0.203   0.907  la_maquina/la_ula/Mmux_dout12211 (la_maquina/la_ula/N52)
+     LUT6:I4->O            1   0.203   0.827  la_maquina/el_z80/d<5>LogicTrst13 (la_maquina/el_z80/d<5>LogicTrst12)
+     LUT5:I1->O            1   0.203   0.827  la_maquina/el_z80/d<5>LogicTrst14_SW0 (N514)
+     LUT6:I2->O            2   0.203   0.845  la_maquina/el_z80/d<5>LogicTrst15 (la_maquina/el_z80/d<5>LogicTrst14)
+     LUT6:I3->O           27   0.205   1.221  la_maquina/el_z80/d<5>LogicTrst17 (la_maquina/cpudout<5>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write61 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<5>)
+     IOBUF:I->IO               2.571          sram_data_5_IOBUF (sram_data<5>)
+    ----------------------------------------
+    Total                     13.447ns (4.646ns logic, 8.801ns route)
+                                       (34.5% logic, 65.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'la_maquina/clkdiv_0'
+  Total number of paths / destination ports: 18 / 9
+-------------------------------------------------------------------------
+Offset:              6.833ns (Levels of Logic = 4)
+  Source:            la_maquina/la_ula/BitmapSerializerHR_15 (FF)
+  Destination:       r<1> (PAD)
+  Source Clock:      la_maquina/clkdiv_0 rising
+
+  Data Path: la_maquina/la_ula/BitmapSerializerHR_15 to r<1>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               2   0.447   0.845  la_maquina/la_ula/BitmapSerializerHR_15 (la_maquina/la_ula/BitmapSerializerHR_15)
+     LUT5:I2->O            3   0.205   0.879  la_maquina/la_ula/Mxor_PixelWFlash_xo<0>1 (la_maquina/la_ula/PixelWFlash)
+     LUT3:I0->O            3   0.205   0.898  la_maquina/la_ula/Mmux_bi1511 (la_maquina/la_ula/N30)
+     LUT5:I1->O            1   0.203   0.579  la_maquina/la_ula/syncs/Mmux_ro2 (r_1_OBUF)
+     OBUF:I->O                 2.571          r_1_OBUF (r<1>)
+    ----------------------------------------
+    Total                      6.833ns (3.631ns logic, 3.202ns route)
+                                       (53.1% logic, 46.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'reloj_maestro/clkfx'
+  Total number of paths / destination ports: 196 / 28
+-------------------------------------------------------------------------
+Offset:              9.527ns (Levels of Logic = 6)
+  Source:            la_maquina/bootrom_rom_y_ram/boot_rom/dout_0 (FF)
+  Destination:       sram_data<0> (PAD)
+  Source Clock:      reloj_maestro/clkfx rising
+
+  Data Path: la_maquina/bootrom_rom_y_ram/boot_rom/dout_0 to sram_data<0>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               3   0.447   0.879  la_maquina/bootrom_rom_y_ram/boot_rom/dout_0 (la_maquina/bootrom_rom_y_ram/boot_rom/dout_0)
+     LUT3:I0->O            1   0.205   0.808  la_maquina/bootrom_rom_y_ram/Mmux_dout131_SW13_SW0_SW0_SW0_SW0 (N611)
+     LUT6:I3->O            1   0.205   0.827  la_maquina/el_z80/d<0>LogicTrst2 (la_maquina/el_z80/d<0>LogicTrst1)
+     LUT5:I1->O            2   0.203   0.845  la_maquina/el_z80/d<0>LogicTrst3 (la_maquina/el_z80/d<0>LogicTrst3)
+     LUT6:I3->O           50   0.205   1.548  la_maquina/el_z80/d<0>LogicTrst13 (la_maquina/cpudout<0>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write11 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<0>)
+     IOBUF:I->IO               2.571          sram_data_0_IOBUF (sram_data<0>)
+    ----------------------------------------
+    Total                      9.527ns (4.041ns logic, 5.486ns route)
+                                       (42.4% logic, 57.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'la_maquina/cpuclk'
+  Total number of paths / destination ports: 4535 / 28
+-------------------------------------------------------------------------
+Offset:              13.073ns (Levels of Logic = 8)
+  Source:            la_maquina/el_z80/TheCPU/u0/IR_0 (FF)
+  Destination:       sram_data<0> (PAD)
+  Source Clock:      la_maquina/cpuclk rising
+
+  Data Path: la_maquina/el_z80/TheCPU/u0/IR_0 to sram_data<0>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q           136   0.447   2.076  la_maquina/el_z80/TheCPU/u0/IR_0 (la_maquina/el_z80/TheCPU/u0/IR_0)
+     LUT5:I3->O           18   0.203   1.050  la_maquina/el_z80/TheCPU/u0/mcode/_n11867<7>11 (la_maquina/el_z80/TheCPU/u0/mcode/N66)
+     LUT3:I2->O           13   0.205   0.933  la_maquina/el_z80/TheCPU/u0/mcode/_n4031<7>1 (la_maquina/el_z80/TheCPU/u0/mcode/_n4031)
+     LUT5:I4->O            1   0.205   0.580  la_maquina/el_z80/TheCPU/u0/mcode/Mmux_Write51_SW0 (N425)
+     LUT6:I5->O            1   0.205   0.684  la_maquina/el_z80/TheCPU/u0/mcode/Mmux_Write52 (la_maquina/el_z80/TheCPU/u0/mcode/Mmux_Write51)
+     LUT6:I4->O           19   0.203   1.176  la_maquina/el_z80/TheCPU/u0/mcode/Mmux_Write511 (la_maquina/el_z80/TheCPU/Write)
+     LUT6:I4->O           50   0.203   1.548  la_maquina/el_z80/d<0>LogicTrst13 (la_maquina/cpudout<0>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write11 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<0>)
+     IOBUF:I->IO               2.571          sram_data_0_IOBUF (sram_data<0>)
+    ----------------------------------------
+    Total                     13.073ns (4.447ns logic, 8.626ns route)
+                                       (34.0% logic, 66.0% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'la_maquina/clkdiv_1'
+  Total number of paths / destination ports: 1043 / 35
+-------------------------------------------------------------------------
+Offset:              11.855ns (Levels of Logic = 8)
+  Source:            la_maquina/dos_ays/ay_select (FF)
+  Destination:       sram_data<5> (PAD)
+  Source Clock:      la_maquina/clkdiv_1 rising
+
+  Data Path: la_maquina/dos_ays/ay_select to sram_data<5>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDPE:C->Q            29   0.447   1.594  la_maquina/dos_ays/ay_select (la_maquina/dos_ays/ay_select)
+     LUT6:I1->O            1   0.203   0.684  la_maquina/el_z80/d<5>LogicTrst3 (la_maquina/el_z80/d<5>LogicTrst2)
+     LUT4:I2->O            1   0.203   0.827  la_maquina/el_z80/d<5>LogicTrst5 (la_maquina/el_z80/d<5>LogicTrst4)
+     LUT6:I2->O            2   0.203   0.961  la_maquina/el_z80/d<5>LogicTrst9 (la_maquina/el_z80/d<5>LogicTrst8)
+     LUT6:I1->O            1   0.203   0.684  la_maquina/el_z80/d<5>LogicTrst11_SW1 (N490)
+     LUT6:I4->O            2   0.203   0.864  la_maquina/el_z80/d<0>LogicTrst22_SW0 (N410)
+     LUT6:I2->O           27   0.203   1.221  la_maquina/el_z80/d<5>LogicTrst17 (la_maquina/cpudout<5>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write61 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<5>)
+     IOBUF:I->IO               2.571          sram_data_5_IOBUF (sram_data<5>)
+    ----------------------------------------
+    Total                     11.855ns (4.441ns logic, 7.414ns route)
+                                       (37.5% logic, 62.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'la_maquina/la_ula/syncs/hc_0'
+  Total number of paths / destination ports: 594 / 8
+-------------------------------------------------------------------------
+Offset:              12.384ns (Levels of Logic = 8)
+  Source:            la_maquina/dos_ays/ay2/addr_0 (FF)
+  Destination:       sram_data<5> (PAD)
+  Source Clock:      la_maquina/la_ula/syncs/hc_0 rising
+
+  Data Path: la_maquina/dos_ays/ay2/addr_0 to sram_data<5>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q            82   0.447   2.123  la_maquina/dos_ays/ay2/addr_0 (la_maquina/dos_ays/ay2/addr_0)
+     LUT6:I0->O            1   0.203   0.684  la_maquina/el_z80/d<5>LogicTrst3 (la_maquina/el_z80/d<5>LogicTrst2)
+     LUT4:I2->O            1   0.203   0.827  la_maquina/el_z80/d<5>LogicTrst5 (la_maquina/el_z80/d<5>LogicTrst4)
+     LUT6:I2->O            2   0.203   0.961  la_maquina/el_z80/d<5>LogicTrst9 (la_maquina/el_z80/d<5>LogicTrst8)
+     LUT6:I1->O            1   0.203   0.684  la_maquina/el_z80/d<5>LogicTrst11_SW1 (N490)
+     LUT6:I4->O            2   0.203   0.864  la_maquina/el_z80/d<0>LogicTrst22_SW0 (N410)
+     LUT6:I2->O           27   0.203   1.221  la_maquina/el_z80/d<5>LogicTrst17 (la_maquina/cpudout<5>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write61 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<5>)
+     IOBUF:I->IO               2.571          sram_data_5_IOBUF (sram_data<5>)
+    ----------------------------------------
+    Total                     12.384ns (4.441ns logic, 7.943ns route)
+                                       (35.9% logic, 64.1% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'la_maquina/la_ula/syncs/hc_4'
+  Total number of paths / destination ports: 53 / 8
+-------------------------------------------------------------------------
+Offset:              10.164ns (Levels of Logic = 7)
+  Source:            la_maquina/el_teclado/keys_1_0 (FF)
+  Destination:       sram_data<0> (PAD)
+  Source Clock:      la_maquina/la_ula/syncs/hc_4 rising
+
+  Data Path: la_maquina/el_teclado/keys_1_0 to sram_data<0>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              2   0.447   0.961  la_maquina/el_teclado/keys_1_0 (la_maquina/el_teclado/keys_1_0)
+     LUT6:I1->O            1   0.203   0.808  la_maquina/el_z80/d<0>LogicTrst4 (la_maquina/el_z80/d<0>LogicTrst4)
+     LUT6:I3->O            1   0.205   0.827  la_maquina/el_z80/d<0>LogicTrst7 (la_maquina/el_z80/d<0>LogicTrst7)
+     LUT6:I2->O            1   0.203   0.580  la_maquina/el_z80/d<0>LogicTrst10 (la_maquina/el_z80/d<0>LogicTrst10)
+     LUT6:I5->O            2   0.205   0.617  la_maquina/el_z80/d<0>LogicTrst11_SW0_SW0_SW0_SW0_SW0_SW0_SW0 (N601)
+     LUT6:I5->O           50   0.205   1.548  la_maquina/el_z80/d<0>LogicTrst13 (la_maquina/cpudout<0>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write11 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<0>)
+     IOBUF:I->IO               2.571          sram_data_0_IOBUF (sram_data<0>)
+    ----------------------------------------
+    Total                     10.164ns (4.244ns logic, 5.920ns route)
+                                       (41.8% logic, 58.2% route)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 2 / 2
+-------------------------------------------------------------------------
+Delay:               10.006ns (Levels of Logic = 7)
+  Source:            ear (PAD)
+  Destination:       sram_data<6> (PAD)
+
+  Data Path: ear to sram_data<6>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             8   1.222   1.050  ear_IBUF (ear_IBUF)
+     LUT6:I2->O            1   0.203   0.808  la_maquina/el_z80/d<6>LogicTrst12 (la_maquina/el_z80/d<6>LogicTrst11)
+     LUT5:I2->O            1   0.205   0.808  la_maquina/el_z80/d<6>LogicTrst14_SW0 (N512)
+     LUT6:I3->O            3   0.205   0.755  la_maquina/el_z80/d<6>LogicTrst15 (la_maquina/el_z80/d<6>LogicTrst14)
+     LUT6:I4->O           25   0.203   1.193  la_maquina/el_z80/d<6>LogicTrst17 (la_maquina/cpudout<6>)
+     LUT5:I4->O            1   0.205   0.579  la_maquina/bootrom_rom_y_ram/dos_memorias/Mmux_data_to_write71 (la_maquina/bootrom_rom_y_ram/dos_memorias/data_to_write<6>)
+     IOBUF:I->IO               2.571          sram_data_6_IOBUF (sram_data<6>)
+    ----------------------------------------
+    Total                     10.006ns (4.814ns logic, 5.192ns route)
+                                       (48.1% logic, 51.9% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock la_maquina/clkdiv_0
+----------------------+---------+---------+---------+---------+
+                      | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock          |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------+---------+---------+---------+---------+
+la_maquina/clkdiv_0   |    2.361|         |         |         |
+la_maquina/la_ula/clk7|    6.220|         |         |         |
+----------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/clkdiv_1
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/clkdiv_1         |   10.082|         |         |         |
+la_maquina/cpuclk           |   11.780|    9.922|         |         |
+la_maquina/la_ula/clk7      |   11.991|         |         |         |
+la_maquina/la_ula/syncs/hc_0|   10.440|         |         |         |
+la_maquina/la_ula/syncs/hc_4|    8.871|         |         |         |
+reloj_maestro/clkfx         |    8.234|         |         |         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/cpuclk
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/clkdiv_1         |    8.203|         |    7.381|         |
+la_maquina/cpuclk           |   14.910|    7.476|    8.392|         |
+la_maquina/la_ula/clk7      |    9.796|         |    8.973|         |
+la_maquina/la_ula/syncs/hc_0|    8.732|         |    7.910|         |
+la_maquina/la_ula/syncs/hc_4|    6.287|         |    5.465|         |
+reloj_maestro/clkfx         |    5.699|         |    4.877|         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_282_o
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/la_ula/syncs/hc_0|         |         |    2.637|         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_283_o
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/la_ula/syncs/hc_0|         |         |    2.637|         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_282_o
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/la_ula/syncs/hc_0|         |         |    2.637|         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_283_o
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/la_ula/syncs/hc_0|         |         |    2.637|         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/la_ula/clk7
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/clkdiv_1         |    8.500|         |         |         |
+la_maquina/cpuclk           |   10.020|    8.162|         |         |
+la_maquina/la_ula/clk7      |   10.231|         |         |         |
+la_maquina/la_ula/syncs/hc_0|    9.029|         |         |         |
+la_maquina/la_ula/syncs/hc_4|    7.111|         |         |         |
+reloj_maestro/clkfx         |    6.474|         |         |         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/la_ula/syncs/hc_0
+----------------------------------------------------+---------+---------+---------+---------+
+                                                    | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                                        |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------------------------------+---------+---------+---------+---------+
+la_maquina/clkdiv_1                                 |    7.381|         |         |         |
+la_maquina/cpuclk                                   |    8.272|    6.654|         |         |
+la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_282_o|         |    5.289|         |         |
+la_maquina/dos_ays/ay1/env_reset_GND_125_o_AND_283_o|         |    4.617|         |         |
+la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_282_o|         |    5.289|         |         |
+la_maquina/dos_ays/ay2/env_reset_GND_125_o_AND_283_o|         |    4.617|         |         |
+la_maquina/la_ula/clk7                              |    8.973|         |         |         |
+la_maquina/la_ula/syncs/hc_0                        |    9.051|         |         |         |
+la_maquina/la_ula/syncs/hc_4                        |    5.363|         |         |         |
+reloj_maestro/clkfx                                 |    4.877|         |         |         |
+----------------------------------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock la_maquina/la_ula/syncs/hc_4
+----------------------------+---------+---------+---------+---------+
+                            | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+----------------------------+---------+---------+---------+---------+
+la_maquina/la_ula/syncs/hc_4|    6.688|         |         |         |
+----------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock reloj_maestro/clkfx
+-------------------+---------+---------+---------+---------+
+                   | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock       |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+-------------------+---------+---------+---------+---------+
+la_maquina/clkdiv_1|    6.376|         |         |         |
+la_maquina/cpuclk  |    5.823|    5.132|         |         |
+reloj_maestro/clkfx|    3.296|         |         |         |
+-------------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 160.00 secs
+Total CPU time to Xst completion: 159.77 secs
+ 
+--> 
+
+Total memory usage is 353120 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :  190 (   0 filtered)
+Number of infos    :   40 (   0 filtered)
+

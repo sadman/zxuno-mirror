@@ -1,0 +1,3 @@
+NEWPROJECT "C:/Users/rodriguj/Documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ipcore_dir/coregen.cgp"
+SETPROJECT "C:/Users/rodriguj/Documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ipcore_dir/coregen.cgp"
+LAUNCHXCO "C:/Users/rodriguj/Documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/ipcore_dir/pll.xco"

@@ -1,0 +1,111 @@
+--------------------------------------------------------------------------------
+Release 12.4 Trace  (nt64)
+Copyright (c) 1995-2010 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx\12.4\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -filter
+C:/Users/rodriguj/Documents/zxspectrum/zxuno/cores/spectrum_v2_spartan6/test15/iseconfig/filter.filter
+-intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml tld_zxuno.twx tld_zxuno.ncd -o
+tld_zxuno.twr tld_zxuno.pcf -ucf pines_zxuno.ucf
+
+Design file:              tld_zxuno.ncd
+Physical constraint file: tld_zxuno.pcf
+Device,package,speed:     xc6slx9,tqg144,C,-3 (PRELIMINARY 1.15 2010-12-02)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock clk50mhz
+------------+------------+------------+------------+------------+------------------+--------+
+            |Max Setup to|  Process   |Max Hold to |  Process   |                  | Clock  |
+Source      | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s) | Phase  |
+------------+------------+------------+------------+------------+------------------+--------+
+sram_data<0>|    0.353(R)|      FAST  |    1.151(R)|      SLOW  |sysclk            |   0.000|
+sram_data<1>|   -0.143(R)|      FAST  |    1.861(R)|      SLOW  |sysclk            |   0.000|
+sram_data<2>|   -0.205(R)|      FAST  |    1.762(R)|      SLOW  |sysclk            |   0.000|
+sram_data<3>|   -0.444(R)|      FAST  |    2.215(R)|      SLOW  |sysclk            |   0.000|
+sram_data<4>|   -0.382(R)|      FAST  |    1.994(R)|      SLOW  |sysclk            |   0.000|
+sram_data<5>|   -0.531(R)|      FAST  |    2.449(R)|      SLOW  |sysclk            |   0.000|
+sram_data<6>|   -0.307(R)|      FAST  |    1.878(R)|      SLOW  |sysclk            |   0.000|
+sram_data<7>|    0.338(R)|      FAST  |    1.190(R)|      SLOW  |sysclk            |   0.000|
+------------+------------+------------+------------+------------+------------------+--------+
+
+Clock clk50mhz to Pad
+-------------+-----------------+------------+-----------------+------------+------------------+--------+
+             |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
+Destination  |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
+-------------+-----------------+------------+-----------------+------------+------------------+--------+
+sram_addr<0> |        15.493(R)|      SLOW  |         8.019(R)|      FAST  |sysclk            |   0.000|
+sram_addr<1> |        14.525(R)|      SLOW  |         7.896(R)|      FAST  |sysclk            |   0.000|
+sram_addr<2> |        15.058(R)|      SLOW  |         8.042(R)|      FAST  |sysclk            |   0.000|
+sram_addr<3> |        15.422(R)|      SLOW  |         8.081(R)|      FAST  |sysclk            |   0.000|
+sram_addr<4> |        13.918(R)|      SLOW  |         7.760(R)|      FAST  |sysclk            |   0.000|
+sram_addr<5> |        17.136(R)|      SLOW  |         8.858(R)|      FAST  |sysclk            |   0.000|
+sram_addr<6> |        14.984(R)|      SLOW  |         8.326(R)|      FAST  |sysclk            |   0.000|
+sram_addr<7> |        14.910(R)|      SLOW  |         8.017(R)|      FAST  |sysclk            |   0.000|
+sram_addr<8> |        16.171(R)|      SLOW  |         9.012(R)|      FAST  |sysclk            |   0.000|
+sram_addr<9> |        15.609(R)|      SLOW  |         8.385(R)|      FAST  |sysclk            |   0.000|
+sram_addr<10>|        15.406(R)|      SLOW  |         8.101(R)|      FAST  |sysclk            |   0.000|
+sram_addr<11>|        14.259(R)|      SLOW  |         7.526(R)|      FAST  |sysclk            |   0.000|
+sram_addr<12>|        14.422(R)|      SLOW  |         7.791(R)|      FAST  |sysclk            |   0.000|
+sram_addr<13>|        14.489(R)|      SLOW  |         8.173(R)|      FAST  |sysclk            |   0.000|
+sram_addr<14>|        13.064(R)|      SLOW  |         7.630(R)|      FAST  |sysclk            |   0.000|
+sram_addr<15>|        14.978(R)|      SLOW  |         8.382(R)|      FAST  |sysclk            |   0.000|
+sram_addr<16>|        13.257(R)|      SLOW  |         7.690(R)|      FAST  |sysclk            |   0.000|
+sram_addr<17>|        14.662(R)|      SLOW  |         8.516(R)|      FAST  |sysclk            |   0.000|
+sram_addr<18>|        13.010(R)|      SLOW  |         7.471(R)|      FAST  |sysclk            |   0.000|
+sram_data<0> |        15.340(R)|      SLOW  |         7.093(R)|      FAST  |sysclk            |   0.000|
+sram_data<1> |        17.881(R)|      SLOW  |         7.046(R)|      FAST  |sysclk            |   0.000|
+sram_data<2> |        18.358(R)|      SLOW  |         6.969(R)|      FAST  |sysclk            |   0.000|
+sram_data<3> |        15.105(R)|      SLOW  |         6.563(R)|      FAST  |sysclk            |   0.000|
+sram_data<4> |        15.761(R)|      SLOW  |         6.570(R)|      FAST  |sysclk            |   0.000|
+sram_data<5> |        16.965(R)|      SLOW  |         6.468(R)|      FAST  |sysclk            |   0.000|
+sram_data<6> |        17.876(R)|      SLOW  |         6.468(R)|      FAST  |sysclk            |   0.000|
+sram_data<7> |        17.272(R)|      SLOW  |         6.716(R)|      FAST  |sysclk            |   0.000|
+sram_we_n    |        12.293(R)|      SLOW  |         7.090(R)|      FAST  |sysclk            |   0.000|
+-------------+-----------------+------------+-----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock clk50mhz
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clk50mhz       |    2.947|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+---------------+---------------+---------+
+Source Pad     |Destination Pad|  Delay  |
+---------------+---------------+---------+
+ear            |sram_data<6>   |   15.598|
+---------------+---------------+---------+
+
+
+Analysis completed Fri Dec 12 18:36:18 2014 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 250 MB
+
+
+
