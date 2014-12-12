@@ -1,5 +1,5 @@
 ﻿ 
-.-ZXLoader-. Version 1.0
+.-ZXLoader-.
 
   ZX Spectrum file browser
 

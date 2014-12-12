@@ -29,7 +29,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -68,7 +67,7 @@ import org.yombo.red.servidorficheros.ServidorFicherosLocal;
 
 public class ZXLoader implements TreeSelectionListener, MenuListener, ActionListener {
 
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "1.01";
 	
 	public static final String TITULO = "ZXLauncher v" + VERSION;
 	
@@ -590,7 +589,13 @@ public class ZXLoader implements TreeSelectionListener, MenuListener, ActionList
 
 		if ( opcion.getClass().isAssignableFrom( MenuOpcionFichero.class ) ) {
 			MenuOpcionFichero opcion1 = (MenuOpcionFichero)opcion;
-			cargarPrograma( opcion1.pathFicheroLocal, opcion1.nombreFicheroLocal );
+			if ( opcion1.errorCarga != null ) {
+				System.out.println( "Error:" + opcion1.errorCarga );
+				opcion1.reset();
+			}
+			else {
+				cargarPrograma( opcion1.pathFicheroLocal, opcion1.nombreFicheroLocal );
+			}
 		}
 
 	}
