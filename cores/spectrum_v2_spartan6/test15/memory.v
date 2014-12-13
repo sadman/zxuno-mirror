@@ -45,6 +45,7 @@ module memory (
    output wire issue2_keyboard_enabled,
    output wire timming_ula,
    output wire disable_contention,
+   output reg access_to_screen,
 
    // Interface para registros ZXUNO
    input wire [7:0] addr,
@@ -135,7 +136,7 @@ module memory (
             divmmc_status_after_m1 <= 1'b0;
          end
       end
-      if (m1_n==1'b1 /*!rfsh_n && !mreq_n*/) begin  // tras el ciclo M1, aquí es cuando realmente se hace el mapping
+      if (m1_n==1'b1) begin  // tras el ciclo M1, aquí es cuando realmente se hace el mapping
          divmmc_is_paged <= divmmc_status_after_m1;
       end
    end
@@ -193,7 +194,6 @@ module memory (
          end
          else begin  // estamos en modo normal de ejecución
 
-            // TODO: añadir aquí el codigo para comprobar si ha de paginarse la ROM del DIVMMC!!!!!!!!!!
             if (divmmc_is_enabled && (divmmc_is_paged || conmem)) begin  // DivMMC ha entrado en modo automapper o está mapeado a la fuerza
                if (a[13]==1'b0) begin // Si estamos en los primeros 8K
                   if (conmem || !mapram_mode) begin
@@ -285,6 +285,18 @@ module memory (
       end
    end
 
+   // Hay contienda en las páginas 5 y 7 de memoria, que son las dos páginas de pantalla
+   always @* begin
+     access_to_screen = 1'b0;
+     if (!initial_boot_mode) begin
+        if (!amstrad_allram_page_mode) begin
+           if (a[15:14]==2'b01 || (a[15:14]==2'b11 && (banco_ram==3'd5 || banco_ram==3'd7))) begin
+               access_to_screen = 1'b1;
+           end
+        end
+     end
+   end
+
    // Conexiones internas
    wire [7:0] bootrom_dout;
    wire [7:0] ram_dout;
@@ -312,8 +324,6 @@ module memory (
    rom boot_rom (
       .clk(mclk),
       .a(a[13:0]),
-      .we(1'b0), // !mreq_n && !wr_n && a[15:14]==2'b00),
-      .din(),  // (din),
       .dout(bootrom_dout)
     );    
 

@@ -53,6 +53,7 @@ module ula_radas (
     input wire issue2_keyboard,
     input wire timming,
     input wire disable_contention,
+    input wire access_to_contmem,
 
     // Video
 	 output wire [2:0] r,
@@ -353,8 +354,7 @@ module ula_radas (
          CA <= hc[7:3];
    end
 
-   // VRAM Address generation
-   
+   // VRAM Address generation   
    wire [8:0] hcd = hc + 9'hFF8;  // hc delayed 8 ticks
    always @* begin
      if (!RadasEnabled) begin
@@ -536,15 +536,9 @@ module ula_radas (
 		else
 			Border_n = 0;
 	end
-	wire Nor1 = (~(a[14] | ~ioreqall_n)) | 
-	            (~(~a[15] | ~ioreqall_n)) | 
-					( (hc[3:0]<4'd4 /*|| hc[3:0]>=4'd14*/) ) | 
-					(~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
-	wire Nor2 = ( (hc[3:0]<4'd4 /*|| hc[3:0]>=4'd14*/) ) | 
-	            ~Border_n |
-					~cpuclk |
-					ioreqall_n |
-					~ioreqtw3;
+	wire Nor1 = (~access_to_contmem & ioreqall_n) | (hc[3:0]<4'd4) | 
+                (~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
+	wire Nor2 = (hc[3:0]<4'd4) | ~Border_n | ~cpuclk | ioreqall_n | ~ioreqtw3;
 	wire CLKContention = ~Nor1 | ~Nor2;
 
 	always @(posedge cpuclk) begin
@@ -561,9 +555,9 @@ module ula_radas (
 		   CPUInternalClock <= 1'b1;
    end
 
-//   assign cpuclk = CPUInternalClock;
+   //assign cpuclk = CPUInternalClock;
 
-// assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? ~hc[0] : 1'b1;
+ //assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? hc[0] : 1'b1;
 
 
 ///////////////////////////////////
@@ -580,7 +574,7 @@ module ula_radas (
     
     reg CauseContention_n;
     always @* begin
-        if ((a[15:14]==2'b01 || !ioreqall_n) && !RadasEnabled && !disable_contention)
+        if ((access_to_contmem || !ioreqall_n) && !RadasEnabled && !disable_contention)
             CauseContention_n = 1'b0;
         else
             CauseContention_n = 1'b1;
