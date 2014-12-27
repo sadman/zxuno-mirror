@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/spectrum_v2_spartan6/vgatest1/tb_ps2_port_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_ps2_port" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="15" />
+   <wvobject fp_name="/tb_ps2_port/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/ps2clk_ext" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2clk_ext</obj_property>
+      <obj_property name="ObjectShortName">ps2clk_ext</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/ps2data_ext" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2data_ext</obj_property>
+      <obj_property name="ObjectShortName">ps2data_ext</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/kb_interrupt" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">kb_interrupt</obj_property>
+      <obj_property name="ObjectShortName">kb_interrupt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/scancode" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">scancode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/released" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">released</obj_property>
+      <obj_property name="ObjectShortName">released</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/extended" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">extended</obj_property>
+      <obj_property name="ObjectShortName">extended</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider8" type="divider">
+      <obj_property name="label">Internals</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/ps2clkedge" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">ps2clkedge</obj_property>
+      <obj_property name="ObjectShortName">ps2clkedge</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/key" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">key[7:0]</obj_property>
+      <obj_property name="ObjectShortName">key[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/paritycalculated" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">paritycalculated</obj_property>
+      <obj_property name="ObjectShortName">paritycalculated</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[1:0]</obj_property>
+      <obj_property name="ObjectShortName">state[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/rkb_interrupt" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rkb_interrupt</obj_property>
+      <obj_property name="ObjectShortName">rkb_interrupt</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/timeoutcnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">timeoutcnt[15:0]</obj_property>
+      <obj_property name="ObjectShortName">timeoutcnt[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_ps2_port/uut/scancode" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">scancode[7:0]</obj_property>
+      <obj_property name="ObjectShortName">scancode[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>
