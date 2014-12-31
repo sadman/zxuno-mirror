@@ -53,8 +53,15 @@ module tv80n_wrapper (
   inout wire [7:0] z80_d
   );
   
+  ODDR2 buffer_reloj (
+        .D0(1'b1),
+        .D1(1'b0),
+        .C0(clk),
+        .C1(~clk),
+        .Q(z80_clk)
+        );
+    
   assign z80_reset_n = reset_n;
-  assign z80_clk = clk;
   assign z80_int_n = int_n;
   assign z80_nmi_n = nmi_n;
   assign A = z80_a;

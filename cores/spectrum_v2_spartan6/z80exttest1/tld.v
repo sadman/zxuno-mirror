@@ -37,30 +37,20 @@ module tld (
     inout wire [7:0] z80_d
     );
 
-    wire clk,clkcpu;
+    wire clk;
     
-    pll reloj (
-        .CLK_IN1(clk50),
-        .CLK_OUT1(clk),
-        .PROGCLK(1'b0),
-        .PROGDATA(1'b0),
-        .PROGEN(1'b0),
-        .PROGDONE()
+    relojes reloj (
+        .CLKIN_IN(clk50), 
+        .CLKDV_OUT(), 
+        .CLKFX_OUT(clk), 
+        .CLKIN_IBUFG_OUT(), 
+        .CLK0_OUT(), 
+        .LOCKED_OUT()
     );
-    
-//    ODDR2 buffer_reloj (
-//        .D0(1'b1),
-//        .D1(1'b0),
-//        .C0(clk),
-//        .C1(~clk),
-//        .Q(clkcpu)
-//        );
-    
-    assign clkcpu = clk;
-    
+
     sistema el_sistema (
         .clk(clk),
-        .clkforz80(clkcpu),
+        .clkforz80(clk),
         .clkps2(clkps2),
         .dataps2(dataps2),
         .led(led),

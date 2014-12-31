@@ -45,15 +45,17 @@ module sistema(
     wire [7:0] cpudin;
     wire [7:0] cpudout;
 
+    wire [7:0] tecla;
+    wire soltada,extendida,nueva_tecla;
+
     reg [4:0] cntreset = 5'b00000;
     always @(posedge clk) begin
         if (cntreset[4] == 1'b0)
             cntreset <= cntreset + 1;
+        else if (nueva_tecla && !soltada && !extendida && tecla==8'h76) // se pulso ESC
+            cntreset <= 5'b00000;
     end
     wire reset_n = cntreset[4];
-
-    wire [7:0] tecla;
-    wire soltada,extendida;
 
     wire [7:0] memdout;
     
@@ -90,7 +92,7 @@ module sistema(
 		.enable_rcv(1'b1),
 		.ps2clk_ext(clkps2),
 		.ps2data_ext(dataps2),
-		.kb_interrupt(),
+		.kb_interrupt(nueva_tecla),
 		.scancode(tecla),
 		.released(soltada),
 		.extended(extendida)

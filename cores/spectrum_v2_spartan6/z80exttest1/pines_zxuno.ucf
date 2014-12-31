@@ -1,7 +1,6 @@
 # Clocks & debug
 NET "clk50" LOC="P55" | IOSTANDARD = LVCMOS33;
 NET "led" LOC="P10" | IOSTANDARD = LVCMOS33;
-PIN "reloj/clkout1_buf.O" CLOCK_DEDICATED_ROUTE = FALSE;
 
 # Keyboard
 NET "clkps2" LOC="P98" | IOSTANDARD = LVCMOS33 | PULLUP;
