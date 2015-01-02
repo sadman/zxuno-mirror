@@ -64,6 +64,13 @@ module tld_zxuno (
     inout wire [7:0] z80_d
    );
 
+   reg [8:0] reg_pwon_reset = 9'h000;
+   wire power_on_reset = reg_pwon_reset[8];
+   always @(posedge sysclk) begin
+    if (!power_on_reset)
+        reg_pwon_reset <= reg_pwon_reset + 1;
+   end
+
    wire wssclk,sysclk;
 //   relojes los_relojes_del_sistema (
 //    .CLKIN_IN(clk50mhz), 
@@ -95,7 +102,7 @@ module tld_zxuno (
    zxuno la_maquina (
     .clk(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
     .wssclk(wssclk),      //  5MHz, reloj para el WSS
-    .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
+    .power_on_reset_n(power_on_reset),  // sólo para simulación. Para implementacion, dejar a 1
     .r(r),
     .g(g),
     .b(b),

@@ -74,9 +74,25 @@ module z80_cmos (
   assign halt_n = 1'b1;
   assign busak_n = 1'b1;
 
-  assign dout = z80_d; 
+  reg [2:0] ed71_detector = 3'b000;
+
+  assign dout = (ed71_detector[2])? 8'h00 : z80_d; 
   assign z80_d = ( (!mreq_n || !iorq_n) && !rd_n)? di : 
                ( (!mreq_n || !iorq_n) && !wr_n)? 8'hZZ :
                8'hFF;
 
+  always @(posedge clk) begin
+    if (!z80_mreq_n && !z80_rd_n && !z80_m1_n) begin
+        if (z80_d == 8'hED)
+            ed71_detector = 3'b001;
+        else if (ed71_detector[0] == 1'b1 && z80_d == 8'h71)
+            ed71_detector = 3'b010;
+        else
+            ed71_detector = 3'b000;
+    end
+    else if (!z80_iorq_n && !z80_wr_n && ed71_detector[1])
+        ed71_detector = 3'b100;
+    else if (z80_iorq_n && ed71_detector[2])
+        ed71_detector = 3'b000;
+  end
 endmodule

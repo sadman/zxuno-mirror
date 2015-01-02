@@ -557,7 +557,7 @@ module ula_radas (
 
    //assign cpuclk = CPUInternalClock;
 
- //assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? hc[0] : 1'b1;
+   //assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? ~hc[0] : 1'b1;
 
 
 ///////////////////////////////////
@@ -565,7 +565,7 @@ module ula_radas (
 ///////////////////////////////////
 
     reg MayContend_n;
-    always @* begin  // esto era negedge clk7 en el esquemático
+    always @(negedge clk7) begin  // esto era negedge clk7 en el esquemático
        if (hc[3:0]>4'd3 && Border_n==1'b1)
          MayContend_n <= 1'b0;
        else

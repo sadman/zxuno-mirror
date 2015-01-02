@@ -24,7 +24,7 @@ module zxuno (
     // Relojes
     input wire clk,      // 28MHz, reloj del sistema
     input wire wssclk,   //  5MHz, reloj de la señal WSS
-	 input wire power_on_reset_n,
+	input wire power_on_reset_n,
     
     // E/S
     output wire [2:0] r,
@@ -182,7 +182,7 @@ module zxuno (
 	 // Clocks
     .clk14(clk14),     // 14MHz master clock
     .wssclk(wssclk),   // 5MHz WSS clock
-    .rst_n(mrst_n & rst_n & power_on_reset_n),
+    .rst_n(mrst_n & rst_n /* & power_on_reset_n */),
 
 	 // CPU interface
 	 .a(cpuaddr),
@@ -222,7 +222,7 @@ module zxuno (
    zxunoregs addr_reg_zxuno (
       .clk(clk7),
       .rst_n(rst_n),
-      .mrst_n(mrst_n & power_on_reset_n),
+      .mrst_n(mrst_n /* & power_on_reset_n */),
       .a(cpuaddr),
       .iorq_n(iorq_n),
       .rd_n(rd_n),
@@ -264,8 +264,8 @@ module zxuno (
    // Relojes y reset
       .clk(clk7),        // Reloj del sistema CLK7
       .mclk(clk),        // Reloj para el modulo de memoria de doble puerto
-      .mrst_n(mrst_n & power_on_reset_n),
-      .rst_n(rst_n & power_on_reset_n),
+      .mrst_n(mrst_n /* & power_on_reset_n */),
+      .rst_n(rst_n /* & power_on_reset_n */),
    
    // Interface con la CPU
       .a(cpuaddr),
@@ -328,7 +328,7 @@ module zxuno (
   turbosound dos_ays (
 	 .clk7(clk7),
     .clkay(clkay),
-    .reset_n(rst_n & mrst_n & power_on_reset_n),
+    .reset_n(rst_n & mrst_n /* & power_on_reset_n */),
     .bdir(bdir),
     .bc1(bc1),
     .din(cpudout),
