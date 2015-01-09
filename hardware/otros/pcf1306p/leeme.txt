@@ -1,0 +1,10 @@
+Este diseño es una adaptación del proyecto de José Leando.
+
+http://trastero.speccy.org/cosas/JL/pcf1306p/PCF1306P.html
+
+Lo único que he hecho es cambiar los condensadores a SMD y
+reducir las dimensiones a 19mm x 49mm para permitir
+panelización. De esta forma caben 10 placas en un espacio
+de 10x10cm.
+
+                               Antonio Villena, Enero 2015
