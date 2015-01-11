@@ -21,7 +21,7 @@ copy /b ESXMMC.BIN+                   ^
         SpaceRaiders.rom+             ^
         MiscoJones.rom                ^
     roms_29500.bin
-call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\test14\tld_zxuno.bit
+call promgen -w -spi -p mcs -o tld_zxuno.mcs -s 4096 -u 0 ..\..\cores\spectrum_v1_spartan3\test15\tld_zxuno.bit
 srec_cat  tld_zxuno.mcs   -Intel                    ^
           roms_29500.bin  -binary -offset 0x29500   ^
           -o prom.mcs     -Intel                    ^
@@ -34,7 +34,7 @@ copy /b tld_zxuno.bin+    ^
         2b500.bin+        ^
         ..\firmware.rom   ^
     machine.bin
-GenRom 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
-GenRom 0 0 0 0 'Machine' machine.bin  machine.tap
+GenRom 202 0 0 0 0 'BIOS' ..\firmware.rom firmware.tap
+GenRom 0 0 0 0 0 'Machine' machine.bin  machine.tap
 CgLeches firmware.tap firmware.wav
 CgLeches machine.tap  machine.wav

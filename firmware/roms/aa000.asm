@@ -13,7 +13,7 @@
 
 l0aa0   defb    $00, 1, $08, 4, $00, $00
         defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $21, $53, $ff, $ff, $ff, $ff, $ff, $ff
+        defb    $40, $ba, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defm    'ZX Spectrum 48K Cargando Leches '
