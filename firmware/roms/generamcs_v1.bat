@@ -34,7 +34,7 @@ copy /b tld_zxuno.bin+    ^
         2b500.bin+        ^
         ..\firmware.rom   ^
     machine.bin
-GenRom 202 0 0 0 0 'BIOS' ..\firmware.rom firmware.tap
+GenRom 0 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
 GenRom 0 0 0 0 0 'Machine' machine.bin  machine.tap
 CgLeches firmware.tap firmware.wav
 CgLeches machine.tap  machine.wav
