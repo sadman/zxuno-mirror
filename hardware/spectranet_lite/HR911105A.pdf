@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Страница не найдена | Терраэлектроника</title>
+        <meta http-equiv="Content-type" content="text/html; charset=windows-1251">
+        <script type="text/javascript" src="http://www.terraelectronica.ru/bulletin/js/badge.js"></script>
+        <link rel="alternate" type="application/rss+xml" title="События и мероприятия" href="http://www.terraelectronica.ru/data/company.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Новинки производителей" href="http://www.terraelectronica.ru/data/news.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Мир компонентов" href="http://www.terraelectronica.ru/data/mir.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Дизайн-идеи" href="http://www.terraelectronica.ru/data/idea.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Статьи" href="http://www.terraelectronica.ru/data/notes.xml" />
+        <style>
+            * {
+                margin:0;
+                padding:0;
+                letter-spacing:normal;
+            }
+            body {
+                font:12px Verdana, Arial, Helvetica, sans-serif;
+                color:#333;
+                line-height:1.6em;
+                background: #ffffff
+            }
+            #wrapper {
+                width:967px;
+                margin:10px auto;
+            }
+            #content {
+                padding:1px;
+                border: 1px solid #99ccff;
+            }
+            #main {
+                height:632px;
+                background: url('http://www.terraelectronica.ru/images/terra-404-error-page.png') no-repeat;
+            }
+            #header {
+                float: right;
+                margin:30px 20px 0 0;
+                width:430px;
+            }
+            h1 {
+                color:#fff;
+                font-size:240%;
+                margin-bottom:18px;
+            }
+            h2 {
+                color:#fff;
+                font-size:140%;
+                margin-bottom:20px;
+            }
+            p {
+                font-weight:700;
+                padding:3px;
+            }
+            ul {
+                list-style-type: none;
+                padding: 0 0 0 20px;
+            }
+            li a {
+                color:#fff;
+                font-weight:700;
+                text-decoration:none;
+                border-bottom:1px dotted #ffffff;
+            }
+            li a:hover {
+                margin-left:3px;
+                border-bottom:1px solid #ffffff;
+            }
+            .field {
+                background:#d2e7f8;
+                padding:2px;
+                width:300px;
+                border: 1px solid #99ccff;
+            }
+            .but {
+                font:12px Verdana, Arial, Helvetica, sans-serif;
+                color:#fff;
+                font-weight: 700;
+                background:#2a92d9;
+                padding:4px 8px;
+                cursor:pointer;
+                border: 1px solid #99ccff;
+            }
+            #footer {
+                clear:both;
+                display:block;
+                bottom:0;
+                left:0;
+            }
+            td {
+                width:33.3%;
+                padding:12px;
+                color:#2a92d9;
+            }
+            #copyright {
+                text-align: center;
+                color:#2a92d9;
+            }
+        </style>
+        <link rel="icon" type="image/x-icon" href="http://www.terraelectronica.ru/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="http://www.terraelectronica.ru/favicon.ico" />
+    </head>
+    <body>
+        <div style="position:absolute;top:0;left:0;">
+            <!--LiveInternet counter-->
+            <script type="text/javascript">
+                //<!--
+                document.write('<img src="http://counter.yadro.ru/hit?r' +
+                        escape(document.referrer) + ((typeof (screen) == 'undefined') ? '' :
+                        ';s' + screen.width + '*' + screen.height + '*' + (screen.colorDepth ?
+                                screen.colorDepth : screen.pixelDepth)) + ';u' + escape(document.URL) +
+                        ';i' + escape(' Жж ' + document.title.substring(0, 80)) + ';' + Math.random() +
+                        '" width=1 height=1 alt="">')//-->
+            </script>
+            <!--/LiveInternet--> 
+            <!-- Yandex.Metrika -->
+            <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript"></script>
+            <div style="display:none;"><script type="text/javascript">
+                try {
+                    var yaCounter897586 = new Ya.Metrika(897586);
+                } catch (e) {
+                }
+                </script></div>
+            <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/897586"  alt="" /></div></noscript>
+            <!-- /Yandex.Metrika -->
+            <!-- Google.Analytics counter -->
+            <script type="text/javascript">
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-12770960-2']);
+                _gaq.push(['_trackPageview', '/404error/?url=' + document.location.pathname + document.location.search + '&ref=' + document.referrer]);
+                (function() {
+                    var ga = document.createElement('script');
+                    ga.type = 'text/javascript';
+                    ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(ga, s);
+                })();
+            </script>
+            <!-- /Google.Analytics counter -->
+        </div>
+        <script type="text/javascript" charset="utf-8"><!--
+            tfb.account = 'TerraElectronic';
+            tfb.label = 'follow-me';
+            tfb.color = '#2a92d9';
+            tfb.side = 'left';
+            tfb.top = 110;
+            tfb.title = 'Следуйте за нами на Twitter';
+            tfb.about = 'Что такое Twitter';
+            tfb.ref = 'http://ru.wikipedia.org/wiki/Twitter';
+            tfb.showbadge();
+            -- ></script>
+        <div id="wrapper">
+            <div id="content">
+                <div id="main">
+                    <div id="header">
+                        <h1>Страница не найдена</h1>
+                        <h2>Проверьте правильность адреса страницы</h2>
+                        <p>Или попробуйте перейти в другие разделы сайта:</p>
+                        <p>
+                        <ul>
+                            <li><a href="http://www.terraelectronica.ru/news_made.php?Arc=0" title="Продукция, разработанная в Терраэлектронике">Разработано в Терраэлектронике</a></li>
+                            <li><a href="http://www.terraelectronica.ru/news_postup.php?Arc=0" title="Новинки производителей на нашем складе">Новинки производителей</a></li>
+                            <li><a href="http://www.terraelectronica.ru/news_mir.php?Arc=0" title="Мир компонентов">Перспективы рынка электроники</a></li>
+                            <li><a href="http://www.terraelectronica.ru/idea.php?Arc=0" title="Интересные дизайн-идеи">Дизайн-идеи - разработчикам</a></li>
+                            <li><a href="http://www.terraelectronica.ru/notes.php?Arc=0" title="Статьи из журналов в формате PDF">Статьи в формате Adobe Acrobat</a></li>
+                            <li><a href="http://www.terraelectronica.ru/catalog.php" title="Каталог нашей продукции">Каталог продукции</a></li>
+                            <li><a href="http://www.terraelectronica.ru/partners.php" title="Список дилеров и региональных представителей">Где купить продукцию?</a></li>
+                            <li><a href="http://www.terraelectronica.ru/board/index.php" title="Конференция">Конференция разработчиков</a></li>
+                            <li><a href="http://www.terraelectronica.ru/help.html" title="Помощь по сайту">Помощь по сайту</a></li>
+                            <li><a href="http://terraelectronica.ru/company.php" title="О компании Терраэлектроника">О компании Терраэлектроника</a></li>
+                        </ul>
+                        </p>
+                        <form action="http://www.terraelectronica.ru/search_selectpos.php">
+                            <p>Либо воспользуйтесь поиском по сайту:</p>
+                            <input name="Text" size="50" class="field" value="" type="text" placeholder="Что и где искать?">&nbsp;<input value="Искать" class="but" type="submit" title="Поиск по сайту">
+                            <br /><input name="Gde" value="2" type="radio"> В КАТАЛОГЕ
+                            &nbsp;&nbsp;&nbsp;<input name="Gde" checked="checked" value="1" type="radio"> НА ЭТОМ САЙТЕ
+                        </form>
+
+                    </div>
+                    <div id="footer">
+                        <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Москва, ул. Дербеневская 1, Бизнес-парк "Дербеневский", корп. 1, подъезд 23
+                                        <br />(м. "Павелецкая" или м. "Пролетарская")
+                                    </td>
+                                    <td>
+                                        Справка о наличии: +7 (495) 221-78-04
+                                        <br />Факс: +7 (495) 221-78-02 (круглосуточно)
+                                        <br />Автоответчик: +7 (495) 221-78-03
+                                    </td>
+                                    <td>
+                                        Продажи: sale@terraelectronica.ru
+                                        <br />Тех. поддержка: support@terraelectronica.ru
+                                        <br />Линия контроля: contact@terraelectronica.ru
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="copyright">
+                ©&nbsp;2004-2013 | ООО "ТерраЭлектроника" | Все права защищены.
+            </div>
+        </div>
+
+    </body>
+</html>
