@@ -15,8 +15,10 @@ include "errors.inc"
 ;     18         Numero de sectores (de 512 bytes) que ocupa cada frame: 12 para BW, 14 para color
 ;   Resto de posiciones: reservado
 
-; Cada frame: en blanco y negro, 6144 bytes en formato pantalla de Spectrum
+; Cada frame: en blanco y negro, 6144 bytes en formato pantalla de Spectrum. Un pixel a 1 se muestra en negro. A 0, en blanco.
 ;             en color, 256 bytes de relleno + 6912 bytes en formato pantalla de Spectrum
+;             NOTA: el relleno es simplemente para que cada frame ocupe un número entero de sectores. El relleno se pone a 0
+;                   o a lo que se quiera, ya que no se hace nada con él.
 
 
 ;Para ensamblar con PASMO como archivo binario (no TAP)
@@ -39,8 +41,9 @@ Main                proc
                     ld sp,PILA
                     ei
                     call PlayFichero
+                    push af
                     call Cls
-
+                    pop af
                     ld sp,(BackupSP)
                     ret
 
