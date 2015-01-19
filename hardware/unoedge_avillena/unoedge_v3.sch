@@ -9250,8 +9250,9 @@ Distributor: Bürklin 71F972&lt;br&gt;</description>
 <label x="-7.62" y="96.52" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="55.88" y1="152.4" x2="45.72" y2="152.4" width="0.1524" layer="91"/>
-<label x="45.72" y="152.4" size="1.778" layer="95"/>
+<pinref part="Q4" gate="G$1" pin="S"/>
+<wire x1="50.8" y1="152.4" x2="60.96" y2="152.4" width="0.1524" layer="91"/>
+<label x="50.8" y="152.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VCCIN" class="0">
@@ -9269,12 +9270,6 @@ Distributor: Bürklin 71F972&lt;br&gt;</description>
 <pinref part="J1" gate="G$1" pin="4"/>
 <wire x1="83.82" y1="-35.56" x2="93.98" y2="-35.56" width="0.1524" layer="91"/>
 <label x="88.9" y="-35.56" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="Q4" gate="G$1" pin="S"/>
-<wire x1="55.88" y1="152.4" x2="60.96" y2="152.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+12V" class="0">
