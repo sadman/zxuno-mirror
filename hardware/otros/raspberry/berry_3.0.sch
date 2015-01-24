@@ -2349,7 +2349,7 @@ Source: www.kingbright.com</description>
 <wire x1="-5.08" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="GND" class="0">
 <segment>
 <pinref part="SG1" gate="G$1" pin="1"/>
 <wire x1="60.96" y1="86.36" x2="73.66" y2="86.36" width="0.1524" layer="91"/>
@@ -2361,6 +2361,7 @@ Source: www.kingbright.com</description>
 <wire x1="2.54" y1="25.4" x2="73.66" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="55.88" x2="73.66" y2="55.88" width="0.1524" layer="91"/>
 <junction x="73.66" y="55.88"/>
+<label x="5.08" y="25.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$15" class="0">
