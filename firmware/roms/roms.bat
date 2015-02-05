@@ -15,3 +15,6 @@ GenRom 0    11 1 4 48 "'Space Raiders (1983)'"            SpaceRaiders.rom   Spa
 GenRom 0    11 1 4 48 "'Deathchase (1983)'"               Deathchase.rom     Deathchase.tap
 GenRom 0    11 1 4 48 "'Manic Miner (1983)'"              ManicMiner.rom     ManicMiner.tap
 GenRom 0    11 1 4 48 "'Misco Jones (2013)'"              MiscoJones.rom     MiscoJones.tap
+GenRom 0    11 1 4 48 "'Jet Set Willy (1984)'"            JetSetWilly.rom    JetSetWilly.tap
+GenRom 0    11 1 4 48 "'Lala Prologue (2010)'"            LalaPrologue.rom   LalaPrologue.tap
+

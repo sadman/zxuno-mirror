@@ -606,6 +606,7 @@ romsd   dec     iyh
         dec     c
         ld      b, $18
         call    inputv
+        ld      a, (codcnt)
         rrca
         ret     nc
         ld      hl, items

@@ -731,6 +731,7 @@ romsd   dec     iyh
         dec     c
         ld      b, $18
         call    inputv
+        ld      a, (codcnt)
         rrca
         ret     nc
         ld      hl, items
@@ -1355,7 +1356,7 @@ loadt1  ld      ix, cad42
         ld      c, b
         call_prnstr
         call    romcyb
-        ld      ixl, cad45 & $ff
+        ld      ix, cad45
         call_prnstr
         ld      ix, tmpbuf
         ld      de, $003f
