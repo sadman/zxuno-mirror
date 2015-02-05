@@ -1041,7 +1041,7 @@ upgra1  ld      sp, stack-2
         ld      hl, (menuop+1)
         rr      l
         jr      c, upgra5
-        cp      $3c
+        cp      $47
         jp      nz, roms12
         ld      de, tmpbuf+$40
         ld      hl, cad60
