@@ -1055,17 +1055,20 @@ upgra1  ld      sp, stack-2
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
-upgra2  ld      a, tmpbuf+$54 & $ff
+upgra2  ld      a, (tmpbuf+$54 & $ff)*2
         sub     iyh
+        rra
         ld      l, a
         ld      h, tmpbuf>>8
         ld      (hl), 'o'
-        call    shaon
+        jr      c, upgr25
+        ld      (hl), '-'
+upgr25  call    shaon
         ld      ix, $4000
         ld      de, $4000
         call    lbytes
         push    af
-        ld      a, 21
+        ld      a, 32
         sub     iyh
         call    alto copyme
         call    shaoff
@@ -1077,10 +1080,10 @@ boms12  jp      nc, roms12
         call_prnstr
         dec     iyh
         jr      nz, upgra2
-        ld      iyh, 12
+        ld      iyh, 23
         call    shaon
         exx
-upgra3  ld      a, 21
+upgra3  ld      a, 32
         sub     iyh
         call    alto saveme
         ld      a, $40
@@ -1088,7 +1091,11 @@ upgra3  ld      a, 21
         exx
         call    wrflsh
         inc     de
-        exx
+         ld      a, 3         ; parche necesario mientras no haya multiboot
+         sub     iyh
+         jr      nz, upgr35
+         ld      de, $0a80
+upgr35  exx
         dec     iyh
         jr      nz, upgra3
         call    shaoff
@@ -2043,7 +2050,10 @@ ramts1  ld      ixl, cad68&$ff
 ; Save flash structures from $9000 to $aa000 and from $a000 to $ab000
 ; ------------------------
       IF  debug
-wrflsh
+wrflsh  dec     a
+        ret     z
+        inc     de
+        jr      wrflsh
 savech  ret
       ELSE
 savech  ld      bc, zxuno_port+$100
