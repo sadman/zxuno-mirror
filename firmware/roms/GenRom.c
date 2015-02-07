@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
   fseek(fi, 0, SEEK_END);
   i= ftell(fi);
   fseek(fi, 0, SEEK_SET);
-  if( i&0x3fff )
+  if( i&0x3fff && i!=8192 )
     printf("\nInput file size must be multiple of 16384: %s\n", argv[7]),
     exit(-1);
   fo= fopen(argv[8], "wb+");
@@ -108,17 +108,31 @@ int main(int argc, char *argv[]) {
   mem[0x4004]= 0x41;
   mem[0x4005]= 0x00;
   mem[0x4006]= 0xff;
-  for ( i= 0; i<j; i++ ){
-    fread(mem+3, 1, 0x4000, fi);
+  if( j )
+    for ( i= 0; i<j; i++ ){
+      fread(mem+3, 1, 0x4000, fi);
+      crc= 0x4c2b;
+      for ( checksum= 0xff, k= 3; k<0x4003; ++k )
+        a= mem[k],
+        b= a ^ crc,
+        crc= tab[b] ^ (crc>>8&0xff ),
+        checksum^= a;
+      *(unsigned short*)(mem+0x400c+(j-i)*2)= crc;
+      mem[0x4003]= checksum;
+      fwrite(mem, 1, 0x4004, fo);
+    }
+  else{
+    mem[1]= 0x20;
+    fread(mem+3, j= 1, 0x2000, fi);
     crc= 0x4c2b;
-    for ( checksum= 0xff, k= 3; k<0x4003; ++k )
+    for ( checksum= 0xff, k= 3; k<0x2003; ++k )
       a= mem[k],
       b= a ^ crc,
       crc= tab[b] ^ (crc>>8&0xff ),
       checksum^= a;
-    *(unsigned short*)(mem+0x400c+(j-i)*2)= crc;
-    mem[0x4003]= checksum;
-    fwrite(mem, 1, 0x4004, fo);
+    *(unsigned short*)(mem+0x400e)= crc;
+    mem[0x2003]= checksum;
+    fwrite(mem, 1, 0x2004, fo);
   }
   fseek(fo, 0, SEEK_SET);
   mem[0x4007]= j;

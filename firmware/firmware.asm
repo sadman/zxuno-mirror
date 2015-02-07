@@ -1024,25 +1024,30 @@ upgrad  ld      h, 9
         ld      bc, $0202
         call_prnstr             ; Upgrade machine
         call_prnstr             ; Upgrade BIOS
+        call_prnstr             ; Upgrade ESXDOS
         ld      de, $1201
         call    listas
         defb    $02
         defb    $03
+        defb    $04
         defb    $ff
         defw    cad58
         defw    cad59
+        defw    cad595
         jp      c, main6
         ld      (menuop+1), a
         ld      ix, upgra1
         call    delhel
 upgra1  ld      sp, stack-2
         call    loadta
-        jp      nc, roms12
+        jr      nc, boms12
         ld      hl, (menuop+1)
-        rr      l
-        jr      c, upgra5
+        dec     l
+        jr      z, upgra5
+        dec     l
+        jp      z, upgra6
         cp      $47
-        jp      nz, roms12
+        jr      nz, aoms12
         ld      de, tmpbuf+$40
         ld      hl, cad60
         ld      bc, cad61-cad60
@@ -1065,7 +1070,7 @@ upgra2  ld      a, tmpbuf+$54 & $ff
         call    alto copyme
         call    shaoff
         pop     af
-        jp      nc, roms12
+boms12  jp      nc, roms12
         dec     iyl
         call    romcyb
         ld      ix, tmpbuf+$40
@@ -1091,24 +1096,24 @@ upgra3  ld      a, 21
         ld      ix, cad61
 upgra4  jp      roms13
 upgra5  cp      $31
-        jp      nz, roms12
+aoms12  jp      nz, roms12
         ld      a, (tmpbuf+1)
         cp      $ca
-        jp      nz, roms12
+        jr      nz, aoms12
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
-        jp      nc, roms12
+bbms12  jr      nc, boms12
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
         call    alto check
         ld      hl, (tmpbuf+7)
         sbc     hl, de
-        jp      nz, roms12
+        jr      nz, aoms12
         ld      a, $40
         ld      hl, $c000
         ld      bc, zxuno_port+$100
@@ -1117,7 +1122,31 @@ upgra5  cp      $31
         call    wrflsh
         call    romcyb
         ld      ix, cad62
-        jr      upgra4
+uugra4  jr      upgra4
+upgra6  call    romcyb
+        ld      ix, tmpbuf+$40
+        call_prnstr
+        ld      ix, $e000
+        ld      de, $2000
+        call    lbytes
+        jr      nc, bbms12
+        ld      bc, $170a
+        ld      ix, cad53
+        call_prnstr
+        ld      hl, $dfff
+        call    alto check0
+        ld      hl, (tmpbuf+7)
+        sbc     hl, de
+        jr      nz, aoms12
+        ld      a, $20
+        ld      hl, $e000
+        ld      bc, zxuno_port+$100
+        exx
+        ld      de, $0a80
+        call    wrflsh
+        call    romcyb
+        ld      ix, cad625
+        jr      uugra4
 
 ;****  Boot Menu  ****
 ;*********************
@@ -2753,8 +2782,8 @@ ramts5  inc     hl
 ; ---------
 ; CRC check
 ; ---------
-check   ld      c, alto crctab>>8
-        ld      hl, $bfff       ;4c2b > d432
+check   ld      hl, $bfff       ;4c2b > d432
+check0  ld      c, alto crctab>>8
         defb    $11
 check1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
         ld      e, a
@@ -3176,7 +3205,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.222', 0
+        defm    'ZX-Uno BIOS v0.223', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3211,7 +3240,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.222    ', $7f, '2014 ZX-Uno Team', 0
+        defb    '   BIOS v0.223    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3371,15 +3400,21 @@ cad56   defb    'Check CRC in', 0
         defb    'but safer', 0, 0
 cad57   defb    'Upgrade machine', 0
         defb    'Upgrade BIOS', 0
+        defb    'Upgrade ESXDOS', 0
 cad58   defb    'Upgrade entire', 0
         defb    'machine, BIOS', 0
+        defb    'and ESXDOS', 0
         defb    'included', 0, 0
 cad59   defb    'Upgrade only', 0
         defb    'the BIOS', 0
         defb    'firmware', 0, 0
+cad595  defb    'Upgrade only', 0
+        defb    'the ESXDOS', 0
+        defb    'firmware', 0, 0
 cad60   defb    'Status:[            ]', 0
 cad61   defb    'Machine upgraded', 0
 cad62   defb    'BIOS upgraded', 0
+cad625  defb    'ESXDOS upgraded', 0
 cad63   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    ' Recovery ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
         defb    ' ', $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
