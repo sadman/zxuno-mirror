@@ -1045,63 +1045,31 @@ upgra1  ld      sp, stack-2
         dec     l
         jr      z, upgra5
         dec     l
-        jp      z, upgra6
-        cp      $47
-        jr      nz, aoms12
-        ld      de, tmpbuf+$40
-        ld      hl, cad60
-        ld      bc, cad61-cad60
-        ldir
-        call    romcyb
+        jp      nz, upgra7
+upgra6  call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
-upgra2  ld      a, (tmpbuf+$54 & $ff)*2
-        sub     iyh
-        rra
-        ld      l, a
-        ld      h, tmpbuf>>8
-        ld      (hl), 'o'
-        jr      c, upgr25
-        ld      (hl), '-'
-upgr25  call    shaon
-        ld      ix, $4000
-        ld      de, $4000
+        ld      ix, $e000
+        ld      de, $2000
         call    lbytes
-        push    af
-        ld      a, 32
-        sub     iyh
-        call    alto copyme
-        call    shaoff
-        pop     af
 boms12  jp      nc, roms12
-        dec     iyl
-        call    romcyb
-        ld      ix, tmpbuf+$40
+        ld      bc, $170a
+        ld      ix, cad53
         call_prnstr
-        dec     iyh
-        jr      nz, upgra2
-        ld      iyh, 23
-        call    shaon
+        ld      hl, $dfff
+        call    alto check0
+        ld      hl, (tmpbuf+7)
+        sbc     hl, de
+        jr      nz, aoms12
+        ld      a, $20
+        ld      hl, $e000
+        ld      bc, zxuno_port+$100
         exx
-upgra3  ld      a, 32
-        sub     iyh
-        call    alto saveme
-        ld      a, $40
-        ld      hl, $4000
-        exx
+        ld      de, $0a80
         call    wrflsh
-        inc     de
-         ld      a, 3         ; parche necesario mientras no haya multiboot
-         sub     iyh
-         jr      nz, upgr35
-         ld      de, $0a80
-upgr35  exx
-        dec     iyh
-        jr      nz, upgra3
-        call    shaoff
         call    romcyb
-        ld      ix, cad61
-upgra4  jp      roms13
+        ld      ix, cad625
+        jr      uugra4
 upgra5  cp      $31
 aoms12  jp      nz, roms12
         ld      a, (tmpbuf+1)
@@ -1130,30 +1098,64 @@ bbms12  jr      nc, boms12
         call    romcyb
         ld      ix, cad62
 uugra4  jr      upgra4
-upgra6  call    romcyb
+
+
+upgra7  cp      $47
+        jr      nz, aoms12
+        ld      de, tmpbuf+$40
+        ld      hl, cad60
+        ld      bc, cad61-cad60
+        ldir
+        call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
-        ld      ix, $e000
-        ld      de, $2000
+upgra2  ld      a, (tmpbuf+$54 & $ff)*2
+        sub     iyh
+        rra
+        ld      l, a
+        ld      h, tmpbuf>>8
+        ld      (hl), 'o'
+        jr      c, upgr25
+        ld      (hl), '-'
+upgr25  call    shaon
+        ld      ix, $4000
+        ld      de, $4000
         call    lbytes
+        push    af
+        ld      a, 32
+        sub     iyh
+        call    alto copyme
+        call    shaoff
+        pop     af
         jr      nc, bbms12
-        ld      bc, $170a
-        ld      ix, cad53
-        call_prnstr
-        ld      hl, $dfff
-        call    alto check0
-        ld      hl, (tmpbuf+7)
-        sbc     hl, de
-        jr      nz, aoms12
-        ld      a, $20
-        ld      hl, $e000
-        ld      bc, zxuno_port+$100
-        exx
-        ld      de, $0a80
-        call    wrflsh
+        dec     iyl
         call    romcyb
-        ld      ix, cad625
-        jr      uugra4
+        ld      ix, tmpbuf+$40
+        call_prnstr
+        dec     iyh
+        jr      nz, upgra2
+        ld      iyh, 23
+        call    shaon
+        exx
+upgra3  ld      a, 32
+        sub     iyh
+        call    alto saveme
+        ld      a, $40
+        ld      hl, $4000
+        exx
+        call    wrflsh
+        inc     de
+         ld      a, 3         ; parche necesario mientras no haya multiboot
+         sub     iyh
+         jr      nz, upgr35
+         ld      de, $0a80
+upgr35  exx
+        dec     iyh
+        jr      nz, upgra3
+        call    shaoff
+        call    romcyb
+        ld      ix, cad61
+upgra4  jp      roms13
 
 ;****  Boot Menu  ****
 ;*********************
@@ -2055,6 +2057,7 @@ wrflsh  dec     a
         inc     de
         jr      wrflsh
 savech  ret
+        defs    126
       ELSE
 savech  ld      bc, zxuno_port+$100
         ld      a, $20
@@ -2443,8 +2446,7 @@ l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $02             ; DivMMC
         defb    $02             ; NMI-DivMMC
         defb    0   ; para que not implemented sea 0
-
-l0ac0
+l0ac0   defs    64
       ELSE
 
 ;++++++++++++++++++++++++++++++++++
