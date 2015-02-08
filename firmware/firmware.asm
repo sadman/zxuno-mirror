@@ -224,10 +224,20 @@ start3  ld      a, b
         call_prnstr             ; Graphics
         ld      bc, $0b13
         call_prnstr             ; hi-res, ULAplus
+        push    bc
         ld      b, a
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
+        ld      hl, active
+        ld      l, (hl)
+        ld      l, (hl)
+        call    calcu
+        set     5, l
+        push    hl
+        pop     ix
+        pop     bc
+        call_prnstr
 start4  ld      d, a
         pop     af
         jr      nz, start5
@@ -617,13 +627,7 @@ roms1   ld      l, (iy)
         inc     l
         jr      z, roms5
         dec     l
-        add     hl, hl
-        add     hl, hl
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
+        call    calcu
         ld      c, (hl)
         set     5, l
         ld      (ix+0), e
@@ -777,14 +781,8 @@ romsu   cp      (hl)
         inc     l
         djnz    romsu
         ld      (hl), a
-        add     a, a
-        add     a, a
         ld      l, a
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
+        call    calcu
         pop     af
         ld      (hl), a
         inc     l
@@ -918,14 +916,8 @@ roms1f  djnz    roms23
         ld      h, indexe >> 8
         ld      a, (hl)
         inc     a
-        rlca
-        rlca
         ld      l, a
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
+        call    calcu
         push    hl
         ld      de, empstr
         call    str2tmp
@@ -1043,19 +1035,19 @@ upgrad  ld      h, 9
         call    delhel
 upgra1  ld      sp, stack-2
         call    loadta
-        jr      nc, boms12
+        jr      nc, upgra2
         ld      hl, (menuop+1)
         dec     l
-        jr      z, upgra5
+        jr      z, upgra3
         dec     l
         jp      nz, upgra7
-upgra6  call    romcyb
+        call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
         ld      ix, $e000
         ld      de, $2000
         call    lbytes
-boms12  jp      nc, roms12
+upgra2  jp      nc, roms12
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
@@ -1063,7 +1055,7 @@ boms12  jp      nc, roms12
         call    alto check0
         ld      hl, (tmpbuf+7)
         sbc     hl, de
-        jr      nz, aoms12
+        jr      nz, upgra4
         ld      a, $20
         ld      hl, $e000
         ld      bc, zxuno_port+$100
@@ -1072,26 +1064,26 @@ boms12  jp      nc, roms12
         call    wrflsh
         call    romcyb
         ld      ix, cad625
-        jr      uugra4
-upgra5  cp      $31
-aoms12  jp      nz, roms12
+        jr      upgra6
+upgra3  cp      $31
+upgra4  jp      nz, roms12
         ld      a, (tmpbuf+1)
         cp      $ca
-        jr      nz, aoms12
+        jr      nz, upgra4
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
-bbms12  jr      nc, boms12
+upgra5  jr      nc, upgra2
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
         call    alto check
         ld      hl, (tmpbuf+7)
         sbc     hl, de
-        jr      nz, aoms12
+        jr      nz, upgra4
         ld      a, $40
         ld      hl, $c000
         ld      bc, zxuno_port+$100
@@ -1100,11 +1092,9 @@ bbms12  jr      nc, boms12
         call    wrflsh
         call    romcyb
         ld      ix, cad62
-uugra4  jr      upgra4
-
-
+upgra6  jr      upgrac
 upgra7  cp      $47
-        jr      nz, aoms12
+        jr      nz, upgra4
         ld      de, tmpbuf+$40
         ld      hl, cad60
         ld      bc, cad61-cad60
@@ -1112,15 +1102,15 @@ upgra7  cp      $47
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
-upgra2  ld      a, (tmpbuf+$54 & $ff)*2
+upgra8  ld      a, (tmpbuf+$54 & $ff)*2
         sub     iyh
         rra
         ld      l, a
         ld      h, tmpbuf>>8
         ld      (hl), 'o'
-        jr      c, upgr25
+        jr      c, upgra9
         ld      (hl), '-'
-upgr25  call    shaon
+upgra9  call    shaon
         ld      ix, $4000
         ld      de, $4000
         call    lbytes
@@ -1130,17 +1120,17 @@ upgr25  call    shaon
         call    alto copyme
         call    shaoff
         pop     af
-        jr      nc, bbms12
+        jr      nc, upgra5
         dec     iyl
         call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
         dec     iyh
-        jr      nz, upgra2
+        jr      nz, upgra8
         ld      iyh, 23
         call    shaon
         exx
-upgra3  ld      a, 32
+upgraa  ld      a, 32
         sub     iyh
         call    alto saveme
         ld      a, $40
@@ -1150,15 +1140,15 @@ upgra3  ld      a, 32
         inc     de
          ld      a, 3         ; parche necesario mientras no haya multiboot
          sub     iyh
-         jr      nz, upgr35
+         jr      nz, upgrab
          ld      de, $0a80
-upgr35  exx
+upgrab  exx
         dec     iyh
-        jr      nz, upgra3
+        jr      nz, upgraa
         call    shaoff
         call    romcyb
         ld      ix, cad61
-upgra4  jp      roms13
+upgrac  jp      roms13
 
 ;****  Boot Menu  ****
 ;*********************
@@ -1282,13 +1272,7 @@ boot2   ld      ix, cad4
 boot3   ld      l, (iy)
         inc     iyl
         inc     l
-        add     hl, hl
-        add     hl, hl
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
+        call    calcu
         ld      (ix+0), e
         ld      (ix+1), d
         inc     ixl
@@ -2051,6 +2035,15 @@ ramts1  ld      ixl, cad68&$ff
         ld      bc, zxuno_port+$100
         ret
 
+calcu   add     hl, hl
+        add     hl, hl
+        ld      h, 9
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ret
+
 ; ------------------------
 ; Save flash structures from $9000 to $aa000 and from $a000 to $ab000
 ; ------------------------
@@ -2459,13 +2452,7 @@ conti   di
         ld      hl, active
         ld      l, (hl)
         ld      l, (hl)
-        add     hl, hl
-        add     hl, hl
-        ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
+        call    calcu
         push    hl
         pop     ix
         ld      d, (ix+6)
@@ -3226,7 +3213,7 @@ cad1    defm    'http://zxuno.speccy.org', 0
         defm    'Memory:    512K Ok', 0
         defm    'Graphics:  normal, hi-color', 0
         defm    'hi-res, ULAplus', 0
-        defm    'Booting:   Amstrad +3 ROM 4.0 English', 0
+        defm    'Booting:', 0
         defm    'Press <Edit> to Setup    <Break> Boot Menu', 0
 cad2    defb    $12, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
