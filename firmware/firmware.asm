@@ -117,8 +117,9 @@ keysc5  ld      a, h
         ld      h, a
         add     a, d
         jr      z, keysc6
-        add     a, e
+        ld      d, h
         ld      l, a
+        add     hl, de
         ld      a, (hl)
 keysc6  ld      hl, (codcnt)
         jr      z, keysc8
@@ -234,8 +235,12 @@ start3  ld      a, b
         ld      l, (hl)
         call    calcu
         set     5, l
-        push    hl
+        ld      de, tmpbuf
+        push    de
         pop     ix
+        ld      c, $1f
+        ldir
+        ld      (de), a
         pop     bc
         call_prnstr
 start4  ld      d, a
@@ -2416,7 +2421,7 @@ l0aa0   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K                 '
+        defm    'ZX Spectrum 48K 1234567890123456'
 
 ;  00-3f: index to entries
 ;  40: active entry
