@@ -725,10 +725,14 @@ romsd   dec     iyh
         call    romcyb
         ld      ix, cad54
         call_prnstr
-        ld      hl, %0100011101000111 ; fondo negro tinta blanca
-        ld      ($5800+11*32+18), hl
-        ld      hl, $0200
         dec     c
+        ld      a, %01000111    ; fondo blanco tinta azul
+        ld      h, $12
+        ld      l, c
+        ld      de, $0201
+        call    window
+        ld      c, l
+        ld      hl, $0200
         ld      b, $18
         call    inputv
         ld      a, (codcnt)
@@ -750,8 +754,7 @@ romsf   add     a, (hl)
         cp      20
         ret     nc
         push    af
-        adc     a, c
-;        add     a, 12
+        add     a, 12
         rlca
         rlca
         rlca
@@ -3217,7 +3220,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.224', 0
+        defm    'ZX-Uno BIOS v0.225', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3252,7 +3255,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.224    ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.225    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
