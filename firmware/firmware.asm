@@ -3323,6 +3323,7 @@ cad31   defb    'Issue 3', 0
 cadv2   defb    'Auto', 0
 cadv3   defb    '48K', 0
 cadv4   defb    '128K', 0
+cad32   defb    'Move Up', 0
 cad24   defb    '[Disabled]', 0
 cad25   defb    '[Enabled]', 0
 cad26   defb    '[Issue 2]', 0
@@ -3330,7 +3331,6 @@ cad27   defb    '[Issue 3]', 0
 cadv8   defb    '[Auto]', 0
 cadv9   defb    '[48K ]', 0
 cadva   defb    '[128K]', 0
-cad32   defb    'Move Up', 0
 cad33   defb    'Set Active', 0
 cad34   defb    'Move Down', 0
 cad35   defb    'Rename', 0
