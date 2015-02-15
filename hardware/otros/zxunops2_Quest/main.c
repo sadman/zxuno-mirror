@@ -124,7 +124,7 @@ uint8_t ps2Stat()
 }
 
 //En us, reloj y semireloj, para los flancos
-//zxuno v2 test15: CK1 = 240, CK2 = 480. Uso normal: CK1 = 20, CK2 = 24 
+//zxuno v2 test15: CK1 = 240, CK2 = 480. Uso normal: CK1 = 20, CK2 = 40 
 //(revertir a normal cuando el core ps/2 del ZX-UNO se mejore)
 #define CK1 240 
 #define CK2 480
