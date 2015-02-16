@@ -1,32 +1,32 @@
-Archivo ROM		CRC(ZIP)  CRC(TAP)  Nombre ROM
+Archivo ROM             CRC(ZIP)  CRC(TAP)  Nombre ROM
 ---------------------------------------------------------------------------------------------
 
 ROMs 8K que funcionen con DivMMC
   ESXMMC.BIN            40857A84  ----  ESXDOS 0.8.5
-  ESXMMC086b4.BIN	D19B7628  ----  ESXDOS 0.8.6 Beta4
+  ESXMMC086b4.BIN       D19B7628  ----  ESXDOS 0.8.6 Beta4
 
 ROMs de 16K
-  48.rom                DDEE531F  1BFE	Original del Spectrum 16K/48K
-  leches.rom            43DF1282  1039	CargandoLeches easy/resetplay/pokemon
-  tc2048.rom            F1B5FA67  6FAD	Timex 2048
-  tk90x.rom             3E785F6F  D550	Clon brasileño TK90X
-  tk95.rom              17368E07  97D3	Clon brasileño TK95
-  inves.rom             8FF7A4D1  70CB	Clon español Inves Spectrum +
-  48-beckman.rom        A8A41DA5  42B0	Escandinava hecha por Beckman Innovation AB
-  48-busysoft.rom       1511CDDB  5A2D	Modificada por Busy Soft v1.18
-  48-busysoft-140.rom   07017C6D  29D1	Modificada por Busy Soft v1.40
-  48-groot.rom          ABF18C45  20F8	Modificada por Henk de Groot
-  48-imc.rom            D1BE99EE  CECD	Modificada por Ian Collier
-  48-jgh.rom            F6713813  473F	Modificada por Jonathan Harston v0.72
-  48-plus4.rom          7E0F47CB  7BBB	Modificada por ????
-  48-simulator.rom      996BC458  9E4C	Modificada para ZX Spectrum Simulator
-  48-russian.rom        CEB4005D  B1BF	Modificada para ZX Emulator
-  48-specem.rom         705192C7  74FA	Modificada como ROM1 de 128K en SpecEm
-  80-lec.rom            5B5C92B1  2E91	Modificada para un Spectrum expandido a 80K
-  deutsch.rom           1A9190F4  8E0E	Traducida al alemán por Andrew Owen
-  gw03.rom              D6DC6C1F  B7A5	Gosh Wonderful v1.32 por Geoff Wearmouth
-  seachange.rom         73B4057A  03B0	Sea Change por Geoff Wearmouth
-  SinclairTest.rom      730BBA9E  EDCC	Sinclair ZX Spectrum Test ROM
+  48.rom                DDEE531F  1BFE  Original del Spectrum 16K/48K
+  leches.rom            43DF1282  1039  CargandoLeches easy/resetplay/pokemon
+  tc2048.rom            F1B5FA67  6FAD  Timex 2048
+  tk90x.rom             3E785F6F  D550  Clon brasileño TK90X
+  tk95.rom              17368E07  97D3  Clon brasileño TK95
+  inves.rom             8FF7A4D1  70CB  Clon español Inves Spectrum +
+  48-beckman.rom        A8A41DA5  42B0  Escandinava hecha por Beckman Innovation AB
+  48-busysoft.rom       1511CDDB  5A2D  Modificada por Busy Soft v1.18
+  48-busysoft-140.rom   07017C6D  29D1  Modificada por Busy Soft v1.40
+  48-groot.rom          ABF18C45  20F8  Modificada por Henk de Groot
+  48-imc.rom            D1BE99EE  CECD  Modificada por Ian Collier
+  48-jgh.rom            F6713813  473F  Modificada por Jonathan Harston v0.72
+  48-plus4.rom          7E0F47CB  7BBB  Modificada por ????
+  48-simulator.rom      996BC458  9E4C  Modificada para ZX Spectrum Simulator
+  48-russian.rom        CEB4005D  B1BF  Modificada para ZX Emulator
+  48-specem.rom         705192C7  74FA  Modificada como ROM1 de 128K en SpecEm
+  80-lec.rom            5B5C92B1  2E91  Modificada para un Spectrum expandido a 80K
+  deutsch.rom           1A9190F4  8E0E  Traducida al alemán por Andrew Owen
+  gw03.rom              D6DC6C1F  B7A5  Gosh Wonderful v1.32 por Geoff Wearmouth
+  seachange.rom         73B4057A  03B0  Sea Change por Geoff Wearmouth
+  SinclairTest.rom      730BBA9E  EDCC  Sinclair ZX Spectrum Test ROM
 
 ROMs de 32K
   128en.rom             2CBE8995  A2394D6A  Original 128K inglesa
@@ -34,7 +34,7 @@ ROMs de 32K
   plus2en.rom           E7A517DC  DBA4FA60  Original +2 inglesa
   plus2es.rom           5660F4B4  0C982DB1  Original +2 española
   plus2fr.rom           8F769DE7  D7903ED3  Original +2 francesa
-  pentagon.rom		AA1CE4BD  D942A239  Pentagon 128
+  pentagon.rom          AA1CE4BD  D942A239  Pentagon 128
   se.rom                D7AC4169  BFD5C9E8  SE Basic IV 4.0 Anya por Andrew Owen
 
 ROMs de 64K
