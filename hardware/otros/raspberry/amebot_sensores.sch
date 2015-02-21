@@ -1508,6 +1508,16 @@
 <pinref part="JP13" gate="A" pin="2"/>
 <wire x1="134.62" y1="-91.44" x2="96.52" y2="-91.44" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<wire x1="5.08" y1="78.74" x2="12.7" y2="78.74" width="0.1524" layer="91"/>
+<label x="10.16" y="78.74" size="1.778" layer="95"/>
+<pinref part="JP1" gate="A" pin="8"/>
+</segment>
+<segment>
+<wire x1="-12.7" y1="71.12" x2="-2.54" y2="71.12" width="0.1524" layer="91"/>
+<label x="-12.7" y="71.12" size="1.778" layer="95"/>
+<pinref part="JP1" gate="A" pin="13"/>
+</segment>
 </net>
 <net name="N$3" class="0">
 <segment>
