@@ -13343,7 +13343,7 @@ Copyright: Würth Elektronik eiSos</description>
 </classes>
 <parts>
 <part name="C2/JTAG" library="con-lstb" deviceset="MA05-2" device=""/>
-<part name="RN1" library="resistor-net" deviceset="RN08" device=""/>
+<part name="RN1" library="resistor-net" deviceset="RN08" device="" value="470"/>
 <part name="P+1" library="supply1" deviceset="VCC" device="" value="3,3V"/>
 <part name="V1" library="supply2" deviceset="VCC" device="" value="5V"/>
 <part name="5VDC" library="supply2" deviceset="VCC" device="" value="5V"/>
@@ -13360,8 +13360,6 @@ Copyright: Würth Elektronik eiSos</description>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
 <part name="R4" library="rcl" deviceset="R-US_" device="M0805" value="1K"/>
 <part name="R5" library="rcl" deviceset="R-US_" device="M0805" value="1K"/>
-<part name="GND8" library="supply1" deviceset="GND" device=""/>
-<part name="GND9" library="supply1" deviceset="GND" device=""/>
 <part name="P+3" library="supply1" deviceset="VCC" device="" value="3.3V"/>
 <part name="V5" library="supply2" deviceset="VCC" device="" value="5V"/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
@@ -13372,12 +13370,10 @@ Copyright: Würth Elektronik eiSos</description>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
 <part name="V8" library="supply2" deviceset="VCC" device="" value="5V"/>
 <part name="GND11" library="supply1" deviceset="GND" device=""/>
-<part name="C1" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
-<part name="C2" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
 <part name="C3" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
+<part name="C1" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
 <part name="C4" library="rcl" deviceset="C-EU" device="C0805K" value="1uF"/>
-<part name="C5" library="rcl" deviceset="C-EU" device="C0805K" value="1uF"/>
-<part name="C6" library="rcl" deviceset="C-EU" device="C0805K" value="1uF"/>
+<part name="C2" library="rcl" deviceset="C-EU" device="C0805K" value="1uF"/>
 <part name="PS/2" library="con-yamaichi" deviceset="SSV-G06" device=""/>
 <part name="CTRL" library="con-lstb" deviceset="MA04-1" device=""/>
 <part name="COLUMNAS" library="con-lstb" deviceset="MA05-1" device=""/>
@@ -13389,7 +13385,7 @@ Copyright: Würth Elektronik eiSos</description>
 <part name="L1" library="wuerth-elektronik" deviceset="WE-CBF" device="_0805"/>
 <part name="5VDC1" library="supply2" deviceset="VCC" device="" value="5V"/>
 <part name="GND12" library="supply1" deviceset="GND" device=""/>
-<part name="C7" library="rcl" deviceset="CPOL-EU" device="E2,5-6E" value="100uF"/>
+<part name="C5" library="rcl" deviceset="CPOL-EU" device="E2,5-6E" value="100uF"/>
 </parts>
 <sheets>
 <sheet>
@@ -13414,8 +13410,6 @@ Copyright: Würth Elektronik eiSos</description>
 <instance part="GND7" gate="1" x="15.24" y="-17.78"/>
 <instance part="R4" gate="G$1" x="-20.32" y="2.54" rot="R180"/>
 <instance part="R5" gate="G$1" x="-38.1" y="10.16" rot="R270"/>
-<instance part="GND8" gate="1" x="-38.1" y="-10.16"/>
-<instance part="GND9" gate="1" x="-27.94" y="-10.16"/>
 <instance part="P+3" gate="VCC" x="-38.1" y="20.32"/>
 <instance part="V5" gate="G$1" x="-22.86" y="22.86"/>
 <instance part="GND10" gate="1" x="116.84" y="68.58"/>
@@ -13426,12 +13420,10 @@ Copyright: Würth Elektronik eiSos</description>
 <instance part="GND3" gate="1" x="106.68" y="55.88"/>
 <instance part="V8" gate="G$1" x="109.22" y="91.44"/>
 <instance part="GND11" gate="1" x="127" y="68.58"/>
-<instance part="C1" gate="G$1" x="-38.1" y="-2.54"/>
-<instance part="C2" gate="G$1" x="99.06" y="66.04"/>
-<instance part="C3" gate="G$1" x="116.84" y="76.2"/>
-<instance part="C4" gate="G$1" x="-27.94" y="-2.54"/>
-<instance part="C5" gate="G$1" x="106.68" y="66.04"/>
-<instance part="C6" gate="G$1" x="127" y="76.2"/>
+<instance part="C3" gate="G$1" x="99.06" y="66.04"/>
+<instance part="C1" gate="G$1" x="116.84" y="76.2"/>
+<instance part="C4" gate="G$1" x="106.68" y="66.04"/>
+<instance part="C2" gate="G$1" x="127" y="76.2"/>
 <instance part="PS/2" gate="G$1" x="132.08" y="0" rot="MR180"/>
 <instance part="CTRL" gate="1" x="-5.08" y="93.98"/>
 <instance part="COLUMNAS" gate="G$1" x="-5.08" y="68.58"/>
@@ -13443,7 +13435,7 @@ Copyright: Würth Elektronik eiSos</description>
 <instance part="L1" gate="G$1" x="7.62" y="93.98"/>
 <instance part="5VDC1" gate="G$1" x="-22.86" y="76.2"/>
 <instance part="GND12" gate="1" x="-22.86" y="53.34"/>
-<instance part="C7" gate="G$1" x="-22.86" y="66.04"/>
+<instance part="C5" gate="G$1" x="-22.86" y="66.04"/>
 </instances>
 <busses>
 </busses>
@@ -13628,13 +13620,13 @@ Copyright: Würth Elektronik eiSos</description>
 <junction x="99.06" y="68.58"/>
 <junction x="106.68" y="68.58"/>
 <pinref part="V8" gate="G$1" pin="VCC"/>
-<pinref part="C2" gate="G$1" pin="1"/>
-<pinref part="C5" gate="G$1" pin="1"/>
+<pinref part="C3" gate="G$1" pin="1"/>
+<pinref part="C4" gate="G$1" pin="1"/>
 <pinref part="IC1" gate="G$1" pin="REGIN"/>
 <pinref part="IC1" gate="G$1" pin="VBUS"/>
 </segment>
 <segment>
-<pinref part="C7" gate="G$1" pin="+"/>
+<pinref part="C5" gate="G$1" pin="+"/>
 <pinref part="5VDC1" gate="G$1" pin="VCC"/>
 <wire x1="-22.86" y1="68.58" x2="-22.86" y2="73.66" width="0.1524" layer="91"/>
 </segment>
@@ -13668,8 +13660,8 @@ Copyright: Würth Elektronik eiSos</description>
 <wire x1="116.84" y1="78.74" x2="127" y2="78.74" width="0.1524" layer="91"/>
 <junction x="116.84" y="78.74"/>
 <pinref part="P+4" gate="VCC" pin="VCC"/>
-<pinref part="C3" gate="G$1" pin="1"/>
-<pinref part="C6" gate="G$1" pin="1"/>
+<pinref part="C1" gate="G$1" pin="1"/>
+<pinref part="C2" gate="G$1" pin="1"/>
 <pinref part="IC1" gate="G$1" pin="VDD"/>
 </segment>
 </net>
@@ -13771,25 +13763,17 @@ Copyright: Würth Elektronik eiSos</description>
 <wire x1="99.06" y1="60.96" x2="106.68" y2="60.96" width="0.1524" layer="91"/>
 <junction x="106.68" y="60.96"/>
 <pinref part="GND3" gate="1" pin="GND"/>
-<pinref part="C2" gate="G$1" pin="2"/>
-<pinref part="C5" gate="G$1" pin="2"/>
+<pinref part="C3" gate="G$1" pin="2"/>
+<pinref part="C4" gate="G$1" pin="2"/>
 <wire x1="106.68" y1="60.96" x2="106.68" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="GND8" gate="1" pin="GND"/>
+<pinref part="GND10" gate="1" pin="GND"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="GND10" gate="1" pin="GND"/>
-<pinref part="C3" gate="G$1" pin="2"/>
-</segment>
-<segment>
-<pinref part="GND9" gate="1" pin="GND"/>
-<pinref part="C4" gate="G$1" pin="2"/>
-</segment>
-<segment>
 <pinref part="GND11" gate="1" pin="GND"/>
-<pinref part="C6" gate="G$1" pin="2"/>
+<pinref part="C2" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="Q1" gate="G$1" pin="E"/>
@@ -13800,7 +13784,7 @@ Copyright: Würth Elektronik eiSos</description>
 <pinref part="GND4" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="C7" gate="G$1" pin="-"/>
+<pinref part="C5" gate="G$1" pin="-"/>
 <pinref part="GND12" gate="1" pin="GND"/>
 <wire x1="-22.86" y1="60.96" x2="-22.86" y2="55.88" width="0.1524" layer="91"/>
 </segment>
@@ -13843,21 +13827,16 @@ Copyright: Würth Elektronik eiSos</description>
 <net name="N$3" class="0">
 <segment>
 <wire x1="-38.1" y1="5.08" x2="-38.1" y2="2.54" width="0.1524" layer="91"/>
-<wire x1="-38.1" y1="2.54" x2="-38.1" y2="0" width="0.1524" layer="91"/>
 <wire x1="-25.4" y1="2.54" x2="-27.94" y2="2.54" width="0.1524" layer="91"/>
 <wire x1="-27.94" y1="2.54" x2="-38.1" y2="2.54" width="0.1524" layer="91"/>
-<wire x1="-27.94" y1="0" x2="-27.94" y2="2.54" width="0.1524" layer="91"/>
 <wire x1="-27.94" y1="2.54" x2="-27.94" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="-27.94" y1="7.62" x2="0" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="0" y1="7.62" x2="0" y2="-5.08" width="0.1524" layer="91"/>
 <wire x1="0" y1="-5.08" x2="20.32" y2="-5.08" width="0.1524" layer="91"/>
-<junction x="-38.1" y="2.54"/>
 <junction x="-27.94" y="2.54"/>
 <pinref part="R5" gate="G$1" pin="2"/>
 <pinref part="R4" gate="G$1" pin="2"/>
 <pinref part="C2/JTAG" gate="G$1" pin="5"/>
-<pinref part="C1" gate="G$1" pin="1"/>
-<pinref part="C4" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$2" class="0">
