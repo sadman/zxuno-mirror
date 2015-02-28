@@ -586,15 +586,15 @@
 <packages>
 <package name="ZX_CARTRIDGE">
 <wire x1="-20.32" y1="5.08" x2="-20.32" y2="-5.08" width="0.127" layer="21"/>
-<wire x1="-20.32" y1="-5.08" x2="20.32" y2="-5.08" width="0.127" layer="21"/>
-<wire x1="20.32" y1="-5.08" x2="20.32" y2="5.08" width="0.127" layer="21"/>
-<wire x1="20.32" y1="5.08" x2="-20.32" y2="5.08" width="0.127" layer="21"/>
+<wire x1="-20.32" y1="-5.08" x2="22.86" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="22.86" y1="-5.08" x2="22.86" y2="5.08" width="0.127" layer="21"/>
+<wire x1="22.86" y1="5.08" x2="-20.32" y2="5.08" width="0.127" layer="21"/>
 <wire x1="-19.05" y1="1.27" x2="-19.05" y2="-1.27" width="0.127" layer="21"/>
 <wire x1="-19.05" y1="-1.27" x2="6.985" y2="-1.27" width="0.127" layer="21"/>
 <wire x1="6.985" y1="-1.27" x2="8.255" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="8.255" y1="-1.27" x2="19.05" y2="-1.27" width="0.127" layer="21"/>
-<wire x1="19.05" y1="-1.27" x2="19.05" y2="1.27" width="0.127" layer="21"/>
-<wire x1="19.05" y1="1.27" x2="8.255" y2="1.27" width="0.127" layer="21"/>
+<wire x1="8.255" y1="-1.27" x2="21.59" y2="-1.27" width="0.127" layer="21"/>
+<wire x1="21.59" y1="-1.27" x2="21.59" y2="1.27" width="0.127" layer="21"/>
+<wire x1="21.59" y1="1.27" x2="8.255" y2="1.27" width="0.127" layer="21"/>
 <wire x1="8.255" y1="1.27" x2="6.985" y2="1.27" width="0.127" layer="21"/>
 <wire x1="6.985" y1="1.27" x2="-19.05" y2="1.27" width="0.127" layer="21"/>
 <wire x1="6.985" y1="1.27" x2="6.985" y2="3.175" width="0.127" layer="21"/>
@@ -631,6 +631,8 @@
 <pad name="GND" x="-17.78" y="2.54" drill="0.8128" diameter="1.6256"/>
 <pad name="MREQ" x="0" y="-2.54" drill="0.8128" diameter="1.6256"/>
 <pad name="ROMCS" x="17.78" y="2.54" drill="0.8128" diameter="1.6256"/>
+<pad name="RD" x="20.32" y="2.54" drill="0.8128" diameter="1.6256"/>
+<pad name="WR" x="20.32" y="-2.54" drill="0.8128" diameter="1.6256"/>
 </package>
 </packages>
 <symbols>
@@ -667,6 +669,8 @@
 <pin name="GND" x="15.24" y="20.32" length="middle" rot="R180"/>
 <pin name="MREQ" x="-17.78" y="2.54" length="middle"/>
 <pin name="ROMCS" x="15.24" y="-15.24" length="middle" rot="R180"/>
+<pin name="WR" x="-17.78" y="-17.78" length="middle"/>
+<pin name="RD" x="15.24" y="-17.78" length="middle" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -704,7 +708,9 @@
 <connect gate="G$1" pin="D7" pad="D7"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
 <connect gate="G$1" pin="MREQ" pad="MREQ"/>
+<connect gate="G$1" pin="RD" pad="RD"/>
 <connect gate="G$1" pin="ROMCS" pad="ROMCS"/>
+<connect gate="G$1" pin="WR" pad="WR"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -7905,6 +7911,30 @@ Metric Code Size 5664</description>
 <wire x1="43.18" y1="76.2" x2="40.64" y2="76.2" width="0.1524" layer="91"/>
 <junction x="40.64" y="76.2"/>
 <label x="30.48" y="76.2" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="RD" class="0">
+<segment>
+<wire x1="2.54" y1="38.1" x2="-5.08" y2="38.1" width="0.1524" layer="91"/>
+<label x="-5.08" y="38.1" size="1.778" layer="95"/>
+<pinref part="U$3" gate="G$1" pin="/RD"/>
+</segment>
+<segment>
+<wire x1="78.74" y1="5.08" x2="71.12" y2="5.08" width="0.1524" layer="91"/>
+<label x="73.66" y="5.08" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="RD"/>
+</segment>
+</net>
+<net name="WR" class="0">
+<segment>
+<wire x1="2.54" y1="35.56" x2="-5.08" y2="35.56" width="0.1524" layer="91"/>
+<label x="-5.08" y="35.56" size="1.778" layer="95"/>
+<pinref part="U$3" gate="G$1" pin="/WR"/>
+</segment>
+<segment>
+<wire x1="38.1" y1="5.08" x2="30.48" y2="5.08" width="0.1524" layer="91"/>
+<label x="30.48" y="5.08" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="WR"/>
 </segment>
 </net>
 </nets>

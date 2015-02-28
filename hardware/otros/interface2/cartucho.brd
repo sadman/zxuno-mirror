@@ -78,46 +78,6 @@
 <wire x1="0" y1="23.8" x2="0" y2="0" width="0" layer="20"/>
 </plain>
 <libraries>
-<library name="74xx-little-us">
-<description>&lt;b&gt;Single and Dual Gates Family, US symbols&lt;/b&gt;&lt;p&gt;
-Little logic devices from Texas Instruments&lt;br&gt;
-TinyLogic(R) from FAIRCHILD Semiconductor TM
-&lt;p&gt;
-&lt;author&gt;Created by evgeni@eniks.com&lt;/author&gt;&lt;br&gt;
-&lt;author&gt;Extended by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="SOT23-5">
-<description>&lt;b&gt;Small Outline Transistor&lt;/b&gt;&lt;p&gt;
-SOT753 - Philips Semiconductors&lt;br&gt;
-Source: http://www.semiconductors.philips.com/acrobat_download/datasheets/74HC_HCT1G66_3.pdf</description>
-<wire x1="0" y1="-1.29" x2="0" y2="-1.3" width="0.01" layer="21"/>
-<wire x1="1.42" y1="0.8" x2="1.42" y2="-0.8" width="0.127" layer="21"/>
-<wire x1="1.42" y1="-0.8" x2="-1.42" y2="-0.8" width="0.127" layer="51"/>
-<wire x1="-1.42" y1="-0.8" x2="-1.42" y2="0.8" width="0.127" layer="21"/>
-<wire x1="-1.42" y1="0.8" x2="1.42" y2="0.8" width="0.127" layer="51"/>
-<wire x1="-1.27" y1="0.65" x2="1.28" y2="0.65" width="0.075" layer="21"/>
-<wire x1="1.28" y1="0.65" x2="1.28" y2="-0.66" width="0.075" layer="21"/>
-<wire x1="1.28" y1="-0.66" x2="-1.27" y2="-0.66" width="0.075" layer="21"/>
-<wire x1="-1.27" y1="-0.66" x2="-1.27" y2="0.65" width="0.075" layer="21"/>
-<wire x1="-1.75" y1="2.25" x2="1.75" y2="2.25" width="0.254" layer="39"/>
-<wire x1="1.75" y1="2.25" x2="1.75" y2="-2.25" width="0.254" layer="39"/>
-<wire x1="1.75" y1="-2.25" x2="-1.75" y2="-2.25" width="0.254" layer="39"/>
-<wire x1="-1.75" y1="-2.25" x2="-1.75" y2="2.25" width="0.254" layer="39"/>
-<smd name="1" x="-0.95" y="-1.29" dx="0.69" dy="0.99" layer="1"/>
-<smd name="2" x="0" y="-1.29" dx="0.69" dy="0.99" layer="1"/>
-<smd name="3" x="0.95" y="-1.29" dx="0.69" dy="0.99" layer="1"/>
-<smd name="4" x="0.95" y="1.3" dx="0.69" dy="0.99" layer="1"/>
-<smd name="5" x="-0.95" y="1.3" dx="0.69" dy="0.99" layer="1"/>
-<text x="-2.54" y="2.54" size="1.27" layer="25">&gt;NAME</text>
-<text x="-2.54" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="-1.11" y1="0.68" x2="-0.78" y2="1.43" layer="51"/>
-<rectangle x1="0.79" y1="0.67" x2="1.12" y2="1.42" layer="51"/>
-<rectangle x1="-1.11" y1="-1.42" x2="-0.78" y2="-0.67" layer="51"/>
-<rectangle x1="-0.16" y1="-1.42" x2="0.17" y2="-0.67" layer="51"/>
-<rectangle x1="0.79" y1="-1.42" x2="1.12" y2="-0.67" layer="51"/>
-</package>
-</packages>
-</library>
 <library name="memory">
 <description>&lt;b&gt;Generic Memories&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
@@ -472,6 +432,47 @@ rectangle</description>
 </package>
 </packages>
 </library>
+<library name="74xx-little-de">
+<description>&lt;b&gt;Single and Dual Gates Family, US symbols&lt;/b&gt;&lt;p&gt;
+Little logic devices from Texas Instruments&lt;br&gt;
+TinyLogic(R) from FAIRCHILD Semiconductor TM
+&lt;p&gt;
+&lt;author&gt;Created by evgeni@eniks.com&lt;/author&gt;&lt;br&gt;
+&lt;author&gt;Extended by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="DBV_R-PDSO-G6">
+<description>&lt;b&gt;DBV (R-PDSO-G6)&lt;/b&gt; PLASTIC SMALL-OUTLINE PACKAGE&lt;p&gt;
+SOT (SOT-23) - DBV&lt;br&gt;
+Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.</description>
+<wire x1="0" y1="-1.29" x2="0" y2="-1.3" width="0.01" layer="21"/>
+<wire x1="1.42" y1="0.8" x2="1.42" y2="-0.8" width="0.127" layer="21"/>
+<wire x1="1.42" y1="-0.8" x2="-1.42" y2="-0.8" width="0.127" layer="51"/>
+<wire x1="-1.42" y1="-0.8" x2="-1.42" y2="0.8" width="0.127" layer="21"/>
+<wire x1="-1.42" y1="0.8" x2="1.42" y2="0.8" width="0.127" layer="51"/>
+<smd name="1" x="-0.95" y="-1.29" dx="0.69" dy="0.99" layer="1" stop="no"/>
+<smd name="2" x="0" y="-1.29" dx="0.69" dy="0.99" layer="1" stop="no"/>
+<smd name="3" x="0.95" y="-1.29" dx="0.69" dy="0.99" layer="1" stop="no"/>
+<smd name="4" x="0.95" y="1.3" dx="0.69" dy="0.99" layer="1" stop="no"/>
+<smd name="6" x="-0.95" y="1.3" dx="0.69" dy="0.99" layer="1" stop="no"/>
+<smd name="5" x="0" y="1.3" dx="0.69" dy="0.99" layer="1" stop="no"/>
+<text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
+<text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
+<rectangle x1="-1.11" y1="0.8" x2="-0.78" y2="1.43" layer="51"/>
+<rectangle x1="0.79" y1="0.8" x2="1.12" y2="1.42" layer="51"/>
+<rectangle x1="-1.11" y1="-1.42" x2="-0.78" y2="-0.8" layer="51"/>
+<rectangle x1="-0.16" y1="-1.42" x2="0.17" y2="-0.8" layer="51"/>
+<rectangle x1="0.79" y1="-1.42" x2="1.12" y2="-0.8" layer="51"/>
+<rectangle x1="-0.16" y1="0.8" x2="0.17" y2="1.42" layer="51"/>
+<rectangle x1="-1.35" y1="0.75" x2="-0.55" y2="1.85" layer="29"/>
+<rectangle x1="-0.4" y1="0.75" x2="0.4" y2="1.85" layer="29"/>
+<rectangle x1="0.55" y1="0.75" x2="1.35" y2="1.85" layer="29"/>
+<rectangle x1="0.55" y1="-1.85" x2="1.35" y2="-0.75" layer="29" rot="R180"/>
+<rectangle x1="-0.4" y1="-1.85" x2="0.4" y2="-0.75" layer="29" rot="R180"/>
+<rectangle x1="-1.35" y1="-1.85" x2="-0.55" y2="-0.75" layer="29" rot="R180"/>
+<rectangle x1="-1.375" y1="-0.75" x2="-0.625" y2="0" layer="21"/>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -658,7 +659,6 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="IC1" library="74xx-little-us" package="SOT23-5" value="74AHC1G32DBV" x="16.51" y="19.05" rot="R90"/>
 <element name="IC2" library="memory" package="PLCC32R" value="SST39VF040N" x="29.21" y="15.24" rot="R90"/>
 <element name="U$1" library="SPECTRUM" package="BUS_CARTUCHO_IF2" value="IF2BUS" x="39.37" y="0"/>
 <element name="SW1" library="special" package="SW-C16" value="" x="6.35" y="17.78" rot="R180"/>
@@ -669,34 +669,35 @@ design rules under a new name.</description>
 <attribute name="MF" value="" x="39.37" y="-30.48" size="1.778" layer="27" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="39.37" y="-30.48" size="1.778" layer="27" display="off"/>
 </element>
+<element name="IC741G332" library="74xx-little-de" package="DBV_R-PDSO-G6" value="741G3157DBVR" x="2.54" y="-5.08"/>
 </elements>
 <signals>
 <signal name="GND">
-<contactref element="IC1" pad="3"/>
 <contactref element="IC2" pad="16"/>
 <contactref element="SW1" pad="C"/>
 <contactref element="JP1" pad="1"/>
 <contactref element="U$1" pad="GND"/>
-<wire x1="17.8" y1="20" x2="36.11" y2="13.97" width="0" layer="19" extent="1-1"/>
-<wire x1="15.24" y1="13.97" x2="17.8" y2="20" width="0" layer="19" extent="1-1"/>
+<contactref element="IC741G332" pad="2"/>
+<wire x1="15.24" y1="13.97" x2="36.11" y2="13.97" width="0" layer="19" extent="1-1"/>
 <wire x1="5.08" y1="13.97" x2="15.24" y2="13.97" width="0" layer="19" extent="1-1"/>
 <wire x1="1.905" y1="3.175" x2="5.08" y2="13.97" width="0" layer="19" extent="16-16"/>
+<wire x1="2.54" y1="-6.37" x2="1.905" y2="3.175" width="0" layer="19" extent="1-16"/>
 </signal>
 <signal name="VCC">
-<contactref element="IC1" pad="5"/>
 <contactref element="IC2" pad="32"/>
 <contactref element="RN1" pad="1"/>
 <contactref element="U$1" pad="VCC"/>
 <contactref element="U$1" pad="ROMCS"/>
+<contactref element="IC741G332" pad="5"/>
 <wire x1="37.465" y1="3.175" x2="37.465" y2="3.175" width="0" layer="19" extent="1-16"/>
 <wire x1="22.31" y1="16.51" x2="37.465" y2="3.175" width="0" layer="19" extent="1-1"/>
-<wire x1="15.21" y1="18.1" x2="22.31" y2="16.51" width="0" layer="19" extent="1-1"/>
-<wire x1="3.81" y1="8.89" x2="15.21" y2="18.1" width="0" layer="19" extent="1-1"/>
+<wire x1="3.81" y1="8.89" x2="22.31" y2="16.51" width="0" layer="19" extent="1-1"/>
+<wire x1="2.54" y1="-3.78" x2="3.81" y2="8.89" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$1">
-<contactref element="IC1" pad="4"/>
 <contactref element="IC2" pad="22"/>
-<wire x1="15.21" y1="20" x2="33.02" y2="20.94" width="0" layer="19" extent="1-1"/>
+<contactref element="IC741G332" pad="4"/>
+<wire x1="3.49" y1="-3.78" x2="33.02" y2="20.94" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="A0">
 <contactref element="U$1" pad="A0"/>
@@ -704,14 +705,14 @@ design rules under a new name.</description>
 <wire x1="12.065" y1="3.175" x2="33.02" y2="9.54" width="0" layer="19" extent="1-16"/>
 </signal>
 <signal name="A14">
-<contactref element="IC1" pad="1"/>
 <contactref element="U$1" pad="A14"/>
-<wire x1="14.605" y1="3.175" x2="17.8" y2="18.1" width="0" layer="19" extent="1-1"/>
+<contactref element="IC741G332" pad="3"/>
+<wire x1="3.49" y1="-6.37" x2="14.605" y2="3.175" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="A15">
-<contactref element="IC1" pad="2"/>
 <contactref element="U$1" pad="A15"/>
-<wire x1="17.8" y1="19.05" x2="34.925" y2="3.175" width="0" layer="19" extent="1-1"/>
+<contactref element="IC741G332" pad="1"/>
+<wire x1="1.59" y1="-6.37" x2="34.925" y2="3.175" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$2">
 <contactref element="JP1" pad="2"/>
@@ -855,8 +856,13 @@ design rules under a new name.</description>
 </signal>
 <signal name="MREQ">
 <contactref element="U$1" pad="MREQ"/>
+<contactref element="IC741G332" pad="6"/>
+<wire x1="1.59" y1="-3.78" x2="19.685" y2="3.175" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="RD">
 <contactref element="IC2" pad="24"/>
-<wire x1="19.685" y1="3.175" x2="30.48" y2="20.94" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="WR">
 </signal>
 </signals>
 </board>
