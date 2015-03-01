@@ -365,121 +365,6 @@ Source: http://www.sst.com/dotAsset/40782.pdf</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="SPECTRUM">
-<packages>
-<package name="BUS_CARTUCHO_IF2">
-<description>Bus cartucho IF2</description>
-<smd name="A0" x="-27.305" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A1" x="-24.765" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A2" x="-22.225" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A3" x="-19.685" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A4" x="-17.145" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A5" x="-14.605" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A6" x="-9.525" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A7" x="-6.985" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A8" x="-9.525" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A9" x="-14.605" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A10" x="-22.225" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A11" x="-17.145" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A12" x="-4.445" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A13" x="-6.985" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A14" x="-24.765" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A15" x="-4.445" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D0" x="-29.845" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="D1" x="-32.385" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="D2" x="-34.925" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="D3" x="-37.465" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D4" x="-34.925" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D5" x="-32.385" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D6" x="-29.845" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D7" x="-27.305" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="GND" x="-37.465" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="MREQ" x="-19.685" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="ROMCS" x="-1.905" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="VCC" x="-1.905" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-</package>
-</packages>
-<symbols>
-<symbol name="CONECTOR-BUS">
-<wire x1="-30.48" y1="33.02" x2="-30.48" y2="-53.34" width="0.254" layer="94"/>
-<wire x1="-30.48" y1="-53.34" x2="-10.16" y2="-53.34" width="0.254" layer="94"/>
-<wire x1="-10.16" y1="-53.34" x2="-10.16" y2="33.02" width="0.254" layer="94"/>
-<wire x1="-10.16" y1="33.02" x2="-30.48" y2="33.02" width="0.254" layer="94"/>
-<pin name="+5V" x="-5.08" y="-22.86" length="middle" rot="R180"/>
-<pin name="A0" x="-35.56" y="27.94" length="middle"/>
-<pin name="A1" x="-35.56" y="22.86" length="middle"/>
-<pin name="A2" x="-35.56" y="17.78" length="middle"/>
-<pin name="A3" x="-35.56" y="12.7" length="middle"/>
-<pin name="A4" x="-35.56" y="7.62" length="middle"/>
-<pin name="A5" x="-35.56" y="2.54" length="middle"/>
-<pin name="A6" x="-35.56" y="-2.54" length="middle"/>
-<pin name="A7" x="-35.56" y="-7.62" length="middle"/>
-<pin name="A8" x="-35.56" y="-12.7" length="middle"/>
-<pin name="A9" x="-35.56" y="-17.78" length="middle"/>
-<pin name="A10" x="-35.56" y="-22.86" length="middle"/>
-<pin name="A11" x="-35.56" y="-27.94" length="middle"/>
-<pin name="A12" x="-35.56" y="-33.02" length="middle"/>
-<pin name="A13" x="-35.56" y="-38.1" length="middle"/>
-<pin name="A14" x="-35.56" y="-43.18" length="middle"/>
-<pin name="A15" x="-35.56" y="-48.26" length="middle"/>
-<pin name="D0" x="-5.08" y="27.94" length="middle" rot="R180"/>
-<pin name="D1" x="-5.08" y="22.86" length="middle" rot="R180"/>
-<pin name="D2" x="-5.08" y="17.78" length="middle" rot="R180"/>
-<pin name="D3" x="-5.08" y="12.7" length="middle" rot="R180"/>
-<pin name="D4" x="-5.08" y="7.62" length="middle" rot="R180"/>
-<pin name="D5" x="-5.08" y="2.54" length="middle" rot="R180"/>
-<pin name="D6" x="-5.08" y="-2.54" length="middle" rot="R180"/>
-<pin name="D7" x="-5.08" y="-7.62" length="middle" rot="R180"/>
-<pin name="GND" x="-5.08" y="-27.94" length="middle" rot="R180"/>
-<pin name="MEMREQ" x="-5.08" y="-12.7" length="middle" rot="R180"/>
-<pin name="ROMCS" x="-5.08" y="-17.78" length="middle" rot="R180"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="IF2BUS">
-<gates>
-<gate name="G$1" symbol="CONECTOR-BUS" x="20.32" y="7.62"/>
-</gates>
-<devices>
-<device name="" package="BUS_CARTUCHO_IF2">
-<connects>
-<connect gate="G$1" pin="+5V" pad="VCC"/>
-<connect gate="G$1" pin="A0" pad="A0"/>
-<connect gate="G$1" pin="A1" pad="A1"/>
-<connect gate="G$1" pin="A10" pad="A10"/>
-<connect gate="G$1" pin="A11" pad="A11"/>
-<connect gate="G$1" pin="A12" pad="A12"/>
-<connect gate="G$1" pin="A13" pad="A13"/>
-<connect gate="G$1" pin="A14" pad="A14"/>
-<connect gate="G$1" pin="A15" pad="A15"/>
-<connect gate="G$1" pin="A2" pad="A2"/>
-<connect gate="G$1" pin="A3" pad="A3"/>
-<connect gate="G$1" pin="A4" pad="A4"/>
-<connect gate="G$1" pin="A5" pad="A5"/>
-<connect gate="G$1" pin="A6" pad="A6"/>
-<connect gate="G$1" pin="A7" pad="A7"/>
-<connect gate="G$1" pin="A8" pad="A8"/>
-<connect gate="G$1" pin="A9" pad="A9"/>
-<connect gate="G$1" pin="D0" pad="D0"/>
-<connect gate="G$1" pin="D1" pad="D1"/>
-<connect gate="G$1" pin="D2" pad="D2"/>
-<connect gate="G$1" pin="D3" pad="D3"/>
-<connect gate="G$1" pin="D4" pad="D4"/>
-<connect gate="G$1" pin="D5" pad="D5"/>
-<connect gate="G$1" pin="D6" pad="D6"/>
-<connect gate="G$1" pin="D7" pad="D7"/>
-<connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="MEMREQ" pad="MREQ"/>
-<connect gate="G$1" pin="ROMCS" pad="ROMCS"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="special">
 <description>&lt;b&gt;Special Devices&lt;/b&gt;&lt;p&gt;
 7-segment displays, switches, heatsinks, crystals, transformers, etc.&lt;p&gt;
@@ -1144,6 +1029,127 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="SPECTRUM">
+<packages>
+<package name="BUS_CARTUCHO_IF2">
+<description>Bus cartucho IF2</description>
+<smd name="A0" x="-27.305" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A1" x="-24.765" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A2" x="-22.225" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A3" x="-19.685" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A4" x="-17.145" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A5" x="-14.605" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A6" x="-9.525" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A7" x="-6.985" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A8" x="-9.525" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A9" x="-14.605" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A10" x="-22.225" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A11" x="-17.145" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A12" x="-4.445" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="A13" x="-6.985" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A14" x="-24.765" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A15" x="-4.445" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="D0" x="-29.845" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="D1" x="-32.385" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="D2" x="-34.925" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="D3" x="-37.465" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="D4" x="-34.925" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="D5" x="-32.385" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="D6" x="-29.845" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="D7" x="-27.305" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="GND" x="-37.465" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="MREQ" x="-19.685" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="ROMCS" x="-1.905" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="VCC" x="-1.905" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="RD" x="0.635" y="3.175" dx="1.27" dy="6.35" layer="16"/>
+<smd name="WR" x="0.635" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+</package>
+</packages>
+<symbols>
+<symbol name="CONECTOR-BUS">
+<wire x1="-30.48" y1="33.02" x2="-30.48" y2="-53.34" width="0.254" layer="94"/>
+<wire x1="-30.48" y1="-53.34" x2="-10.16" y2="-53.34" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-53.34" x2="-10.16" y2="33.02" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="33.02" x2="-30.48" y2="33.02" width="0.254" layer="94"/>
+<pin name="+5V" x="-5.08" y="-22.86" length="middle" rot="R180"/>
+<pin name="A0" x="-35.56" y="27.94" length="middle"/>
+<pin name="A1" x="-35.56" y="22.86" length="middle"/>
+<pin name="A2" x="-35.56" y="17.78" length="middle"/>
+<pin name="A3" x="-35.56" y="12.7" length="middle"/>
+<pin name="A4" x="-35.56" y="7.62" length="middle"/>
+<pin name="A5" x="-35.56" y="2.54" length="middle"/>
+<pin name="A6" x="-35.56" y="-2.54" length="middle"/>
+<pin name="A7" x="-35.56" y="-7.62" length="middle"/>
+<pin name="A8" x="-35.56" y="-12.7" length="middle"/>
+<pin name="A9" x="-35.56" y="-17.78" length="middle"/>
+<pin name="A10" x="-35.56" y="-22.86" length="middle"/>
+<pin name="A11" x="-35.56" y="-27.94" length="middle"/>
+<pin name="A12" x="-35.56" y="-33.02" length="middle"/>
+<pin name="A13" x="-35.56" y="-38.1" length="middle"/>
+<pin name="A14" x="-35.56" y="-43.18" length="middle"/>
+<pin name="A15" x="-35.56" y="-48.26" length="middle"/>
+<pin name="D0" x="-5.08" y="27.94" length="middle" rot="R180"/>
+<pin name="D1" x="-5.08" y="22.86" length="middle" rot="R180"/>
+<pin name="D2" x="-5.08" y="17.78" length="middle" rot="R180"/>
+<pin name="D3" x="-5.08" y="12.7" length="middle" rot="R180"/>
+<pin name="D4" x="-5.08" y="7.62" length="middle" rot="R180"/>
+<pin name="D5" x="-5.08" y="2.54" length="middle" rot="R180"/>
+<pin name="D6" x="-5.08" y="-2.54" length="middle" rot="R180"/>
+<pin name="D7" x="-5.08" y="-7.62" length="middle" rot="R180"/>
+<pin name="GND" x="-5.08" y="-27.94" length="middle" rot="R180"/>
+<pin name="MEMREQ" x="-5.08" y="-12.7" length="middle" rot="R180"/>
+<pin name="ROMCS" x="-5.08" y="-17.78" length="middle" rot="R180"/>
+<pin name="RD" x="-5.08" y="-33.02" length="middle" rot="R180"/>
+<pin name="WR" x="-5.08" y="-38.1" length="middle" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="IF2BUS">
+<gates>
+<gate name="G$1" symbol="CONECTOR-BUS" x="20.32" y="7.62"/>
+</gates>
+<devices>
+<device name="" package="BUS_CARTUCHO_IF2">
+<connects>
+<connect gate="G$1" pin="+5V" pad="VCC"/>
+<connect gate="G$1" pin="A0" pad="A0"/>
+<connect gate="G$1" pin="A1" pad="A1"/>
+<connect gate="G$1" pin="A10" pad="A10"/>
+<connect gate="G$1" pin="A11" pad="A11"/>
+<connect gate="G$1" pin="A12" pad="A12"/>
+<connect gate="G$1" pin="A13" pad="A13"/>
+<connect gate="G$1" pin="A14" pad="A14"/>
+<connect gate="G$1" pin="A15" pad="A15"/>
+<connect gate="G$1" pin="A2" pad="A2"/>
+<connect gate="G$1" pin="A3" pad="A3"/>
+<connect gate="G$1" pin="A4" pad="A4"/>
+<connect gate="G$1" pin="A5" pad="A5"/>
+<connect gate="G$1" pin="A6" pad="A6"/>
+<connect gate="G$1" pin="A7" pad="A7"/>
+<connect gate="G$1" pin="A8" pad="A8"/>
+<connect gate="G$1" pin="A9" pad="A9"/>
+<connect gate="G$1" pin="D0" pad="D0"/>
+<connect gate="G$1" pin="D1" pad="D1"/>
+<connect gate="G$1" pin="D2" pad="D2"/>
+<connect gate="G$1" pin="D3" pad="D3"/>
+<connect gate="G$1" pin="D4" pad="D4"/>
+<connect gate="G$1" pin="D5" pad="D5"/>
+<connect gate="G$1" pin="D6" pad="D6"/>
+<connect gate="G$1" pin="D7" pad="D7"/>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="MEMREQ" pad="MREQ"/>
+<connect gate="G$1" pin="RD" pad="RD"/>
+<connect gate="G$1" pin="ROMCS" pad="ROMCS"/>
+<connect gate="G$1" pin="WR" pad="WR"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -1155,11 +1161,11 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 </classes>
 <parts>
 <part name="IC2" library="memory" deviceset="SST39VF040" device="N"/>
-<part name="U$1" library="SPECTRUM" deviceset="IF2BUS" device=""/>
 <part name="SW1" library="special" deviceset="SW-C16" device=""/>
 <part name="JP1" library="jumper" deviceset="JP1E" device=""/>
 <part name="RN1" library="resistor-sil" deviceset="G06R" device=""/>
 <part name="IC741G332" library="74xx-little-de" deviceset="74*1G3157" device="DBVR"/>
+<part name="U$1" library="SPECTRUM" deviceset="IF2BUS" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1167,11 +1173,11 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 </plain>
 <instances>
 <instance part="IC2" gate="G$1" x="58.42" y="53.34"/>
-<instance part="U$1" gate="G$1" x="-10.16" y="60.96"/>
 <instance part="SW1" gate="G$1" x="17.78" y="58.42" rot="MR180"/>
 <instance part="JP1" gate="A" x="20.32" y="43.18"/>
 <instance part="RN1" gate="G$1" x="30.48" y="78.74"/>
 <instance part="IC741G332" gate="G$1" x="15.24" y="27.94"/>
+<instance part="U$1" gate="G$1" x="-10.16" y="60.96"/>
 </instances>
 <busses>
 </busses>
@@ -1281,9 +1287,9 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 </net>
 <net name="A0" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="A0"/>
 <wire x1="-53.34" y1="88.9" x2="-45.72" y2="88.9" width="0.1524" layer="91"/>
 <label x="-53.34" y="88.9" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="A0"/>
 </segment>
 <segment>
 <wire x1="40.64" y1="81.28" x2="48.26" y2="81.28" width="0.1524" layer="91"/>
@@ -1583,11 +1589,21 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <label x="40.64" y="27.94" size="1.778" layer="95"/>
 <pinref part="IC2" gate="G$1" pin="!OE"/>
 </segment>
+<segment>
+<wire x1="-15.24" y1="27.94" x2="-7.62" y2="27.94" width="0.1524" layer="91"/>
+<label x="-10.16" y="27.94" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="RD"/>
+</segment>
 </net>
 <net name="WR" class="0">
 <segment>
 <wire x1="40.64" y1="25.4" x2="48.26" y2="25.4" width="0.1524" layer="91"/>
 <label x="40.64" y="25.4" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="-15.24" y1="22.86" x2="-7.62" y2="22.86" width="0.1524" layer="91"/>
+<label x="-10.16" y="22.86" size="1.778" layer="95"/>
+<pinref part="U$1" gate="G$1" pin="WR"/>
 </segment>
 </net>
 </nets>
