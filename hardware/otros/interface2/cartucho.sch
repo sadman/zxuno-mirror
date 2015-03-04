@@ -1147,10 +1147,10 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 </class>
 </classes>
 <parts>
-<part name="IC2" library="memory" deviceset="SST39VF040" device="N"/>
+<part name="SST28SF040" library="memory" deviceset="SST39VF040" device="N" value=""/>
 <part name="SW1" library="special" deviceset="SW-C16" device=""/>
 <part name="JP1" library="jumper" deviceset="JP1E" device=""/>
-<part name="IC741G332" library="74xx-little-de" deviceset="74*1G3157" device="DBVR"/>
+<part name="IC741G332" library="74xx-little-de" deviceset="74*1G3157" device="DBVR" value=""/>
 <part name="U$1" library="SPECTRUM" deviceset="IF2BUS" device=""/>
 <part name="RN2" library="resistor-sil" deviceset="G05R" device=""/>
 </parts>
@@ -1159,7 +1159,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <plain>
 </plain>
 <instances>
-<instance part="IC2" gate="G$1" x="58.42" y="53.34"/>
+<instance part="SST28SF040" gate="G$1" x="58.42" y="53.34"/>
 <instance part="SW1" gate="G$1" x="17.78" y="58.42" rot="MR180"/>
 <instance part="JP1" gate="A" x="20.32" y="43.18"/>
 <instance part="IC741G332" gate="G$1" x="15.24" y="27.94"/>
@@ -1172,7 +1172,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <net name="CS" class="0">
 <segment>
 <wire x1="25.4" y1="30.48" x2="48.26" y2="30.48" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="G$1" pin="!CE"/>
+<pinref part="SST28SF040" gate="G$1" pin="!CE"/>
 <pinref part="IC741G332" gate="G$1" pin="X"/>
 <label x="40.64" y="30.48" size="1.778" layer="95"/>
 </segment>
@@ -1186,7 +1186,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="81.28" x2="76.2" y2="81.28" width="0.1524" layer="91"/>
 <label x="73.66" y="81.28" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D0"/>
+<pinref part="SST28SF040" gate="G$1" pin="D0"/>
 </segment>
 </net>
 <net name="D1" class="0">
@@ -1198,7 +1198,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="78.74" x2="76.2" y2="78.74" width="0.1524" layer="91"/>
 <label x="73.66" y="78.74" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D1"/>
+<pinref part="SST28SF040" gate="G$1" pin="D1"/>
 </segment>
 </net>
 <net name="D2" class="0">
@@ -1210,7 +1210,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="76.2" x2="76.2" y2="76.2" width="0.1524" layer="91"/>
 <label x="73.66" y="76.2" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D2"/>
+<pinref part="SST28SF040" gate="G$1" pin="D2"/>
 </segment>
 </net>
 <net name="D3" class="0">
@@ -1222,7 +1222,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="73.66" x2="76.2" y2="73.66" width="0.1524" layer="91"/>
 <label x="73.66" y="73.66" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D3"/>
+<pinref part="SST28SF040" gate="G$1" pin="D3"/>
 </segment>
 </net>
 <net name="D4" class="0">
@@ -1234,7 +1234,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="71.12" x2="76.2" y2="71.12" width="0.1524" layer="91"/>
 <label x="73.66" y="71.12" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D4"/>
+<pinref part="SST28SF040" gate="G$1" pin="D4"/>
 </segment>
 </net>
 <net name="D5" class="0">
@@ -1246,7 +1246,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="68.58" x2="76.2" y2="68.58" width="0.1524" layer="91"/>
 <label x="73.66" y="68.58" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D5"/>
+<pinref part="SST28SF040" gate="G$1" pin="D5"/>
 </segment>
 </net>
 <net name="D6" class="0">
@@ -1258,7 +1258,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="66.04" x2="76.2" y2="66.04" width="0.1524" layer="91"/>
 <label x="73.66" y="66.04" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D6"/>
+<pinref part="SST28SF040" gate="G$1" pin="D6"/>
 </segment>
 </net>
 <net name="D7" class="0">
@@ -1270,7 +1270,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="68.58" y1="63.5" x2="76.2" y2="63.5" width="0.1524" layer="91"/>
 <label x="73.66" y="63.5" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="D7"/>
+<pinref part="SST28SF040" gate="G$1" pin="D7"/>
 </segment>
 </net>
 <net name="A0" class="0">
@@ -1282,7 +1282,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="81.28" x2="48.26" y2="81.28" width="0.1524" layer="91"/>
 <label x="40.64" y="81.28" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A0"/>
+<pinref part="SST28SF040" gate="G$1" pin="A0"/>
 </segment>
 </net>
 <net name="A1" class="0">
@@ -1294,7 +1294,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="78.74" x2="48.26" y2="78.74" width="0.1524" layer="91"/>
 <label x="40.64" y="78.74" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A1"/>
+<pinref part="SST28SF040" gate="G$1" pin="A1"/>
 </segment>
 </net>
 <net name="A2" class="0">
@@ -1306,7 +1306,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="76.2" x2="48.26" y2="76.2" width="0.1524" layer="91"/>
 <label x="40.64" y="76.2" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A2"/>
+<pinref part="SST28SF040" gate="G$1" pin="A2"/>
 </segment>
 </net>
 <net name="A3" class="0">
@@ -1318,7 +1318,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
 <label x="40.64" y="73.66" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A3"/>
+<pinref part="SST28SF040" gate="G$1" pin="A3"/>
 </segment>
 </net>
 <net name="A4" class="0">
@@ -1330,7 +1330,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="71.12" x2="48.26" y2="71.12" width="0.1524" layer="91"/>
 <label x="40.64" y="71.12" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A4"/>
+<pinref part="SST28SF040" gate="G$1" pin="A4"/>
 </segment>
 </net>
 <net name="A5" class="0">
@@ -1342,7 +1342,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="68.58" x2="48.26" y2="68.58" width="0.1524" layer="91"/>
 <label x="40.64" y="68.58" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A5"/>
+<pinref part="SST28SF040" gate="G$1" pin="A5"/>
 </segment>
 </net>
 <net name="A6" class="0">
@@ -1354,7 +1354,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="66.04" x2="48.26" y2="66.04" width="0.1524" layer="91"/>
 <label x="40.64" y="66.04" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A6"/>
+<pinref part="SST28SF040" gate="G$1" pin="A6"/>
 </segment>
 </net>
 <net name="A7" class="0">
@@ -1366,7 +1366,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="63.5" x2="48.26" y2="63.5" width="0.1524" layer="91"/>
 <label x="40.64" y="63.5" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A7"/>
+<pinref part="SST28SF040" gate="G$1" pin="A7"/>
 </segment>
 </net>
 <net name="A8" class="0">
@@ -1378,7 +1378,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="60.96" x2="48.26" y2="60.96" width="0.1524" layer="91"/>
 <label x="40.64" y="60.96" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A8"/>
+<pinref part="SST28SF040" gate="G$1" pin="A8"/>
 </segment>
 </net>
 <net name="A9" class="0">
@@ -1390,7 +1390,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="58.42" x2="48.26" y2="58.42" width="0.1524" layer="91"/>
 <label x="40.64" y="58.42" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A9"/>
+<pinref part="SST28SF040" gate="G$1" pin="A9"/>
 </segment>
 </net>
 <net name="A10" class="0">
@@ -1402,7 +1402,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="55.88" x2="48.26" y2="55.88" width="0.1524" layer="91"/>
 <label x="40.64" y="55.88" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A10"/>
+<pinref part="SST28SF040" gate="G$1" pin="A10"/>
 </segment>
 </net>
 <net name="A11" class="0">
@@ -1414,7 +1414,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="53.34" x2="48.26" y2="53.34" width="0.1524" layer="91"/>
 <label x="40.64" y="53.34" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A11"/>
+<pinref part="SST28SF040" gate="G$1" pin="A11"/>
 </segment>
 </net>
 <net name="A12" class="0">
@@ -1426,7 +1426,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="50.8" x2="48.26" y2="50.8" width="0.1524" layer="91"/>
 <label x="40.64" y="50.8" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A12"/>
+<pinref part="SST28SF040" gate="G$1" pin="A12"/>
 </segment>
 </net>
 <net name="A13" class="0">
@@ -1438,7 +1438,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="48.26" x2="48.26" y2="48.26" width="0.1524" layer="91"/>
 <label x="40.64" y="48.26" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="A13"/>
+<pinref part="SST28SF040" gate="G$1" pin="A13"/>
 </segment>
 </net>
 <net name="A14" class="0">
@@ -1516,11 +1516,14 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <pinref part="JP1" gate="A" pin="2"/>
 <wire x1="22.86" y1="40.64" x2="25.4" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="25.4" y1="40.64" x2="25.4" y2="35.56" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="G$1" pin="A18"/>
-<wire x1="25.4" y1="35.56" x2="48.26" y2="35.56" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="73.66" x2="25.4" y2="40.64" width="0.1524" layer="91"/>
-<junction x="25.4" y="40.64"/>
-<pinref part="RN2" gate="G$1" pin="2"/>
+<pinref part="SST28SF040" gate="G$1" pin="A18"/>
+<wire x1="25.4" y1="35.56" x2="38.1" y2="35.56" width="0.1524" layer="91"/>
+<pinref part="RN2" gate="G$1" pin="6"/>
+<wire x1="38.1" y1="35.56" x2="48.26" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="73.66" x2="35.56" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="68.58" x2="38.1" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="68.58" x2="38.1" y2="35.56" width="0.1524" layer="91"/>
+<junction x="38.1" y="35.56"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -1528,7 +1531,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <pinref part="SW1" gate="G$1" pin="8"/>
 <wire x1="22.86" y1="48.26" x2="27.94" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="48.26" x2="27.94" y2="38.1" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="G$1" pin="A17"/>
+<pinref part="SST28SF040" gate="G$1" pin="A17"/>
 <wire x1="27.94" y1="38.1" x2="48.26" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="73.66" x2="27.94" y2="48.26" width="0.1524" layer="91"/>
 <junction x="27.94" y="48.26"/>
@@ -1540,7 +1543,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <pinref part="SW1" gate="G$1" pin="4"/>
 <wire x1="22.86" y1="53.34" x2="30.48" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="53.34" x2="30.48" y2="40.64" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="G$1" pin="A16"/>
+<pinref part="SST28SF040" gate="G$1" pin="A16"/>
 <wire x1="30.48" y1="40.64" x2="48.26" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="30.48" y1="73.66" x2="30.48" y2="53.34" width="0.1524" layer="91"/>
 <junction x="30.48" y="53.34"/>
@@ -1552,7 +1555,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <pinref part="SW1" gate="G$1" pin="2"/>
 <wire x1="22.86" y1="58.42" x2="33.02" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="58.42" x2="33.02" y2="43.18" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="G$1" pin="A15"/>
+<pinref part="SST28SF040" gate="G$1" pin="A15"/>
 <wire x1="33.02" y1="43.18" x2="48.26" y2="43.18" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="73.66" x2="33.02" y2="58.42" width="0.1524" layer="91"/>
 <junction x="33.02" y="58.42"/>
@@ -1562,20 +1565,21 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <net name="N$6" class="0">
 <segment>
 <pinref part="SW1" gate="G$1" pin="1"/>
-<wire x1="22.86" y1="63.5" x2="35.56" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="63.5" x2="25.4" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="63.5" x2="35.56" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="63.5" x2="35.56" y2="45.72" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="G$1" pin="A14"/>
+<pinref part="SST28SF040" gate="G$1" pin="A14"/>
 <wire x1="35.56" y1="45.72" x2="48.26" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="35.56" y1="73.66" x2="35.56" y2="63.5" width="0.1524" layer="91"/>
-<junction x="35.56" y="63.5"/>
-<pinref part="RN2" gate="G$1" pin="6"/>
+<pinref part="RN2" gate="G$1" pin="2"/>
+<wire x1="25.4" y1="73.66" x2="25.4" y2="63.5" width="0.1524" layer="91"/>
+<junction x="25.4" y="63.5"/>
 </segment>
 </net>
 <net name="RD" class="0">
 <segment>
 <wire x1="40.64" y1="27.94" x2="48.26" y2="27.94" width="0.1524" layer="91"/>
 <label x="40.64" y="27.94" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="!OE"/>
+<pinref part="SST28SF040" gate="G$1" pin="!OE"/>
 </segment>
 <segment>
 <wire x1="-15.24" y1="27.94" x2="-7.62" y2="27.94" width="0.1524" layer="91"/>
@@ -1587,7 +1591,7 @@ Source: http://focus.ti.com/lit/ds/symlink/sn74lvc1g3157.pdf</description>
 <segment>
 <wire x1="40.64" y1="25.4" x2="48.26" y2="25.4" width="0.1524" layer="91"/>
 <label x="40.64" y="25.4" size="1.778" layer="95"/>
-<pinref part="IC2" gate="G$1" pin="!WE"/>
+<pinref part="SST28SF040" gate="G$1" pin="!WE"/>
 </segment>
 <segment>
 <wire x1="-15.24" y1="22.86" x2="-7.62" y2="22.86" width="0.1524" layer="91"/>
