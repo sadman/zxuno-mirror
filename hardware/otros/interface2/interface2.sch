@@ -7520,9 +7520,16 @@ Metric Code Size 5664</description>
 <pinref part="U$1" gate="G$1" pin="ROMCS"/>
 </segment>
 <segment>
-<wire x1="2.54" y1="-53.34" x2="-5.08" y2="-53.34" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="/ROMCS"/>
 <label x="-5.08" y="-53.34" size="1.778" layer="95"/>
+<pinref part="U$3" gate="G$1" pin="VIDEO"/>
+<wire x1="2.54" y1="-27.94" x2="-12.7" y2="-27.94" width="0.1524" layer="91"/>
+<pinref part="U$3" gate="G$1" pin="NC"/>
+<wire x1="2.54" y1="73.66" x2="-12.7" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="-27.94" x2="-12.7" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="-27.94" x2="-12.7" y2="-53.34" width="0.1524" layer="91"/>
+<junction x="-12.7" y="-27.94"/>
+<wire x1="-12.7" y1="-53.34" x2="2.54" y2="-53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="D3" class="0">
