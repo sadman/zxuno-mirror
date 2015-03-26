@@ -31,7 +31,7 @@
         define  quietb  $a041
         define  checkc  $a042
         define  keyiss  $a043
-        define  timmin  $a044
+        define  timing  $a044
         define  conten  $a045
         define  divmap  $a046
         define  nmidiv  $a047
@@ -1098,13 +1098,15 @@ upgra5  jr      nc, upgra2
         call    romcyb
         ld      ix, cad62
 upgra6  jr      upgrac
+
+;upgrade machine
 upgra7  cp      $47
         jr      nz, upgra4
         ld      de, tmpbuf+$40
         ld      hl, cad60
         ld      bc, cad61-cad60
         ldir
-        call    romcyb
+        call    romcyb 
         ld      ix, tmpbuf+$40
         call_prnstr
 upgra8  ld      a, (tmpbuf+$54 & $ff)*2
@@ -1115,16 +1117,17 @@ upgra8  ld      a, (tmpbuf+$54 & $ff)*2
         ld      (hl), 'o'
         jr      c, upgra9
         ld      (hl), '-'
-upgra9  call    shaon
+upgra9  and     a
+        call    shaon
         ld      ix, $4000
         ld      de, $4000
         call    lbytes
-        push    af
+        ex      af, af'
         ld      a, 32
         sub     iyh
         call    alto copyme
         call    shaoff
-        pop     af
+        ex      af, af'
         jr      nc, upgra5
         dec     iyl
         call    romcyb
@@ -2442,7 +2445,7 @@ l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $00             ; quiet
         defb    $01             ; checkcrc
         defb    $02             ; Issue
-        defb    $02             ; Timming
+        defb    $02             ; Timing
         defb    $02             ; Contended
         defb    $02             ; DivMMC
         defb    $02             ; NMI-DivMMC
@@ -2475,30 +2478,30 @@ ccon1   adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
         bit     3, d
         jr      z, ccon2
         ccf
-ccon2   adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMMING
+ccon2   adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMING
         dec     l
         rr      (hl)
         jr      z, ccon3
         bit     4, d
         jr      z, ccon3
         ccf
-ccon3   adc     a, a            ; 0 0 0 0 0 /DISCONT TIMMING /I2KB
+ccon3   adc     a, a            ; 0 0 0 0 0 /DISCONT TIMING /I2KB
         ld      l, nmidiv & $ff
         rr      (hl)
         jr      z, conti1
         bit     0, d
         jr      z, conti1
         ccf
-conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMMING /I2KB /DISNMI
+conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMING /I2KB /DISNMI
         dec     l
         rr      (hl)
         jr      z, conti2
         bit     1, d
         jr      z, conti2
         ccf
-conti2  adc     a, a            ; 0 0 0 /DISCONT TIMMING /I2KB /DISNMI DIVEN
-        add     a, a            ; 0    0 /DISCONT TIMMING /I2KB /DISNMI DIVEN 0
-        xor     %10101100       ; LOCK 0  DISCONT TIMMING  I2KB  DISNMI DIVEN 0
+conti2  adc     a, a            ; 0 0 0 /DISCONT TIMING /I2KB /DISNMI DIVEN
+        add     a, a            ; 0    0 /DISCONT TIMING /I2KB /DISNMI DIVEN 0
+        xor     %10101100       ; LOCK 0  DISCONT TIMING  I2KB  DISNMI DIVEN 0
         ld      (alto conti9+1), a
         ld      bc, zxuno_port+$100
         wreg    master_conf, 1
@@ -3212,7 +3215,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.225', 0
+        defm    'ZX-Uno BIOS v0.226', 0
         defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3247,7 +3250,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.225    ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.226    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3261,7 +3264,7 @@ cad10   defb    'Hardware tests', 0
         defb    'Quiet Boot', 0
         defb    'Check CRC', 0
         defb    'Keyboard', 0
-        defb    'Timming', 0
+        defb    'Timing', 0
         defb    'Contended', 0
         defb    'DivMMC', 0
         defb    'NMI-DivMMC', 0, 0
@@ -3437,7 +3440,7 @@ cad63   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
-cad64   defb    'Set timmings', 0
+cad64   defb    'Set timings', 0
         defb    '224T if 48K', 0
         defb    '228T if 128K', 0, 0
 cad65   defb    'Memory usually', 0

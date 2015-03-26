@@ -5,10 +5,10 @@ cd roms
 copy /b ESXMMC.BIN+                   ^
         aa000.bin+                    ^
         ..\firmware.rom+              ^
-        leches.rom+                   ^
+        48.rom+                       ^
         plus3es40zxmmc.rom+           ^
         se.rom+                       ^
-        48.rom+                       ^
+        leches.rom+                   ^
         ManicMiner.rom+               ^
         JetSetWilly.rom+              ^
         LalaPrologue.rom+             ^

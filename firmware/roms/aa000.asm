@@ -11,97 +11,43 @@
         define  DisableNMI   $00
         define  EnableNMI    $01
 
-l0aa0   defb    $00, 1, $08, 4, $00, $00
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $40, $ba, $ff, $ff, $ff, $ff, $ff, $ff
+      macro Generic  slot, crc1, crc2, cadena, par1, par2, par3, par4, par5, par6
+        defb    slot, par1, par2, par3, par4, par5, par6, $ff
+        defb    crc1>>24&255, crc1>>16&255, crc1>>8&255, crc1&255, crc2>>24&255, crc2>>16&255, crc2>>8&255, crc2&255
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K Cargando Leches '
-        defb    $01, 4, $08, 4, $00, $00
-        defb    Issue3 | Tim128 | Contended    | EnableDiv  | EnableNMI,  $ff
-        defb    $43, $be, $a3, $ff, $ec, $33, $db, $eb
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX +3e DivMMC                   '
-        defb    $05, 2, $0a, 2, $04, $00
-        defb    Issue3 | Tim48  | Contended    | EnableDiv  | DisableNMI, $ff
-        defb    $bf, $d5, $c9, $e8, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'SE Basic IV 4.0 Anya            '
-        defb    $07, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $1b, $fe, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K                 '
+        defm    cadena
+        block   64-($ & 63), $20
+      endm
 
-        defb    $08, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $b8, $18, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Manic Miner (1983)              '
-        defb    $09, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $15, $e7, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Jet Set Willy (1984)            '
-        defb    $0a, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $e9, $45, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Lala Prologue (2010)            '
-        defb    $0b, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $7d, $63, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Deathchase (1983)               '
-        defb    $0c, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $dd, $26, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Master Chess (1983)             '
-        defb    $0d, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $49, $34, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Backgammon (1983)               '
-        defb    $0e, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $c0, $54, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Hungry Horace (1982)            '
-        defb    $0f, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $67, $54, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Horace & the Spiders (1983)     '
-        defb    $10, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $aa, $fc, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Planetoids (1982)               '
-        defb    $11, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $7a, $69, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Space Raiders (1982)            '
-        defb    $12, 1, $0b, 1, $04, $30
-        defb    Issue3 | Tim48  | Contended    | DisableDiv | DisableNMI, $ff
-        defb    $4d, $5b, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'Misco Jones (2013)              '
+      macro Cart    slot, crc, cadena
+        Generic  slot, (crc<<16 | $ffff), $ffffffff, cadena, 1, $0b, 1, $04, $30, Issue3 | Tim48  | Contended | DisableDiv | DisableNMI
+      endm
+
+      macro R32K    slot, crc, cadena
+        Generic  slot, crc, $ffffffff, cadena, 2, $0a, 2, $04, 0, Issue3 | Tim128  | Contended | DisableDiv | DisableNMI
+      endm
+
+      macro R64K    slot, crc1, crc2, cadena
+        Generic  slot, crc1, crc2, cadena, 4, $08, 4, 0, 0, Issue3 | Tim128  | Contended | DisableDiv | DisableNMI
+      endm
+
+      
+l0aa0   Generic  0, $1bfeffff, $ffffffff, 'ZX Spectrum 48K', 1, 8, 4, 0, 0, Issue3 | Tim48  | Contended | EnableDiv | EnableNMI
+        R64K     1, $43bea3ff, $ec33dbeb, 'ZX +3e DivMMC'
+        R32K     5, $bfd5c9e8,            'SE Basic IV 4.0 Anya'
+        Cart     7, $1039,                'ZX Spectrum 48K Cargando Leches'
+        Cart     8, $b818,                'Manic Miner (1983)'
+        Cart     9, $15e7,                'Jet Set Willy (1984)'
+        Cart    10, $e945,                'Lala Prologue (2010)'
+        Cart    11, $7d63,                'Deathchase (1983)'
+        Cart    12, $dd26,                'Master Chess (1983)'
+        Cart    13, $4934,                'Backgammon (1983)'
+        Cart    14, $c054,                'Hungry Horace (1982)'
+        Cart    15, $6754,                'Horace & the Spiders (1983)'
+        Cart    16, $aafc,                'Planetoids (1982)'
+        Cart    17, $7a69,                'Space Raiders (1982)'
+        Cart    18, $4d5b,                'Misco Jones (2013)'
 
         block   $1000-$
 
@@ -112,7 +58,7 @@ l0aa0   defb    $00, 1, $08, 4, $00, $00
 ;  43: DivMMC       0: Disable, 1: Enable
 ;  44: NMI-DivMMC   0: Disable, 1: Enable
 ;  45: Issue        0: Issue 2, 1: Issue 3
-l0ab0   defb    $02, $01, $00, $03, $04, $05, $06, $07
+l0ab0   defb    $00, $01, $02, $03, $04, $05, $06, $07
         defb    $08, $09, $0a, $0b, $0c, $0d, $0e, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -120,11 +66,11 @@ l0ab0   defb    $02, $01, $00, $03, $04, $05, $06, $07
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $03             ; active
+        defb    $00             ; active
         defb    $00             ; quiet
         defb    $01             ; checkcrc
         defb    $02             ; Issue
-        defb    $02             ; Timming
+        defb    $02             ; Timing
         defb    $02             ; Contended
         defb    $02             ; DivMMC
         defb    $02             ; NMI-DivMMC
