@@ -189,9 +189,13 @@ start2  ld      a, (hl)
         ld      a, (quietb)
         out     ($fe), a
         dec     a
-        jr      z, start4
-        ld      hl, finlog-1
-        ld      de, $7aff
+        jr      nz, star25
+        ld      h, l
+        ld      d, $20
+        call    window
+        jr      start4
+star25  ld      hl, finlog-1
+        ld      d, $7a
         call    dzx7b           ; descomprimir
         inc     l
         inc     hl
@@ -251,7 +255,11 @@ start5  djnz    start6
         dec     de
         ld      a, d
         or      e
-        jp      z, alto conti
+        jr      nz, start6
+        ld      hl, $0017
+        ld      de, $2001
+        call    window
+        jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
         jr      c, start5
@@ -3459,3 +3467,5 @@ fincad
 ; todo
 ; * generar tablas CRC por código
 ; * descomprimir en lugar de copiar codigo alto
+; * mover posición ROMs con + y - (Quest)
+; * modificar parámetros (issue, timing...) de cada ROM (Quest)
