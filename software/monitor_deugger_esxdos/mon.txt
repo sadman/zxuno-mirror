@@ -1,0 +1,36 @@
+Using MON command as POKE manager:
+
+1) copy MON file to directory BIN on your disc with esxdos
+2) during loading snapshot hold key SHIFT. You will see color lines in border area. Now press key "m" for load MONITOR/DEBUGGER
+3) Monitor show in low part of screen info about registers. First line at begin contain starting adress for snapshot.
+
+Monitor contain too much functions, but if you need only insert some pokes, then here is manual for you:
+
+press SS+P (fill memory block with byte), "FIRST>" = adress for poke, "LENGHT>" = leght of block (here you insert only number 1 for signle poke value), "WITH>" = value for poke (0-255).
+
+EXAMPLES:
+
+You need insert 5x byte 0 from adress 32768:
+- press SS+P, "FIRST>" = 32768, "LENGHT>" = 5, "WITH>" = 0.
+
+You need insert one POKE 32768,255:
+- press SS+P, "FIRST>" = 32768, "LENGHT>" = 1, "WITH>" = 255.
+
+You need insert POKE 32768,1 + POKE 49152,2
+- press SS+P, "FIRST>" = 32768, "LENGHT>" = 1, "WITH>" = 1.
+- press SS+P, "FIRST>" = 49152, "LENGHT>" = 1, "WITH>" = 2.
+
+You need insert bytes(pokes) 0,64,255,1,253,128 from adress 50000:
+If you insert more values then will more easy use direct writing bytes to memory
+- write starting adress of snapshot to paper (out of computer)
+- press key "m" for set memory, "Memory>" = 50000 (after press enter you can see your adress on first text row)
+- now you can insert your bytes. After write each byte confirm via "enter". Each byte is writed direct to zx ram and memory adress is automatically incremented. For change adress you can press key "m". Before return to snapshot you must press key "m" and set correct starting adress (from your paper), press SS+Q (quit menu) - you see color lines in border, now press key "e" (exit).
+
+You need insert text "CHEAT" from adress 50000 then use text mode:
+- write starting adress of snapshot to paper (out of computer)
+- press key "t" for set memory, "Memory>" = 50000 (after press enter you can see your adress on first text row)
+- now you can rite text. After press key is corresponding char writed to ram and memory adress are automatically incremented. For change adress you can use cursor keys UP/DOWN).
+For exit from text mode press key SHIFT+1(EDIT).
+Before return to snapshot you must press key "m" and set correct starting adress (from your paper), press SS+Q (quit menu) - you see color lines in border, now press key "e" (exit).
+
+VELESOFT
