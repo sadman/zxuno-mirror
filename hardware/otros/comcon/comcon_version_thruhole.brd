@@ -141,7 +141,7 @@
 <hole x="81.915" y="8.255" drill="3.5052"/>
 <hole x="3.81" y="81.915" drill="3.5052"/>
 <hole x="67.945" y="60.96" drill="3.5052"/>
-<text x="1.27" y="75.565" size="1.4224" layer="51" rot="R270">COMCON-style Joystick Interface
+<text x="1.27" y="75.565" size="1.4224" layer="25" rot="R270">COMCON-style Joystick Interface
 (C)2015 mcleod_ideafix</text>
 </plain>
 <libraries>
