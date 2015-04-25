@@ -9520,10 +9520,10 @@ Source: http://www.diodes.com/datasheets/ds23001.pdf</description>
 <wire x1="114.3" y1="40.64" x2="106.68" y2="40.64" width="0.1524" layer="91"/>
 <junction x="106.68" y="40.64"/>
 <wire x1="-38.1" y1="101.6" x2="114.3" y2="101.6" width="0.1524" layer="91"/>
-<pinref part="JP2" gate="A" pin="10"/>
-<wire x1="-12.7" y1="132.08" x2="-12.7" y2="139.7" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="139.7" x2="-38.1" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="-10.16" y1="139.7" x2="-38.1" y2="139.7" width="0.1524" layer="91"/>
 <wire x1="-38.1" y1="139.7" x2="-38.1" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="JP2" gate="A" pin="12"/>
+<wire x1="-10.16" y1="139.7" x2="-10.16" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
