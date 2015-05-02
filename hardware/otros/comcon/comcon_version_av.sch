@@ -4955,6 +4955,10 @@ high speed (Philips)</description>
 <part name="PIN5J2" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="FIREJ2" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="PIN9J2" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="GND" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="VCC" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="NMI" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="RESET" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5086,6 +5090,10 @@ high speed (Philips)</description>
 <instance part="PIN5J2" gate="G$1" x="162.56" y="121.92"/>
 <instance part="FIREJ2" gate="G$1" x="223.52" y="149.86" rot="R180"/>
 <instance part="PIN9J2" gate="G$1" x="223.52" y="127" rot="R180"/>
+<instance part="GND" gate="G$1" x="81.28" y="121.92"/>
+<instance part="VCC" gate="G$1" x="81.28" y="111.76"/>
+<instance part="NMI" gate="G$1" x="116.84" y="121.92"/>
+<instance part="RESET" gate="G$1" x="116.84" y="111.76"/>
 </instances>
 <busses>
 </busses>
@@ -5218,6 +5226,11 @@ high speed (Philips)</description>
 <wire x1="200.66" y1="139.7" x2="215.9" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="GNDJ2" gate="G$1" pin="1"/>
 </segment>
+<segment>
+<pinref part="GND" gate="G$1" pin="1"/>
+<wire x1="88.9" y1="121.92" x2="99.06" y2="121.92" width="0.1524" layer="91"/>
+<label x="93.98" y="121.92" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="VCC" class="1">
 <segment>
@@ -5262,6 +5275,11 @@ high speed (Philips)</description>
 <wire x1="195.58" y1="17.78" x2="187.96" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="U$3" gate="G$1" pin="5V"/>
 <label x="187.96" y="17.78" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="VCC" gate="G$1" pin="1"/>
+<wire x1="88.9" y1="111.76" x2="99.06" y2="111.76" width="0.1524" layer="91"/>
+<label x="93.98" y="111.76" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A14" class="0">
@@ -6452,6 +6470,30 @@ high speed (Philips)</description>
 <wire x1="210.82" y1="137.16" x2="210.82" y2="127" width="0.1524" layer="91"/>
 <pinref part="PIN9J2" gate="G$1" pin="1"/>
 <wire x1="210.82" y1="127" x2="215.9" y2="127" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RESET" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="/RESET"/>
+<wire x1="195.58" y1="-25.4" x2="187.96" y2="-25.4" width="0.1524" layer="91"/>
+<label x="187.96" y="-25.4" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="RESET" gate="G$1" pin="1"/>
+<wire x1="124.46" y1="111.76" x2="134.62" y2="111.76" width="0.1524" layer="91"/>
+<label x="129.54" y="111.76" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="NMI" class="0">
+<segment>
+<pinref part="U$3" gate="G$1" pin="/NMI"/>
+<wire x1="195.58" y1="63.5" x2="187.96" y2="63.5" width="0.1524" layer="91"/>
+<label x="187.96" y="63.5" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="NMI" gate="G$1" pin="1"/>
+<wire x1="124.46" y1="121.92" x2="134.62" y2="121.92" width="0.1524" layer="91"/>
+<label x="129.54" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
