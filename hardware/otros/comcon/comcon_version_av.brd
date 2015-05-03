@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.15875" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="12.5" altunitdist="mil" altunit="mm"/>
+<grid distance="0.15875" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.15875" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -149,6 +149,60 @@
 <wire x1="76" y1="0" x2="76" y2="76" width="0" layer="46"/>
 <wire x1="76" y1="76" x2="0" y2="76" width="0" layer="46"/>
 <wire x1="0" y1="76" x2="0" y2="0" width="0" layer="46"/>
+<text x="1.905" y="38.89375" size="1.778" layer="21" rot="R90">6</text>
+<text x="1.905" y="43.97375" size="1.778" layer="21" rot="R90">7</text>
+<text x="1.905" y="49.05375" size="1.778" layer="21" rot="R90">8</text>
+<text x="1.905" y="54.13375" size="1.778" layer="21" rot="R90">9</text>
+<text x="1.905" y="59.3725" size="1.778" layer="21" rot="R90">0</text>
+<text x="1.905" y="31.27375" size="1.778" layer="21" rot="R90">5</text>
+<text x="1.905" y="26.19375" size="1.778" layer="21" rot="R90">4</text>
+<text x="1.905" y="21.11375" size="1.778" layer="21" rot="R90">3</text>
+<text x="1.905" y="16.03375" size="1.778" layer="21" rot="R90">2</text>
+<text x="1.905" y="11.1125" size="1.778" layer="21" rot="R90">1</text>
+<text x="17.93875" y="10.795" size="1.778" layer="21" rot="R90">Q</text>
+<text x="17.93875" y="15.875" size="1.778" layer="21" rot="R90">W</text>
+<text x="17.93875" y="20.955" size="1.778" layer="21" rot="R90">E</text>
+<text x="17.93875" y="26.035" size="1.778" layer="21" rot="R90">R</text>
+<text x="17.93875" y="31.115" size="1.778" layer="21" rot="R90">T</text>
+<text x="17.93875" y="38.735" size="1.778" layer="21" rot="R90">Y</text>
+<text x="17.93875" y="43.65625" size="1.778" layer="21" rot="R90">U</text>
+<text x="17.78" y="49.37125" size="1.778" layer="21" rot="R90">I</text>
+<text x="17.93875" y="53.81625" size="1.778" layer="21" rot="R90">O</text>
+<text x="17.93875" y="59.055" size="1.778" layer="21" rot="R90">P</text>
+<text x="33.9725" y="10.95375" size="1.778" layer="21" rot="R90">A</text>
+<text x="33.9725" y="15.875" size="1.778" layer="21" rot="R90">S</text>
+<text x="33.9725" y="20.955" size="1.778" layer="21" rot="R90">D</text>
+<text x="33.9725" y="26.035" size="1.778" layer="21" rot="R90">F</text>
+<text x="33.9725" y="31.115" size="1.778" layer="21" rot="R90">G</text>
+<text x="33.9725" y="38.735" size="1.778" layer="21" rot="R90">H</text>
+<text x="33.9725" y="43.815" size="1.778" layer="21" rot="R90">J</text>
+<text x="33.9725" y="48.895" size="1.778" layer="21" rot="R90">K</text>
+<text x="33.9725" y="53.975" size="1.778" layer="21" rot="R90">L</text>
+<text x="33.9725" y="57.62625" size="1.778" layer="21" rot="R90">ENT</text>
+<text x="49.8475" y="9.04875" size="1.778" layer="21" rot="R90">CAP</text>
+<text x="49.8475" y="15.875" size="1.778" layer="21" rot="R90">Z</text>
+<text x="49.8475" y="20.955" size="1.778" layer="21" rot="R90">X</text>
+<text x="49.8475" y="26.035" size="1.778" layer="21" rot="R90">C</text>
+<text x="49.8475" y="31.115" size="1.778" layer="21" rot="R90">V</text>
+<text x="49.8475" y="38.735" size="1.778" layer="21" rot="R90">B</text>
+<text x="49.8475" y="43.815" size="1.778" layer="21" rot="R90">N</text>
+<text x="49.8475" y="48.895" size="1.778" layer="21" rot="R90">M</text>
+<text x="49.8475" y="51.91125" size="1.778" layer="21" rot="R90">SYM</text>
+<text x="49.8475" y="58.42" size="1.778" layer="21" rot="R90">SPC</text>
+<text x="8.73125" y="64.61125" size="1.4224" layer="21">9</text>
+<text x="11.27125" y="64.61125" size="1.4224" layer="21">5</text>
+<text x="13.81125" y="64.61125" size="1.4224" layer="21">R</text>
+<text x="16.35125" y="64.61125" size="1.4224" layer="21">L</text>
+<text x="18.89125" y="64.61125" size="1.4224" layer="21">D</text>
+<text x="21.43125" y="64.61125" size="1.4224" layer="21">U</text>
+<text x="23.97125" y="64.61125" size="1.4224" layer="21">F</text>
+<text x="51.1175" y="64.61125" size="1.4224" layer="21">9</text>
+<text x="53.6575" y="64.61125" size="1.4224" layer="21">5</text>
+<text x="56.35625" y="64.61125" size="1.4224" layer="21">R</text>
+<text x="58.7375" y="64.61125" size="1.4224" layer="21">L</text>
+<text x="61.2775" y="64.61125" size="1.4224" layer="21">D</text>
+<text x="63.8175" y="64.61125" size="1.4224" layer="21">U</text>
+<text x="66.3575" y="64.61125" size="1.4224" layer="21">F</text>
 </plain>
 <libraries>
 <library name="74xx-eu">
@@ -1665,92 +1719,92 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="7.6835" y="13.74775" size="1.27" layer="28" ratio="10" rot="MR180"/>
 </element>
 <element name="C6" library="rcl" package="C050-025X075" value="100nF" x="26.9875" y="10.95375" smashed="yes">
-<attribute name="NAME" x="31.1785" y="10.69975" size="1.27" layer="25" ratio="10"/>
+<attribute name="NAME" x="31.1785" y="10.69975" size="1.27" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="23.5585" y="8.15975" size="1.27" layer="27" ratio="10"/>
 </element>
 <element name="IC7" library="74xx-eu" package="DIL16" value="74LS365N" x="58.7375" y="50.95875" rot="R270"/>
-<element name="SPACE" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="59.84875" rot="R90"/>
-<element name="SYMBOL" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="54.76875" rot="R90"/>
-<element name="M" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="49.68875" rot="R90"/>
-<element name="N" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="44.60875" rot="R90"/>
-<element name="B" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="39.52875" rot="R90"/>
+<element name="SPC" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="59.84875" rot="R270"/>
+<element name="SYM" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="54.76875" rot="R270"/>
+<element name="M" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="49.68875" rot="R270"/>
+<element name="N" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="44.60875" rot="R270"/>
+<element name="B" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="39.52875" rot="R270"/>
 <element name="D1" library="diode" package="DO35-7" value="" x="57.4675" y="54.13375" rot="R270"/>
 <element name="D2" library="diode" package="DO35-7" value="" x="58.7375" y="39.52875"/>
 <element name="D3" library="diode" package="DO35-7" value="" x="57.4675" y="43.33875" rot="R270"/>
 <element name="D4" library="diode" package="DO35-7" value="" x="60.0075" y="43.33875" rot="R90"/>
 <element name="D5" library="diode" package="DO35-7" value="" x="60.0075" y="55.40375" rot="R90"/>
 <element name="IC8" library="74xx-eu" package="DIL16" value="74LS365N" x="58.7375" y="23.01875" rot="R90"/>
-<element name="CAPS" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="11.58875"/>
-<element name="Z" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="16.66875"/>
-<element name="X" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="21.74875"/>
-<element name="C" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="26.82875"/>
-<element name="V" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="31.90875"/>
+<element name="CAP" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="11.58875" rot="R270"/>
+<element name="Z" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="16.66875" rot="R270"/>
+<element name="X" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="21.74875" rot="R270"/>
+<element name="C" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="26.82875" rot="R270"/>
+<element name="V" library="SparkFun-Connectors" package="1X01" value="" x="51.1175" y="31.90875" rot="R270"/>
 <element name="D6" library="diode" package="DO35-7" value="" x="60.0075" y="19.84375" rot="R90"/>
 <element name="D7" library="diode" package="DO35-7" value="" x="58.7375" y="34.44875" rot="R180"/>
 <element name="D8" library="diode" package="DO35-7" value="" x="60.0075" y="30.63875" rot="R90"/>
 <element name="D9" library="diode" package="DO35-7" value="" x="57.4675" y="30.63875" rot="R270"/>
 <element name="D10" library="diode" package="DO35-7" value="" x="57.4675" y="18.57375" rot="R270"/>
 <element name="IC9" library="74xx-eu" package="DIL16" value="74LS365N" x="42.8625" y="50.95875" rot="R270"/>
-<element name="ENTER" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="59.84875"/>
-<element name="L" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="54.76875"/>
-<element name="K" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="49.68875"/>
-<element name="J" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="44.60875"/>
-<element name="H" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="39.52875"/>
+<element name="ENT" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="59.84875" rot="R270"/>
+<element name="L" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="54.76875" rot="R270"/>
+<element name="K" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="49.68875" rot="R270"/>
+<element name="J" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="44.60875" rot="R270"/>
+<element name="H" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="39.52875" rot="R270"/>
 <element name="D11" library="diode" package="DO35-7" value="" x="41.5925" y="54.13375" rot="R270"/>
 <element name="D12" library="diode" package="DO35-7" value="" x="42.8625" y="39.52875"/>
 <element name="D13" library="diode" package="DO35-7" value="" x="41.5925" y="43.33875" rot="R270"/>
 <element name="D14" library="diode" package="DO35-7" value="" x="44.1325" y="43.33875" rot="R90"/>
 <element name="D15" library="diode" package="DO35-7" value="" x="44.1325" y="55.40375" rot="R90"/>
 <element name="IC10" library="74xx-eu" package="DIL16" value="74LS365N" x="42.8625" y="23.01875" rot="R90"/>
-<element name="A" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="11.58875"/>
-<element name="S" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="16.66875"/>
-<element name="D" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="21.74875"/>
-<element name="F" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="26.82875"/>
-<element name="G" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="31.90875"/>
+<element name="A" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="11.58875" rot="R270"/>
+<element name="S" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="16.66875" rot="R270"/>
+<element name="D" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="21.74875" rot="R270"/>
+<element name="F" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="26.82875" rot="R270"/>
+<element name="G" library="SparkFun-Connectors" package="1X01" value="" x="35.2425" y="31.90875" rot="R270"/>
 <element name="D16" library="diode" package="DO35-7" value="" x="44.1325" y="19.84375" rot="R90"/>
 <element name="D17" library="diode" package="DO35-7" value="" x="42.8625" y="34.44875" rot="R180"/>
 <element name="D18" library="diode" package="DO35-7" value="" x="44.1325" y="30.63875" rot="R90"/>
 <element name="D19" library="diode" package="DO35-7" value="" x="41.5925" y="30.63875" rot="R270"/>
 <element name="D20" library="diode" package="DO35-7" value="" x="41.5925" y="18.57375" rot="R270"/>
 <element name="IC11" library="74xx-eu" package="DIL16" value="74LS365N" x="26.9875" y="50.95875" rot="R270"/>
-<element name="P" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="59.84875" rot="R90"/>
-<element name="O" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="54.76875" rot="R90"/>
-<element name="I" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="49.68875" rot="R90"/>
-<element name="U" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="44.60875" rot="R90"/>
-<element name="Y" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="39.52875" rot="R90"/>
+<element name="P" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="59.84875" rot="R270"/>
+<element name="O" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="54.76875" rot="R270"/>
+<element name="I" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="49.68875" rot="R270"/>
+<element name="U" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="44.60875" rot="R270"/>
+<element name="Y" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="39.52875" rot="R270"/>
 <element name="D21" library="diode" package="DO35-7" value="" x="25.7175" y="54.13375" rot="R270"/>
 <element name="D22" library="diode" package="DO35-7" value="" x="26.9875" y="39.52875"/>
 <element name="D23" library="diode" package="DO35-7" value="" x="25.7175" y="43.33875" rot="R270"/>
 <element name="D24" library="diode" package="DO35-7" value="" x="28.2575" y="43.33875" rot="R90"/>
 <element name="D25" library="diode" package="DO35-7" value="" x="28.2575" y="55.40375" rot="R90"/>
 <element name="IC12" library="74xx-eu" package="DIL16" value="74LS365N" x="26.9875" y="23.01875" rot="R90"/>
-<element name="Q" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="11.58875"/>
-<element name="W" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="16.66875"/>
-<element name="E" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="21.74875"/>
-<element name="R" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="26.82875"/>
-<element name="T" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="31.90875"/>
+<element name="Q" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="11.58875" rot="R270"/>
+<element name="W" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="16.66875" rot="R270"/>
+<element name="E" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="21.74875" rot="R270"/>
+<element name="R" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="26.82875" rot="R270"/>
+<element name="T" library="SparkFun-Connectors" package="1X01" value="" x="19.3675" y="31.90875" rot="R270"/>
 <element name="D26" library="diode" package="DO35-7" value="" x="28.2575" y="19.84375" rot="R90"/>
 <element name="D27" library="diode" package="DO35-7" value="" x="26.9875" y="34.44875" rot="R180"/>
 <element name="D28" library="diode" package="DO35-7" value="" x="28.2575" y="30.63875" rot="R90"/>
 <element name="D29" library="diode" package="DO35-7" value="" x="25.7175" y="30.63875" rot="R270"/>
 <element name="D30" library="diode" package="DO35-7" value="" x="25.7175" y="18.57375" rot="R270"/>
 <element name="IC13" library="74xx-eu" package="DIL16" value="74LS365N" x="11.1125" y="50.95875" rot="R270"/>
-<element name="0" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="59.84875" rot="R90"/>
-<element name="9" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="54.76875" rot="R90"/>
-<element name="8" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="49.68875" rot="R90"/>
-<element name="7" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="44.60875" rot="R90"/>
-<element name="6" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="39.52875" rot="R90"/>
+<element name="0" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="59.84875" rot="R270"/>
+<element name="9" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="54.76875" rot="R270"/>
+<element name="8" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="49.68875" rot="R270"/>
+<element name="7" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="44.60875" rot="R270"/>
+<element name="6" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="39.52875" rot="R270"/>
 <element name="D31" library="diode" package="DO35-7" value="" x="9.8425" y="54.13375" rot="R270"/>
 <element name="D32" library="diode" package="DO35-7" value="" x="11.1125" y="39.52875"/>
 <element name="D33" library="diode" package="DO35-7" value="" x="9.8425" y="43.33875" rot="R270"/>
 <element name="D34" library="diode" package="DO35-7" value="" x="12.3825" y="43.33875" rot="R90"/>
 <element name="D35" library="diode" package="DO35-7" value="" x="12.3825" y="55.40375" rot="R90"/>
 <element name="IC14" library="74xx-eu" package="DIL16" value="74LS365N" x="11.1125" y="23.01875" rot="R90"/>
-<element name="1" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="11.58875" rot="R90"/>
-<element name="2" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="16.66875" rot="R90"/>
-<element name="3" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="21.74875" rot="R90"/>
-<element name="4" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="26.82875" rot="R90"/>
-<element name="5" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="31.90875" rot="R90"/>
+<element name="1" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="11.58875" rot="R270"/>
+<element name="2" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="16.66875" rot="R270"/>
+<element name="3" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="21.74875" rot="R270"/>
+<element name="4" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="26.82875" rot="R270"/>
+<element name="5" library="SparkFun-Connectors" package="1X01" value="" x="3.4925" y="31.90875" rot="R270"/>
 <element name="D36" library="diode" package="DO35-7" value="" x="12.3825" y="19.84375" rot="R90"/>
 <element name="D37" library="diode" package="DO35-7" value="" x="11.1125" y="34.44875" rot="R180"/>
 <element name="D38" library="diode" package="DO35-7" value="" x="12.3825" y="30.63875" rot="R90"/>
@@ -1992,7 +2046,8 @@ design rules under a new name.</description>
 <wire x1="66.9925" y1="23.65375" x2="66.9925" y2="26.19375" width="0.4064" layer="16"/>
 <wire x1="0.79375" y1="17.30375" x2="0.79375" y2="60.0075" width="0.4064" layer="1"/>
 <wire x1="0.79375" y1="60.0075" x2="2.54" y2="61.75375" width="0.4064" layer="1"/>
-<wire x1="2.54" y1="61.75375" x2="13.6525" y2="61.75375" width="0.4064" layer="1"/>
+<wire x1="2.54" y1="61.75375" x2="5.87375" y2="61.75375" width="0.4064" layer="1"/>
+<wire x1="5.87375" y1="61.75375" x2="13.6525" y2="61.75375" width="0.4064" layer="1"/>
 <wire x1="13.6525" y1="61.75375" x2="14.9225" y2="61.75375" width="0.4064" layer="1"/>
 <wire x1="13.6525" y1="63.02375" x2="13.6525" y2="61.75375" width="0.4064" layer="1"/>
 <contactref element="VCC" pad="1"/>
@@ -2001,6 +2056,23 @@ design rules under a new name.</description>
 <wire x1="5.87375" y1="14.12875" x2="4.60375" y2="15.39875" width="0.4064" layer="1"/>
 <wire x1="4.60375" y1="15.39875" x2="2.54" y2="15.39875" width="0.3048" layer="1"/>
 <wire x1="2.54" y1="15.39875" x2="0.79375" y2="17.30375" width="0.4064" layer="1"/>
+<contactref element="J2" pad="7"/>
+<contactref element="J1" pad="7"/>
+<wire x1="18.2075" y1="73.65125" x2="18.2075" y2="73.70875" width="0.4064" layer="1"/>
+<wire x1="18.2075" y1="73.70875" x2="16.8275" y2="75.08875" width="0.4064" layer="1"/>
+<wire x1="16.8275" y1="75.08875" x2="11.7475" y2="75.08875" width="0.4064" layer="1"/>
+<wire x1="11.7475" y1="75.08875" x2="5.715" y2="69.05625" width="0.4064" layer="1"/>
+<wire x1="5.715" y1="69.05625" x2="5.715" y2="61.9125" width="0.4064" layer="1"/>
+<wire x1="5.715" y1="61.9125" x2="5.87375" y2="61.75375" width="0.4064" layer="1"/>
+<wire x1="60.59375" y1="73.65125" x2="60.59375" y2="69.4225" width="0.4064" layer="1"/>
+<wire x1="60.59375" y1="69.4225" x2="60.80125" y2="69.215" width="0.4064" layer="1"/>
+<wire x1="60.80125" y1="69.215" x2="68.42125" y2="69.215" width="0.4064" layer="1"/>
+<wire x1="68.42125" y1="69.215" x2="70.8025" y2="66.83375" width="0.4064" layer="1"/>
+<wire x1="70.8025" y1="66.83375" x2="70.8025" y2="59.21375" width="0.4064" layer="1"/>
+<wire x1="70.8025" y1="59.21375" x2="69.85" y2="58.26125" width="0.4064" layer="1"/>
+<wire x1="69.85" y1="58.26125" x2="65.0875" y2="58.26125" width="0.4064" layer="1"/>
+<wire x1="65.0875" y1="58.26125" x2="63.5" y2="59.84875" width="0.4064" layer="1"/>
+<wire x1="63.5" y1="59.84875" x2="62.5475" y2="59.84875" width="0.4064" layer="1"/>
 </signal>
 <signal name="IORQULA">
 <contactref element="IC7" pad="15"/>
@@ -2574,13 +2646,13 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$2">
 <contactref element="IC7" pad="2"/>
-<contactref element="SPACE" pad="1"/>
+<contactref element="SPC" pad="1"/>
 <wire x1="54.9275" y1="57.30875" x2="53.6575" y2="57.30875" width="0.4064" layer="16"/>
 <wire x1="53.6575" y1="57.30875" x2="51.1175" y2="59.84875" width="0.4064" layer="16"/>
 </signal>
 <signal name="N$12">
 <contactref element="IC7" pad="4"/>
-<contactref element="SYMBOL" pad="1"/>
+<contactref element="SYM" pad="1"/>
 <wire x1="54.9275" y1="52.22875" x2="53.6575" y2="52.22875" width="0.4064" layer="16"/>
 <wire x1="53.6575" y1="52.22875" x2="51.1175" y2="54.76875" width="0.4064" layer="16"/>
 </signal>
@@ -2648,7 +2720,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$25">
 <contactref element="IC8" pad="2"/>
-<contactref element="CAPS" pad="1"/>
+<contactref element="CAP" pad="1"/>
 <wire x1="51.1175" y1="11.58875" x2="52.3875" y2="12.85875" width="0.4064" layer="16"/>
 <wire x1="52.3875" y1="12.85875" x2="63.8175" y2="12.85875" width="0.4064" layer="16"/>
 <wire x1="63.8175" y1="12.85875" x2="64.4525" y2="13.49375" width="0.4064" layer="16"/>
@@ -2736,7 +2808,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$53">
 <contactref element="IC9" pad="2"/>
-<contactref element="ENTER" pad="1"/>
+<contactref element="ENT" pad="1"/>
 <wire x1="39.0525" y1="57.30875" x2="37.7825" y2="57.30875" width="0.4064" layer="16"/>
 <wire x1="37.7825" y1="57.30875" x2="35.2425" y2="59.84875" width="0.4064" layer="16"/>
 </signal>

@@ -4845,8 +4845,8 @@ high speed (Philips)</description>
 <part name="C5" library="rcl" deviceset="C-EU" device="050-025X075" value="100nF"/>
 <part name="C6" library="rcl" deviceset="C-EU" device="050-025X075" value="100nF"/>
 <part name="IC7" library="74xx-eu" deviceset="74*365" device="N" technology="HC" value="74LS365N"/>
-<part name="SPACE" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
-<part name="SYMBOL" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="SPC" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="SYM" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="M" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="N" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="B" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
@@ -4856,7 +4856,7 @@ high speed (Philips)</description>
 <part name="D4" library="diode" deviceset="1N4148" device="DO35-7" value=""/>
 <part name="D5" library="diode" deviceset="1N4148" device="DO35-7" value=""/>
 <part name="IC8" library="74xx-eu" deviceset="74*365" device="N" technology="HC" value="74LS365N"/>
-<part name="CAPS" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="CAP" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="Z" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="X" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="C" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
@@ -4867,7 +4867,7 @@ high speed (Philips)</description>
 <part name="D9" library="diode" deviceset="1N4148" device="DO35-7" value=""/>
 <part name="D10" library="diode" deviceset="1N4148" device="DO35-7" value=""/>
 <part name="IC9" library="74xx-eu" deviceset="74*365" device="N" technology="HC" value="74LS365N"/>
-<part name="ENTER" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
+<part name="ENT" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="L" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="K" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
 <part name="J" library="SparkFun-Connectors" deviceset="M01" device="PTH" value=""/>
@@ -4977,8 +4977,8 @@ high speed (Philips)</description>
 <instance part="C5" gate="G$1" x="109.22" y="142.24"/>
 <instance part="C6" gate="G$1" x="116.84" y="142.24"/>
 <instance part="IC7" gate="A" x="15.24" y="81.28"/>
-<instance part="SPACE" gate="G$1" x="-27.94" y="101.6"/>
-<instance part="SYMBOL" gate="G$1" x="-27.94" y="91.44"/>
+<instance part="SPC" gate="G$1" x="-27.94" y="101.6"/>
+<instance part="SYM" gate="G$1" x="-27.94" y="91.44"/>
 <instance part="M" gate="G$1" x="-27.94" y="81.28"/>
 <instance part="N" gate="G$1" x="-27.94" y="71.12"/>
 <instance part="B" gate="G$1" x="-27.94" y="60.96"/>
@@ -4988,7 +4988,7 @@ high speed (Philips)</description>
 <instance part="D4" gate="G$1" x="43.18" y="83.82" rot="R180"/>
 <instance part="D5" gate="G$1" x="35.56" y="81.28" rot="R180"/>
 <instance part="IC8" gate="A" x="106.68" y="81.28"/>
-<instance part="CAPS" gate="G$1" x="63.5" y="101.6"/>
+<instance part="CAP" gate="G$1" x="63.5" y="101.6"/>
 <instance part="Z" gate="G$1" x="63.5" y="91.44"/>
 <instance part="X" gate="G$1" x="63.5" y="81.28"/>
 <instance part="C" gate="G$1" x="63.5" y="71.12"/>
@@ -4999,7 +4999,7 @@ high speed (Philips)</description>
 <instance part="D9" gate="G$1" x="134.62" y="83.82" rot="R180"/>
 <instance part="D10" gate="G$1" x="127" y="81.28" rot="R180"/>
 <instance part="IC9" gate="A" x="15.24" y="17.78"/>
-<instance part="ENTER" gate="G$1" x="-27.94" y="38.1"/>
+<instance part="ENT" gate="G$1" x="-27.94" y="38.1"/>
 <instance part="L" gate="G$1" x="-27.94" y="27.94"/>
 <instance part="K" gate="G$1" x="-27.94" y="17.78"/>
 <instance part="J" gate="G$1" x="-27.94" y="7.62"/>
@@ -5280,6 +5280,16 @@ high speed (Philips)</description>
 <pinref part="VCC" gate="G$1" pin="1"/>
 <wire x1="88.9" y1="111.76" x2="99.06" y2="111.76" width="0.1524" layer="91"/>
 <label x="93.98" y="111.76" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="J2" gate="G$1" pin="7"/>
+<wire x1="200.66" y1="142.24" x2="210.82" y2="142.24" width="0.1524" layer="91"/>
+<label x="205.74" y="142.24" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="J1" gate="G$1" pin="7"/>
+<wire x1="12.7" y1="142.24" x2="22.86" y2="142.24" width="0.1524" layer="91"/>
+<label x="17.78" y="142.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A14" class="0">
@@ -5654,7 +5664,7 @@ high speed (Philips)</description>
 <pinref part="IC7" gate="A" pin="A1"/>
 <wire x1="0" y1="96.52" x2="0" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="0" y1="91.44" x2="2.54" y2="91.44" width="0.1524" layer="91"/>
-<pinref part="SPACE" gate="G$1" pin="1"/>
+<pinref part="SPC" gate="G$1" pin="1"/>
 <wire x1="-20.32" y1="101.6" x2="-20.32" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="-20.32" y1="96.52" x2="0" y2="96.52" width="0.1524" layer="91"/>
 </segment>
@@ -5664,7 +5674,7 @@ high speed (Philips)</description>
 <pinref part="IC7" gate="A" pin="A2"/>
 <wire x1="-2.54" y1="91.44" x2="-2.54" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="-2.54" y1="88.9" x2="2.54" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="SYMBOL" gate="G$1" pin="1"/>
+<pinref part="SYM" gate="G$1" pin="1"/>
 <wire x1="-20.32" y1="91.44" x2="-2.54" y2="91.44" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -5734,7 +5744,7 @@ high speed (Philips)</description>
 <pinref part="IC8" gate="A" pin="A1"/>
 <wire x1="91.44" y1="96.52" x2="91.44" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="91.44" y1="91.44" x2="93.98" y2="91.44" width="0.1524" layer="91"/>
-<pinref part="CAPS" gate="G$1" pin="1"/>
+<pinref part="CAP" gate="G$1" pin="1"/>
 <wire x1="71.12" y1="101.6" x2="71.12" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="96.52" x2="91.44" y2="96.52" width="0.1524" layer="91"/>
 </segment>
@@ -5814,7 +5824,7 @@ high speed (Philips)</description>
 <pinref part="IC9" gate="A" pin="A1"/>
 <wire x1="0" y1="33.02" x2="0" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="0" y1="27.94" x2="2.54" y2="27.94" width="0.1524" layer="91"/>
-<pinref part="ENTER" gate="G$1" pin="1"/>
+<pinref part="ENT" gate="G$1" pin="1"/>
 <wire x1="-20.32" y1="38.1" x2="-20.32" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="-20.32" y1="33.02" x2="0" y2="33.02" width="0.1524" layer="91"/>
 </segment>
