@@ -108,6 +108,14 @@ module tld_zxuno (
     .sd_miso(sd_miso)
     );
        
-    assign testled = (!flash_cs_n || !sd_cs_n);
+    //assign testled = (!flash_cs_n || !sd_cs_n);
+    reg [21:0] monoestable = 22'hFFFFFF;
+    always @(posedge sysclk) begin
+        if (!flash_cs_n || !sd_cs_n)
+            monoestable <= 0;
+        else if (monoestable[21] == 1'b0)
+            monoestable <= monoestable + 1;
+    end
+    assign testled = ~monoestable[21];
 
 endmodule
