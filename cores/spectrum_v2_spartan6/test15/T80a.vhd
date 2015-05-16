@@ -232,7 +232,6 @@ begin
 	begin
 		if Reset_s = '0' then
 			RD <= '0';
-			IORQ_n_i <= '1';
 			MREQ <= '0';
 		elsif CLK_n'event and CLK_n = '0' then
 
@@ -240,11 +239,9 @@ begin
 				if TState = "001" then
 					RD <= IntCycle_n;
 					MREQ <= IntCycle_n;
-					IORQ_n_i <= IntCycle_n;
 				end if;
 				if TState = "011" then
 					RD <= '0';
-					IORQ_n_i <= '1';
 					MREQ <= '1';
 				end if;
 				if TState = "100" then
@@ -253,16 +250,37 @@ begin
 			else
 				if TState = "001" and NoRead = '0' then
 					RD <= not Write;
-					IORQ_n_i <= not IORQ;
 					MREQ <= not IORQ;
 				end if;
 				if TState = "011" then
 					RD <= '0';
-					IORQ_n_i <= '1';
 					MREQ <= '0';
 				end if;
 			end if;
 		end if;
 	end process;
 
+    -- IORQ_n_i uses a different timming than MREQ.
+	process(Reset_s,CLK_n)
+	begin
+		if Reset_s = '0' then
+			IORQ_n_i <= '1';
+		elsif CLK_n'event and CLK_n = '1' then
+			if MCycle = "001" then
+				if TState = "001" then
+					IORQ_n_i <= IntCycle_n;
+				end if;
+				if TState = "011" then
+					IORQ_n_i <= '1';
+				end if;
+			else
+				if TState = "001" then
+					IORQ_n_i <= not IORQ;
+				end if;
+				if TState = "011" then
+					IORQ_n_i <= '1';
+				end if;
+			end if;
+		end if;
+	end process;
 end;

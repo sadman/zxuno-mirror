@@ -1861,6 +1861,7 @@ begin
 				MCycles <= "100";
 				case to_integer(unsigned(MCycle)) is
 				when 1 =>
+                    TStates <= "101";
 					Set_Addr_To <= aBC;
 					Set_BusB_To <= "1010";
 					Set_BusA_To <= "0000";
@@ -1877,7 +1878,7 @@ begin
 					else
 						IncDec_16 <= "1110";
 					end if;
-					TStates <= "100";
+					TStates <= "011";  -- "100"
 					Write <= '1';
 					I_BTR <= '1';
 				when 4 =>
