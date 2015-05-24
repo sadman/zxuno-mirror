@@ -509,7 +509,7 @@ module ula_radas (
          
    // INT generation
    always @* begin
-      if (vc==BVSYNC && hc>=0 && hc<=63) // 32 T-states INT pulse width
+      if (vc==BVSYNC && hc>=2 && hc<=65) // 32 T-states INT pulse width
          int_n = 1'b0;
       else
          int_n = 1'b1;
