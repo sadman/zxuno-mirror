@@ -392,30 +392,30 @@ module ula_radas (
       
       if (!RadasEnabled) begin   // Control para los modos estándar
       
-         if (hc[2:0]==3'd2) begin // hc=4,12,20,28,etc
+         if (hc[2:0]==3'd4) begin // hc=4,12,20,28,etc
             AttrOutputLoad = 1'b1;  // updated every 8 pixel clocks
          end
-         if (hc[2:0]==3'd1) begin
+         if (hc[2:0]==3'd3) begin
             CALoad = 1'b1;
          end
          if (hc>=(BHPIXEL+8) && hc<=(EHPIXEL+8) && vc>=BVPIXEL && vc<=EVPIXEL) begin  // VidEN_n is low here: paper area
             VideoEnable = 1'b1;
-            if (hc[2:0]==3'd2) begin
+            if (hc[2:0]==3'd4) begin
                 SerializerLoad = 1'b1;  // updated every 8 pixel clocks, if we are in paper area
             end
          end
          if (hc>=BHPIXEL && hc<=EHPIXEL && vc>=BVPIXEL && vc<=EVPIXEL) begin
-            if (hc[3:0]==4'd6 || hc[3:0]==4'd10) begin
+            if (hc[3:0]==4'd8 || hc[3:0]==4'd12) begin
                BitmapAddr = 1'b1;
             end
-            if (hc[3:0]==4'd7 || hc[3:0]==4'd11) begin
+            if (hc[3:0]==4'd9 || hc[3:0]==4'd13) begin
                BitmapAddr = 1'b1;
                BitmapDataLoad = 1'b1;
             end
-            if (hc[3:0]==4'd8 || hc[3:0]==4'd12) begin
+            if (hc[3:0]==4'd10 || hc[3:0]==4'd14) begin
                AttrAddr = 1'b1;
             end
-            if (hc[3:0]==4'd9 || hc[3:0]==4'd13) begin
+            if (hc[3:0]==4'd11 || hc[3:0]==4'd15) begin
                AttrAddr = 1'b1;
                AttrDataLoad = 1'b1;
             end
@@ -515,49 +515,65 @@ module ula_radas (
          int_n = 1'b1;
    end
    
+
+///////////////////////////////////
+// AUXILIARY SIGNALS FOR CONTENTION CONTROL
+///////////////////////////////////
+   wire iorequla = !iorq_n && (a[0]==0);
+   wire iorequlaplus = !iorq_n && (a==ULAPLUSADDR || a==ULAPLUSDATA);
+   wire ioreqall_n = !(iorequlaplus || iorequla);
+
+   reg Border_n;
+   always @* begin
+     if (vc>=BVPIXEL && vc<=EVPIXEL && hc>=BHPIXEL && hc<=EHPIXEL)
+        Border_n = 1;
+    else
+        Border_n = 0;
+	end
+
 ///////////////////////////////////
 // CPU CLOCK GENERATION (Altwasser method)
 ///////////////////////////////////
 
-`define MASTERCPUCLK clk7
+//`define MASTERCPUCLK clk7
+//   reg ioreqtw3 = 0;
+//   reg mreqt23 = 0;
+//    wire N1y2 = ~access_to_contmem | ioreqall_n;
+//    wire N3 = hc[3:0]>=4'd4;
+//    wire N4 = ~Border_n | ~ioreqtw3 | ~mreqt23 | ~cpuclk;
+//    wire N5 = ~(N1y2 | N3 | N4);
+//    wire N6 = ~(hc[3:0]>=4'd4 | ~Border_n | ~cpuclk | ioreqall_n | ~ioreqtw3);
+//    assign cpuclk = (hc[0] | N5 | N6);
+//    
+//	always @(posedge cpuclk) begin
+//       ioreqtw3 <= ioreqall_n;
+//       mreqt23 <= mreq_n;
+//	end
 
-   reg CPUInternalClock = 0;
-	reg ioreqtw3 = 0;
-	reg mreqt23 = 0;
+//	wire Nor1 = (~access_to_contmem & ioreqall_n) | (hc[3:0]<4'd12) | 
+//                (~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
+//	wire Nor2 = (hc[3:0]<4'd4) | ~Border_n | ~cpuclk | ioreqall_n | ~ioreqtw3;
+//	wire CLKContention = ~Nor1 | ~Nor2;
+//
+//	always @(posedge cpuclk) begin
+//      if (!CLKContention) begin
+//         ioreqtw3 <= ioreqall_n;
+//         mreqt23 <= mreq_n;
+//      end
+//	end
+//
+//   assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? hc[0] : 1'b1;
+//
+//  reg CPUInternalClock = 0;
+//	always @(posedge `MASTERCPUCLK) begin
+//		if (!CLKContention || RadasEnabled || disable_contention)
+//			CPUInternalClock <= ~CPUInternalClock;
+//	   else
+//		   CPUInternalClock <= 1'b1;
+//   end
+//
+//   assign cpuclk = CPUInternalClock;
 
-   wire iorequla = !iorq_n && (a[0]==0);
-	wire iorequlaplus = !iorq_n && (a==ULAPLUSADDR || a==ULAPLUSDATA);
-	wire ioreqall_n = !(iorequlaplus || iorequla);
-
-	reg Border_n;
-	always @* begin
-		if (vc>=BVPIXEL && vc<=EVPIXEL && hc>=BHPIXEL && hc<=EHPIXEL)
-			Border_n = 1;
-		else
-			Border_n = 0;
-	end
-	wire Nor1 = (~access_to_contmem & ioreqall_n) | (hc[3:0]<4'd4) | 
-                (~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
-	wire Nor2 = (hc[3:0]<4'd4) | ~Border_n | ~cpuclk | ioreqall_n | ~ioreqtw3;
-	wire CLKContention = ~Nor1 | ~Nor2;
-
-	always @(posedge cpuclk) begin
-      if (!CLKContention) begin
-         ioreqtw3 <= ioreqall_n;
-         mreqt23 <= mreq_n;
-      end
-	end
-
-	always @(posedge `MASTERCPUCLK) begin
-		if (!CLKContention || RadasEnabled || disable_contention)
-			CPUInternalClock <= ~CPUInternalClock;
-	   else
-		   CPUInternalClock <= 1'b1;
-   end
-
-   //assign cpuclk = CPUInternalClock;
-
- //assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? hc[0] : 1'b1;
 
 
 ///////////////////////////////////
@@ -588,6 +604,6 @@ module ula_radas (
             CancelContention <= 1'b0;
     end
     
-    assign cpuclk = (~(MayContend_n | CauseContention_n | CancelContention)) | ~hc[0];
+    assign cpuclk = (~(MayContend_n | CauseContention_n | CancelContention)) | hc[0];
 
 endmodule
