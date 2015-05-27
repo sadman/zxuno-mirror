@@ -29,6 +29,7 @@ module tld_basys2(
     input wire boton2,
     input wire boton3,
     input wire boton4,
+    input wire [7:0] sw,
     
     output wire [3:0] an,
     output wire [6:0] seg,
@@ -39,10 +40,13 @@ module tld_basys2(
     );
 
     reg [9:0] divisor = 10'h000;
-    wire clkps2 = divisor[0];
-    wire clkdisplay = divisor[9];
     always @(posedge clk50)
         divisor <= divisor + 1;
+
+    wire clkps2;
+    wire clkdisplay;
+    BUFG relojps2 (.I(divisor[3]), .O(clkps2));
+    BUFG relojdisplay (.I(divisor[9]), .O(clkdisplay));
 
     sistema el_circuito (
         .clkps2(clkps2),
@@ -53,6 +57,7 @@ module tld_basys2(
         .boton2(boton2),
         .boton3(boton3),
         .boton4(boton4),
+        .sw(sw),
         .an(an),
         .seg(seg),
         .ledreleased(ledreleased),

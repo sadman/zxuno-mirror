@@ -191,7 +191,7 @@ module ps2_host_to_kb (
             state <= `PULLCLKLOW;
         end
 
-        if (state == `PULLCLKLOW && timeoutcnt >= 16'd3000) begin
+        if (state == `PULLCLKLOW && timeoutcnt >= 16'd40000) begin  // 40000 cuentas es poco más de 10ms
             state <= `PULLDATALOW;
             shiftreg <= rdata;
             cntbits <= 3'd0;
@@ -232,10 +232,10 @@ module ps2_host_to_kb (
             end
         end
     end
-    assign ps2data_ext = (state == `PULLCLKLOW || state == `PULLDATALOW)? 1'b0 :
-                         (state == `SENDDATA)                           ? shiftreg[0] :
-                         (state == `SENDPARITY)                         ? paritycalculated :
-                                                                          1'bZ;
-    assign ps2clk_ext = (state == `PULLCLKLOW)                          ? 1'b0 :
-                                                                          1'bZ;
+    assign ps2data_ext = (state == `PULLCLKLOW || state == `PULLDATALOW)    ? 1'b0 :
+                         (state == `SENDDATA && shiftreg[0] == 1'b0)        ? 1'b0 :
+                         (state == `SENDPARITY && paritycalculated == 1'b0) ? 1'b0 : // si lo que se va a enviar es un 1
+                                                                              1'bZ;  // no se manda, sino que se pone la línea a alta impedancia
+    assign ps2clk_ext = (state == `PULLCLKLOW)                              ? 1'b0 :
+                                                                              1'bZ;
 endmodule

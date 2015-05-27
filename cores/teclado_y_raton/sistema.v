@@ -30,6 +30,7 @@ module sistema(
     input wire boton2,
     input wire boton3,
     input wire boton4,
+    input wire [7:0] sw,
     
     output wire [3:0] an,
     output wire [6:0] seg,
@@ -48,7 +49,7 @@ module sistema(
     
     ps2_port lectura_de_teclado (
         .clk(clkps2),
-        .enable_rcv(1'b1),
+        .enable_rcv(~ps2busy),
         .ps2clk_ext(ps2clk),
         .ps2data_ext(ps2data),
         .kb_interrupt(),
@@ -63,6 +64,7 @@ module sistema(
         .bt2ex(boton2),
         .bt3ex(boton3),
         .bt4ex(boton4),
+        .sw(sw),
         .busy(ps2busy),
         .data(dato_a_escribir),
         .dataload(dataload)
@@ -106,7 +108,7 @@ module detectpress (
   reg incr_detectedv1 = 1'b0;
   always @(posedge clk) begin
     incrhistory <= { incrhistory[14:0] , increment_synched };
-    if (incrhistory == 16'b0000001111111111)
+    if (incrhistory == 16'h0FFF)
       incr_detectedv1 <= 1'b1;
     else
       incr_detectedv1 <= 1'b0;
@@ -120,6 +122,7 @@ module kbdata_generator (
     input wire bt2ex,
     input wire bt3ex,
     input wire bt4ex,
+    input wire [7:0] sw,
     input wire busy,
     output wire [7:0] data,
     output wire dataload
@@ -144,7 +147,7 @@ module kbdata_generator (
         end
         else if (bt2 && ~busy && ~rdataload) begin
             rdataload <= 1'b1;
-            rdata <= 8'hEE;
+            rdata <= 8'hFC;
         end
         else if (bt3 && ~busy && ~rdataload) begin
             rdataload <= 1'b1;
@@ -152,7 +155,7 @@ module kbdata_generator (
         end
         else if (bt4 && ~busy && ~rdataload) begin
             rdataload <= 1'b1;
-            rdata <= 8'h07;
+            rdata <= sw;
         end
         else if (rdataload) begin
             rdataload <= 1'b0;
