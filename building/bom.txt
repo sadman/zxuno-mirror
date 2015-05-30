@@ -34,9 +34,10 @@ Qty   Ref                   Description
  5    R18-R20, R25-R26      2K Ohm 0805 Resistor
  2    R21, R22              3K9 Ohm 0805 Resistor
  2    R23, R24              4K7 Ohm 0805 Resistor
+ 2    R32, R33              6K8 ohm 0805 resistor (sug. McLeod)
  2    R28, R29              9K1 Ohm 0805 Resistor
- 4    R27, R34, R32, R33    10K Ohm 0805 Resistor
- 1    C1                    15 10pF 0805 Capacitor
+ 4    R27, R34              10K Ohm 0805 Resistor
+ 1    C1                    5pF 0805 Capacitor (sug. McLeod)
  3    C2, C3, C4            10nF 0805 Capacitor
  23   C5-12, C20-32, C35-36 100nF 0603 Capacitor
  4    C14, C15, C18, C19    4.7uF 0805 Capacitor
