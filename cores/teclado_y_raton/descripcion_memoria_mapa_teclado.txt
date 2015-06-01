@@ -1,10 +1,10 @@
-    8      5     5    3      11
-AAAAAAAA DDDDD JJJJJ MRN XXXXXXXXXXX
+    8      5    3    5         11
+AAAAAAAA DDDDD MRN JJJJJ  XXXXXXXXXXX
 
 AAAAAAAA = semifilas del teclado a modificar
 DDDDD    = dato (AND con lo que haya) de esa semifila
-JJJJJ    = estado del joystick al pulsar tecla. Posiciones UDLRX
 MRN      = Master reset, Reset de usuario, NMI
+JJJJJ    = estado del joystick al pulsar tecla. Posiciones UDLRX
 XXXXX..X = Reservado para uso futuro
 
 Ej: en la dirección de memoria correspondiente al código de la tecla ESC,
