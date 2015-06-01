@@ -1,0 +1,42 @@
+NET "clk50" LOC = "P54" ;
+NET "clk50" PERIOD = 20ns;
+
+NET "ps2data" LOC = "P97" | PULLUP ;
+NET "ps2clk" LOC = "P96" | PULLUP ;
+
+NET "an<3>" LOC = "P34";
+NET "an<2>" LOC = "P26";
+NET "an<1>" LOC = "P32";
+NET "an<0>" LOC = "P33";
+
+NET "seg<0>" LOC = "P25";
+NET "seg<1>" LOC = "P16";
+NET "seg<2>" LOC = "P23";
+NET "seg<3>" LOC = "P21";
+NET "seg<4>" LOC = "P20";
+NET "seg<5>" LOC = "P17";
+NET "seg<6>" LOC = "P83";
+
+NET "ledextended" LOC = "P2";
+NET "ledreleased" LOC = "P3";
+NET "lederror" LOC = "P4";
+
+NET "leds<4>" LOC = "P5";
+NET "leds<3>" LOC = "P7";
+NET "leds<2>" LOC = "P8";
+NET "leds<1>" LOC = "P14";
+NET "leds<0>" LOC = "P15";
+
+NET "boton4" LOC = "P69" ;
+NET "boton3" LOC = "P48" ;
+NET "boton2" LOC = "P47" ;
+NET "boton1" LOC = "P41" ;
+
+NET "sw<7>" LOC = "P6" ;
+NET "sw<6>" LOC = "P10" ;
+NET "sw<5>" LOC = "P12" ;
+NET "sw<4>" LOC = "P18" ;
+NET "sw<3>" LOC = "P24" ;
+NET "sw<2>" LOC = "P29" ;
+NET "sw<1>" LOC = "P36" ;
+NET "sw<0>" LOC = "P38" ;

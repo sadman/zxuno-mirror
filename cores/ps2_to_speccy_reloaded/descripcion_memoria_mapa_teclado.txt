@@ -1,0 +1,19 @@
+    8      5    3   3    5      8
+AAAAAAAA DDDDD MMM MRN JJJJJ XXXXXXXX
+
+AAAAAAAA = semifilas del teclado a modificar
+DDDDD    = dato (AND con lo que haya) de esa semifila
+MMM      = la tecla es un modificador
+MRN      = Master reset, Reset de usuario, NMI
+JJJJJ    = estado del joystick al pulsar tecla. Posiciones UDLRX
+XXXXX..X = Reservado para uso futuro
+
+Ej: en la dirección de memoria correspondiente al código de la tecla ESC,
+que correspondería a la pulsación simultánea de CAPS SHIFT+SPACE, pondríamos:
+10000001 00001 000 000 00000 00000000
+Esto es: se activan A8 y A15, y D0.
+
+256 codigos + E0 = 512 codigos
+SHIFT, CTRL, ALT = 8 combinaciones
+
+512*8=4096 direcciones x 32 bits = 16384 bytes
