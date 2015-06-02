@@ -55,7 +55,7 @@ module scancode_to_speccy (
     assign user_reset = 1'b0;
     assign user_nmi = 1'b0;
     
-    // las 40 teclas del Spectrum
+    // las 40 teclas del Spectrum. Se inicializan a "no pulsadas".
     reg [4:0] row[0:7];
     initial begin
         row[0] = 5'b11111;
@@ -72,7 +72,7 @@ module scancode_to_speccy (
     reg [15:0] keymap[0:4095];  // 4K x 16 bits. Cuando este completo, 4K x 32 bits
     reg [11:0] addr = 12'h000;
     initial begin
-        // Mapa inicial
+        $readmemh ("keyb_es_hex.txt", keymap);
     end
     
     reg [7:0] keyrow = 8'h00;
@@ -83,7 +83,9 @@ module scancode_to_speccy (
     end
         
     // Asi funciona la matriz de teclado cuando se piden semifilas
-    // desde la CPU
+    // desde la CPU.
+    // Un always @* hubiera quedado más claro en la descripción
+    // pero por algun motivo, el XST no lo ha admitido en este caso
     assign sp_col = ((sp_row[0] == 1'b0)? row[0] : 5'b11111) &
                     ((sp_row[1] == 1'b0)? row[1] : 5'b11111) &
                     ((sp_row[2] == 1'b0)? row[2] : 5'b11111) &

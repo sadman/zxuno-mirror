@@ -46,6 +46,11 @@ module sistema(
     wire dataload;
     wire ps2busy;
     wire nueva_tecla;
+    wire extended;
+    wire released;
+    
+    assign ledextended = extended;
+    assign ledreleased = released;
     
     always @(posedge clkps2) begin
         if (nueva_tecla)
@@ -59,9 +64,20 @@ module sistema(
         .ps2data_ext(ps2data),
         .kb_interrupt(nueva_tecla),
         .scancode(scancode),
-        .released(ledreleased),
-        .extended(ledextended)
+        .released(released),
+        .extended(extended)
     );
+
+    scancode_to_speccy traductor (
+        .clk(clkps2),
+        .rst(1'b0),
+        .scan_received(nueva_tecla),
+        .scan(scancode),
+        .extended(extended),
+        .released(released),
+        .sp_row(addr),
+        .sp_col(keycol)
+        );
 
     kbdata_generator generador (
         .clk(clkps2),
@@ -91,8 +107,7 @@ module sistema(
         .an(an),
         .seg(seg)
     );
-    
-    assign keycol = 5'b00000;
+            
 endmodule
 
 module detectpress (
