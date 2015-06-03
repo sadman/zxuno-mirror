@@ -22,7 +22,6 @@
 
 module spi (
    input wire clk,         // 7MHz
-   input wire rst,
    input wire enviar_dato, // a 1 para indicar que queremos enviar un dato por SPI
    input wire recibir_dato,// a 1 para indicar que queremos recibir un dato
    input wire [7:0] din,   // del bus de datos de salida de la CPU
@@ -46,15 +45,7 @@ module spi (
    assign spi_di = data_to_spi[7]; // la transmisión es del bit 7 al 0
    
    always @(posedge clk) begin
-      if (rst) begin
-         ciclo_lectura <= 1'b0;
-         ciclo_escritura <= 1'b0;
-         contador <= 5'b00000;
-         data_to_spi <= 8'h00;
-         data_from_spi <= 8'h00;
-         data_to_cpu <= 8'h00;
-      end
-      else if (enviar_dato && !ciclo_escritura) begin  // si ha sido señalizado, iniciar ciclo de escritura
+      if (enviar_dato && !ciclo_escritura) begin  // si ha sido señalizado, iniciar ciclo de escritura
          ciclo_escritura <= 1'b1;
          ciclo_lectura <= 1'b0;
          contador <= 5'b00000;

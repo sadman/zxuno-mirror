@@ -45,7 +45,7 @@ module zxunoregs (
    assign addr = raddr;
    
    always @(posedge clk) begin
-      if (!rst_n || !mrst_n)
+      if (!rst_n)
          raddr <= 8'h00;
       else if (!iorq_n && a==IOADDR && !wr_n)
          raddr <= din;

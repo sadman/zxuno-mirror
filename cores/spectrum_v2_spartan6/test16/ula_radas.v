@@ -24,8 +24,6 @@
 module ula_radas (
 	 // Clocks
     input wire clk14,  // 14MHz master clock
-    input wire clk7,
-    input wire clk35,
     input wire wssclk, // 5MHz WSS clock
     input wire rst_n,  // reset para volver al modo normal
 
@@ -35,7 +33,6 @@ module ula_radas (
 	 input wire iorq_n,
 	 input wire rd_n,
 	 input wire wr_n,
-     input wire rfsh_n,
 	 output wire cpuclk,
 	 output reg int_n,
 	 input wire [7:0] din,
@@ -50,13 +47,12 @@ module ula_radas (
 	 input wire [4:0] kbd,
     output reg mic,
     output reg spk,
-//    output wire clkay,
-//    output wire clkdac,
-//    output wire clkkbd,
+    output wire clkay,
+    output wire clkdac,
+    output wire clkkbd,
     input wire issue2_keyboard,
     input wire timming,
     input wire disable_contention,
-    input wire allow_snow,
     input wire access_to_contmem,
 
     // Video
@@ -83,13 +79,13 @@ module ula_radas (
 	 wire [8:0] hc;
 	 wire [8:0] vc;
 
-//    reg clk7 = 1'b0;
-//    always @(posedge clk14)
-//      clk7 <= ~clk7;
+    reg clk7 = 1'b0;
+    always @(posedge clk14)
+      clk7 <= ~clk7;
 
-//    assign clkdac = clk7;
-//    assign clkay = hc[0];
-//    assign clkkbd = hc[4];
+    assign clkdac = clk7;
+    assign clkay = hc[0];
+    assign clkkbd = hc[4];
 
 	 pal_sync_generator_sinclair syncs (
     .clk(clk7),
@@ -353,44 +349,28 @@ module ula_radas (
 
    // Column address register (CA)
    reg [4:0] CA = 5'h00;
-   reg [4:0] CAPrev = 5'h00;
    always @(posedge clk7) begin
-      if (CALoad) begin
+      if (CALoad)
          CA <= hc[7:3];
-         CAPrev <= CA;
-      end
    end
 
    // VRAM Address generation   
-   wire [8:0] hcd = hc + 9'hFF8;  // hc delayed 8 ticks for Radastan mode
-   wire snow_condition = access_to_contmem & ~mreq_n & ~disable_contention & allow_snow;
-
+   wire [8:0] hcd = hc + 9'hFF8;  // hc delayed 8 ticks
    always @* begin
      if (!RadasEnabled) begin
          if (BitmapAddr) begin
-            if (snow_condition == 1'b0)
-                va = {PG, vc[7:6], vc[2:0], vc[5:3], CA};
-            else
-                va = {PG, vc[7:6], vc[2:0], vc[5:3], CAPrev};
+            va = {PG,vc[7:6],vc[2:0],vc[5:3],CA};
          end
          else if (AttrAddr) begin
-            if (HCL == 1'b0) begin
-               if (snow_condition == 1'b0)
-                  va = {PG, 3'b110, vc[7:3], CA};
-               else
-                  va = {PG, 3'b110, vc[7:3], CAPrev};
-            end
-            else begin
-               if (snow_condition == 1'b0)
-                  va = {1'b1, vc[7:6], vc[2:0], vc[5:3], CA};
-               else
-                  va = {1'b1, vc[7:6], vc[2:0], vc[5:3], CAPrev};
-            end
+            if (HCL==1'b0)
+               va = {PG,3'b110,vc[7:3],CA};
+            else
+               va = {1'b1,vc[7:6],vc[2:0],vc[5:3],CA};
          end
          else
             va = 14'hZZZZ;
      end
-     else begin  // dirección para el modo radastaniano
+     else begin
          va = {PG,vc[7:1],hcd[7:2]};
      end
   end
@@ -529,7 +509,7 @@ module ula_radas (
          
    // INT generation
    always @* begin
-      if (vc==BVSYNC && hc>=2 && hc<=65) // 32 T-states INT pulse width. Early timmings. Change with 0 and 63 for late timmings
+      if (vc==BVSYNC && hc>=2 && hc<=65) // 32 T-states INT pulse width
          int_n = 1'b0;
       else
          int_n = 1'b1;
@@ -625,7 +605,5 @@ module ula_radas (
     end
     
     assign cpuclk = (~(MayContend_n | CauseContention_n | CancelContention)) | hc[0];
-    //BUFGCE_1 #(.CLK_SEL_TYPE("ASYNC")) cpuclkgate (.I(hc[0]), .O(cpuclk), .CE(MayContend_n | CauseContention_n | CancelContention) );
-    //BUFGMUX_1 #(.CLK_SEL_TYPE("ASYNC")) cpuclkgate (.S(~(MayContend_n | CauseContention_n | CancelContention)), .I0(hc[0]), .I1(1'b1), .O(cpuclk) );
 
 endmodule

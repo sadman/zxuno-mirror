@@ -1,9 +1,7 @@
 # Clocks & debug
 NET "clk50mhz" LOC="P55" | IOSTANDARD = LVCMOS33;
-NET "clk50mhz" PERIOD = 20 ns;
 NET "testled" LOC="P10" | IOSTANDARD = LVCMOS33;
 NET "sysclk" PERIOD=35.714 ns;
-PIN "clk7b.O" CLOCK_DEDICATED_ROUTE = FALSE;
 
 # Video output
 NET "r<2>" LOC="P93" | IOSTANDARD = LVCMOS33;

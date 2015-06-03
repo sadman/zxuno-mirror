@@ -76,18 +76,6 @@ module tld_zxuno (
     .PROGEN             (1'b0),       // IN
     .PROGDONE           ());    // OUT
 
-   reg [2:0] clkdiv = 3'b000;
-   wire clk14i = clkdiv[0];
-   wire clk7i = clkdiv[1];
-   wire clk35i = clkdiv[2];
-   always @(posedge sysclk)
-      clkdiv <= clkdiv + 1;
-   
-   wire clk14, clk7, clk35;
-   BUFG clk14b (.I(clk14i), .O(clk14));
-   BUFG clk7b (.I(clk7i), .O(clk7));
-   BUFG clk35b (.I(clk35i), .O(clk35));
-   
    wire audio_out;
    assign audio_out_left = audio_out;
    assign audio_out_right = audio_out;
@@ -95,9 +83,6 @@ module tld_zxuno (
    zxuno la_maquina (
     .clk(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
     .wssclk(wssclk),      //  5MHz, reloj para el WSS
-    .clk14(clk14),
-    .clk7(clk7),
-    .clk35(clk35),
     .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
     .r(r),
     .g(g),
@@ -124,15 +109,13 @@ module tld_zxuno (
     );
        
     //assign testled = (!flash_cs_n || !sd_cs_n);
-    // This is to enlarge the CS signal so the led is on for longer time
-    // so the visual feedback is better
-    reg [19:0] monoestable = 20'hFFFFF;
+    reg [21:0] monoestable = 22'hFFFFFF;
     always @(posedge sysclk) begin
         if (!flash_cs_n || !sd_cs_n)
             monoestable <= 0;
-        else if (monoestable[19] == 1'b0)
+        else if (monoestable[21] == 1'b0)
             monoestable <= monoestable + 1;
     end
-    assign testled = ~monoestable[19];
+    assign testled = ~monoestable[21];
 
 endmodule

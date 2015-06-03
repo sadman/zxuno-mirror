@@ -24,10 +24,7 @@ module zxuno (
     // Relojes
     input wire clk,      // 28MHz, reloj del sistema
     input wire wssclk,   //  5MHz, reloj de la señal WSS
-    input wire clk14,
-    input wire clk7,
-    input wire clk35,
-    input wire power_on_reset_n,
+	 input wire power_on_reset_n,
     
     // E/S
     output wire [2:0] r,
@@ -78,8 +75,8 @@ module zxuno (
    wire [7:0] ay_dout;
    wire bc1,bdir;
    wire oe_n_ay;   
-   wire clkay = clk35;  // (3.5MHz)
-   wire clkdac = clk7; // (7MHz)
+   wire clkay;  // suministrado por la ULA (3.5MHz)
+   wire clkdac; // suministrado por la ULA (7MHz)
 
    // Señales de acceso a registro de direcciones ZX-Uno
    wire [7:0] zxuno_addr_to_cpu;  // al bus de datos de entrada del Z80
@@ -97,10 +94,10 @@ module zxuno (
    wire mic;
    wire spk;
    wire [7:0] ay1_audio;
-   wire [7:0] ay2_audio;
+	wire [7:0] ay2_audio;
    
    // Interfaz de acceso al teclado
-   wire clkkbd = clk35;  // (3.5MHz) was (218kHz)
+   wire clkkbd;  // suministrado por la ULA (218kHz)
    wire [4:0] kbdcol;
    wire [7:0] kbdrow;
    wire mrst_n,rst_n;  // los dos resets suministrados por el teclado
@@ -150,17 +147,15 @@ module zxuno (
       .di(cpudin)
   );
 
-//   reg [1:0] clkdiv = 2'b00;
-//   wire clk14 = clkdiv[0];
-//   wire clk7 = clkdiv[1];
-//   always @(posedge clk)
-//      clkdiv <= clkdiv + 1;
-//   
+   reg [1:0] clkdiv = 2'b00;
+   wire clk14 = clkdiv[0];
+   wire clk7 = clkdiv[1];
+   always @(posedge clk)
+      clkdiv <= clkdiv + 1;
+   
    ula_radas la_ula (
 	 // Clocks
     .clk14(clk14),     // 14MHz master clock
-    .clk7(clk7),
-    .clk35(clk35),
     .wssclk(wssclk),   // 5MHz WSS clock
     .rst_n(mrst_n & rst_n & power_on_reset_n),
 
@@ -171,7 +166,6 @@ module zxuno (
 	 .iorq_n(iorq_n),
 	 .rd_n(rd_n),
 	 .wr_n(wr_n),
-     .rfsh_n(rfsh_n),
 	 .cpuclk(cpuclk),
 	 .int_n(int_n),
 	 .din(cpudout),
@@ -186,13 +180,12 @@ module zxuno (
     .mic(mic),
     .spk(spk),
 	 .kbd(kbdcol),
-//    .clkay(clkay),
-//    .clkdac(clkdac),
-//    .clkkbd(clkkbd),
+    .clkay(clkay),
+    .clkdac(clkdac),
+    .clkkbd(clkkbd),
     .issue2_keyboard(issue2_keyboard),
     .timming(timming_ula),
     .disable_contention(disable_contention),
-    .allow_snow(1'b1),
 
     // Video
 	 .r(r),
@@ -219,7 +212,6 @@ module zxuno (
 
    flash_and_sd cacharros_con_spi (
       .clk(clk7),
-      .rst(~(rst_n & mrst_n & power_on_reset_n)),
       .a(cpuaddr),
       .iorq_n(iorq_n),
       .rd_n(rd_n),

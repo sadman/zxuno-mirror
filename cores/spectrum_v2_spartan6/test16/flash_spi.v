@@ -23,7 +23,6 @@
 
 module flash_and_sd (
    input wire clk,         // 7MHz
-   input wire rst,
    input wire [15:0] a,    //
    input wire iorq_n,      // Señales de control de E/S estándar
    input wire rd_n,        // para manejar los puertos ZXMMC y DIVMMC
@@ -71,11 +70,7 @@ module flash_and_sd (
 
    // Control del pin CS de la flash y de la SD
    always @(posedge clk) begin
-      if (rst) begin
-         flashpincs <= 1'b1;
-         sdpincs <= 1'b1;
-      end
-      else if (addr == CSPIN && iow && in_boot_mode) begin
+      if (addr == CSPIN && iow && in_boot_mode) begin
          flashpincs <= din[0];
          sdpincs <= 1'b1;   // si accedemos a la flash para cambiar su estado CS, automaticamente deshabilitamos la SD
       end
@@ -102,7 +97,6 @@ module flash_and_sd (
    // Instanciación del modulo SPI   
    spi mi_spi (
       .clk(clk),
-      .rst(rst),
       .enviar_dato(enviar_dato),
       .recibir_dato(recibir_dato),
       .din(din),
