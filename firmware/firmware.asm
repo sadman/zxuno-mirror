@@ -1143,7 +1143,7 @@ upgra9  and     a
         call_prnstr
         dec     iyh
         jr      nz, upgra8
-        ld      iyh, 23
+        ld      iyh, 21
         call    shaon
         exx
 upgraa  ld      a, 30
