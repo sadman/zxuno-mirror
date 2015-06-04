@@ -223,7 +223,7 @@ start3  ld      a, b
         ld      bc, $020d
         call_prnstr             ; ZX-Uno BIOS version
         call_prnstr             ; Copyright
-        ld      bc, $0010       ; Copyright (c) 2014 ZX-Uno Team
+        ld      bc, $0010       ; Copyright (c) 2015 ZX-Uno Team
         call_prnstr             ; Processor
         call_prnstr             ; Memory
         call_prnstr             ; Graphics
@@ -1108,7 +1108,7 @@ upgra5  jr      nc, upgra2
 upgra6  jr      upgrac
 
 ;upgrade machine
-upgra7  cp      $47
+upgra7  cp      $45
         jr      nz, upgra4
         ld      de, tmpbuf+$40
         ld      hl, cad60
@@ -1117,7 +1117,7 @@ upgra7  cp      $47
         call    romcyb 
         ld      ix, tmpbuf+$40
         call_prnstr
-upgra8  ld      a, (tmpbuf+$54 & $ff)*2
+upgra8  ld      a, (tmpbuf+$53 & $ff)*2
         sub     iyh
         rra
         ld      l, a
@@ -1131,7 +1131,7 @@ upgra9  and     a
         ld      de, $4000
         call    lbytes
         ex      af, af'
-        ld      a, 32
+        ld      a, 30
         sub     iyh
         call    alto copyme
         call    shaoff
@@ -1146,7 +1146,7 @@ upgra9  and     a
         ld      iyh, 23
         call    shaon
         exx
-upgraa  ld      a, 32
+upgraa  ld      a, 30
         sub     iyh
         call    alto saveme
         ld      a, $40
@@ -1154,10 +1154,6 @@ upgraa  ld      a, 32
         exx
         call    wrflsh
         inc     de
-         ld      a, 3         ; parche necesario mientras no haya multiboot
-         sub     iyh
-         jr      nz, upgrab
-         ld      de, $0a80
 upgrab  exx
         dec     iyh
         jr      nz, upgraa
@@ -3223,8 +3219,8 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.226', 0
-        defm    'Copyright ', 127, ' 2014 ZX-Uno Team', 0
+        defm    'ZX-Uno BIOS v0.227', 0
+        defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
         defm    'Graphics:  normal, hi-color', 0
@@ -3258,7 +3254,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.226    ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.227    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3429,7 +3425,7 @@ cad59   defb    'Upgrade only', 0
 cad595  defb    'Upgrade only', 0
         defb    'the ESXDOS', 0
         defb    'firmware', 0, 0
-cad60   defb    'Status:[            ]', 0
+cad60   defb    'Status:[           ]', 0
 cad61   defb    'Machine upgraded', 0
 cad62   defb    'BIOS upgraded', 0
 cad625  defb    'ESXDOS upgraded', 0

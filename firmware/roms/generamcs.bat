@@ -37,10 +37,8 @@ srec_cat  tld_zxuno_av.mcs   -Intel                 ^
           -line-termination=nl
 srec_cat  prom_av.mcs     -Intel     ^
           -o tld_zxuno.bin  -binary
-rem ..\fcut tld_zxuno.bin 54000 5c000 machine.bin
-..\fcut tld_zxuno.bin 00000 54000 machine1.bin
-..\fcut tld_zxuno.bin a8000 08000 machine2.bin
-copy /b machine1.bin+machine2.bin machine.bin
+rem ..\fcut tld_zxuno.bin 54000 54000 machine.bin
+..\fcut tld_zxuno.bin 00000 54000 machine.bin
 GenRom 0 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
 GenRom 0 0 0 0 0 'ESXDOS' ESXMMC.BIN  esxdos.tap
 GenRom 0 0 0 0 0 'Machine' machine.bin  machine.tap
