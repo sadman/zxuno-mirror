@@ -33,8 +33,8 @@ module tld_zxuno (
    input wire dataps2,
    output wire audio_out_left,
    output wire audio_out_right,
-	output wire stdn,
-	output wire stdnb,
+   output wire stdn,
+   output wire stdnb,
    
    output wire [18:0] sram_addr,
    inout wire [7:0] sram_data,
@@ -49,7 +49,13 @@ module tld_zxuno (
    output wire sd_clk,     
    output wire sd_mosi,    
    input wire sd_miso,
-   output wire testled   // nos servirá como testigo de uso de la SPI
+   output wire testled,   // nos servirá como testigo de uso de la SPI
+   
+   input wire joyup,
+   input wire joydown,
+   input wire joyleft,
+   input wire joyright,
+   input wire joyfire
    );
 
    wire wssclk,sysclk;
@@ -105,17 +111,23 @@ module tld_zxuno (
     .sd_cs_n(sd_cs_n),
     .sd_clk(sd_clk),
     .sd_mosi(sd_mosi),
-    .sd_miso(sd_miso)
+    .sd_miso(sd_miso),
+    
+    .joyup(joyup),
+    .joydown(joydown),
+    .joyleft(joyleft),
+    .joyright(joyright),
+    .joyfire(joyfire)
     );
        
-    //assign testled = (!flash_cs_n || !sd_cs_n);
-    reg [21:0] monoestable = 22'hFFFFFF;
-    always @(posedge sysclk) begin
-        if (!flash_cs_n || !sd_cs_n)
-            monoestable <= 0;
-        else if (monoestable[21] == 1'b0)
-            monoestable <= monoestable + 1;
-    end
-    assign testled = ~monoestable[21];
+    assign testled = (!flash_cs_n || !sd_cs_n);
+//    reg [21:0] monoestable = 22'hFFFFFF;
+//    always @(posedge sysclk) begin
+//        if (!flash_cs_n || !sd_cs_n)
+//            monoestable <= 0;
+//        else if (monoestable[21] == 1'b0)
+//            monoestable <= monoestable + 1;
+//    end
+//    assign testled = ~monoestable[21];
 
 endmodule
