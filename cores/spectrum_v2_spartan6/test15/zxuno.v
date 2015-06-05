@@ -51,7 +51,14 @@ module zxuno (
     output wire sd_cs_n,    
     output wire sd_clk,     
     output wire sd_mosi,    
-    input wire sd_miso      
+    input wire sd_miso,
+    
+    // DB9 JOYSTICK
+   input wire joyup,
+   input wire joydown,
+   input wire joyleft,
+   input wire joyright,
+   input wire joyfire
     );
 
    // Señales de la CPU
@@ -106,6 +113,7 @@ module zxuno (
    
    // Interfaz kempston
    wire [4:0] kbd_joy;
+   wire [4:0] db9_joy = {~joyfire, ~joyup, ~joydown, ~joyleft, ~joyright};
    wire oe_n_kempston = !(!iorq_n && !rd_n && cpuaddr[7:0]==8'd31);
    
    // Configuración ULA
@@ -120,7 +128,7 @@ module zxuno (
    // conectados a ella.
    assign cpudin = (oe_n_romyram==1'b0)?        memory_dout :
                    (oe_n_ay==1'b0)?             ay_dout :
-                   (oe_n_kempston==1'b0)?       {3'b000,kbd_joy} :
+                   (oe_n_kempston==1'b0)?       {3'b000,(kbd_joy/* | db9_joy*/)} :
                    (oe_n_zxunoaddr==1'b0)?      zxuno_addr_to_cpu :
                    (oe_n_spi==1'b0)?            spi_dout :
                    (read_scancode==1'b1)?       scancode :
