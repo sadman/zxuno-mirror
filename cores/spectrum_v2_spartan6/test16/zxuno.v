@@ -111,18 +111,21 @@ module zxuno (
    wire [7:0] scancode;  // scancode original desde el teclado PC
    wire read_scancode = (zxuno_addr==8'h04 && zxuno_regrd);
    
-   // Interfaz kempston
+   // Interfaz joystick configurable
+   wire oe_n_joystick;
    wire [4:0] kbd_joy;
-   reg [4:0] joy = 5'h00;
-   wire oe_n_kempston = !(!iorq_n && !rd_n && cpuaddr[7:0]==8'd31);
-   always @(posedge clk)
-        joy <= {~joyfire, ~joyup, ~joydown, ~joyleft, ~joyright} | kbd_joy;
+   wire [7:0] joystick_dout;   
+   wire [4:0] kbdcol_to_ula;
    
    // Configuración ULA
    wire timming_ula;
    wire issue2_keyboard;
    wire disable_contention;
    wire access_to_screen;
+
+   // CoreID
+   wire oe_n_coreid;
+   wire [7:0] coreid_dout;
    
    assign kbdrow = cpuaddr[15:8];  // las filas del teclado son A8-A15 de la CPU
 
@@ -130,10 +133,11 @@ module zxuno (
    // conectados a ella.
    assign cpudin = (oe_n_romyram==1'b0)?        memory_dout :
                    (oe_n_ay==1'b0)?             ay_dout :
-                   (oe_n_kempston==1'b0)?       {3'b000,joy} :
+                   (oe_n_joystick==1'b0)?       joystick_dout :
                    (oe_n_zxunoaddr==1'b0)?      zxuno_addr_to_cpu :
                    (oe_n_spi==1'b0)?            spi_dout :
                    (read_scancode==1'b1)?       scancode :
+                   (oe_n_coreid==1'b0)?         coreid_dout :
                                                 ula_dout;
 
    tv80n_wrapper el_z80 (
@@ -187,15 +191,15 @@ module zxuno (
 	 
     // I/O ports
 	 .ear(ear),
-    .mic(mic),
-    .spk(spk),
-	 .kbd(kbdcol),
-    .clkay(clkay),
-    .clkdac(clkdac),
-    .clkkbd(clkkbd),
-    .issue2_keyboard(issue2_keyboard),
-    .timming(timming_ula),
-    .disable_contention(disable_contention),
+     .mic(mic),
+     .spk(spk),
+	 .kbd(kbdcol_to_ula),
+     .clkay(clkay),
+     .clkdac(clkdac),
+     .clkkbd(clkkbd),
+     .issue2_keyboard(issue2_keyboard),
+     .timming(timming_ula),
+     .disable_contention(disable_contention),
 
     // Video
 	 .r(r),
@@ -206,8 +210,7 @@ module zxuno (
 
    zxunoregs addr_reg_zxuno (
       .clk(clk7),
-      .rst_n(rst_n),
-      .mrst_n(mrst_n & power_on_reset_n),
+      .rst_n(rst_n & mrst_n & power_on_reset_n),
       .a(cpuaddr),
       .iorq_n(iorq_n),
       .rd_n(rd_n),
@@ -313,6 +316,36 @@ module zxuno (
 //      .kbcommand_load(1'b0)
 //      );
 
+
+    joystick_protocols los_joysticks (
+        .clk(clk),
+        //-- cpu interface
+        .a(cpuaddr),
+        .iorq_n(iorq_n),
+        .rd_n(rd_n),
+        .din(cpudout),
+        .dout(joystick_dout),
+        .oe_n(oe_n_joystick),
+        //-- interface with ZXUNO reg bank
+        .zxuno_addr(zxuno_addr),
+        .zxuno_regrd(zxuno_regrd),
+        .zxuno_regwr(zxuno_regwr),
+        //-- actual joystick and keyboard signals
+        .kbdjoy_in(kbd_joy),
+        .db9joy_in({joyfire, joyup, joydown, joyleft, joyright}),
+        .kbdcol_in(kbdcol),
+        .kbdcol_out(kbdcol_to_ula),
+        .vertical_retrace_int_n(int_n) // this is used as base clock for autofire
+    );
+
+    coreid identificacion_del_core (
+        .clk(clk),
+        .rst_n(rst_n & mrst_n & power_on_reset_n),
+        .zxuno_addr(zxuno_addr),
+        .zxuno_regrd(zxuno_regrd),
+        .dout(coreid_dout),
+        .oe_n(oe_n_coreid)
+    );
 
 ///////////////////////////////////
 // AY-3-8912 SOUND

@@ -23,7 +23,6 @@
 module zxunoregs (
    input wire clk,
    input wire rst_n,
-   input wire mrst_n,
    input wire [15:0] a,
    input wire iorq_n,
    input wire rd_n,
