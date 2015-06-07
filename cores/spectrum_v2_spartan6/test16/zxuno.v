@@ -113,8 +113,10 @@ module zxuno (
    
    // Interfaz kempston
    wire [4:0] kbd_joy;
-   wire [4:0] db9_joy = {~joyfire, ~joyup, ~joydown, ~joyleft, ~joyright};
+   reg [4:0] joy = 5'h00;
    wire oe_n_kempston = !(!iorq_n && !rd_n && cpuaddr[7:0]==8'd31);
+   always @(posedge clk)
+        joy <= {~joyfire, ~joyup, ~joydown, ~joyleft, ~joyright} | kbd_joy;
    
    // Configuración ULA
    wire timming_ula;
@@ -128,7 +130,7 @@ module zxuno (
    // conectados a ella.
    assign cpudin = (oe_n_romyram==1'b0)?        memory_dout :
                    (oe_n_ay==1'b0)?             ay_dout :
-                   (oe_n_kempston==1'b0)?       {3'b000,(kbd_joy/* | db9_joy*/)} :
+                   (oe_n_kempston==1'b0)?       {3'b000,joy} :
                    (oe_n_zxunoaddr==1'b0)?      zxuno_addr_to_cpu :
                    (oe_n_spi==1'b0)?            spi_dout :
                    (read_scancode==1'b1)?       scancode :
