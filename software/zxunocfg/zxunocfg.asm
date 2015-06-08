@@ -32,6 +32,7 @@ PrintCurrentMode    proc
                     ld a,(QuietMode)
                     or a
                     ret nz
+                    call GetCoreID
                     ld bc,ZXUNOADDR
                     ld a,0   ;MASTERCONF
                     out (c),a
@@ -242,6 +243,46 @@ BucPrintMsg         ld a,(hl)
                     jr BucPrintMsg
                     endp
 ;------------------------------------------------------
+
+GetCoreID           proc
+                    ld bc,ZXUNOADDR
+                    ld a,255
+                    out (c),a
+                    inc b
+                    ld d,0   ;contador
+coreb0              in a,(c)
+                    inc d
+                    or a
+                    jr z,core0
+                    ld a,d
+                    cp 31
+                    ret z
+                    jr coreb0
+core0               ld d, 0
+coreb1              in a,(c)
+                    inc d
+                    or a
+                    jr nz,core1
+                    ld a,d
+                    cp 31
+                    ret z
+                    jr coreb1
+core1               ld hl,StringCoreID + 13
+gettext             or a
+                    jr z,finget
+                    ld (hl),a
+                    inc hl
+                    in a,(c)
+                    jr gettext
+finget              ld a,(hl)
+                    cp 13
+                    jr z,finrell
+                    ld (hl),32
+                    inc hl
+                    jr finget
+finrell             ret
+                    endp
+
 ;------------------------------------------------------
 
                     ;   01234567890123456789012345678901
@@ -267,6 +308,7 @@ Uso                 db "ZXUNOCFG v1.0",13
 
                     ;   01234567890123456789012345678901
 CurrConfString1     db "ZX-Uno current configuration:",13
+StringCoreID        db "       Core: NOT AVAILABLE   ",13    ;+13
                     db "    Timming: ",0
 Timm48KStr          db "48K",13,0
 Timm128KStr         db "128K",13,0
