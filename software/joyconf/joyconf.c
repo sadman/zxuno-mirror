@@ -87,6 +87,9 @@ void main (void)
   cls(BRIGHT|PBLACK|IWHITE);
   printstatictext();
   while(!printconf());
+  
+  border(*(BYTE *)(23624));
+  cls(*(BYTE *)(23693));
 }
 
 void printstatictext (void)
@@ -130,7 +133,7 @@ void getcoreid(BYTE *s)
   s[0]='\0';
   ZXUNOADDR = COREID;
   cont=0;
-  while (ZXUNODATA!=0 && cont<31) cont++;
+  while (ZXUNODATA!=0 && cont<32) cont++;
   if (cont==32)
      return;
   cont=0;
@@ -139,7 +142,7 @@ void getcoreid(BYTE *s)
     letra = ZXUNODATA;
     cont++;
   }
-  while (letra==0 && cont<31);
+  while (letra==0 && cont<32);
   if (cont==32)
      return;
   *(s++) = letra;
@@ -181,6 +184,7 @@ BYTE printconf (void)
   BYTE kbconf, db9conf, kbdis=0, db9dis=0;
   BYTE joy, joy1, joy2;
 
+  WAIT_VRETRACE;
   ZXUNOADDR = JOYCONF;
   kbconf = ZXUNODATA & 0x0f;
   db9conf = (ZXUNODATA >> 4) & 0x0f;
