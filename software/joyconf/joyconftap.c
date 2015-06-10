@@ -1,8 +1,8 @@
 /*
 Compilar con:
-sdcc -mz80 --reserve-regs-iy --opt-code-size --max-allocs-per-node 10000
---nostdlib --nostdinc --no-std-crt0
---code-loc 8192 --data-loc 0 joyconf.c
+sdcc -mz80 --reserve-regs-iy --opt-code-size --max-allocs-per-node X
+--alow-unsafe-reads --nostdlib --nostdinc --no-std-crt0 --out-fmt-s19
+--port-mode=z80 --code-loc 8192 --data-loc 0 --stack-loc 65535 joyconf.sdcc
 */
 
 typedef unsigned char BYTE;
@@ -26,18 +26,20 @@ __sfr __banked __at (0xbffe) SEMIFILA6;
 __sfr __banked __at (0xfefe) SEMIFILA7;
 __sfr __banked __at (0x7ffe) SEMIFILA8;
 
-#define ATTRP 23693
-#define ATTRT 23695
-#define BORDR 23624
+#define COORDS 23296
+#define SPOSN 23298
+#define ATTRP 23300
+#define BORDR 23301
+#define CHARS 23606
 #define LASTK 23560
+
+#define COLUMN (SPOSN)
+#define ROW (SPOSN+1)
 
 #define WAIT_VRETRACE __asm halt __endasm
 #define WAIT_HRETRACE while(ATTR!=0xff)
 #define SETCOLOR(x) *(BYTE *)(ATTRP)=(x)
 #define LASTKEY *(BYTE *)(LASTK)
-#define ATTRPERMANENT *((BYTE *)(ATTRP))
-#define ATTRTEMPORARY *((BYTE *)(ATTRT))
-#define BORDERCOLOR *((BYTE *)(BORDR))
 
 __sfr __banked __at (0xfc3b) ZXUNOADDR;
 __sfr __banked __at (0xfd3b) ZXUNODATA;
@@ -78,76 +80,24 @@ void beep (WORD, BYTE) __critical;
 BYTE printconf (void);
 void printstatictext (void);
 void getcoreid(BYTE *s);
-void interactivemode (void);
 
-BYTE main (char *p);
-
-void init (void) __naked
+void main (void)
 {
-     __asm
-     push hl
-     call _main
-     pop af
-     or a  ;reset carry: clean exit
-     ld b,h
-     ld c,l
-     ret
-     __endasm;
-}
-
-BYTE main (char *p)
-{
-  if (!p)
-     interactivemode();
-  else
-  {     // 01234567890123456789012345678901
-    puts ("Configures/test protocols for\xd");
-    puts ("both the keyboard built-in\xd");
-    puts ("joystick and the side joystick\xd");
-    puts ("connector\xd\xd");
-    puts ("Usage: JOYCONF [-kAx] [-jBx]\xd");
-    puts ("  where A,B can be:\xd");
-    puts ("    d: Disabled\xd");
-    puts ("    k: Kempston\xd");
-    puts ("    1: Sinclair port 1\xd");
-    puts ("    2: Sinclair port 2\xd");
-    puts ("    c: Protek/Cursor\xd");
-    puts ("  x can be either 0 or 1 to\x0d");
-    puts ("  disable/enable autofire\xd");
-    puts ("  No arguments enter interactive");
-    puts ("  mode\xd\xd");
-    puts ("Example: .joyconf -k10 -jk1\xd");
-    puts ("Configures the keyboard joystick");
-    puts ("to be Sinclair 1, no autofire,\xd");
-    puts ("and the side joystick connector\xd");
-    puts ("to be Kempston, with autofire\xd");
-  }
-  return 0;
-}
-
-void interactivemode (void)
-{
-  BYTE bkbor, bkattr;
-
-  bkbor = BORDERCOLOR;
-  bkattr = ATTRPERMANENT;
-
   border(IBLACK);
   cls(BRIGHT|PBLACK|IWHITE);
   printstatictext();
   while(!printconf());
-
-  border(bkbor);
-  cls(bkattr);
+  
+  border(*(BYTE *)(23624));
+  cls(*(BYTE *)(23693));
 }
-
 
 void printstatictext (void)
 {
   char coreid[32];
 
   locate(0,0);
-  puts ("\x4\x78JOYSTICK CONFIGURATION AND TEST ");
+  puts ("\x4\x78\x6JOYSTICK CONFIGURATION AND TEST ");
 
   locate(2,0);
   puts ("KBD joystick: ");
@@ -161,7 +111,7 @@ void printstatictext (void)
   locate(6,0);
   puts("\x4\x45W/S to change KBD/DB9 autofire");
 
-  locate(19,0);
+  locate(20,0);
   puts("\x4\x47ZX-UNO Core ID: ");
   coreid[0]=0x4;
   coreid[1]=0x46;
@@ -171,7 +121,7 @@ void printstatictext (void)
   else
     puts(coreid);
 
-  locate(21,0);
+  locate(22,0);
   puts("\x4\x70      Press SPACE to exit       ");
 }
 
@@ -303,12 +253,13 @@ BYTE printconf (void)
   joy2 = ~SEMIFILA1;  // L---- a FUDLR
   joy = (joy1&1)<<4 | (joy1&8) | (joy1&0x10)>>2 | (joy2&0x10)>>3 | (joy1&4)>>2;
   locate(15,0); printjoystat("\x4\x7""Cursor    : ", joy);
-
+  
   if (LASTKEY==' ')
     return 1;
   else
     return 0;
 }
+
 
 /* --------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------- */
@@ -388,9 +339,24 @@ void memcpy (BYTE *dst, BYTE *fue, WORD nby)
 
 void cls (BYTE attr)
 {
+#ifdef USEROM
+  __asm
+  push bc
+  push de
+  ld a,4(ix)
+  ld (#ATTRP),a
+  call #0x0d6b
+  ld a,#0xfe
+  call #0x1601
+  pop de
+  pop bc
+  __endasm;
+#else
   memset((BYTE *)16384,0,6144);
   memset((BYTE *)22528,attr,768);
   SETCOLOR(attr);
+  *((WORD *)SPOSN)=0;
+#endif
 }
 
 void border (BYTE b)
@@ -401,53 +367,148 @@ void border (BYTE b)
 
 void puts (BYTE *str)
 {
+  volatile BYTE over=0;
+  volatile BYTE bold=0;
+  volatile BYTE backup_attrp = *(BYTE *)(ATTRP);
+
   __asm
   push bc
   push de
-  ld a,(#ATTRT)
-  push af
-  ld a,(#ATTRP)
-  ld (#ATTRT),a
   ld l,4(ix)
   ld h,5(ix)
 buc_print:
   ld a,(hl)
   or a
-  jp z,fin_print
+  jr nz,no_fin_print
+  jp fin_print
+no_fin_print:
+  cp #22
+  jr nz,no_at
+  inc hl
+  ld a,(hl)
+  ld (#ROW),a
+  inc hl
+  ld a,(hl)
+  ld (#COLUMN),a
+  inc hl
+  jr buc_print
+no_at:
+  cp #13
+  jr nz,no_cr
+  xor a
+  ld (#COLUMN),a
+  ld a,(#ROW)
+  inc a
+  ld (#ROW),a
+  inc hl
+  jr buc_print
+no_cr:
   cp #4
   jr nz,no_attr
   inc hl
   ld a,(hl)
-  ld (#ATTRT),a
+  ld (#ATTRP),a
   inc hl
   jr buc_print
 no_attr:
-  rst #16
+  cp #5
+  jr nz,no_pr_over
+  ld -1(ix),#0xff
+  inc hl
+  jr buc_print
+no_pr_over:
+  cp #6
+  jr nz,no_pr_bold
+  ld -2(ix),#0xff
+  inc hl
+  jr buc_print
+no_pr_bold:
+  cp #32
+  jr nc,imprimible
+  ld a,#32
+imprimible:
+  push hl
+  ld hl,(#COLUMN)
+  push hl
+  push af
+  ld de,#16384
+  add hl,de
+  ld a,h
+  and #7
+  rrca
+  rrca
+  rrca
+  or l
+  ld l,a
+  ld a,#248
+  and h
+  ld h,a
+  pop af
+  push hl
+  ld de,(#CHARS)
+  ld l,a
+  ld h,#0
+  add hl,hl
+  add hl,hl
+  add hl,hl
+  add hl,de
+  pop de
+
+  ld b,#8
+print_car:
+  ld a,(hl)
+  sra a
+  and -2(ix)
+  or (hl)
+  ld c,a
+  ld a,(de)
+  and -1(ix)
+  xor c
+  ld (de),a
+  inc hl
+  inc d
+  djnz print_car
+
+  pop hl
+  push hl
+  ld de,#22528
+  ld b,h
+  ld h,#0
+  add hl,de
+  xor a
+  or b
+  jr z,fin_ca_attr
+  ld de,#32
+calc_dirat:
+  add hl,de
+  djnz calc_dirat
+fin_ca_attr:
+  ld a,(#ATTRP)
+  ld (hl),a
+  pop hl
+  inc l
+  bit 5,l
+  jr z,no_inc_fila
+  res 5,l
+  inc h
+no_inc_fila:
+  ld (#COLUMN),hl
+  pop hl
   inc hl
   jp buc_print
 
 fin_print:
-  pop af
-  ld (#ATTRT),a
   pop de
   pop bc
   __endasm;
+
+  SETCOLOR(backup_attrp);
 }
 
 void locate (BYTE row, BYTE col)
 {
-  __asm
-  push bc
-  push de
-  ld a,#22
-  rst #16
-  ld a,4(ix)
-  rst #16
-  ld a,5(ix)
-  rst #16
-  pop de
-  pop bc
-  __endasm;
+  *((BYTE *)ROW)=row;
+  *((BYTE *)COLUMN)=col;
 }
 
 // void putdec (WORD n)
@@ -457,7 +518,7 @@ void locate (BYTE row, BYTE col)
 //   u16todec (n,num);
 //   puts (num);
 // }
-//
+// 
 // void u16todec (WORD n, char *s)
 // {
 //   BYTE i=4;
