@@ -1,8 +1,7 @@
 /*
 Compilar con:
 sdcc -mz80 --reserve-regs-iy --opt-code-size --max-allocs-per-node 10000
---nostdlib --nostdinc --no-std-crt0
---code-loc 8192 --data-loc 0 joyconf.c
+--nostdlib --nostdinc --no-std-crt0 --code-loc 8192 joyconf.c
 */
 
 typedef unsigned char BYTE;
@@ -79,6 +78,8 @@ BYTE printconf (void);
 void printstatictext (void);
 void getcoreid(BYTE *s);
 void interactivemode (void);
+void usage (void);
+void commandlinemode (char *p);
 
 BYTE main (char *p);
 
@@ -100,11 +101,94 @@ BYTE main (char *p)
   if (!p)
      interactivemode();
   else
-  {     // 01234567890123456789012345678901
+      commandlinemode(p);
+  return 0;
+}
+
+void commandlinemode (char *p)
+{
+  BYTE kbdconf, db9conf;
+
+  ZXUNOADDR = JOYCONF;
+  kbdconf = ZXUNODATA & 0xf;
+  db9conf = (ZXUNODATA>>4) & 0xf;
+  while (*p!=0 && *p!=0xd && *p!=':')
+  {
+    if (*p==' ')
+    {
+      p++;
+      continue;
+    }
+    if (*p=='-')
+    {
+      p++;
+      if (*p=='k')
+      {
+        p++;
+        kbdconf &= 0x8;
+        switch (*p)
+        {
+          case 'd': kbdconf |= 0; break;
+          case 'k': kbdconf |= 1; break;
+          case '1': kbdconf |= 2; break;
+          case '2': kbdconf |= 3; break;
+          case 'c': kbdconf |= 4; break;
+          default: usage(); return;
+        }
+        p++;
+        if (*p=='1')
+        {
+           kbdconf |= 0x8;
+           p++;
+        }
+        else if (*p=='0')
+        {
+           kbdconf &= 0x7;
+           p++;
+        }
+      }
+      else if (*p=='j')
+      {
+        p++;
+        db9conf &= 0x8;
+        switch (*p)
+        {
+          case 'd': db9conf |= 0; break;
+          case 'k': db9conf |= 1; break;
+          case '1': db9conf |= 2; break;
+          case '2': db9conf |= 3; break;
+          case 'c': db9conf |= 4; break;
+          default: usage(); return;
+        }
+        p++;
+        if (*p=='1')
+        {
+           db9conf |= 0x8;
+           p++;
+        }
+        else if (*p=='0')
+        {
+           db9conf &= 0x7;
+           p++;
+        }
+      }
+    }
+    else
+    {
+      usage();
+      return;
+    }
+  }
+  ZXUNODATA = db9conf<<4 | kbdconf;
+}
+
+void usage (void)
+{
+        // 01234567890123456789012345678901
     puts ("Configures/test protocols for\xd");
     puts ("both the keyboard built-in\xd");
     puts ("joystick and the side joystick\xd");
-    puts ("connector\xd\xd");
+    puts ("connector.\xd\xd");
     puts ("Usage: JOYCONF [-kAx] [-jBx]\xd");
     puts ("  where A,B can be:\xd");
     puts ("    d: Disabled\xd");
@@ -112,17 +196,15 @@ BYTE main (char *p)
     puts ("    1: Sinclair port 1\xd");
     puts ("    2: Sinclair port 2\xd");
     puts ("    c: Protek/Cursor\xd");
-    puts ("  x can be either 0 or 1 to\x0d");
-    puts ("  disable/enable autofire\xd");
+    puts ("  x can be 0, 1 or blank to\x0d");
+    puts ("  disable/enable/keep autofire.\xd");
     puts ("  No arguments enter interactive");
-    puts ("  mode\xd\xd");
+    puts ("  mode.\xd\xd");
     puts ("Example: .joyconf -k10 -jk1\xd");
     puts ("Configures the keyboard joystick");
     puts ("to be Sinclair 1, no autofire,\xd");
     puts ("and the side joystick connector\xd");
-    puts ("to be Kempston, with autofire\xd");
-  }
-  return 0;
+    puts ("to be Kempston, with autofire.\xd");
 }
 
 void interactivemode (void)
