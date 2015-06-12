@@ -15,6 +15,7 @@ enum {PBLACK=0, PBLUE=8, PRED=16, PMAG=24, PGREEN=32, PCYAN=40, PYELLOW=48, PWHI
 __sfr __at (0xfe) ULA;
 __sfr __at (0xff) ATTR;
 __sfr __at (0x1f) KEMPSTONADDR;
+__sfr __at (0x7f) FULLERADDR;
 
 __sfr __banked __at (0xf7fe) SEMIFILA1;
 __sfr __banked __at (0xeffe) SEMIFILA2;
@@ -133,6 +134,7 @@ void commandlinemode (char *p)
           case '1': kbdconf |= 2; break;
           case '2': kbdconf |= 3; break;
           case 'c': kbdconf |= 4; break;
+          case 'f': kbdconf |= 5; break;
           default: usage(); return;
         }
         p++;
@@ -158,6 +160,7 @@ void commandlinemode (char *p)
           case '1': db9conf |= 2; break;
           case '2': db9conf |= 3; break;
           case 'c': db9conf |= 4; break;
+          case 'f': db9conf |= 5; break;
           default: usage(); return;
         }
         p++;
@@ -185,26 +188,26 @@ void commandlinemode (char *p)
 void usage (void)
 {
         // 01234567890123456789012345678901
-    puts ("Configures/test protocols for\xd");
-    puts ("both the keyboard built-in\xd");
-    puts ("joystick and the side joystick\xd");
-    puts ("connector.\xd\xd");
-    puts ("Usage: JOYCONF [-kAx] [-jBx]\xd");
-    puts ("  where A,B can be:\xd");
-    puts ("    d: Disabled\xd");
-    puts ("    k: Kempston\xd");
-    puts ("    1: Sinclair port 1\xd");
-    puts ("    2: Sinclair port 2\xd");
-    puts ("    c: Protek/Cursor\xd");
-    puts ("  x can be 0, 1 or blank to\x0d");
-    puts ("  disable/enable/keep autofire.\xd");
-    puts ("  No arguments enter interactive");
-    puts ("  mode.\xd\xd");
-    puts ("Example: .joyconf -k10 -jk1\xd");
-    puts ("Configures the keyboard joystick");
-    puts ("to be Sinclair 1, no autofire,\xd");
-    puts ("and the side joystick connector\xd");
-    puts ("to be Kempston, with autofire.\xd");
+    puts ("Configures/tests protocols for\xd"
+          "both the keyboard built-in\xd"
+          "joystick and the DB9 joystick.\xd\xd"
+          "Usage: JOYCONF [-kAx] [-jBx]\xd"
+          "  where A,B can be:\xd"
+          "    d: Disabled\xd"
+          "    k: Kempston\xd"
+          "    1: Sinclair port 1\xd"
+          "    2: Sinclair port 2\xd"
+          "    c: Cursor/Protek/AGF\xd"
+          "    f: Fuller\xd"
+          "  where x can be:\xd"
+          "    0: disable autofire\xd"
+          "    1: enable autofire\xd"
+          "    other/none: keep setting\xd"
+          "  No arguments: interactive mode\xd\xd"
+          "Example: .joyconf -kc0 -jk1\xd"
+          "Sets Cursor, no autofire for the"
+          "keyboard joystick, and Kempston\xd"
+          "w/autofire for the DB9 joystick.\xd");
 }
 
 void interactivemode (void)
@@ -327,6 +330,7 @@ BYTE printconf (void)
     case 2:  puts("\x4\x46""SINCL P1"); break;
     case 3:  puts("\x4\x46""SINCL P2"); break;
     case 4:  puts("\x4\x46""CURSOR  "); break;
+    case 5:  puts("\x4\x46""FULLER  "); break;
     default: puts("\x4\x46""DISABLED"); kbdis=1; break;
   }
   if (!kbdis && kbconf&0x8)
@@ -341,6 +345,7 @@ BYTE printconf (void)
     case 2:  puts("\x4\x46""SINCL P1"); break;
     case 3:  puts("\x4\x46""SINCL P2"); break;
     case 4:  puts("\x4\x46""CURSOR  "); break;
+    case 5:  puts("\x4\x46""FULLER  "); break;
     default: puts("\x4\x46""DISABLED"); db9dis=1; break;
   }
   if (!db9dis && db9conf&0x8)
@@ -350,12 +355,12 @@ BYTE printconf (void)
 
   if (LASTKEY == 'q' || LASTKEY == 'Q')
   {
-    kbconf = kbconf&0x8 | (((kbconf&7)+1==5)? 0 : (kbconf&7)+1);
+    kbconf = kbconf&0x8 | (((kbconf&7)+1==6)? 0 : (kbconf&7)+1);
     LASTKEY = 0;
   }
   else if (LASTKEY == 'a' || LASTKEY == 'A')
   {
-    db9conf = db9conf&0x8 | (((db9conf&7)+1==5)? 0 : (db9conf&7)+1);
+    db9conf = db9conf&0x8 | (((db9conf&7)+1==6)? 0 : (db9conf&7)+1);
     LASTKEY = 0;
   }
   else if (LASTKEY == 'w' || LASTKEY == 'W')
@@ -371,20 +376,24 @@ BYTE printconf (void)
   ZXUNODATA = db9conf<<4 | kbconf;
 
   joy = KEMPSTONADDR;
-  locate(9,0); printjoystat("\x4\x7Kempston  : ", joy);
+  locate(8,0); printjoystat("\x4\x7Kempston  : ", joy);
 
   joy = ~SEMIFILA2;  // LRDUF a FUDLR
   joy = (joy&1)<<4 | (joy&2)<<2 | (joy&4) | (joy&0x10)>>3 | (joy&8)>>3;
-  locate(11,0); printjoystat("\x4\x7Sinclair 1: ", joy);
+  locate(10,0); printjoystat("\x4\x7Sinclair 1: ", joy);
 
   joy = ~SEMIFILA1;  // FUDRL a FUDLR
   joy = (joy&0x1c) | (joy&2)>>1 | (joy&1)<<1;
-  locate(13,0); printjoystat("\x4\x7Sinclair 2: ", joy);
+  locate(12,0); printjoystat("\x4\x7Sinclair 2: ", joy);
 
   joy1 = ~SEMIFILA2;  // DUR-F a FUDLR
   joy2 = ~SEMIFILA1;  // L---- a FUDLR
   joy = (joy1&1)<<4 | (joy1&8) | (joy1&0x10)>>2 | (joy2&0x10)>>3 | (joy1&4)>>2;
-  locate(15,0); printjoystat("\x4\x7""Cursor    : ", joy);
+  locate(14,0); printjoystat("\x4\x7""Cursor    : ", joy);
+
+  joy = ~FULLERADDR;  // F---RLDU a FUDLR
+  joy = (joy&0x80)>>3 | (joy&1)<<3 | (joy&2)<<1 | (joy&4)>>1 | (joy&8)>>3;
+  locate(16,0); printjoystat("\x4\x7""Fuller    : ", joy);
 
   if (LASTKEY==' ')
     return 1;
