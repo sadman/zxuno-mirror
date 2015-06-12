@@ -46,11 +46,13 @@ module joystick_protocols(
         KEMPSTONADDR   = 8'h1F,
         SINCLAIRP1ADDR = 12,
         SINCLAIRP2ADDR = 11,
+        FULLERADDR     = 8'h7F,
         DISABLED       = 3'h0,
         KEMPSTON       = 3'h1,
         SINCLAIRP1     = 3'h2,
         SINCLAIRP2     = 3'h3,
-        CURSOR         = 3'h4;
+        CURSOR         = 3'h4,
+        FULLER         = 3'h5;
 
     // Input format: FUDLR . 0=pressed, 1=released
     reg db9joyup = 1'b0;
@@ -102,6 +104,14 @@ module joystick_protocols(
                 dout = dout | {3'b000, kbdjoyfire_processed, kbdjoyup, kbdjoydown, kbdjoyleft, kbdjoyright};
             if (joyconf[6:4]==KEMPSTON)
                 dout = dout | {3'b000, db9joyfire_processed, db9joyup, db9joydown, db9joyleft, db9joyright};
+        end
+        else if (iorq_n == 1'b0 && a[7:0]==FULLERADDR && rd_n==1'b0) begin
+            dout = 8'hFF;
+            oe_n = 1'b0;
+            if (joyconf[2:0]==FULLER)
+                dout = dout & {~kbdjoyfire_processed, 3'b111, ~kbdjoyright, ~kbdjoyleft, ~kbdjoydown, ~kbdjoyup};
+            if (joyconf[6:4]==FULLER)
+                dout = dout & {~db9joyfire_processed, 3'b111, ~db9joyright, ~db9joyleft, ~db9joydown, ~db9joyup};
         end
         else if (iorq_n==1'b0 && a[SINCLAIRP1ADDR]==1'b0 && a[0]==1'b0 && rd_n==1'b0) begin
             if (joyconf[2:0]==SINCLAIRP1)
