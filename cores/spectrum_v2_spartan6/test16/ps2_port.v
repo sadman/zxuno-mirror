@@ -55,7 +55,7 @@ module ps2_port (
     always @(posedge clk) begin
         negedgedetect <= {negedgedetect[14:0], ps2clk};
     end
-    wire ps2clkedge = (negedgedetect == 16'hF000)? 1'b1 : 1'b0;
+    wire ps2clkedge = (negedgedetect == 16'hFF00)? 1'b1 : 1'b0;
     
     // Paridad instantánea de los bits recibidos
     wire paritycalculated = ^key;

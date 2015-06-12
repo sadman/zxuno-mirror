@@ -288,33 +288,33 @@ module zxuno (
       .sram_we_n(sram_we_n)
    );
 
-    ps2k el_teclado (
-      .clk(clkkbd),
-      .ps2clk(clkps2),
-      .ps2data(dataps2),
-      .rows(kbdrow),
-      .cols(kbdcol),
-      .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
-      .scancode(scancode),  // El scancode original desde el teclado
-      .rst(rst_n),   // esto son salidas, no entradas
-      .nmi(nmi_n),   // Señales de reset y NMI
-      .mrst(mrst_n)  // generadas por pulsaciones especiales del teclado
-      );
-
-//    ps2_keyb el_teclado (
+//    ps2k el_teclado (
 //      .clk(clkkbd),
-//      .clkps2(clkps2),
-//      .dataps2(dataps2),
+//      .ps2clk(clkps2),
+//      .ps2data(dataps2),
 //      .rows(kbdrow),
 //      .cols(kbdcol),
 //      .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
 //      .scancode(scancode),  // El scancode original desde el teclado
-//      .rst_out_n(rst_n),   // esto son salidas, no entradas
-//      .nmi_out_n(nmi_n),   // Señales de reset y NMI
-//      .mrst_out_n(mrst_n),  // generadas por pulsaciones especiales del teclado
-//      .kbcommand(8'h00),
-//      .kbcommand_load(1'b0)
+//      .rst(rst_n),   // esto son salidas, no entradas
+//      .nmi(nmi_n),   // Señales de reset y NMI
+//      .mrst(mrst_n)  // generadas por pulsaciones especiales del teclado
 //      );
+
+    ps2_keyb el_teclado (
+      .clk(clkkbd),
+      .clkps2(clkps2),
+      .dataps2(dataps2),
+      .rows(kbdrow),
+      .cols(kbdcol),
+      .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
+      .scancode(scancode),  // El scancode original desde el teclado
+      .rst_out_n(rst_n),   // esto son salidas, no entradas
+      .nmi_out_n(nmi_n),   // Señales de reset y NMI
+      .mrst_out_n(mrst_n),  // generadas por pulsaciones especiales del teclado
+      .kbcommand(8'h00),
+      .kbcommand_load(1'b0)
+      );
 
 
     joystick_protocols los_joysticks (
