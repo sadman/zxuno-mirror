@@ -21,7 +21,7 @@
       endm
 
       macro Cart    slot, crc, cadena
-        Generic  slot, (crc<<16 | $ffff), $ffffffff, cadena, 1, $0b, 1, $04, $30, Issue3 | Tim48  | Contended | DisableDiv | DisableNMI
+        Generic  slot, (crc<<16 | $ffff), $ffffffff, cadena, 1, $08, 1, $00, $20, Issue3 | Tim48  | Contended | DisableDiv | DisableNMI
       endm
 
       macro R32K    slot, crc, cadena
