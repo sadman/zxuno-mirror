@@ -37,7 +37,13 @@ module scancode_to_speccy (
     output wire joyleft,
     output wire joyright,
     output wire joyfire,
-    output wire [4:0] user_toggles
+    output wire [4:0] user_toggles,
+    //------------------------
+    input wire [7:0] din,
+    output reg [7:0] dout,
+    input wire cpuwrite,
+    input wire cpuread,
+    input wire rewind
     );
     
     // las 40 teclas del Spectrum. Se inicializan a "no pulsadas".
@@ -56,6 +62,7 @@ module scancode_to_speccy (
     // El gran mapa de teclado y sus registros de acceso
     reg [7:0] keymap[0:16383];  // 16K x 8 bits
     reg [13:0] addr = 14'h0000;
+    reg [13:0] cpuaddr = 14'h0000;  // Dirección E/S desde la CPU. Se autoincrementa en cada acceso
     initial begin
         $readmemh ("keyb_es_hex.txt", keymap);
     end
@@ -108,11 +115,19 @@ module scancode_to_speccy (
         TRANSLATE1  = 4'd6,
         TRANSLATE2  = 4'd7,
         TRANSLATE3  = 4'd8,
-        UPDCOUNTERS1= 4'd9,
-        UPDCOUNTERS2=4'd10;
+        CPUTIME     = 4'd9,
+        CPUREAD     = 4'd10,
+        CPUWRITE    = 4'd11,
+        CPUINCADD   = 4'd12,
+        UPDCOUNTERS1= 4'd13,
+        UPDCOUNTERS2= 4'd14;
         
     reg [3:0] state = CLEANMATRIX;
+    reg key_is_pending = 1'b0;
+    
     always @(posedge clk) begin
+        if (scan_received == 1'b1)
+            key_is_pending <= 1'b1;
         if (rst == 1'b1)
             state <= CLEANMATRIX;
         else if (state == CLEANMATRIX) begin
@@ -128,9 +143,14 @@ module scancode_to_speccy (
             row[7] <= 5'b11111;
             state <= IDLE;
         end
-        else if (state == IDLE && scan_received == 1'b1) begin
-            addr <= {modifiers, extended, scan, 2'b00};  // 1 scan tiene 8 bits + 1 bit para indicar scan extendido + 3 bits para el modificador usado
-            state <= ADDR0PUT;
+        else if (state == IDLE) begin
+            if (key_is_pending == 1'b1) begin
+                addr <= {modifiers, extended, scan, 2'b00};  // 1 scan tiene 8 bits + 1 bit para indicar scan extendido + 3 bits para el modificador usado
+                state <= ADDR0PUT;
+                key_is_pending <= 1'b0;
+            end
+            else if (cpuread == 1'b1 || cpuwrite == 1'b1 || rewind == 1'b1)
+                state <= CPUTIME;
         end
         else if (state == ADDR0PUT) begin
             {keyrow1,keycol1} <= keymap[addr];
@@ -193,9 +213,39 @@ module scancode_to_speccy (
                 ruser_toggles <= ruser_toggles | togglestate;
             else
                 ruser_toggles <= ruser_toggles & ~togglestate;
-                
+                            
             //state <= UPDCOUNTERS1;
             state <= IDLE;
+        end
+        else if (state == CPUTIME) begin            
+            if (rewind == 1'b1) begin
+                cpuaddr = 14'h0000;
+                state <= IDLE;
+            end
+            else if (cpuread == 1'b1) begin
+                addr <= cpuaddr;
+                state <= CPUREAD;
+            end
+            else if (cpuwrite == 1'b1) begin
+                addr <= cpuaddr;
+                state <= CPUWRITE;
+            end
+            else
+                state <= IDLE;
+        end
+        else if (state == CPUREAD) begin   // CPU wants to read from keymap
+            dout <= keymap[addr];
+            state <= CPUINCADD;
+        end
+        else if (state == CPUWRITE) begin
+            keymap[addr] <= din;
+            state <= CPUINCADD;
+        end
+        else if (state == CPUINCADD) begin
+            if (cpuread == 1'b0 && cpuwrite == 1'b0) begin
+                cpuaddr <= cpuaddr + 1;
+                state <= IDLE;
+            end
         end
 //        else if (state == UPDCOUNTERS1) begin            
 //            if (~released)

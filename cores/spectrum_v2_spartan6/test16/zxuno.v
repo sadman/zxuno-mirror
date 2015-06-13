@@ -88,6 +88,7 @@ module zxuno (
    // Señales de acceso a registro de direcciones ZX-Uno
    wire [7:0] zxuno_addr_to_cpu;  // al bus de datos de entrada del Z80
    wire [7:0] zxuno_addr;   // direccion de registro actual
+   wire regaddr_changed;    // indica que se ha escrito un nuevo valor en el registro de direcciones
    wire oe_n_zxunoaddr;     // el dato en el bus de entrada del Z80 es válido
    wire zxuno_regrd;     // Acceso de lectura en el puerto de datos de ZX-Uno
    wire zxuno_regwr;     // Acceso de escritura en el puerto de datos del ZX-Uno
@@ -110,6 +111,8 @@ module zxuno (
    wire mrst_n,rst_n;  // los dos resets suministrados por el teclado
    wire [7:0] scancode;  // scancode original desde el teclado PC
    wire read_scancode = (zxuno_addr==8'h04 && zxuno_regrd);
+   wire [7:0] keymap_dout;
+   wire oe_n_keymap;
    
    // Interfaz joystick configurable
    wire oe_n_joystick;
@@ -138,6 +141,7 @@ module zxuno (
                    (oe_n_spi==1'b0)?            spi_dout :
                    (read_scancode==1'b1)?       scancode :
                    (oe_n_coreid==1'b0)?         coreid_dout :
+                   (oe_n_keymap==1'b0)?         keymap_dout :
                                                 ula_dout;
 
    tv80n_wrapper el_z80 (
@@ -220,7 +224,8 @@ module zxuno (
       .oe_n(oe_n_zxunoaddr),
       .addr(zxuno_addr),
       .read_from_reg(zxuno_regrd),
-      .write_to_reg(zxuno_regwr)
+      .write_to_reg(zxuno_regwr),
+      .regaddr_changed(regaddr_changed)
    );
 
    flash_and_sd cacharros_con_spi (
@@ -302,7 +307,7 @@ module zxuno (
 //      );
 
     ps2_keyb el_teclado (
-      .clk(clkkbd),
+      .clk(clk),
       .clkps2(clkps2),
       .dataps2(dataps2),
       .rows(kbdrow),
@@ -313,7 +318,15 @@ module zxuno (
       .nmi_out_n(nmi_n),   // Señales de reset y NMI
       .mrst_out_n(mrst_n),  // generadas por pulsaciones especiales del teclado
       .kbcommand(8'h00),
-      .kbcommand_load(1'b0)
+      .kbcommand_load(1'b0),
+      //----------------------------
+      .zxuno_addr(zxuno_addr),
+      .zxuno_regrd(zxuno_regrd),
+      .zxuno_regwr(zxuno_regwr),
+      .regaddr_changed(regaddr_changed),
+      .din(cpudout),
+      .dout(keymap_dout),
+      .oe_n(oe_n_keymap)
       );
 
 
@@ -343,6 +356,7 @@ module zxuno (
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
+        .regaddr_changed(regaddr_changed),
         .dout(coreid_dout),
         .oe_n(oe_n_coreid)
     );

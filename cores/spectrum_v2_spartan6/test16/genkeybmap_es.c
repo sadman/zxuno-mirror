@@ -301,14 +301,23 @@ D+3 : modificadores y señales de usuario, 0 si no hay
                     for (i=0;i<(sizeof(rom)/sizeof(rom[0]));i++)              \
                       rom[i] = 0;                                             \
                  }
-#define SAVEMAP(name) {                                                       \
-                         FILE *f;                                             \
-                         int i;                                               \
-                         f=fopen(name,"w");                                   \
-                         for(i=0;i<(sizeof(rom)/sizeof(rom[0]));i++)          \
-                           fprintf(f,"%.2X\n",rom[i]);                        \
-                         fclose(f);                                           \
-                      }
+#define SAVEMAPHEX(name) {                                                      \
+                           FILE *f;                                             \
+                           int i;                                               \
+                           f=fopen(name,"w");                                   \
+                           for(i=0;i<(sizeof(rom)/sizeof(rom[0]));i++)          \
+                             fprintf(f,"%.2X\n",rom[i]);                        \
+                           fclose(f);                                           \
+                         }
+
+#define SAVEMAPBIN(name) {                                                      \
+                           FILE *f;                                             \
+                           int i;                                               \
+                           f=fopen(name,"wb");                                  \
+                           fwrite (rom, 1, sizeof(rom), f);                     \
+                           fclose(f);                                           \
+                         }
+
 
 int main()
 {
@@ -473,5 +482,7 @@ int main()
     MAP(MD3|MD2|MD1|PC_LESS,SP_NOTEQ,0,0);
 
     // End of mapping. Save .HEX file for Verilog
-    SAVEMAP("keyb_es_hex.txt");
+    SAVEMAPHEX("keyb_es_hex.txt");
+    // And map file for loading from ESXDOS
+    SAVEMAPBIN("keymaps\\ES");
 }

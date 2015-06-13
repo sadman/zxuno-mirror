@@ -39,13 +39,25 @@ module ps2_keyb(
     output wire rst_out_n,
     output wire nmi_out_n,
     output wire mrst_out_n,
-    output wire [4:0] user_toggles
+    output wire [4:0] user_toggles,
+    //---------------------------------
+    input wire [7:0] zxuno_addr,
+    input wire zxuno_regrd,
+    input wire zxuno_regwr,
+    input wire regaddr_changed,
+    input wire [7:0] din,
+    output wire [7:0] dout,
+    output wire oe_n
     );
+
+    parameter KEYMAP = 8'h07;
 
     wire master_reset, user_reset, user_nmi;
     assign mrst_out_n = ~master_reset;
     assign rst_out_n = ~user_reset;
     assign nmi_out_n = ~user_nmi;
+    
+    assign oe_n = ~(zxuno_addr == KEYMAP && zxuno_regrd == 1'b1);
 
     wire [7:0] kbcode;
     wire ps2busy = 1'b0;
@@ -86,7 +98,12 @@ module ps2_keyb(
         .master_reset(master_reset),
         .user_reset(user_reset),
         .user_nmi(user_nmi),
-        .user_toggles(user_toggles)
+        .user_toggles(user_toggles),
+        .din(din),
+        .dout(dout),
+        .cpuwrite(zxuno_addr == KEYMAP && zxuno_regwr == 1'b1),
+        .cpuread(zxuno_addr == KEYMAP && zxuno_regrd == 1'b1),
+        .rewind(regaddr_changed == 1'b1 && zxuno_addr == KEYMAP)
         );
 
 //    ps2_host_to_kb escritura_a_teclado (

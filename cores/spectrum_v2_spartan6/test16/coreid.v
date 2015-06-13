@@ -25,6 +25,7 @@ module coreid (
     input wire rst_n,
     input wire [7:0] zxuno_addr,
     input wire zxuno_regrd,
+    input wire regaddr_changed,
     output wire [7:0] dout,
     output wire oe_n
     );
@@ -36,7 +37,7 @@ module coreid (
       text[ 2] = "6";
       text[ 3] = "-";
       text[ 4] = "1";
-      text[ 5] = "2";
+      text[ 5] = "3";
       text[ 6] = "0";
       text[ 7] = "6";
       text[ 8] = "2";
@@ -55,8 +56,8 @@ module coreid (
     assign dout = (oe_n==1'b0)? text[textindx] : 8'hZZ;
     
     always @(posedge clk) begin
-        if (rst_n == 1'b0) begin
-            textindx <= 5'h00;
+        if (rst_n == 1'b0 || (regaddr_changed==1'b1 && zxuno_addr==8'hFF)) begin
+            textindx <= 4'h0;
             reading <= 1'b0;
         end
         else if (oe_n==1'b0) begin

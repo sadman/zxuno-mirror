@@ -81,6 +81,7 @@ module ps2_port (
             if (state == `RCVSTART && ps2data == 1'b0) begin
                 state <= `RCVDATA;
                 key <= 8'h80;
+                //rkb_interrupt <= 1'b0;
             end
             else if (state == `RCVDATA) begin
                 key <= {ps2data, key[7:1]};
