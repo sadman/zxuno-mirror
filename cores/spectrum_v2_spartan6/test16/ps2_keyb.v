@@ -39,16 +39,16 @@ module ps2_keyb(
     output wire rst_out_n,
     output wire nmi_out_n,
     output wire mrst_out_n,
-    output wire [7:0] user_toogles
+    output wire [4:0] user_toggles
     );
 
     wire master_reset, user_reset, user_nmi;
-    assign mrst_out_n = 1'b1; //~master_reset;
-    assign rst_out_n = 1'b1; //~user_reset;
-    assign nmi_out_n = 1'b1; //~user_nmi;
+    assign mrst_out_n = ~master_reset;
+    assign rst_out_n = ~user_reset;
+    assign nmi_out_n = ~user_nmi;
 
     wire [7:0] kbcode;
-    wire ps2busy;
+    wire ps2busy = 1'b0;
     wire nueva_tecla;
     wire extended;
     wire released;
@@ -60,7 +60,7 @@ module ps2_keyb(
 
     ps2_port lectura_de_teclado (
         .clk(clk),
-        .enable_rcv(1'b1 /*~ps2busy*/),
+        .enable_rcv(~ps2busy),
         .ps2clk_ext(clkps2),
         .ps2data_ext(dataps2),
         .kb_interrupt(nueva_tecla),
@@ -86,7 +86,7 @@ module ps2_keyb(
         .master_reset(master_reset),
         .user_reset(user_reset),
         .user_nmi(user_nmi),
-        .user_toogles(user_toogles)
+        .user_toggles(user_toggles)
         );
 
 //    ps2_host_to_kb escritura_a_teclado (
