@@ -1,6 +1,6 @@
 GenRom 0    8  4 0 0  "'ZX Spectrum 48K Cargando Leches'" leches.rom         leches.tap
 GenRom tdn  8  4 0 0  "'ZX +3e DivMMC'"                   mmces3eE.rom       mmces3eE.tap
-GenRom d    10 2 4 0  "'SE Basic IV 4.0 Anya'"            se.rom             se.tap
+GenRom d    8  4 0 0  "'SE Basic IV 4.0 Anya'"            se.rom             se.tap
 GenRom 0    8  1 0 32 "'ZX Spectrum 48K'"                 48.rom             48.tap
 GenRom 0    8  1 0 32 "'Jet Pac (1983)'"                  JetPac.rom         JetPac.tap
 GenRom 0    8  1 0 32 "'Pssst (1983)'"                    Pssst.rom          Pssst.tap

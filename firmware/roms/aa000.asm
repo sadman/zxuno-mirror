@@ -25,29 +25,40 @@
       endm
 
       macro R32K    slot, crc, cadena
-        Generic  slot, crc, $ffffffff, cadena, 2, $0a, 2, $04, 0, Issue3 | Tim128  | Contended | DisableDiv | DisableNMI
+        Generic  slot, crc, $ffffffff, cadena, 2, $08, 4, 0, 0, Issue3 | Tim128  | Contended | DisableDiv | DisableNMI
+      endm
+
+      macro OPENSE  slot, crc, cadena
+        Generic  slot, crc, $ffffffff, cadena, 2, $08, 4, 0, 0, Issue3 | Tim128  | Contended | EnableDiv | DisableNMI
       endm
 
       macro R64K    slot, crc1, crc2, cadena
         Generic  slot, crc1, crc2, cadena, 4, $08, 4, 0, 0, Issue3 | Tim128  | Contended | DisableDiv | DisableNMI
       endm
 
+      macro R32KDIV slot, crc, cadena
+        Generic  slot, crc, $ffffffff, cadena, 2, $08, 4, 0, 0, Issue3 | Tim128  | Contended | EnableDiv | EnableNMI
+      endm
+
+      macro R64KDIV slot, crc1, crc2, cadena
+        Generic  slot, crc1, crc2, cadena, 4, $08, 4, 0, 0, Issue3 | Tim128  | Contended | EnableDiv | EnableNMI
+      endm
       
 l0aa0   Generic  0, $1bfeffff, $ffffffff, 'ZX Spectrum 48K', 1, 8, 4, 0, 0, Issue3 | Tim48  | Contended | EnableDiv | EnableNMI
-        R64K     1, $43bea3ff, $ec33dbeb, 'ZX +3e DivMMC'
-        R32K     5, $bfd5c9e8,            'SE Basic IV 4.0 Anya'
-        Cart     7, $1039,                'ZX Spectrum 48K Cargando Leches'
-        Cart     8, $b818,                'Manic Miner (1983)'
-        Cart     9, $15e7,                'Jet Set Willy (1984)'
-        Cart    10, $e945,                'Lala Prologue (2010)'
-        Cart    11, $7d63,                'Deathchase (1983)'
-        Cart    12, $dd26,                'Master Chess (1983)'
-        Cart    13, $4934,                'Backgammon (1983)'
-        Cart    14, $c054,                'Hungry Horace (1982)'
-        Cart    15, $6754,                'Horace & the Spiders (1983)'
-        Cart    16, $aafc,                'Planetoids (1982)'
-        Cart    17, $7a69,                'Space Raiders (1982)'
-        Cart    18, $4d5b,                'Misco Jones (2013)'
+        R32KDIV  1, $a2394d6a,            'ZX 128K +2 grey EN'
+        R64K     3, $43bea3ff, $ec33dbeb, 'ZX +3e DivMMC'
+        OPENSE   7, $bfd5c9e8,            'SE Basic IV 4.0 Anya'
+        Cart     9, $1039,                'ZX Spectrum 48K Cargando Leches'
+        Cart    10, $b818,                'Manic Miner (1983)'
+        Cart    11, $15e7,                'Jet Set Willy (1984)'
+        Cart    12, $e945,                'Lala Prologue (2010)'
+        Cart    13, $dd26,                'Master Chess (1983)'
+        Cart    14, $4934,                'Backgammon (1983)'
+        Cart    15, $c054,                'Hungry Horace (1982)'
+        Cart    16, $6754,                'Horace & the Spiders (1983)'
+        Cart    17, $aafc,                'Planetoids (1982)'
+        Cart    18, $7a69,                'Space Raiders (1982)'
+        Cart    19, $4d5b,                'Misco Jones (2013)'
 
         block   $1000-$
 

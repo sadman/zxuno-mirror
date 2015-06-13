@@ -6,13 +6,13 @@ copy /b ESXMMC086b4.BIN+              ^
         aa000.bin+                    ^
         ..\firmware.rom+              ^
         48.rom+                       ^
+        128en.rom+                    ^
         plus3es40zxmmc.rom+           ^
         se.rom+                       ^
         leches.rom+                   ^
         ManicMiner.rom+               ^
         JetSetWilly.rom+              ^
         LalaPrologue.rom+             ^
-        Deathchase.rom+               ^
         Chess.rom+                    ^
         Backgammon.rom+               ^
         HungryHorace.rom+             ^
