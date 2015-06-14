@@ -31,8 +31,8 @@ module zxuno (
     output wire [2:0] g,
     output wire [2:0] b,
     output wire csync,
-    input wire clkps2,
-    input wire dataps2,
+    inout wire clkps2,
+    inout wire dataps2,
     input wire ear,
     output wire audio_out,
     
@@ -109,10 +109,12 @@ module zxuno (
    wire [4:0] kbdcol;
    wire [7:0] kbdrow;
    wire mrst_n,rst_n;  // los dos resets suministrados por el teclado
-   wire [7:0] scancode;  // scancode original desde el teclado PC
-   wire read_scancode = (zxuno_addr==8'h04 && zxuno_regrd);
+   wire [7:0] scancode_dout;  // scancode original desde el teclado PC
+   wire oe_n_scancode;
    wire [7:0] keymap_dout;
    wire oe_n_keymap;
+   wire [7:0] kbstatus_dout;
+   wire oe_n_kbstatus;
    
    // Interfaz joystick configurable
    wire oe_n_joystick;
@@ -139,7 +141,8 @@ module zxuno (
                    (oe_n_joystick==1'b0)?       joystick_dout :
                    (oe_n_zxunoaddr==1'b0)?      zxuno_addr_to_cpu :
                    (oe_n_spi==1'b0)?            spi_dout :
-                   (read_scancode==1'b1)?       scancode :
+                   (oe_n_scancode==1'b0)?       scancode_dout :
+                   (oe_n_kbstatus==1'b0)?       kbstatus_dout :
                    (oe_n_coreid==1'b0)?         coreid_dout :
                    (oe_n_keymap==1'b0)?         keymap_dout :
                                                 ula_dout;
@@ -313,20 +316,21 @@ module zxuno (
       .rows(kbdrow),
       .cols(kbdcol),
       .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
-      .scancode(scancode),  // El scancode original desde el teclado
       .rst_out_n(rst_n),   // esto son salidas, no entradas
       .nmi_out_n(nmi_n),   // Señales de reset y NMI
       .mrst_out_n(mrst_n),  // generadas por pulsaciones especiales del teclado
-      .kbcommand(8'h00),
-      .kbcommand_load(1'b0),
       //----------------------------
       .zxuno_addr(zxuno_addr),
       .zxuno_regrd(zxuno_regrd),
       .zxuno_regwr(zxuno_regwr),
       .regaddr_changed(regaddr_changed),
       .din(cpudout),
-      .dout(keymap_dout),
-      .oe_n(oe_n_keymap)
+      .keymap_dout(keymap_dout),
+      .oe_n_keymap(oe_n_keymap),
+      .scancode_dout(scancode_dout),
+      .oe_n_scancode(oe_n_scancode),
+      .kbstatus_dout(kbstatus_dout),
+      .oe_n_kbstatus(oe_n_kbstatus)
       );
 
 

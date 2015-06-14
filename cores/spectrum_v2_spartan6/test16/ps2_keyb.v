@@ -22,16 +22,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 module ps2_keyb(
     input wire clk,
-    input wire clkps2,
-    input wire dataps2,
-    output wire [7:0] scancode,
-    input wire [7:0] kbcommand,
-    input wire kbcommand_load,
-    output wire kbnewkey,
-    output wire kbextended,
-    output wire kbreleased,
-    output wire kberror,
-    output wire kbbusy,
+    inout wire clkps2,
+    inout wire dataps2,
     //---------------------------------
     input wire [7:0] rows,
     output wire [4:0] cols,
@@ -46,10 +38,16 @@ module ps2_keyb(
     input wire zxuno_regwr,
     input wire regaddr_changed,
     input wire [7:0] din,
-    output wire [7:0] dout,
-    output wire oe_n
+    output wire [7:0] keymap_dout,
+    output wire oe_n_keymap,
+    output wire [7:0] scancode_dout,
+    output wire oe_n_scancode,
+    output reg [7:0] kbstatus_dout,
+    output wire oe_n_kbstatus
     );
 
+    parameter SCANCODE = 8'h04;
+    parameter KBSTATUS = 8'h05;
     parameter KEYMAP = 8'h07;
 
     wire master_reset, user_reset, user_nmi;
@@ -57,18 +55,33 @@ module ps2_keyb(
     assign rst_out_n = ~user_reset;
     assign nmi_out_n = ~user_nmi;
     
-    assign oe_n = ~(zxuno_addr == KEYMAP && zxuno_regrd == 1'b1);
+    assign oe_n_keymap = ~(zxuno_addr == KEYMAP && zxuno_regrd == 1'b1);
+    assign oe_n_scancode = ~(zxuno_addr == SCANCODE && zxuno_regrd == 1'b1);
+    assign oe_n_kbstatus = ~(zxuno_addr == KBSTATUS && zxuno_regrd == 1'b1);
 
     wire [7:0] kbcode;
-    wire ps2busy = 1'b0;
+    wire ps2busy;
+    wire kberror;
     wire nueva_tecla;
     wire extended;
     wire released;
-    assign scancode = kbcode;
-    assign kbnewkey = nueva_tecla;    
-    assign kbbusy = ps2busy;
-    assign kbextended = extended;
-    assign kbreleased = released;
+    assign scancode_dout = kbcode;    
+    
+    /*
+    | BSY | x | x | x | ERR | RLS | EXT | PEN |
+    */
+    reg reading_kbstatus = 1'b0;
+    always @(posedge clk) begin
+        kbstatus_dout[7:1] <= {ps2busy, 3'b000, kberror, released, extended};
+        if (nueva_tecla == 1'b1)
+            kbstatus_dout[0] <= 1'b1;
+        if (oe_n_kbstatus == 1'b0)
+            reading_kbstatus <= 1'b1;
+        else if (reading_kbstatus == 1'b1) begin
+            kbstatus_dout[0] <= 1'b0;
+            reading_kbstatus <= 1'b0;
+        end
+    end        
 
     ps2_port lectura_de_teclado (
         .clk(clk),
@@ -100,19 +113,19 @@ module ps2_keyb(
         .user_nmi(user_nmi),
         .user_toggles(user_toggles),
         .din(din),
-        .dout(dout),
+        .dout(keymap_dout),
         .cpuwrite(zxuno_addr == KEYMAP && zxuno_regwr == 1'b1),
         .cpuread(zxuno_addr == KEYMAP && zxuno_regrd == 1'b1),
         .rewind(regaddr_changed == 1'b1 && zxuno_addr == KEYMAP)
         );
 
-//    ps2_host_to_kb escritura_a_teclado (
-//        .clk(clk),
-//        .ps2clk_ext(clkps2),
-//        .ps2data_ext(dataps2),
-//        .data(kbcommand),
-//        .dataload(kbcommand_load),
-//        .ps2busy(ps2busy),
-//        .ps2error(kberror)
-//    );
+    ps2_host_to_kb escritura_a_teclado (
+        .clk(clk),
+        .ps2clk_ext(clkps2),
+        .ps2data_ext(dataps2),
+        .data(din),
+        .dataload(zxuno_addr == SCANCODE && zxuno_regwr== 1'b1),
+        .ps2busy(ps2busy),
+        .ps2error(kberror)
+    );
 endmodule
