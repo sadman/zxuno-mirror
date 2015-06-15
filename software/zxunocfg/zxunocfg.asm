@@ -309,7 +309,7 @@ Uso                 db "ZXUNOCFG v1.0",13
                     ;   01234567890123456789012345678901
 CurrConfString1     db "ZX-Uno current configuration:",13
 StringCoreID        db "       Core: NOT AVAILABLE   ",13    ;+13
-                    db "    Timming: ",0
+                    db "     Timing: ",0
 Timm48KStr          db "48K",13,0
 Timm128KStr         db "128K",13,0
 CurrConfString2     db " Contention: ",0
