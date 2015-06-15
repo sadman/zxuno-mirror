@@ -132,6 +132,10 @@ module zxuno (
    wire oe_n_coreid;
    wire [7:0] coreid_dout;
    
+   // Scratch register
+   wire oe_n_scratch;
+   wire [7:0] scratch_dout;
+   
    assign kbdrow = cpuaddr[15:8];  // las filas del teclado son A8-A15 de la CPU
 
    // Asignación de dato para la CPU segun la decodificación de todos los dispositivos
@@ -145,6 +149,7 @@ module zxuno (
                    (oe_n_kbstatus==1'b0)?       kbstatus_dout :
                    (oe_n_coreid==1'b0)?         coreid_dout :
                    (oe_n_keymap==1'b0)?         keymap_dout :
+                   (oe_n_scratch==1'b0)?        scratch_dout :
                                                 ula_dout;
 
    tv80n_wrapper el_z80 (
@@ -364,6 +369,18 @@ module zxuno (
         .dout(coreid_dout),
         .oe_n(oe_n_coreid)
     );
+
+    scratch_register scratch (
+        .clk(clk),
+        .poweron_rst_n(power_on_reset_n),
+        .zxuno_addr(zxuno_addr),
+        .zxuno_regrd(zxuno_regrd),
+        .zxuno_regwr(zxuno_regwr),
+        .din(cpudout),
+        .dout(scratch_dout),
+        .oe_n(oe_n_scratch)
+    );
+
 
 ///////////////////////////////////
 // AY-3-8912 SOUND
