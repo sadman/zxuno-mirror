@@ -53,6 +53,10 @@ BucScroll1linea  rept 63
                  inc hl
                  add hl,de
 
+                 ;ld a,b
+                 ;and 7
+                 ;out (254),a
+
                  dec b
                  jp nz,BucScroll1linea
                  ret
@@ -75,6 +79,11 @@ BucScroll2linea  push bc
                  inc hl
                  inc de
                  pop bc
+
+                 ;ld a,b
+                 ;and 7
+                 ;out (254),a
+
                  dec b
                  jp nz,BucScroll2linea
                  ret
