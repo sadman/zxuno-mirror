@@ -44,28 +44,11 @@ char char2hex(char value, char * name){
   return value>'9' ? 9+(value&7) : value-'0';
 }
 
-int parseHex(char * name){
-  int flen= strlen(name);
-  if( name[0]=='\'' )
-    for ( i= 1; i<33 && name[i]!='\''; ++i )
-      mem[i+0x4006+0x1f]= name[i];
-  else if( ~flen & 1 ){
-    flen>>= 1;
-    flen>32 && (flen= 32);
-    for ( i= 0; i < flen; i++ )
-      mem[i+0x4006+0x20]= char2hex(name[i<<1|1], name) | char2hex(name[i<<1], name) << 4;
-    ++i;
-  }
-  while( ++i<34 )
-    mem[i+0x4006+0x1e]= ' ';
-  return flen;
-}
-
 int main(int argc, char *argv[]) {
   if( argc==1 )
     printf("\n"
-    "GenRom v0.02, generates a TAP for loading a ROM in the ZX-Uno, 2012-12-27\n\n"
-    "  GenRom         <start_ram> <length_ram> <byte_1FFD> <byte_7FFD>\n"
+    "GenRom v0.03, generates a TAP for loading a ROM in the ZX-Uno, 2015-06-16\n\n"
+    "  GenRom         <params> <start_ram> <length_ram> <byte_1FFD> <byte_7FFD>\n"
     "                 <name> <input_file> <output_file>\n\n"
     "  <params>       Set 5 flags parameters, combinable\n"
     "     0           Default values Issue3, Tim48K, Contended, Disabled Div & NMI\n"
@@ -149,7 +132,10 @@ int main(int argc, char *argv[]) {
       case 'd': mem[0x400c]^= 0b00000010; break;
       case 'n': mem[0x400c]^= 0b00000001;
     }
-  parseHex(argv[6]);
+  for ( i= 0; i<32 && i<strlen(argv[6]); i++ )
+    mem[i+0x4006+0x20]= argv[6][i];
+  while( ++i<33 )
+    mem[i+0x4006+0x1f]= ' ';
   for ( checksum= 0xff, k= 0x4007; k<0x4046; ++k )
     checksum^= mem[k];
   mem[0x4046]= checksum;
