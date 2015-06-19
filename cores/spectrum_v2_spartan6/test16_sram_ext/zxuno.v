@@ -145,6 +145,8 @@ module zxuno (
    // PZX player
    wire oe_n_pzx;
    wire [7:0] pzx_dout;
+   wire pzx_playing;
+   wire pzx_output;
 
    // User toggles
    wire play, stop, cpupause, user3, user4;
@@ -216,7 +218,7 @@ module zxuno (
     .vramdata(vram_dout),
 	 
     // I/O ports
-	 .ear(ear),
+	 .ear(pzx_playing? pzx_output : ear),  // Entrada EAR fisica o salida del reproductor PZX
      .mic(mic),
      .spk(spk),
 	 .kbd(kbdcol_to_ula),
@@ -400,13 +402,17 @@ module zxuno (
         .rst_n(power_on_reset_n & mrst_n & rst_n),
     //--------------------
         .zxuno_addr(zxuno_addr),
-        .regaddr_changed(regaddr_changed),
         .zxuno_regrd(zxuno_regrd),
         .zxuno_regwr(zxuno_regwr),
         .din(cpudout),
         .dout(pzx_dout),
         .oe_n(oe_n_pzx),
     //--------------------    
+        .play_in(play),
+        .stop_in(stop),
+        .pulse_out(pzx_output),
+        .playing(pzx_playing),
+    // -------------------
         .addr(srampzx_addr),
         .we_n(srampzx_we_n),
         .data(srampzx_data)
@@ -455,7 +461,7 @@ module zxuno (
 		.reset(1'b0),
 		.mic(mic),
 		.spk(spk),
-        .ear(ear),
+        .ear(pzx_playing? pzx_output : ear),
         .ay1(ay1_audio),
 		.ay2(ay2_audio),
 		.audio(audio_out)

@@ -487,6 +487,8 @@ int main()
     MAP(MD3|MD2|MD1|PC_LESS,SP_NOTEQ,0,0);
 
     MAPANY(PC_PAUSE,0,0,FREEZE);
+    MAPANY(PC_F11,0,0,PLAYPZX);
+    MAPANY(PC_F12,0,0,STOPPZX);
 
     // End of mapping. Save .HEX file for Verilog
     SAVEMAPHEX("keyb_es_hex.txt");
