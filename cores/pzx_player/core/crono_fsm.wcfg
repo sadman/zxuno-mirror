@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/rodriguj/Documents/zxspectrum/zxuno/cores/pzx_player/core/tb_pzx_player_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_pzx_player" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="26" />
+   <wvobject fp_name="divider15" type="divider">
+      <obj_property name="label">RELOJES Y CONTROL EXTERNO</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/rst_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/play_in" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">play_in</obj_property>
+      <obj_property name="ObjectShortName">play_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/stop_in" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">stop_in</obj_property>
+      <obj_property name="ObjectShortName">stop_in</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/pulse_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pulse_out</obj_property>
+      <obj_property name="ObjectShortName">pulse_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider16" type="divider">
+      <obj_property name="label">SRAM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[20:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[20:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">data[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider17" type="divider">
+      <obj_property name="label">FSM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">128 128 255</obj_property>
+      <obj_property name="TextColor">230 230 230</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/play_enabled" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">play_enabled</obj_property>
+      <obj_property name="ObjectShortName">play_enabled</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/state" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">state[5:0]</obj_property>
+      <obj_property name="ObjectShortName">state[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/tag" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tag[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tag[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/lblock" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">lblock[31:0]</obj_property>
+      <obj_property name="ObjectShortName">lblock[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/duration" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">duration[31:0]</obj_property>
+      <obj_property name="ObjectShortName">duration[31:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/cduration" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cduration[34:0]</obj_property>
+      <obj_property name="ObjectShortName">cduration[34:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/pulsecounter" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pulsecounter[15:0]</obj_property>
+      <obj_property name="ObjectShortName">pulsecounter[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/pulse0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pulse0[0:31,15:0]</obj_property>
+      <obj_property name="ObjectShortName">pulse0[0:31,15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/numberpulse0" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">numberpulse0[4:0]</obj_property>
+      <obj_property name="ObjectShortName">numberpulse0[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/pulse1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pulse1[0:31,15:0]</obj_property>
+      <obj_property name="ObjectShortName">pulse1[0:31,15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/numberpulse1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">numberpulse1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">numberpulse1[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/indexpulse" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">indexpulse[4:0]</obj_property>
+      <obj_property name="ObjectShortName">indexpulse[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/numberofbits" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">numberofbits[30:0]</obj_property>
+      <obj_property name="ObjectShortName">numberofbits[30:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/durationextrapulse" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">durationextrapulse[15:0]</obj_property>
+      <obj_property name="ObjectShortName">durationextrapulse[15:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/databyte" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">databyte[7:0]</obj_property>
+      <obj_property name="ObjectShortName">databyte[7:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_pzx_player/uut/countbits" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">countbits[2:0]</obj_property>
+      <obj_property name="ObjectShortName">countbits[2:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
