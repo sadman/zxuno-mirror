@@ -111,7 +111,7 @@ module pzx_player (
     reg play_enabled = 1'b0;
     reg [7:0] tag = 8'h00;
     reg [31:0] lblock = 32'h0;      // longitud en bytes del bloque actual
-    reg [30:0] duration = 32'h0;
+    reg [30:0] duration = 31'h0;
     reg [33:0] cduration = 34'h0; // cuenta ciclos de 28MHz hasta alcanzar el valor de duration
     reg [15:0] pulsecounter = 16'h0;
     reg [15:0] pulse0[0:31];
@@ -121,11 +121,19 @@ module pzx_player (
     reg [4:0] numberpulse1 = 5'd0;
     reg [30:0] numberofbits = 31'h0;
     reg [15:0] durationextrapulse = 16'h0000;
-    reg [7:0] databyte = 3'd0;
+    reg [7:0] databyte = 8'h00;
     reg [3:0] countbits = 4'd0;
     reg pulse = 1'b0;
     assign pulse_out = pulse;
     assign playing = play_enabled;
+    
+    integer i;
+    initial begin
+        for (i=0;i<32;i=i+1) begin
+            pulse0[i] = 8'h00;
+            pulse1[i] = 8'h00;
+        end
+    end
     
     reg [5:0] state = IDLE;
     always @(posedge clk) begin
@@ -164,34 +172,34 @@ module pzx_player (
             end
         end
         else if (state == INCADD) begin
-            a <= a + 21'b1;
+            a <= a + 1;
             state <= IDLE;
         end
         //------------------------------------------
         else if (play_enabled == 1'b1) begin
             if (state == READTAG) begin
                 tag <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= READLTAG1;
             end
             else if (state == READLTAG1) begin
                 lblock[7:0] <= data;  // LSB
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= READLTAG2;
             end
             else if (state == READLTAG2) begin
                 lblock[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= READLTAG3;
             end
             else if (state == READLTAG3) begin
                 lblock[23:16] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= READLTAG4;
             end
             else if (state == READLTAG4) begin
                 lblock[31:24] <= data;  // Ya tenemos en lblock el tamaño del bloque
-                a <= a + 21'b1;
+                a <= a + 1;
                 if (tag == STOP)
                     state <= STOP1;
                 else if (tag == PAUSE)
@@ -219,23 +227,23 @@ module pzx_player (
 
             else if (state == PAUSE1) begin
                 duration[7:0] <= data;  // LSB
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= PAUSE2;
             end
             else if (state == PAUSE2) begin
                 duration[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= PAUSE3;
             end
             else if (state == PAUSE3) begin
                 duration[23:16] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= PAUSE4;
             end
             else if (state == PAUSE4) begin
                 {pulse,duration[30:24]} <= data;  // Ya tenemos en duration la duracion en estados de CPU
                 cduration <= 34'h000000000;
-                a <= a + 21'b1;
+                a <= a + 1;
                 state <= DOPAUSE;
             end
             else if (state == DOPAUSE) begin
@@ -250,7 +258,7 @@ module pzx_player (
                     cduration <= 34'h000000000;
                     duration[7:0] <= data;
                     pulsecounter <= 16'h0001;
-                    a <= a + 21'b1;
+                    a <= a + 1;
                     lblock <= lblock - 1;
                     state <= PULSE2;
                 end
@@ -260,7 +268,7 @@ module pzx_player (
             end
             else if (state == PULSE2) begin
                 duration[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= PULSE3;
             end
@@ -268,7 +276,7 @@ module pzx_player (
                 if (duration[15:0]>16'h8000) begin
                     pulsecounter <= {1'b0,duration[14:0]};
                     duration[7:0] <= data;
-                    a <= a + 21'b1;
+                    a <= a + 1;
                     lblock <= lblock - 1;
                     state <= PULSE4;
                 end
@@ -278,15 +286,15 @@ module pzx_player (
             end
             else if (state == PULSE4) begin
                 duration[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= PULSE5;
             end
             else if (state == PULSE5) begin
                 if (duration[15] == 1'b1) begin
-                    duration[30:16] <= {1'b0,duration[14:0]};
+                    duration[30:16] <= duration[14:0];
                     duration[7:0] <= data;
-                    a <= a + 21'b1;
+                    a <= a + 1;
                     lblock <= lblock - 1;
                     state <= PULSE6;
                 end
@@ -296,7 +304,7 @@ module pzx_player (
             end
             else if (state == PULSE6) begin
                 duration[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= DOPULSE;
             end
@@ -312,59 +320,59 @@ module pzx_player (
                         state <= PULSE1;
                     end
                     else begin
-                        pulsecounter <= pulsecounter - 16'd1;
+                        pulsecounter <= pulsecounter - 1;
                     end
                 end
                 else begin
-                    cduration <= cduration + 34'd1;
+                    cduration <= cduration + 1;
                 end
             end
             else if (state == DATA1) begin  // DATA1 a 4 para leer numero de bits en bloque
                 numberofbits[7:0] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= DATA2;
             end
             else if (state == DATA2) begin
                 numberofbits[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= DATA3;
             end
             else if (state == DATA3) begin
                 numberofbits[23:16] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= DATA4;
             end
             else if (state == DATA4) begin
                 {pulse,numberofbits[30:24]} <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= DATATAIL1;
             end
             else if (state == DATATAIL1) begin  // DATATAIL1 y 2 leen la duración del pulso extra
                 durationextrapulse[7:0] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= DATATAIL2;
             end
             else if (state == DATATAIL2) begin
                 durationextrapulse[15:8] <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= READNPULSE0;
             end
             else if (state == READNPULSE0) begin  // Leer cantidad de pulsos para bit 0
                 numberpulse0 <= data[4:0];
                 indexpulse <= 5'd0;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= READNPULSE1;
             end
             else if (state == READNPULSE1) begin  // Leer cantidad de pulsos para bit 1
                 numberpulse1 <= data[4:0];
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= READDPULSE0_1;
             end
@@ -374,16 +382,16 @@ module pzx_player (
                     state <= READDPULSE1_1;
                 end
                 else begin
-                    pulse0[indexpulse][7:0] <= data;
-                    a <= a + 21'b1;
+                    databyte <= data;
+                    a <= a + 1;
                     lblock <= lblock - 1;
                     state <= READDPULSE0_2;
                 end
             end
             else if (state == READDPULSE0_2) begin
-                pulse0[indexpulse][15:8] <= data;
-                indexpulse <= indexpulse + 5'd1;
-                a <= a + 21'b1;
+                pulse0[indexpulse] <= {data, databyte};
+                indexpulse <= indexpulse + 1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= READDPULSE0_1;
             end
@@ -392,22 +400,22 @@ module pzx_player (
                     state <= READDATA1;
                 end
                 else begin
-                    pulse1[indexpulse][7:0] <= data;
-                    a <= a + 21'b1;
+                    databyte <= data;
+                    a <= a + 1;
                     lblock <= lblock - 1;
                     state <= READDPULSE1_2;
                 end
             end
             else if (state == READDPULSE1_2) begin
-                pulse1[indexpulse][15:8] <= data;
-                indexpulse <= indexpulse + 5'd1;
-                a <= a + 21'b1;
+                pulse1[indexpulse] <= {data,databyte};
+                indexpulse <= indexpulse + 1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 state <= READDPULSE1_1;
             end
             else if (state == READDATA1) begin
                 databyte <= data;
-                a <= a + 21'b1;
+                a <= a + 1;
                 lblock <= lblock - 1;
                 countbits <= 4'd8;
                 indexpulse <= 5'd0;
@@ -415,7 +423,7 @@ module pzx_player (
             end
             else if (state == OUTPUTBIT1) begin
                 if (numberofbits == 31'h0) begin
-                    duration <= {16'h0000,durationextrapulse};
+                    duration <= {15'h0000,durationextrapulse};
                     cduration <= 34'h0;
                     state <= DATADOTAIL;
                 end
@@ -425,17 +433,17 @@ module pzx_player (
                 else if ((databyte[7] == 1'b0 && indexpulse == numberpulse0) ||
                          (databyte[7] == 1'b1 && indexpulse == numberpulse1)) begin
                     databyte <= {databyte[6:0],1'b0};
-                    numberofbits <= numberofbits - 31'd1;
-                    countbits <= countbits - 4'd1;
+                    numberofbits <= numberofbits - 1;
+                    countbits <= countbits - 1;
                     indexpulse <= 5'd0;
                 end
                 else begin
                     if (databyte[7] == 1'b0)
-                        duration <= {16'h0000,pulse0[indexpulse]};
+                        duration <= {15'h0000,pulse0[indexpulse]};
                     else
-                        duration <= {16'h0000,pulse1[indexpulse]};
+                        duration <= {15'h0000,pulse1[indexpulse]};
                     cduration <= 34'h0;
-                    indexpulse <= indexpulse + 5'd1;
+                    indexpulse <= indexpulse + 1;
                     state <= OUTPUTBIT2;
                 end
             end
@@ -445,7 +453,7 @@ module pzx_player (
                     state <= OUTPUTBIT1;
                 end
                 else begin
-                    cduration <= cduration + 34'd1;
+                    cduration <= cduration + 1;
                 end
             end
             else if (state == DATADOTAIL) begin
@@ -454,7 +462,7 @@ module pzx_player (
                     state <= READTAG;
                 end
                 else begin
-                    cduration <= cduration + 34'd1;
+                    cduration <= cduration + 1;
                 end
             end                
         end // de toda la FSM de reproduccion
