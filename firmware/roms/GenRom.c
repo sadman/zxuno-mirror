@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 FILE *fi, *fo;
 int i;
 unsigned char mem[0x4004+0x43], checksum, a, b;
