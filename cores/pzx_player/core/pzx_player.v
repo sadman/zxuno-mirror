@@ -123,7 +123,6 @@ module pzx_player (
     reg [30:0] numberofbits = 31'h0;
     reg [15:0] durationextrapulse = 16'h0000;
     reg [7:0] databyte = 8'h00;
-    reg [7:0] d0,d1,d2;
     reg [3:0] countbits = 4'd0;
     reg pulse = 1'b0;
     assign pulse_out = pulse;
