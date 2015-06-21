@@ -108,7 +108,7 @@ module zxuno (
    wire mic;
    wire spk;
    wire [7:0] ay1_audio;
-	wire [7:0] ay2_audio;
+   wire [7:0] ay2_audio;
    
    // Interfaz de acceso al teclado
    wire clkkbd;  // suministrado por la ULA (218kHz)
@@ -180,7 +180,7 @@ module zxuno (
       .A(cpuaddr),
       .dout(cpudout),
 
-      .reset_n(rst_n & mrst_n & power_on_reset_n),  // cualquiera de los dos resets
+      .reset_n(rst_n & mrst_n & power_on_reset_n),  // cualquiera de los tres resets
       .clk(cpuclk),
       .wait_n(wait_n),
       .int_n(int_n),
@@ -215,7 +215,7 @@ module zxuno (
 
     // VRAM interface
 	 .va(vram_addr),  // 16KB videoram
-    .vramdata(vram_dout),
+     .vramdata(vram_dout),
 	 
     // I/O ports
 	 .ear(pzx_playing? pzx_output : ear),  // Entrada EAR fisica o salida del reproductor PZX

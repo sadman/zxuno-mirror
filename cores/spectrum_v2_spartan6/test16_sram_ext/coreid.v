@@ -45,7 +45,7 @@ module coreid (
       text[ 7] = "-";
       text[ 8] = "V";
       text[ 9] = "0";
-      text[10] = "1";
+      text[10] = "2";
     end      
     
     reg [3:0] textindx = 4'h0;

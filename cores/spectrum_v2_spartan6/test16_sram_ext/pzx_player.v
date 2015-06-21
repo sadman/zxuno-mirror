@@ -54,36 +54,37 @@ module pzx_player (
               READLTAG3     = 6'd6,
               READLTAG4     = 6'd7,
               STOP1         = 6'd8,
-              PAUSE1        = 6'd9,
-              PAUSE2        = 6'd10,
-              PAUSE3        = 6'd11,
-              PAUSE4        = 6'd12,
-              DOPAUSE       = 6'd13,
-              PULSE1        = 6'd14,
-              PULSE2        = 6'd15,
-              PULSE3        = 6'd16,
-              PULSE4        = 6'd17,
-              PULSE5        = 6'd18,
-              PULSE6        = 6'd19,
-              DOPULSE       = 6'd20,
-              FULLSTOP1     = 6'd21,
-              DATA1         = 6'd22,
-              DATA2         = 6'd23,
-              DATA3         = 6'd24,
-              DATA4         = 6'd25,
-              DATATAIL1     = 6'd26,
-              DATATAIL2     = 6'd27,
-              READNPULSE0   = 6'd28,
-              READNPULSE1   = 6'd29,
-              READDPULSE0_1 = 6'd30,
-              READDPULSE0_2 = 6'd31,
-              READDPULSE1_1 = 6'd32,
-              READDPULSE1_2 = 6'd33,
-              READDATA1     = 6'd34,
-              OUTPUTBIT1    = 6'd35,
-              OUTPUTBIT2    = 6'd36,
-              DATADOTAIL    = 6'd37;
-
+              PULSE1        = 6'd9,
+              PULSE2        = 6'd10,
+              PULSE3        = 6'd11,
+              PULSE4        = 6'd12,
+              PULSE5        = 6'd13,
+              PULSE55       = 6'd14,
+              PULSE6        = 6'd15,
+              DOPULSE       = 6'd16,
+              FULLSTOP1     = 6'd17,
+              DATA1         = 6'd18,
+              DATA2         = 6'd19,
+              DATA3         = 6'd20,
+              DATA4         = 6'd21,
+              DATATAIL1     = 6'd22,
+              DATATAIL2     = 6'd23,
+              READNPULSE0   = 6'd24,
+              READNPULSE1   = 6'd25,
+              READDPULSE0_1 = 6'd26,
+              READDPULSE0_2 = 6'd27,
+              READDPULSE1_1 = 6'd28,
+              READDPULSE1_2 = 6'd29,
+              READDATA1     = 6'd30,
+              OUTPUTBIT1    = 6'd31,
+              OUTPUTBIT2    = 6'd32,
+              DATADOTAIL    = 6'd33,
+              PAUSE1        = 6'd34,
+              PAUSE2        = 6'd35,
+              PAUSE3        = 6'd36,
+              PAUSE4        = 6'd37,
+              DOPAUSE       = 6'd38;
+              
     parameter FULLSTOP      = 8'd0,
               STOP          = 8'd1,
               PULSE         = 8'd2,
@@ -122,6 +123,7 @@ module pzx_player (
     reg [30:0] numberofbits = 31'h0;
     reg [15:0] durationextrapulse = 16'h0000;
     reg [7:0] databyte = 8'h00;
+    reg [7:0] d0,d1,d2;
     reg [3:0] countbits = 4'd0;
     reg pulse = 1'b0;
     assign pulse_out = pulse;
@@ -137,23 +139,19 @@ module pzx_player (
     
     reg [5:0] state = IDLE;
     always @(posedge clk) begin
-        if (rst_n == 1'b0) begin
+        if (rst_n == 1'b0 || stop) begin
             state <= IDLE;
             play_enabled <= 1'b0;
             a <= 21'h000000;            
         end
         else if (play) begin
             play_enabled <= ~play_enabled;
-        end    
-        else if (stop) begin
-            play_enabled <= 1'b0;
-            a <= 21'h000000;
-            state <= IDLE;
-        end    
+        end
         else if (state == IDLE) begin
             if ((zxuno_addr == SRAMDATA || zxuno_addr == SRAMADDRINC) && (zxuno_regrd == 1'b1 || zxuno_regwr == 1'b1))
                 state <= PROGRESS;
-            else if (zxuno_addr == SRAMADDR && zxuno_regwr == 1'b1) begin
+            else 
+            if (zxuno_addr == SRAMADDR && zxuno_regwr == 1'b1) begin
                 a <= {a[12:0],din};
                 state <= PROGRESS;
             end
@@ -163,7 +161,7 @@ module pzx_player (
                 state <= READTAG;
             end
         end
-        else if (state == PROGRESS) begin
+        else if (state == PROGRESS) begin            
             if (zxuno_regrd == 1'b0 && zxuno_regwr == 1'b0) begin
                 if (zxuno_addr == SRAMADDRINC)
                     state <= INCADD;
@@ -250,7 +248,7 @@ module pzx_player (
                 if (cduration == {duration,3'b000})
                     state <= READTAG;
                 else
-                    cduration <= cduration + 34'd1;
+                    cduration <= cduration + 1;
             end
             
             else if (state == PULSE1) begin
@@ -292,16 +290,21 @@ module pzx_player (
             end
             else if (state == PULSE5) begin
                 if (duration[15] == 1'b1) begin
-                    duration[30:16] <= duration[14:0];
-                    duration[7:0] <= data;
-                    a <= a + 1;
-                    lblock <= lblock - 1;
-                    state <= PULSE6;
+                    duration[23:16] <= duration[7:0];
+                    duration[30:24] <= duration[14:8];
+                    state <= PULSE55;
                 end
                 else begin
+                    duration[30:16] <= 15'h0000;
                     state <= DOPULSE;
                 end
             end
+            else if (state == PULSE55) begin
+                duration[7:0] <= data;
+                a <= a + 1;
+                lblock <= lblock - 1;
+                state <= PULSE6;
+            end                    
             else if (state == PULSE6) begin
                 duration[15:8] <= data;
                 a <= a + 1;
@@ -310,7 +313,7 @@ module pzx_player (
             end
             else if (state == DOPULSE) begin  // caso especial de duration=0
                 if (duration==32'h00000000) begin
-                    pulse <= pulsecounter[0];
+                    pulse <= pulse ^ pulsecounter[0];
                     state <= PULSE1;
                 end
                 else if (cduration == {duration,3'b000} ) begin
@@ -465,6 +468,11 @@ module pzx_player (
                     cduration <= cduration + 1;
                 end
             end                
+            else begin
+                state <= IDLE;
+                play_enabled <= 1'b0;
+                a <= 21'h0;
+            end
         end // de toda la FSM de reproduccion
     end
 endmodule

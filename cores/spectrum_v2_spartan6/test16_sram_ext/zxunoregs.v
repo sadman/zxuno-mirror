@@ -43,20 +43,20 @@ module zxunoregs (
 // Manages register addr ($00 - $FF)   
    reg [7:0] raddr = 8'h00;
    assign addr = raddr;
-   reg rregaddr_changed = 1'b0;
-   assign regaddr_changed = rregaddr_changed;
+   //reg rregaddr_changed = 1'b0;
+   assign regaddr_changed = (!iorq_n && a==IOADDR && !wr_n); //rregaddr_changed;
    
    always @(posedge clk) begin
       if (!rst_n) begin
          raddr <= 8'h00;
-         rregaddr_changed <= 1'b1;
+         //rregaddr_changed <= 1'b1;
       end
       else if (!iorq_n && a==IOADDR && !wr_n) begin
          raddr <= din;
-         rregaddr_changed <= 1'b1;
+         //rregaddr_changed <= 1'b1;
       end
-      else
-         rregaddr_changed <= 1'b0;
+      //else
+         //rregaddr_changed <= 1'b0;
    end
     
    always @* begin
