@@ -1,0 +1,19 @@
+Hello,
+
+Welcome to the result of a little experiment - loader
+which loads data encoded as a tune.
+
+I have included the sources as well in case you are curious how it was done.
+Basically delay encoding combined with variable duty wave form.
+
+Apart from the included scripts, you will also
+need PZX tools to create the actual PZX and/or WAV.
+
+The loader source is included as well. Note that I have not bothered
+with precise timing, but it could be easily improved by setting
+the B register to correct values at appropriate places instead
+of the start of LDWAVE routine.
+
+Have fun,
+
+Patrik Rak
