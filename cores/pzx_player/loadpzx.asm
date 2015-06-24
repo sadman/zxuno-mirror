@@ -5,7 +5,7 @@ SRAMDATA         equ 0fdh
 SRAMADDRINC      equ 0fch
 SRAMADDR         equ 0fbh
 
-                 org 32768
+                 org 30000
 
 Main             proc
                  di
@@ -47,7 +47,7 @@ BucLDIR          ld a,SRAMDATA
                  endp
 
 Bloque           equ $
-                 incbin "tetris2.bin"
+                 incbin "ahh.bin"
 LBloque          equ $-Bloque
 
-                 end
+                 end Main
