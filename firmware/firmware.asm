@@ -809,7 +809,6 @@ romsu   cp      (hl)
 roms10  ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
-        ld      bc, zxuno_port+$100
         ld      a, $4
         ld      hl, $c000
         exx
@@ -1071,7 +1070,6 @@ upgra2  jp      nc, roms12
         jr      nz, upgra4
         ld      a, $2
         ld      hl, $e000
-        ld      bc, zxuno_port+$100
         exx
         ld      de, $0a80
         call    wrflsh
@@ -1099,7 +1097,6 @@ upgra5  jr      nc, upgra2
         jr      nz, upgra4
         ld      a, $4
         ld      hl, $c000
-        ld      bc, zxuno_port+$100
         exx
         ld      de, $0ac0
         call    wrflsh
@@ -2067,8 +2064,7 @@ wrflsh  dec     a
 savech  ret
         defs    126
       ELSE
-savech  ld      bc, zxuno_port+$100
-        ld      a, $2+1
+savech  ld      a, $2+1
         ld      hl, config
         exx
         ld      de, $0aa0
@@ -2108,6 +2104,7 @@ wrfls2  call    wrfls7
         out     (c), a
         ld      a, $20
         exx
+        ld      bc, zxuno_port+$100
 wrfls3  inc     b
         outi
         inc     b
@@ -2377,10 +2374,11 @@ wrfls5  ld      a, zxuno_port+$100>>8
         cpi
         ret     nz
         jp      pe, wrfls5
-wrfls6  ld      bc, zxuno_port+$100
-        exx
+wrfls6  exx
         push    af
+        push    hl
         wreg    flash_cs, 1
+        pop     hl
         pop     af
         jp      po, wrflsa
         ex      de, hl
