@@ -810,7 +810,7 @@ roms10  ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
         ld      bc, zxuno_port+$100
-        ld      a, $40
+        ld      a, $4
         ld      hl, $c000
         exx
         call    wrflsh
@@ -1069,7 +1069,7 @@ upgra2  jp      nc, roms12
         ld      hl, (tmpbuf+7)
         sbc     hl, de
         jr      nz, upgra4
-        ld      a, $20
+        ld      a, $2
         ld      hl, $e000
         ld      bc, zxuno_port+$100
         exx
@@ -1097,7 +1097,7 @@ upgra5  jr      nc, upgra2
         ld      hl, (tmpbuf+7)
         sbc     hl, de
         jr      nz, upgra4
-        ld      a, $40
+        ld      a, $4
         ld      hl, $c000
         ld      bc, zxuno_port+$100
         exx
@@ -1149,7 +1149,7 @@ upgra9  and     a
 upgraa  ld      a, 30
         sub     iyh
         call    alto saveme
-        ld      a, $40
+        ld      a, $4
         ld      hl, $4000
         exx
         call    wrflsh
@@ -2068,23 +2068,27 @@ savech  ret
         defs    126
       ELSE
 savech  ld      bc, zxuno_port+$100
-        ld      a, $20
+        ld      a, $2+1
         ld      hl, config
         exx
         ld      de, $0aa0
+        ex      af, af'
+wrflsa  ex      af, af'
+        dec     a
+        ret     z
 
 ; ------------------------
 ; Write to SPI flash
 ; Parameters:
-;    A: number of pages (256 bytes) to write
+;    A: number of segments ($1000 bytes) to write
 ;   DE: target address without last byte
 ;  BC': zxuno_port+$100 (constant)
 ;  HL': source address from memory
 ; ------------------------
 wrflsh  ex      af, af'
-        xor     a
         ld      bc, zxuno_port+$100
-wrfls1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+wrfls1  xor     a
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
@@ -2093,7 +2097,7 @@ wrfls1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         out     (c), e
         out     (c), a
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-wrfls2  call    waits5
+wrfls2  call    wrfls7
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
@@ -2124,24 +2128,11 @@ wrfls3  inc     b
         jr      nz, wrfls3
         exx
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        ex      af, af'
-        dec     a
-        jr      z, waits5
-        ex      af, af'
-        inc     e
+        inc     de
         ld      a, e
         and     $0f
         jr      nz, wrfls2
-        ld      hl, wrfls1
-        push    hl
-waits5  wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 5    ; envío read status
-        in      a, (c)
-waits6  in      a, (c)
-        and     1
-        jr      nz, waits6
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        ret
+        jp      wrfls4
       ENDIF
 
 ; ------------------------
@@ -2202,6 +2193,7 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
+        block   $0ee2-$
 lbytes  di                      ; disable interrupts
         ld      a, $0f          ; make the border white and mic off.
         out     ($fe), a        ; output to port.
@@ -2362,6 +2354,46 @@ get16   ld      b, 0
         jr      nc, get16
         ret
 
+      IF debug=0
+wrfls4  call    wrfls7
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
+        ld      hl, $fff0
+        add     hl, de
+        out     (c), h
+        out     (c), l
+        xor     a
+        out     (c), a
+        in      f, (c)
+        exx
+        ld      bc, $1000
+        sbc     hl, bc
+wrfls5  ld      a, zxuno_port+$100>>8
+        in      a, (zxuno_port&$ff)
+        cpi
+        jr      nz, wrfls6
+        ld      a, zxuno_port+$100>>8
+        in      a, (zxuno_port&$ff)
+        cpi
+        ret     nz
+        jp      pe, wrfls5
+wrfls6  ld      bc, zxuno_port+$100
+        exx
+        push    af
+        wreg    flash_cs, 1
+        pop     af
+        jp      po, wrflsa
+        ex      de, hl
+        jp      wrfls1
+wrfls7  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 5    ; envío read status
+        in      a, (c)
+wrfls8  in      a, (c)
+        and     1
+        jr      nz, wrfls8
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        ret
+      ENDIF
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
