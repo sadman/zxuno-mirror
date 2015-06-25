@@ -31,8 +31,8 @@ srec_cat  tld_zxuno.mcs   -Intel                    ^
 srec_cat  prom.mcs     -Intel       ^
           -o tld_zxuno.bin  -binary
 ..\fcut tld_zxuno.bin 00000 54000 machine.bin
-GenRom 0 202 0 0 0 'BIOS' ..\firmware.rom firmware.tap
-GenRom 0 0 0 0 0 'ESXDOS' ESXMMC086b4.BIN  esxdos.tap
-GenRom 0 0 0 0 0 'Machine' machine.bin  machine.tap
+GenRom 0 202 0 0 0 BIOS ..\firmware.rom firmware.tap
+GenRom 0 0 0 0 0 ESXDOS ESXMMC086b4.BIN  esxdos.tap
+GenRom 0 0 0 0 0 Machine machine.bin  machine.tap
 CgLeches firmware.tap firmware.wav
 CgLeches machine.tap  machine.wav

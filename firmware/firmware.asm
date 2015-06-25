@@ -2359,7 +2359,6 @@ wrfls4  call    wrfls7
         add     hl, de
         out     (c), h
         out     (c), l
-        xor     a
         out     (c), a
         in      f, (c)
         exx
@@ -2374,7 +2373,8 @@ wrfls5  ld      a, zxuno_port+$100>>8
         cpi
         ret     nz
         jp      pe, wrfls5
-wrfls6  exx
+wrfls6  add     hl, bc
+        exx
         push    af
         push    hl
         wreg    flash_cs, 1
@@ -2382,6 +2382,10 @@ wrfls6  exx
         pop     af
         jp      po, wrflsa
         ex      de, hl
+        exx
+        ld      de, $f000
+        add     hl, de
+        exx
         jp      wrfls1
 wrfls7  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 5    ; envío read status
