@@ -101,7 +101,7 @@ module async_ram (
     output wire [7:0] d
     );
     
-    reg [7:0] ram[0:65536];  // 64K de RAM, para probar solamente
+    reg [7:0] ram[0:65535];  // 64K de RAM, para probar solamente
     integer i;
     initial begin
         for (i=0;i<65536;i=i+1)

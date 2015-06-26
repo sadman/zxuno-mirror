@@ -125,6 +125,7 @@ module pzx_player (
     reg [7:0] databyte = 8'h00;
     reg [3:0] countbits = 4'd0;
     reg pulse = 1'b0;
+    reg next_pulse = 1'b0;
     assign pulse_out = pulse;
     assign playing = play_enabled;
     
