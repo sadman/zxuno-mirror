@@ -2383,6 +2383,8 @@ wrfls6  add     hl, bc
         ld      de, $f000
         add     hl, de
         exx
+        ld      a, 2
+        out     ($fe), a
         jp      wrfls1
 wrfls7  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 5    ; envío read status
@@ -3250,7 +3252,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.228', 0
+        defm    'ZX-Uno BIOS v0.229', 0
         defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3285,7 +3287,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.228    ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.229    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
