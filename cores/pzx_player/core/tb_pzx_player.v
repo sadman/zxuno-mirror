@@ -106,7 +106,7 @@ module async_ram (
     initial begin
         for (i=0;i<65536;i=i+1)
             ram[i] = 8'h00;
-        $readmemh ("pulsos.hex", ram);
+        $readmemh ("carga_estandar.hex", ram);
     end
     
     assign #10 d = ram[a];
