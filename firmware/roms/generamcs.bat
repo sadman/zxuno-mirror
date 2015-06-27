@@ -36,3 +36,8 @@ GenRom 0 0 0 0 0 ESXDOS ESXMMC086b4.BIN  esxdos.tap
 GenRom 0 0 0 0 0 Machine machine.bin  machine.tap
 CgLeches firmware.tap firmware.wav
 CgLeches machine.tap  machine.wav
+copy /b machine.bin+            ^
+        machine.bin+            ^
+        roms_a8000.bin          ^
+    zxuno.flash
+     
