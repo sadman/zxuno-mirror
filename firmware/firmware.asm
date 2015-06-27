@@ -1159,7 +1159,7 @@ upgra7  cp      $45
         ld      hl, cad60
         ld      bc, cad61-cad60
         ldir
-        call    romcyb 
+        call    romcyb
         ld      ix, tmpbuf+$40
         call_prnstr
 upgra8  ld      a, (tmpbuf+$53 & $ff)*2
@@ -2696,7 +2696,8 @@ conti9  ld      a, 0
 ; Put page A in mode 1 and copies from 4000 to C000
 ;      A: page number
 ; -------------------------------------
-copyme  ld      bc, zxuno_port+$100
+copyme  di
+        ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         ld      de, $c000 | master_mapper
         dec     b
@@ -2727,6 +2728,7 @@ copyme  ld      bc, zxuno_port+$100
         add     hl, hl
         ex      (sp), hl
         push    de
+        ei
         ret
 
 ; -------------------------------------
