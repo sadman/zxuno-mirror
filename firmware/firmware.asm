@@ -82,7 +82,7 @@ rst38   push    af
         push    bc
         push    de
         push    hl
-        ld      de, keytab-1&$ff
+        ld      de, keytab-1 & $ff
         ld      bc, $fefe
         ld      l, d
 keyscn  in      a, (c)
@@ -105,9 +105,9 @@ keysc1  inc     l
         jr      z, keysc4
         xor     a
         jr      keysc6
-keysc2  ld      e, 39+keytab&$ff
+keysc2  ld      e, 39+keytab & $ff
         defb    $c2                     ;JP NZ,xxxx
-keysc3  ld      e, 79+keytab&$ff
+keysc3  ld      e, 79+keytab & $ff
 keysc4  ex      af, af'
         jr      nz, keysc1
 keysc5  ld      a, h
@@ -368,7 +368,7 @@ bios7   dec     c
         ld      h, a
         ld      a, l
         add     a, a
-        add     a, jmptbl&$ff
+        add     a, jmptbl & $ff
         ld      l, a
         ld      c, (hl)
         inc     l
@@ -397,7 +397,7 @@ mainy   ld      a, 11
         ld      ixl, a
         djnz    mainy
         push    hl
-        ld      bc, $0f0a-active&$ffff
+        ld      bc, $0f0a-active & $ffff
         add     hl, bc
         ld      c, l
         ld      b, h
@@ -405,7 +405,7 @@ mainy   ld      a, 11
         pop     hl
         inc     l
         bit     0, l
-        ld      ixl, cad73-11&$ff
+        ld      ixl, cad73-11 & $ff
         jr      z, mainz
 main1   ld      a, (hl)
         ld      ix, cad24
@@ -416,7 +416,7 @@ main2   push    hl
         call_prnstr
         pop     hl
         inc     l
-        ld      a, keyiss&$ff
+        ld      a, keyiss & $ff
         cp      l
         jr      nz, main1
         ld      a, (hl)
@@ -454,7 +454,7 @@ mait8   dec     a
 mait9   push    hl
         call_prnstr
         pop     hl
-        ld      a, nmidiv&$ff
+        ld      a, nmidiv & $ff
         cp      l
         jr      nz, mait7
         ld      de, $1201
@@ -486,70 +486,8 @@ mait9   push    hl
         defw    cad65
         defw    cad18
         defw    cad19
-        jr      c, main6
-        ld      (menuop+1), a
-        cp      4
-        ld      h, active >> 8
-        jr      c, main5
-        add     a, active-3&$ff
-        ld      l, a
-        sub     joysly&$ff
-        jr      z, mait0
-        jr      c, maita
-        sub     3
-        jr      z, main4
-        jr      nc, mait2
-mait1   call    popupw
-        defw    cad28
-        defw    cad29
-        defw    $ffff
-        ret
-maita   call    popupw
-        defw    cad74
-        defw    cad75
-        defw    cad76
-        defw    cad77
-        defw    $ffff
-        ret
-mait0   call    popupw
-        defw    cad78
-        defw    cad79
-        defw    cad80
-        defw    cad81
-        defw    cad82
-        defw    cad83
-        defw    $ffff
-        ret
-main4   call    popupw
-        defw    cad30
-        defw    cad31
-        defw    cadv2
-        defw    $ffff
-        ret
-mait2   dec     a
-        jr      nz, mait3
-        call    popupw
-        defw    cadv3
-        defw    cadv4
-        defw    cadv2
-        defw    $ffff
-        ret
-mait3   call    popupw
-        defw    cad28
-        defw    cad29
-        defw    cadv2
-        defw    $ffff
-        ret
-main5   and     a
-        jp      z, alto ramtst
-        dec     a
-        dec     a
-        jr      z, tape
-        ld      l, siemp0&$ff
-        call    popupw
-        defw    cad23
-        defw    $ffff
-        ret
+        jr      nc, maine
+
 main6   cp      $0c
         call    z, roms8
         cp      $16
@@ -594,6 +532,140 @@ maind   dec     a
         cp      6
         jr      z, main9
         jr      mainb
+
+maine   ld      (menuop+1), a
+        cp      4
+        ld      h, active >> 8
+        jr      c, main5
+        add     a, active-3 & $ff
+        ld      l, a
+        sub     joysly & $ff
+        jr      z, mait0
+        jr      c, maita
+        sub     3
+        jr      z, main4
+        jr      nc, mait2
+mait1   call    popupw
+        defw    cad28
+        defw    cad29
+        defw    $ffff
+        ret
+maita   call    popupw
+        defw    cad74
+        defw    cad75
+        defw    cad76
+        defw    cad77
+        defw    $ffff
+        ret
+mait0   call    popupw
+        defw    cad78
+        defw    cad79
+        defw    cad80
+        defw    cad81
+        defw    cad82
+        defw    cad83
+        defw    $ffff
+        ret
+
+main4   call    popupw
+        defw    cad30
+        defw    cad31
+        defw    cadv2
+        defw    $ffff
+        ret
+mait2   dec     a
+        jr      nz, mait3
+        call    popupw
+        defw    cadv3
+        defw    cadv4
+        defw    cadv2
+        defw    $ffff
+        ret
+mait3   call    popupw
+        defw    cad28
+        defw    cad29
+        defw    cadv2
+        defw    $ffff
+        ret
+main5   and     a
+        jp      z, alto ramtst
+        dec     a
+        jr      nz, maitb
+        ld      l, siemp0 & $ff
+        call    popupw
+        defw    cad23
+        defw    $ffff
+        ret
+maitb   dec     a
+        jr      z, tape
+        call    bomain
+        ld      c, $12
+        ld      ix, cad86
+        call_prnstr
+        ld      c, $15
+        call_prnstr
+        ld      de, $4861
+        ld      a, '1'<<1
+.pos0   ld      l, a
+        ld      h, $2c
+        add     hl, hl
+        add     hl, hl
+        ld      b, 8
+.pos00  ld      a, (hl)
+        ld      (de), a
+        inc     l
+        inc     d
+        djnz    .pos00
+        ld      hl, $f802
+        add     hl, de
+        ex      de, hl
+        ld      a, (ix)
+        inc     ix
+        add     a, a
+        jr      nc, .pos0
+        push    af
+        ld      a, $2c
+        add     a, e
+        ld      e, a
+        jr      nc, .pos01
+        ld      d, $50
+.pos01  pop     af
+        jr      nz, .pos0
+        add     a, $fe
+        ld      de, $004a
+.buc1   ld      hl, $5a6f-4
+.buc2   sbc     hl, de
+        push    af
+        in      a, ($fe)
+        ld      b, 5
+.buc3   ld      (hl), 7
+        rrca
+        jr      c, .buc4
+        ld      (hl), $4e
+.buc4   inc     hl
+        inc     hl
+        djnz    .buc3
+        pop     af
+        rlca
+        cp      $ef
+        jr      nz, .buc2
+        ld      l, $77-4
+.buc5   push    af
+        in      a, ($fe)
+        ld      b, 5
+.buc6   ld      (hl), 7
+        rrca
+        jr      c, .buc7
+        ld      (hl), $4e
+.buc7   dec     hl
+        dec     hl
+        djnz    .buc6
+        add     hl, de
+        pop     af
+        rlca
+        jr      c, .buc5
+        jr      .buc1
+
 
 tape    call    bomain
         call_prnstr
@@ -1030,7 +1102,7 @@ roms21  dec     hl
 roms22  dec     l
         ex      de, hl
         ld      h, empstr>>8
-        ld      a, empstr-1&$ff
+        ld      a, empstr-1 & $ff
         add     a, c
         ld      l, a
         lddr
@@ -1338,8 +1410,8 @@ boot3   ld      l, (iy)
         sub     2
         sub     iyl
         jr      nc, boot3
-        ld      (ix+0), cad6&$ff
-        ld      (ix+1), cad6>>8
+        ld      (ix+0), cad6 & $ff
+        ld      (ix+1), cad6 >> 8
         ld      (ix+3), a
         ld      a, (items+1)
         ld      e, a
@@ -1550,7 +1622,7 @@ input1  push    bc
         push    ix
         pop     hl
         ld      a, l
-        sub     empstr+1&$ff
+        sub     empstr+1 & $ff
         ld      (items), a
         ld      r, a
         ld      e, a
@@ -1567,7 +1639,7 @@ input2  ld      de, (offsel)
 input3  ld      (hl), e
         inc     l
         ld      a, l
-        sub     empstr+2&$ff
+        sub     empstr+2 & $ff
         sub     d
         jr      nz, input3
         ld      (hl), a
@@ -1645,7 +1717,7 @@ input8  ld      hl, (offsel)
         ld      c, a
         ld      b, 0
         ld      a, l
-        add     a, empstr&$ff
+        add     a, empstr & $ff
         ld      l, a
         ld      h, empstr>>8
         ld      d, h
@@ -1668,9 +1740,9 @@ inputc  jp      input1
 inputd  cp      h
         jr      z, input6
         ld      a, l
-        add     a, empstr&$ff
+        add     a, empstr & $ff
         ld      l, a
-        ld      h, empstr>>8
+        ld      h, empstr >> 8
         ld      a, (codcnt)
         inc     (hl)
         dec     (hl)
@@ -1682,12 +1754,12 @@ inpute  ld      hl, (offsel)
         inc     l
         jr      inputa
 inputf  ex      af, af'
-        ld      a, empstr+33&$ff
+        ld      a, empstr+33 & $ff
         sub     l
         push    bc
         ld      c, a
         ld      b, 0
-        ld      l, empstr+32&$ff
+        ld      l, empstr+32 & $ff
         ld      de, empstr+33
         lddr
         inc     l
@@ -2084,14 +2156,14 @@ bomain  ld      ix, cad67
         call_prnstr             ; Performing...
         inc     c
         ld      iyh, 7
-ramts1  ld      ixl, cad68&$ff
+ramts1  ld      ixl, cad68 & $ff
         call_prnstr
         dec     iyh
         jr      nz, ramts1
         ld      bc, $0212
         ld      ix, cad505
         call_prnstr
-        ld      ixl, cad505&$ff
+        ld      ixl, cad505 & $ff
         call_prnstr
         ret
 
@@ -2162,7 +2234,7 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
-        block   $0ee2-$
+        display $
 lbytes  di                      ; disable interrupts
         ld      a, $0f          ; make the border white and mic off.
         out     ($fe), a        ; output to port.
@@ -2413,7 +2485,7 @@ wrfls3  inc     b
         ld      bc, $1000
         sbc     hl, bc
 wrfls5  ld      a, zxuno_port+$100>>8
-        in      a, (zxuno_port&$ff)
+        in      a, (zxuno_port & $ff)
         cpi
         jr      nz, wrfls6
         jp      pe, wrfls5
@@ -2657,7 +2729,7 @@ conti5  ld      a, master_mapper
         ld      de, cad55+33
         call    alto wtohex
         pop     hl
-        ld      e, cad55+19&$ff
+        ld      e, cad55+19 & $ff
         call    alto wtohex
         ld      ix, cad55
         ld      bc, $0016
@@ -2848,7 +2920,7 @@ ramts3  ld      de, cad71
         dec     c
         inc     b
         inc     b
-        ld      ixl, cad69&$ff
+        ld      ixl, cad69 & $ff
         ld      hl, $c000
 ramts4  ld      a, (hl)
         xor     l
@@ -2860,7 +2932,7 @@ ramts4  ld      a, (hl)
         xor     l
         xor     e
         jr      z, ramts5
-        ld      ixl, cad70&$ff
+        ld      ixl, cad70 & $ff
 ramts5  inc     hl
         bit     4, h
         jr      z, ramts4
@@ -3349,7 +3421,7 @@ cad10   defb    'Hardware tests', 0
         defb    $1b, ' Memory test', 0
         defb    $1b, ' Sound test', 0
         defb    $1b, ' Tape test', 0
-        defb    $1b, ' Video test', 0
+        defb    $1b, ' Input test', 0
         defb    ' ', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
@@ -3545,11 +3617,6 @@ cad65   defb    'Memory usually', 0
         defb    'Pentagon 128K', 0, 0
 cad66   defb    'Performs a', 0
         defb    'tape test', 0, 0
-cad67   defb    'Performing...', 0
-cad68   defb    '                       ', 0
-cad69   defb    ' OK', 0
-cad70   defb    ' Er', 0
-cad71   defb    '00', 0
 cad72   defb    '[Spanish] ', 0
         defb    '[English] ', 0
         defb    '[SpeccyAV]', 0
@@ -3574,6 +3641,18 @@ cad84   defb    'Select layout', 0
         defb    'for keyboard', 0, 0
 cad85   defb    'Joystick', 0
         defb    'selection', 0, 0
+cad67   defb    'Performing...', 0
+cad68   defb    '                       ', 0
+cad69   defb    ' OK', 0
+cad70   defb    ' Er', 0
+cad71   defb    '00', 0
+cad86   defb    'Kempston     Fuller', 0
+        defb    'Break key to return', 0
+        defb             '234567890'
+        defb    'Q'+$80, 'WERTYUIOP'
+        defb    'A'+$80, 'SDFGHJKLe'
+        defb    'c'+$80, 'ZXCVBNMsb'
+        defb    $1e+$80, $1f, $1c, $1d, 'o', $1e, $1f, $1c, $1d, 'o', $80
 fincad
 
 ; todo
