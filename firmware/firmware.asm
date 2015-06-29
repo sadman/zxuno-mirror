@@ -597,7 +597,7 @@ main5   and     a
         defw    $ffff
         ret
 maitb   dec     a
-        jr      z, tape
+      jp      z, tape
         call    bomain
         ld      c, $12
         ld      ix, cad86
@@ -623,17 +623,17 @@ maitb   dec     a
         inc     ix
         add     a, a
         jr      nc, .pos0
-        push    af
+        ex      af, af'
         ld      a, $2c
         add     a, e
         ld      e, a
         jr      nc, .pos01
         ld      d, $50
-.pos01  pop     af
+.pos01  ex      af, af'
         jr      nz, .pos0
-        add     a, $fe
-        ld      de, $004a
-.buc1   ld      hl, $5a6f-4
+.buc0   add     a, $fe
+.buc1   ld      de, $004a
+        ld      hl, $5a6f-4
 .buc2   sbc     hl, de
         push    af
         in      a, ($fe)
@@ -664,8 +664,32 @@ maitb   dec     a
         pop     af
         rlca
         jr      c, .buc5
-        jr      .buc1
+        ld      a, ($5a33)
+        ld      e, a
+        ld      a, ($5a21)
+        add     a, e
+        ret     m
+        in      a, ($7f)
+        add     a, $80
+        inc     b
+        call    .bup1
+        ld      b, 4
+        call    .bupi
+        in      a, ($1f)
+        cpl
+        ld      b, 5
+        call    .bupi
+        xor     a
+        jr      .buc0
 
+.bupi   dec     l
+        dec     l
+        rrca
+.bup1   ld      (hl), 7
+        jr      c, .bup2
+        ld      (hl), $4e
+.bup2   djnz    .bupi
+        ret
 
 tape    call    bomain
         call_prnstr
@@ -3378,28 +3402,28 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
-cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.230', 0
-        defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
-        defm    'Processor: Z80 3.5MHz', 0
-        defm    'Memory:    512K Ok', 0
-        defm    'Graphics:  normal, hi-color', 0
-        defm    'hi-res, ULAplus', 0
-        defm    'Booting:', 0
-        defm    'Press <Edit> to Setup    <Break> Boot Menu', 0
+cad1    defb    'http://zxuno.speccy.org', 0
+        defb    'ZX-Uno BIOS v0.230', 0
+        defb    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
+        defb    'Processor: Z80 3.5MHz', 0
+        defb    'Memory:    512K Ok', 0
+        defb    'Graphics:  normal, hi-color', 0
+        defb    'hi-res, ULAplus', 0
+        defb    'Booting:', 0
+        defb    'Press <Edit> to Setup    <Break> Boot Menu', 0
 cad2    defb    $12, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
-        defm    $10, '   Please select boot machine:    ', $10, 0
+        defb    $10, '   Please select boot machine:    ', $10, 0
 cad3    defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $17, 0
-cad4    defm    $10, '                                  ', $10, 0
-cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 0
-        defm    $10, '   ENTER to select boot machine   ', $10, 0
-        defm    $10, '    ESC to boot using defaults    ', $10, 0
+cad4    defb    $10, '                                  ', $10, 0
+cad5    defb    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 0
+        defb    $10, '   ENTER to select boot machine   ', $10, 0
+        defb    $10, '    ESC to boot using defaults    ', $10, 0
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -3409,8 +3433,8 @@ cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
         defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $19, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
-cad8    defm    $10, '                         ', $10, '              ', $10, 0
-        defm    $10, 0
+cad8    defb    $10, '                         ', $10, '              ', $10, 0
+        defb    $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
@@ -3442,6 +3466,11 @@ cad11   defb    ' ', $10, 0
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
         defb    ' ', $10, 0, 0
 cad12   defb    'Name               Slot', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
@@ -3462,8 +3491,8 @@ cad15   defb    'Performs a', 0
         defb    'sound test on', 0
         defb    'your system', 0, 0
 cad16   defb    'Performs a', 0
-        defb    'video test on', 0
-        defb    'your system', 0, 0
+        defb    'keyboard &', 0
+        defb    'joystick test', 0, 0
 cad17   defb    'Hide the whole', 0
         defb    'boot screen', 0
         defb    'when enabled', 0, 0
@@ -3652,7 +3681,7 @@ cad86   defb    'Kempston     Fuller', 0
         defb    'Q'+$80, 'WERTYUIOP'
         defb    'A'+$80, 'SDFGHJKLe'
         defb    'c'+$80, 'ZXCVBNMsb'
-        defb    $1e+$80, $1f, $1c, $1d, 'o', $1e, $1f, $1c, $1d, 'o', $80
+        defb    'o'+$80, $1c, $1d, $1e, $1f, $1f, $1e, $1d, $1c, 'o', $80
 fincad
 
 ; todo
