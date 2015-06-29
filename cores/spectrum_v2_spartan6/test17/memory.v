@@ -71,6 +71,7 @@ module memory (
    reg timming = 1'b0;
    reg disable_cont = 1'b0;
    reg masterconf_frozen = 1'b0;
+   reg [1:0] negedge_configrom = 2'b00;
 
    assign issue2_keyboard_enabled = issue2_keyboard;
    assign in_boot_mode = ~masterconf_frozen;
@@ -78,9 +79,18 @@ module memory (
    assign disable_contention = disable_cont;
 
    always @(posedge clk) begin
+      negedge_configrom <= {negedge_configrom[0], page_configrom_active};
       if (!mrst_n) begin
          {disable_cont,timming,issue2_keyboard,divmmc_nmi_is_disabled,divmmc_is_enabled,initial_boot_mode} <= 6'b000001;
          masterconf_frozen <= 1'b0;
+      end
+      else if (page_configrom_active == 1'b1) begin
+        masterconf_frozen <= 1'b0;
+        initial_boot_mode <= 1'b1;
+      end
+      else if (negedge_configrom == 2'b10) begin
+        masterconf_frozen <= 1'b1;
+        initial_boot_mode <= 1'b0;
       end
       else if (addr==MASTERCONF && iow) begin
          {disable_cont,timming,issue2_keyboard} <= din[5:3];
@@ -192,10 +202,6 @@ module memory (
             oe_memory_n = 1'b1;
             oe_bootrom_n = 1'b0;
             we2_n = 1'b1;
-         end
-         else if (page_configrom_active == 1'b1) begin
-            //addr_port2 = {5'd13, a[13:0]};  // página 13 de SRAM: 34000h - 37FFFh   0011 01 00 0000 0000 0000
-            addr_port2 = {5'd7, a[13:0]};  // pagina 7 de RAM, sólo para probar
          end
          else begin  // estamos en modo normal de ejecución
 

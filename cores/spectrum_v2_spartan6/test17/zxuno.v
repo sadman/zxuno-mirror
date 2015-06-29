@@ -24,7 +24,10 @@ module zxuno (
     // Relojes
     input wire clk,      // 28MHz, reloj del sistema
     input wire wssclk,   //  5MHz, reloj de la señal WSS
-	 input wire power_on_reset_n,
+    input wire clk14,
+    input wire clk7,
+    input wire clk3d5,
+    input wire power_on_reset_n,
     
     // E/S
     output wire [2:0] r,
@@ -82,8 +85,6 @@ module zxuno (
    wire [7:0] ay_dout;
    wire bc1,bdir;
    wire oe_n_ay;   
-   wire clkay;  // suministrado por la ULA (3.5MHz)
-   wire clkdac; // suministrado por la ULA (7MHz)
 
    // Señales de acceso a registro de direcciones ZX-Uno
    wire [7:0] zxuno_addr_to_cpu;  // al bus de datos de entrada del Z80
@@ -105,9 +106,8 @@ module zxuno (
    wire [7:0] ay2_audio;
    
    // Interfaz de acceso al teclado
-   wire clkkbd;  // suministrado por la ULA (218kHz)
    wire [4:0] kbdcol;
-   wire [7:0] kbdrow;
+   wire [7:0] kbdrow = cpuaddr[15:8];  // las filas del teclado son A8-A15 de la CPU;
    wire mrst_n,rst_n;  // los dos resets suministrados por el teclado
    wire [7:0] scancode_dout;  // scancode original desde el teclado PC
    wire oe_n_scancode;
@@ -142,8 +142,6 @@ module zxuno (
    wire oe_n_nmievents;
    wire nmispecial_n;
    wire page_configrom_active;
-   
-   assign kbdrow = cpuaddr[15:8];  // las filas del teclado son A8-A15 de la CPU
 
    // Asignación de dato para la CPU segun la decodificación de todos los dispositivos
    // conectados a ella.
@@ -181,17 +179,12 @@ module zxuno (
       .di(cpudin)
   );
 
-   reg [1:0] clkdiv = 2'b00;
-   wire clk14 = clkdiv[0];
-   wire clk7 = clkdiv[1];
-   always @(posedge clk)
-      clkdiv <= clkdiv + 1;
-   
    ula_radas la_ula (
-	 // Clocks
-    .clk14(clk14),     // 14MHz master clock
-    .wssclk(wssclk),   // 5MHz WSS clock
-    .rst_n(mrst_n & rst_n & power_on_reset_n),
+	  // Clocks
+     .clk14(clk14),     // 14MHz master clock
+     .clk7(clk7),
+     .wssclk(wssclk),   // 5MHz WSS clock
+     .rst_n(mrst_n & rst_n & power_on_reset_n),
 
 	 // CPU interface
 	 .a(cpuaddr),
@@ -214,9 +207,6 @@ module zxuno (
      .mic(mic),
      .spk(spk),
 	 .kbd(kbdcol_to_ula),
-     .clkay(clkay),
-     .clkdac(clkdac),
-     .clkkbd(clkkbd),
      .issue2_keyboard(issue2_keyboard),
      .timming(timming_ula),
      .disable_contention(disable_contention),
@@ -229,7 +219,7 @@ module zxuno (
     );
 
    zxunoregs addr_reg_zxuno (
-      .clk(clk7),
+      .clk(clk),
       .rst_n(rst_n & mrst_n & power_on_reset_n),
       .a(cpuaddr),
       .iorq_n(iorq_n),
@@ -245,7 +235,7 @@ module zxuno (
    );
 
    flash_and_sd cacharros_con_spi (
-      .clk(clk7),
+      .clk(clk),
       .a(cpuaddr),
       .iorq_n(iorq_n),
       .rd_n(rd_n),
@@ -257,7 +247,7 @@ module zxuno (
       .dout(spi_dout),
       .oe_n(oe_n_spi),
    
-      .in_boot_mode(in_boot_mode | page_configrom_active),
+      .in_boot_mode(in_boot_mode),
       .flash_cs_n(flash_cs_n),
       .flash_clk(flash_clk),
       .flash_di(flash_di),
@@ -271,7 +261,7 @@ module zxuno (
 
    memory bootrom_rom_y_ram (
    // Relojes y reset
-      .clk(clk7),        // Reloj del sistema CLK7
+      .clk(clk),        // Reloj del sistema CLK7
       .mclk(clk),        // Reloj para el modulo de memoria de doble puerto
       .mrst_n(mrst_n & power_on_reset_n),
       .rst_n(rst_n & power_on_reset_n),
@@ -310,19 +300,6 @@ module zxuno (
       .sram_we_n(sram_we_n)
    );
 
-//    ps2k el_teclado (
-//      .clk(clkkbd),
-//      .ps2clk(clkps2),
-//      .ps2data(dataps2),
-//      .rows(kbdrow),
-//      .cols(kbdcol),
-//      .joy(kbd_joy), // Implementación joystick kempston en teclado numerico
-//      .scancode(scancode),  // El scancode original desde el teclado
-//      .rst(rst_n),   // esto son salidas, no entradas
-//      .nmi(nmi_n),   // Señales de reset y NMI
-//      .mrst(mrst_n)  // generadas por pulsaciones especiales del teclado
-//      );
-
     ps2_keyb el_teclado (
       .clk(clk),
       .clkps2(clkps2),
@@ -347,7 +324,6 @@ module zxuno (
       .kbstatus_dout(kbstatus_dout),
       .oe_n_kbstatus(oe_n_kbstatus)
       );
-
 
     joystick_protocols los_joysticks (
         .clk(clk),
@@ -424,8 +400,8 @@ module zxuno (
   assign bc1 = (cpuaddr[15] && cpuaddr[1:0]==2'b01 && cpuaddr[14] && !iorq_n)? 1'b1 : 1'b0;                                                              
 
   turbosound dos_ays (
-	 .clk7(clk7),
-    .clkay(clkay),
+    .clk(clk),
+    .clkay(clk3d5),
     .reset_n(rst_n & mrst_n & power_on_reset_n),
     .bdir(bdir),
     .bc1(bc1),
@@ -436,34 +412,12 @@ module zxuno (
     .audio_out_ay2(ay2_audio)
 	 );
   
-//  YM2149 ay1 (
-//  .I_DA(cpudout),
-//  .O_DA(ay_dout),
-//  .O_DA_OE_L(oe_n_ay),
-//  .I_A9_L(1'b0),
-//  .I_A8(1'b1),
-//  .I_BDIR(bdir),
-//  .I_BC2(1'b1),
-//  .I_BC1(bc1),
-//  .I_SEL_L(1'b0),
-//  .O_AUDIO(ay1_audio),
-//  .I_IOA(8'h00),
-//  .O_IOA(),
-//  .O_IOA_OE_L(),
-//  .I_IOB(8'h00),
-//  .O_IOB(),
-//  .O_IOB_OE_L(),
-//  .ENA(1'b1),
-//  .RESET_L(rst_n & mrst_n & power_on_reset_n),  // cualquiera de los dos resets
-//  .CLK(clkay)
-//  );
-
 ///////////////////////////////////
 // SOUND MIXER
 ///////////////////////////////////
    // 8-bit mixer to generate different audio levels according to input sources
 	mixer audio_mix(
-		.clkdac(clkdac),
+		.clkdac(clk),
 		.reset(1'b0),
 		.mic(mic),
 		.spk(spk),

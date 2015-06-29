@@ -40,7 +40,7 @@ module coreid (
       text[ 2] = "7";
       text[ 3] = "-";
       text[ 4] = "2";
-      text[ 5] = "8";
+      text[ 5] = "9";
       text[ 6] = "0";
       text[ 7] = "6";
       text[ 8] = "2";
