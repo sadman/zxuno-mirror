@@ -41,4 +41,9 @@ rst30   pop     hl
         outi
         jp      (hl)
 
+rst38   jp      $c003
+        defb    'ZX-Uno bootloader v0.2 2015-06-29 AC000->R8'
+nmi66   jp      $c000
+        retn
+
         ;block   $4000-$
