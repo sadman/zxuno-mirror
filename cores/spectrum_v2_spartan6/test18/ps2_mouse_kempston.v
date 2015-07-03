@@ -54,6 +54,7 @@ module ps2_mouse_kempston (
     wire ps2busy;
     wire ps2error;
     wire nuevo_evento;
+    wire [1:0] state_out;
     assign mousedata_dout = mousedata;
     
     wire kmouse_x_req_n    = ~(!iorq_n && !rd_n && a[7:0]==8'hDF && a[8]==1'b1 && a[9]==1'b1 && a[10]==1'b0);

@@ -56,7 +56,7 @@ module ps2_port (
     always @(posedge clk) begin
         negedgedetect <= {negedgedetect[14:0], ps2clk};
     end
-    wire ps2clkedge = (negedgedetect == 16'hFF00)? 1'b1 : 1'b0;
+    wire ps2clkedge = (negedgedetect == 16'hF000)? 1'b1 : 1'b0;
     
     // Paridad instantánea de los bits recibidos
     wire paritycalculated = ^key;
@@ -84,7 +84,6 @@ module ps2_port (
                     if (ps2data == 1'b0) begin
                         state <= `RCVDATA;
                         key <= 8'h80;
-                        //rkb_interrupt <= 1'b0;
                     end
                 end
                 `RCVDATA: begin

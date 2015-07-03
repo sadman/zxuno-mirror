@@ -73,6 +73,7 @@ module tld_zxuno (
 	assign wssclk = 1'b0;  // de momento, sin WSS
 	assign stdn = 1'b0;  // fijar norma PAL
 	assign stdnb = 1'b1; // y conectamos reloj PAL
+
 //   pll reloj_maestro
 //   (// Clock in ports
 //    .CLK_IN1            (clk50mhz),      // IN
@@ -83,15 +84,23 @@ module tld_zxuno (
 //    .PROGDATA           (1'b0),     // IN
 //    .PROGEN             (1'b0),       // IN
 //    .PROGDONE           ());    // OUT
+//
+//   reg [2:0] divclk = 3'b000;
+//   always @(posedge sysclk)
+//        divclk <= divclk + 1;
+//   assign clk14  = divclk[0];
+//   assign clk7   = divclk[1];
+//   assign clk3d5 = divclk[2];
 
   cuatro_relojes relojes_maestros
    (// Clock in ports
     .CLK_IN1            (clk50mhz),      // IN
     // Clock out ports
-    .CLK_OUT1           (sysclk),     // OUT
+    .CLK_OUT1           (sysclk) ,     // OUT
     .CLK_OUT2           (clk14),     // OUT
     .CLK_OUT3           (clk7),    // OUT
     .CLK_OUT4           (clk3d5));    // OUT
+
 
    wire audio_out;
    assign audio_out_left = audio_out;
