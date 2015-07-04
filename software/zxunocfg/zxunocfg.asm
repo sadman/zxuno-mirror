@@ -70,6 +70,10 @@ NoChCont            call PrintString
                     rst 10h
                     ld a,13
                     rst 10h
+
+                    call InitMouse
+                    ld hl,CurrConfString4
+                    call PrintString
                     ret
 
                     endp
@@ -249,29 +253,17 @@ GetCoreID           proc
                     ld a,255
                     out (c),a
                     inc b
-                    ld d,0   ;contador
-coreb0              in a,(c)
-                    inc d
-                    or a
-                    jr z,core0
-                    ld a,d
-                    cp 31
-                    ret z
-                    jr coreb0
-core0               ld d, 0
-coreb1              in a,(c)
-                    inc d
-                    or a
-                    jr nz,core1
-                    ld a,d
-                    cp 31
-                    ret z
-                    jr coreb1
-core1               ld hl,StringCoreID + 13
+                    in a,(c)
+                    ld hl,StringCoreID + 13
+                    ld d,32
 gettext             or a
                     jr z,finget
+                    cp 128
+                    jr nc,finget
                     ld (hl),a
                     inc hl
+                    dec d
+                    jr z,finget
                     in a,(c)
                     jr gettext
 finget              ld a,(hl)
@@ -281,6 +273,18 @@ finget              ld a,(hl)
                     inc hl
                     jr finget
 finrell             ret
+                    endp
+
+;------------------------------------------------------
+
+InitMouse           proc
+                    ld bc,ZXUNOADDR
+                    ld a,9
+                    out (c),a
+                    inc b
+                    ld a,0F4h
+                    out (c),a
+NoMouse             ret
                     endp
 
 ;------------------------------------------------------
@@ -316,6 +320,7 @@ CurrConfString2     db " Contention: ",0
 ContEnabledStr      db "ENABLED",13,0
 ContDisabledStr     db "DISABLED",13,0
 CurrConfString3     db "   Keyboard: ISSUE ",0
+CurrConfString4     db "      Mouse: initialized",13,0
 
 ErrorMsg            db "Invalid option. Use zxunocfg -","h"+80h
 
