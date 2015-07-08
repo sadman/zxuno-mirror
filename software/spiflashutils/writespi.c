@@ -164,8 +164,9 @@ BYTE commandlinemode (char *p)
 void usage (void)
 {
         // 01234567890123456789012345678901
-    puts (" WRITESPI file.bin\xd\xd"
-          "Writes a SPI Flash from a file.\xd");
+    puts (" WRITESPI file.bin size_in_kb\xd\xd"
+          "Writes size_in_kb kbytes to a\xd"
+          "SPI Flash from a file.\xd");
 }
 
 BYTE hexvalue (BYTE c)
@@ -193,25 +194,25 @@ BYTE getfilename (char *p, char *fname, WORD *kbytes)
 
 void enablespi (void)
 {
-    ZXUNOADDR = FLASHCS;
+    ZXUNOADDR = EXTCS;
     ZXUNODATA = 0;
 }
 
 void disablespi (void)
 {
-    ZXUNOADDR = FLASHCS;
+    ZXUNOADDR = EXTCS;
     ZXUNODATA = 1;
 }
 
 void writespi (BYTE n)
 {
-    ZXUNOADDR = FLASHSPI;
+    ZXUNOADDR = EXTSPI;
     ZXUNODATA = n;
 }
 
 BYTE readspi (void)
 {
-    ZXUNOADDR = FLASHSPI;
+    ZXUNOADDR = EXTSPI;
     return ZXUNODATA;
 }
 
