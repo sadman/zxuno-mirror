@@ -145,6 +145,8 @@
 <wire x1="73.64" y1="0" x2="73.64" y2="18.72" width="0" layer="20"/>
 <wire x1="73.64" y1="18.72" x2="0" y2="18.72" width="0" layer="20"/>
 <wire x1="0" y1="18.72" x2="0" y2="0" width="0" layer="20"/>
+<text x="71.755" y="4.28625" size="1.778" layer="22" rot="MR0">Interface II jul2015</text>
+<text x="44.45" y="4.28625" size="1.778" layer="22" rot="MR0">AntonioVillena</text>
 </plain>
 <libraries>
 <library name="switch-omron">

@@ -76,6 +76,8 @@
 <wire x1="41.89" y1="0" x2="41.89" y2="24.673125" width="0" layer="20"/>
 <wire x1="41.89" y1="24.673125" x2="0" y2="24.673125" width="0" layer="20"/>
 <wire x1="0" y1="24.673125" x2="0" y2="0" width="0" layer="20"/>
+<text x="37.385625" y="22.463125" size="1.778" layer="22" rot="MR0">Cartridge for IF2</text>
+<text x="25.003125" y="6.985" size="1.778" layer="22" rot="MR0">AntonioVillena jul2015</text>
 </plain>
 <libraries>
 <library name="memory">
