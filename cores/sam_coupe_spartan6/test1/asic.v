@@ -208,16 +208,22 @@ module asic (
         end
     end
     
-    // Video display generation FSM
+    //////////////////////////////////////////////////////////////////////////
+    // FSM for fetching pixels from RAM and shift registers
     reg [14:0] screen_offs = 15'h0000;
     reg [4:0] screen_column = 5'h00;
     reg [7:0] vram_byte1, vram_byte2, vram_byte3, vram_byte4;
     reg [18:0] vramaddr = 19'h00000;
+    reg [7:0] sregm12 = 8'h00;
+    reg [7:0] attrreg = 8'h00;
+    reg [31:0] sregm3 = 32'h00000000, sregm4 = 32'h00000000;
+    reg [4:0] flash_counter = 5'h00;
     always @(posedge clk) begin
-        // a good time to reset pixel address counters
+        // a good time to reset pixel address counters and advance flash counter for modes 1 and 2
         if (vc==(VTOTAL-1) && hc==(HTOTAL-1)) begin
             screen_offs <= 15'h0000;
             screen_column <= 5'h00;
+            flash_counter <= flash_counter + 1;
         end
         case (hc[3:0])
             4'd0,
@@ -267,23 +273,53 @@ module asic (
             4'd9:
                 begin
                     vramaddr <= 29'hZZZZZ;
-                    // Transferir buffers al registro de desplazamiento
-                    attrreg <= vram_byte3;
-                    if (screen_mode == 2'd0 || screen_mode == 2'd1) begin
-                        sregm12 <= {vram_byte1[7], vram_byte1[7],
-                                   vram_byte1[6], vram_byte1[6],
-                                   vram_byte1[5], vram_byte1[5],
-                                   vram_byte1[4], vram_byte1[4],
-                                   vram_byte1[3], vram_byte1[3],
-                                   vram_byte1[2], vram_byte1[2],
-                                   vram_byte1[1], vram_byte1[1],
-                                   vram_byte1[0], vram_byte1[0]};
-                    end
-                    else begin
-                        sregm34 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
-                    end
                 end
         endcase
-        
-    end    
+        case (hc[3:0])
+            4'd9:
+                begin
+                    // Transferir buffers al registro de desplazamiento
+                    sregm12 <= vram_byte1;
+                    attrreg <= vram_byte3;  // cambiar para el borde!!
+                    sregm3 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
+                    sregm4 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
+                end
+            default:
+                begin
+                    if (hc[0]==1'b1) begin
+                        sregm12 <= {sregm12[6:0],1'b0};
+                        sregm4 <= {sregm4[27:0],4'h0};
+                    end
+                    sregm3 <= {sregm3[29:0],2'b00};
+                end
+        endcase
+    end
+
+    //////////////////////////////////////////////////////////////////////////
+    // MUX to select current pixel colour depending upon the current mode
+    reg [6:0] pixel;
+    reg [3:0] index;
+    reg pixel_with_flash;
+    always @* begin
+        case (screen_mode)
+            2'd0,2'd1:
+                begin
+                    pixel_with_flash = sregm12[7] ^ (attrreg[7] & flash_counter[4]);
+                    if (pixel_with_flash == 1'b0)
+                        index = {attrreg[6],attrreg[2:0]};
+                    else
+                        index = {attrreg[6],attrreg[5:3]};
+                    pixel = clut[index];
+                end
+            2'd2: 
+                begin
+                    pixel = clut[{clut_mode_3_hi,sregm3[31:30]}];
+                end
+            default:
+                begin
+                    pixel = clut[sregm3[31:28]];
+                end
+        endcase
+    end
+    
 endmodule
