@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 module asic (
     input wire clk,
-    input wire rst,
+    input wire rst_n,
     // CPU interface
     input wire mreq_n,
     input wire iorq_n,
@@ -30,14 +30,14 @@ module asic (
     input wire wr_n,
     input wire [15:0] cpuaddr,
     input wire [7:0] data_from_cpu,
-    output wire [7:0] data_to_cpu,
+    output reg [7:0] data_to_cpu,
     output reg wait_n,
     // RAM/ROM interface
-    output wire [18:0] ramaddr,
+    output reg [18:0] ramaddr,
     input wire [7:0] data_from_ram,
-    output wire [7:0] data_to_ram,
-    output wire ramwr,
-    output wire romcs_n,
+    output reg [7:0] data_to_ram,
+    output reg ramwr_n,
+    output reg romcs_n,
     // audio I/O
     output wire mic,
     output wire beep,
@@ -49,11 +49,6 @@ module asic (
     output reg csync,
     output wire int_n
     );
-
-    assign r=0;
-    assign g=0;
-    assign b=0;
-    assign bright=0;
 
     parameter HACTIVEREGION = 512,
               RBORDER       = 64,
@@ -88,6 +83,8 @@ module asic (
     parameter BEGINVINTV  = VACTIVEREGION + BBORDER + VFPORCH - 1;
     parameter ENDVINTV    = VACTIVEREGION + BBORDER + VFPORCH;
     parameter ENDVINTH    = (BEGINVINTH + 256)%HTOTAL;
+    parameter BEGINHINTH  = BEGINVSYNCH;
+    parameter ENDHINTH    = (BEGINHINTH + 256)%HTOTAL;
 
     parameter IOADDR_VMPR     = 8'd252,
               IOADDR_HMPR     = 8'd251,
@@ -99,7 +96,7 @@ module asic (
     
     //////////////////////////////////////////////////////////////////////////
     // IO regs
-    reg [7:0] vmpr = 8'b01100000;  // port 252. bit 7 is not used. R/W
+    reg [7:0] vmpr = 8'b00000000;  // port 252. bit 7 is not used. R/W
     wire [1:0] screen_mode = vmpr[6:5];
     wire [4:0] screen_page = vmpr[4:0];
     
@@ -107,9 +104,9 @@ module asic (
     wire [4:0] high_page = hmpr[4:0];
     wire [1:0] clut_mode_3_hi = hmpr[6:5];
     
-    reg [7:0] lmpr = 8'h00;  // port 250. R/W
+    reg [7:0] lmpr = 8'b00000000;  // port 250. R/W
     wire [4:0] low_page = lmpr[4:0];
-    wire rom_in_section_a = lmpr[5];
+    wire rom_in_section_a = ~lmpr[5];
     wire rom_in_section_d = lmpr[6];
     wire write_protect_section_a = lmpr[7];
     
@@ -146,13 +143,14 @@ module asic (
     end
     
     //////////////////////////////////////////////////////////////////////////
-    // Syncs and vertical retrace int generation
+    // Syncs and vertical retrace/raster line int generation
     reg vint_n;
-    assign int_n = vint_n;
+    reg rint_n;
+    
     always @* begin
         csync = 1'b1;
         vint_n = 1'b1;
-        
+        rint_n = 1'b1;
         if (hc >= (HACTIVEREGION + RBORDER + HFPORCH) && 
             hc < (HACTIVEREGION + RBORDER + HFPORCH + HSYNC))
                 csync = 1'b0;
@@ -163,26 +161,33 @@ module asic (
         if ( (vc == BEGINVINTV && hc >= BEGINVINTH) ||
              (vc == ENDVINTV && hc < ENDVINTH) )
                 vint_n = 1'b0;
+        if (lineint >= 8'd0 && lineint <= 8'd191)
+            if ( ( ((lineint == 8'd0 && vc == VTOTAL-1) || (lineint == vc-1)) && hc >= BEGINHINTH ) ||
+                 ( lineint == vc && hc < ENDHINTH ) )
+                 rint_n = 1'b0;
     end
+    assign int_n = vint_n | rint_n;
     
     //////////////////////////////////////////////////////////////////////////
-    // display_enable = 1 when pixels should be fetched from memory
-    reg display_enable;
+    // fetching_pixels = 1 when pixels should be fetched from memory
+    reg fetching_pixels;
+    
     always @* begin
         if (vc>=0 && vc<VACTIVEREGION && hc>=0 && hc<HACTIVEREGION)
-            display_enable = ~screen_off;
+            fetching_pixels = ~screen_off;
         else
-            display_enable = 1'b0;
+            fetching_pixels = 1'b0;
     end
     
     //////////////////////////////////////////////////////////////////////////
     // Contention signal (risk of)
     reg contention;
+    
     always @* begin
         contention = 1'b0;
-        if (display_enable == 1'b1 && hc[3:0]<4'd10)
+        if (fetching_pixels == 1'b1 && hc[3:0]<4'd10)
             contention = 1'b1;
-        else if (display_enable == 1'b0 && (hc[3:0]==4'd0 ||
+        else if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
                                             hc[3:0]==4'd1 ||
                                             hc[3:0]==4'd8 ||
                                             hc[3:0]==4'd9) )
@@ -218,6 +223,8 @@ module asic (
     reg [7:0] attrreg = 8'h00;
     reg [31:0] sregm3 = 32'h00000000, sregm4 = 32'h00000000;
     reg [4:0] flash_counter = 5'h00;
+    reg [1:0] hibits_clut_m3 = 2'b00;
+    
     always @(posedge clk) begin
         // a good time to reset pixel address counters and advance flash counter for modes 1 and 2
         if (vc==(VTOTAL-1) && hc==(HTOTAL-1)) begin
@@ -230,7 +237,7 @@ module asic (
             4'd2,
             4'd4,
             4'd6: 
-                if (display_enable==1'b1) begin
+                if (fetching_pixels==1'b1) begin
                     if (screen_mode == 2'd0) begin
                         if (hc[3:0] == 4'd0)
                             vramaddr <= {screen_page, 2'b00, vc[7:6], vc[2:0], vc[5:3], screen_column};
@@ -247,25 +254,25 @@ module asic (
                         vramaddr <= {screen_page[4:1], 1'b0, screen_offs};
                 end
             4'd1: 
-                if (display_enable==1'b1) begin
+                if (fetching_pixels==1'b1) begin
                     vram_byte1 <= data_from_ram;
                     if (screen_mode > 2'd1)
                         screen_offs <= screen_offs + 1;
                 end
             4'd3: 
-                if (display_enable==1'b1) begin
+                if (fetching_pixels==1'b1) begin
                     vram_byte2 <= data_from_ram;
                     if (screen_mode > 2'd1)
                         screen_offs <= screen_offs + 1;
                 end
             4'd5: 
-                if (display_enable==1'b1) begin
+                if (fetching_pixels==1'b1) begin
                     vram_byte3 <= data_from_ram;
                     if (screen_mode > 2'd1)
                         screen_offs <= screen_offs + 1;
                 end
             4'd7: 
-                if (display_enable==1'b1) begin
+                if (fetching_pixels==1'b1) begin
                     vram_byte4 <= data_from_ram;
                     screen_offs <= screen_offs + 1;
                     screen_column <= screen_column + 1;
@@ -279,10 +286,20 @@ module asic (
             4'd9:
                 begin
                     // Transferir buffers al registro de desplazamiento
-                    sregm12 <= vram_byte1;
-                    attrreg <= vram_byte3;  // cambiar para el borde!!
-                    sregm3 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
-                    sregm4 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
+                    if (fetching_pixels == 1'b1) begin
+                        sregm12 <= vram_byte1;
+                        attrreg <= vram_byte3;  // cambiar para el borde!!
+                        sregm3 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
+                        sregm4 <= {vram_byte1, vram_byte2, vram_byte3, vram_byte4};
+                        hibits_clut_m3 <= clut_mode_3_hi;
+                    end
+                    else begin
+                        sregm12 <= 8'h00;
+                        attrreg <= {1'b0, clut_border, 3'b000};
+                        sregm3 <= { {16{clut_border[1:0]}} };
+                        hibits_clut_m3 <= clut_border[3:2];
+                        sregm4 <= { {8{clut_border}} };
+                    end
                 end
             default:
                 begin
@@ -300,6 +317,7 @@ module asic (
     reg [6:0] pixel;
     reg [3:0] index;
     reg pixel_with_flash;
+    
     always @* begin
         case (screen_mode)
             2'd0,2'd1:
@@ -313,7 +331,7 @@ module asic (
                 end
             2'd2: 
                 begin
-                    pixel = clut[{clut_mode_3_hi,sregm3[31:30]}];
+                    pixel = clut[{hibits_clut_m3, sregm3[31:30]}];
                 end
             default:
                 begin
@@ -321,5 +339,59 @@ module asic (
                 end
         endcase
     end
+    assign r = {pixel[5], pixel[1]};
+    assign g = {pixel[6], pixel[2]};
+    assign b = {pixel[4], pixel[0]};
+    assign bright = pixel[3];
+    
+    //////////////////////////////////////////////////////////////////////////
+    // Memory handling
+    always @* begin
+        romcs_n = 1'b1;
+        ramwr_n = 1'b1;
+        data_to_cpu = 8'hZZ;
+        data_to_ram = 8'hZZ;
+        if (cpuaddr<16'h4000 && rom_in_section_a==1'b1) begin
+            romcs_n = 1'b0;
+            ramaddr = vramaddr;
+        end
+        else if (cpuaddr>=16'hC000 && rom_in_section_d==1'b1) begin
+            romcs_n = 1'b0;
+            ramaddr = vramaddr;
+        end
+        else begin
+            if (fetching_pixels == 1'b1 && contention == 1'b1) begin
+                ramaddr = vramaddr;
+            end
+            else begin
+                if (mreq_n == 1'b0 && iorq_n == 1'b1)
+                    data_to_cpu = data_from_ram;
+                if (cpuaddr < 16'h8000) begin
+                    ramaddr = {low_page, cpuaddr[13:0]};
+                    if (write_protect_section_a == 1'b0 || cpuaddr >= 16'h4000)
+                        ramwr_n = mreq_n | wr_n;
+                end
+                else begin
+                    ramaddr = {high_page, cpuaddr[13:0]};
+                    ramwr_n = mreq_n | wr_n;
+                end
+            end
+        end
+        if (ramwr_n == 1'b0)
+            data_to_ram = data_from_cpu;
+    end
+
+    //////////////////////////////////////////////////////////////////////////
+    // IO ports
+    
+    // Write to IO ports
+    always @(posedge clk) begin
+        if (rst_n == 1'b0) begin
+            vmpr <= 8'h00;
+            hmpr <= 8'h00;
+            lmpr <= 8'h00;
+            border <= 8'h00;
+            lineint <= 8'hFF;
+            
     
 endmodule
