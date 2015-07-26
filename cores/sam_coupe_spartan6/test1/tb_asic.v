@@ -37,16 +37,42 @@ module tb_asic;
 	wire int_n;
 
 	// Instantiate the Unit Under Test (UUT)
-	asic uut (
-		.clk(clk), 
-		.rst(rst), 
-		.r(r), 
-		.g(g), 
-		.b(b), 
-		.bright(bright), 
-		.csync(csync), 
-		.int_n(int_n)
-	);
+    asic uut (
+        .clk(clk),
+        .rst_n(1'b1),
+        // CPU interface
+        .mreq_n(1'b1),
+        .iorq_n(1'b1),
+        .rd_n(1'b1),
+        .wr_n(1'b1),
+        .cpuaddr(16'h1234),
+        .data_from_cpu(8'h88),
+        .data_to_cpu(),
+        .data_enable_n(),
+        .wait_n(),
+        // RAM/ROM interface
+        .ramaddr(),
+        .data_from_ram(8'hAA),
+        .ramwr_n(),
+        .romcs_n(),
+        // audio I/O
+        .ear(1'b0),
+        .mic(),
+        .beep(),
+        // keyboard I/O
+        .keyboard(8'hFF),
+        .rdmsel(),
+        // disk I/O
+        .disc1_n(),
+        .disc2_n(),
+        // video output
+        .r(r),
+        .g(g),
+        .b(b),
+        .bright(bright),
+        .csync(csync),
+        .int_n(int_n)
+    );
 
 	initial begin
 		// Initialize Inputs
