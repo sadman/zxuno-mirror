@@ -5177,8 +5177,8 @@ high speed (Philips)</description>
 <instance part="C9" gate="G$1" x="139.7" y="142.24"/>
 <instance part="IC1" gate="A" x="205.74" y="81.28" rot="MR180"/>
 <instance part="IC1" gate="B" x="180.34" y="83.82" rot="MR180"/>
-<instance part="IC1" gate="C" x="177.8" y="104.14"/>
-<instance part="IC1" gate="D" x="205.74" y="101.6"/>
+<instance part="IC1" gate="C" x="205.74" y="104.14"/>
+<instance part="IC1" gate="D" x="180.34" y="101.6"/>
 <instance part="U$3" gate="G$1" x="190.5" y="-81.28"/>
 <instance part="J1" gate="G$1" x="5.08" y="142.24"/>
 <instance part="LEFTJ1" gate="G$1" x="-25.4" y="142.24"/>
@@ -5216,10 +5216,10 @@ high speed (Philips)</description>
 <pinref part="IC1" gate="B" pin="O"/>
 <wire x1="198.12" y1="83.82" x2="190.5" y2="83.82" width="0.1524" layer="91"/>
 <label x="190.5" y="83.82" size="1.778" layer="95"/>
-<pinref part="IC1" gate="D" pin="I1"/>
 <wire x1="190.5" y1="83.82" x2="187.96" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="198.12" y1="99.06" x2="190.5" y2="99.06" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="99.06" x2="190.5" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="106.68" x2="190.5" y2="83.82" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="C" pin="I0"/>
+<wire x1="198.12" y1="106.68" x2="190.5" y2="106.68" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="IORQULA" class="0">
@@ -6479,9 +6479,9 @@ high speed (Philips)</description>
 <label x="180.34" y="-63.5" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="C" pin="I0"/>
-<wire x1="162.56" y1="106.68" x2="170.18" y2="106.68" width="0.1524" layer="91"/>
-<label x="162.56" y="106.68" size="1.778" layer="95"/>
+<pinref part="IC1" gate="D" pin="I0"/>
+<wire x1="160.02" y1="104.14" x2="172.72" y2="104.14" width="0.1524" layer="91"/>
+<label x="160.02" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A7" class="0">
@@ -6491,9 +6491,9 @@ high speed (Philips)</description>
 <label x="180.34" y="-60.96" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="IC1" gate="C" pin="I1"/>
-<wire x1="162.56" y1="101.6" x2="170.18" y2="101.6" width="0.1524" layer="91"/>
-<label x="162.56" y="101.6" size="1.778" layer="95"/>
+<pinref part="IC1" gate="D" pin="I1"/>
+<wire x1="160.02" y1="99.06" x2="172.72" y2="99.06" width="0.1524" layer="91"/>
+<label x="160.02" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -6634,14 +6634,14 @@ high speed (Philips)</description>
 </net>
 <net name="KEMPSTON" class="0">
 <segment>
-<pinref part="IC1" gate="D" pin="O"/>
-<wire x1="228.6" y1="101.6" x2="213.36" y2="101.6" width="0.1524" layer="91"/>
-<label x="218.44" y="101.6" size="1.778" layer="95"/>
-</segment>
-<segment>
 <wire x1="185.42" y1="-116.84" x2="177.8" y2="-116.84" width="0.1524" layer="91"/>
 <label x="175.26" y="-116.84" size="1.778" layer="95"/>
 <pinref part="IC2" gate="A" pin="G2"/>
+</segment>
+<segment>
+<pinref part="IC1" gate="C" pin="O"/>
+<wire x1="213.36" y1="104.14" x2="228.6" y2="104.14" width="0.1524" layer="91"/>
+<label x="218.44" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$36" class="0">
@@ -6687,13 +6687,6 @@ high speed (Philips)</description>
 <wire x1="162.56" y1="-127" x2="172.72" y2="-127" width="0.1524" layer="91"/>
 <wire x1="172.72" y1="-127" x2="172.72" y2="-106.68" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="A" pin="A5"/>
-</segment>
-</net>
-<net name="N$32" class="0">
-<segment>
-<pinref part="IC1" gate="C" pin="O"/>
-<pinref part="IC1" gate="D" pin="I0"/>
-<wire x1="185.42" y1="104.14" x2="198.12" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -6744,6 +6737,13 @@ high speed (Philips)</description>
 <wire x1="180.34" y1="58.42" x2="187.96" y2="58.42" width="0.1524" layer="91"/>
 <label x="180.34" y="58.42" size="1.778" layer="95"/>
 <pinref part="U$3" gate="G$1" pin="D7"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="IC1" gate="D" pin="O"/>
+<pinref part="IC1" gate="C" pin="I1"/>
+<wire x1="187.96" y1="101.6" x2="198.12" y2="101.6" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
