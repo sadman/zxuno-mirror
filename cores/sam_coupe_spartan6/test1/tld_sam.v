@@ -56,8 +56,6 @@ module tld_sam (
     wire [1:0] sam_r, sam_g, sam_b;
     wire sam_bright;
     
-    wire sam_beep;
-    
     assign r = {sam_r, sam_bright};
     assign g = {sam_g, sam_bright};
     assign b = {sam_b, sam_bright};
@@ -65,44 +63,21 @@ module tld_sam (
     assign stdn = 1'b0;  // fijar norma PAL
 	assign stdnb = 1'b1; // y conectamos reloj PAL
     
-    assign audio_out_left = sam_beep;
-    assign audio_out_right = sam_beep;
-
-    // Keyboard
-    wire [8:0] kbrows;
-    wire [7:0] kbcolumns;
-
-
-    // Control signals
-    wire kb_nmi_n;
-    wire kb_rst_n;
-    
-    wire clk12, clk6, clk8;
+    wire clk24, clk12, clk6;
 
     relojes los_relojes (
         .CLK_IN1            (clk50mhz),      // IN
         // Clock out ports
-        .CLK_OUT1           (clk12),      // OUT
-        .CLK_OUT2           (clk6),       // OUT
-        .CLK_OUT3           (clk8)        // OUT
+        .CLK_OUT1           (clk24),      // OUT
+        .CLK_OUT2           (clk12),       // OUT
+        .CLK_OUT3           (clk6)        // OUT
     );
 
     samcoupe maquina (
+        .clk24(clk24),
         .clk12(clk12),
         .clk6(clk6),
-        .rst_n(kb_rst_n),
-        .nmi_n(kb_nmi_n),
-        // ROM device
-        .romaddr(romaddr),
-        .data_from_rom(data_from_rom),
-        // RAM device
-        .ramaddr(ramaddr),
-        .data_from_ram(data_from_ram),
-        .data_to_ram(data_to_ram),
-        .ram_we_n(ram_we_n),
-        // Keyboard
-        .kbrows(kbrows),
-        .kbcolumns({3'b111,kbcolumns[4:0]}),
+        .master_reset_n(1'b1),  // esta señal es sólo para simulación
         // Video output
         .r(sam_r),
         .g(sam_g),
@@ -111,37 +86,14 @@ module tld_sam (
         .csync(csync),
         // Audio output
         .ear(~ear),
-        .beep(sam_beep)
-    );
-    
-    rom rom_32k (
-        .clk(clk12),
-        .a(romaddr),
-        .dout(data_from_rom)
-    );
-    
-    ram ram_512k (
-        .a(ramaddr),
-        .we_n(ram_we_n),
-        .din(data_to_ram),
-        .dout(data_from_ram),
-        // Actual interface with SRAM
-        .sram_a(sram_addr),
-        .sram_we_n(sram_we_n),
-        .sram_d(sram_data)
-    );
-    
-    ps2k el_teclado (
-      .clk(clk6),
-      .ps2clk(clkps2),
-      .ps2data(dataps2),
-      .rows(kbrows[7:0]),
-      .cols(kbcolumns[4:0]),
-      .joy(), // Implementación joystick kempston en teclado numerico
-      .scancode(),  // El scancode original desde el teclado
-      .rst(kb_rst_n),   // esto son salidas, no entradas
-      .nmi(kb_nmi_n),   // Señales de reset y NMI
-      .mrst()  // generadas por pulsaciones especiales del teclado
-      );
-    
+        .audio_out_left(audio_out_left),
+        .audio_out_right(audio_out_right),
+        // PS/2 keyboard
+        .clkps2(clkps2),
+        .dataps2(dataps2),
+        // SRAM external interface
+        .sram_addr(sram_addr),
+        .sram_data(sram_data),
+        .sram_we_n(sram_we_n)
+    );        
 endmodule

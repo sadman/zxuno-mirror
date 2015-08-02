@@ -65,16 +65,19 @@
 // primary              50            0.010
 
 `timescale 1ps/1ps
+`default_nettype none
 
 (* CORE_GENERATION_INFO = "relojes,clk_wiz_v1_8,{component_name=relojes,use_phase_alignment=false,use_min_o_jitter=false,use_max_i_jitter=false,use_dyn_phase_shift=false,use_inclk_switchover=false,use_dyn_reconfig=false,feedback_source=FDBK_AUTO,primtype_sel=PLL_BASE,num_out_clk=3,clkin1_period=20.0,clkin2_period=20.0,use_power_down=false,use_reset=false,use_locked=false,use_inclk_stopped=false,use_status=false,use_freeze=false,use_clk_valid=false,feedback_type=SINGLE,clock_mgr_type=AUTO,manual_override=false}" *)
 module relojes
  (// Clock in ports
-  input         CLK_IN1,
+  input wire        CLK_IN1,
   // Clock out ports
-  output        CLK_OUT1,
-  output        CLK_OUT2,
-  output        CLK_OUT3
+  output wire       CLK_OUT1,
+  output wire       CLK_OUT2,
+  output wire       CLK_OUT3
  );
+
+  wire clkin1, clkout0, clkout1, clkout2;
 
   // Input buffering
   //------------------------------------
@@ -103,13 +106,13 @@ module relojes
     .DIVCLK_DIVIDE          (1),
     .CLKFBOUT_MULT          (12),
     .CLKFBOUT_PHASE         (0.000),
-    .CLKOUT0_DIVIDE         (50),
+    .CLKOUT0_DIVIDE         (25),
     .CLKOUT0_PHASE          (0.000),
     .CLKOUT0_DUTY_CYCLE     (0.500),
-    .CLKOUT1_DIVIDE         (100),
+    .CLKOUT1_DIVIDE         (50),
     .CLKOUT1_PHASE          (0.000),
     .CLKOUT1_DUTY_CYCLE     (0.500),
-    .CLKOUT2_DIVIDE         (75),
+    .CLKOUT2_DIVIDE         (100),
     .CLKOUT2_PHASE          (0.000),
     .CLKOUT2_DUTY_CYCLE     (0.500),
     .CLKIN_PERIOD           (20.0),

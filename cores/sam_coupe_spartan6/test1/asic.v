@@ -34,11 +34,13 @@ module asic (
     output reg data_enable_n,
     output reg wait_n,
     // RAM/ROM interface
-    output reg [18:0] ramaddr,
+    output reg [18:0] vramaddr,
+    output reg [18:0] cpuramaddr,
     input wire [7:0] data_from_ram,    
     output reg ramwr_n,
     output reg romcs_n,
     output reg ramcs_n,
+    output wire asic_is_using_ram,
     // audio I/O
     input wire ear,
     output wire mic,
@@ -91,7 +93,7 @@ module asic (
     parameter BEGINVINTV  = VACTIVEREGION + BBORDER + VFPORCH - 1;
     parameter ENDVINTV    = VACTIVEREGION + BBORDER + VFPORCH;
     parameter ENDVINTH    = (BEGINVINTH + 256)%HTOTAL;
-    parameter BEGINHINTH  = BEGINVSYNCH;
+    parameter BEGINHINTH  = HACTIVEREGION + RBORDER + HFPORCH;
     parameter ENDHINTH    = (BEGINHINTH + 256)%HTOTAL;
 
     parameter IOADDR_VMPR     = 8'd252,
@@ -105,7 +107,12 @@ module asic (
     
     //////////////////////////////////////////////////////////////////////////
     // IO regs
-    reg [7:0] vmpr = 8'h00;  // port 252. bit 7 is not used. R/W
+`ifdef SYNTH
+    reg [7:0] vmpr = 8'h00;  // port 252. bit 7 is not used. R/W  
+`else
+    reg [7:0] vmpr = 8'b01100000;  // port 252. bit 7 is not used. R/W. Mode 4 for simulation
+      
+`endif
     wire [1:0] screen_mode = vmpr[6:5];
     wire [4:0] screen_page = vmpr[4:0];
     
@@ -119,7 +126,7 @@ module asic (
     wire [4:0] high_page = hmpr[4:0];
     wire [1:0] clut_mode_3_hi = hmpr[6:5];
     
-    reg [7:0] border = 8'b00000100;  // port 254. Bit 6 not implemented. Write only. Start with green for testing purposes
+    reg [7:0] border = 8'h00;  // port 254. Bit 6 not implemented. Write only. 
     wire [3:0] clut_border = {border[5],border[2:0]};
     assign mic = border[3];
     assign beep = border[4];
@@ -183,10 +190,18 @@ module asic (
         if ( (vc == BEGINVINTV && hc >= BEGINVINTH) ||
              (vc == ENDVINTV && hc < ENDVINTH) )
                 vint_n = 1'b0;
-        if (lineint >= 8'd0 && lineint <= 8'd191)
-            if ( ( ((lineint == 8'd0 && vc == (VTOTAL-1)) || ({1'b0,lineint} == (vc-1))) && hc >= BEGINHINTH ) ||
-                 ( {1'b0,lineint} == vc && hc < ENDHINTH ) )
-                 rint_n = 1'b0;
+        if (lineint >= 8'd0 && lineint <= 8'd191) begin
+            if (lineint == 8'd0) begin
+                if (vc == VTOTAL-1 && hc >= BEGINHINTH ||
+                    vc == 9'd0 && hc < ENDHINTH)
+                        rint_n = 1'b0;
+            end
+            else begin
+                if ({1'b0, lineint} == vc-1 && hc >= BEGINHINTH ||
+                    {1'b0, lineint} == vc && hc < ENDHINTH)
+                        rint_n = 1'b0;
+            end
+        end
     end
     assign int_n = vint_n & rint_n;
     
@@ -232,17 +247,8 @@ module asic (
         if (screen_mode == 2'b00 && hc[3:0]<4'd10 && hc[9:4]<6'd40)
             contention = 1'b1;
     end
+    assign asic_is_using_ram = contention & fetching_pixels;
     
-    //////////////////////////////////////////////////////////////////////////
-    // Contention for address signal (risk of)
-    reg contention_for_address;
-    
-    always @* begin
-        contention_for_address = 1'b0;
-        if (fetching_pixels == 1'b1 && hc[3:0]<4'd9)
-            contention_for_address = 1'b1;
-    end
-
     //////////////////////////////////////////////////////////////////////////
     // WAIT signal with contention applied
     always @* begin
@@ -261,46 +267,43 @@ module asic (
     end
     
     //////////////////////////////////////////////////////////////////////////
+    // VRAM address generation    
+    always @* begin
+        if (screen_mode == 2'd0) begin
+            if (hc[2] == 1'b0)
+                vramaddr = {screen_page, 1'b0, vc[7:6], vc[2:0], vc[5:3], screen_column};
+            else
+                vramaddr = {screen_page, 4'b0110, vc[7:3], screen_column};
+        end
+        else if (screen_mode == 2'd1) begin
+            if (hc[2] == 1'b0)
+                vramaddr = {screen_page, 1'b0, screen_offs[12:0]};
+            else
+                vramaddr = {screen_page, 1'b1, screen_offs[12:0]};
+        end
+        else
+            vramaddr = {screen_page[4:0], 14'b00000000000000} + {3'b000, screen_offs};
+    end
+
+    //////////////////////////////////////////////////////////////////////////
     // FSM for fetching pixels from RAM and shift registers
-    reg [14:0] screen_offs = 15'h0000;
+    reg [15:0] screen_offs = 16'h0000;
     reg [4:0] screen_column = 5'h00;
     reg [7:0] vram_byte1, vram_byte2, vram_byte3, vram_byte4;
-    reg [18:0] vramaddr = 19'h00000;
     reg [7:0] sregm12 = 8'h00;
     reg [7:0] attrreg = 8'h00;
-    reg [31:0] sregm3 = 32'h00000000, sregm4 = 32'h00000000;
+    reg [31:0] sregm3 = 32'h00000000;
+    reg [31:0] sregm4 = 32'h00000000;
     reg [4:0] flash_counter = 5'h00;
     reg [1:0] hibits_clut_m3 = 2'b00;
-    
+
     always @(posedge clk) begin
         // a good time to reset pixel address counters and advance flash counter for modes 1 and 2
         if (vc==(VTOTAL-1) && hc==(HTOTAL-1)) begin
-            screen_offs <= 15'h0000;
+            screen_offs <= 16'h0000;
             screen_column <= 5'h00;
             flash_counter <= flash_counter + 1;
         end
-        if (hc[3:0] == 4'd0 ||
-            hc[3:0] == 4'd2 ||
-            hc[3:0] == 4'd4 ||
-            hc[3:0] == 4'd6) 
-            begin
-                if (fetching_pixels==1'b1) begin
-                    if (screen_mode == 2'd0) begin
-                        if (hc[3:0] == 4'd0)
-                            vramaddr <= {(screen_page+5'd1), 1'b0, vc[7:6], vc[2:0], vc[5:3], screen_column};
-                        else if (hc[3:0] == 4'd4)
-                            vramaddr <= {(screen_page+5'd1), 4'b0110, vc[7:3], screen_column};
-                    end
-                    else if (screen_mode == 2'd1) begin
-                        if (hc[3:0] == 4'd0)
-                            vramaddr <= {(screen_page+5'd1), 1'b0, screen_offs[12:0]};
-                        else if (hc[3:0] == 4'd4)
-                            vramaddr <= {(screen_page+5'd1), 1'b1, screen_offs[12:0]};
-                    end
-                    else
-                        vramaddr <= {screen_page[4:1], 15'b100000000000000} + {4'b0000, screen_offs};
-                end
-            end
         if (hc[3:0] == 4'd1 ||
             hc[3:0] == 4'd3 ||
             hc[3:0] == 4'd5 ||
@@ -314,13 +317,15 @@ module asic (
                         3'd7: begin
                                 vram_byte4 <= data_from_ram;
                                 screen_column <= screen_column + 1;
+                                if (screen_mode[1] == 1'b0)  // mode 1 and 2
+                                    screen_offs <= screen_offs + 1;
                               end
                     endcase
-                    screen_offs <= screen_offs + 1;
+                    if (screen_mode[1] == 1'b1)  // mode 3 and 4
+                        screen_offs <= screen_offs + 1;
                 end
             end
         if (hc[3:0] == 4'd9) begin
-            vramaddr <= 19'hZZZZZ;
             // Transferir buffers al registro de desplazamiento
             if (fetching_pixels == 1'b1) begin  // showing paper
                 sregm12 <= vram_byte1;
@@ -353,6 +358,7 @@ module asic (
     reg pixel_with_flash;
     
     always @* begin
+        index = 4'h0;
         case (screen_mode)
             2'd0,2'd1:
                 begin
@@ -363,7 +369,7 @@ module asic (
                         index = {attrreg[6],attrreg[5:3]};
                 end
             2'd2: index = {hibits_clut_m3, sregm3[31:30]};
-            default: index = sregm3[31:28];
+            2'd3: index = sregm4[31:28];
         endcase
         if (blank_time == 1'b1)
             pixel = 7'h00;
@@ -376,44 +382,49 @@ module asic (
     assign bright = pixel[3];
     
     //////////////////////////////////////////////////////////////////////////
-    // Memory handling
+    // CPU memory address and control signal generation
+    
+    // Enables for ROM and RAM
     always @* begin
         romcs_n = 1'b1;
-        ramwr_n = 1'b1;
         ramcs_n = 1'b1;
-        ramaddr = vramaddr;
         if (mreq_n == 1'b0 && cpuaddr<16'h4000 && rom_in_section_a==1'b1) begin
             romcs_n = 1'b0;
         end
         else if (mreq_n == 1'b0 && cpuaddr>=16'hC000 && rom_in_section_d==1'b1) begin
             romcs_n = 1'b0;
         end
-        else if (mreq_n == 1'b0 && (contention == 1'b0 || fetching_pixels == 1'b0)) begin
+        else if (mreq_n == 1'b0 /*&& (contention == 1'b0 || fetching_pixels == 1'b0)*/ ) begin
             ramcs_n = 1'b0;
-            case (cpuaddr[15:14])
-                2'b00:
-                    begin
-                        ramaddr = {low_page, cpuaddr[13:0]};
-                        if (write_protect_section_a == 1'b0)
-                            ramwr_n = mreq_n | wr_n;
-                    end
-                2'b01:
-                    begin
-                        ramaddr = {low_page+5'd1, cpuaddr[13:0]};
-                        ramwr_n = mreq_n | wr_n;
-                    end
-                2'b10:
-                    begin
-                        ramaddr = {high_page, cpuaddr[13:0]};
-                        ramwr_n = mreq_n | wr_n;
-                    end
-                default: // 2'b11
-                    begin
-                        ramaddr = {high_page+5'd1, cpuaddr[13:0]};
-                        ramwr_n = mreq_n | wr_n;
-                    end
-            endcase
-        end
+        end        
+    end
+    
+    // Write signal for RAM
+    always @* begin
+        ramwr_n = 1'b1;
+        case (cpuaddr[15:14])
+            2'b00:
+                begin
+                    cpuramaddr = {low_page, cpuaddr[13:0]};
+                    if (write_protect_section_a == 1'b0)
+                        ramwr_n = ramcs_n | wr_n;
+                end
+            2'b01:
+                begin
+                    cpuramaddr = {low_page+5'd1, cpuaddr[13:0]};
+                    ramwr_n = ramcs_n | wr_n;
+                end
+            2'b10:
+                begin
+                    cpuramaddr = {high_page, cpuaddr[13:0]};
+                    ramwr_n = ramcs_n | wr_n;
+                end
+            default: // 2'b11
+                begin
+                    cpuramaddr = {high_page+5'd1, cpuaddr[13:0]};
+                    ramwr_n = ramcs_n | wr_n;
+                end
+        endcase
     end
 
     //////////////////////////////////////////////////////////////////////////
@@ -422,9 +433,13 @@ module asic (
     // Write to IO ports from CPU
     always @(posedge clk) begin
         if (rst_n == 1'b0) begin
+`ifdef SYNTH            
             vmpr <= 8'h00;
-            hmpr <= 8'h00;
+`else            
+            vmpr <= 8'b01100000;
+`endif            
             lmpr <= 8'h00;
+            hmpr <= 8'h02;
             border <= 8'h00;
             lineint <= 8'hFF;
         end
