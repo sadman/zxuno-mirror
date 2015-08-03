@@ -1,0 +1,11 @@
+CFLAGS=-O2 -DSDLMIXER
+SOURCE=playtap.c audio.c
+OBS=playtap.o audio.o
+CC=gcc
+LIBS=-lm -lSDL -lSDL_mixer
+
+playtap: $(SOURCE)
+	$(CC) -o playtap $(CFLAGS) $(SOURCE) $(LIBS)
+
+clean:
+	@rm -f playtap $(OBJS)

@@ -1,0 +1,33 @@
+COMPILING
+---------
+For Win32 systems using native audio support and OpenWATCOM (also compilable with Visual Studio):
+wmake -f Makefile.win32 playtap.exe
+There's a ready to use executable in 'win32' subdirectory.
+
+For systems with GCC and SDL development files (needs libsdl-mixer-dev too):
+make -f Makefile.sdlmixer
+
+For systems with GCC and SDL development files, and no SDL_mixer libs (also
+compilable with C-Free / MinGW32):
+make -f Makefile.sdl
+There's a ready to use executable in 'win32sdl' directory.
+
+For Linux with OSS enabled kernel (ALSA emulation is ok) and GCC:
+make -f Makefile.linux
+
+For Mac OS X with SDL framework and XCode:
+make -f Makefile.osx
+There's a ready to use universal binary (i386/ppc) in 'osx' directory.
+
+USE
+---
+playtap -h  (for options)
+playtap file.tap (plays file.tap with default options)
+
+(see example TAP file in win32 directory)
+
+CREDITS
+-------
+Miguel Angel Rodriguez Jodar : http://www.zxprojects.com (original code,
+OSS, native Win32 audio and SDL support)
+Dylan Smith : http://spectrum.alioth.net (SDL_mixer support)

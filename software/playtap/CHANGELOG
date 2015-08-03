@@ -1,0 +1,37 @@
+CHANGELOG
+---------
+
+Version 0.2
+2009-Apr-15: (rodriguj@atc.us.es)
+Fixed a bug that overflowed a short int in LeeBloque.
+Primitive parameter checking done.
+Endian stuff fixed. Tested on a MacIntel using a PPC only binary, with Rossetta.
+Original SDL support moved to SDL_Mixer support.
+Added SDL basic support.
+Source code compiles and runs ok with:
+- GNU/Linux, gcc, OSS support
+- GNU/Linux, gcc, SDL support
+- GNU/Linux, gcc, SDL_Mixer support
+- MS Windows, Visual Studio 2005, native Win32 audio support
+- MS Windows, Open WATCOM, native Win32 audio support
+- MS Windows, C-Free (IDE for MinGW32), SDL support
+- Mac OS X 10.5, XCode, SDL support
+
+Version 0.1-fix
+2009-Apr-15: (rodriguj@atc.us.es)
+Added Makefile.osx for OSX support (SDL).
+
+2009-Apr-14: (rodriguj@atc.us.es)
+Added Win32 audio handling not depends on SDL anymore
+Added Win32 specific semantics for issuing a binary open
+
+2009-Apr-13: (Dylan Smith : http://spectrum.alioth.net)
+Added SDL options to aid portability.
+
+Version 0.1
+2009-Apr-13: (rodriguj@atc.us.es) 
+WinAmp TAP input plugin ported to a standalone Linux 
+console application. First version.
+
+TODO: probably, a lot.
+BUGS: Surely, a lot.

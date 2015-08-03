@@ -1,0 +1,12 @@
+CFLAGS=-bcl=nt -fe=playtap -DNATIVEWIN32 -d0
+SOURCE=playtap.c audio.c
+CC=wcl386
+LIBS=%WATCOM%\lib386\nt\winmm.lib
+
+playtap.exe: $(SOURCE)
+	$(CC) $(CFLAGS) $(SOURCE) $(LIBS)
+
+clean:
+	@del playtap.exe
+	@del *.obj
+

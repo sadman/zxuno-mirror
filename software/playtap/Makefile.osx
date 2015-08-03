@@ -1,0 +1,11 @@
+CFLAGS=-O2 -DSDL -I/Library/Frameworks/SDL.framework/Headers -arch ppc -arch i386
+SOURCE=playtap.c audio.c
+OBS=playtap.o audio.o
+CC=cc
+LIBS=-framework SDL -lm
+
+playtap: $(SOURCE)
+	$(CC) -o playtap $(CFLAGS) $(SOURCE) $(LIBS)
+
+clean:
+	@rm -f playtap $(OBJS)
