@@ -110,7 +110,8 @@ module asic (
               IOADDR_LINEINT  = 8'd249,
               IOADDR_STATUS   = 8'd249,
               IOADDR_BASECLUT = 8'd248,
-              IOADDR_ATTRIB   = 8'd255;
+              IOADDR_ATTRIB   = 8'd255,
+              IOADDR_HLPEN    = 8'd248;
     
     //////////////////////////////////////////////////////////////////////////
     // IO regs
@@ -140,6 +141,9 @@ module asic (
     wire screen_off = border[7] & screen_mode[1];
     
     reg [7:0] lineint = 8'hFF;   // port 249 write only
+    
+    reg [7:0] hpen = 8'h00;
+    reg [7:0] lpen = 8'h00;
     
     reg [6:0] clut[0:15];  // Port xF8h where x=0..F 
     initial begin
@@ -178,6 +182,23 @@ module asic (
         end
     end
     
+    //////////////////////////////////////////////////////////////////////////
+    // HPEN and LPEN counters
+    always @(posedge clk) begin
+        if (hc[0] == 1'b0) begin
+            if (hc == HACTIVEREGION) begin
+                if (vc == VTOTAL-1)
+                    hpen <= 8'h00;
+                else if (vc < VACTIVEREGION)
+                    hpen <= hpen + 1;
+            end
+            if (hc < HACTIVEREGION)
+                lpen <= lpen + 1;
+            else
+                lpen <= 8'h00;
+        end
+    end
+
     //////////////////////////////////////////////////////////////////////////
     // Syncs and vertical retrace/raster line int generation
     reg vint_n;
@@ -502,6 +523,10 @@ module asic (
                 data_to_cpu = hmpr;
             else if (cpuaddr[7:0] == IOADDR_LMPR)
                 data_to_cpu = lmpr;
+            else if (cpuaddr[8:0] == {1'b0, IOADDR_HLPEN} )
+                data_to_cpu = lpen;
+            else if (cpuaddr[8:0] == {1'b1, IOADDR_HLPEN} )
+                data_to_cpu = hpen;
             else if (cpuaddr[7:0]>=8'd224 && cpuaddr[7:0]<=8'd231) begin            
                 disc1_n = 1'b0;
                 data_enable_n = 1'b1;
