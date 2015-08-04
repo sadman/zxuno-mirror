@@ -105,8 +105,8 @@ Cada tecla ocupará cuatro direcciones consecutivas según el esquema anterior.
 #define SAM_INV    0x780 // 0111 10000000
 
 #define SAM_CTRL   0x801 // 1000 00000001
-#define SAM_DOWN   0x802 // 1000 00000010
-#define SAM_UP     0x804 // 1000 00000100
+#define SAM_UP     0x802 // 1000 00000010
+#define SAM_DOWN   0x804 // 1000 00000100
 #define SAM_LEFT   0x808 // 1000 00001000
 #define SAM_RIGHT  0x810 // 1000 00010000
 
@@ -330,7 +330,7 @@ int main()
     
     MAPANY(PC_RWIN,SAM_EDIT,0);     // EDIT key
 
-    // Basic mapping: each key from PC is mapped to a key in the Spectrum
+    // Basic mapping: each key from PC is mapped to a key in the SAM
     MAP(PC_1,SAM_1,0);
     MAP(PC_2,SAM_2,0);
     MAP(PC_3,SAM_3,0);

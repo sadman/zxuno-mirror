@@ -92,7 +92,7 @@ module asic (
     parameter BEGINVSYNCH = HACTIVEREGION + RBORDER + HFPORCH + HSYNC + HBPORCH;
 
     // Start and end of vertical retrace interrupt, horizontal counter
-    parameter BEGINVINTH  = HACTIVEREGION + RBORDER + HFPORCH;
+    parameter BEGINVINTH  = BEGINVSYNCH; //HACTIVEREGION + RBORDER + HFPORCH;
     parameter ENDVINTH    = (BEGINVINTH + 256)%HTOTAL;
 
     // Start and end of vertical retrace interrupt, vertical counter
@@ -196,7 +196,8 @@ module asic (
                 csync = ~csync;
         if ( (vc == BEGINVINTV && hc >= BEGINVINTH) ||
              (vc == ENDVINTV && hc < ENDVINTH) )
-                vint_n = 1'b0;
+//        if (vc == BEGINVINTV && hc >= BEGINVINTH)
+             vint_n = 1'b0;
         if (lineint >= 8'd0 && lineint <= 8'd191) begin
 //            if (lineint == 8'd0) begin
 //                if (vc == VTOTAL-1 && hc >= BEGINHINTH ||
@@ -250,41 +251,47 @@ module asic (
     
     //////////////////////////////////////////////////////////////////////////
     // Contention signal (risk of)
-    reg contention;
+    reg mem_contention;
+    reg io_contention;
     
     always @* begin
-        contention = 1'b0;
+        mem_contention = 1'b0;
+
+        if (hc[3:0]<4'd10)
+            io_contention = 1'b1;
+        else
+            io_contention = 1'b0;
+
         if (fetching_pixels == 1'b1 && hc[3:0]<4'd10)
-            contention = 1'b1;
+           mem_contention = 1'b1;
         else if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
                                             hc[3:0]==4'd1 ||
                                             hc[3:0]==4'd8 ||
                                             hc[3:0]==4'd9) )
-            contention = 1'b1;
+            mem_contention = 1'b1;
         if (screen_mode == 2'b00 && hc[3:0]<4'd10 && hc[9:4]<6'd40)
-            contention = 1'b1;
+            mem_contention = 1'b1;  // extra contention for MODE 1
     end
-    assign asic_is_using_ram = contention & fetching_pixels;
+    assign asic_is_using_ram = mem_contention & fetching_pixels;
     
     //////////////////////////////////////////////////////////////////////////
     // WAIT signal with contention applied
     always @* begin
         wait_n = 1'b1;
-        if (cpuaddr<16'h4000 && rom_in_section_a==1'b1)
+        if (mreq_n == 1'b0 && cpuaddr<16'h4000 && rom_in_section_a==1'b1)
             wait_n = 1'b1;
-        else if (cpuaddr>=16'hC000 && rom_in_section_d==1'b1)
+        else if (mreq_n == 1'b0 && cpuaddr>=16'hC000 && rom_in_section_d==1'b1)
             wait_n = 1'b1;
-        else if (contention == 1'b1) begin
-            if (mreq_n == 1'b0)
-                wait_n = 1'b0;
-            else if (iorq_n == 1'b0)
-                if (rd_n == 1'b0 || wr_n == 1'b0)
-                    wait_n = 1'b0;
-        end
+        else if (mem_contention == 1'b1 && mreq_n == 1'b0)
+            wait_n = 1'b0;
+        else if (io_contention == 1'b1 && iorq_n == 1'b0)
+            wait_n = 1'b0;
     end
     
     //////////////////////////////////////////////////////////////////////////
     // VRAM address generation    
+    reg [14:0] screen_offs = 15'h0000;
+    reg [4:0] screen_column = 5'h00;
     always @* begin
         if (screen_mode == 2'd0) begin
             if (hc[2] == 1'b0)
@@ -299,13 +306,11 @@ module asic (
                 vramaddr = {screen_page, 1'b1, screen_offs[12:0]};
         end
         else
-            vramaddr = {screen_page[4:0], 14'b00000000000000} + {3'b000, screen_offs};
+            vramaddr = {screen_page[4:1], screen_offs};
     end
 
     //////////////////////////////////////////////////////////////////////////
     // FSM for fetching pixels from RAM and shift registers
-    reg [15:0] screen_offs = 16'h0000;
-    reg [4:0] screen_column = 5'h00;
     reg [7:0] vram_byte1, vram_byte2, vram_byte3, vram_byte4;
     reg [7:0] sregm12 = 8'h00;
     reg [7:0] attrreg = 8'h00;
@@ -317,7 +322,7 @@ module asic (
     always @(posedge clk) begin
         // a good time to reset pixel address counters and advance flash counter for modes 1 and 2
         if (vc==(VTOTAL-1) && hc==(HTOTAL-1)) begin
-            screen_offs <= 16'h0000;
+            screen_offs <= 15'h0000;
             screen_column <= 5'h00;
             flash_counter <= flash_counter + 1;
         end

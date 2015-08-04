@@ -82,7 +82,7 @@ module samcoupe (
     
     // Audio signals
     wire mic, beep;
-    assign audio_out_left = mic;
+    assign audio_out_left = ear;
     assign audio_out_right = beep;
     
     // MUX from memory/devices to Z80 data bus
