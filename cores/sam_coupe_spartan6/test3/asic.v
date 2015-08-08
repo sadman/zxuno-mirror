@@ -186,7 +186,7 @@ module asic (
         if (vc == BEGINVSYNCV && hc < 256)
           vint_n = 1'b0;
         if (lineint >= 8'd0 && lineint <= 8'd191)
-            if ({1'b0, lineint} == vc && hc < 256)
+            if ({1'b0, lineint} == vc && hc < 10'd256)
               rint_n = 1'b0;
     end
     assign int_n = vint_n & rint_n;
@@ -207,13 +207,13 @@ module asic (
     reg blank_time;
 
     always @* begin
-        if ( (hc >= RBORDER && hc < (RBORDER + HFPORCH + HSYNC + HBPORCH) ) ||
-             (vc >= (VACTIVEREGION + BBORDER) &&
-              vc < (VACTIVEREGION + BBORDER + VFPORCH + VSYNC + VBPORCH) ) ||
-              (screen_off == 1'b1) )
-                 blank_time = 1'b1;
-        else
-                 blank_time = 1'b0;
+        blank_time = 1'b0;
+        if (screen_off == 1'b1)
+            blank_time = 1'b1;
+        if (hc >= RBORDER && hc < (RBORDER + HFPORCH + HSYNC + HBPORCH))
+            blank_time = 1'b1;
+        if (vc >= (VACTIVEREGION + BBORDER) && vc < (VACTIVEREGION + BBORDER + VFPORCH + VSYNC + VBPORCH))
+            blank_time = 1'b1;
     end
     
     //////////////////////////////////////////////////////////////////////////
@@ -326,7 +326,7 @@ module asic (
             else begin // showing border
                 sregm12 <= 8'h00;
                 attrreg <= {1'b0, clut_border, 3'b000};
-                sregm3 <= { {16{clut_border[1:0]}} };
+                sregm3 <= { {16{clut_border[0],clut_border[1]}} };
                 sregm4 <= { {8{clut_border}} };
                 hibits_clut_m3 <= clut_border[3:2];
             end
@@ -357,7 +357,7 @@ module asic (
                     else
                         index = {attrreg[6],attrreg[5:3]};
                 end
-            2'd2: index = {hibits_clut_m3, sregm3[31:30]};
+            2'd2: index = {hibits_clut_m3, sregm3[30], sregm3[31]};
             2'd3: index = sregm4[31:28];
         endcase
         if (blank_time == 1'b1)
