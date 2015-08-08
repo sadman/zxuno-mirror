@@ -223,18 +223,22 @@ module asic (
     
     always @* begin
         mem_contention = 1'b0;
+        io_contention = 1'b0;
 
-        if (hc[3:0]<4'd10)
+        if (hc[3:0]<4'd10 && screen_off == 1'b0)
             io_contention = 1'b1;
-        else
-            io_contention = 1'b0;
-
+        else if (screen_off == 1'b1 && (hc[3:0]==4'd0 ||
+                                        hc[3:0]==4'd1 ||
+                                        hc[3:0]==4'd8 ||
+                                        hc[3:0]==4'd9) )
+            io_contention = 1'b1;
+            
         if (fetching_pixels == 1'b1 && hc[3:0]<4'd10)
            mem_contention = 1'b1;
         else if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
-                                            hc[3:0]==4'd1 ||
-                                            hc[3:0]==4'd8 ||
-                                            hc[3:0]==4'd9) )
+                                             hc[3:0]==4'd1 ||
+                                             hc[3:0]==4'd8 ||
+                                             hc[3:0]==4'd9) )
             mem_contention = 1'b1;
         if (screen_mode == 2'b00 && hc[3:0]<4'd10 && hc[9:4]<6'd40)
             mem_contention = 1'b1;  // extra contention for MODE 1
