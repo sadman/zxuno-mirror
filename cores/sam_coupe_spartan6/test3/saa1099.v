@@ -61,12 +61,12 @@ module saa1099 (
                         5'h04: amplit4 <= din;
                         5'h05: amplit5 <= din;
                         
-                        5'h08: freq0   <= 510 - {1'b0, din};
-                        5'h09: freq1   <= 510 - {1'b0, din};
-                        5'h0A: freq2   <= 510 - {1'b0, din};
-                        5'h0B: freq3   <= 510 - {1'b0, din};
-                        5'h0C: freq4   <= 510 - {1'b0, din};
-                        5'h0D: freq5   <= 510 - {1'b0, din};
+                        5'h08: freq0   <= 9'd510 - {1'b0, din};
+                        5'h09: freq1   <= 9'd510 - {1'b0, din};
+                        5'h0A: freq2   <= 9'd510 - {1'b0, din};
+                        5'h0B: freq3   <= 9'd510 - {1'b0, din};
+                        5'h0C: freq4   <= 9'd510 - {1'b0, din};
+                        5'h0D: freq5   <= 9'd510 - {1'b0, din};
                         
                         5'h10: oct10   <= din;
                         5'h11: oct32   <= din;
@@ -98,12 +98,12 @@ module saa1099 (
     
     wire noise0, noise1;
     
-    wire [4:0] mixout1_0, mixout0_r;
+    wire [4:0] mixout0_l, mixout0_r;
     wire [4:0] mixout1_l, mixout1_r;
-    wire [4:0] mixout1_2, mixout2_r;
-    wire [4:0] mixout1_3, mixout3_r;
-    wire [4:0] mixout1_4, mixout4_r;
-    wire [4:0] mixout1_5, mixout5_r;
+    wire [4:0] mixout2_l, mixout2_r;
+    wire [4:0] mixout3_l, mixout3_r;
+    wire [4:0] mixout4_l, mixout4_r;
+    wire [4:0] mixout5_l, mixout5_r;
     
     
     // Frequency and noise generators, top half
@@ -132,7 +132,7 @@ module saa1099 (
         .pulseout()
     );
 
-    saa1099_noise_gen noise0 (
+    saa1099_noise_gen noise_gen0 (
         .clk(clk),
         .rst_n(rst_n),
         .pulse_from_gen(pulse_to_noise0),
@@ -167,7 +167,7 @@ module saa1099 (
         .pulseout()
     );
 
-    saa1099_noise_gen noise1 (
+    saa1099_noise_gen noise_gen1 (
         .clk(clk),
         .rst_n(rst_n),
         .pulse_from_gen(pulse_to_noise1),
@@ -180,24 +180,24 @@ module saa1099 (
 
     sa1099_mixer_and_amplitude mixer0 (
         .clk(clk),
-        .en_tone(freqenable[0] == 1'b1 && (noisegen[1:0] != 2'd3)),  // if gen0 is being used to generate noise, don't use this channel for tone output
+        .en_tone(freqenable[0] == 1'b1 && noisegen[1:0] != 2'd3),  // if gen0 is being used to generate noise, don't use this channel for tone output
         .en_noise(noiseenable[0]),
         .tone(gen0_tone),
         .noise(noise0),
         .amplitude_l(amplit0[3:0]),
-        .amplitude_r(amplit0[4:7]),
+        .amplitude_r(amplit0[7:4]),
         .out_l(mixout0_l),
         .out_r(mixout0_r)
     );
 
     sa1099_mixer_and_amplitude mixer1 (
         .clk(clk),
-        .en_tone(freqenable[1] == 1'b1 && (envelope0[7] == 1'b0)),
-        .en_noise(noiseenable[0]),
+        .en_tone(freqenable[1] == 1'b1 && envelope0[7] == 1'b0),
+        .en_noise(noiseenable[1]),
         .tone(gen1_tone),
         .noise(noise0),
         .amplitude_l(amplit1[3:0]),
-        .amplitude_r(amplit1[4:7]),
+        .amplitude_r(amplit1[7:4]),
         .out_l(mixout1_l),
         .out_r(mixout1_r)
     );
@@ -205,35 +205,35 @@ module saa1099 (
     sa1099_mixer_and_amplitude mixer2 (
         .clk(clk),
         .en_tone(freqenable[2]),
-        .en_noise(noiseenable[0]),
+        .en_noise(noiseenable[2]),
         .tone(gen2_tone),
         .noise(noise0),
         .amplitude_l(amplit2[3:0]),
-        .amplitude_r(amplit2[4:7]),
+        .amplitude_r(amplit2[7:4]),
         .out_l(mixout2_l),
         .out_r(mixout2_r)
     );
 
     sa1099_mixer_and_amplitude mixer3 (
         .clk(clk),
-        .en_tone(freqenable[3] == 1'b1 && (noisegen[5:4] != 2'd3)),  // if gen0 is being used to generate noise, don't use this channel for tone output
-        .en_noise(noiseenable[1]),
+        .en_tone(freqenable[3] == 1'b1 && noisegen[5:4] != 2'd3),  // if gen3 is being used to generate noise, don't use this channel for tone output
+        .en_noise(noiseenable[3]),
         .tone(gen3_tone),
         .noise(noise1),
         .amplitude_l(amplit3[3:0]),
-        .amplitude_r(amplit3[4:7]),
+        .amplitude_r(amplit3[7:4]),
         .out_l(mixout3_l),
         .out_r(mixout3_r)
     );
 
     sa1099_mixer_and_amplitude mixer4 (
         .clk(clk),
-        .en_tone(freqenable[4] == 1'b1 && (envelope1[7] == 1'b0)),
-        .en_noise(noiseenable[1]),
+        .en_tone(freqenable[4] == 1'b1 && envelope1[7] == 1'b0),
+        .en_noise(noiseenable[4]),
         .tone(gen4_tone),
         .noise(noise1),
         .amplitude_l(amplit4[3:0]),
-        .amplitude_r(amplit4[4:7]),
+        .amplitude_r(amplit4[7:4]),
         .out_l(mixout4_l),
         .out_r(mixout4_r)
     );
@@ -241,15 +241,45 @@ module saa1099 (
     sa1099_mixer_and_amplitude mixer5 (
         .clk(clk),
         .en_tone(freqenable[5]),
-        .en_noise(noiseenable[1]),
+        .en_noise(noiseenable[5]),
         .tone(gen5_tone),
         .noise(noise1),
         .amplitude_l(amplit5[3:0]),
-        .amplitude_r(amplit5[4:7]),
+        .amplitude_r(amplit5[7:4]),
         .out_l(mixout5_l),
         .out_r(mixout5_r)
     );
 
+
+    // Envelope generators: TO DO
+    
+    
+    // Final mix
+
+    saa1099_output_mixer outmix_left (
+        .clk(clk),
+        .sound_enable(ctrl[0]),
+        .i0(mixout0_l),
+        .i1(mixout1_l),
+        .i2(mixout2_l),
+        .i3(mixout3_l),
+        .i4(mixout4_l),
+        .i5(mixout5_l),
+        .o(out_l)
+    );
+
+    saa1099_output_mixer outmix_right (
+        .clk(clk),
+        .sound_enable(ctrl[0]),
+        .i0(mixout0_r),
+        .i1(mixout1_r),
+        .i2(mixout2_r),
+        .i3(mixout3_r),
+        .i4(mixout4_r),
+        .i5(mixout5_r),
+        .o(out_r)
+    );
+    
 
 endmodule
 
@@ -258,7 +288,7 @@ module saa1099_tone_gen (
     input wire [2:0] octave,
     input wire [8:0] freq,
     output reg out,
-    output wire pulseout
+    output reg pulseout
 );
   
     reg [7:0] fcounter;
@@ -369,19 +399,53 @@ module sa1099_mixer_and_amplitude (
 
     reg [4:0] next_out_l, next_out_r;
     always @* begin
-        next_out_l = 5'b00000;
-        next_out_r = 5'b00000;
+        next_out_l = 5'b0000;
+        next_out_r = 5'b0000;
         if (en_tone == 1'b1)
             if (tone == 1'b1) begin
-                next_out_l = next_out_l + amplitude_l;
-                next_out_r = next_out_r + amplitude_r;
+                next_out_l = next_out_l + {1'b0, amplitude_l};
+                next_out_r = next_out_r + {1'b0, amplitude_r};
             end
         if (en_noise == 1'b1)
             if (noise == 1'b1) begin
-                next_out_l = next_out_l + amplitude_l;
-                next_out_r = next_out_r + amplitude_r;
+                next_out_l = next_out_l + {1'b0, amplitude_l};
+                next_out_r = next_out_r + {1'b0, amplitude_r};
             end
     end
+    
+//    reg [4:0] next_out_l, next_out_r;
+//    always @* begin
+//        case ({en_tone, en_noise, tone, noise})
+//            4'b0000,
+//            4'b0001,
+//            4'b0010,
+//            4'b0011,
+//            4'b0100,
+//            4'b1000,
+//            4'b0110,
+//            4'b1001,
+//            4'b1100 : 
+//                begin
+//                    next_out_l = 5'b0000;
+//                    next_out_r = 5'b0000;
+//                end
+//            4'b0101,
+//            4'b1010,
+//            4'b1110,
+//            4'b0111,
+//            4'b1011,
+//            4'b1101 :
+//                begin
+//                    next_out_l = {1'b0, amplitude_l};
+//                    next_out_r = {1'b0, amplitude_r};
+//                end
+//            4'b1111 :
+//                begin
+//                    next_out_l = {amplitude_l, 1'b0};
+//                    next_out_r = {amplitude_r, 1'b0};
+//                end
+//        endcase
+//    end
     
     always @(posedge clk) begin
         out_l <= next_out_l;
@@ -390,18 +454,27 @@ module sa1099_mixer_and_amplitude (
 endmodule
 
 module saa1099_output_mixer (
+    input wire clk,
+    input wire sound_enable,
+    input wire [4:0] i0,
     input wire [4:0] i1,
     input wire [4:0] i2,
     input wire [4:0] i3,
     input wire [4:0] i4,
     input wire [4:0] i5,
-    input wire [4:0] i6,
-    output reg [9:0] o
+    output reg [7:0] o
     );
-    
+
+    reg [7:0] mix;
     always @* begin
-        o = i1 + i2 + i3 + i4 + i5;
+        if (sound_enable == 1'b1)
+            mix = i0 + i1 + i2 + i3 + i4 + i5;
+        else
+            mix = 8'd0;
+    end
+    
+    always @(posedge clk) begin
+        o <= mix;
     end
 endmodule
-    
     

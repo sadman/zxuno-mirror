@@ -157,12 +157,18 @@ module asic (
     // Pixel counter and scan counter
     reg [9:0] hc = 10'h000;
     reg [8:0] vc = 9'h000;
+    reg [7:0] hpen_internal = 8'h00;
     
     always @(posedge clk) begin
-        if (hc != (HTOTAL-1))
+        if (hc != (HTOTAL-1)) begin
             hc <= hc + 1;
+            if (hc == 10'd256 && vc == 9'd0)
+                hpen_internal <= 8'h00;
+        end
         else begin
-            hc <= 10'h000;
+            hc <= 10'h000;            
+            if (hpen_internal != 8'hC0)
+                hpen_internal <= hpen_internal + 1;
             if (vc != (VTOTAL-1))
                 vc <= vc + 1;
             else
@@ -383,7 +389,7 @@ module asic (
         iorq_negdge[0] <= iorq_n;
         if (iorq_negdge[1] == 1'b1 && iorq_negdge[0] == 1'b0) begin  // falling edge IORQ
             lpen <= (hc<10'd256 || vc>=9'd192)? {7'b0000000,index[0]} : hc[8:1];
-            hpen <= (vc>=9'd192)? 8'd192 : vc[7:0];
+            hpen <= (screen_off == 1'b1)? 8'd192 : hpen_internal;
         end
     end
 
