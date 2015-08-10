@@ -64,18 +64,15 @@ module mixer (
     output wire audio_right
 	);
 
-    reg [7:0] beeper;
+    reg [6:0] beeper;
     always @* begin
-        case ({ear,spk,mic})
-            3'b000 : beeper = 8'd0;
-            3'b001 : beeper = 8'd36;
-            3'b010 : beeper = 8'd184;
-            3'b011 : beeper = 8'd192;
-            3'b100 : beeper = 8'd22;
-            3'b101 : beeper = 8'd48;
-            3'b110 : beeper = 8'd244;
-            default: beeper = 8'd255;
-        endcase
+        beeper = 7'd0;
+        if (ear == 1'b1)
+            beeper = beeper + 7'd38;  // 30% of total output
+        if (mic == 1'b1)
+            beeper = beeper + 7'd38;  // 30% of total output
+        if (spk == 1'b1)
+            beeper = beeper + 7'd51;  // 40% of total output
     end
 	
     wire [8:0] next_sample_l = beeper + saa_left;

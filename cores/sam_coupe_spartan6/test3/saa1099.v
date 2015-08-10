@@ -465,6 +465,11 @@ module saa1099_output_mixer (
     output reg [7:0] o
     );
 
+    reg [7:0] compressor_table[0:255];
+    initial begin
+        $readmemh ("compressor_lut.hex", compressor_table);
+    end
+    
     reg [7:0] mix;
     always @* begin
         if (sound_enable == 1'b1)
@@ -474,7 +479,7 @@ module saa1099_output_mixer (
     end
     
     always @(posedge clk) begin
-        o <= mix;
+        o <= compressor_table[mix];
     end
 endmodule
     

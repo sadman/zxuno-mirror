@@ -158,30 +158,12 @@ module samcoupe (
         .dout(data_from_rom)
     );
     
-//    ram_dual_port_turnos ram_512k (
-//        .clk(clk24),
-//        .whichturn(asic_is_using_ram),
-//        .vramaddr(vramaddr),
-//        .cpuramaddr(cpuramaddr),
-//        .cpu_we_n(ram_we_n),
-//        .data_from_cpu(data_from_cpu),
-//        .data_to_asic(data_to_asic),
-//        .data_to_cpu(data_from_ram),
-//        // Actual interface with SRAM
-//        .sram_a(sram_addr),
-//        .sram_we_n(sram_we_n),
-//        .sram_d(sram_data)
-//    );
-    
-    ram_dual_port ram_512k (
+    ram_dual_port_turnos ram_512k (
         .clk(clk24),
         .whichturn(asic_is_using_ram),
         .vramaddr(vramaddr),
         .cpuramaddr(cpuramaddr),
-        .mreq_n(ram_oe_n),
-        .rd_n(rd_n),
-        .wr_n(ram_we_n),
-        .rfsh_n(rfsh_n),
+        .cpu_we_n(ram_we_n),
         .data_from_cpu(data_from_cpu),
         .data_to_asic(data_to_asic),
         .data_to_cpu(data_from_ram),
@@ -190,6 +172,24 @@ module samcoupe (
         .sram_we_n(sram_we_n),
         .sram_d(sram_data)
     );
+    
+//    ram_dual_port ram_512k (
+//        .clk(clk24),
+//        .whichturn(asic_is_using_ram),
+//        .vramaddr(vramaddr),
+//        .cpuramaddr(cpuramaddr),
+//        .mreq_n(ram_oe_n),
+//        .rd_n(rd_n),
+//        .wr_n(ram_we_n),
+//        .rfsh_n(rfsh_n),
+//        .data_from_cpu(data_from_cpu),
+//        .data_to_asic(data_to_asic),
+//        .data_to_cpu(data_from_ram),
+//        // Actual interface with SRAM
+//        .sram_a(sram_addr),
+//        .sram_we_n(sram_we_n),
+//        .sram_d(sram_data)
+//    );
 
     ps2_keyb el_teclado (
         .clk(clk6),
