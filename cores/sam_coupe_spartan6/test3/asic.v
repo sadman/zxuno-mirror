@@ -154,21 +154,16 @@ module asic (
     end
         
     //////////////////////////////////////////////////////////////////////////
-    // Pixel counter and scan counter
+    // Pixel counter (horizontal) and scan counter (vertical)
     reg [9:0] hc = 10'h000;
     reg [8:0] vc = 9'h000;
-    reg [7:0] hpen_internal = 8'h00;
     
     always @(posedge clk) begin
         if (hc != (HTOTAL-1)) begin
             hc <= hc + 1;
-            if (hc == 10'd256 && vc == 9'd0)
-                hpen_internal <= 8'h00;
         end
         else begin
             hc <= 10'h000;            
-            if (hpen_internal != 8'hC0)
-                hpen_internal <= hpen_internal + 1;                
             if (vc != (VTOTAL-1))
                 vc <= vc + 1;
             else
@@ -231,9 +226,9 @@ module asic (
         mem_contention = 1'b0;
         io_contention = 1'b0;
 
-        if (hc[3:0]<4'd10 && screen_off == 1'b0)
+        if (screen_off == 1'b0 && hc[3:0]<4'd10)
             io_contention = 1'b1;
-        else if (screen_off == 1'b1 && (hc[3:0]==4'd0 ||
+        if (screen_off == 1'b1 && (hc[3:0]==4'd0 ||
                                         hc[3:0]==4'd1 ||
                                         hc[3:0]==4'd8 ||
                                         hc[3:0]==4'd9) )
@@ -241,12 +236,12 @@ module asic (
             
         if (fetching_pixels == 1'b1 && hc[3:0]<4'd10)
            mem_contention = 1'b1;
-        else if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
+        if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
                                              hc[3:0]==4'd1 ||
                                              hc[3:0]==4'd8 ||
                                              hc[3:0]==4'd9) )
             mem_contention = 1'b1;
-        if (screen_mode == 2'b00 && hc[3:0]<4'd10 && hc[9:4]<6'd40)
+        if (screen_mode == 2'b00 && hc[3:0]<4'd10 && (hc<10'd128 || hc>=10'd256))
             mem_contention = 1'b1;  // extra contention for MODE 1
     end
     assign asic_is_using_ram = mem_contention & fetching_pixels;
@@ -261,7 +256,7 @@ module asic (
             wait_n = 1'b1;
         else if (mem_contention == 1'b1 && mreq_n == 1'b0)
             wait_n = 1'b0;
-        else if (io_contention == 1'b1 && iorq_n == 1'b0)
+        else if (io_contention == 1'b1 && iorq_n == 1'b0 && (rd_n == 1'b0 || wr_n == 1'b0))
             wait_n = 1'b0;
     end
     
@@ -382,12 +377,22 @@ module asic (
     
     //////////////////////////////////////////////////////////////////////////
     // HPEN and LPEN counters
-    reg [1:0] iorq_negdge = 2'b11;
+    reg iorq_prev = 1'b1;
+    reg [7:0] hpen_internal = 8'h00;
     
     always @(posedge clk) begin
-        iorq_negdge[1] <= iorq_negdge[0];
-        iorq_negdge[0] <= iorq_n;
-        if (iorq_negdge[1] == 1'b1 && iorq_negdge[0] == 1'b0) begin  // falling edge IORQ
+        if (hc == 10'd255 && vc == 9'd0) begin
+            hpen_internal <= 8'h00;
+        end
+        else if (hc == (HTOTAL-1)) begin
+            if (hpen_internal != 8'hC0)
+                hpen_internal <= hpen_internal + 1;                
+        end
+    end
+
+    always @(posedge clk) begin
+        iorq_prev <= iorq_n;
+        if (iorq_prev == 1'b1 && iorq_n == 1'b0) begin  // falling edge IORQ
             lpen <= (hc<10'd256 || vc>=9'd192)? {7'b0000000,index[0]} : (hc[8:1] ^ 8'h80);  // fast way to add 128 to hc[8:1]
             hpen <= (screen_off == 1'b1)? 8'd192 : hpen_internal;
         end

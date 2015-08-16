@@ -101,10 +101,11 @@ module saa1099 (
     wire [4:0] mixout0_l, mixout0_r;
     wire [4:0] mixout1_l, mixout1_r;
     wire [4:0] mixout2_l, mixout2_r;
+    wire [4:0] mixout2_l_with_env, mixout2_r_with_env;
     wire [4:0] mixout3_l, mixout3_r;
     wire [4:0] mixout4_l, mixout4_r;
     wire [4:0] mixout5_l, mixout5_r;
-    
+    wire [4:0] mixout5_l_with_env, mixout5_r_with_env;
     
     // Frequency and noise generators, top half
 
@@ -251,8 +252,37 @@ module saa1099 (
     );
 
 
-    // Envelope generators: TO DO
+    // Envelope generators
+
+    saa1099_envelope_gen envelope_gen0 (
+        .clk(clk),
+        .rst_n(rst_n),
+        .envreg(envelope0),
+        .write_to_envreg_addr(cs_n == 1'b0 && wr_n == 1'b0 && a0 == 1'b1 && din[4:0] == 5'h18),
+        .write_to_envreg_data(cs_n == 1'b0 && wr_n == 1'b0 && a0 == 1'b0 && addr == 5'h18),
+        .pulse_from_tonegen(pulse_to_envelope0),
+        .tone_en(freqenable[2]),
+        .noise_en(noiseenable[2]),
+        .sound_in_left(mixout2_l),
+        .sound_in_right(mixout2_r),
+        .sound_out_left(mixout2_l_with_env),
+        .sound_out_right(mixout2_r_with_env)
+    );
     
+    saa1099_envelope_gen envelope_gen1 (
+        .clk(clk),
+        .rst_n(rst_n),
+        .envreg(envelope1),
+        .write_to_envreg_addr(cs_n == 1'b0 && wr_n == 1'b0 && a0 == 1'b1 && din[4:0] == 5'h19),
+        .write_to_envreg_data(cs_n == 1'b0 && wr_n == 1'b0 && a0 == 1'b0 && addr == 5'h19),
+        .pulse_from_tonegen(pulse_to_envelope1),
+        .tone_en(freqenable[5]),
+        .noise_en(noiseenable[5]),
+        .sound_in_left(mixout5_l),
+        .sound_in_right(mixout5_r),
+        .sound_out_left(mixout5_l_with_env),
+        .sound_out_right(mixout5_r_with_env)
+    );    
     
     // Final mix
 
@@ -261,10 +291,10 @@ module saa1099 (
         .sound_enable(ctrl[0]),
         .i0(mixout0_l),
         .i1(mixout1_l),
-        .i2(mixout2_l),
+        .i2(mixout2_l_with_env),
         .i3(mixout3_l),
         .i4(mixout4_l),
-        .i5(mixout5_l),
+        .i5(mixout5_l_with_env),
         .o(out_l)
     );
 
@@ -273,10 +303,10 @@ module saa1099 (
         .sound_enable(ctrl[0]),
         .i0(mixout0_r),
         .i1(mixout1_r),
-        .i2(mixout2_r),
+        .i2(mixout2_r_with_env),
         .i3(mixout3_r),
         .i4(mixout4_r),
-        .i5(mixout5_r),
+        .i5(mixout5_r_with_env),
         .o(out_r)
     );
     
@@ -413,44 +443,174 @@ module sa1099_mixer_and_amplitude (
             end
     end
     
-//    reg [4:0] next_out_l, next_out_r;
-//    always @* begin
-//        case ({en_tone, en_noise, tone, noise})
-//            4'b0000,
-//            4'b0001,
-//            4'b0010,
-//            4'b0011,
-//            4'b0100,
-//            4'b1000,
-//            4'b0110,
-//            4'b1001,
-//            4'b1100 : 
-//                begin
-//                    next_out_l = 5'b0000;
-//                    next_out_r = 5'b0000;
-//                end
-//            4'b0101,
-//            4'b1010,
-//            4'b1110,
-//            4'b0111,
-//            4'b1011,
-//            4'b1101 :
-//                begin
-//                    next_out_l = {1'b0, amplitude_l};
-//                    next_out_r = {1'b0, amplitude_r};
-//                end
-//            4'b1111 :
-//                begin
-//                    next_out_l = {amplitude_l, 1'b0};
-//                    next_out_r = {amplitude_r, 1'b0};
-//                end
-//        endcase
-//    end
-    
     always @(posedge clk) begin
         out_l <= next_out_l;
         out_r <= next_out_r;
     end
+endmodule
+
+module saa1099_envelope_gen (
+    input wire clk,
+    input wire rst_n,
+    input wire [7:0] envreg,
+    input wire write_to_envreg_addr,
+    input wire write_to_envreg_data,
+    input wire pulse_from_tonegen,
+    input wire tone_en,
+    input wire noise_en,
+    input wire [4:0] sound_in_left,
+    input wire [4:0] sound_in_right,
+    output wire [4:0] sound_out_left,
+    output wire [4:0] sound_out_right
+    );
+    
+    reg [3:0] envelopes[0:511];
+    integer i;
+    initial begin
+        // Generating envelopes
+        // 0 0 0 : ______________
+        for (i=0;i<64;i=i+1)
+            envelopes[{3'b000,i[5:0]}] = 4'd0;
+            
+        // 0 0 1 : --------------
+        for (i=0;i<64;i=i+1)
+            envelopes[{3'b001,i[5:0]}] = 4'd15;
+            
+        // 0 1 0 : \_____________
+        for (i=0;i<16;i=i+1)
+            envelopes[{3'b010,i[5:0]}] = ~i[3:0];
+        for (i=16;i<64;i=i+1)
+            envelopes[{3'b010,i[5:0]}] = 4'd0;
+            
+        // 0 1 1 : \|\|\|\|\|\|\|\
+        for (i=0;i<64;i=i+1)
+            envelopes[{3'b011,i[5:0]}] = ~i[3:0];
+            
+        // 1 0 0 : /\______________
+        for (i=0;i<16;i=i+1)
+            envelopes[{3'b100,i[5:0]}] = i[3:0];
+        for (i=16;i<32;i=i+1)
+            envelopes[{3'b100,i[5:0]}] = ~i[3:0];
+        for (i=32;i<64;i=i+1)
+            envelopes[{3'b100,i[5:0]}] = 4'd0;
+            
+        // 1 0 1 : /\/\/\/\/\/\/\/\
+        for (i=0;i<16;i=i+1)
+            envelopes[{3'b101,i[5:0]}] = i[3:0];
+        for (i=16;i<32;i=i+1)
+            envelopes[{3'b101,i[5:0]}] = ~i[3:0];
+        for (i=32;i<48;i=i+1)
+            envelopes[{3'b101,i[5:0]}] = i[3:0];
+        for (i=48;i<64;i=i+1)
+            envelopes[{3'b101,i[5:0]}] = ~i[3:0];
+        
+        // 1 1 0 : /|________________
+        for (i=0;i<16;i=i+1)
+            envelopes[{3'b110,i[5:0]}] = i[3:0];
+        for (i=16;i<64;i=i+1)
+            envelopes[{3'b110,i[5:0]}] = 4'd0;
+        
+        // 1 1 1 : /|/|/|/|/|/|/|/|/|
+        for (i=0;i<64;i=i+1)
+            envelopes[{3'b111,i[5:0]}] = i[3:0];
+    end
+    
+    reg write_to_address_prev = 1'b0;
+    wire write_to_address_edge = (~write_to_address_prev & write_to_envreg_addr);
+
+    reg write_to_data_prev = 1'b0;
+    wire write_to_data_edge = (~write_to_data_prev & write_to_envreg_data);
+
+    reg [2:0] envshape = 3'b000;
+    reg stereoshape = 1'b0;
+    reg envclock = 1'b0;
+    wire env_enable = envreg[7];
+    wire env_resolution = envreg[4];
+    
+    reg pending_data = 1'b0;
+    
+    reg [5:0] envcounter = 6'd0;    
+    always @(posedge clk) begin
+        if (rst_n == 1'b0) begin
+            envcounter <= 6'd0;
+            stereoshape <= 1'b0;
+            envshape <= 3'b000;
+            envclock <= 1'b0;
+            write_to_address_prev = 1'b0;
+            write_to_data_prev = 1'b0;
+            pending_data <= 1'b0;
+        end
+        else begin
+            write_to_address_prev <= write_to_envreg_addr;
+            write_to_data_prev <= write_to_envreg_data;
+            if (write_to_data_edge == 1'b1)
+                pending_data <= 1'b1;
+            if (env_enable == 1'b1) begin
+                if (envclock == 1'b0 && pulse_from_tonegen == 1'b1 || envclock == 1'b1 && write_to_address_edge == 1'b1) begin  // pulse from internal or external clock?
+                    if (envcounter == 6'd63)
+                        envcounter <= 6'd32;
+                    else begin
+                        if (env_resolution == 1'b0)
+                            envcounter <= envcounter + 1;
+                        else
+                            envcounter <= envcounter + 2;
+                    end
+                    if (envcounter == 6'd0 ||
+                        envcounter >= 6'd15 && (envshape == 3'b000 || envshape == 3'b010 || envshape == 3'b110) ||
+                        envcounter[3:0] == 4'd15 && (envshape == 3'b001 || envshape == 3'b011 || envshape == 3'b111) ||
+                        envcounter >= 6'd31 && envshape == 3'b100 ||
+                        envcounter[4:0] == 5'd31 && envshape ==3'b101) begin  // find out when to updated buffered values
+                        if (pending_data == 1'b1) begin  // if we reached one of the designated points (3) or (4) and there is pending data, load it
+                            envshape <= envreg[3:1];
+                            stereoshape <= envreg[0];
+                            envclock <= envreg[5];
+                            envcounter <= 6'd0;
+                            pending_data <= 1'b0;
+                        end
+                    end
+                end
+            end
+        end
+    end
+    
+    reg [3:0] envleft = 4'b0000;
+    wire [3:0] envright = (stereoshape == 1'b0)? envleft : ~envleft;  // bit 0 of envreg inverts envelope shape
+    always @(posedge clk)
+        envleft <= envelopes[{envshape,envcounter}];  // take current envelope from envelopes ROM
+    
+    wire [4:0] temp_out_left, temp_out_right;
+    
+    saa1099_amp_env_mixer modulate_left (
+        .a(sound_in_left),
+        .b(envleft),
+        .o(temp_out_left)
+        );
+
+    saa1099_amp_env_mixer modulate_right (
+        .a(sound_in_right),
+        .b(envright),
+        .o(temp_out_right)
+        );
+        
+    assign sound_out_left = (env_enable == 1'b0)? sound_in_left :  // if envelopes are not enabled, just bypass them
+                            (env_enable == 1'b1 && tone_en == 1'b0 && noise_en == 1'b0)? {envleft, envleft[3]} : // if tone and noise are off, output is envelope signal itself
+                            temp_out_left;  // else it is original signal modulated by envelope
+        
+    assign sound_out_right = (env_enable == 1'b0)? sound_in_right : 
+                             (env_enable == 1'b1 && tone_en == 1'b0 && noise_en == 1'b0)? {envright, envright[3]} :
+                             temp_out_right;
+endmodule
+
+module saa1099_amp_env_mixer (
+    input wire [4:0] a,  // amplitude
+    input wire [3:0] b,  // envelope
+    output wire [4:0] o  // output
+    );
+  
+    wire [6:0] res1 = ((b[0] == 1'b1)? a : 5'h00)         + ((b[1] == 1'b1)? {a,1'b0} : 6'h00);  
+    wire [8:0] res2 = ((b[2] == 1'b1)? {a,2'b00} : 7'h00) + ((b[3] == 1'b1)? {a,3'b000} : 8'h00);
+    wire [8:0] res3 = res1 + res2;
+    assign o = res3[8:4];
 endmodule
 
 module saa1099_output_mixer (
