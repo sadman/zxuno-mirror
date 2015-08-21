@@ -28,16 +28,14 @@
         define  config  $9000
         define  indexe  $a000
         define  active  $a040
-        define  keybly  active+1
-        define  joysly  keybly+1
-        define  quietb  joysly+1
-        define  checkc  quietb+1
-        define  keyiss  checkc+1
-        define  timing  keyiss+1
-        define  conten  timing+1
-        define  divmap  conten+1
-        define  nmidiv  divmap+1
-        define  siemp0  nmidiv+1
+        define  quietb  $a041
+        define  checkc  $a042
+        define  keyiss  $a043
+        define  timing  $a044
+        define  conten  $a045
+        define  divmap  $a046
+        define  nmidiv  $a047
+        define  siemp0  $a048
         define  tmpbuf  $a100
         define  stack   $aab0
         define  alto    $ae00-crctab+
@@ -82,7 +80,7 @@ rst38   push    af
         push    bc
         push    de
         push    hl
-        ld      de, keytab-1 & $ff
+        ld      de, keytab-1&$ff
         ld      bc, $fefe
         ld      l, d
 keyscn  in      a, (c)
@@ -105,9 +103,9 @@ keysc1  inc     l
         jr      z, keysc4
         xor     a
         jr      keysc6
-keysc2  ld      e, 39+keytab & $ff
+keysc2  ld      e, 39+keytab&$ff
         defb    $c2                     ;JP NZ,xxxx
-keysc3  ld      e, 79+keytab & $ff
+keysc3  ld      e, 79+keytab&$ff
 keysc4  ex      af, af'
         jr      nz, keysc1
 keysc5  ld      a, h
@@ -361,14 +359,14 @@ bios7   dec     c
         ei
         ld      sp, stack-2
         ld      ix, cad11
-        ld      bc, $1907
+        ld      bc, $1908
         call    prnmul          ; borde medio
         ld      hl, (menuop)
         ld      d, h
         ld      h, a
         ld      a, l
         add     a, a
-        add     a, jmptbl & $ff
+        add     a, jmptbl&$ff
         ld      l, a
         ld      c, (hl)
         inc     l
@@ -388,38 +386,19 @@ main    inc     d
         ld      ix, cad10
         ld      bc, $0202
         call    prnmul          ; Harward tests ...
-        ld      hl, keybly
-        ld      ix, cad72-11
-mainz   ld      b, (hl)
-        inc     b
-mainy   ld      a, 11
-        add     a, ixl
-        ld      ixl, a
-        djnz    mainy
-        push    hl
-        ld      bc, $0f0a-active & $ffff
-        add     hl, bc
-        ld      c, l
-        ld      b, h
-        call_prnstr
-        pop     hl
-        inc     l
-        bit     0, l
-        ld      ixl, cad73-11 & $ff
-        jr      z, mainz
-main1   ld      a, (hl)
+        ld      iy, quietb
+        ld      bc, $0f0b
+main1   ld      a, (iy)
         ld      ix, cad24
         dec     a
         jr      nz, main2
         ld      ixl, cad25 & $ff
-main2   push    hl
-        call_prnstr
-        pop     hl
-        inc     l
-        ld      a, keyiss & $ff
-        cp      l
+main2   call_prnstr
+        inc     iyl
+        ld      a, keyiss&$ff
+        cp      iyl
         jr      nz, main1
-        ld      a, (hl)
+        ld      a, (iy)
         ld      ixl, cad26 & $ff
         dec     a
         jr      nz, main3
@@ -427,11 +406,9 @@ main2   push    hl
 main3   dec     a
         jr      nz, mait4
         ld      ixl, cadv8 & $ff
-mait4   push    hl
-        call_prnstr
-        pop     hl
-        inc     l
-        ld      a, (hl)
+mait4   call_prnstr
+        inc     iyl
+        ld      a, (iy)
         ld      ixl, cadv9 & $ff
         dec     a
         jr      nz, mait5
@@ -439,11 +416,9 @@ mait4   push    hl
 mait5   dec     a
         jr      nz, mait6
         ld      ixl, cadv8 & $ff
-mait6   push    hl
-        call_prnstr
-        pop     hl
-mait7   inc     l
-        ld      a, (hl)
+mait6   call_prnstr
+mait7   inc     iyl
+        ld      a, (iy)
         ld      ixl, cad24 & $ff
         dec     a
         jr      nz, mait8
@@ -451,11 +426,9 @@ mait7   inc     l
 mait8   dec     a
         jr      nz, mait9
         ld      ixl, cadv8 & $ff
-mait9   push    hl
-        call_prnstr
-        pop     hl
-        ld      a, nmidiv & $ff
-        cp      l
+mait9   call_prnstr
+        ld      a, nmidiv&$ff
+        cp      iyl
         jr      nz, mait7
         ld      de, $1201
         call    listas
@@ -470,15 +443,11 @@ mait9   push    hl
         defb    $0f
         defb    $10
         defb    $11
-        defb    $12
-        defb    $13
         defb    $ff
         defw    cad14
         defw    cad15
         defw    cad66
         defw    cad16
-        defw    cad84
-        defw    cad85
         defw    cad17
         defw    cad56
         defw    cad20
@@ -486,87 +455,21 @@ mait9   push    hl
         defw    cad65
         defw    cad18
         defw    cad19
-        jr      nc, maine
-
-main6   cp      $0c
-        call    z, roms8
-        cp      $16
-        call    z, romsa
-        ld      hl, (menuop)
-        cp      $1e
-        jr      nz, main7
-        dec     l
-        jp      p, maina
-main7   cp      $1f
-        jr      nz, main8
-        res     2, l
-        dec     l
-        jr      nz, maina
-main8   ld      a, iyl
-        dec     a
+        jr      c, main6
         ld      (menuop+1), a
-        ret
-
-main9   call    waitky
-maina   ld      hl, (menuop)
-        cp      $0c
-        call    z, roms8
-        cp      $16
-        call    z, romsa
-        sub     $1e
-        jr      nz, maind
-        dec     l
-        jp      m, main9
-mainb   ld      a, l
-        ld      h, 0
-        dec     a
-        jr      nz, mainc
-        ld      a, (active)
-        ld      h, a
-mainc   ld      (menuop), hl
-        ret
-maind   dec     a
-        jr      nz, main9
-        inc     l
-        ld      a, l
-        cp      6
-        jr      z, main9
-        jr      mainb
-
-maine   ld      (menuop+1), a
         cp      4
         ld      h, active >> 8
         jr      c, main5
-        add     a, active-3 & $ff
+        add     a, active-3&$ff
         ld      l, a
-        sub     joysly & $ff
-        jr      z, mait0
-        jr      c, maita
-        sub     3
+        sub     keyiss&$ff
         jr      z, main4
         jr      nc, mait2
-mait1   call    popupw
+        call    popupw
         defw    cad28
         defw    cad29
         defw    $ffff
         ret
-maita   call    popupw
-        defw    cad74
-        defw    cad75
-        defw    cad76
-        defw    cad77
-        defw    $ffff
-        ret
-mait0   call    popupw
-        defw    cad78
-        defw    cad79
-        defw    cad80
-        defw    cad81
-        defw    cad82
-        defw    cad83
-        defw    $ffff
-        ret
-
 main4   call    popupw
         defw    cad30
         defw    cad31
@@ -590,109 +493,36 @@ mait3   call    popupw
 main5   and     a
         jp      z, alto ramtst
         dec     a
-        jr      nz, maitb
-        ld      l, siemp0 & $ff
+        dec     a
+        jr      z, tape
+        ld      l, siemp0&$ff
         call    popupw
         defw    cad23
         defw    $ffff
         ret
-maitb   dec     a
-      jp      z, tape
-        call    bomain
-        ld      c, $12
-        ld      ix, cad86
-        call_prnstr
-        ld      c, $15
-        call_prnstr
-        ld      de, $4861
-        ld      a, '1'<<1
-.pos0   ld      l, a
-        ld      h, $2c
-        add     hl, hl
-        add     hl, hl
-        ld      b, 8
-.pos00  ld      a, (hl)
-        ld      (de), a
-        inc     l
-        inc     d
-        djnz    .pos00
-        ld      hl, $f802
-        add     hl, de
-        ex      de, hl
-        ld      a, (ix)
-        inc     ix
-        add     a, a
-        jr      nc, .pos0
-        ex      af, af'
-        ld      a, $2c
-        add     a, e
-        ld      e, a
-        jr      nc, .pos01
-        ld      d, $50
-.pos01  ex      af, af'
-        jr      nz, .pos0
-.buc0   add     a, $fe
-.buc1   ld      de, $004a
-        ld      hl, $5a6f-4
-.buc2   sbc     hl, de
-        push    af
-        in      a, ($fe)
-        ld      b, 5
-.buc3   ld      (hl), 7
-        rrca
-        jr      c, .buc4
-        ld      (hl), $4e
-.buc4   inc     hl
-        inc     hl
-        djnz    .buc3
-        pop     af
-        rlca
-        cp      $ef
-        jr      nz, .buc2
-        ld      l, $77-4
-.buc5   push    af
-        in      a, ($fe)
-        ld      b, 5
-.buc6   ld      (hl), 7
-        rrca
-        jr      c, .buc7
-        ld      (hl), $4e
-.buc7   dec     hl
-        dec     hl
-        djnz    .buc6
-        add     hl, de
-        pop     af
-        rlca
-        jr      c, .buc5
-        ld      a, ($5a33)
-        ld      e, a
-        ld      a, ($5a21)
-        add     a, e
-        ret     m
-        in      a, ($7f)
-        add     a, $80
-        inc     b
-        call    .bup1
-        ld      b, 4
-        call    .bupi
-        in      a, ($1f)
-        cpl
-        ld      b, 5
-        call    .bupi
-        xor     a
-        jr      .buc0
-
-.bupi   dec     l
+main6   cp      $0c
+        call    z, roms8
+        cp      $16
+        call    z, romsa
+        ld      hl, (menuop)
+        cp      $1e
+        jr      nz, main7
         dec     l
-        rrca
-.bup1   ld      (hl), 7
-        jr      c, .bup2
-        ld      (hl), $4e
-.bup2   djnz    .bupi
+        jp      p, maina
+main7   cp      $1f
+        jr      nz, main8
+        res     2, l
+        dec     l
+        jr      nz, maina
+main8   ld      a, iyl
+        dec     a
+        ld      (menuop+1), a
         ret
 
 tape    call    bomain
-        call_prnstr
+        ld      bc, $0214
+        ld      ix, cad51
+        call_prnstr             ; Press any key to continue
         ld      hl, $4881
         ld      de, $00ee
         ld      c, 8
@@ -747,6 +577,32 @@ tape6   add     a, $81
         inc     l
         ld      (hl), %01111000
         jr      tape2
+
+main9   call    waitky
+maina   ld      hl, (menuop)
+        cp      $0c
+        call    z, roms8
+        cp      $16
+        call    z, romsa
+        sub     $1e
+        jr      nz, maind
+        dec     l
+        jp      m, main9
+mainb   ld      a, l
+        ld      h, 0
+        dec     a
+        jr      nz, mainc
+        ld      a, (active)
+        ld      h, a
+mainc   ld      (menuop), hl
+        ret
+maind   dec     a
+        jr      nz, main9
+        inc     l
+        ld      a, l
+        cp      6
+        jr      z, main9
+        jr      mainb
 
 ;****  Roms Menu  ****
 ;*********************
@@ -953,7 +809,8 @@ romsu   cp      (hl)
 roms10  ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
-        ld      a, $4
+        ld      bc, zxuno_port+$100
+        ld      a, $40
         ld      hl, $c000
         exx
         call    wrflsh
@@ -1126,7 +983,7 @@ roms21  dec     hl
 roms22  dec     l
         ex      de, hl
         ld      h, empstr>>8
-        ld      a, empstr-1 & $ff
+        ld      a, empstr-1&$ff
         add     a, c
         ld      l, a
         lddr
@@ -1212,8 +1069,9 @@ upgra2  jp      nc, roms12
         ld      hl, (tmpbuf+7)
         sbc     hl, de
         jr      nz, upgra4
-        ld      a, $2
+        ld      a, $20
         ld      hl, $e000
+        ld      bc, zxuno_port+$100
         exx
         ld      de, $0a80
         call    wrflsh
@@ -1239,8 +1097,9 @@ upgra5  jr      nc, upgra2
         ld      hl, (tmpbuf+7)
         sbc     hl, de
         jr      nz, upgra4
-        ld      a, $4
+        ld      a, $40
         ld      hl, $c000
+        ld      bc, zxuno_port+$100
         exx
         ld      de, $0ac0
         call    wrflsh
@@ -1255,7 +1114,7 @@ upgra7  cp      $45
         ld      hl, cad60
         ld      bc, cad61-cad60
         ldir
-        call    romcyb
+        call    romcyb 
         ld      ix, tmpbuf+$40
         call_prnstr
 upgra8  ld      a, (tmpbuf+$53 & $ff)*2
@@ -1284,16 +1143,17 @@ upgra9  and     a
         call_prnstr
         dec     iyh
         jr      nz, upgra8
-        ld      iyh, 21
+        ld      iyh, 23
         call    shaon
         exx
 upgraa  ld      a, 30
         sub     iyh
         call    alto saveme
-        ld      a, $4
+        ld      a, $40
         ld      hl, $4000
         exx
         call    wrflsh
+        inc     de
 upgrab  exx
         dec     iyh
         jr      nz, upgraa
@@ -1434,8 +1294,8 @@ boot3   ld      l, (iy)
         sub     2
         sub     iyl
         jr      nc, boot3
-        ld      (ix+0), cad6 & $ff
-        ld      (ix+1), cad6 >> 8
+        ld      (ix+0), cad6&$ff
+        ld      (ix+1), cad6>>8
         ld      (ix+3), a
         ld      a, (items+1)
         ld      e, a
@@ -1646,7 +1506,7 @@ input1  push    bc
         push    ix
         pop     hl
         ld      a, l
-        sub     empstr+1 & $ff
+        sub     empstr+1&$ff
         ld      (items), a
         ld      r, a
         ld      e, a
@@ -1663,7 +1523,7 @@ input2  ld      de, (offsel)
 input3  ld      (hl), e
         inc     l
         ld      a, l
-        sub     empstr+2 & $ff
+        sub     empstr+2&$ff
         sub     d
         jr      nz, input3
         ld      (hl), a
@@ -1741,7 +1601,7 @@ input8  ld      hl, (offsel)
         ld      c, a
         ld      b, 0
         ld      a, l
-        add     a, empstr & $ff
+        add     a, empstr&$ff
         ld      l, a
         ld      h, empstr>>8
         ld      d, h
@@ -1764,9 +1624,9 @@ inputc  jp      input1
 inputd  cp      h
         jr      z, input6
         ld      a, l
-        add     a, empstr & $ff
+        add     a, empstr&$ff
         ld      l, a
-        ld      h, empstr >> 8
+        ld      h, empstr>>8
         ld      a, (codcnt)
         inc     (hl)
         dec     (hl)
@@ -1778,12 +1638,12 @@ inpute  ld      hl, (offsel)
         inc     l
         jr      inputa
 inputf  ex      af, af'
-        ld      a, empstr+33 & $ff
+        ld      a, empstr+33&$ff
         sub     l
         push    bc
         ld      c, a
         ld      b, 0
-        ld      l, empstr+32 & $ff
+        ld      l, empstr+32&$ff
         ld      de, empstr+33
         lddr
         inc     l
@@ -2180,15 +2040,11 @@ bomain  ld      ix, cad67
         call_prnstr             ; Performing...
         inc     c
         ld      iyh, 7
-ramts1  ld      ixl, cad68 & $ff
+ramts1  ld      ixl, cad68&$ff
         call_prnstr
         dec     iyh
         jr      nz, ramts1
-        ld      bc, $0212
-        ld      ix, cad505
-        call_prnstr
-        ld      ixl, cad505 & $ff
-        call_prnstr
+        ld      bc, zxuno_port+$100
         ret
 
 calcu   add     hl, hl
@@ -2199,6 +2055,94 @@ calcu   add     hl, hl
         add     hl, hl
         add     hl, hl
         ret
+
+; ------------------------
+; Save flash structures from $9000 to $aa000 and from $a000 to $ab000
+; ------------------------
+      IF  debug
+wrflsh  dec     a
+        ret     z
+        inc     de
+        jr      wrflsh
+savech  ret
+        defs    126
+      ELSE
+savech  ld      bc, zxuno_port+$100
+        ld      a, $20
+        ld      hl, config
+        exx
+        ld      de, $0aa0
+
+; ------------------------
+; Write to SPI flash
+; Parameters:
+;    A: number of pages (256 bytes) to write
+;   DE: target address without last byte
+;  BC': zxuno_port+$100 (constant)
+;  HL': source address from memory
+; ------------------------
+wrflsh  ex      af, af'
+        xor     a
+        ld      bc, zxuno_port+$100
+wrfls1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 6    ; envío write enable
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, $20  ; envío sector erase
+        out     (c), d
+        out     (c), e
+        out     (c), a
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+wrfls2  call    waits5
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 6    ; envío write enable
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 2    ; page program
+        out     (c), d
+        out     (c), e
+        out     (c), a
+        ld      a, $20
+        exx
+wrfls3  inc     b
+        outi
+        inc     b
+        outi
+        inc     b
+        outi
+        inc     b
+        outi
+        inc     b
+        outi
+        inc     b
+        outi
+        inc     b
+        outi
+        inc     b
+        outi
+        dec     a
+        jr      nz, wrfls3
+        exx
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        ex      af, af'
+        dec     a
+        jr      z, waits5
+        ex      af, af'
+        inc     e
+        ld      a, e
+        and     $0f
+        jr      nz, wrfls2
+        ld      hl, wrfls1
+        push    hl
+waits5  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+        wreg    flash_spi, 5    ; envío read status
+        in      a, (c)
+waits6  in      a, (c)
+        and     1
+        jr      nz, waits6
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
+        ret
+      ENDIF
 
 ; ------------------------
 ; Load flash structures from $aa000 to $9000
@@ -2258,7 +2202,6 @@ getbit  ld      a, (hl)
         adc     a, a
         ret
 
-        display $
 lbytes  di                      ; disable interrupts
         ld      a, $0f          ; make the border white and mic off.
         out     ($fe), a        ; output to port.
@@ -2419,125 +2362,6 @@ get16   ld      b, 0
         jr      nc, get16
         ret
 
-; ------------------------
-; Save flash structures from $9000 to $aa000 and from $a000 to $ab000
-; ------------------------
-      IF  debug
-wrflsh  dec     a
-        ret     z
-        inc     de
-        jr      wrflsh
-savech  ret
-        defs    126
-      ELSE
-savech  ld      a, $2+1
-        ld      hl, config
-        exx
-        ld      de, $0aa0
-        ex      af, af'
-wrflsa  ex      af, af'
-        dec     a
-        ret     z
-
-; ------------------------
-; Write to SPI flash
-; Parameters:
-;    A: number of segments ($1000 bytes) to write
-;   DE: target address without last byte
-;  BC': zxuno_port+$100 (constant)
-;  HL': source address from memory
-; ------------------------
-wrflsh  ex      af, af'
-        ld      bc, zxuno_port+$100
-wrfls1  xor     a
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 6    ; envío write enable
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, $20  ; envío sector erase
-        out     (c), d
-        out     (c), e
-        out     (c), a
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-wrfls2  call    wrfls7
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 6    ; envío write enable
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 2    ; page program
-        out     (c), d
-        out     (c), e
-        out     (c), a
-        ld      a, $20
-        exx
-        ld      bc, zxuno_port+$100
-wrfls3  inc     b
-        outi
-        inc     b
-        outi
-        inc     b
-        outi
-        inc     b
-        outi
-        inc     b
-        outi
-        inc     b
-        outi
-        inc     b
-        outi
-        inc     b
-        outi
-        dec     a
-        jr      nz, wrfls3
-        exx
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        inc     de
-        ld      a, e
-        and     $0f
-        jr      nz, wrfls2
-        call    wrfls7
-        wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        ld      hl, $fff0
-        add     hl, de
-        out     (c), h
-        out     (c), l
-       xor     a
-        out     (c), a
-        in      f, (c)
-        exx
-        ld      bc, $1000
-        sbc     hl, bc
-wrfls5  ld      a, zxuno_port+$100>>8
-        in      a, (zxuno_port & $ff)
-        cpi
-        jr      nz, wrfls6
-        jp      pe, wrfls5
-wrfls6  add     hl, bc
-        exx
-        push    af
-        push    hl
-        wreg    flash_cs, 1
-        pop     hl
-        pop     af
-        jp      po, wrflsa
-        ex      de, hl
-        exx
-        ld      de, $f000
-        add     hl, de
-        exx
-        ld      a, 2
-        out     ($fe), a
-        jp      wrfls1
-wrfls7  wreg    flash_cs, 0     ; activamos spi, enviando un 0
-        wreg    flash_spi, 5    ; envío read status
-        in      a, (c)
-wrfls8  in      a, (c)
-        and     1
-        jr      nz, wrfls8
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
-        ret
-      ENDIF
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
@@ -2608,14 +2432,11 @@ l0aa0   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
 
 ;  00-3f: index to entries
 ;  40: active entry
-;  41: keyboard layout
-;  42: joystick layout
-;  43: fast boot    0: Disable, 1: Enable
-;  44: Check CRC    0: Disable, 1: Enable
-;  45: Issue        0: Issue 2, 1: Issue 3, 2:A uto
-;  46: Timing       0: 48K, 1: 128K, 2: Auto
-;  47: DivMMC       0: Disable, 1: Enable, 2: Auto 
-;  48: NMI-DivMMC   0: Disable, 1: Enable, 2: Auto 
+;  41: fast boot    0: Disable, 1: Enable
+;  42: Check CRC    0: Disable, 1: Enable
+;  43: DivMMC       0: Disable, 1: Enable
+;  44: NMI-DivMMC   0: Disable, 1: Enable
+;  45: Issue        0: Issue 2, 1: Issue 3
 l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -2625,8 +2446,6 @@ l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $03             ; active
-        defb    $00             ; keybly
-        defb    $00             ; joysly
         defb    $00             ; quiet
         defb    $01             ; checkcrc
         defb    $02             ; Issue
@@ -2635,7 +2454,7 @@ l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
         defb    $02             ; DivMMC
         defb    $02             ; NMI-DivMMC
         defb    0   ; para que not implemented sea 0
-l0ac0   defs    62
+l0ac0   defs    64
       ELSE
 
 ;++++++++++++++++++++++++++++++++++
@@ -2753,7 +2572,7 @@ conti5  ld      a, master_mapper
         ld      de, cad55+33
         call    alto wtohex
         pop     hl
-        ld      e, cad55+19 & $ff
+        ld      e, cad55+19&$ff
         call    alto wtohex
         ld      ix, cad55
         ld      bc, $0016
@@ -2791,8 +2610,7 @@ conti9  ld      a, 0
 ; Put page A in mode 1 and copies from 4000 to C000
 ;      A: page number
 ; -------------------------------------
-copyme  di
-        ld      bc, zxuno_port+$100
+copyme  ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         ld      de, $c000 | master_mapper
         dec     b
@@ -2823,7 +2641,6 @@ copyme  di
         add     hl, hl
         ex      (sp), hl
         push    de
-        ei
         ret
 
 ; -------------------------------------
@@ -2922,7 +2739,6 @@ wtohe2  ld      (de), a
 ; ---------------
 ramtst  di
         call    bomain
-        ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         ld      bc, $040b
 ramts2  dec     b
@@ -2939,12 +2755,12 @@ ramts3  ld      de, cad71
         ld      b, 2
         call    alto wtohe1
         pop     bc
-        ld      ix, cad71
+        ld      ixl, cad71&$ff
         call    alto prnstr-1
         dec     c
         inc     b
         inc     b
-        ld      ixl, cad69 & $ff
+        ld      ixl, cad69&$ff
         ld      hl, $c000
 ramts4  ld      a, (hl)
         xor     l
@@ -2956,7 +2772,7 @@ ramts4  ld      a, (hl)
         xor     l
         xor     e
         jr      z, ramts5
-        ld      ixl, cad70 & $ff
+        ld      ixl, cad70&$ff
 ramts5  inc     hl
         bit     4, h
         jr      z, ramts4
@@ -3402,28 +3218,28 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
-cad1    defb    'http://zxuno.speccy.org', 0
-        defb    'ZX-Uno BIOS v0.230', 0
-        defb    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
-        defb    'Processor: Z80 3.5MHz', 0
-        defb    'Memory:    512K Ok', 0
-        defb    'Graphics:  normal, hi-color', 0
-        defb    'hi-res, ULAplus', 0
-        defb    'Booting:', 0
-        defb    'Press <Edit> to Setup    <Break> Boot Menu', 0
+cad1    defm    'http://zxuno.speccy.org', 0
+        defm    'ZX-Uno BIOS v0.227', 0
+        defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
+        defm    'Processor: Z80 3.5MHz', 0
+        defm    'Memory:    512K Ok', 0
+        defm    'Graphics:  normal, hi-color', 0
+        defm    'hi-res, ULAplus', 0
+        defm    'Booting:', 0
+        defm    'Press <Edit> to Setup    <Break> Boot Menu', 0
 cad2    defb    $12, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
-        defb    $10, '   Please select boot machine:    ', $10, 0
+        defm    $10, '   Please select boot machine:    ', $10, 0
 cad3    defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $17, 0
-cad4    defb    $10, '                                  ', $10, 0
-cad5    defb    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 0
-        defb    $10, '   ENTER to select boot machine   ', $10, 0
-        defb    $10, '    ESC to boot using defaults    ', $10, 0
+cad4    defm    $10, '                                  ', $10, 0
+cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 0
+        defm    $10, '   ENTER to select boot machine   ', $10, 0
+        defm    $10, '    ESC to boot using defaults    ', $10, 0
         defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -3433,24 +3249,22 @@ cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
         defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $19, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
-cad8    defb    $10, '                         ', $10, '              ', $10, 0
-        defb    $10, 0
+cad8    defm    $10, '                         ', $10, '              ', $10, 0
+        defm    $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.230    ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.227    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
         defb    $1b, ' Memory test', 0
         defb    $1b, ' Sound test', 0
         defb    $1b, ' Tape test', 0
-        defb    $1b, ' Input test', 0
+        defb    $1b, ' Video test', 0
         defb    ' ', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
-        defb    'Keyb Layout', 0
-        defb    'Joystick', 0
         defb    'Quiet Boot', 0
         defb    'Check CRC', 0
         defb    'Keyboard', 0
@@ -3461,14 +3275,8 @@ cad10   defb    'Hardware tests', 0
 cad11   defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
-        defb    ' ', $10, 0
         defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
-        defb    ' ', $10, 0
-        defb    ' ', $10, 0
-        defb    ' ', $10, 0
-        defb    ' ', $10, 0
-        defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0, 0
@@ -3491,8 +3299,8 @@ cad15   defb    'Performs a', 0
         defb    'sound test on', 0
         defb    'your system', 0, 0
 cad16   defb    'Performs a', 0
-        defb    'keyboard &', 0
-        defb    'joystick test', 0, 0
+        defb    'video test on', 0
+        defb    'your system', 0, 0
 cad17   defb    'Hide the whole', 0
         defb    'boot screen', 0
         defb    'when enabled', 0, 0
@@ -3528,7 +3336,7 @@ cad25   defb    '[Enabled]', 0
 cad26   defb    '[Issue 2]', 0
 cad27   defb    '[Issue 3]', 0
 cadv8   defb    '[Auto]', 0
-cadv9   defb    '[48K]', 0
+cadv9   defb    '[48K ]', 0
 cadva   defb    '[128K]', 0
 cad33   defb    'Set Active', 0
 cad34   defb    'Move Down', 0
@@ -3595,7 +3403,6 @@ cad49   defb    'Press play on', 0
         defb    'Break to', 0
         defb    'cancel', 0, 0
 cad50   defb    'Loading Error', 0
-cad505  defb    '                       ', 0
 cad51   defb    'Any key to return', 0
 cad52   defb    'Block 1 of 1:', 0
 cad53   defb    'Done', 0
@@ -3646,42 +3453,11 @@ cad65   defb    'Memory usually', 0
         defb    'Pentagon 128K', 0, 0
 cad66   defb    'Performs a', 0
         defb    'tape test', 0, 0
-cad72   defb    '[Spanish] ', 0
-        defb    '[English] ', 0
-        defb    '[SpeccyAV]', 0
-        defb    '[SpeccyMJ]', 0
-cad73   defb    '[Disabled]', 0
-        defb    '[Kempston]', 0
-        defb    '[SJS 1]   ', 0
-        defb    '[SJS 2]   ', 0
-        defb    '[ProCuAGF]', 0
-        defb    '[Fuller]  ', 0
-cad74   defb    'Spanish', 0
-cad75   defb    'English', 0
-cad76   defb    'SpeccyAV', 0
-cad77   defb    'SpeccyMJ', 0
-cad78   defb    'Disabled', 0
-cad79   defb    'Kempston', 0
-cad80   defb    'SJS 1', 0
-cad81   defb    'SJS 2', 0
-cad82   defb    'ProtCursorAGF', 0
-cad83   defb    'Fuller', 0
-cad84   defb    'Select layout', 0
-        defb    'for keyboard', 0, 0
-cad85   defb    'Joystick', 0
-        defb    'selection', 0, 0
 cad67   defb    'Performing...', 0
 cad68   defb    '                       ', 0
 cad69   defb    ' OK', 0
 cad70   defb    ' Er', 0
 cad71   defb    '00', 0
-cad86   defb    'Kempston     Fuller', 0
-        defb    'Break key to return', 0
-        defb             '234567890'
-        defb    'Q'+$80, 'WERTYUIOP'
-        defb    'A'+$80, 'SDFGHJKLe'
-        defb    'c'+$80, 'ZXCVBNMsb'
-        defb    'o'+$80, $1c, $1d, $1e, $1f, $1f, $1e, $1d, $1c, 'o', $80
 fincad
 
 ; todo
