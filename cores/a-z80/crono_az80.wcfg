@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/rodriguj/Documents/a-z80/gdevic-a-z80-b985679730ee/gdevic-a-z80-b985679730ee/cpu/deploy/tb_z80_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_z80" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/tb_z80/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/A" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">A[15:0]</obj_property>
+      <obj_property name="ObjectShortName">A[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/di" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">di[7:0]</obj_property>
+      <obj_property name="ObjectShortName">di[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/dout" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dout[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/mreq_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">mreq_n</obj_property>
+      <obj_property name="ObjectShortName">mreq_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/m1_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">m1_n</obj_property>
+      <obj_property name="ObjectShortName">m1_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/rd_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rd_n</obj_property>
+      <obj_property name="ObjectShortName">rd_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/wr_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wr_n</obj_property>
+      <obj_property name="ObjectShortName">wr_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/iorq_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">iorq_n</obj_property>
+      <obj_property name="ObjectShortName">iorq_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/rfsh_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rfsh_n</obj_property>
+      <obj_property name="ObjectShortName">rfsh_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/halt_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">halt_n</obj_property>
+      <obj_property name="ObjectShortName">halt_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/busak_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">busak_n</obj_property>
+      <obj_property name="ObjectShortName">busak_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/wait_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wait_n</obj_property>
+      <obj_property name="ObjectShortName">wait_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/int_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">int_n</obj_property>
+      <obj_property name="ObjectShortName">int_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/nmi_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">nmi_n</obj_property>
+      <obj_property name="ObjectShortName">nmi_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/busrq_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">busrq_n</obj_property>
+      <obj_property name="ObjectShortName">busrq_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_z80/reset_n" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+</wave_config>
