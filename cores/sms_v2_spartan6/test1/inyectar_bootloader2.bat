@@ -1,0 +1,1 @@
+data2mem -bm src\sms_bd.bmm -bt sms_vga.bit -bd all2.mem -o b sms_final2.bit
