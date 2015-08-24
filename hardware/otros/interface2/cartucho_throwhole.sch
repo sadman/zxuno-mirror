@@ -6970,9 +6970,9 @@ Based on the following sources:
 <instance part="C4" gate="G$1" x="40.64" y="76.2"/>
 <instance part="R1" gate="G$1" x="40.64" y="88.9" rot="R90"/>
 <instance part="S1" gate="1" x="50.8" y="73.66" rot="R180"/>
-<instance part="IC3" gate="A" x="53.34" y="17.78"/>
-<instance part="IC3" gate="B" x="25.4" y="20.32"/>
-<instance part="IC3" gate="C" x="15.24" y="63.5"/>
+<instance part="IC3" gate="B" x="53.34" y="17.78"/>
+<instance part="IC3" gate="C" x="25.4" y="20.32"/>
+<instance part="IC3" gate="A" x="15.24" y="63.5"/>
 <instance part="IC3" gate="D" x="17.78" y="43.18"/>
 <instance part="U1" gate="G$1" x="88.9" y="68.58"/>
 </instances>
@@ -7261,7 +7261,7 @@ Based on the following sources:
 <segment>
 <wire x1="10.16" y1="22.86" x2="17.78" y2="22.86" width="0.1524" layer="91"/>
 <label x="10.16" y="22.86" size="1.778" layer="95"/>
-<pinref part="IC3" gate="B" pin="I0"/>
+<pinref part="IC3" gate="C" pin="I0"/>
 </segment>
 </net>
 <net name="A15" class="0">
@@ -7271,7 +7271,7 @@ Based on the following sources:
 <pinref part="U$1" gate="G$1" pin="A15"/>
 </segment>
 <segment>
-<pinref part="IC3" gate="B" pin="I1"/>
+<pinref part="IC3" gate="C" pin="I1"/>
 <wire x1="10.16" y1="17.78" x2="17.78" y2="17.78" width="0.1524" layer="91"/>
 <label x="10.16" y="17.78" size="1.778" layer="95"/>
 </segment>
@@ -7285,7 +7285,7 @@ Based on the following sources:
 <segment>
 <wire x1="38.1" y1="15.24" x2="45.72" y2="15.24" width="0.1524" layer="91"/>
 <label x="38.1" y="15.24" size="1.778" layer="95"/>
-<pinref part="IC3" gate="A" pin="I1"/>
+<pinref part="IC3" gate="B" pin="I1"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -7409,7 +7409,7 @@ Based on the following sources:
 <segment>
 <wire x1="0" y1="60.96" x2="7.62" y2="60.96" width="0.1524" layer="91"/>
 <label x="0" y="60.96" size="1.778" layer="95"/>
-<pinref part="IC3" gate="C" pin="I1"/>
+<pinref part="IC3" gate="A" pin="I1"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -7445,7 +7445,7 @@ Based on the following sources:
 <wire x1="25.4" y1="53.34" x2="7.62" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="7.62" y1="53.34" x2="7.62" y2="45.72" width="0.1524" layer="91"/>
 <wire x1="7.62" y1="45.72" x2="10.16" y2="45.72" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="C" pin="O"/>
+<pinref part="IC3" gate="A" pin="O"/>
 <wire x1="22.86" y1="63.5" x2="25.4" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -7460,13 +7460,13 @@ Based on the following sources:
 <segment>
 <wire x1="0" y1="66.04" x2="7.62" y2="66.04" width="0.1524" layer="91"/>
 <label x="0" y="66.04" size="1.778" layer="95"/>
-<pinref part="IC3" gate="C" pin="I0"/>
+<pinref part="IC3" gate="A" pin="I0"/>
 </segment>
 </net>
 <net name="N$7" class="0">
 <segment>
-<pinref part="IC3" gate="B" pin="O"/>
-<pinref part="IC3" gate="A" pin="I0"/>
+<pinref part="IC3" gate="C" pin="O"/>
+<pinref part="IC3" gate="B" pin="I0"/>
 <wire x1="45.72" y1="20.32" x2="33.02" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 </net>
