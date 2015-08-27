@@ -130,6 +130,114 @@ wire rsel0;
 assign rsel3 = op3 ^ (op4 & op5);
 assign rsel0 = op0 ^ (op1 & op2);
 
+parameter
+    INVALID = 5'd0,
+    M1T1 = 5'd1,
+    M1T2 = 5'd2,
+    M1T3 = 5'd3,
+    M1T4 = 5'd4,
+    M1T5 = 5'd5,
+    M1T6 = 5'd6,
+    
+    M2T1 = 5'd7,
+    M2T2 = 5'd8,
+    M2T3 = 5'd9,
+    M2T4 = 5'd10,
+    M2T5 = 5'd11,
+    M2T6 = 5'd12,
+    
+    M3T1 = 5'd13,
+    M3T2 = 5'd14,
+    M3T3 = 5'd15,
+    M3T4 = 5'd16,
+    M3T5 = 5'd17,
+    M3T6 = 5'd18,
+    
+    M4T1 = 5'd19,
+    M4T2 = 5'd20,
+    M4T3 = 5'd21,
+    M4T4 = 5'd22,
+    M4T5 = 5'd23,
+    M4T6 = 5'd24,
+    
+    M5T1 = 5'd25,
+    M5T2 = 5'd26,
+    M5T3 = 5'd27,
+    M5T4 = 5'd28,
+    M5T5 = 5'd29,
+    M5T6 = 5'd30;   
+
+reg [4:0] mtstate;
+always @* begin
+    if (M1 && T1)
+        mtstate = M1T1;
+    else if (M1 && T2)
+        mtstate = M1T2;
+    else if (M1 && T3)
+        mtstate = M1T3;
+    else if (M1 && T4)
+        mtstate = M1T4;
+    else if (M1 && T5)
+        mtstate = M1T5;
+    else if (M1 && T6)
+        mtstate = M1T6;
+
+    else if (M2 && T1)
+        mtstate = M2T1;
+    else if (M2 && T2)
+        mtstate = M2T2;
+    else if (M2 && T3)
+        mtstate = M2T3;
+    else if (M2 && T4)
+        mtstate = M2T4;
+    else if (M2 && T5)
+        mtstate = M2T5;
+    else if (M2 && T6)
+        mtstate = M2T6;
+
+    else if (M3 && T1)
+        mtstate = M3T1;
+    else if (M3 && T2)
+        mtstate = M3T2;
+    else if (M3 && T3)
+        mtstate = M3T3;
+    else if (M3 && T4)
+        mtstate = M3T4;
+    else if (M3 && T5)
+        mtstate = M3T5;
+    else if (M3 && T6)
+        mtstate = M3T6;
+
+    else if (M4 && T1)
+        mtstate = M4T1;
+    else if (M4 && T2)
+        mtstate = M4T2;
+    else if (M4 && T3)
+        mtstate = M4T3;
+    else if (M4 && T4)
+        mtstate = M4T4;
+    else if (M4 && T5)
+        mtstate = M4T5;
+    else if (M4 && T6)
+        mtstate = M4T6;
+
+    else if (M5 && T1)
+        mtstate = M5T1;
+    else if (M5 && T2)
+        mtstate = M5T2;
+    else if (M5 && T3)
+        mtstate = M5T3;
+    else if (M5 && T4)
+        mtstate = M5T4;
+    else if (M5 && T5)
+        mtstate = M5T5;
+    else if (M5 && T6)
+        mtstate = M5T6;
+
+    else
+        mtstate = INVALID;
+end        
+
 always @*
 begin
     //-------------------------------------------------------------------------
