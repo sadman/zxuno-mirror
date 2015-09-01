@@ -73,7 +73,7 @@
 <board>
 <plain>
 <text x="37.385625" y="22.463125" size="1.778" layer="22" rot="MR0">Cartridge for IF2</text>
-<text x="26.749375" y="6.985" size="1.778" layer="22" rot="MR0">AntonioVillena sep2015</text>
+<text x="34.6075" y="7.14375" size="1.778" layer="22" rot="MR0">AntonioVillena sep2015</text>
 <wire x1="41.88875" y1="34.84125" x2="0" y2="34.84125" width="0" layer="46"/>
 <wire x1="0" y1="34.84125" x2="0" y2="0" width="0" layer="46"/>
 <wire x1="0" y1="0" x2="26.035" y2="0" width="0" layer="46"/>
