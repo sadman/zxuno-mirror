@@ -6936,6 +6936,58 @@ Based on the following sources:
 </deviceset>
 </devicesets>
 </library>
+<library name="supply1">
+<description>&lt;b&gt;Supply Symbols&lt;/b&gt;&lt;p&gt;
+ GND, VCC, 0V, +5V, -5V, etc.&lt;p&gt;
+ Please keep in mind, that these devices are necessary for the
+ automatic wiring of the supply signals.&lt;p&gt;
+ The pin name defined in the symbol is identical to the net which is to be wired automatically.&lt;p&gt;
+ In this library the device names are the same as the pin names of the symbols, therefore the correct signal names appear next to the supply symbols in the schematic.&lt;p&gt;
+ &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+</packages>
+<symbols>
+<symbol name="GND">
+<wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
+<text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
+</symbol>
+<symbol name="VCC">
+<wire x1="1.27" y1="-1.905" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="-1.27" y2="-1.905" width="0.254" layer="94"/>
+<text x="-2.54" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
+<pin name="VCC" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="GND" prefix="GND">
+<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
+<gates>
+<gate name="1" symbol="GND" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="VCC" prefix="P+">
+<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
+<gates>
+<gate name="VCC" symbol="VCC" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -6947,14 +6999,16 @@ Based on the following sources:
 </classes>
 <parts>
 <part name="U$1" library="SPECTRUM" deviceset="IF2BUS" device=""/>
-<part name="C1" library="rcl" deviceset="C-EU" device="050-025X075"/>
+<part name="C1" library="rcl" deviceset="C-EU" device="050-025X075" value="100nF"/>
 <part name="IC1" library="74xx-us" deviceset="74*164" device="N" technology="HC"/>
-<part name="C3" library="rcl" deviceset="C-EU" device="050-025X075"/>
-<part name="C4" library="rcl" deviceset="C-EU" device="050-025X075"/>
+<part name="C3" library="rcl" deviceset="C-EU" device="050-025X075" value="100nF"/>
+<part name="C4" library="rcl" deviceset="C-EU" device="050-025X075" value="4.7uF"/>
 <part name="R1" library="rcl" deviceset="R-EU_" device="0204/7" value="10K"/>
-<part name="S1" library="switch-omron" deviceset="10-XX" device=""/>
+<part name="S1" library="switch-omron" deviceset="10-XX" device="" value="RESET"/>
 <part name="IC3" library="74xx-eu" deviceset="74*32" device="N" technology="HC"/>
 <part name="U1" library="am29-memory" deviceset="AM29F040S" device=""/>
+<part name="GND1" library="supply1" deviceset="GND" device=""/>
+<part name="P+1" library="supply1" deviceset="VCC" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6973,6 +7027,8 @@ Based on the following sources:
 <instance part="IC3" gate="C" x="15.24" y="63.5"/>
 <instance part="IC3" gate="D" x="17.78" y="43.18"/>
 <instance part="U1" gate="G$1" x="88.9" y="68.58"/>
+<instance part="GND1" gate="1" x="10.16" y="83.82"/>
+<instance part="P+1" gate="VCC" x="10.16" y="101.6"/>
 </instances>
 <busses>
 </busses>
@@ -6996,6 +7052,7 @@ Based on the following sources:
 <wire x1="35.56" y1="55.88" x2="30.48" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="53.34" x2="35.56" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="53.34" x2="35.56" y2="55.88" width="0.1524" layer="91"/>
+<junction x="35.56" y="55.88"/>
 </segment>
 </net>
 <net name="D1" class="0">
@@ -7300,6 +7357,8 @@ Based on the following sources:
 <pinref part="C3" gate="G$1" pin="2"/>
 <wire x1="10.16" y1="86.36" x2="25.4" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="25.4" y1="86.36" x2="25.4" y2="88.9" width="0.1524" layer="91"/>
+<junction x="10.16" y="86.36"/>
+<pinref part="GND1" gate="1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="S1" gate="1" pin="S"/>
@@ -7311,6 +7370,7 @@ Based on the following sources:
 <pinref part="S1" gate="1" pin="S1"/>
 <wire x1="48.26" y1="68.58" x2="48.26" y2="66.04" width="0.1524" layer="91"/>
 <label x="43.18" y="66.04" size="1.778" layer="95"/>
+<junction x="48.26" y="66.04"/>
 </segment>
 </net>
 <net name="VCC" class="0">
@@ -7338,6 +7398,8 @@ Based on the following sources:
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="10.16" y1="96.52" x2="10.16" y2="99.06" width="0.1524" layer="91"/>
 <label x="2.54" y="99.06" size="1.778" layer="95"/>
+<junction x="10.16" y="99.06"/>
+<pinref part="P+1" gate="VCC" pin="VCC"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -7422,6 +7484,8 @@ Based on the following sources:
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="40.64" y1="83.82" x2="40.64" y2="81.28" width="0.1524" layer="91"/>
 <label x="45.72" y="81.28" size="1.778" layer="95"/>
+<junction x="48.26" y="81.28"/>
+<junction x="40.64" y="81.28"/>
 </segment>
 </net>
 <net name="N$10" class="0">
