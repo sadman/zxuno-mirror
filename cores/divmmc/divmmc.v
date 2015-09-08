@@ -77,7 +77,7 @@ module divmmc(
             divmmc_autopage_status_after_m1 <= 1'b0;
         end
         else begin
-            if (divmmc_enable_n && !mreq_n && !rd_n && !m1_n && 
+            if ((!divmmc_enable_n || mapram_mode) && !mreq_n && !rd_n && !m1_n &&
                                            (a==16'h0000 ||
                                             a==16'h0008 ||
                                             a==16'h0038 ||
@@ -86,11 +86,11 @@ module divmmc(
                                             a==16'h0562)) begin  // Deferred automapping (maps at the next CPU clock cycle)
                 divmmc_autopage_status_after_m1 <= 1'b1;
             end
-            else if (divmmc_enable_n && !mreq_n && !rd_n && !m1_n && a[15:8]==8'h3D) begin  // Non deferred automapping (Current CPU clock cycle)
+            else if ((!divmmc_enable_n || mapram_mode) && !mreq_n && !rd_n && !m1_n && a[15:8]==8'h3D) begin  // Non deferred automapping (Current CPU clock cycle)
                 divmmc_is_autopaged <= 1'b1;
                 divmmc_autopage_status_after_m1 <= 1'b1;
             end
-            else if (divmmc_enable_n && !mreq_n && !rd_n && !m1_n && a[15:3]==13'b0001111111111) begin  // Deferred automapping deactivation
+            else if ((!divmmc_enable_n || mapram_mode) && !mreq_n && !rd_n && !m1_n && a[15:3]==13'b0001111111111) begin  // Deferred automapping deactivation
                 divmmc_autopage_status_after_m1 <= 1'b0;
             end
         end
