@@ -21981,6 +21981,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <label x="261.62" y="-12.7" size="1.778" layer="95"/>
 <pinref part="J11" gate="A" pin="1"/>
 </segment>
+<segment>
+<wire x1="261.62" y1="0" x2="276.86" y2="0" width="0.1524" layer="91"/>
+<label x="261.62" y="0" size="1.778" layer="95"/>
+<pinref part="J10" gate="A" pin="14"/>
+</segment>
 </net>
 <net name="GND" class="0">
 <segment>
@@ -22322,11 +22327,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="261.62" y1="33.02" x2="276.86" y2="33.02" width="0.1524" layer="91"/>
 <label x="261.62" y="33.02" size="1.778" layer="95"/>
 <pinref part="J10" gate="A" pin="1"/>
-</segment>
-<segment>
-<wire x1="261.62" y1="0" x2="276.86" y2="0" width="0.1524" layer="91"/>
-<label x="261.62" y="0" size="1.778" layer="95"/>
-<pinref part="J10" gate="A" pin="14"/>
 </segment>
 <segment>
 <wire x1="261.62" y1="-45.72" x2="276.86" y2="-45.72" width="0.1524" layer="91"/>
