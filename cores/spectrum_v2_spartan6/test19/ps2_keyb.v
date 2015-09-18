@@ -63,7 +63,7 @@ module ps2_keyb(
     wire ps2busy;
     wire kberror;
     wire nueva_tecla;
-    wire no_hay_teclas_pulsadas;
+    wire no_hay_teclas_pulsadas = 1'b0;
     wire extended;
     wire released;
     assign scancode_dout = kbcode;    
@@ -96,15 +96,15 @@ module ps2_keyb(
         .extended(extended)
     );
 
-    keyboard_pressed_status teclado_limpio (
-        .clk(clk),
-        .rst(1'b0),
-        .scan_received(nueva_tecla),
-        .scancode(kbcode),
-        .extended(extended),
-        .released(released),
-        .kbclean(no_hay_teclas_pulsadas)
-    );
+//    keyboard_pressed_status teclado_limpio (
+//        .clk(clk),
+//        .rst(1'b0),
+//        .scan_received(nueva_tecla),
+//        .scancode(kbcode),
+//        .extended(extended),
+//        .released(released),
+//        .kbclean(no_hay_teclas_pulsadas)
+//    );
 
     scancode_to_speccy traductor (
         .clk(clk),
