@@ -15745,7 +15745,7 @@ Manufacturer: Hirose&lt;br&gt;&lt;br&gt;
 <wire x1="8.128" y1="10.219" x2="8.763" y2="9.584" width="0.2032" layer="51" curve="90"/>
 <wire x1="-7.62" y1="15.807" x2="7.62" y2="15.807" width="0.2032" layer="51"/>
 <wire x1="-15.4" y1="-2.8" x2="15.4" y2="-2.8" width="0.2032" layer="21"/>
-<pad name="5" x="-5.54" y="-1.42" drill="1.016" diameter="1.8796" shape="square"/>
+<pad name="5" x="-5.54" y="-1.42" drill="1.016" diameter="1.8796"/>
 <pad name="4" x="-2.77" y="-1.42" drill="1.016" diameter="1.8796"/>
 <pad name="3" x="0" y="-1.42" drill="1.016" diameter="1.8796"/>
 <pad name="2" x="2.77" y="-1.42" drill="1.016" diameter="1.8796"/>
@@ -23703,26 +23703,26 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </net>
 <net name="AUDIO_RIGHT" class="0">
 <segment>
-<wire x1="111.76" y1="-58.42" x2="99.06" y2="-58.42" width="0.1524" layer="91"/>
-<label x="101.6" y="-58.42" size="1.778" layer="95"/>
-<pinref part="U1" gate="B3" pin="IO_L50N_3"/>
-</segment>
-<segment>
 <pinref part="R23" gate="G$1" pin="2"/>
 <wire x1="185.42" y1="40.64" x2="177.8" y2="40.64" width="0.1524" layer="91"/>
 <label x="172.72" y="40.64" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="AUDIO_LEFT" class="0">
 <segment>
 <wire x1="111.76" y1="-60.96" x2="99.06" y2="-60.96" width="0.1524" layer="91"/>
 <label x="101.6" y="-60.96" size="1.778" layer="95"/>
 <pinref part="U1" gate="B3" pin="IO_L51P_3"/>
 </segment>
+</net>
+<net name="AUDIO_LEFT" class="0">
 <segment>
 <pinref part="R22" gate="G$1" pin="2"/>
 <wire x1="185.42" y1="48.26" x2="177.8" y2="48.26" width="0.1524" layer="91"/>
 <label x="172.72" y="48.26" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="111.76" y1="-58.42" x2="99.06" y2="-58.42" width="0.1524" layer="91"/>
+<label x="101.6" y="-58.42" size="1.778" layer="95"/>
+<pinref part="U1" gate="B3" pin="IO_L50N_3"/>
 </segment>
 </net>
 <net name="N$5" class="0">
