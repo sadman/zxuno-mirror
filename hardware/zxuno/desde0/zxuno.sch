@@ -20306,7 +20306,7 @@ Source: www.kingbright.com</description>
 <packages>
 <package name="RCA_JACK_RCJ-04X_1PRIMARY">
 <description>Original name &lt;b&gt;RCA_JACK_RCJ-04X&lt;/b&gt;&lt;p&gt;</description>
-<pad name="1" x="0" y="-4.5212" drill="1.016" diameter="2.286"/>
+<pad name="1" x="0" y="-4.5212" drill="2.032" diameter="3.302"/>
 <pad name="2" x="0" y="0" drill="2.032" diameter="3.302"/>
 <wire x1="-5.08" y1="3.9878" x2="-4.1402" y2="3.9878" width="0.2032" layer="21"/>
 <wire x1="-3.81" y1="3.9878" x2="3.81" y2="3.9878" width="0.2032" layer="21"/>
