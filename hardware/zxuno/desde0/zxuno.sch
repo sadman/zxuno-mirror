@@ -21243,7 +21243,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="GND11" library="supply1" deviceset="GND" device=""/>
 <part name="C1" library="rcl" deviceset="C-EU" device="C0805" value="7.5pF"/>
 <part name="GND12" library="supply1" deviceset="GND" device=""/>
-<part name="C32" library="rcl" deviceset="CPOL-US" device="153CLV-0807" value="220uF"/>
+<part name="C32" library="rcl" deviceset="CPOL-US" device="153CLV-0605" value="220uF"/>
 <part name="GND13" library="supply1" deviceset="GND" device=""/>
 <part name="R6" library="rcl" deviceset="R-US_" device="M0805" value="510"/>
 <part name="R7" library="rcl" deviceset="R-US_" device="M0805" value="510"/>
