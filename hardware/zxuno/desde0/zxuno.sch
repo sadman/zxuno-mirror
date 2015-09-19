@@ -21740,9 +21740,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="X3" gate="-1" pin="S"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="25.4" x2="142.24" y2="25.4" width="0.1524" layer="91"/>
-<label x="147.32" y="25.4" size="1.778" layer="95"/>
-<pinref part="X2" gate="-1" pin="S"/>
+<wire x1="154.94" y1="33.02" x2="142.24" y2="33.02" width="0.1524" layer="91"/>
+<label x="147.32" y="33.02" size="1.778" layer="95"/>
+<pinref part="X2" gate="-4" pin="S"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -22115,9 +22115,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="X3" gate="-6" pin="S"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="27.94" x2="142.24" y2="27.94" width="0.1524" layer="91"/>
-<label x="147.32" y="27.94" size="1.778" layer="95"/>
-<pinref part="X2" gate="-2" pin="S"/>
+<wire x1="154.94" y1="25.4" x2="142.24" y2="25.4" width="0.1524" layer="91"/>
+<label x="147.32" y="25.4" size="1.778" layer="95"/>
+<pinref part="X2" gate="-1" pin="S"/>
 </segment>
 </net>
 <net name="XA0" class="0">
@@ -22513,9 +22513,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U1" gate="B1" pin="IO_L43P_GCLK5_1"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="30.48" x2="142.24" y2="30.48" width="0.1524" layer="91"/>
-<label x="147.32" y="30.48" size="1.778" layer="95"/>
-<pinref part="X2" gate="-3" pin="S"/>
+<wire x1="154.94" y1="27.94" x2="142.24" y2="27.94" width="0.1524" layer="91"/>
+<label x="147.32" y="27.94" size="1.778" layer="95"/>
+<pinref part="X2" gate="-2" pin="S"/>
 </segment>
 </net>
 <net name="CSYNC" class="0">
@@ -22530,9 +22530,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U4" gate="G$1" pin="HSYNC"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="33.02" x2="142.24" y2="33.02" width="0.1524" layer="91"/>
-<label x="147.32" y="33.02" size="1.778" layer="95"/>
-<pinref part="X2" gate="-4" pin="S"/>
+<wire x1="154.94" y1="30.48" x2="142.24" y2="30.48" width="0.1524" layer="91"/>
+<label x="147.32" y="30.48" size="1.778" layer="95"/>
+<pinref part="X2" gate="-3" pin="S"/>
 </segment>
 </net>
 <net name="R0" class="0">
