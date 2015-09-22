@@ -12,20 +12,19 @@
         di
         ld      bc, zxuno_port + $100
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
-        ld      sp, $c000-17
-        ld      a, $0a          ; byte mas significativo de direccion
+        ld      sp, $bfff-16
+        xor     a               ; byte mas significativo de direccion
         wreg    master_mapper, 8  ; paginamos la ROM en $c000
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        out     (c), a          ; envia direccion 0ac000, a=0a,h=c0,l=00
+        out     (c), a          ; envia direccion 005000, a=00,e=50,a=00
         ld      de, $e961       ; tras el out (c), h de bffc se ejecuta
         push    de              ; un jp (hl) hl=0 para iniciar la nueva ROM
-        ld      d, (hl)         ; en $bffc para evitar que el cambio de ROM
+        ld      de, $ed50       ; en $bffc para evitar que el cambio de ROM
         push    de              ; colisione con la siguiente instruccion
         add     hl, sp
-        out     (c), h
-        out     (c), l
-        dec     hl              ; Primera lectura que se descarta...
+        out     (c), e
+        out     (c), a
 boot    ini
         inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
@@ -33,7 +32,7 @@ boot    ini
         dec     b
         out     (c), h          ; a master_conf quiero enviar un 0 para pasar
         inc     b               ; a modo normal, pero el ultimo out lo ubico
-        jp      $bffd-17
+        jp      $bffc-16
 
 rst30   pop     hl
         outi
@@ -42,8 +41,8 @@ rst30   pop     hl
         jp      (hl)
 
 rst38   jp      $c003
-        defb    'ZX-Uno bootloader v0.2 2015-06-29 AC000->R8'
+        defb    'ZX-Uno bootloader v0.3 2015-09-22 05000->R8'
 nmi66   jp      $c000
         retn
 
-        ;block   $4000-$
+;        block   $4000-$
