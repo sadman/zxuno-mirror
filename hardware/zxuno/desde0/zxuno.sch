@@ -22115,9 +22115,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U3" gate="SRAM" pin="A10"/>
 </segment>
 <segment>
-<wire x1="35.56" y1="-53.34" x2="22.86" y2="-53.34" width="0.1524" layer="91"/>
-<label x="22.86" y="-53.34" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L32P_1"/>
+<wire x1="35.56" y1="-55.88" x2="22.86" y2="-55.88" width="0.1524" layer="91"/>
+<label x="22.86" y="-55.88" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L1N_VREF_1"/>
 </segment>
 </net>
 <net name="XA11" class="0">
@@ -22127,9 +22127,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U3" gate="SRAM" pin="A11"/>
 </segment>
 <segment>
-<wire x1="35.56" y1="-50.8" x2="22.86" y2="-50.8" width="0.1524" layer="91"/>
-<label x="22.86" y="-50.8" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L32N_1"/>
+<wire x1="35.56" y1="-53.34" x2="22.86" y2="-53.34" width="0.1524" layer="91"/>
+<label x="22.86" y="-53.34" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L32P_1"/>
 </segment>
 </net>
 <net name="XA12" class="0">
@@ -22139,9 +22139,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U3" gate="SRAM" pin="A12"/>
 </segment>
 <segment>
-<wire x1="35.56" y1="-48.26" x2="22.86" y2="-48.26" width="0.1524" layer="91"/>
-<label x="22.86" y="-48.26" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L33P_1"/>
+<wire x1="35.56" y1="-50.8" x2="22.86" y2="-50.8" width="0.1524" layer="91"/>
+<label x="22.86" y="-50.8" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L32N_1"/>
 </segment>
 </net>
 <net name="XA13" class="0">
@@ -22151,9 +22151,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U3" gate="SRAM" pin="A13"/>
 </segment>
 <segment>
-<wire x1="35.56" y1="-45.72" x2="22.86" y2="-45.72" width="0.1524" layer="91"/>
-<label x="22.86" y="-45.72" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L33N_1"/>
+<wire x1="35.56" y1="-48.26" x2="22.86" y2="-48.26" width="0.1524" layer="91"/>
+<label x="22.86" y="-48.26" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L33P_1"/>
 </segment>
 </net>
 <net name="XA14" class="0">
@@ -22223,9 +22223,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="U3" gate="SRAM" pin="A19/NC"/>
 </segment>
 <segment>
-<wire x1="35.56" y1="-55.88" x2="22.86" y2="-55.88" width="0.1524" layer="91"/>
-<label x="22.86" y="-55.88" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L1N_VREF_1"/>
+<wire x1="35.56" y1="-58.42" x2="22.86" y2="-58.42" width="0.1524" layer="91"/>
+<label x="22.86" y="-58.42" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L1P_1"/>
 </segment>
 </net>
 <net name="XA20" class="0">
@@ -22441,58 +22441,53 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </net>
 <net name="PS2_PIN6" class="0">
 <segment>
-<wire x1="35.56" y1="-35.56" x2="22.86" y2="-35.56" width="0.1524" layer="91"/>
-<label x="22.86" y="-35.56" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L40N_GCLK10_1"/>
-</segment>
-<segment>
 <pinref part="R11" gate="G$1" pin="2"/>
 <wire x1="5.08" y1="-48.26" x2="15.24" y2="-48.26" width="0.1524" layer="91"/>
 <label x="5.08" y="-48.26" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="PS2_PIN2" class="0">
 <segment>
 <wire x1="35.56" y1="-38.1" x2="22.86" y2="-38.1" width="0.1524" layer="91"/>
 <label x="22.86" y="-38.1" size="1.778" layer="95"/>
 <pinref part="U1" gate="B1" pin="IO_L40P_GCLK11_1"/>
 </segment>
+</net>
+<net name="PS2_PIN2" class="0">
 <segment>
 <pinref part="R9" gate="G$1" pin="2"/>
 <wire x1="5.08" y1="-58.42" x2="15.24" y2="-58.42" width="0.1524" layer="91"/>
 <label x="5.08" y="-58.42" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="PS2_DATA" class="0">
 <segment>
 <wire x1="35.56" y1="-40.64" x2="22.86" y2="-40.64" width="0.1524" layer="91"/>
 <label x="22.86" y="-40.64" size="1.778" layer="95"/>
 <pinref part="U1" gate="B1" pin="IO_L34N_1"/>
 </segment>
+</net>
+<net name="PS2_DATA" class="0">
 <segment>
 <pinref part="R8" gate="G$1" pin="2"/>
 <wire x1="-2.54" y1="-60.96" x2="15.24" y2="-60.96" width="0.1524" layer="91"/>
 <label x="5.08" y="-60.96" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="PS2_CLK" class="0">
 <segment>
 <wire x1="35.56" y1="-43.18" x2="22.86" y2="-43.18" width="0.1524" layer="91"/>
 <label x="22.86" y="-43.18" size="1.778" layer="95"/>
 <pinref part="U1" gate="B1" pin="IO_L34P_1"/>
 </segment>
+</net>
+<net name="PS2_CLK" class="0">
 <segment>
 <pinref part="R10" gate="G$1" pin="2"/>
 <wire x1="-2.54" y1="-50.8" x2="15.24" y2="-50.8" width="0.1524" layer="91"/>
 <label x="5.08" y="-50.8" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="35.56" y1="-45.72" x2="22.86" y2="-45.72" width="0.1524" layer="91"/>
+<label x="22.86" y="-45.72" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L33N_1"/>
+</segment>
 </net>
 <net name="EAR" class="0">
-<segment>
-<wire x1="35.56" y1="-58.42" x2="22.86" y2="-58.42" width="0.1524" layer="91"/>
-<label x="22.86" y="-58.42" size="1.778" layer="95"/>
-<pinref part="U1" gate="B1" pin="IO_L1P_1"/>
-</segment>
 <segment>
 <pinref part="R27" gate="G$1" pin="1"/>
 <pinref part="T1" gate="G$1" pin="C"/>
@@ -22500,6 +22495,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="152.4" y1="76.2" x2="152.4" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="142.24" y1="76.2" x2="152.4" y2="76.2" width="0.1524" layer="91"/>
 <label x="142.24" y="76.2" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="35.56" y1="-35.56" x2="22.86" y2="-35.56" width="0.1524" layer="91"/>
+<label x="22.86" y="-35.56" size="1.778" layer="95"/>
+<pinref part="U1" gate="B1" pin="IO_L40N_GCLK10_1"/>
 </segment>
 </net>
 <net name="FLASH_HOLD" class="0">
