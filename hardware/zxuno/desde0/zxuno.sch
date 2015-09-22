@@ -23204,9 +23204,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <label x="233.68" y="40.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="45.72" x2="142.24" y2="45.72" width="0.1524" layer="91"/>
-<label x="147.32" y="45.72" size="1.778" layer="95"/>
-<pinref part="X2" gate="-9" pin="S"/>
+<wire x1="154.94" y1="43.18" x2="142.24" y2="43.18" width="0.1524" layer="91"/>
+<label x="147.32" y="43.18" size="1.778" layer="95"/>
+<pinref part="X2" gate="-8" pin="S"/>
 </segment>
 </net>
 <net name="L-OUT" class="0">
@@ -23219,9 +23219,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <label x="233.68" y="48.26" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="43.18" x2="142.24" y2="43.18" width="0.1524" layer="91"/>
-<label x="147.32" y="43.18" size="1.778" layer="95"/>
-<pinref part="X2" gate="-8" pin="S"/>
+<wire x1="154.94" y1="45.72" x2="142.24" y2="45.72" width="0.1524" layer="91"/>
+<label x="147.32" y="45.72" size="1.778" layer="95"/>
+<pinref part="X2" gate="-9" pin="S"/>
 </segment>
 </net>
 <net name="TCK" class="0">
