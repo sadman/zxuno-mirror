@@ -55,8 +55,6 @@
         ei
         jp      start
 
-
-
 rst20   push    bc
         jp      alto prnstr
 
@@ -219,24 +217,6 @@ start3  ld      a, b
         jr      z, start3
         ld      b, $13
         ldir
-
-printID
-        ld      a, $ff		; registro lectura CoreID
-        ld      bc, zxuno_port
-        out     (c), a
-	inc 	b
-	ld 	hl, cad72+$6   	; Load address of coreID string
-printID2
-        in      a, (c)
-	ld 	(hl), a		; copia el caracter leido de CoreID 
-	inc 	hl
-	ld 	a, a
-	jr 	nz, printID2  	; si no recibimos un 0 seguimos pillando caracteres
-        ld      bc, $090b
-        ld      ix, cad72       ; imprimir cadena
-        call_prnstr             ; CoreID
-
-
         ld      bc, $0909
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
@@ -265,7 +245,6 @@ printID2
         ld      c, $1f
         ldir
         ld      (de), a
-
         pop     bc
         call_prnstr
 start4  ld      d, a
@@ -280,53 +259,6 @@ start5  djnz    start6
         ld      hl, $0017
         ld      de, $2001
         call    window
-
-;ifscratch
-;        ld      a, $fe		; registro Scratch
-;        ld      bc, zxuno_port
-;        out     (c), a
-;	inc 	b
-;        in      a, (c)
-;	jr 	z, initkb	;si es 0 inicializamos kb
-;start5a
-;        ld      a, $03          ; color borde
-;        out     ($fe), a        ; output to port.
-;	jr	start5b
-
-initkb	ld	a, scan_code
-	ld	bc, zxuno_port
-	out	(c), a
-;	ld	bc, zxuno_port+$100
-	inc 	b		; en vez de la linea anterior. Es lo mismo
-	ld	a, $f6 		;$f6 = set defaults
-	out	(c), a
-	call	delayps2
-	call	delayps2
-	ld	a, $ed 		;$ed + 2 = set leds + numlock
-	out	(c), a
-	call	delayps2
-	ld	a, 2		;numlock
-	out	(c), a
-	call	delayps2	;se puede retirar tras prueba	
-
-initmouse
-	ld	a, $9		;reg. Kmouse
-	ld	bc, zxuno_port
-	out	(c), a
-	inc 	b		
-	ld	a, $f4
-	out	(c), a	
-
-;ScratchLed
-;        ld      a, $fe		; registro Scratch
-;        ld      bc, zxuno_port
-;        out     (c), a
-;	inc 	b
-;	ld	a, $1 		;tras coldboot, pasamos scratch a 1
-;	out	(c), a
-
-start5b
-
         jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
@@ -336,8 +268,6 @@ start6  ld      a, (codcnt)
         jp      z, boot
         cp      $17
         jr      nz, start5
-
-
 
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Enter Setup   ++++++++
@@ -841,12 +771,12 @@ romsf   add     a, (hl)
         cp      20
         ret     nc
         push    af
-        add     a, 12
         rlca
         rlca
+        add     a, 9
         rlca
         ld      l, a
-        ld      h, 1
+        ld      h, 0
         add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -2444,14 +2374,6 @@ finlog
         incbin  strings.bin.zx7b
 finstr
 
-delayps2:
-		ld	bc,$7D0
-delayloop:	dec	bc
-		ld	a,c
-		or	b
-		jr	nz, delayloop
-		ld	bc, zxuno_port+$100
-		ret
 
 ; after 1 second continue boot
       IF  debug
@@ -2612,16 +2534,15 @@ conti3  ld      de, $c000 | master_mapper
 conti4  ld      a, (ix+1)
         ld      iyl, a
         ld      a, (ix)
-        add     a, 12
         rlca
         rlca
+        add     a, 9
         rlca
         ld      l, a
-        ld      h, 1
+        ld      h, 0
         add     hl, hl
         add     hl, hl
         add     hl, hl
-
 conti5  ld      a, master_mapper
         dec     b
         out     (c), a
@@ -2665,7 +2586,7 @@ conti6  in      a, (c)
 conti7  ld      bc, zxuno_port+$100
         pop     ix
         pop     hl
-conti8  ld      de, $0040  
+conti8  ld      de, $0040
         add     hl, de
         dec     (ix+3)
         jr      z, conti9
@@ -3298,7 +3219,7 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.300K', 0
+        defm    'ZX-Uno BIOS v0.30K', 0
         defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3333,7 +3254,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.300K   ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.30K    ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3537,8 +3458,6 @@ cad68   defb    '                       ', 0
 cad69   defb    ' OK', 0
 cad70   defb    ' Er', 0
 cad71   defb    '00', 0
-cad72	defb	'Core: 000-00000000',0
-cad73	defb	'000-00000000';
 fincad
 
 ; todo
