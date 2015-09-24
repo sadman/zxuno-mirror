@@ -78,8 +78,8 @@ l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $00             ; active
-        defb    $00             ; keybly
-        defb    $00             ; joysly
+        ;defb    $00             ; keybly
+        ;defb    $00             ; joysly
         defb    $00             ; quiet
         defb    $01             ; checkcrc
         defb    $02             ; Issue

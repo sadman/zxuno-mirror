@@ -217,6 +217,23 @@ start3  ld      a, b
         jr      z, start3
         ld      b, $13
         ldir
+
+printID
+        ld      a, $ff		; registro lectura CoreID
+        ld      bc, zxuno_port
+        out     (c), a
+	inc 	b
+	ld 	hl, cad72+$6   	; Load address of coreID string
+printID2
+        in      a, (c)
+	ld 	(hl), a		; copia el caracter leido de CoreID 
+	inc 	hl
+	ld 	a, a
+	jr 	nz, printID2  	; si no recibimos un 0 seguimos pillando caracteres
+        ld      bc, $090b
+        ld      ix, cad72       ; imprimir cadena
+        call_prnstr             ; CoreID
+
         ld      bc, $0909
         ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
@@ -259,6 +276,52 @@ start5  djnz    start6
         ld      hl, $0017
         ld      de, $2001
         call    window
+
+;ifscratch
+;        ld      a, $fe		; registro Scratch
+;        ld      bc, zxuno_port
+;        out     (c), a
+;	inc 	b
+;        in      a, (c)
+;	jr 	z, initkb	;si es 0 inicializamos kb
+;start5a
+;        ld      a, $03          
+;        out     ($fe), a        ; output to port.
+;	jr	start5b
+
+initkb	ld	a, scan_code
+	ld	bc, zxuno_port
+	out	(c), a
+	inc 	b		
+	ld	a, $f6 		;$f6 = kb set defaults
+	out	(c), a
+	call	delayps2
+	call	delayps2
+	ld	a, $ed 		;$ed + 2 = kb set leds + numlock
+	out	(c), a
+	call	delayps2
+	ld	a, 2		;numlock
+	out	(c), a
+	call	delayps2	;	
+
+initmouse
+	ld	a, $9		;reg. Kmouse
+	ld	bc, zxuno_port
+	out	(c), a
+	inc 	b		
+	ld	a, $f4		;init Kmouse
+	out	(c), a	
+
+;ScratchLed
+;        ld      a, $fe		; registro Scratch
+;        ld      bc, zxuno_port
+;        out     (c), a
+;	inc 	b
+;	ld	a, $1 		;tras coldboot, pasamos scratch a 1
+;	out	(c), a
+
+start5b
+
         jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
@@ -1143,7 +1206,7 @@ upgra9  and     a
         call_prnstr
         dec     iyh
         jr      nz, upgra8
-        ld      iyh, 21
+        ld      iyh, 23
         call    shaon
         exx
 upgraa  ld      a, 30
@@ -2057,7 +2120,7 @@ calcu   add     hl, hl
         ret
 
 ; ------------------------
-; Save flash structures from $9000 to $aa000 and from $a000 to $ab000 ;;;; to $2000 and to $3000
+; Save flash structures from $9000 to $03000 and from $a000 to $04000 
 ; ------------------------
       IF  debug
 wrflsh  dec     a
@@ -2145,7 +2208,7 @@ waits6  in      a, (c)
       ENDIF
 
 ; ------------------------
-; Load flash structures from $aa000 to $9000  ;;; from $2000
+; Load flash structures from $03000 to $9000  
 ; ------------------------
 loadch  ld      bc, zxuno_port+$100
         wreg    flash_cs, 1
@@ -2374,6 +2437,14 @@ finlog
         incbin  strings.bin.zx7b
 finstr
 
+delayps2:
+		ld	bc,$7D0
+delayloop:	dec	bc
+		ld	a,c
+		or	b
+		jr	nz, delayloop
+		ld	bc, zxuno_port+$100
+		ret
 
 ; after 1 second continue boot
       IF  debug
@@ -2586,7 +2657,7 @@ conti6  in      a, (c)
 conti7  ld      bc, zxuno_port+$100
         pop     ix
         pop     hl
-conti8  ld      de, $0040
+conti8  ld      de, $0040  
         add     hl, de
         dec     (ix+3)
         jr      z, conti9
@@ -3254,7 +3325,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.30K    ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.30K   ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3458,6 +3529,7 @@ cad68   defb    '                       ', 0
 cad69   defb    ' OK', 0
 cad70   defb    ' Er', 0
 cad71   defb    '00', 0
+cad72	defb	'Core: 000-00000000',0
 fincad
 
 ; todo
