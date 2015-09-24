@@ -836,7 +836,7 @@ romsf   add     a, (hl)
         push    af
         rlca
         rlca
-        add     a, 9
+        add     a, 12
         rlca
         ld      l, a
         ld      h, 0
@@ -1136,7 +1136,7 @@ upgra2  jp      nc, roms12
         ld      hl, $e000
         ld      bc, zxuno_port+$100
         exx
-        ld      de, $0010   ;old $0a80
+        ld      de, $0040   ;old $0a80
         call    wrflsh
         call    romcyb
         ld      ix, cad625
@@ -1164,7 +1164,7 @@ upgra5  jr      nc, upgra2
         ld      hl, $c000
         ld      bc, zxuno_port+$100
         exx
-        ld      de, $0050   ;old $0ac0
+        ld      de, $00c0   ;old $0ac0
         call    wrflsh
         call    romcyb
         ld      ix, cad62
@@ -2120,7 +2120,7 @@ calcu   add     hl, hl
         ret
 
 ; ------------------------
-; Save flash structures from $9000 to $03000 and from $a000 to $04000 
+; Save flash structures from $9000 to $06000 and from $a000 to $07000 
 ; ------------------------
       IF  debug
 wrflsh  dec     a
@@ -2134,7 +2134,7 @@ savech  ld      bc, zxuno_port+$100
         ld      a, $20
         ld      hl, config
         exx
-        ld      de, $0030   ;old $0aa0
+        ld      de, $0060   ;old $0aa0
 
 ; ------------------------
 ; Write to SPI flash
@@ -2208,12 +2208,12 @@ waits6  in      a, (c)
       ENDIF
 
 ; ------------------------
-; Load flash structures from $03000 to $9000  
+; Load flash structures from $06000 to $9000  
 ; ------------------------
 loadch  ld      bc, zxuno_port+$100
         wreg    flash_cs, 1
         ld      de, config
-        ld      hl, $0030   ;old $0aa0
+        ld      hl, $0060   ;old $0aa0
         ld      a, $11
         jp      alto rdflsh
 
@@ -2461,8 +2461,8 @@ rdflsh  ld      a, h
         ld      a, l
         cp      $a0
         ret     nz
-        ld      bc, l0040-l0030   ;old l0ab0-l0aa0
-        ld      hl, l0030  ;old l0aa0
+        ld      bc, l0070-l0060   ;old l0ab0-l0aa0
+        ld      hl, l0060  ;old l0aa0
         ld      d, $90
         ldir
         ld      de, $a000
@@ -2583,7 +2583,7 @@ conti2  adc     a, a            ; 0 0 0 /DISCONT TIMING /I2KB /DISNMI DIVEN
         and     $02
         jr      z, conti4
         wreg    master_mapper, 12
-        ld      hl, $0010   ;old $0a80
+        ld      hl, $0040   ;old $0a80
         ld      de, $c000
         ld      a, $20
         call    alto rdflsh
@@ -2607,7 +2607,7 @@ conti4  ld      a, (ix+1)
         ld      a, (ix)
         rlca
         rlca
-        add     a, 9
+        add     a, 12
         rlca
         ld      l, a
         ld      h, 0

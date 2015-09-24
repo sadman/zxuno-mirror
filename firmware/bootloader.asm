@@ -17,10 +17,10 @@
         wreg    master_mapper, 8  ; paginamos la ROM en $c000
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        out     (c), a          ; envia direccion 005000, a=00,e=50,a=00
+        out     (c), a          ; envia direccion 008000, a=00,e=80,a=00
         ld      de, $e961       ; tras el out (c), h de bffc se ejecuta
         push    de              ; un jp (hl) hl=0 para iniciar la nueva ROM
-        ld      de, $ed50       ; en $bffc para evitar que el cambio de ROM
+        ld      de, $ed80       ; en $bffc para evitar que el cambio de ROM
         push    de              ; colisione con la siguiente instruccion
         add     hl, sp
         out     (c), e
