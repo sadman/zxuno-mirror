@@ -20084,22 +20084,6 @@ Source: www.kingbright.com</description>
 </library>
 <library name="ZX_UNO_0_14">
 <packages>
-<package name="RCA_JACK_RCJ-04X_1PRIMARY">
-<description>Original name &lt;b&gt;RCA_JACK_RCJ-04X&lt;/b&gt;&lt;p&gt;</description>
-<pad name="1" x="0" y="-4.5212" drill="2.032" diameter="3.302"/>
-<pad name="2" x="0" y="0" drill="2.032" diameter="3.302"/>
-<wire x1="-5.08" y1="3.9878" x2="-4.1402" y2="3.9878" width="0.2032" layer="21"/>
-<wire x1="-3.81" y1="3.9878" x2="3.81" y2="3.9878" width="0.2032" layer="21"/>
-<wire x1="5.08" y1="-6.0198" x2="5.08" y2="3.9878" width="0.2032" layer="21"/>
-<wire x1="-4.1402" y1="3.9878" x2="-4.1402" y2="13.462" width="0.2032" layer="21"/>
-<wire x1="4.1402" y1="3.9878" x2="5.08" y2="3.9878" width="0.2032" layer="21"/>
-<wire x1="-5.08" y1="-6.0198" x2="5.08" y2="-6.0198" width="0.2032" layer="21"/>
-<wire x1="-5.08" y1="-6.0198" x2="-5.08" y2="3.9878" width="0.2032" layer="21"/>
-<wire x1="4.1402" y1="3.9878" x2="4.1402" y2="13.462" width="0.2032" layer="21"/>
-<wire x1="-4.1402" y1="13.462" x2="4.1402" y2="13.462" width="0.2032" layer="21"/>
-<text x="-5.1816" y="13.8176" size="2.032" layer="25" font="vector" ratio="13" rot="SR0">&gt;NAME</text>
-<text x="-5.1816" y="13.5636" size="2.032" layer="27" font="vector" ratio="13" rot="SR0">&gt;VALUE</text>
-</package>
 <package name="DINC/MIN_TM/6_1PRIMARY">
 <description>Original name &lt;b&gt;DINC/MIN_TM/6&lt;/b&gt;&lt;p&gt;</description>
 <pad name="1" x="-1.2954" y="-8.509" drill="0.889" diameter="1.5748" shape="square"/>
@@ -20140,14 +20124,6 @@ Source: www.kingbright.com</description>
 </package>
 </packages>
 <symbols>
-<symbol name="RCA">
-<rectangle x1="-2.54" y1="-0.508" x2="0" y2="0.508" layer="94"/>
-<wire x1="-2.794" y1="3.81" x2="-2.794" y2="-3.81" width="0.254" layer="94" curve="-180"/>
-<pin name="1" x="5.08" y="0" visible="off" length="middle" direction="pas" rot="R180"/>
-<pin name="2" x="2.54" y="-2.54" visible="off" length="short" direction="pas" rot="R180"/>
-<text x="2.54" y="3.81" size="1.778" layer="95">&gt;NAME</text>
-<text x="2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
-</symbol>
 <symbol name="MINIDIN6">
 <wire x1="1.27" y1="-7.62" x2="-5.08" y2="-7.62" width="0.4064" layer="94"/>
 <wire x1="-1.27" y1="0" x2="0" y2="0" width="0.6096" layer="94"/>
@@ -20170,22 +20146,6 @@ Source: www.kingbright.com</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="RCA_JACK_RCJ-04X_1">
-<gates>
-<gate name="G$1" symbol="RCA" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="RCA_JACK_RCJ-04X_1PRIMARY">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="DINC_MIN_TM_6_1">
 <gates>
 <gate name="G$1" symbol="MINIDIN6" x="0" y="0"/>
@@ -21022,6 +20982,52 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="ZX_UNO_0_15">
+<packages>
+<package name="RCA_JACK_RCJ-04X_-_DUPLICATE_1PRIMARY">
+<description>Original name &lt;b&gt;RCA_JACK_RCJ-04X_-_DUPLICATE&lt;/b&gt;&lt;p&gt;</description>
+<pad name="1" x="4.2418" y="3.1496" drill="2.5908" diameter="2.5908"/>
+<pad name="2" x="-4.2418" y="3.1496" drill="2.5908" diameter="2.5908"/>
+<pad name="3" x="0" y="-4.4958" drill="2.032" diameter="3.302"/>
+<pad name="4" x="0" y="0" drill="2.032" diameter="3.302"/>
+<wire x1="-5.08" y1="-5.9944" x2="-5.08" y2="1.4986" width="0.2032" layer="21"/>
+<wire x1="5.08" y1="-5.9944" x2="5.08" y2="1.4986" width="0.2032" layer="21"/>
+<wire x1="-5.08" y1="-5.9944" x2="-1.4986" y2="-5.9944" width="0.2" layer="21"/>
+<wire x1="-3.048" y1="4.4958" x2="3.048" y2="4.4958" width="0.2032" layer="21"/>
+<wire x1="1.4986" y1="-5.9944" x2="5.08" y2="-5.9944" width="0.2032" layer="21"/>
+<text x="-5.550003125" y="4.8434" size="2.032" layer="25" font="vector" ratio="13" rot="SR0">&gt;NAME</text>
+<text x="-5.550003125" y="4.5894" size="2.032" layer="27" font="vector" ratio="13" rot="SR0">&gt;VALUE</text>
+</package>
+</packages>
+<symbols>
+<symbol name="RCA">
+<rectangle x1="-2.54" y1="-0.508" x2="0" y2="0.508" layer="94"/>
+<wire x1="-2.794" y1="3.81" x2="-2.794" y2="-3.81" width="0.254" layer="94" curve="-180"/>
+<pin name="1" x="5.08" y="0" visible="off" length="middle" direction="pas" rot="R180"/>
+<pin name="2" x="2.54" y="-2.54" visible="off" length="short" direction="pas" rot="R180"/>
+<text x="2.54" y="3.81" size="1.778" layer="95">&gt;NAME</text>
+<text x="2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="RCA_JACK_RCJ-04X_-_DUPLICATE_1">
+<gates>
+<gate name="G$1" symbol="RCA" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="RCA_JACK_RCJ-04X_-_DUPLICATE_1PRIMARY">
+<connects>
+<connect gate="G$1" pin="1" pad="3"/>
+<connect gate="G$1" pin="2" pad="4"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -21146,7 +21152,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="C33" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="C34" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="QG1" library="crystal" deviceset="SM77H" device=""/>
-<part name="U$1" library="ZX_UNO_0_14" deviceset="RCA_JACK_RCJ-04X_1" device=""/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
 <part name="X2" library="con-molex" deviceset="53?-09" device="048" value="53048-09"/>
 <part name="J9" library="pinhead" deviceset="PINHD-1X12" device=""/>
@@ -21158,6 +21163,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="JP3" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="J7" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device="" value="PS/2 Keyb"/>
 <part name="J1" library="ZX_UNO_A-" deviceset="MICROUSB" device=""/>
+<part name="J3" library="ZX_UNO_0_15" deviceset="RCA_JACK_RCJ-04X_-_DUPLICATE_1" device="" value="RCA"/>
 </parts>
 <sheets>
 <sheet>
@@ -21285,7 +21291,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="C33" gate="G$1" x="251.46" y="-88.9" rot="R180"/>
 <instance part="C34" gate="G$1" x="261.62" y="-88.9" rot="R180"/>
 <instance part="QG1" gate="G$1" x="-2.54" y="81.28"/>
-<instance part="U$1" gate="G$1" x="274.32" y="-104.14" rot="MR0"/>
 <instance part="GND18" gate="1" x="129.54" y="71.12"/>
 <instance part="X2" gate="-1" x="139.7" y="25.4" rot="R180"/>
 <instance part="X2" gate="-2" x="139.7" y="27.94" rot="R180"/>
@@ -21310,6 +21315,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="JP3" gate="G$1" x="205.74" y="7.62" rot="R180"/>
 <instance part="J7" gate="G$1" x="-25.4" y="-55.88"/>
 <instance part="J1" gate="G$1" x="187.96" y="7.62" rot="MR0"/>
+<instance part="J3" gate="G$1" x="274.32" y="-104.14" rot="MR0"/>
 </instances>
 <busses>
 </busses>
@@ -21923,7 +21929,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="GND13" gate="1" pin="GND"/>
 <wire x1="266.7" y1="-114.3" x2="266.7" y2="-106.68" width="0.1524" layer="91"/>
 <wire x1="266.7" y1="-106.68" x2="271.78" y2="-106.68" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="2"/>
+<pinref part="J3" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="U1" gate="BNA" pin="SUSPEND"/>
@@ -23488,7 +23494,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="269.24" y1="-104.14" x2="261.62" y2="-104.14" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="1"/>
+<pinref part="J3" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$31" class="0">
