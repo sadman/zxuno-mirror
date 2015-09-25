@@ -2018,25 +2018,6 @@ Source: 008-0260-0_E.pdf</description>
 <text x="-2.54" y="2.54" size="1.27" layer="25">&gt;NAME</text>
 <text x="-2.54" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
 </package>
-<package name="SM77H">
-<description>&lt;b&gt;3.3V CMOS Clock Oscillator&lt;/b&gt;&lt;p&gt;
-Source: www.pletronics.com .. sm77h%203.3v.pdf</description>
-<wire x1="-3.4" y1="-2.4" x2="3.4" y2="-2.4" width="0.2032" layer="51"/>
-<wire x1="3.4" y1="-2.4" x2="3.4" y2="2.4" width="0.2032" layer="51"/>
-<wire x1="3.4" y1="2.4" x2="-3.4" y2="2.4" width="0.2032" layer="51"/>
-<wire x1="-3.4" y1="2.4" x2="-3.4" y2="-2.4" width="0.2032" layer="51"/>
-<wire x1="-1.368" y1="-2.4" x2="1.368" y2="-2.4" width="0.2032" layer="21"/>
-<wire x1="-3.4" y1="0.876" x2="-3.4" y2="-0.876" width="0.2032" layer="21"/>
-<wire x1="1.368" y1="2.4" x2="-1.368" y2="2.4" width="0.2032" layer="21"/>
-<wire x1="3.4" y1="-0.876" x2="3.4" y2="0.876" width="0.2032" layer="21"/>
-<circle x="-2.794" y="-0.762" radius="0.254" width="0" layer="21"/>
-<smd name="1" x="-2.55" y="-1.9" dx="1.5" dy="1.6" layer="1" rot="R90"/>
-<smd name="2" x="2.55" y="-1.9" dx="1.5" dy="1.6" layer="1" rot="R90"/>
-<smd name="3" x="2.55" y="1.9" dx="1.5" dy="1.6" layer="1" rot="R270"/>
-<smd name="4" x="-2.55" y="1.9" dx="1.5" dy="1.6" layer="1" rot="R270"/>
-<text x="-3.81" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
-<text x="-2.286" y="-0.508" size="1.27" layer="27">&gt;VALUE</text>
-</package>
 </packages>
 <symbols>
 <symbol name="Q">
@@ -2054,28 +2035,6 @@ Source: www.pletronics.com .. sm77h%203.3v.pdf</description>
 <text x="1.524" y="-1.143" size="0.8636" layer="93">2</text>
 <pin name="2" x="2.54" y="0" visible="off" length="point" direction="pas" swaplevel="1" rot="R180"/>
 <pin name="1" x="-2.54" y="0" visible="off" length="point" direction="pas" swaplevel="1"/>
-</symbol>
-<symbol name="SM77H">
-<wire x1="-7.62" y1="5.08" x2="-7.62" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="5.08" x2="-7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="0.762" y1="-1.27" x2="1.778" y2="-1.27" width="0.1016" layer="94"/>
-<wire x1="1.778" y1="-1.27" x2="1.778" y2="-0.381" width="0.1016" layer="94"/>
-<wire x1="1.778" y1="-1.27" x2="1.778" y2="-2.159" width="0.1016" layer="94"/>
-<wire x1="2.286" y1="-0.635" x2="2.794" y2="-0.635" width="0.1016" layer="94"/>
-<wire x1="2.794" y1="-0.635" x2="2.794" y2="-1.905" width="0.1016" layer="94"/>
-<wire x1="2.794" y1="-1.905" x2="2.286" y2="-1.905" width="0.1016" layer="94"/>
-<wire x1="2.286" y1="-1.905" x2="2.286" y2="-0.635" width="0.1016" layer="94"/>
-<wire x1="4.318" y1="-1.27" x2="3.302" y2="-1.27" width="0.1016" layer="94"/>
-<wire x1="3.302" y1="-1.27" x2="3.302" y2="-2.159" width="0.1016" layer="94"/>
-<wire x1="3.302" y1="-1.27" x2="3.302" y2="-0.381" width="0.1016" layer="94"/>
-<text x="-7.62" y="6.35" size="1.778" layer="95" font="vector">&gt;NAME</text>
-<text x="-7.62" y="-7.62" size="1.778" layer="96" font="vector">&gt;VALUE</text>
-<pin name="E/D" x="-10.16" y="0" length="short" direction="in"/>
-<pin name="VCC" x="-10.16" y="2.54" length="short" direction="pwr"/>
-<pin name="GND" x="-10.16" y="-2.54" length="short" direction="pwr"/>
-<pin name="OUT" x="10.16" y="2.54" length="short" direction="out" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -2369,31 +2328,6 @@ Source: www.pletronics.com .. sm77h%203.3v.pdf</description>
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="3"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="" constant="no"/>
-<attribute name="OC_FARNELL" value="unknown" constant="no"/>
-<attribute name="OC_NEWARK" value="unknown" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="SM77H" prefix="QG">
-<description>&lt;b&gt;3.3V CMOS Clock Oscillator&lt;/b&gt;&lt;p&gt;
-Source: www.pletronics.com .. sm77h%203.3v.pdf</description>
-<gates>
-<gate name="G$1" symbol="SM77H" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SM77H">
-<connects>
-<connect gate="G$1" pin="E/D" pad="1"/>
-<connect gate="G$1" pin="GND" pad="2"/>
-<connect gate="G$1" pin="OUT" pad="3"/>
-<connect gate="G$1" pin="VCC" pad="4"/>
 </connects>
 <technologies>
 <technology name="">
@@ -20998,6 +20932,23 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <text x="-5.550003125" y="4.8434" size="2.032" layer="25" font="vector" ratio="13" rot="SR0">&gt;NAME</text>
 <text x="-5.550003125" y="4.5894" size="2.032" layer="27" font="vector" ratio="13" rot="SR0">&gt;VALUE</text>
 </package>
+<package name="SM/OSC_1PRIMARY">
+<description>Original name &lt;b&gt;SM/OSC&lt;/b&gt;&lt;p&gt;</description>
+<smd name="1" x="0" y="0" dx="1.778" dy="1.9812" layer="1"/>
+<smd name="2" x="-5.08" y="0" dx="1.778" dy="1.9812" layer="1"/>
+<smd name="3" x="-5.08" y="-4.191" dx="1.778" dy="1.9812" layer="1" rot="R180"/>
+<smd name="4" x="0" y="-4.191" dx="1.778" dy="1.9812" layer="1" rot="R180"/>
+<wire x1="1.27" y1="-5.4102" x2="1.27" y2="1.27" width="0.1524" layer="22"/>
+<wire x1="-6.35" y1="1.27" x2="1.27" y2="1.27" width="0.1524" layer="22"/>
+<wire x1="-6.35" y1="-5.4102" x2="1.27" y2="-5.4102" width="0.1524" layer="22"/>
+<wire x1="-6.35" y1="-5.4102" x2="-6.35" y2="1.27" width="0.1524" layer="22"/>
+<wire x1="1.27" y1="-5.4102" x2="1.27" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-6.35" y1="1.27" x2="1.27" y2="1.27" width="0.1524" layer="21"/>
+<wire x1="-6.35" y1="-5.4102" x2="1.27" y2="-5.4102" width="0.1524" layer="21"/>
+<wire x1="-6.35" y1="-5.4102" x2="-6.35" y2="1.27" width="0.1524" layer="21"/>
+<text x="-6.4262" y="1.6002" size="2.032" layer="25" font="vector" ratio="13" rot="SR0">&gt;NAME</text>
+<text x="-6.4262" y="1.3462" size="2.032" layer="27" font="vector" ratio="13" rot="SR0">&gt;VALUE</text>
+</package>
 </packages>
 <symbols>
 <symbol name="RCA">
@@ -21007,6 +20958,28 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pin name="2" x="2.54" y="-2.54" visible="off" length="short" direction="pas" rot="R180"/>
 <text x="2.54" y="3.81" size="1.778" layer="95">&gt;NAME</text>
 <text x="2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+<symbol name="OSC">
+<wire x1="-7.62" y1="5.08" x2="-7.62" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="-5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="7.62" y1="5.08" x2="-7.62" y2="5.08" width="0.254" layer="94"/>
+<wire x1="0.762" y1="-1.27" x2="1.778" y2="-1.27" width="0.1016" layer="94"/>
+<wire x1="1.778" y1="-1.27" x2="1.778" y2="-0.381" width="0.1016" layer="94"/>
+<wire x1="1.778" y1="-1.27" x2="1.778" y2="-2.159" width="0.1016" layer="94"/>
+<wire x1="2.286" y1="-0.635" x2="2.794" y2="-0.635" width="0.1016" layer="94"/>
+<wire x1="2.794" y1="-0.635" x2="2.794" y2="-1.905" width="0.1016" layer="94"/>
+<wire x1="2.794" y1="-1.905" x2="2.286" y2="-1.905" width="0.1016" layer="94"/>
+<wire x1="2.286" y1="-1.905" x2="2.286" y2="-0.635" width="0.1016" layer="94"/>
+<wire x1="4.318" y1="-1.27" x2="3.302" y2="-1.27" width="0.1016" layer="94"/>
+<wire x1="3.302" y1="-1.27" x2="3.302" y2="-2.159" width="0.1016" layer="94"/>
+<wire x1="3.302" y1="-1.27" x2="3.302" y2="-0.381" width="0.1016" layer="94"/>
+<text x="-7.62" y="6.35" size="1.778" layer="95" font="vector">&gt;NAME</text>
+<text x="-7.62" y="-7.62" size="1.778" layer="96" font="vector">&gt;VALUE</text>
+<pin name="E/D" x="-10.16" y="0" length="short" direction="in"/>
+<pin name="VCC" x="-10.16" y="2.54" length="short" direction="pwr"/>
+<pin name="GND" x="-10.16" y="-2.54" length="short" direction="pwr"/>
+<pin name="OUT" x="10.16" y="2.54" length="short" direction="out" rot="R180"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -21019,6 +20992,24 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <connects>
 <connect gate="G$1" pin="1" pad="3"/>
 <connect gate="G$1" pin="2" pad="4"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="SM_OSC_1">
+<gates>
+<gate name="G$1" symbol="OSC" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SM/OSC_1PRIMARY">
+<connects>
+<connect gate="G$1" pin="E/D" pad="1"/>
+<connect gate="G$1" pin="GND" pad="2"/>
+<connect gate="G$1" pin="OUT" pad="3"/>
+<connect gate="G$1" pin="VCC" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -21151,7 +21142,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="GND17" library="supply1" deviceset="GND" device=""/>
 <part name="C33" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="C34" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
-<part name="QG1" library="crystal" deviceset="SM77H" device=""/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
 <part name="X2" library="con-molex" deviceset="53?-09" device="048" value="53048-09"/>
 <part name="J9" library="pinhead" deviceset="PINHD-1X12" device=""/>
@@ -21164,6 +21154,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <part name="J7" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device="" value="PS/2 Keyb"/>
 <part name="J1" library="ZX_UNO_A-" deviceset="MICROUSB" device=""/>
 <part name="J3" library="ZX_UNO_0_15" deviceset="RCA_JACK_RCJ-04X_-_DUPLICATE_1" device="" value="RCA"/>
+<part name="U$1" library="ZX_UNO_0_15" deviceset="SM_OSC_1" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21290,7 +21281,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="GND17" gate="1" x="152.4" y="-134.62"/>
 <instance part="C33" gate="G$1" x="251.46" y="-88.9" rot="R180"/>
 <instance part="C34" gate="G$1" x="261.62" y="-88.9" rot="R180"/>
-<instance part="QG1" gate="G$1" x="-2.54" y="81.28"/>
 <instance part="GND18" gate="1" x="129.54" y="71.12"/>
 <instance part="X2" gate="-1" x="139.7" y="25.4" rot="R180"/>
 <instance part="X2" gate="-2" x="139.7" y="27.94" rot="R180"/>
@@ -21316,6 +21306,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="J7" gate="G$1" x="-25.4" y="-55.88"/>
 <instance part="J1" gate="G$1" x="187.96" y="7.62" rot="MR0"/>
 <instance part="J3" gate="G$1" x="274.32" y="-104.14" rot="MR0"/>
+<instance part="U$1" gate="G$1" x="0" y="81.28"/>
 </instances>
 <busses>
 </busses>
@@ -21445,9 +21436,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <junction x="33.02" y="17.78"/>
 </segment>
 <segment>
-<wire x1="-12.7" y1="83.82" x2="-22.86" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="-10.16" y1="83.82" x2="-22.86" y2="83.82" width="0.1524" layer="91"/>
 <label x="-22.86" y="83.82" size="1.778" layer="95"/>
-<pinref part="QG1" gate="G$1" pin="VCC"/>
+<pinref part="U$1" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="35.56" y1="-60.96" x2="33.02" y2="-60.96" width="0.1524" layer="91"/>
@@ -21599,11 +21590,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <label x="243.84" y="-15.24" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="261.62" y1="0" x2="276.86" y2="0" width="0.1524" layer="91"/>
-<label x="261.62" y="0" size="1.778" layer="95"/>
-<pinref part="J10" gate="G$1" pin="12"/>
-</segment>
-<segment>
 <wire x1="276.86" y1="27.94" x2="261.62" y2="27.94" width="0.1524" layer="91"/>
 <label x="261.62" y="27.94" size="1.778" layer="95"/>
 <pinref part="J10" gate="G$1" pin="1"/>
@@ -21617,6 +21603,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="154.94" y1="33.02" x2="142.24" y2="33.02" width="0.1524" layer="91"/>
 <label x="147.32" y="33.02" size="1.778" layer="95"/>
 <pinref part="X2" gate="-4" pin="S"/>
+</segment>
+<segment>
+<wire x1="261.62" y1="45.72" x2="276.86" y2="45.72" width="0.1524" layer="91"/>
+<label x="261.62" y="45.72" size="1.778" layer="95"/>
+<pinref part="J9" gate="G$1" pin="12"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -21648,9 +21639,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <junction x="12.7" y="12.7"/>
 </segment>
 <segment>
-<wire x1="-12.7" y1="78.74" x2="-22.86" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="-10.16" y1="78.74" x2="-22.86" y2="78.74" width="0.1524" layer="91"/>
 <label x="-22.86" y="78.74" size="1.778" layer="95"/>
-<pinref part="QG1" gate="G$1" pin="GND"/>
+<pinref part="U$1" gate="G$1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="GND3" gate="1" pin="GND"/>
@@ -21947,11 +21938,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <junction x="101.6" y="-137.16"/>
 </segment>
 <segment>
-<wire x1="261.62" y1="45.72" x2="276.86" y2="45.72" width="0.1524" layer="91"/>
-<label x="261.62" y="45.72" size="1.778" layer="95"/>
-<pinref part="J9" gate="G$1" pin="12"/>
-</segment>
-<segment>
 <wire x1="261.62" y1="-45.72" x2="276.86" y2="-45.72" width="0.1524" layer="91"/>
 <label x="261.62" y="-45.72" size="1.778" layer="95"/>
 <pinref part="J11" gate="G$1" pin="12"/>
@@ -21992,6 +21978,11 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="154.94" y1="25.4" x2="142.24" y2="25.4" width="0.1524" layer="91"/>
 <label x="147.32" y="25.4" size="1.778" layer="95"/>
 <pinref part="X2" gate="-1" pin="S"/>
+</segment>
+<segment>
+<wire x1="261.62" y1="0" x2="276.86" y2="0" width="0.1524" layer="91"/>
+<label x="261.62" y="0" size="1.778" layer="95"/>
+<pinref part="J10" gate="G$1" pin="12"/>
 </segment>
 </net>
 <net name="XA0" class="0">
@@ -22260,9 +22251,9 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </net>
 <net name="CLK" class="0">
 <segment>
-<wire x1="7.62" y1="83.82" x2="17.78" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="10.16" y1="83.82" x2="17.78" y2="83.82" width="0.1524" layer="91"/>
 <label x="12.7" y="83.82" size="1.778" layer="95"/>
-<pinref part="QG1" gate="G$1" pin="OUT"/>
+<pinref part="U$1" gate="G$1" pin="OUT"/>
 </segment>
 <segment>
 <wire x1="111.76" y1="40.64" x2="99.06" y2="40.64" width="0.1524" layer="91"/>
