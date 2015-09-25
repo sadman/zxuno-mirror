@@ -21213,7 +21213,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <instance part="C20" gate="G$1" x="-35.56" y="-132.08" rot="R180"/>
 <instance part="C21" gate="G$1" x="-25.4" y="-132.08" rot="R180"/>
 <instance part="C22" gate="G$1" x="-15.24" y="-132.08" rot="R180"/>
-<instance part="C23" gate="G$1" x="-5.08" y="-132.08" rot="R180"/>
+<instance part="C23" gate="G$1" x="-2.54" y="-132.08" rot="R180"/>
 <instance part="C24" gate="G$1" x="5.08" y="-132.08" rot="R180"/>
 <instance part="3.3V4" gate="VCC" x="-10.16" y="-119.38"/>
 <instance part="GND7" gate="1" x="-10.16" y="-142.24"/>
@@ -21567,7 +21567,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <pinref part="C22" gate="G$1" pin="2"/>
 <wire x1="-15.24" y1="-127" x2="-15.24" y2="-124.46" width="0.1524" layer="91"/>
 <pinref part="C23" gate="G$1" pin="2"/>
-<wire x1="-5.08" y1="-127" x2="-5.08" y2="-124.46" width="0.1524" layer="91"/>
+<wire x1="-2.54" y1="-127" x2="-5.08" y2="-124.46" width="0.1524" layer="91"/>
 <junction x="-25.4" y="-124.46"/>
 <junction x="-15.24" y="-124.46"/>
 <junction x="-5.08" y="-124.46"/>
@@ -21785,7 +21785,7 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <wire x1="-5.08" y1="-137.16" x2="5.08" y2="-137.16" width="0.1524" layer="91"/>
 <wire x1="5.08" y1="-137.16" x2="5.08" y2="-134.62" width="0.1524" layer="91"/>
 <pinref part="C23" gate="G$1" pin="1"/>
-<wire x1="-5.08" y1="-134.62" x2="-5.08" y2="-137.16" width="0.1524" layer="91"/>
+<wire x1="-2.54" y1="-134.62" x2="-5.08" y2="-137.16" width="0.1524" layer="91"/>
 <pinref part="C22" gate="G$1" pin="1"/>
 <wire x1="-15.24" y1="-134.62" x2="-15.24" y2="-137.16" width="0.1524" layer="91"/>
 <pinref part="C21" gate="G$1" pin="1"/>
