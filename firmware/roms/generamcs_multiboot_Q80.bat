@@ -23,7 +23,7 @@ copy /b ESXMMC086b4.BIN+              ^
 
 call promgen  -w -p bin -s 4 -r boot_header.hex -o boot_header.bin
 call promgen  -w -spi -p mcs -o tld_zxuno.mcs       ^
-              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test19\tld_zxuno.bit
+              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test19_multi\tld_zxuno.bit
 call promgen  -w -spi -p mcs -o tld_sam.mcs       ^
               -s 4096 -u 0 ..\..\cores\sam_coupe_spartan6\test4\tld_sam.bit
 srec_cat  boot_header.bin -binary  ^
