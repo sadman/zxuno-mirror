@@ -1,0 +1,43 @@
+﻿<!--#include file="header.html"-->
+<div id="menu">
+  <span                    style="width:55px">Inicio</span>
+  <span>·</span>
+  <a href="hardware.shtml" style="width:80px">Hardware</a>
+  <span>·</span>
+  <a href="software.shtml" style="width:72px">Software</a>
+  <span>·</span>
+  <a href="media.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <a href="ficheros.shtml" style="width:70px">Ficheros</a>
+  <span>·</span>
+  <a href="faq.shtml"      style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="enlaces.shtml"  style="width:68px">Enlaces</a>
+  <span>·</span>
+  <a href="contacto.shtml" style="width:75px">Contacto</a>
+  <span>·</span>
+  <a href="index_e.shtml"  style="width:62px">[English]</a></div>
+<div id="main">
+  <img width="592" height="444" src="imagen/foto1.jpg"/>
+  <strong>Noticias</strong>
+  <ul>
+    <li>2014-11-28 Fotografías de primeras placas montadas del prototipo v2. <a href="media.shtml">Media</a>.</li>
+    <li>2014-11-27 <font color="#FF0000">Nuevo</font> diseño esquema del prototipo 2. PDF disponible en <a href="ficheros.shtml">Ficheros</a>.</li>
+    <li>2014-11-26 Actualizada la página de <a href="enlaces.shtml">Enlaces</a>. Añadido nuevo enlace a ZDP.</li>
+    <li>2014-10-20 Fotos de caja de prueba impresa en 3D (modelo de @Jepalza). <a href="media.shtml">Media</a>.</li>
+    <li>2014-10-15 Nuevo diseño esquema y PCB del prototipo 2. Esquemas en <a href="media.shtml">Media</a>.</li>
+    <li>2014-07-15 Actualizada la página de <a href="enlaces.shtml">Enlaces</a>. Añadido nuevo enlace a ZDP.</li>
+    <li>2014-07-24 Añadido PDF de las etiquetas para el teclado.<a href="ficheros.shtml">Ficheros</a>.</li>
+    <li>2014-07-22 Añadidas fotografías de los teclados con las etiquetas.<a href="media.shtml">Media</a>.</li>
+    <li>2014-07-16 Añadidos enlaces a Podcast Retro entre Amigos.<a href="media.shtml">Media</a>.</li>
+    <li>2014-07-15 Añadido enlace a entrevista en RetroManiac Magazine. <a href="media.shtml">Media</a>.</li>
+    <li>2014-07-15 Actualizada la página de <a href="enlaces.shtml">Enlaces</a>. Añadido enlace a Wiki Técnico.</li>
+    <li>2014-04-23 Añadidas plantillas temporales de teclados. <a href="ficheros.shtml">Ficheros.</a></li>
+    <li>2014-03-06 Cuenta de Twitter creada. Actualizados enlaces al foro. <a href="enlaces.shtml">Enlaces</a>.</li>
+    <li>2014-02-11 Nuevos test de placas montadas. Fotos en <a href="media.shtml">Media</a>.</li>
+    <li>2014-02-11 Hilo ZDP con pruebas de prototipos. <a href="enlaces.shtml">Enlaces</a>.</li>
+    <li>2013-12-25 Primeros montajes de placas. Fotos en <a href="media.shtml">Media</a>.</li>
+    <li>2013-10-22 Han llegado las placas, podéis ver fotos en <a href="media.shtml">Media</a>.</li>
+    <li>2013-10-10 Puesta en marcha del sitio web.</li>
+    <li>2013-09-21 Pedido de 10 prototipos: placas y componentes.</li></ul></div>
+<!--#include file="footer.html"-->

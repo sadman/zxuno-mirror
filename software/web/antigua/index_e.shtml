@@ -1,0 +1,43 @@
+﻿<!--#include file="header_e.html"-->
+<div id="menu" style="width:667px">
+  <span                      style="width:55px">Home</span>
+  <span>·</span>
+  <a href="hardware_e.shtml" style="width:80px">Hardware</a>
+  <span>·</span>
+  <a href="software_e.shtml" style="width:72px">Software</a>
+  <span>·</span>
+  <a href="media_e.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <a href="ficheros_e.shtml" style="width:45px">Files</a>
+  <span>·</span>
+  <a href="faq_e.shtml"      style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="enlaces_e.shtml"  style="width:50px">Links</a>
+  <span>·</span>
+  <a href="contacto_e.shtml" style="width:65px">Contact</a>
+  <span>·</span>
+  <a href="index.shtml"      style="width:83px">[Castellano]</a></div>
+<div id="main">
+  <img width="592" height="444" src="imagen/foto1.jpg"/>
+  <strong>News</strong>
+  <ul>
+    <li>2014-11-28 First pictures of PCB prototype v2. Pictures at <a href="media_e.shtml">Media</a>.</li>
+    <li>2014-11-27 <font color="#FF0000">New</font> scheme design prototype 2. PDF avaliable at <a href="ficheros_e.shtml">Files</a>.</li>
+    <li>2014-07-15 Updated the <a href="enlaces_e.shtml">Links page</a>. Added new link to ZDP forum (Spanish).</li>
+    <li>2014-10-20 Photos of printed 3D test case (model by @Jepalza). <a href="media_e.shtml">Media</a>.</li>
+    <li>2014-10-15 New schematic and PCB design prototype 2. Schemes at <a href="media_e.shtml">Media</a>.</li>
+    <li>2014-07-15 Updated the <a href="enlaces_e.shtml">Links page</a>. Added new link to ZDP forum (Spanish).</li>
+    <li>2014-07-24 Added PDF file of stickers for the keyboard.<a href="ficheros_e.shtml">Files</a>.</li>
+    <li>2014-07-22 Added pictures of keyboards with stickers.<a href="media_e.shtml">Media</a>.</li>
+    <li>2014-07-16 Added links to Retro entre Amigos Podcast (Spanish). <a href="media_e.shtml">Media</a>.</li>
+    <li>2014-07-15 Added link to RetroManiac Magazine interview (Spanish). <a href="media_e.shtml">Media</a>.</li>
+    <li>2014-07-15 Updated <a href="enlaces_e.shtml">links</a> page. Added link to Technical Wiki.</li>
+    <li>2014-04-23 Added provisional keyboard layouts. <a href="ficheros_e.shtml">Files</a>.</li>
+    <li>2014-03-06 Twitter account created. Updated forum links. <a href="enlaces_e.shtml">Links</a>.</li>
+    <li>2014-02-11 New PCB mounting test!!!. Picture at <a href="media_e.shtml">Media</a>.</li>
+    <li>2014-02-11 ZDP thread with prototype test (Spanish). <a href="enlaces_e.shtml">Links</a>.</li>
+    <li>2013-12-25 First PCB mounting test. Picture at <a href="media_e.shtml">Media</a>.</li>
+    <li>2013-10-22 PCBs arrived, new photos uploaded in <a href="media_e.shtml">Media</a>.</li>
+    <li>2013-10-10 Website launch.</li>
+    <li>2013-09-21 Order of 10 prototypes: boards and components.</li></ul></div>
+<!--#include file="footer_e.html"-->

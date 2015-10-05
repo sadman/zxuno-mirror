@@ -1,0 +1,56 @@
+<!--#include file="header.html"-->
+<div id="menu">
+  <a href="index.shtml"      style="width:55px">Inicio</a>
+  <span>·</span>
+  <a href="hardware.shtml"   style="width:80px">Hardware</a>
+  <span>·</span>
+  <a href="software.shtml"   style="width:72px">Software</a>
+  <span>·</span>
+  <a href="media.shtml"      style="width:52px">Media</a>
+  <span>·</span>
+  <a href="ficheros.shtml"   style="width:70px">Ficheros</a>
+  <span>·</span>
+  <a href="faq.shtml"        style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="enlaces.shtml"    style="width:68px">Enlaces</a>
+  <span>·</span>
+  <span                      style="width:75px">Contacto</span>
+  <span>·</span>
+  <a href="contacto_e.shtml" style="width:62px">[English]</a></div>
+<div id="main">
+  <strong>Formulario de contacto:</strong>
+  <br/>
+  <br/>
+  <span style="font-size:14px;font-weight:bold;color:#f00">Actualmente no vendemos ni hacemos reservas del ZX-Uno,
+    por lo que no responderemos ningún mensaje que plantee dichas cuestiones</span>
+  <br/>
+  <br/>
+  <div style="padding:20px 20px;background:#F0F0F0;font-size:10px;font-weight:bold">
+    <form method="post" action="contacto.php?lang=es">
+      <input type="text" name="author" id="author" size="22" tabindex="1"/>
+      <label for="author">Nombre</label>
+      <br/>
+      <br/>
+      <input type="text" name="email" id="email" size="22" tabindex="2"/>
+      <label for="email">Correo electrónico</label>
+      <br/>
+      <br/>
+      <input type="text" name="asunto" id="asunto" size="22" tabindex="3"/>
+      <label for="asunto">Asunto</label>
+      <br/>
+      <br/>
+      <label for="comment">Mensaje</label>
+      <textarea name="comment" id="comment" style="width:100%" rows="10" tabindex="4"></textarea>
+      <br/>
+      <br/>
+      <input type="submit" value="Enviar" tabindex="5"/></form></div>
+  <br/>
+  <span style="font-size:12px">* Antes de enviarnos un mensaje, por favor comprueba que tu
+    pregunta no esté resuelta en el <a href="faq.html">FAQ</a> ó en el foro
+    <a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4073">Zona de Pruebas</a>, donde
+    discutimos acerca del proyecto.
+    <br/>
+    <br/>
+    Por supuesto, no aceptamos ningún tipo de spam ni tampoco respondemos solicitudes acerca
+    de software para ZX Spectrum, ROMs, material con copyright, etc.</span></div>
+<!--#include file="footer.html"-->

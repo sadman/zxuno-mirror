@@ -1,0 +1,62 @@
+﻿<!--#include file="header.html"-->
+<div id="menu">
+  <a href="index.shtml"      style="width:55px">Inicio</a>
+  <span>·</span>
+  <a href="hardware.shtml"   style="width:80px">Hardware</a>
+  <span>·</span>
+  <a href="software.shtml"   style="width:72px">Software</a>
+  <span>·</span>
+  <a href="media.shtml"      style="width:52px">Media</a>
+  <span>·</span>
+  <a href="ficheros.shtml"   style="width:70px">Ficheros</a>
+  <span>·</span>
+  <a href="faq.shtml"        style="width:45px">FAQ</a>
+  <span>·</span>
+  <span                      style="width:68px">Enlaces</span>
+  <span>·</span>
+  <a href="contacto.shtml"   style="width:75px">Contacto</a>
+  <span>·</span>
+  <a href="enlaces_e.shtml" style="width:62px">[English]</a></div>
+<div id="main">
+    <strong>Foros de discursión:</strong>
+  <ul>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5691">Zona de Pruebas. Prototipo 2 del ZX-Uno. HILO ACTUAL.</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4073">Zona de Pruebas. Hilo principal.</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=58&t=4629">Zona de Pruebas. Montaje del ZX-Uno.</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4855">Zona de Pruebas. Sintetizando un Spectrum con el ZX-Uno.</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4927">Zona de Pruebas. Avances en el desarrollo del ZX-Uno.</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4926">Zona de Pruebas. Teclado para ZX-Uno.</a></li>
+</ul>
+  <br/>
+    <strong>Wiki Técnico:</strong>
+  <ul>
+    <li><a href="http://www.zxuno.com">http://www.zxuno.com</a></li>
+</ul>
+  <br/>
+    <strong>Cuenta Twitter del proyecto:</strong>
+  <ul>
+    <li><a href="https://twitter.com/zxuno">https://twitter.com/zxuno</a></li>
+</ul>
+  <br/>
+  <strong>Relacionados Hardware / FPGA:</strong>
+  <ul>
+    <li><a href="http://www.retrolandia.net">Retrolandia</a></li>
+    <li><a href="http://www.zxprojects.com/">ZX Projects</a></li>
+    <li><a href="http://www.xilinx.com">Xilinx</a></li>
+    <li><a href="http://www.raspberrypi.org">Raspberry Pi</a></li></ul>
+  <br/>
+  <strong>ZX Spectrum*:</strong>
+  <ul>
+    <li><a href="http://www.speccy.org">Speccy.org</a></li>
+    <li><a href="http://www.mojontwins.com/">Mojon Twins Dome</a></li>
+    <li><a href="http://www.worldofspectrum.org">World of Spectrum</a></li></ul>
+  <br/>
+  <strong>Otros:</strong>
+  <ul>
+    <li><a href="http://www.retroentreamigos.com/">Podcast Retro entre Amigos</a></li>
+    <li><a href="http://retromaniacmagazine.blogspot.com.es/">RetroManiac Magazine</a></li>
+  <br/>
+  <span style="font-size:12px">
+    * Si programas para ZX Spectrum y quieres ver tu página aquí, ponte en contacto
+    con nosotros.</span></div>
+<!--#include file="footer.html"-->

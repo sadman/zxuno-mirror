@@ -1,0 +1,185 @@
+﻿<!--#include file="header.html"-->
+<div id="menu">
+  <a href="index.shtml"      style="width:55px">Inicio</a>
+  <span>·</span>
+  <a href="hardware.shtml"   style="width:80px">Hardware</a>
+  <span>·</span>
+  <a href="software.shtml"   style="width:72px">Software</a>
+  <span>·</span>
+  <span                      style="width:52px">Media</span>
+  <span>·</span>
+  <a href="ficheros.shtml"   style="width:70px">Ficheros</a>
+  <span>·</span>
+  <a href="faq.shtml"        style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="enlaces.shtml"    style="width:68px">Enlaces</a>
+  <span>·</span>
+  <a href="contacto.shtml"   style="width:75px">Contacto</a>
+  <span>·</span>
+  <a href="media_e.shtml"    style="width:62px">[English]</a></div>
+<div id="main">
+<strong>Prototipo versión 2 (fotografías de @Haplo):</strong>
+  <br/>
+  <br/>
+    <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-nGXbT8HZltU/VHg7eHLly5I/AAAAAAAAAQU/YXvniVmoqTA/s1500/ZX-Uno2_Rev014_HD_Haplo_001.jpg">
+    <img width="194" height="145" src="https://lh6.googleusercontent.com/-nGXbT8HZltU/VHg7eHLly5I/AAAAAAAAAQU/YXvniVmoqTA/s1500/ZX-Uno2_Rev014_HD_Haplo_001.jpg"></a>
+    <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-R5O4KVETpD0/VHg7ehj_0SI/AAAAAAAAAQY/7yUOklszPkw/s1500/ZX-Uno2_Rev014_HD_Haplo_002.jpg">
+    <img width="194" height="145" src="https://lh6.googleusercontent.com/-R5O4KVETpD0/VHg7ehj_0SI/AAAAAAAAAQY/7yUOklszPkw/s1500/ZX-Uno2_Rev014_HD_Haplo_002.jpg"></a>
+    <a title="Click para agrandar" href="https://lh4.googleusercontent.com/-7PFUiwNGBcw/VHg7dwSwMTI/AAAAAAAAAQM/0IoNu8qrKTg/s1500/ZX-Uno2_Rev014_HD_Haplo_003.jpg">
+    <img width="194" height="145" src="https://lh4.googleusercontent.com/-7PFUiwNGBcw/VHg7dwSwMTI/AAAAAAAAAQM/0IoNu8qrKTg/s1500/ZX-Uno2_Rev014_HD_Haplo_003.jpg"></a>
+    <a title="Click para agrandar" href="https://lh5.googleusercontent.com/-gT8FDZBjp24/VHg7rUPb0MI/AAAAAAAAAQw/gri2XW8-qVw/s1500/ZX-Uno2_Rev014_HD_Haplo_004.jpg">
+    <img width="194" height="145" src="https://lh5.googleusercontent.com/-gT8FDZBjp24/VHg7rUPb0MI/AAAAAAAAAQw/gri2XW8-qVw/s1500/ZX-Uno2_Rev014_HD_Haplo_004.jpg"></a>
+    <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-BGdapoo2LYY/VHg7rbdU05I/AAAAAAAAAQs/OT_iX1bELT8/s1500/ZX-Uno2_Rev014_HD_Haplo_005.jpg">
+    <img width="194" height="145" src="https://lh6.googleusercontent.com/-BGdapoo2LYY/VHg7rbdU05I/AAAAAAAAAQs/OT_iX1bELT8/s1500/ZX-Uno2_Rev014_HD_Haplo_005.jpg"></a>
+    <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-TM2GjCKUJGA/VHg7rIGBvfI/AAAAAAAAAQo/A6UZARdUe88/s1500/ZX-Uno2_Rev014_HD_Haplo_006.jpg">
+    <img width="194" height="145" src="https://lh6.googleusercontent.com/-TM2GjCKUJGA/VHg7rIGBvfI/AAAAAAAAAQo/A6UZARdUe88/s1500/ZX-Uno2_Rev014_HD_Haplo_006.jpg"></a>
+    <div style="clear:left"></div>
+  <br/>
+  <br/>
+<strong><font color="#FF0000">Nuevo</font>  prototipo versión 2:</strong>
+  <br/>
+  <br/>
+    <a title="Click para agrandar" href="https://lh5.googleusercontent.com/-HEIHjebKdvA/VD0KaXZaySI/AAAAAAAAAMA/j1ELSmD0OJg/s1207/ZXUno_esquema_13.png">
+    <img width="194" height="145" src="https://lh5.googleusercontent.com/-HEIHjebKdvA/VD0KaXZaySI/AAAAAAAAAMA/j1ELSmD0OJg/s1207/ZXUno_esquema_13.png"></a>
+    <a title="Click para agrandar" href="https://lh5.googleusercontent.com/-maAqB-c0798/VD0KaSfimtI/AAAAAAAAAME/nSO31jDEP7E/s1056/ZXUno_pcb_13.png">
+    <img width="194" height="145" src="https://lh5.googleusercontent.com/-maAqB-c0798/VD0KaSfimtI/AAAAAAAAAME/nSO31jDEP7E/s1056/ZXUno_pcb_13.png"></a>
+    <div style="clear:left"></div>
+  <br/>
+  <br/>
+<strong>Podcast Retro entre Amigos:</strong>
+  <br/>
+  <br/>
+  <li><a href="http://www.ivoox.com/audio_rf_3176716_1.html">AUDIO: Entrevista a McLeod_Ideafix (1).</a></li>
+  <li><a href="http://www.ivoox.com/audio_rf_3281224_1.html">AUDIO: Entrevista a McLeod_Ideafix (2).</a></li>
+  <li><a href="http://www.retroentreamigos.com">Website Retro entre Amigos.</a></li>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+<strong>RetroManiac Magazine:</strong>
+  <br/>
+  <br/>
+ <li><a href="http://retromaniacmagazine.blogspot.com.es/2014/07/entrevista-con-el-equipo-de-desarrollo.html">Entrevista con el equipo de desarrollo del clon de Spectrum ZX-Uno.</a></li>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+<strong>Pruebas del prototipo:</strong>
+  <br/>
+  <br/>
+  <a title="Click para agrandar" href="imagen/Feb_2014_001_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_001.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_002_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_002.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_003_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_003.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_004_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_004.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_005_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_005.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_006_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_006.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_007_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_007.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_008_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_008.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_009_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_009.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_010_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_010.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_011_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_011.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Feb_2014_012_HD.jpg">
+    <img width="194" height="145" src="imagen/Feb_2014_012.jpg"></a>
+<br/>
+<br/>
+  <strong>Primeras placas montadas:</strong>
+  <br/>
+  <br/>
+  <a title="Click para agrandar" href="imagen/foto_superfo_hd_001.jpg">
+    <img width="194" height="130" src="imagen/foto_superfo_001.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+  <strong>Fotos teclados con etiquetas:</strong>
+  <br/>
+  <br/>
+  <a title="Click para agrandar" href="imagen/Teclado_Etiquetas_V2_HD_001.jpg">
+    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_001.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Teclado_Etiquetas_V2_HD_002.jpg">
+    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_002.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Teclado_Etiquetas_V2_HD_003.jpg">
+    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_003.jpg"></a>
+  <a title="Click para agrandar" href="imagen/Teclado_Etiquetas_V2_HD_004.jpg">
+    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_004.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+  <strong>Fotos de la placa:</strong>
+  <br/>
+  <br/>
+  <a title="Click para agrandar" href="imagen/foto2hd.jpg">
+    <img width="194" height="130" src="imagen/foto2.jpg"></a>
+  <a title="Click para agrandar" href="imagen/foto3hd.jpg">
+    <img width="194" height="130" src="imagen/foto3.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+ <strong>Fotos del diseño de la placa:</strong>
+  <br/>
+  <br/>
+  <a title="Click para agrandar" href="imagen/foto2hd.jpg">
+    <img width="194" height="130" src="imagen/foto2.jpg"></a>
+  <a title="Click para agrandar" href="imagen/foto3hd.jpg">
+    <img width="194" height="130" src="imagen/foto3.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+  <strong>Fotos de caja de prueba impresa en 3D (modelo de @Jepalza):</strong>
+  <br/>
+  <br/>
+  <a title="Click para agrandar" href="https://lh3.googleusercontent.com/-ctJuwm71r2A/VEErj1reiVI/AAAAAAAAAO0/-TcN9TpUUaM/s1500/Caja3D_Jepalza_007.jpg">
+    <img width="194" height="130" src="https://lh3.googleusercontent.com/-ctJuwm71r2A/VEErj1reiVI/AAAAAAAAAO0/-TcN9TpUUaM/s1500/Caja3D_Jepalza_007.jpg"></a>
+  <a title="Click para agrandar" href="https://lh3.googleusercontent.com/-B902EpGVG8k/VEErT2zq8UI/AAAAAAAAAOE/BYnjrtZjUls/s1500/Caja3D_Jepalza_001.jpg">
+    <img width="194" height="130" src="https://lh3.googleusercontent.com/-B902EpGVG8k/VEErT2zq8UI/AAAAAAAAAOE/BYnjrtZjUls/s1500/Caja3D_Jepalza_001.jpg"></a>
+  <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-ESxbFnYjJz4/VEErn2kN0ZI/AAAAAAAAAPE/62NE-vzGQcg/s1500/Caja3D_Jepalza_009.jpg">
+    <img width="194" height="130" src="https://lh6.googleusercontent.com/-ESxbFnYjJz4/VEErn2kN0ZI/AAAAAAAAAPE/62NE-vzGQcg/s1500/Caja3D_Jepalza_009.jpg"></a>
+  <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-qrQCij7-4ZU/VEErltBC_zI/AAAAAAAAAO8/PzAJGSaCvEo/s1500/Caja3D_Jepalza_008.jpg">
+    <img width="194" height="130" src="https://lh6.googleusercontent.com/-qrQCij7-4ZU/VEErltBC_zI/AAAAAAAAAO8/PzAJGSaCvEo/s1500/Caja3D_Jepalza_008.jpg"></a>
+  <a title="Click para agrandar" href="https://lh5.googleusercontent.com/-RC48JOBwJN8/VEErVO0TN6I/AAAAAAAAAOU/4XOZLSs5ZK4/s1500/Caja3D_Jepalza_002.jpg">
+    <img width="194" height="130" src="https://lh5.googleusercontent.com/-RC48JOBwJN8/VEErVO0TN6I/AAAAAAAAAOU/4XOZLSs5ZK4/s1500/Caja3D_Jepalza_002.jpg"></a>
+  <a title="Click para agrandar" href="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg">
+    <img width="194" height="130" src="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg"></a>
+  <a title="Click para agrandar" href="https://lh6.googleusercontent.com/-k4-RmIcZK0I/VEErUYgnjBI/AAAAAAAAAOQ/9TTV1xq9h5I/s1500/Caja3D_Jepalza_003.jpg">
+    <img width="194" height="130" src="https://lh6.googleusercontent.com/-k4-RmIcZK0I/VEErUYgnjBI/AAAAAAAAAOQ/9TTV1xq9h5I/s1500/Caja3D_Jepalza_003.jpg"></a>
+  <a title="Click para agrandar" href="https://lh4.googleusercontent.com/-Twg3kcucXn0/VEErgacdImI/AAAAAAAAAOs/dFyRk_o7TXs/s1500/Caja3D_Jepalza_005.jpg">
+    <img width="194" height="130" src="https://lh4.googleusercontent.com/-Twg3kcucXn0/VEErgacdImI/AAAAAAAAAOs/dFyRk_o7TXs/s1500/Caja3D_Jepalza_005.jpg"></a>
+  <a title="Click para agrandar" href="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg">
+    <img width="194" height="130" src="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+  <strong>Fotos de piezas:</strong>
+  <br/>
+  <br/>
+  <a title="Conector PS/2 teclado, conector jack para Audio y puerto EAR y conector RCA para video compuesto - Click para agrandar" href="imagen/foto4hd.jpg">
+    <img width="194" height="145" src="imagen/foto4.jpg"></a>
+  <a title="Tira doble de pines hembra recta para fabricarse el cable RGB, tira doble de pines macho acodada para el conector RGB/JTAG y conector micro-USB para alimentación - Click para agrandar" href="imagen/foto5hd.jpg">
+    <img width="194" height="145" src="imagen/foto5.jpg"></a>
+  <a title="Tira de condensadores SMD y tira de leds SMD - Click para agrandar" href="imagen/foto6hd.jpg">
+    <img width="194" height="145" src="imagen/foto6.jpg"></a>
+  <a title="Foto de la carcasa cerrada con pegatina del logo - Click para agrandar" href="imagen/foto7hd.jpg">
+    <img width="194" height="145" src="imagen/foto7.jpg"></a>
+  <a title="Foto de la carcasa abierta - Click para agrandar" href="imagen/foto8hd.jpg">
+    <img width="194" height="145" src="imagen/foto8.jpg"></a>
+  <a title="Foto de la carcasa abierta con PCB - Click para agrandar" href="imagen/foto9hd.jpg">
+    <img width="194" height="145" src="imagen/foto9.jpg"></a>
+  <a title="Foto artística de la PCB - Click para agrandar" href="imagen/foto10hd.jpg">
+    <img width="194" height="145" src="imagen/foto10.jpg"></a>
+  <a title="Foto de la carcasa boca abajo - Click para agrandar" href="imagen/foto11hd.jpg">
+    <img width="194" height="145" src="imagen/foto11.jpg"></a>
+  <a title="Izquierda AD724, arriba memoria RAM, abajo SPI Flash y derecha transistor BC846 SOT-23 - Click para agrandar" href="imagen/foto12hd.jpg">
+    <img width="194" height="145" src="imagen/foto12.jpg"></a>
+  <a title="Varios componentes del montaje - Click para agrandar" href="imagen/foto13hd.jpg">
+    <img width="194" height="145" src="imagen/foto13.jpg"></a>
+  <a title="Conectores RCA vídeo compuesto y tiras pin hembra - Click para agrandar" href="imagen/foto14hd.jpg">
+    <img width="194" height="145" src="imagen/foto14.jpg"></a></div>
+<!--#include file="footer.html"-->
