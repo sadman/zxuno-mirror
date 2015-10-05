@@ -3,7 +3,14 @@
 #include "console.h"
 #include "debug.h"
 
-#define DEBUG_SD
+#define DEBUG_SD2
+
+const UBYTE *card_type = 0xc080;
+
+void card_SDHC(BYTE val) 
+{
+	card_type[0] = val;
+}
 
 void spi_set_speed(BYTE delay)
 {
@@ -76,9 +83,21 @@ UBYTE spi_receive_byte()
 UBYTE sd_wait_r1()
 {
 	BYTE r,timeout;
-	for (timeout=0x20; timeout>0; --timeout) {
+	for (timeout=0xa; timeout>0; --timeout) {
 		r = spi_receive_byte();
 		if ((r&0x80)==0) {
+			break;
+		}
+	}
+	return r;
+}
+
+UBYTE sd_wait_r58()
+{
+	BYTE r,timeout;
+	for (timeout=0xa; timeout>0; --timeout) {
+		r = spi_receive_byte();
+		if (r==0x01 || r==0xc0 || r==0x80 || r==0x20) {
 			break;
 		}
 	}
@@ -89,7 +108,7 @@ UBYTE sd_wait_ready()
 {
 	BYTE timeout,r;
 	spi_receive_byte();
-	for (timeout=0x20; timeout>0; --timeout) {
+	for (timeout=0xa; timeout>0; --timeout) {
 		r = spi_receive_byte();
 		if (r==0xff) {
 			break;
@@ -179,6 +198,9 @@ UBYTE sd_acmd41(UBYTE byte0)
 
 	r = sd_wait_r1();
 
+	spi_delay();
+	spi_delay();
+
 #ifdef DEBUG_SD
 	debug_puts("acmd41:");
 	debug_print_byte(r);
@@ -190,6 +212,7 @@ UBYTE sd_acmd41(UBYTE byte0)
 UBYTE sd_cmd58()
 {
 	BYTE r;
+	UBYTE r58;
 	sd_wait_ready();
 
 	spi_send_byte(0x7a);
@@ -200,7 +223,23 @@ UBYTE sd_cmd58()
 	spi_send_byte(0xff);
 
 	r = sd_wait_r1();
-	spi_delay(); // if &0xc0==0xc0 => SDHC
+
+	r58 =  spi_receive_byte();
+
+	if (r58==0xc0) 		// Distingue entre SDHC y SD
+		card_SDHC(1);
+	else
+		card_SDHC(0);
+
+#ifdef DEBUG_SD
+	console_print_byte(r58); //q debug
+	console_puts(" - card_type = ")
+	console_print_byte(card_type[0]); //q debug
+	console_puts("\n")
+#endif	
+
+	spi_delay(); 
+	spi_delay();
 	spi_delay();
 	spi_delay();
 	spi_delay();
@@ -246,6 +285,7 @@ int sd_init()
 		debug_puts("SD card V2+\n");
 #endif
 		// initialize card
+		spi_delay(); //q delay
 		timeout = 0xff;
 		while ((sd_acmd41(0x40)&1)!=0) {
 			if (timeout==0) {
@@ -255,7 +295,6 @@ int sd_init()
 			timeout = timeout-1;
 		}
 
-		// read OCR
 		if (sd_cmd58()!=0) {
 			spi_deassert_cs();
 			return FALSE;
@@ -294,12 +333,6 @@ int sd_init()
 /* loads $200 bytes from spi */
 void load_data(UBYTE *target)
 {
-/*
-	int i;
-	for (i=0; i<0x200; i++) {
-		*target++ = spi_receive_byte();
-	}
-*/
 	#asm
 	ld	hl, 2
 	add	hl, sp
@@ -330,9 +363,11 @@ int sd_load_sector(UBYTE* target, DWORD sector)
 	BYTE r;
 	BYTE timeout;
 
-	address = sector<<9;
+	address = sector<<9; //Q SD no HC = byte address
+	if (card_type[0] == 1)
+		address = sector; //Q SDHC = block addres 
 
-#ifdef DEBUG_SD
+#ifdef DEBUG_SD2
 	debug_puts("loading address ");
 	debug_print_dword(address);
 	debug_puts("\n");
@@ -349,6 +384,7 @@ int sd_load_sector(UBYTE* target, DWORD sector)
 	spi_send_byte(0xff);
 
 	r = sd_wait_r1();
+
 #ifdef DEBUG_SD
 	debug_puts("cmd17:");
 	debug_print_byte(r);
@@ -381,5 +417,3 @@ int sd_load_sector(UBYTE* target, DWORD sector)
 	spi_deassert_cs();
 	return TRUE;
 }
-
-

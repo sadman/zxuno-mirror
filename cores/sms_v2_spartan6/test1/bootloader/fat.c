@@ -1,6 +1,6 @@
 #include "fat.h"
 
-//#define DEBUG_FAT
+#define DEBUG_FAT2
 
 typedef struct {
 	BYTE	fat32;
@@ -17,6 +17,7 @@ const fat_t *fat 					= 0xc010;
 const UBYTE *fat_buffer				= 0xc100;
 const UBYTE *data_buffer			= 0xc300;
 const file_descr_t *directory_buffer= 0xc500;
+//const BYTE *card_type 				= 0xc700; //q
 
 void fat_init32();
 void fat_init16();
@@ -41,12 +42,12 @@ int fat_init()
 
 	sector = 0;
 	if (!sd_load_sector(data_buffer, sector)) {
-		console_puts("error while loading mbr\n");
+		console_puts("Error loading MBR\n");
 		return FALSE;
 	}
 
 	if ((data_buffer[0x1fe]!=0x55) || (data_buffer[0x1ff]!=0xaa)) {
-		console_puts("wrong mbr\n");
+		console_puts("Wrong MBR\n");
 		return FALSE;
 	}
 
@@ -58,11 +59,11 @@ int fat_init()
 		fat->fat32 = TRUE;
 		break;
 	default:
-		console_puts("unknown filesystem type (fat16/32 only)\n");
+		console_puts("Unknown filesystem type (FAT16/32 only)\n");
 		return FALSE;
 	}
 
-	sector = load_dword(&data_buffer[0x1c6]);
+	sector = load_dword(&data_buffer[0x1c6]); 
 #ifdef DEBUG_FAT
 	debug_puts("first sector: ");
 	debug_print_dword(sector);
@@ -70,17 +71,19 @@ int fat_init()
 #endif
 
 	if (!sd_load_sector(data_buffer, sector)) {
-		console_puts("error while loading boot sector\n");
+		console_puts("Error while loading boot sector\n");
 		return FALSE;
 	}
 
 	if ((data_buffer[0x1fe]!=0x55) || (data_buffer[0x1ff]!=0xaa)) {
-		console_puts("wrong boot record\n");
+		console_puts("Wrong boot record\n");
 		return FALSE;
 	}
 
 	if ((data_buffer[11]!=0) || (data_buffer[12]!=2)) {
 		console_puts("sector size != 0x200\n");
+		console_print_byte(data_buffer[11]);
+		console_print_byte(data_buffer[12]);
 		return FALSE;
 	}
 
@@ -221,24 +224,24 @@ int fat_load_file_sector(file_t *file, UBYTE *buffer)
 	int i;
 	if (file->sector==first_sector_of_cluster(file->cluster+1)) {
 		file->cluster = fat_next_cluster(file->cluster);
-#ifdef DEBUG
+#ifdef DEBUG2
 		debug_puts("end of cluster -- next cluster is ");
 		debug_print_dword(file->cluster);
 		debug_puts("\n");
 #endif
 		if (fat_is_last_cluster(file->cluster)) {
-#ifdef DEBUG
+#ifdef DEBUG2
 			debug_puts("end of file\n");
 #endif
 			return FAT_EOF;
 		} else {
-#ifdef DEBUG
+#ifdef DEBUG2
 			debug_puts("continuing\n");
 #endif
 			file->sector  = first_sector_of_cluster(file->cluster);
 		}
 	}
-	return sd_load_sector(buffer, file->sector++)
+	return sd_load_sector(buffer, file->sector++);
 }
 
 void clear_directory_buffer()
