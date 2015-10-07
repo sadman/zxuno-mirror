@@ -1,0 +1,77 @@
+<!--#include file="header.html"-->
+<div id="menu">
+  <a href="index.shtml"    style="width:50px">Inicio</a>
+  <span>·</span>
+  <span                    style="width:95px">La Máquina</span>
+  <span>·</span>
+  <a href="descarga.shtml" style="width:78px">Descarga</a>
+  <span>·</span>
+  <a href="media.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <a href="faq.shtml"      style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="contacto.shtml" style="width:75px">Contacto</a>
+  <span>·</span>
+  <a href="maquina_e.shtml"  style="width:62px">[English]</a></div>
+<div id="main">
+  <img width="584" height="437" src="imagen/esquema.png"/>
+  <strong>Especificaciones técnicas (no definitivas):</strong>
+  <ul>
+    <li>FPGA Xilinx Spartan XC3S250E-4TQG144C</li>
+    <li>Memoria estática de 512Kb, CY62148EV30</li>
+    <li>Oscilador de 50MHz</li>
+    <li>Circuito EAR de Superfo (1 transistor)</li>
+    <li>Circuito de vídeo basado en AD724 con cristal de 4.43MHz</li>
+    <li>Conector PS/2 para teclado</li>
+    <li>Conector RCA para video compuesto</li>
+    <li>Conector Jack para audio Stereo</li>
+    <li>Conector Jack para EAR</li>
+    <li>Conector tira pines 2x6 para JTAG y RGB</li>
+    <li>Zócalo para Tarjetas SD</li>
+    <li>Puerto de expansión en 3 tiras de pines macho</li>
+    <li>Conector alimentación micro-USB</li>
+    <li>Tamaño PCB: 85x55 mm. (Compatible con cajas Raspberry Pi)</li></ul>
+  <br/>
+  <strong>Listado de Componentes:</strong>
+  <br/>
+  <pre style="font-size:14px">
+<span style="text-decoration:underline">Cant. Referencia            Descripción</span>
+ 1    U1                    FPGA XC3S250E-4TQG144C
+ 1    U2                    SPI Flash Winbond W25X40BV
+ 1    U3                    SRAM CY62148EV30
+ 1    U4                    Analog Devices AD724JR
+ 1    U5                    Oscilator 50MHz 5*7
+ 1    U6                    SOT223 ZLDO1117 3.3V Regulator
+ 1    U7                    SOT223 ZLDO1117 2.5V Regulator
+ 1    U8                    SOT223 ZLDO1117 1.2V Regulator
+ 1    J1                    Micro USB socket
+ 1    J2                    SD/MMC socket
+ 1    J3                    RCA socket
+ 2    J4, J5                3.5mm audio socket
+ 1    J6                    DB9 right angle male (Joystick connector)
+ 1    J7                    PS/2 socket
+ 1    J8                    2x6 pin right angle header
+ 3    J9, J10, J11          14 pin male header single row
+ 1    D1                    SMD Diode 1N4148
+ 2    D2, D3                SMD 0805 LED
+ 1    Q1                    BC846 SOT-23 NPN Transistor
+ 1    Y1                    HC-49S Low profile 4.43MHz Crystal
+ 4    R1, R2, R3, R4        75 Ohm 0805 Resistor
+ 3    R5, R6, R7            220 Ohm 0805 Resistor
+ 2    R8, R9                270 Ohm 0805 Resistor
+ 1    R10                   330 Ohm 0805 Resistor
+ 4    R11, R12, R13, R14    470 Ohm 0805 Resistor
+ 3    R15, R16, R17         1K Ohm 0805 Resistor
+ 3    R18, R19, R20         1K8 Ohm 0805 Resistor
+ 2    R21, R22              3K9 Ohm 0805 Resistor
+ 2    R23, R24              4K7 Ohm 0805 Resistor
+ 2    R25, R26              5K1 Ohm 0805 Resistor
+ 6    R27-29, R30-31, R34   10K Ohm 0805 Resistor
+ 1    R32 or R33            0 Ohm 0805 Resistor
+ 1    C1                    15pF 0805 Capacitor
+ 3    C2, C3, C4            10nF 0805 Capacitor
+ 24   C5-12, C20-33, C35-36 100nF 0603 Capacitor
+ 6    C14-C19               4.7uF 0805 Capacitor
+ 1    C34                   10uF 0805 Capacitor
+ 1    C13                   220uF Electrolytic Capacitor</pre></div>
+<!--#include file="footer.html"-->

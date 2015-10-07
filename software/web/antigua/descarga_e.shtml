@@ -1,0 +1,41 @@
+﻿<!--#include file="header_e.html"-->
+<div id="menu">
+  <a href="index_e.shtml"    style="width:52px">Home</a>
+  <span>·</span>
+  <a href="maquina_e.shtml"  style="width:102px">The Machine</a>
+  <span>·</span>
+  <span                      style="width:81px">Download</span>
+  <span>·</span>
+  <a href="media_e.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <a href="faq_e.shtml"      style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="contacto_e.shtml" style="width:65px">Contact</a>
+  <span>·</span>
+  <a href="descarga.shtml"      style="width:63px">[Spanish]</a></div>
+<div id="main">
+  <strong>Scheme (v0.12):</strong>
+  <ul>
+    <li><a href="ficheros/ZX-Uno.0.12.gerber.zip">Gerber Files</a> 84 Kb. - ZIP</li>
+    <li><a href="ficheros/ZX-Uno.0.12.pdf">Theoretical Scheme</a> 41 Kb. - PDF</li></ul>
+  <br/>
+  <strong>Stickers for keyboard:</strong>
+  <ul>
+    <li><a href="ficheros/Teclados_A5_PROD_003_CorelDraw_CUT.pdf">v1 - Preliminary Designs for Cut Roland Plotter/ Manual Cut</a> 1 Mb - PDF</li>
+	<li><a href="ficheros/Teclados_A4_CorelDraw_CUT_v3.pdf">v3 - PDF format compatible Coreldraw X6 (for plotter cut lines)</a> 1,6 Mb - PDF</li></ul>
+  <br/>
+  <strong>Technical Documents:</strong>
+  <ul>
+    <li><a href="ficheros/ds312.pdf">FPGA Xilinx Spartan-3E</a> 6,2 Mb. - PDF</li>
+    <li><a href="ficheros/spi_datasheet.pdf">SPI Flash Winbond W25X40BV</a> 1,6 Mb. - PDF</li>
+    <li><a href="ficheros/ram_datasheet.pdf">SRAM CY62148EV30</a> 1 Mb. - PDF</li>
+    <li><a href="ficheros/ad724_Datasheet.pdf">RGB to NTSC/PAL AD724JR</a> 210 Kb. - PDF</li></ul>
+  <br/>
+  <strong>Manual ZX-Uno (Rev. 0.0):</strong>
+  <ul>
+    <li>Not avaliable yet.</li></ul>
+  <br/>
+  <strong>Logo Design:</strong>
+  <ul>
+    <li><a href="ficheros/ZX-UNO_Hoja_Estilo_v1_Sep_2013.pdf">Style Sheet Design Logo ZX-Uno</a> 43 Kb. - PDF <i>(Coreldraw compatible).</i></li></ul></div>
+<!--#include file="footer_e.html"-->

@@ -1,22 +1,18 @@
 ﻿<!--#include file="header_e.html"-->
-<div id="menu" style="width:667px">
-  <a href="index_e.shtml"    style="width:55px">Home</a>
+<div id="menu">
+  <a href="index_e.shtml"    style="width:52px">Home</a>
   <span>·</span>
-  <a href="hardware_e.shtml" style="width:80px">Hardware</a>
+  <a href="maquina_e.shtml"  style="width:102px">The Machine</a>
   <span>·</span>
-  <a href="software_e.shtml" style="width:72px">Software</a>
+  <a href="descarga_e.shtml" style="width:81px">Download</a>
   <span>·</span>
   <span                      style="width:52px">Media</span>
   <span>·</span>
-  <a href="ficheros_e.shtml" style="width:45px">Files</a>
-  <span>·</span>
   <a href="faq_e.shtml"      style="width:45px">FAQ</a>
-  <span>·</span>
-  <a href="enlaces_e.shtml"  style="width:50px">Links</a>
   <span>·</span>
   <a href="contacto_e.shtml" style="width:65px">Contact</a>
   <span>·</span>
-  <a href="media.shtml"      style="width:83px">[Castellano]</a></div>
+  <a href="media.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
 <strong>First PCB mounting test prototype v2 (pictures by @Haplo):</strong>
   <br/>

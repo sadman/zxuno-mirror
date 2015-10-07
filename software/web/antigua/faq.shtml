@@ -1,18 +1,14 @@
 <!--#include file="header.html"-->
 <div id="menu">
-  <a href="index.shtml"    style="width:55px">Inicio</a>
+  <a href="index.shtml"    style="width:50px">Inicio</a>
   <span>·</span>
-  <a href="hardware.shtml" style="width:80px">Hardware</a>
+  <a href="maquina.shtml"  style="width:95px">La Máquina</a>
   <span>·</span>
-  <a href="software.shtml" style="width:72px">Software</a>
+  <a href="descarga.shtml" style="width:78px">Descarga</a>
   <span>·</span>
   <a href="media.shtml"    style="width:52px">Media</a>
   <span>·</span>
-  <a href="ficheros.shtml" style="width:70px">Ficheros</a>
-  <span>·</span>
   <span                    style="width:45px">FAQ</span>
-  <span>·</span>
-  <a href="enlaces.shtml"  style="width:68px">Enlaces</a>
   <span>·</span>
   <a href="contacto.shtml" style="width:75px">Contacto</a>
   <span>·</span>

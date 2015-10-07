@@ -1,22 +1,18 @@
 ﻿<!--#include file="header_e.html"-->
-<div id="menu" style="width:667px">
-  <span                      style="width:55px">Home</span>
+<div id="menu">
+  <span                      style="width:52px">Home</span>
   <span>·</span>
-  <a href="hardware_e.shtml" style="width:80px">Hardware</a>
+  <a href="maquina_e.shtml"  style="width:102px">The Machine</a>
   <span>·</span>
-  <a href="software_e.shtml" style="width:72px">Software</a>
+  <a href="descarga_e.shtml" style="width:81px">Download</a>
   <span>·</span>
   <a href="media_e.shtml"    style="width:52px">Media</a>
   <span>·</span>
-  <a href="ficheros_e.shtml" style="width:45px">Files</a>
-  <span>·</span>
   <a href="faq_e.shtml"      style="width:45px">FAQ</a>
-  <span>·</span>
-  <a href="enlaces_e.shtml"  style="width:50px">Links</a>
   <span>·</span>
   <a href="contacto_e.shtml" style="width:65px">Contact</a>
   <span>·</span>
-  <a href="index.shtml"      style="width:83px">[Castellano]</a></div>
+  <a href="index.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
   <img width="592" height="444" src="imagen/foto1.jpg"/>
   <strong>News</strong>

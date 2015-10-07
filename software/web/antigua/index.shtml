@@ -1,22 +1,18 @@
 ﻿<!--#include file="header.html"-->
 <div id="menu">
-  <span                    style="width:55px">Inicio</span>
+  <span                      style="width:50px">Inicio</span>
   <span>·</span>
-  <a href="hardware.shtml" style="width:80px">Hardware</a>
+  <a href="maquina.shtml"    style="width:95px">La Máquina</a>
   <span>·</span>
-  <a href="software.shtml" style="width:72px">Software</a>
+  <a href="descarga.shtml"   style="width:78px">Descarga</a>
   <span>·</span>
-  <a href="media.shtml"    style="width:52px">Media</a>
+  <a href="media.shtml"      style="width:52px">Media</a>
   <span>·</span>
-  <a href="ficheros.shtml" style="width:70px">Ficheros</a>
+  <a href="faq.shtml"        style="width:45px">FAQ</a>
   <span>·</span>
-  <a href="faq.shtml"      style="width:45px">FAQ</a>
+  <a href="contacto.shtml"   style="width:75px">Contacto</a>
   <span>·</span>
-  <a href="enlaces.shtml"  style="width:68px">Enlaces</a>
-  <span>·</span>
-  <a href="contacto.shtml" style="width:75px">Contacto</a>
-  <span>·</span>
-  <a href="index_e.shtml"  style="width:62px">[English]</a></div>
+  <a href="index_e.shtml"    style="width:62px">[English]</a></div>
 <div id="main">
   <img width="592" height="444" src="imagen/foto1.jpg"/>
   <strong>Noticias</strong>
