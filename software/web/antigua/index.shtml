@@ -2,6 +2,8 @@
 <div id="menu">
   <span                      style="width:50px">Inicio</span>
   <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:40px">Foro</a>
+  <span>·</span>
   <a href="maquina.shtml"    style="width:95px">La Máquina</a>
   <span>·</span>
   <a href="descarga.shtml"   style="width:78px">Descarga</a>
@@ -14,7 +16,7 @@
   <span>·</span>
   <a href="index_e.shtml"    style="width:62px">[English]</a></div>
 <div id="main">
-  <img width="592" height="444" src="imagen/foto1.jpg"/>
+  <img width="100%" src="imagen/foto1.jpg"/>
   <strong>Noticias</strong>
   <ul>
     <li>2015-09-15 <b>@Quest se incorpora al equipo ZX-Uno.</b> (F5).</b></li>

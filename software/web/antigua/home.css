@@ -24,12 +24,12 @@ body{
 #menu{
   margin:25px auto;
   height:25px;
-  width:550px;
+  width:610px;
 }
 #main{
   margin:0 auto;
   padding:5px;
-  width:592px;
+  width:788px;
   border:15px solid #eee;
   font-size:14px;
 }
@@ -46,7 +46,20 @@ body{
   font-size:12px;
   text-align:center;
 }
-.azul{
-  color:blue;
+.section{
+  height:25px;
+  background-color:#eee;
+  width:33%;
+  text-align:center;
+  border-top-style:groove;
+  border-width:4px;
+  padding-top:6px;
+  margin-right:0.33%;
   font-weight:bold;
+  float:left;
+}
+@media only screen and (max-width: 900px) {
+#main{
+  width:592px;
+}
 }

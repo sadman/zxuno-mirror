@@ -1,6 +1,8 @@
 ﻿<!--#include file="header_e.html"-->
-<div id="menu">
+<div id="menu" style="width:620px">
   <span                      style="width:52px">Home</span>
+  <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:55px">Forum</a>
   <span>·</span>
   <a href="maquina_e.shtml"  style="width:102px">The Machine</a>
   <span>·</span>
@@ -14,7 +16,7 @@
   <span>·</span>
   <a href="index.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-  <img width="592" height="444" src="imagen/foto1.jpg"/>
+  <img width="100%" src="imagen/foto1.jpg"/>
   <strong>News</strong>
   <ul>
     <li>2015-09-15 <b>@Quest joins ZX-Uno team.</b> (F5).</b></li>

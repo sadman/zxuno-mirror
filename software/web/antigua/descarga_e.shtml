@@ -1,6 +1,8 @@
 ﻿<!--#include file="header_e.html"-->
-<div id="menu">
+<div id="menu" style="width:620px">
   <a href="index_e.shtml"    style="width:52px">Home</a>
+  <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:55px">Forum</a>
   <span>·</span>
   <a href="maquina_e.shtml"  style="width:102px">The Machine</a>
   <span>·</span>

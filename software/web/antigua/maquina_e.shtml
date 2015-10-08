@@ -1,6 +1,8 @@
 <!--#include file="header_e.html"-->
-<div id="menu">
+<div id="menu" style="width:620px">
   <a href="index_e.shtml"    style="width:52px">Home</a>
+  <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:55px">Forum</a>
   <span>·</span>
   <span                      style="width:102px">The Machine</span>
   <span>·</span>
@@ -14,64 +16,174 @@
   <span>·</span>
   <a href="maquina.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-  <img width="584" height="437" src="imagen/esquema.png"/>
-  <strong>Specifications (not final):</strong>
+  <div class="section" style="border-color:#c03"><a href="#hardware">HARDWARE</a></div>
+  <div class="section" style="border-color:#084"><a href="#software">SOFTWARE</a></div>
+  <div class="section" style="border-color:#05a"><a href="#enlaces">LINKS</a></div>
+
+  <a name="hardware"></a>
+  <div style="background-color:#c03;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
+  <strong style="font-size:20px">Hardware</strong>
+  <img width="100%" src="imagen/esquema.png"/>
+  <strong>Specifications:</strong>
   <ul>
-    <li>FPGA Xilinx Spartan XC3S250E-4TQG144C</li>
-    <li>Static Memory 512Kb, CY62148EV30</li>
+    <li>FPGA Xilinx Spartan XC6SLX9-2TQG144C</li>
+    <li>Static Memory 512Kb, AS7C34096A-10TIN</li>
     <li>50MHz Oscillator</li>
     <li>EAR Superfo Circuit (one transistor)</li>
-    <li>Circuit AD724 based video with 4.43MHz crystal</li>
+    <li>Circuit AD724 based video with 4.43MHz/3.58Mhz crystals</li>
     <li>PS/2 keyboard</li>
     <li>RCA connector for composite video</li>
     <li>Stereo audio jack</li>
     <li>EAR jack connector</li>
-    <li>2x6 pin connector for JTAG strip and RGB</li>
+    <li>Molex 1.25mm connectors for JTAG and RGB</li>
     <li>Slot for SD Cards</li>
     <li>Expansion port with 3 male pin strips</li>
     <li>Micro-USB power connector</li>
-    <li>PCB Size: 85x55 mm. (Compatible with Raspberry Pi cases)</li></ul>
+    <li>PCB Size: 86x56 mm. (Compatible with Raspberry Pi cases)</li></ul>
   <br/>
   <strong>Component list:</strong>
   <br/>
   <pre style="font-size:14px">
-<span style="text-decoration:underline">Qty.  Reference             Description</span>
- 1    U1                    FPGA XC3S250E-4TQG144C
- 1    U2                    SPI Flash Winbond W25X40BV
- 1    U3                    SRAM CY62148EV30
- 1    U4                    Analog Devices AD724JR
- 1    U5                    Oscilator 50MHz 5*7
- 1    U6                    SOT223 ZLDO1117 3.3V Regulator
- 1    U7                    SOT223 ZLDO1117 2.5V Regulator
- 1    U8                    SOT223 ZLDO1117 1.2V Regulator
- 1    J1                    Micro USB socket
- 1    J2                    SD/MMC socket
- 1    J3                    RCA socket
- 2    J4, J5                3.5mm audio socket
- 1    J6                    DB9 right angle male (Joystick connector)
- 1    J7                    PS/2 socket
- 1    J8                    2x6 pin right angle header
- 3    J9, J10, J11          14 pin male header single row
- 1    D1                    SMD Diode 1N4148
- 2    D2, D3                SMD 0805 LED
- 1    Q1                    BC846 SOT-23 NPN Transistor
- 1    Y1                    HC-49S Low profile 4.43MHz Crystal
- 4    R1, R2, R3, R4        75 Ohm 0805 Resistor
- 3    R5, R6, R7            220 Ohm 0805 Resistor
- 2    R8, R9                270 Ohm 0805 Resistor
- 1    R10                   330 Ohm 0805 Resistor
- 4    R11, R12, R13, R14    470 Ohm 0805 Resistor
- 3    R15, R16, R17         1K Ohm 0805 Resistor
- 3    R18, R19, R20         1K8 Ohm 0805 Resistor
- 2    R21, R22              3K9 Ohm 0805 Resistor
- 2    R23, R24              4K7 Ohm 0805 Resistor
- 2    R25, R26              5K1 Ohm 0805 Resistor
- 6    R27-29, R30-31, R34   10K Ohm 0805 Resistor
- 1    R32 or R33            0 Ohm 0805 Resistor
- 1    C1                    15pF 0805 Capacitor
- 3    C2, C3, C4            10nF 0805 Capacitor
- 24   C5-12, C20-33, C35-36 100nF 0603 Capacitor
- 6    C14-C19               4.7uF 0805 Capacitor
- 1    C34                   10uF 0805 Capacitor
- 1    C13                   220uF Electrolytic Capacitor</pre></div>
+<span style="text-decoration:underline">Qty.  Reference   Description</span>
+  1   U1          FPGA XC6SLX9-2TQG144C
+  1   U2          SPI Flash Winbond W25Q32BV
+  1   U3          SRAM AS7C34096A-10TIN
+  1   U4          Analog Devices AD724
+  1   U5          Oscilator 50MHz 5*7
+  1   U6          SOT223 ZLDO1117 3.3V Regulator
+  1   U7          SOT223 ZLDO1117 1.2V Regulator
+  1   J1          Micro USB socket
+  1   J2          SD/MMC socket
+  1   J3          RCA socket
+  2   J4, J5      3.5mm audio socket
+  1   J6          DB9 right angle male (Joystick connector)
+  1   J7          PS/2 socket
+  1   J8          9 pin molex connector 1.25mm right angle male (JTAG)
+  1   J9          6 pin molex connector 1.25mm right angle male (RGB)
+  3   J10-J12     14 pin female header single row
+  3   J13-J15     2 pin male header single row
+  3   D1-D3       SMD Diode 1N4148, SOD-523
+  2   D4-D5       SMD 0805 LEDs (red and green)
+  1   T1          BC846 SOT-23 NPN Transistor
+  2   Y1-Y2       HC-49UP SMD Crystals (3.58M/4.43M)
+  3   L1-L3       SMD 0805 magnetic bead 1k 3A
+  4   R1-R4       75 Ohm 0805 Resistor
+ 11   R5-R15      510 Ohm 0805 Resistor
+  3   R16-R18     1K Ohm 0805 Resistor
+  6   R19-R24     2K Ohm 0805 Resistor
+  8   R25-R32     10K Ohm 0805 Resistor
+  1   C1          7.5pF 0805 Capacitor
+  3   C2-C4       10nF 0805 Capacitor
+ 23   C5-C27      100nF 0603 Capacitor
+  8   C28-C35     10uF 0805 Capacitor
+  1   C36         220uF CPOL-0605 Capacitor
+</pre>
+
+  <a name="software"></a>
+  <div style="background-color:#084;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
+  <strong style="font-size:20px">Software</strong>
+  <div style="clear:left"></div>
+  <div style="width:40%;float:left;padding-left:10%">
+    <img alt="Imagen" style="width:80%" src="https://lh3.googleusercontent.com/-qD_EWI6I6Ds/VZ1-tMD7ZOI/AAAAAAAAAp0/0CKEhtdSpw8/s220/Tape_Cassette_WIP_D.png"/></div>
+  <div style="width:50%;float:left">
+    <strong><span style="color:#084">Firmware</span></strong><i>...and other utilities</i>
+    <br/>
+    <br/>
+    All software, firmware and bitstreams avaliables for
+    load into FPGA are on McLeod's repository.
+    <br/>
+    <br/>
+    <a href="http://www.atc.us.es/svn/zxuno/">http://www.atc.us.es/svn/zxuno/</a>
+    <br/>
+    <br/>
+    <pre>
+User:  guest
+Pass:  zxuno</pre>
+    <br/></div>
+
+  <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
+  <div style="clear:left;margin:20px;"></div>
+  <div style="width:35%;float:left;padding-left:15%">
+    <img alt="Imagen" src="https://lh3.googleusercontent.com/-9UcJoy8DmuY/VZ2SHbaZ-gI/AAAAAAAAAqY/uzay3zETzC4/s160/zesarux.png"/></div>
+  <div style="width:50%;float:left">
+    <strong><span style="color:#084">ZEsarUX v3.0</span></strong> <i>Official ZX-Uno emulator</i>
+    <br/>
+    <br/>
+    <ul>
+      <li>Multiplatform emulator of Sinclair systems</li>
+      <li>Machines: ZX Spectrum, <strong><span style="color:#084">ZX-Uno</span></strong>, ZX80, ZX81, Z88</li></ul>
+    <br/>
+    <a href="http://sourceforge.net/projects/zesarux/">http://sourceforge.net/projects/zesarux/</a>
+    <br/>
+    <br/>
+    <i>Developed by César Hernández Bañó</i>
+    <br/>
+    <br/>
+    <a href="http://www.youtube.com/user/chernandezba/videos">Videos from César's youtube channel</a>
+    <br/>
+    <br/></div>
+  <a name="enlaces"></a>
+  <div style="background-color:#05a;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
+  <strong style="font-size:20px">Links</strong>
+  <div style="clear:left;margin:20px;"></div>
+
+  <strong>Technical Wiki:</strong>
+  <ul>
+    <li><a href="http://www.zxuno.com/wiki">http://www.zxuno.com/wiki</a></li></ul>
+  <br/>
+
+  <strong>Discussion threads (zonadepruebas.com - spanish forum):</strong>
+  <ul>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6158">ZX-Uno prototipo 2: seguimos dándole caña. <strong>HILO ACTUAL</strong></a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5933">Cacharreando con el prototipo 2 del ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5812">Montaje del prototipo 2 del ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5691">Prototipo 2 del ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5117">Novedades acerca del ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4927">Avances en el desarrollo del ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4855">Sintetizando un Spectrum con el ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4629">Montaje del ZXUNO</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4073">ZX-Uno, clon barato basado en FPGA</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=3937">PiZx: Clon barato de spectrum con FPGA (WIP)</a></li></ul>
+  <br/>
+
+  <strong>Related threads (zonadepruebas.com - spanish forum):</strong>
+  <ul>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4796">Creando videos en formato "Radastaniano" para reproducirlos con ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4926">Teclado para ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6099">ZX-UNO: Etiquetas para Teclado (2º Tiraje)</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5934">Addon Z80 de McLeod para el ZX-Uno</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6155">ZX-Uno: Diseñando una caja de cartón / impreso 3D</a></li>
+    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5936">Conector expansión Spectrum para ZX-Uno</a></li></ul>
+  <br/>
+
+  <strong>Twitter account:</strong>
+  <ul>
+    <li><a href="https://twitter.com/zxuno">https://twitter.com/zxuno</a></li></ul>
+  <br/>
+
+  <strong>Hardware / FPGA related:</strong>
+  <ul>
+    <li><a href="http://www.retrolandia.net">Retrolandia</a></li>
+    <li><a href="http://www.zxprojects.com/">ZX Projects</a></li>
+    <li><a href="http://www.xilinx.com">Xilinx</a></li>
+    <li><a href="http://www.raspberrypi.org">Raspberry Pi</a></li></ul>
+  <br/>
+
+  <strong>ZX Spectrum:</strong>
+  <ul>
+    <li><a href="http://www.speccy.org">Speccy.org</a></li>
+    <li><a href="http://www.mojontwins.com/">Mojon Twins Dome</a></li>
+    <li><a href="http://www.worldofspectrum.org">World of Spectrum</a></li>
+    <li><a href="http://cheveron.github.io/sebasic4/">SE Basic IV Buffy</a></li></ul>
+  <br/>
+
+  <strong>Others:</strong>
+  <ul>
+    <li><a href="http://www.retroentreamigos.com/">Podcast Retro entre Amigos (Spanish)</a></li>
+    <li><a href="http://retromaniacmagazine.blogspot.com.es/">RetroManiac Magazine (Spanish)</a></li>
+    <li><a href="http://www.retro-sevilla.com/">Retro Sevilla (Spanish)</a></li></ul>
+  <br/>
+  <span style="font-size:12px">
+    * If you develope for ZX Spectrum and want to see your page web here, please
+    contact us.</span></div>
 <!--#include file="footer_e.html"-->

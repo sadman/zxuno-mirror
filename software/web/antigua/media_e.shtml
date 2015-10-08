@@ -1,6 +1,8 @@
 ﻿<!--#include file="header_e.html"-->
-<div id="menu">
+<div id="menu" style="width:620px">
   <a href="index_e.shtml"    style="width:52px">Home</a>
+  <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:55px">Forum</a>
   <span>·</span>
   <a href="maquina_e.shtml"  style="width:102px">The Machine</a>
   <span>·</span>
@@ -14,174 +16,280 @@
   <span>·</span>
   <a href="media.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-<strong>First PCB mounting test prototype v2 (pictures by @Haplo):</strong>
+  <div class="section" style="border-color:#c03"><a href="#fotos">PICTURES</a></div>
+  <div class="section" style="border-color:#084"><a href="#videos">VIDEOS</a></div>
+  <div class="section" style="border-color:#05a"><a href="#otros">OTHERS</a></div>
+
+  <a name="fotos"></a>
+  <div style="background-color:#c03;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
+  <strong>Prototype Version 2</strong>
+  <br/>
+  <i>Pictures by @Haplo</i>
   <br/>
   <br/>
-    <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-nGXbT8HZltU/VHg7eHLly5I/AAAAAAAAAQU/YXvniVmoqTA/s1500/ZX-Uno2_Rev014_HD_Haplo_001.jpg">
-    <img width="194" height="145" src="https://lh6.googleusercontent.com/-nGXbT8HZltU/VHg7eHLly5I/AAAAAAAAAQU/YXvniVmoqTA/s1500/ZX-Uno2_Rev014_HD_Haplo_001.jpg"></a>
-    <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-R5O4KVETpD0/VHg7ehj_0SI/AAAAAAAAAQY/7yUOklszPkw/s1500/ZX-Uno2_Rev014_HD_Haplo_002.jpg">
-    <img width="194" height="145" src="https://lh6.googleusercontent.com/-R5O4KVETpD0/VHg7ehj_0SI/AAAAAAAAAQY/7yUOklszPkw/s1500/ZX-Uno2_Rev014_HD_Haplo_002.jpg"></a>
-    <a title="Click to enlarge" href="https://lh4.googleusercontent.com/-7PFUiwNGBcw/VHg7dwSwMTI/AAAAAAAAAQM/0IoNu8qrKTg/s1500/ZX-Uno2_Rev014_HD_Haplo_003.jpg">
-    <img width="194" height="145" src="https://lh4.googleusercontent.com/-7PFUiwNGBcw/VHg7dwSwMTI/AAAAAAAAAQM/0IoNu8qrKTg/s1500/ZX-Uno2_Rev014_HD_Haplo_003.jpg"></a>
-    <a title="Click to enlarge" href="https://lh5.googleusercontent.com/-gT8FDZBjp24/VHg7rUPb0MI/AAAAAAAAAQw/gri2XW8-qVw/s1500/ZX-Uno2_Rev014_HD_Haplo_004.jpg">
-    <img width="194" height="145" src="https://lh5.googleusercontent.com/-gT8FDZBjp24/VHg7rUPb0MI/AAAAAAAAAQw/gri2XW8-qVw/s1500/ZX-Uno2_Rev014_HD_Haplo_004.jpg"></a>
-    <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-BGdapoo2LYY/VHg7rbdU05I/AAAAAAAAAQs/OT_iX1bELT8/s1500/ZX-Uno2_Rev014_HD_Haplo_005.jpg">
-    <img width="194" height="145" src="https://lh6.googleusercontent.com/-BGdapoo2LYY/VHg7rbdU05I/AAAAAAAAAQs/OT_iX1bELT8/s1500/ZX-Uno2_Rev014_HD_Haplo_005.jpg"></a>
-    <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-TM2GjCKUJGA/VHg7rIGBvfI/AAAAAAAAAQo/A6UZARdUe88/s1500/ZX-Uno2_Rev014_HD_Haplo_006.jpg">
-    <img width="194" height="145" src="https://lh6.googleusercontent.com/-TM2GjCKUJGA/VHg7rIGBvfI/AAAAAAAAAQo/A6UZARdUe88/s1500/ZX-Uno2_Rev014_HD_Haplo_006.jpg"></a>
-    <div style="clear:left"></div>
+  <a href="https://lh6.googleusercontent.com/-nGXbT8HZltU/VHg7eHLly5I/AAAAAAAAAQU/YXvniVmoqTA/s0/ZX-Uno2_Rev014_HD_Haplo_001.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-nGXbT8HZltU/VHg7eHLly5I/AAAAAAAAAQU/YXvniVmoqTA/s194/ZX-Uno2_Rev014_HD_Haplo_001.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-R5O4KVETpD0/VHg7ehj_0SI/AAAAAAAAAQY/7yUOklszPkw/s0/ZX-Uno2_Rev014_HD_Haplo_002.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-R5O4KVETpD0/VHg7ehj_0SI/AAAAAAAAAQY/7yUOklszPkw/s194/ZX-Uno2_Rev014_HD_Haplo_002.jpg"></a>
+  <a href="https://lh4.googleusercontent.com/-7PFUiwNGBcw/VHg7dwSwMTI/AAAAAAAAAQM/0IoNu8qrKTg/s0/ZX-Uno2_Rev014_HD_Haplo_003.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-7PFUiwNGBcw/VHg7dwSwMTI/AAAAAAAAAQM/0IoNu8qrKTg/s194/ZX-Uno2_Rev014_HD_Haplo_003.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-gT8FDZBjp24/VHg7rUPb0MI/AAAAAAAAAQw/gri2XW8-qVw/s0/ZX-Uno2_Rev014_HD_Haplo_004.jpg">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-gT8FDZBjp24/VHg7rUPb0MI/AAAAAAAAAQw/gri2XW8-qVw/s194/ZX-Uno2_Rev014_HD_Haplo_004.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-BGdapoo2LYY/VHg7rbdU05I/AAAAAAAAAQs/OT_iX1bELT8/s0/ZX-Uno2_Rev014_HD_Haplo_005.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-BGdapoo2LYY/VHg7rbdU05I/AAAAAAAAAQs/OT_iX1bELT8/s194/ZX-Uno2_Rev014_HD_Haplo_005.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-TM2GjCKUJGA/VHg7rIGBvfI/AAAAAAAAAQo/A6UZARdUe88/s0/ZX-Uno2_Rev014_HD_Haplo_006.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-TM2GjCKUJGA/VHg7rIGBvfI/AAAAAAAAAQo/A6UZARdUe88/s194/ZX-Uno2_Rev014_HD_Haplo_006.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-maAqB-c0798/VD0KaSfimtI/AAAAAAAAAME/nSO31jDEP7E/s0/ZXUno_pcb_13.png">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-maAqB-c0798/VD0KaSfimtI/AAAAAAAAAME/nSO31jDEP7E/s194/ZXUno_pcb_13.png"></a>
+  <a href="https://lh6.googleusercontent.com/-0FmQfm9YBk4/VIhzE-3-rFI/AAAAAAAAAXE/xMQS7yLZoXE/s0/foto2hd.jpg">
+  <img width="194" height="130" src="https://lh6.googleusercontent.com/-0FmQfm9YBk4/VIhzE-3-rFI/AAAAAAAAAXE/xMQS7yLZoXE/s194/foto2hd.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-4rLF4t9sRuU/VIhzHNvyemI/AAAAAAAAAXU/eP64fYHW6K4/s0/foto3hd.jpg">
+  <img width="194" height="130" src="https://lh3.googleusercontent.com/-4rLF4t9sRuU/VIhzHNvyemI/AAAAAAAAAXU/eP64fYHW6K4/s194/foto3hd.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+
+  <div style="background-color:#c03;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Case ZX-Uno design "Spectrum Style"</strong>
+  <br/>
+  <i>Case design and pictures by @Mejias3D</i>
   <br/>
   <br/>
-<strong><font color="#FF0000">New</font>  Prototype Version 2:</strong>
+  <a href="https://lh3.googleusercontent.com/-L8CqvvTEcbA/VZPWjhQqCjI/AAAAAAAAAko/wgNuJrz-350/s0/Carcasa_ZX_Uno_Mejias3D_024.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-L8CqvvTEcbA/VZPWjhQqCjI/AAAAAAAAAko/wgNuJrz-350/s194/Carcasa_ZX_Uno_Mejias3D_024.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-Rh4CEfOPeXE/VZPWjJy0I-I/AAAAAAAAAkg/S8HR02uMRRY/s0/Carcasa_ZX_Uno_Mejias3D_023.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-Rh4CEfOPeXE/VZPWjJy0I-I/AAAAAAAAAkg/S8HR02uMRRY/s194/Carcasa_ZX_Uno_Mejias3D_023.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-kJg71LX7zzs/VZPWiB3K_MI/AAAAAAAAAkY/CpMaJG6qzqI/s0/Carcasa_ZX_Uno_Mejias3D_022.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-kJg71LX7zzs/VZPWiB3K_MI/AAAAAAAAAkY/CpMaJG6qzqI/s194/Carcasa_ZX_Uno_Mejias3D_022.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-_hcSULMtoO8/VZPWgH57wBI/AAAAAAAAAkI/oRyWms1Mho8/s0/Carcasa_ZX_Uno_Mejias3D_020.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-_hcSULMtoO8/VZPWgH57wBI/AAAAAAAAAkI/oRyWms1Mho8/s194/Carcasa_ZX_Uno_Mejias3D_020.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-nVo64HK--f0/VZPWdm6CooI/AAAAAAAAAj0/jWOg-L25iTg/s0/Carcasa_ZX_Uno_Mejias3D_017.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-nVo64HK--f0/VZPWdm6CooI/AAAAAAAAAj0/jWOg-L25iTg/s194/Carcasa_ZX_Uno_Mejias3D_017.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-GhwLiMfNr_o/VZPWcSMH6GI/AAAAAAAAAjo/NJr9gtSYnZc/s0/Carcasa_ZX_Uno_Mejias3D_015.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-GhwLiMfNr_o/VZPWcSMH6GI/AAAAAAAAAjo/NJr9gtSYnZc/s194/Carcasa_ZX_Uno_Mejias3D_015.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-Mr9WOTd9O78/VZPWYpY9OYI/AAAAAAAAAjY/0pwkfTJxndM/s0/Carcasa_ZX_Uno_Mejias3D_014.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-Mr9WOTd9O78/VZPWYpY9OYI/AAAAAAAAAjY/0pwkfTJxndM/s194/Carcasa_ZX_Uno_Mejias3D_014.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/--kAIBMehTZM/VZPWahkHRbI/AAAAAAAAAjg/F9bDys2qIjQ/s0/Carcasa_ZX_Uno_Mejias3D_013.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/--kAIBMehTZM/VZPWahkHRbI/AAAAAAAAAjg/F9bDys2qIjQ/s194/Carcasa_ZX_Uno_Mejias3D_013.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-qVEmze3HIko/VZPWVP1PoxI/AAAAAAAAAjQ/UXrTiEw3vp4/s0/Carcasa_ZX_Uno_Mejias3D_012.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-qVEmze3HIko/VZPWVP1PoxI/AAAAAAAAAjQ/UXrTiEw3vp4/s194/Carcasa_ZX_Uno_Mejias3D_012.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-tD9B6Ka3zQQ/VZPWTiEDO8I/AAAAAAAAAjA/P4pG3guPKNI/s0/Carcasa_ZX_Uno_Mejias3D_010.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-tD9B6Ka3zQQ/VZPWTiEDO8I/AAAAAAAAAjA/P4pG3guPKNI/s194/Carcasa_ZX_Uno_Mejias3D_010.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-asrfAEknoeg/VZPWN8brD_I/AAAAAAAAAio/POKC3d5_4lo/s0/Carcasa_ZX_Uno_Mejias3D_007.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-asrfAEknoeg/VZPWN8brD_I/AAAAAAAAAio/POKC3d5_4lo/s194/Carcasa_ZX_Uno_Mejias3D_007.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-0sNnePJkRdA/VZPWHJebvyI/AAAAAAAAAig/yZCu9YAOxSk/s0/Carcasa_ZX_Uno_Mejias3D_006.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-0sNnePJkRdA/VZPWHJebvyI/AAAAAAAAAig/yZCu9YAOxSk/s194/Carcasa_ZX_Uno_Mejias3D_006.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-apHxwiUtyo8/VZPV9qZO8sI/AAAAAAAAAiI/ZzHI_J1IoFE/s0/Carcasa_ZX_Uno_Mejias3D_003.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-apHxwiUtyo8/VZPV9qZO8sI/AAAAAAAAAiI/ZzHI_J1IoFE/s194/Carcasa_ZX_Uno_Mejias3D_003.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-PWikI_MgfPE/VZPV6T7Hy8I/AAAAAAAAAh4/-rZA1LjPnr4/s0/Carcasa_ZX_Uno_Mejias3D_002.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-PWikI_MgfPE/VZPV6T7Hy8I/AAAAAAAAAh4/-rZA1LjPnr4/s194/Carcasa_ZX_Uno_Mejias3D_002.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-4f_-QjISBRM/VZPV7iIg1iI/AAAAAAAAAiA/1y0LuhbYQGs/s0/Carcasa_ZX_Uno_Mejias3D_001.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-4f_-QjISBRM/VZPV7iIg1iI/AAAAAAAAAiA/1y0LuhbYQGs/s194/Carcasa_ZX_Uno_Mejias3D_001.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+
+  <div style="background-color:#c03;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Alternative clon "engendro", big version (black) and small (white)</strong>
+  <br/>
+  <i>PCB design and pictures by @Celestinox</i>
   <br/>
   <br/>
-    <a title="Click to enlarge" href="https://lh5.googleusercontent.com/-HEIHjebKdvA/VD0KaXZaySI/AAAAAAAAAMA/j1ELSmD0OJg/s1207/ZXUno_esquema_13.png">
-    <img width="194" height="145" src="https://lh5.googleusercontent.com/-HEIHjebKdvA/VD0KaXZaySI/AAAAAAAAAMA/j1ELSmD0OJg/s1207/ZXUno_esquema_13.png"></a>
-    <a title="Click to enlarge" href="https://lh5.googleusercontent.com/-maAqB-c0798/VD0KaSfimtI/AAAAAAAAAME/nSO31jDEP7E/s1056/ZXUno_pcb_13.png">
-    <img width="194" height="145" src="https://lh5.googleusercontent.com/-maAqB-c0798/VD0KaSfimtI/AAAAAAAAAME/nSO31jDEP7E/s1056/ZXUno_pcb_13.png"></a>
-    <div style="clear:left"></div>
+  <a href="https://lh3.googleusercontent.com/-X3oC4FOxnXE/VZPXXn2dEmI/AAAAAAAAAmE/24G7GdNi-l0/s0/Celestinox_Nueva_Placa_009.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-X3oC4FOxnXE/VZPXXn2dEmI/AAAAAAAAAmE/24G7GdNi-l0/s194/Celestinox_Nueva_Placa_009.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-S2kjDUuFxjU/VZPXSP4FvEI/AAAAAAAAAls/DRR7E99lbDA/s0/Celestinox_Nueva_Placa_007.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-S2kjDUuFxjU/VZPXSP4FvEI/AAAAAAAAAls/DRR7E99lbDA/s194/Celestinox_Nueva_Placa_007.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-_jxU649rvFk/VZPXOuciCKI/AAAAAAAAAlk/N4TELtpjBcI/s0/Celestinox_Nueva_Placa_005.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-_jxU649rvFk/VZPXOuciCKI/AAAAAAAAAlk/N4TELtpjBcI/s194/Celestinox_Nueva_Placa_005.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-eTAN4PwV2Uo/VZPXI9BviTI/AAAAAAAAAlM/UeQcKVuuagQ/s0/Celestinox_Nueva_Placa_002.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-eTAN4PwV2Uo/VZPXI9BviTI/AAAAAAAAAlM/UeQcKVuuagQ/s194/Celestinox_Nueva_Placa_002.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-SgugpRHeaoA/VZUAvrx_TtI/AAAAAAAAAns/H61Fd8W0yGE/s0/Celestinox_Nueva_CAJA_012.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-SgugpRHeaoA/VZUAvrx_TtI/AAAAAAAAAns/H61Fd8W0yGE/s194/Celestinox_Nueva_CAJA_012.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-kXh6sy3oOIg/VZUAtBXJXiI/AAAAAAAAAnk/jJEYHgfJETE/s0/Celestinox_Nueva_CAJA_011.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-kXh6sy3oOIg/VZUAtBXJXiI/AAAAAAAAAnk/jJEYHgfJETE/s194/Celestinox_Nueva_CAJA_011.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-RXS5xskuF4Y/VZUApnpUTuI/AAAAAAAAAnc/fJcVbbcDq6M/s0/Celestinox_Nueva_CAJA_010.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-RXS5xskuF4Y/VZUApnpUTuI/AAAAAAAAAnc/fJcVbbcDq6M/s194/Celestinox_Nueva_CAJA_010.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-hp9WwV4U5L0/VZUAoK3Pd-I/AAAAAAAAAnU/CCAKsw3VTHc/s0/Celestinox_Nueva_CAJA_008.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-hp9WwV4U5L0/VZUAoK3Pd-I/AAAAAAAAAnU/CCAKsw3VTHc/s194/Celestinox_Nueva_CAJA_008.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-v3JGOE6ZH9w/VZUAmCEigCI/AAAAAAAAAnM/VkIknc9Wis0/s0/Celestinox_Nueva_CAJA_007.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-v3JGOE6ZH9w/VZUAmCEigCI/AAAAAAAAAnM/VkIknc9Wis0/s194/Celestinox_Nueva_CAJA_007.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-JtVMDQNNYU4/VZUAhhr-9LI/AAAAAAAAAm8/9suO90FiabY/s0/Celestinox_Nueva_CAJA_004.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-JtVMDQNNYU4/VZUAhhr-9LI/AAAAAAAAAm8/9suO90FiabY/s194/Celestinox_Nueva_CAJA_004.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-Pq2DyslaRmg/VZUAeFgHl-I/AAAAAAAAAmw/4jKdQsrHn4k/s0/Celestinox_Nueva_CAJA_002.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-Pq2DyslaRmg/VZUAeFgHl-I/AAAAAAAAAmw/4jKdQsrHn4k/s194/Celestinox_Nueva_CAJA_002.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-2TWcUb2Ge40/VZUAdOdR-DI/AAAAAAAAAmk/hl1MAjbDotc/s0/Celestinox_Nueva_CAJA_001.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-2TWcUb2Ge40/VZUAdOdR-DI/AAAAAAAAAmk/hl1MAjbDotc/s194/Celestinox_Nueva_CAJA_001.jpg"></a>
+  <a href="https://lh4.googleusercontent.com/-zroS0z12jvU/VLTohkQBi1I/AAAAAAAAAbY/H7L-UkDOzkg/s0/ZX_Uno_Clon_Celestino_004.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-zroS0z12jvU/VLTohkQBi1I/AAAAAAAAAbY/H7L-UkDOzkg/s194/ZX_Uno_Clon_Celestino_004.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-forvyCRoXsc/VLToTsACsdI/AAAAAAAAAbE/vo2iIQA36BY/s0/ZX_Uno_Clon_Celestino_003.jpg">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-forvyCRoXsc/VLToTsACsdI/AAAAAAAAAbE/vo2iIQA36BY/s194/ZX_Uno_Clon_Celestino_003.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-zINlBDqB1Ak/VLTojb39cwI/AAAAAAAAAbo/SU3RCTye8wg/s0/ZX_Uno_Clon_Celestino_005.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-zINlBDqB1Ak/VLTojb39cwI/AAAAAAAAAbo/SU3RCTye8wg/s194/ZX_Uno_Clon_Celestino_005.jpg"></a>
+  <a href="https://lh4.googleusercontent.com/-7FUFOGrNV0w/VRvN1TNfkBI/AAAAAAAAAc4/aH-ZPIw3-YY/s0/Carcasa_Engendro_Celestinox_005.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-7FUFOGrNV0w/VRvN1TNfkBI/AAAAAAAAAc4/aH-ZPIw3-YY/s194/Carcasa_Engendro_Celestinox_005.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-ZaTRxbyMv18/VRvNuYJ54OI/AAAAAAAAAco/32lB6WR2Vh0/s0/Carcasa_Engendro_Celestinox_003.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-ZaTRxbyMv18/VRvNuYJ54OI/AAAAAAAAAco/32lB6WR2Vh0/s194/Carcasa_Engendro_Celestinox_003.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-KWsLsri0dGg/VRvNt68PVdI/AAAAAAAAAcg/nU_IhMuHqgc/s0/Carcasa_Engendro_Celestinox_002.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-uL0pu8x5LpI/VRvNt86IwVI/AAAAAAAAAck/bG8FfJh8vxc/s194/Carcasa_Engendro_Celestinox_001.jpg"></a>
+  <div style="clear:left"></div>
+  <div style="clear:left"></div>
+  <br/>
+
+  <div style="background-color:#c03;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Pictures of the 3D printed case, also 3D printed Joy-Key</strong>
+  <br/>
+  <i>Case design by @Jepalza, Joy-Key by @Mejias3D</i>
   <br/>
   <br/>
-<strong>Retro entre Amigos Podcast (Spanish):</strong>
+  <a href="https://lh3.googleusercontent.com/-ctJuwm71r2A/VEErj1reiVI/AAAAAAAAAO0/-TcN9TpUUaM/s0/Caja3D_Jepalza_007.jpg">
+  <img width="194" height="130" src="https://lh3.googleusercontent.com/-ctJuwm71r2A/VEErj1reiVI/AAAAAAAAAO0/-TcN9TpUUaM/s194/Caja3D_Jepalza_007.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-B902EpGVG8k/VEErT2zq8UI/AAAAAAAAAOE/BYnjrtZjUls/s0/Caja3D_Jepalza_001.jpg">
+  <img width="194" height="130" src="https://lh3.googleusercontent.com/-B902EpGVG8k/VEErT2zq8UI/AAAAAAAAAOE/BYnjrtZjUls/s194/Caja3D_Jepalza_001.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-qrQCij7-4ZU/VEErltBC_zI/AAAAAAAAAO8/PzAJGSaCvEo/s0/Caja3D_Jepalza_008.jpg">
+  <img width="194" height="130" src="https://lh6.googleusercontent.com/-qrQCij7-4ZU/VEErltBC_zI/AAAAAAAAAO8/PzAJGSaCvEo/s194/Caja3D_Jepalza_008.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-RC48JOBwJN8/VEErVO0TN6I/AAAAAAAAAOU/4XOZLSs5ZK4/s0/Caja3D_Jepalza_002.jpg">
+  <img width="194" height="130" src="https://lh5.googleusercontent.com/-RC48JOBwJN8/VEErVO0TN6I/AAAAAAAAAOU/4XOZLSs5ZK4/s194/Caja3D_Jepalza_002.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-k4-RmIcZK0I/VEErUYgnjBI/AAAAAAAAAOQ/9TTV1xq9h5I/s0/Caja3D_Jepalza_003.jpg">
+  <img width="194" height="130" src="https://lh6.googleusercontent.com/-k4-RmIcZK0I/VEErUYgnjBI/AAAAAAAAAOQ/9TTV1xq9h5I/s194/Caja3D_Jepalza_003.jpg"></a>
+  <a href="https://lh4.googleusercontent.com/-Twg3kcucXn0/VEErgacdImI/AAAAAAAAAOs/dFyRk_o7TXs/s0/Caja3D_Jepalza_005.jpg">
+  <img width="194" height="130" src="https://lh4.googleusercontent.com/-Twg3kcucXn0/VEErgacdImI/AAAAAAAAAOs/dFyRk_o7TXs/s194/Caja3D_Jepalza_005.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-50tdTWf23wQ/VS9n5lDhSJI/AAAAAAAAAdU/8kUj4zCXYNY/s0/Joystick_Mejias3D_003.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-50tdTWf23wQ/VS9n5lDhSJI/AAAAAAAAAdU/8kUj4zCXYNY/s194/Joystick_Mejias3D_003.jpg"></a>
+  <a href="https://lh4.googleusercontent.com/-VgPSPLhW5M8/VS9n6yaBdOI/AAAAAAAAAdk/eBs0Txdfk0M/s0/Joystick_Mejias3D_001.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-VgPSPLhW5M8/VS9n6yaBdOI/AAAAAAAAAdk/eBs0Txdfk0M/s194/Joystick_Mejias3D_001.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-W93iUshCBu8/VS9n5cXsXDI/AAAAAAAAAdg/VkVPi1cV6dg/s0/Joystick_Mejias3D_002.jpg">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-W93iUshCBu8/VS9n5cXsXDI/AAAAAAAAAdg/VkVPi1cV6dg/s194/Joystick_Mejias3D_002.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+
+  <div style="background-color:#c03;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Keyboards with stickers "AV/EN" and "MJ"</strong>
+  <br/>
+  <i>Design by @Hark0 and @Mejias3D</i>
   <br/>
   <br/>
-  <li><a href="http://www.ivoox.com/audio_rf_3176716_1.html">AUDIO: Interview to McLeod_Ideafix (1).</a></li>
-  <li><a href="http://www.ivoox.com/audio_rf_3281224_1.html">AUDIO: Interview to McLeod_Ideafix (2).</a></li>
-  <li><a href="http://www.retroentreamigos.com">Retro entre Amigos Website.</a></li>
+  <a href="https://lh4.googleusercontent.com/-4LqerT4Eclc/VIhylkUtTNI/AAAAAAAAAVM/7bjmjVRBpy4/s0/Teclado_Etiquetas_V2_HD_001.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-4LqerT4Eclc/VIhylkUtTNI/AAAAAAAAAVM/7bjmjVRBpy4/s194/Teclado_Etiquetas_V2_HD_001.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-MQEP0X3xzgg/VIhylci7AWI/AAAAAAAAAVA/qjQ4G3Rn13U/s0/Teclado_Etiquetas_V2_HD_002.jpg">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-MQEP0X3xzgg/VIhylci7AWI/AAAAAAAAAVA/qjQ4G3Rn13U/s194/Teclado_Etiquetas_V2_HD_002.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-l9Y39ixqzfk/VIhyjVgNEsI/AAAAAAAAAUs/1H9Ku8NQ4w0/s0/Teclado_Etiquetas_V2_HD_003.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-l9Y39ixqzfk/VIhyjVgNEsI/AAAAAAAAAUs/1H9Ku8NQ4w0/s194/Teclado_Etiquetas_V2_HD_003.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-vliFkMG1xDs/VTC-dKypbFI/AAAAAAAAAeo/CV6uvKb4aIE/s0/Teclado_Mejias3D_OK.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-vliFkMG1xDs/VTC-dKypbFI/AAAAAAAAAeo/CV6uvKb4aIE/s194/Teclado_Mejias3D_OK.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-oSnTUn85tRU/VS-OhKcBG-I/AAAAAAAAAeQ/jKekgkUNjT4/s0/Teclado_Mejias3D_001.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-oSnTUn85tRU/VS-OhKcBG-I/AAAAAAAAAeQ/jKekgkUNjT4/s194/Teclado_Mejias3D_001.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-z3trP6VaBB0/VS-Odgs_AlI/AAAAAAAAAeE/iW94qNXmBXc/s0/Plantilla_ZX-Uno_Fotos_HD_002.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-z3trP6VaBB0/VS-Odgs_AlI/AAAAAAAAAeE/iW94qNXmBXc/s194/Plantilla_ZX-Uno_Fotos_HD_002.jpg"></a>
+  <div style="clear:left"></div>
+  <br/>
+
+  <div style="background-color:#c03;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>First tests on prototype v2</strong>
+  <br/>
+  <br/>
+  <a href="https://lh4.googleusercontent.com/-YrZad4I2HUk/VIhxsH6budI/AAAAAAAAARk/9pmUrekklMQ/s0/Feb_2014_001_HD.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-YrZad4I2HUk/VIhxsH6budI/AAAAAAAAARk/9pmUrekklMQ/s194/Feb_2014_001_HD.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-5TzhXgV227c/VIhxw7lL4yI/AAAAAAAAAR0/Kj5fOSZUeyk/s0/Feb_2014_002_HD.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-5TzhXgV227c/VIhxw7lL4yI/AAAAAAAAAR0/Kj5fOSZUeyk/s194/Feb_2014_002_HD.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-kNvryJvCqR8/VIhxzI2WniI/AAAAAAAAASE/vcoSxWqT5c8/s0/Feb_2014_003_HD.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-kNvryJvCqR8/VIhxzI2WniI/AAAAAAAAASE/vcoSxWqT5c8/s194/Feb_2014_003_HD.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-4oE1jLELs6M/VIhx7AuiRmI/AAAAAAAAASU/1AvYAIXMrVo/s0/Feb_2014_004_HD.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-4oE1jLELs6M/VIhx7AuiRmI/AAAAAAAAASU/1AvYAIXMrVo/s194/Feb_2014_004_HD.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-ymnl_J9QYJ0/VIhx9mGrl4I/AAAAAAAAASk/kutWJPrrRKA/s0/Feb_2014_005_HD.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-ymnl_J9QYJ0/VIhx9mGrl4I/AAAAAAAAASk/kutWJPrrRKA/s194/Feb_2014_005_HD.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-JPxiMTM-1pE/VIhyAYv83-I/AAAAAAAAAS0/Le9wpzTAbrk/s0/Feb_2014_006_HD.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-JPxiMTM-1pE/VIhyAYv83-I/AAAAAAAAAS0/Le9wpzTAbrk/s194/Feb_2014_006_HD.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-f3NLKPUEMSE/VIhyIPA8e-I/AAAAAAAAATE/i67np6t6hD0/s0/Feb_2014_007_HD.jpg">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-f3NLKPUEMSE/VIhyIPA8e-I/AAAAAAAAATE/i67np6t6hD0/s194/Feb_2014_007_HD.jpg"></a>
+  <a href="https://lh4.googleusercontent.com/-3GTIAsBolMw/VIhyKbS60SI/AAAAAAAAATU/38NZdRvGi_I/s0/Feb_2014_008_HD.jpg">
+  <img width="194" height="145" src="https://lh4.googleusercontent.com/-3GTIAsBolMw/VIhyKbS60SI/AAAAAAAAATU/38NZdRvGi_I/s194/Feb_2014_008_HD.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-YuRKKFXf6O4/VIhyM_FbqQI/AAAAAAAAATk/U7gpbTtDTTk/s0/Feb_2014_009_HD.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-YuRKKFXf6O4/VIhyM_FbqQI/AAAAAAAAATk/U7gpbTtDTTk/s194/Feb_2014_009_HD.jpg"></a>
+  <a href="https://lh3.googleusercontent.com/-uRvoS3oVprg/VIhyVwKb4ZI/AAAAAAAAAT0/tPDGNl6k4H8/s0/Feb_2014_010_HD.jpg">
+  <img width="194" height="145" src="https://lh3.googleusercontent.com/-uRvoS3oVprg/VIhyVwKb4ZI/AAAAAAAAAT0/tPDGNl6k4H8/s194/Feb_2014_010_HD.jpg"></a>
+  <a href="https://lh5.googleusercontent.com/-azD-WxrTSF4/VIhyZV_PSfI/AAAAAAAAAUM/1-UBiJRnV1c/s0/Feb_2014_011_HD.jpg">
+  <img width="194" height="145" src="https://lh5.googleusercontent.com/-azD-WxrTSF4/VIhyZV_PSfI/AAAAAAAAAUM/1-UBiJRnV1c/s194/Feb_2014_011_HD.jpg"></a>
+  <a href="https://lh6.googleusercontent.com/-2p1pya67Ob8/VIhyaPRt0TI/AAAAAAAAAUk/Bx61i_ZMEeA/s0/Feb_2014_012_HD.jpg">
+  <img width="194" height="145" src="https://lh6.googleusercontent.com/-2p1pya67Ob8/VIhyaPRt0TI/AAAAAAAAAUk/Bx61i_ZMEeA/s194/Feb_2014_012_HD.jpg"></a>
   <div style="clear:left"></div>
   <br/>
   <br/>
-<strong>RetroManiac Magazine (Spanish):</strong>
+
+  <a name="videos"></a>
+  <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Prototype video</strong>
+  <br/>
+  <i>by @Celestinox</i>
   <br/>
   <br/>
- <li><a href="http://retromaniacmagazine.blogspot.com.es/2014/07/entrevista-con-el-equipo-de-desarrollo.html">Interview with the development team of ZX-Uno. (Spanish).</a></li>
+  <iframe allowfullscreen="yes" frameborder="0" height="330" src="https://www.youtube.com/embed/TWbLxLBVMio" width="580"></iframe>
   <div style="clear:left"></div>
   <br/>
   <br/>
-<strong>Prototype tests:</strong>
+
+  <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Demo video of Mazinger Z and Ulises 31, with PLAYZXM for ZX-Uno</strong>
+  <br/>
+  <i>by @Celestinox</i>
   <br/>
   <br/>
-  <a title="Click to enlarge" href="imagen/Feb_2014_001_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_001.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_002_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_002.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_003_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_003.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_004_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_004.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_005_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_005.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_006_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_006.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_007_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_007.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_008_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_008.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_009_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_009.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_010_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_010.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_011_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_011.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Feb_2014_012_HD.jpg">
-    <img width="194" height="145" src="imagen/Feb_2014_012.jpg"></a>
-<br/>
-<br/>
-  <strong>First PCB mounting test:</strong>
+  <iframe allowfullscreen="yes" frameborder="0" height="162" src="https://www.youtube.com/embed/pZ4XfTV9DEI" width="284"></iframe>
+  <iframe allowfullscreen="yes" frameborder="0" height="162" src="https://www.youtube.com/embed/Sc082mJJjjg" width="284"></iframe>
+  <div style="clear:left"></div>
+  Videos in different formats supported by ZX-Uno:
+  <ol>
+    <li>Monochrome filter comic, 256x192</li>
+    <li>Monochrome dither 1, 256x192</li>
+    <li>Monochrome dither 2, 256x192</li>
+    <li>Grays radastanian, 192x96</li>
+    <li>Standard color, 256x192</li>
+    <li>Colors radastanian, 192x96</li></ol>
+  <a href="https://www.dropbox.com/s/oiffqlz53ryd89a/VidCeles.zip?dl=0">Link to download files for ZX-Uno (Dropbox)</a>
   <br/>
   <br/>
-  <a title="Click to enlarge" href="imagen/foto_superfo_hd_001.jpg">
-    <img width="194" height="130" src="imagen/foto_superfo_001.jpg"></a>
+
+  <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Working prototype v2 video</strong>
+  <br/>
+  <i>by @yombo</i>
+  <br/>
+  <br/>
+  <iframe allowfullscreen="yes" frameborder="0" height="330" src="https://www.youtube.com/embed/1YmtaS7-Br8" width="580"></iframe>
   <div style="clear:left"></div>
   <br/>
   <br/>
-  <strong>Keyboards with stickers:</strong>
+
+  <a name="otros"></a>
+
+  <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Audio Conference ZX-Uno - Retro Sevilla 2014</strong>
+  <br/>
+  <i>By courtesy of <a href="http://www.retro-sevilla.com">www.retro-sevilla.com</a> / 2014-12-13</i>
   <br/>
   <br/>
-  <a title="Click to enlarge" href="imagen/Teclado_Etiquetas_V2_HD_001.jpg">
-    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_001.jpg"></a>
-  <a title="Click to enlarger" href="imagen/Teclado_Etiquetas_V2_HD_002.jpg">
-    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_002.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Teclado_Etiquetas_V2_HD_003.jpg">
-    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_003.jpg"></a>
-  <a title="Click to enlarge" href="imagen/Teclado_Etiquetas_V2_HD_004.jpg">
-    <img width="194" height="145" src="imagen/Teclado_Etiquetas_V2_004.jpg"></a>
+  <a href="http://www.ivoox.com/conferencia-zx-uno-retro-sevilla-2014-audios-mp3_rf_3961427_1.html">MP3 file format on ivoox.com (Spanish)</a>
   <div style="clear:left"></div>
   <br/>
   <br/>
-  <strong>Board pictures:</strong>
+
+  <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Retro entre Amigos Podcast (Spanish)</strong>
   <br/>
   <br/>
-  <a title="Click to enlarge" href="imagen/foto2hd.jpg">
-    <img width="194" height="130" src="imagen/foto2.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto3hd.jpg">
-    <img width="194" height="130" src="imagen/foto3.jpg"></a>
+  <ul>
+    <li><a href="http://www.ivoox.com/audio_rf_3176716_1.html">AUDIO: Interview to McLeod_Ideafix (1)</a></li>
+    <li><a href="http://www.ivoox.com/audio_rf_3281224_1.html">AUDIO: Interview to McLeod_Ideafix (2)</a></li>
+    <li><a href="http://www.retroentreamigos.com">Retro entre Amigos Website</a></li></ul>
   <div style="clear:left"></div>
   <br/>
   <br/>
-  <strong>PCB design images:</strong>
+
+  <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>RetroManiac Magazine</strong>
   <br/>
   <br/>
-  <a title="Click to enlarge" href="imagen/zxuno1hd.png">
-    <img width="194" height="130" src="imagen/zxuno1.jpg"></a>
-  <a title="Click to enlarge" href="imagen/zxuno2hd.png">
-    <img width="194" height="130" src="imagen/zxuno2.jpg"></a>
-  <a title="Click to enlarge" href="imagen/zxuno3hd.png">
-    <img width="194" height="130" src="imagen/zxuno3.jpg"></a>
-  <a title="Click to enlarge" href="imagen/zxuno4hd.png">
-    <img width="194" height="130" src="imagen/zxuno4.jpg"></a>
-  <a title="Click to enlarge" href="imagen/zxuno5hd.png">
-    <img width="194" height="130" src="imagen/zxuno5.jpg"></a>
+  <ul>
+    <li><a href="http://retromaniacmagazine.blogspot.com.es/2014/07/entrevista-con-el-equipo-de-desarrollo.html">Interview with the development team of ZX-Uno. (Spanish)</a></li>
+    <li><a href="http://retromaniacmagazine.blogspot.com.es">Website Retro Maniac</a></li></ul>
   <div style="clear:left"></div>
   <br/>
-  <br/>
-<strong>Photos of printed 3D test case (model by @Jepalza):</strong>
-  <br/>
-  <br/>
-  <a title="Click to enlarge" href="https://lh3.googleusercontent.com/-ctJuwm71r2A/VEErj1reiVI/AAAAAAAAAO0/-TcN9TpUUaM/s1500/Caja3D_Jepalza_007.jpg">
-    <img width="194" height="130" src="https://lh3.googleusercontent.com/-ctJuwm71r2A/VEErj1reiVI/AAAAAAAAAO0/-TcN9TpUUaM/s1500/Caja3D_Jepalza_007.jpg"></a>
-  <a title="Click to enlarge" href="https://lh3.googleusercontent.com/-B902EpGVG8k/VEErT2zq8UI/AAAAAAAAAOE/BYnjrtZjUls/s1500/Caja3D_Jepalza_001.jpg">
-    <img width="194" height="130" src="https://lh3.googleusercontent.com/-B902EpGVG8k/VEErT2zq8UI/AAAAAAAAAOE/BYnjrtZjUls/s1500/Caja3D_Jepalza_001.jpg"></a>
-  <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-ESxbFnYjJz4/VEErn2kN0ZI/AAAAAAAAAPE/62NE-vzGQcg/s1500/Caja3D_Jepalza_009.jpg">
-    <img width="194" height="130" src="https://lh6.googleusercontent.com/-ESxbFnYjJz4/VEErn2kN0ZI/AAAAAAAAAPE/62NE-vzGQcg/s1500/Caja3D_Jepalza_009.jpg"></a>
-  <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-qrQCij7-4ZU/VEErltBC_zI/AAAAAAAAAO8/PzAJGSaCvEo/s1500/Caja3D_Jepalza_008.jpg">
-    <img width="194" height="130" src="https://lh6.googleusercontent.com/-qrQCij7-4ZU/VEErltBC_zI/AAAAAAAAAO8/PzAJGSaCvEo/s1500/Caja3D_Jepalza_008.jpg"></a>
-  <a title="Click to enlarge" href="https://lh5.googleusercontent.com/-RC48JOBwJN8/VEErVO0TN6I/AAAAAAAAAOU/4XOZLSs5ZK4/s1500/Caja3D_Jepalza_002.jpg">
-    <img width="194" height="130" src="https://lh5.googleusercontent.com/-RC48JOBwJN8/VEErVO0TN6I/AAAAAAAAAOU/4XOZLSs5ZK4/s1500/Caja3D_Jepalza_002.jpg"></a>
-  <a title="Click to enlarge" href="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg">
-    <img width="194" height="130" src="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg"></a>
-  <a title="Click to enlarge" href="https://lh6.googleusercontent.com/-k4-RmIcZK0I/VEErUYgnjBI/AAAAAAAAAOQ/9TTV1xq9h5I/s1500/Caja3D_Jepalza_003.jpg">
-    <img width="194" height="130" src="https://lh6.googleusercontent.com/-k4-RmIcZK0I/VEErUYgnjBI/AAAAAAAAAOQ/9TTV1xq9h5I/s1500/Caja3D_Jepalza_003.jpg"></a>
-  <a title="Click to enlarge" href="https://lh4.googleusercontent.com/-Twg3kcucXn0/VEErgacdImI/AAAAAAAAAOs/dFyRk_o7TXs/s1500/Caja3D_Jepalza_005.jpg">
-    <img width="194" height="130" src="https://lh4.googleusercontent.com/-Twg3kcucXn0/VEErgacdImI/AAAAAAAAAOs/dFyRk_o7TXs/s1500/Caja3D_Jepalza_005.jpg"></a>
-  <a title="Click to enlarge" href="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg">
-    <img width="194" height="130" src="https://lh5.googleusercontent.com/-nIWzhUDeM74/VEErqGtP-FI/AAAAAAAAAPM/BVSs9dG5b3s/s1500/Caja3D_Jepalza_010.jpg"></a>
-  <div style="clear:left"></div>
-  <br/>
-  <br/>
-  <strong>Miscellaneous pictures:</strong>
-  <br/>
-  <br/>
-  <a title="Click to enlarge" href="imagen/foto4hd.jpg">
-    <img width="194" height="145" src="imagen/foto4.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto5hd.jpg">
-    <img width="194" height="145" src="imagen/foto5.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto6hd.jpg">
-    <img width="194" height="145" src="imagen/foto6.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto7hd.jpg">
-    <img width="194" height="145" src="imagen/foto7.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto8hd.jpg">
-    <img width="194" height="145" src="imagen/foto8.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto9hd.jpg">
-    <img width="194" height="145" src="imagen/foto9.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto10hd.jpg">
-    <img width="194" height="145" src="imagen/foto10.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto11hd.jpg">
-    <img width="194" height="145" src="imagen/foto11.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto12hd.jpg">
-    <img width="194" height="145" src="imagen/foto12.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto13hd.jpg">
-    <img width="194" height="145" src="imagen/foto13.jpg"></a>
-  <a title="Click to enlarge" href="imagen/foto14hd.jpg">
-    <img width="194" height="145" src="imagen/foto14.jpg"></a></div>
-<!--#include file="footer_e.html"-->
+  <br/></div>
+<!--#include file="footer.html"-->
