@@ -1,4 +1,12 @@
-﻿<!--#include file="header_e.html"-->
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="home.css"/>
+  <title>ZX-Uno [ZX Spectrum Computer Clone Based on FPGA]</title>
+</head>
+<body>
+<div id="logo" style="background:url(imagen/logo_e.png)"></div>
 <div id="menu" style="width:620px">
   <a href="index_e.shtml"    style="width:52px">Home</a>
   <span>·</span>
@@ -292,4 +300,6 @@
   <div style="clear:left"></div>
   <br/>
   <br/></div>
-<!--#include file="footer.html"-->
+<div id="footer">
+  <div id="footerimg" style="background:0 90px url(imagen/logo_e.png)"></div>
+  <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>

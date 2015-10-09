@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="home.css"/>
+  <title>ZX-Uno [ZX Spectrum Computer Clone Based on FPGA]</title>
+</head>
+<body>
+<div id="logo" style="background:url(imagen/logo_e.png)"></div>
+<div id="menu" style="width:667px">
+  <a href="index_e.shtml"    style="width:55px">Home</a>
+  <span>·</span>
+  <span                      style="width:80px">Hardware</span>
+  <span>·</span>
+  <a href="software_e.shtml" style="width:72px">Software</a>
+  <span>·</span>
+  <a href="media_e.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <a href="ficheros_e.shtml" style="width:45px">Files</a>
+  <span>·</span>
+  <a href="faq_e.shtml"      style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="enlaces_e.shtml"  style="width:50px">Links</a>
+  <span>·</span>
+  <a href="contacto_e.shtml" style="width:65px">Contact</a>
+  <span>·</span>
+  <a href="hardware.shtml"    style="width:83px">[Castellano]</a></div>
+<div id="main">
+  <img width="584" height="437" src="imagen/esquema.png"/>
+  <strong>Specifications:</strong>
+  <ul>
+    <li>FPGA Xilinx Spartan <strike>XC3S250E-4</strike> <span class="azul">XC6SLX9-2</span>TQG144C</li>
+    <li>Static Memory 512Kb, CY62148EV30</li>
+    <li>50MHz Oscillator</li>
+    <li>EAR Superfo Circuit (one transistor)</li>
+    <li>Circuit AD724 based video with 4.43MHz crystal<span class="azul"> and 3.58MHz</span></li>
+    <li>PS/2 keyboard</li>
+    <li>RCA connector for composite video</li>
+    <li>Stereo audio jack</li>
+    <li>EAR jack connector</li>
+    <li><strike>2x6</strike> <span class="azul">2x7</span> pin connector for JTAG strip and RGB</li>
+    <li>Slot for SD Cards</li>
+    <li>Expansion port with 3 male pin strips</li>
+    <li>Micro-USB power connector</li>
+    <li>PCB Size: 85x55 mm. (Compatible with Raspberry Pi cases)</li></ul>
+  <br/>
+  <strong>Component list:</strong>
+  <br/>
+  <pre style="font-size:14px">
+<span style="text-decoration:underline">Qty.  Reference             Description</span>
+ 1    U1                    FPGA <strike>XC3S250E-4</strike> <span class="azul">XC6SLX9-2</span>TQG144C
+ 1    U2                    SPI Flash Winbond <strike>W25X40BV</strike> <span class="azul">W25Q80BV</span>
+ 1    U3                    SRAM CY62148EV30
+ 1    U4                    Analog Devices AD724JR
+ 1    U5                    Oscilator 50MHz 5*7
+ 1    U6                    SOT223 ZLDO1117 3.3V Regulator
+<strike> 1    U7                    SOT223 ZLDO1117 2.5V Regulator</strike>
+ 1    U8                    SOT223 ZLDO1117 1.2V Regulator
+ 1    J1                    Micro USB socket
+ 1    J2                    SD/MMC socket
+ 1    J3                    RCA socket
+ 2    J4, J5                3.5mm audio socket
+ 1    J6                    DB9 right angle male (Joystick connector)
+ 1    J7                    PS/2 socket
+ 1    J8                    <strike>2x6</strike> <span class="azul">2x7</span> pin right angle header
+ 3    J9, J10, J11          14 pin male header single row
+<span class="azul"> 1    J12                   2 pin male header single row
+ 1    J13                   3 pin male header single row
+ 2    L1, L2                SMD 0805 magnetic bead 1k 1.5A
+ 1    L3                    SMD 0805 magnetic bead 1k 3A</span>
+ <strike>1</strike> <span class="azul">3</span>  D1, <span class="azul">D2, D3</span>            SMD Diode 1N4148
+ 2    D4, D5                SMD 0805 LED
+ 1    Q1                    BC846 SOT-23 NPN Transistor
+<span class="azul"> 1    Y1                    HC-49S Low profile 3.58MHz Crystal</span>
+ 1    Y2                    HC-49S Low profile 4.43MHz Crystal
+ 4    R1, R2, R3, R4        75 Ohm 0805 Resistor
+ <strike>2</strike> <span class="azul">4</span>   R8, R9, R30, R31     270 Ohm 0805 Resistor
+ <strike>3</strike> <span class="azul">4</span>   R5, R6, R7, R10      300 Ohm 0805 Resistor
+ 4    R11, R12, R13, R14    470 Ohm 0805 Resistor
+ 3    R15, R16, R17         1K Ohm 0805 Resistor
+ <strike>3</strike> <span class="azul">5</span>  R18-R20, <span class="azul">R25-R26</span>      2K Ohm 0805 Resistor
+ 2    R21, R22              3K9 Ohm 0805 Resistor
+ 2    R23, R24              4K7 Ohm 0805 Resistor
+<strike> 2    R25, R26              5K1 Ohm 0805 Resistor</strike>
+<span class="azul"> 2    R28, R29              9K1 Ohm 0805 Resistor</span>
+ <strike>6</strike> <span class="azul">4</span>  R27, R34, <span class="azul">R32, R33</span>    10K Ohm 0805 Resistor
+<strike> 1    R32 or R33            0 Ohm 0805 Resistor</strike>
+ 1    C1                    <strike>15</strike> <span class="azul">10</span>pF 0805 Capacitor
+ 3    C2, C3, C4            10nF 0805 Capacitor
+ <strike>24</strike><span class="azul">23</span> C5-12, C20-<span class="azul">32</span>, C35-36 100nF 0603 Capacitor
+ <strike>6</strike> <span class="azul">4</span>  C14, C15, C18, C19    4.7uF 0805 Capacitor
+ <strike>1</strike> <span class="azul">2</span>  <span class="azul">C33,</span> C34              10uF 0805 Capacitor
+ 1    C13                   220uF Electrolytic Capacitor</pre></div>
+<div id="footer">
+  <div id="footerimg" style="background:0 90px url(imagen/logo_e.png)"></div>
+  <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a></div></div></body></html>
