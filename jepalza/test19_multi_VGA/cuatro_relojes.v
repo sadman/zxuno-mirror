@@ -103,22 +103,29 @@ module cuatro_relojes
   #(.BANDWIDTH              ("OPTIMIZED"),
     .CLK_FEEDBACK           ("CLKFBOUT"),
     .COMPENSATION           ("SYSTEM_SYNCHRONOUS"),
+	 // principal
     .DIVCLK_DIVIDE          (1),
-    .CLKFBOUT_MULT          (4), //11 //9
+    .CLKFBOUT_MULT          (9),
     .CLKFBOUT_PHASE         (0.000),
-    .CLKOUT0_DIVIDE         (7), //19 // 16
+	 // 28mhz
+    .CLKOUT0_DIVIDE         (16),
     .CLKOUT0_PHASE          (0.000),
     .CLKOUT0_DUTY_CYCLE     (0.500),
-    .CLKOUT1_DIVIDE         (14), //38 // 32
+	 // 14mhz
+    .CLKOUT1_DIVIDE         (32),
     .CLKOUT1_PHASE          (0.000),
     .CLKOUT1_DUTY_CYCLE     (0.500),
-    .CLKOUT2_DIVIDE         (28), //76 // 64
+	 // 7mhz
+    .CLKOUT2_DIVIDE         (64),
     .CLKOUT2_PHASE          (0.000),
-    .CLKOUT3_DIVIDE         (56), //128? // 128
+	 .CLKOUT2_DUTY_CYCLE     (0.500),
+	 // 3.5mhz
+    .CLKOUT3_DIVIDE         (128),
     .CLKOUT3_PHASE          (0.000),
-    .CLKOUT2_DUTY_CYCLE     (0.500),
-    .CLKIN_PERIOD           (10.0), // 20
-    .REF_JITTER             (0.010))
+    .CLKOUT3_DUTY_CYCLE     (0.500),
+    // fijos
+    .CLKIN_PERIOD           (20.0),
+    .REF_JITTER             (0.010)) 
   pll_base_inst
     // Output clocks
    (.CLKFBOUT              (clkfbout),

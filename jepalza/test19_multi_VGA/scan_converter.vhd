@@ -1,108 +1,105 @@
---	(c) 2012 d18c7db(a)hotmail
 --
---	This program is free software; you can redistribute it and/or modify it under
---	the terms of the GNU General Public License version 3 or, at your option,
---	any later version as published by the Free Software Foundation.
+-- VHDL conversion by MikeJ - October 2002
 --
---	This program is distributed in the hope that it will be useful,
---	but WITHOUT ANY WARRANTY; without even the implied warranty of
---	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-- FPGA video scan doubler
 --
--- For full details, see the GNU General Public License at www.gnu.org/licenses
-
---------------------------------------------------------------------------------
--- Video scan converter
+-- based on a design by Tatsuyuki Satoh
 --
---	Horizonal Timing
--- _____________              ______________________              _____________________
--- VIDEO (last) |____________|         VIDEO        |____________|         VIDEO (next)
--- -hD----------|-hA-|hB|-hC-|----------hD----------|-hA-|hB|-hC-|----------hD---------
--- __________________|  |________________________________|  |__________________________
--- HSYNC             |__|              HSYNC             |__|              HSYNC
-
--- Vertical Timing
--- _____________              ______________________              _____________________
--- VIDEO (last)||____________||||||||||VIDEO|||||||||____________||||||||||VIDEO (next)
--- -vD----------|-vA-|vB|-vC-|----------vD----------|-vA-|vB|-vC-|----------vD---------
--- __________________|  |________________________________|  |__________________________
--- VSYNC             |__|              VSYNC             |__|              VSYNC
-
--- Scan converter input and output timings compared to standard VGA
---	Resolution   - Frame   | Pixel      | Front     | HSYNC      | Back       | Active      | HSYNC    | Front    | VSYNC    | Back     | Active    | VSYNC
---              - Rate    | Clock      | Porch hA  | Pulse hB   | Porch hC   | Video hD    | Polarity | Porch vA | Pulse vB | Porch vC | Video vD  | Polarity
--------------------------------------------------------------------------------------------------------------------------------------------------------------
---  In  256x224 - 59.18Hz |  6.000 MHz | 38 pixels |  32 pixels |  58 pixels |  256 pixels | negative | 16 lines | 8 lines  | 16 lines | 224 lines | negative
---  Out 640x480 - 59.18Hz | 24.000 MHz |  2 pixels |  92 pixels |  34 pixels |  640 pixels | negative | 17 lines | 2 lines  | 29 lines | 480 lines | negative
---  VGA 640x480 - 59.94Hz | 25.175 MHz | 16 pixels |  96 pixels |  48 pixels |  640 pixels | negative | 10 lines | 2 lines  | 33 lines | 480 lines | negative
-
+--
+-- All rights reserved
+--
+-- Redistribution and use in source and synthezised forms, with or without
+-- modification, are permitted provided that the following conditions are met:
+--
+-- Redistributions of source code must retain the above copyright notice,
+-- this list of conditions and the following disclaimer.
+--
+-- Redistributions in synthesized form must reproduce the above copyright
+-- notice, this list of conditions and the following disclaimer in the
+-- documentation and/or other materials provided with the distribution.
+--
+-- Neither the name of the author nor the names of other contributors may
+-- be used to endorse or promote products derived from this software without
+-- specific prior written permission.
+--
+-- THIS CODE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+-- AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+-- THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+-- PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE
+-- LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+-- CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+-- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+-- INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+-- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+-- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+-- POSSIBILITY OF SUCH DAMAGE.
+--
+-- You are responsible for any legal issues arising from your use of this code.
+--
+-- The latest version of this file can be found at: www.fpgaarcade.com
+--
+-- Email support@fpgaarcade.com
+--
+-- Revision list
+--
+-- version 002 initial release
+-- version 003 Jan 2006 release, general tidy up
+-- version 004 spartan3e release
+-- version 005 simplified logic, uses only one RAMBlibrary ieee;
+--
+-- *****************  para el ZXUNO ***************
+-- modificacion 'jepalza' para usar una RAMB de 16bits para acoger 3r+3g+3b bits de color
+-- el original de 'MikeJ' tenia una RAMB de 8bits, para 3r+3g+2b bits de color
+-- ************************************************
 library ieee;
 	use ieee.std_logic_1164.all;
 	use ieee.std_logic_unsigned.all;
 	use ieee.numeric_std.all;
 
---pragma translate_off
-	use ieee.std_logic_textio.all;
-	use std.textio.all;
---pragma translate_on
-
 library UNISIM;
 	use UNISIM.Vcomponents.all;
 
 entity VGA_SCANCONV is
-	generic (
-	-- valores requeridos para sacar VGA desde la resolucion del ZX Spectrum (jepalza)
-		cstart		: integer range 0 to 1023 :=  38;	-- composite sync start
-		clength		: integer range 0 to 1023 := 352;	-- composite sync length
-
-		hA				: integer range 0 to 1023 :=  24;	-- h front porch
-		hB				: integer range 0 to 1023 :=  32;	-- h sync
-		hC				: integer range 0 to 1023 :=  40;	-- h back porch
-		hD				: integer range 0 to 1023 := 352;	-- visible video
-
---		vA				: integer range 0 to 1023 :=   0;	-- v front porch
-		vB				: integer range 0 to 1023 :=   2;	-- v sync
-		vC				: integer range 0 to 1023 :=  10;	-- v back porch
-		vD				: integer range 0 to 1023 := 284;	-- visible video
-
-		hpad			: integer range 0 to 1023 :=   0;	-- H black border
-		vpad			: integer range 0 to 1023 :=   0		-- V black border
-	);
 	port (
-		I_VIDEO				: in  std_logic_vector(15 downto 0);
+		I_VIDEO				: in  std_logic_vector(15 downto 0); -- solo usamos 3r+3g+3b bits
 		I_HSYNC				: in  std_logic;
 		I_VSYNC				: in  std_logic;
 		--
-		O_VIDEO				: out std_logic_vector(15 downto 0);
+		O_VIDEO				: out std_logic_vector(15 downto 0); -- solo usamos 3r+3g+3b bits
 		O_HSYNC				: out std_logic;
 		O_VSYNC				: out std_logic;
 		O_CMPBLK_N			: out std_logic;
 		--
-		CLK					: in  std_logic;
-		CLK_x2				: in  std_logic
+		CLK					: in  std_logic; -- 7mhz
+		CLK_x2				: in  std_logic  -- 14mhz
 	);
 end;
 
 architecture RTL of VGA_SCANCONV is
+	signal CLK_DUP     : std_logic := '0';
 	--
 	-- input timing
 	--
-	signal ivsync_last_x2	: std_logic := '1';
-	signal ihsync_last		: std_logic := '1';
-	signal hpos_i				: std_logic_vector( 9 downto 0) := (others => '0');
-
+	signal ihs_t1      : std_logic := '0';
+	signal ivs_t1      : std_logic := '0';
+	signal hpos_i      : std_logic_vector(9 downto 0) := (others => '0'); -- jepalza
+	signal bank_i      : std_logic := '0';
+	signal rgb_in      : std_logic_vector(8 downto 0) := (others => '0');
+	signal hsize_i     : std_logic_vector(9 downto 0) := (others => '0'); -- jepalza
 	--
 	-- output timing
 	--
-	signal hpos_o			: std_logic_vector(9 downto 0) := (others => '0');
-
-	signal vcnt				: integer range 0 to 1023 := 0;
-	signal hcnt				: integer range 0 to 1023 := 0;
-	signal hcnti			: integer range 0 to 1023 := 0;
+	signal ohs_t1      : std_logic := '0';
+	signal ovs_t1      : std_logic := '0';
+	signal hpos_o      : std_logic_vector(9 downto 0) := (others => '0'); -- jepalza
+	signal bank_o      : std_logic := '0';
+	signal rgb_out     : std_logic_vector(8 downto 0) := (others => '0');
+	signal vs_cnt      : std_logic_vector(2 downto 0) := (others => '0'); -- jepalza
 
 	signal CLK_x2_n		: std_logic := '1';
 
 begin
-	-- dual port line buffer, max line of 1024 pixels
+	-- jepalza (cogido de otro scandbl parecido)
 	u_ram : RAMB16_S18_S18
 		generic map (INIT_A => X"00000", INIT_B => X"00000", SIM_COLLISION_CHECK => "ALL")  -- "NONE", "WARNING", "GENERATE_X_ONLY", "ALL"
 		port map (
@@ -116,7 +113,6 @@ begin
 			ENA					=> CLK,
 			SSRA					=> '0',
 			CLKA					=> CLK_x2,
-
 			-- output
 			DOB					=> O_VIDEO,
 			DIB					=> x"0000",
@@ -128,106 +124,73 @@ begin
 			SSRB					=> '0',
 			CLKB					=> CLK_x2_n
 		);
-
 	CLK_x2_n <= not CLK_x2;
 
-	-- horizontal counter for input video
-	p_hcounter : process
-	begin
-		wait until rising_edge(CLK_x2);
-		if CLK = '0' then
-			ihsync_last <= I_HSYNC;
 
-			-- trigger off rising hsync
-			if I_HSYNC = '1' and ihsync_last = '0' then
-				hcnti <= 0;
-			else
-				hcnti <= hcnti + 1;
-			end if;
+CLK_DUP <= CLK;
+p_input_timing : process(CLK_DUP)
+	variable rising_h : boolean;
+	variable rising_v : boolean;
+begin
+	if rising_edge (CLK_DUP) then
+		ihs_t1 <= I_HSYNC;
+		ivs_t1 <= I_VSYNC;
+		rising_h := (I_HSYNC = '1') and (ihs_t1 = '0');
+		rising_v := (I_VSYNC = '1') and (ivs_t1 = '0');
+
+		if rising_v then
+			bank_i <= '0';
+		elsif rising_h then
+			bank_i <= not bank_i;
 		end if;
-	end process;
 
-	-- increment write position during active video
-	p_ram_in : process
-	begin
-		wait until rising_edge(CLK_x2);
-		if CLK = '0' then
-			if (hcnti < cstart) or (hcnti >= (cstart + clength)) then
-				hpos_i <= (others => '0');
-			else
-				hpos_i <= hpos_i + 1;
-			end if;
-		end if;
-	end process;
-
-	-- VGA H and V counters, synchronized to input frame V sync, then H sync
-	p_out_ctrs : process
-		variable trigger : boolean;
-	begin
-		wait until rising_edge(CLK_x2);
-		ivsync_last_x2 <= I_VSYNC;
-
-		if (I_VSYNC = '0') and (ivsync_last_x2 = '1') then
-			trigger := true;
-		elsif trigger and I_HSYNC = '0' then
-			trigger := false;
-			hcnt <= 0;
-			vcnt <= 0;
+		if rising_h then
+			hpos_i <= (others => '0');
+			hsize_i <= hpos_i;
 		else
-			hcnt <= hcnt + 1;
-			if hcnt = (hA+hB+hC+hD+hpad+hpad-1) then
-				hcnt <= 0;
-				vcnt <= vcnt + 1;
-			end if;
+			hpos_i <= hpos_i + "1";
 		end if;
-	end process;
+	end if;
+end process;
 
-	-- generate hsync
-	p_gen_hsync : process
-	begin
-		wait until rising_edge(CLK_x2);
-		-- H sync timing
-		if (hcnt < hB) then
-			O_HSYNC <= '0';
-		else
-			O_HSYNC <= '1';
-		end if;
-	end process;
+p_output_timing : process(CLK_X2)
+	variable rising_h : boolean;
+	variable rising_v : boolean;
+begin
+	if rising_edge (CLK_X2) then
+		ohs_t1 <= I_HSYNC;
+		ovs_t1 <= I_VSYNC;
+		rising_h := (I_HSYNC = '1') and (ohs_t1 = '0');
+		rising_v := (I_VSYNC = '1') and (ovs_t1 = '0');
 
-	-- generate vsync
-	p_gen_vsync : process
-	begin
-		wait until rising_edge(CLK_x2);
-		-- V sync timing
-		if (vcnt < vB) then
-			O_VSYNC <= '0';
-		else
-			O_VSYNC <= '1';
-		end if;
-	end process;
-
-	-- generate active output video
-	p_gen_active_vid : process
-	begin
-		wait until rising_edge(CLK_x2);
-		-- visible video area doubled from the original game
-		if ((hcnt >= (hB + hC + hpad)) and (hcnt < (hB + hC + hD + hpad))) and ((vcnt > 2*(vB + vC + vpad)) and (vcnt <= 2*(vB + vC + vD + vpad))) then
-			hpos_o <= hpos_o + 1;
-		else
+		if rising_h or (hpos_o = hsize_i) then
 			hpos_o <= (others => '0');
-		end if;
-	end process;
-
-	-- generate blanking signal including additional borders to pad the input signal to standard VGA resolution
-	p_gen_blank : process
-	begin
-		wait until rising_edge(CLK_X2);
-		-- active video area 640x480 (VGA) after padding with blank borders
-		if ((hcnt >= (hB + hC)) and (hcnt < (hB + hC + hD + 2*hpad))) and ((vcnt > 2*(vB + vC)) and (vcnt <= 2*(vB + vC + vD + 2*vpad))) then
-			O_CMPBLK_N <= '1';
 		else
-			O_CMPBLK_N <= '0';
+			hpos_o <= hpos_o + "1";
 		end if;
-	end process;
-	
+
+		if rising_v then
+			bank_o <= '1';
+			vs_cnt <= (others => '0');
+		elsif rising_h then
+			bank_o <= not bank_o;
+			if (vs_cnt(2) = '0') then
+				vs_cnt <= vs_cnt + "1";
+			end if;
+		end if;
+	end if;
+end process;
+
+p_output : process(CLK_X2)
+begin
+	if rising_edge (CLK_X2) then
+		O_VSYNC <= not vs_cnt(2);
+		if (hpos_o < 32) then
+			O_HSYNC <= '1';
+		else
+			O_HSYNC <= '0';
+		end if;
+	end if;
+end process;
+
 end architecture RTL;

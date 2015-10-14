@@ -37,8 +37,8 @@ module tld_zxuno (
    inout wire mousedata,
    output wire audio_out_left,
    output wire audio_out_right,
-   output wire stdn,
-   output wire stdnb,
+//   output wire stdn,
+//   output wire stdnb,
    
    output wire [18:0] sram_addr,
    inout wire [7:0] sram_data,
@@ -73,8 +73,8 @@ module tld_zxuno (
 //    );
 
 	assign wssclk = 1'b0;  // de momento, sin WSS
-	assign stdn = 1'b0;  // fijar norma PAL
-	assign stdnb = 1'b1; // y conectamos reloj PAL
+//	assign stdn = 1'b0;  // fijar norma PAL
+//	assign stdnb = 1'b1; // y conectamos reloj PAL
 
 //   pll reloj_maestro
 //   (// Clock in ports
@@ -104,25 +104,18 @@ module tld_zxuno (
     .CLK_OUT4           (clk3d5));    // OUT
 
 
-	// ---------------------------------------------------------------
+	// --------------------------------------
 	//	rutina conversora de formato ULA a VGA
-	//	cogida del repositorio de la placa de desarrollo PIPISTRELLO
-	//	con algún cambio menor por jepalza
-	//-----------------------------------------------------------------
-	//-- video scan converter required to display video on VGA hardware
-	//-----------------------------------------------------------------
-	//-- active resolution 192x256
-	//-- take note: the values below are relative to the CLK period not standard VGA clock period
 	VGA_SCANCONV inst_scan_conv
 	(
-      .I_VIDEO             ( {5'b0,s_red,1'b0,s_grn,1'b0,s_blu} ),
+      .I_VIDEO             ( {s_red,s_grn,s_blu} ),
 		.I_HSYNC					( hs_int),
 		.I_VSYNC					( vs_int),
 		//
       .O_VIDEO             ( O_VIDEO ),
 		.O_HSYNC					( hsync ),
 		.O_VSYNC					( vsync ),
-		.O_CMPBLK_N				( ),
+		.O_CMPBLK_N				( ), // no se usa
 		//
 		.CLK						( clk7 ),
 		.CLK_x2					( clk14 )
@@ -134,9 +127,17 @@ module tld_zxuno (
 	wire [2:0]s_grn;
 	wire [2:0]s_blu;
 	wire [15:0]O_VIDEO;
-	assign r = O_VIDEO[10:8];
-	assign g = O_VIDEO[ 6:4];
+	assign r = O_VIDEO[ 8:6];
+	assign g = O_VIDEO[ 5:3];
 	assign b = O_VIDEO[ 2:0];
+	
+// obtener dos relojes de 14 y 7 desde 28 (pruebas jepalza)
+//   wire clk14_2 = cnt[0];
+//   wire clk7_2 = cnt[1];
+//   reg [1:0] cnt = 2'b0;
+//   always @(posedge sysclk)
+//     cnt <= cnt + 1;
+
 	// -----------------------------------
 
 
