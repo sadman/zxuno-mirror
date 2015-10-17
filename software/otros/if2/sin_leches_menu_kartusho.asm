@@ -19958,8 +19958,8 @@ gamen   exx
         rlca
         inc     a
         ld      hl, gam06
-        ld      de, $8000
-        ld      bc, 6
+        ld      de, $7f01
+        ld      bc, SELEC-gam06
         push    de
         ldir
         ld      b, e
