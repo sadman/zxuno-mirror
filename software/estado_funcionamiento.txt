@@ -16,4 +16,4 @@ Shock Megademo.tap       |     SI      | Probado hasta la segunda fase
 slideshow_timex_64.tap   |     SI      | Demo ULAplus + modo hicolor.
 DemoHAM8x1.tzx           |     SI      | Arreglado en test15
 test_2scrn_y_ay8192.tap  |     SI      | Demo shadow screen + música AY-3-8912
-ulatest3-modified.tap    |   PARCIAL   | Los timmings reportados no son óptimos
+ulatest3-modified.tap    |     SI      | Los timmings reportados corresponden a "early"

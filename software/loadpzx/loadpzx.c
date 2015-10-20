@@ -254,11 +254,11 @@ void readpzx (BYTE handle)
             puts ("A");
             MAKEWORD(lo,buffer[5],buffer[4]);
             MAKEWORD(hi,buffer[7],buffer[6]);
-            //convertpaus2puls (handle,hi,lo);
-            writesram(0x4);
-            incaddrsram();
-            copysram(&buffer[4],4);
-            copyblock (handle,hi,lo);
+            convertpaus2puls (handle);
+            //writesram(0x4);
+            //incaddrsram();
+            //copysram(&buffer[4],4);
+            //copyblock (handle,hi,lo);
         }
         else if (buffer[0]=='S' &&
             buffer[1]=='T' &&
@@ -336,19 +336,19 @@ void copyblock (BYTE handle, WORD hicopy, WORD locopy)
     }
 }
 
-// void convertpaus2puls (BYTE handle)
-// {
-//     BYTE pausa[10] = {0x6,0,0,0,0x1,0x80,0,0,0,0};
-// 
-//     writesram(0x2);
-//     incaddrsram();
-//     read (handle, buffer, 4);
-//     pausa[6] = buffer[2];
-//     pausa[7] = buffer[3] | 0x80;
-//     pausa[8] = buffer[0];
-//     pausa[9] = buffer[1];
-//     copysram (pausa,10);
-// }
+void convertpaus2puls (BYTE handle)
+{
+    BYTE pausa[10] = {0x6,0,0,0,0x1,0x80,0,0,0,0};
+
+    writesram(0x2);
+    incaddrsram();
+    read (handle, buffer, 4);
+    pausa[6] = buffer[2];
+    pausa[7] = buffer[3] | 0x80;
+    pausa[8] = buffer[0];
+    pausa[9] = buffer[1];
+    copysram (pausa,10);
+}
 
 void rewindsram (void)
 {
@@ -495,7 +495,7 @@ fin_print:
 //   s[0]=(resto>9)?resto+55:resto+48;
 //   s[2]='\0';
 // }
-// 
+//
 // void print8bhex (BYTE n)
 // {
 //     char s[3];
