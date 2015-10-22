@@ -22,7 +22,7 @@ copy /b ESXMMC086b4.BIN+              ^
         MiscoJones.rom                ^
     roms_a8000.bin
 call promgen  -w -spi -p mcs -o tld_zxuno.mcs       ^
-              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test16\tld_zxuno.bit
+              -s 4096 -u 0 ..\..\cores\spectrum_v2_spartan6\test19_multi_mcleod\tld_zxuno.bit
 srec_cat  tld_zxuno.mcs   -Intel                    ^
           roms_a8000.bin  -binary -offset 0xa8000   ^
           -o prom.mcs     -Intel                    ^
