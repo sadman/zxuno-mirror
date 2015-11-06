@@ -1,0 +1,16 @@
+Path = Atic Atac.tzx
+Size = 37726
+CRC = 28B3AD66
+
+Path = Cobra.tzx
+Size = 48571
+CRC = 91374AF1
+
+Path = Mario Bros.tzx
+Size = 45160
+CRC = E631869E
+
+Path = Nebulus.tzx
+Size = 44248
+CRC = AB56BC2A
+

@@ -1,0 +1,1 @@
+fpoke file.mem 6004 g3ee932b05c00
