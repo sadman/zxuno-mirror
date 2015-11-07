@@ -17,18 +17,12 @@ com     ld      de, ini
         push    de
         ldir
         ret
-      IF  back=1
 ini     ld      de, $5aff
         ld      hl, $5ccb+fin-com-1
-      ELSE
-ini     ld      de, $4000
-      ENDIF
     ENDIF
         call    deexo
         ld      b, $02
-      IF  back=0
         dec     e
-      ENDIF
 next    ld      d, $57
 loop    ld      h, d
         ld      a, e
@@ -73,19 +67,23 @@ skip    inc     b
         ld      hl, startpc
         push    hl
         ld      de, exosize
-      IF  back=1
+      IF  address-4 < $5b00
+        ld      hl, address
+        call    $07f4
+        di
+        ld      de, address+binsize+3
+        ld      hl, address+exosize-1
+        call    deexo
+        ex      de, hl
+        ld      bc, binsize+1
+        ldir
+        ret
+      ELSE
         ld      hl, address-4
         call    $07f4
         di
         ld      de, address+binsize-1
         ld      hl, address+exosize-5
-      ELSE
-        ld      hl, address+binsize-exosize+3
-        push    hl
-        call    $07f4
-        di
-        ld      de, address
-        pop     hl
       ENDIF
 deexo   include d.asm
 compr   incbin  file.rcs.exo.opt

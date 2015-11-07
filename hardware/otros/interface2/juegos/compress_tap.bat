@@ -1,6 +1,4 @@
 SETLOCAL EnableDelayedExpansion
-set _method=%7
-if b==%_method:~0,1% (set _back=1) else (set _back=0)
 tzx2wav "tzx\%~1.tzx" temp.wav
 ticks 48rp.rom -t temp.wav -e %6 -o file.mem -c 0
 fcut file.mem 4000 1b00 file.scr
@@ -10,15 +8,16 @@ if exist bat\%2.bat call bat\%2.bat
 fcut file.mem   %3   %4 file.bin
 set /a _fsh= 0x%3+0x%4
 if %_fsh% GTR 0xfd80 (
-  if 0==%_back% (
-    echo Forward not possible
-    goto :eof
+  set /a _fsh= 0x%3-160
+) else (
+  if 0x%3 LSS 0x5b04 (
+    set /a _fsh= 0x%3+0x%4+4
+  ) else (
+    set /a _fsh= 0x%3+0x%4
   )
-  set /a _fsh= 0x%3-158
-) else set /a _fsh= 0x%3+0x%4+3*(1-%_back%)
+)
 call :dec2hex %_fsh%
-call compress %7 %_res% file.rcs file.bin
-echo  define  back    %_back%  >  define.asm
+call compress b3- %_res% file.rcs file.bin
 echo  define  mapbase $%_res%  >> define.asm
 echo  define  startpc $%5      >> define.asm
 echo  define  address $%3      >> define.asm
