@@ -8,7 +8,7 @@ com     ld      sp, $5ccb
 ini     ld      de, $5aff
         ld      hl, fin-1
     ELSE
-        org     mapbase+156-21
+        org     $5b87
 com     ld      de, ini
         di
         db      $de, $c0, $37, $0e, $8f, $39, $96 ;OVER USR 7 ($5ccb)
@@ -67,24 +67,11 @@ skip    inc     b
         ld      hl, startpc
         push    hl
         ld      de, exosize
-      IF  address-4 < $5b00
-        ld      hl, address
-        call    $07f4
-        di
-        ld      de, address+binsize+3
-        ld      hl, address+exosize-1
-        call    deexo
-        ex      de, hl
-        ld      bc, binsize+1
-        ldir
-        ret
-      ELSE
         ld      hl, address-4
         call    $07f4
         di
         ld      de, address+binsize-1
         ld      hl, address+exosize-5
-      ENDIF
 deexo   include d.asm
 compr   incbin  file.rcs.exo.opt
 fin

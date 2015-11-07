@@ -2,10 +2,6 @@ Path = Atic Atac.tzx
 Size = 37726
 CRC = 28B3AD66
 
-Path = Batman.tzx
-Size = 49967
-CRC = B75CFBF2
-
 Path = Cobra.tzx
 Size = 48571
 CRC = 91374AF1

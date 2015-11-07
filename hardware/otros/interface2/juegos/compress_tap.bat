@@ -17,11 +17,11 @@ if %_fsh% GTR 0xfd80 (
   )
 )
 call :dec2hex %_fsh%
-call compress b3- %_res% file.rcs file.bin
-echo  define  mapbase $%_res%  >> define.asm
-echo  define  startpc $%5      >> define.asm
-echo  define  address $%3      >> define.asm
-echo  define  binsize $%4      >> define.asm
+call compress b3- 5b00 file.rcs file.bin
+echo  define  mapbase $5b00       >  define.asm
+echo  define  startpc $%5         >> define.asm
+echo  define  address $%3         >> define.asm
+echo  define  binsize $%4         >> define.asm
 call :getfilesize file.bin.exo.opt
 echo  define  exosize %_filesize% >> define.asm
 sjasmplus compress_tap.asm
