@@ -57,7 +57,7 @@ module jupiter_ace (
                     (xram_enable == 1'b1)?       dout_xram :
                     (eram_enable == 1'b1)?       dout_eram :
                     (data_from_jace_oe == 1'b1)? data_from_jace :
-                                                 8'hFF;
+                                                 sram_data | cram_data;  // By default, this is what the data bus sees
 
 	// Memoria del equipo
 	ram1k_dualport sram (

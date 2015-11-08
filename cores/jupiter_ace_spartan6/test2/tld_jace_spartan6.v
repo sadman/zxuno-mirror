@@ -75,7 +75,7 @@ module tld_jace_spartan6 (
         .clk65(clk65),
         .clkcpu(clkcpu),
         .reset(kbd_reset & poweron_reset[7]),
-        .ear(!ear),
+        .ear(ear),
         .filas(kbd_rows),
         .columnas(kbd_columns),
         .video(video),
