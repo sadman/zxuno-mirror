@@ -1,0 +1,222 @@
+; acedict.asm
+; Z80 ASM template file to generate a TAP file - "Dict" type file
+
+; 2009, January - The Jupiter Ace Archive Team -> www.jupiter-ace.co.uk
+
+; Compile using TASM assembler:
+;   TASM -80 -b -l filename.asm filename.tap
+
+#define FILENAME  .TEXT  "l         "        ; <-- SET FILENAME HERE
+;                        |----------| Keep it exactly 10 chars long!
+
+#include "ace.inc"
+
+STARTADR:  .EQU     $3C51                    ; Start address for dict files
+           .ORG     STARTADR - 30            ; Make room for the file header
+           .WORD    26                       ; TAP 1st chunck size
+HEADERBLK: .BYTE    00                       ; File Type = dict
+           FILENAME                          ; Filename (10 bytes)
+           .WORD    DATABLKEND - DATABLK     ; File Lenght
+           .WORD    STARTADR                 ; Start Address
+           .WORD    WORDLNK                  ; current word link <--- SET LINK HERE
+           .WORD    $3C4C                    ; CURRENT
+           .WORD    $3C4C                    ; CONTEXT
+           .WORD    $3C4F                    ; VOCLNK
+           .WORD    DATABLKEND               ; STKBOT
+           .CHK     HEADERBLK                ; Header Block CheckSum
+           .WORD    DATABLKEND - DATABLK + 1 ; TAP 2nd chunck size
+DATABLK:                                     ; Data Block Start
+
+;**************************************************************************
+; FORTH dictionary word header
+
+WORDNAME: .BYTE  'L' | INVERSE  ; Word Name (last letter inverse)
+          .WORD  WORDEND - $          ; Word Lenght Field
+          .WORD  $3C49                ; Link Field
+WORDLNK:  .BYTE  $ - WORDNAME - 4     ; Name Lenght Field
+          .WORD  $ + 2                ; Code Field Address
+
+;         >>>>>>>>>>>>>>>>>> Insert your ASM code here <<<<<<<<<<<<<<<<<<<<
+
+Main:     di
+          ld sp,Pila+64
+          call CLS
+          ld de,MTesting
+          ld bc,LTesting
+          call PR_STRING2
+          call MemTest
+          call MemASCII
+          call CheckMirror
+
+          call CLS
+          ld de,Banner
+          ld bc,LBanner
+          call PR_STRING2
+
+          ld de,MsgMemD
+          ld bc,LMsgMemD
+          call PR_STRING2
+          ld de,MemoryN
+          ld bc,LMemoryN
+          call PR_STRING2
+
+          ld de,Mirror
+          ld bc,LMirror
+          call PR_STRING2
+
+          ld a,(MirrorOK)
+          or a
+          jr z,PrintNoActive
+          ld de,Active
+          ld bc,LActive
+          jr PrintMirror
+PrintNoActive:
+          ld de,NActive
+          ld bc,LNActive
+PrintMirror:
+          call PR_STRING2
+
+          ld de,MReboot
+          ld bc,LMReboot
+          call PR_STRING2
+
+WaitKey1: in a,($FE)
+          and KBD_MASK
+          cp KBD_MASK
+          jr nz,WaitKey1
+
+WaitKey2: in a,($FE)
+          and KBD_MASK
+          cp KBD_MASK
+          jr z,WaitKey2
+          jp 0
+
+MemTest:  ld hl,StartMemory
+FillMem:  ld (hl),$f1
+          inc hl
+          ld a,h
+          or l
+          jr nz,FillMem
+          ld hl,StartMemory
+UpdtMem:  dec (hl)
+          inc hl
+          ld a,h
+          or l
+          jr nz,UpdtMem
+          ld hl,StartMemory
+CheckMem: ld a,(hl)
+          cp $f0
+          jr nz,EndCheck
+          cpl
+          ld (hl),a
+          ld a,(hl)
+          cp $0f
+          jr nz,EndCheck
+          inc hl
+          ld a,h
+          or l
+          jr nz,CheckMem
+EndCheck: ld de,15360
+          or a
+          sbc hl,de
+          ld (Memory),hl
+          ret
+Memory:   .word 0
+
+MemASCII: ld a,(Memory+1)
+          srl a
+          srl a
+          add a,2  ;añadimos memoria de pantalla y char
+          ld c,0
+CalcDec:  sub 10
+          jp m,Unidades
+          inc c
+          jr CalcDec
+Unidades: add a,10
+          ld b,a
+          ld a,c
+          add a,'0'
+          ld (MemoryN),a
+          ld a,b
+          add a,'0'
+          ld (MemoryN+1),a
+          ret
+
+CheckMirror:
+          xor a
+          ld (MirrorOK),a
+          ld de,$3000
+          ld hl,$3400
+          ld ix,$3800
+          ld iy,$3c00
+          ld bc,1024
+LoopM:    ld a,(de)
+          cp (hl)
+          ret nz
+          cp (ix)
+          ret nz
+          cp (iy)
+          ret nz
+          inc de
+          inc hl
+          inc ix
+          inc iy
+          dec bc
+          ld a,b
+          or c
+          jr nz,LoopM
+          ld a,1
+          ld (MirrorOK),a
+          ret
+MirrorOK  .byte 0
+
+                ;01234567890123456789012345678901
+MTesting: .byte "Detectando memoria. Por favor,",13
+          .byte "espere unos segundos..."
+LTesting: .equ $-MTesting
+
+Banner:   .byte "Programa-TEST de memoria para la"
+          .byte "ampliacion de memoria del",13
+          .byte "Jupiter ACE version ZdP.",13,13,127
+          .byte  "2011 mcleod_ideafix",13
+          .byte "miguel.angel@zxprojects.com",13,13
+          .fill 32,$93
+          .byte 13,13
+LBanner:  .equ $-Banner
+
+MsgMemD   .byte "Memoria detectada: "
+LMsgMemD  .equ $-MsgMemD
+
+Mirror    .byte "Espejo de memoria: "
+LMirror   .equ $-Mirror
+
+MReboot:  .byte 13,13,13,13,13,13
+          .byte "Pulsa una tecla para reiniciar."
+LMReboot: .equ $-MReboot
+
+Active:   .byte "ACTIVO",13,13
+LActive:  .equ $-Active
+
+NActive:  .byte "NO ACTIVO",13,13
+LNActive: .equ $-NActive
+
+MemoryN:  .byte "00K",13,13
+LMemoryN: .equ $-MemoryN
+
+Pila      .ds 64
+
+StartMemory .equ $
+    AsmEnd   ; word definition end
+WORDEND:
+;**************************************************************************
+
+DATABLKEND:  .CHK    DATABLK               ; Data Block Checksum
+
+; Show code statistics when compiling
+    .ECHO "Start Address: "
+    .ECHO STARTADR
+    .ECHO " , Lenght: "
+    .ECHO (DATABLKEND - DATABLK)
+   	.ECHO " bytes\n"
+
+    .END
