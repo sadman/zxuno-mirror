@@ -1,0 +1,109 @@
+; acedict.asm
+; Z80 ASM template file to generate a TAP file - "Dict" type file
+
+; 2009, January - The Jupiter Ace Archive Team -> www.jupiter-ace.co.uk
+
+; Compile using TASM assembler:
+;   tasm32\TASM -t32\tasm80 -b -l filename.asm filename.tap
+
+#define FILENAME  .TEXT  "bascolace "        ; <-- SET FILENAME HERE
+;                        |----------| Keep it exactly 10 chars long!
+
+#include "ace.inc"
+
+STARTADR:  .EQU     $3C51                    ; Start address for dict files
+           .ORG     STARTADR - 30            ; Make room for the file header
+           .WORD    26                       ; TAP 1st chunck size
+HEADERBLK: .BYTE    00                       ; File Type = dict
+           FILENAME                          ; Filename (10 bytes)
+           .WORD    DATABLKEND - DATABLK     ; File Lenght
+           .WORD    STARTADR                 ; Start Address
+           .WORD    WORDLNK                  ; current word link <--- SET LINK HERE
+           .WORD    $3C4C                    ; CURRENT
+           .WORD    $3C4C                    ; CONTEXT
+           .WORD    $3C4F                    ; VOCLNK
+           .WORD    DATABLKEND               ; STKBOT
+           .CHK     HEADERBLK                ; Header Block CheckSum
+           .WORD    DATABLKEND - DATABLK + 1 ; TAP 2nd chunck size
+DATABLK:                                     ; Data Block Start
+
+;**************************************************************************
+; FORTH dictionary word header
+
+WORDNAME: .BYTE "BASCOLAC"
+          .BYTE  'E' | INVERSE  ; Word Name (last letter inverse)
+          .WORD  WORDEND - $          ; Word Lenght Field
+          .WORD  $3C49                ; Link Field
+WORDLNK:  .BYTE  $ - WORDNAME - 4     ; Name Lenght Field
+          .WORD  $ + 2                ; Code Field Address
+
+;         >>>>>>>>>>>>>>>>>> Insert your ASM code here <<<<<<<<<<<<<<<<<<<<
+
+Main:     di
+          ld sp,8000h
+          ld hl,Codigo
+          ld de,8000h
+          ld bc,LCodigo
+          ldir
+          jp 8000h
+
+Codigo:   ld hl,BascolaceRAM-Codigo+8000h
+          ld de,4300h
+          ld bc,1900h
+          ldir
+
+          ld hl,BascolaceCHARS-Codigo+8000h
+          ld de,2800h
+          ld bc,400h
+          ldir
+
+          ld hl,BascolaceCHARS-Codigo+8000h
+          ld de,3C00h
+          ld bc,400h
+          ldir
+
+          ld b,8
+          ld hl,MagicSeq-Codigo+8000h
+EnableWr: ld a,(hl)
+          out (127),a
+          inc hl
+          djnz EnableWr
+
+          ld hl,BascolaceROM-Codigo+8000h
+          ld de,0000h
+          ld bc,2000h
+          ldir
+
+          xor a
+          out (127),a
+
+          jp 0
+
+MagicSeq .db "ENABLEWR"
+
+BascolaceRAM:
+          .include "BascolaceRAM.tasm"
+
+BascolaceCHARS:
+          .include "BascolaceCHARS.tasm"
+
+BascolaceROM:
+          .include "BascolaceROM.tasm"
+
+LCodigo   .equ $-Codigo
+
+StartMemory .equ $
+    AsmEnd   ; word definition end
+WORDEND:
+;**************************************************************************
+
+DATABLKEND:  .CHK    DATABLK               ; Data Block Checksum
+
+; Show code statistics when compiling
+    .ECHO "Start Address: "
+    .ECHO STARTADR
+    .ECHO " , Lenght: "
+    .ECHO (DATABLKEND - DATABLK)
+   	.ECHO " bytes\n"
+
+    .END
