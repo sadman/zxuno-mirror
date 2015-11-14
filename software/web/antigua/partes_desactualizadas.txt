@@ -1,0 +1,2 @@
+-En maquina_e.html falta traducir la parte del SDK Radastan
+-En faq_e.html falta actualizar las correcciones (buscar <strike>)
