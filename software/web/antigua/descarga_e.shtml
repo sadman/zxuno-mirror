@@ -24,15 +24,15 @@
   <span>·</span>
   <a href="descarga.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-  <strong>Scheme (v0.12):</strong>
+  <strong>Designs (v4):</strong>
   <ul>
-    <li><a href="ficheros/ZX-Uno.0.12.gerber.zip">Gerber Files</a> 84 Kb. - ZIP</li>
-    <li><a href="ficheros/ZX-Uno.0.12.pdf">Theoretical Scheme</a> 41 Kb. - PDF</li></ul>
+    <li><a href="ficheros/zxuno_v4_sch.zip">Schematics</a> 48 Kb. - ZIP</li>
+    <li><a href="ficheros/zxuno_v4_pcb.pdf">PCB</a> 108 Kb. - PDF</li></ul>
   <br/>
   <strong>Stickers for keyboard:</strong>
   <ul>
-    <li><a href="ficheros/Teclados_A5_PROD_003_CorelDraw_CUT.pdf">v1 - Preliminary Designs for Cut Roland Plotter/ Manual Cut</a> 1 Mb - PDF</li>
-	<li><a href="ficheros/Teclados_A4_CorelDraw_CUT_v3.pdf">v3 - PDF format compatible Coreldraw X6 (for plotter cut lines)</a> 1,6 Mb - PDF</li></ul>
+    <li><a href="ficheros/Teclados_A4_CorelDraw_CUT_v3_2015_004">v3 - PDF format compatible Coreldraw X6 (for plotter cut lines)</a> 3,8 Mb. - PDF</li>
+    <li><a href="ficheros/Teclado_Layout_MJ_v4_PRODUCCION_Marzo2015.pdf">v4 - MJ Layout</a> 470 Kb. - PDF</li></ul>
   <br/>
   <strong>Technical Documents:</strong>
   <ul>

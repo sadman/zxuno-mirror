@@ -131,6 +131,29 @@ Contraseña: zxuno</pre>
     <br/>
     <br/></div>
 
+  <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
+  <div style="clear:left;margin:20px;"></div>
+  <div style="width:35%;float:left;padding-left:15%">
+    <img alt="Imagen" align=center src="imagen/logo_radastan_001.png"/></div>
+  <div style="width:50%;float:left">
+    <strong><span style="color:#084">SDK Radastan </span></strong> <i>para ZX Spectrum / ZX-Uno</i>
+    <br/><br/>
+    <ul>
+      <li>Basado en el compilador Z88DK, el kit permite desarrollar juegos y aplicaciones en lenguaje C.</li>
+      <li>Compatible con modo gráfico estandard ZX-Spectrum.</li>
+      <li>Funciones básicas <i>(0.1 beta)</i> específicas para el Modo Radastaniano.</li></ul>
+    <br/>
+    <i>Enlaces: </i>
+    <ul>
+      <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/cursoz88dk.zip">- SDK "Original" ZX-Spectrum.</a></li>
+      <li><a href="http://www.zonadepruebas.com/download/file.php?id=3863">- SDK específico Modo Radastaniano <i>(0.1 beta)</i>.</a></li>
+      <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/">Tutorial original Radastan (ZIP+PDF).</a></li>
+      <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6302">Foro Zona de Pruebas Modo Radastaniano.</a></li>
+      <li><a href="http://www.mojontwins.com/mojoniaplus/">Foro Mojon Twins.</a></li>
+      <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/z88dk10.zip">Z88DK10.ZIP.</a></li></ul>
+    <br/>
+    <br/></div>
+
   <a name="enlaces"></a>
   <div style="background-color:#05a;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
   <strong style="font-size:20px">Enlaces</strong>
@@ -143,26 +166,7 @@ Contraseña: zxuno</pre>
 
   <strong>Foros de discursión (zonadepruebas.com):</strong>
   <ul>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6158">ZX-Uno prototipo 2: seguimos dándole caña. <strong>HILO ACTUAL</strong></a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5933">Cacharreando con el prototipo 2 del ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5812">Montaje del prototipo 2 del ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5691">Prototipo 2 del ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5117">Novedades acerca del ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4927">Avances en el desarrollo del ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4855">Sintetizando un Spectrum con el ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4629">Montaje del ZXUNO</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4073">ZX-Uno, clon barato basado en FPGA</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=3937">PiZx: Clon barato de spectrum con FPGA (WIP)</a></li></ul>
-  <br/>
-
-  <strong>Hilos relacionados (zonadepruebas.com):</strong>
-  <ul>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4796">Creando videos en formato "Radastaniano" para reproducirlos con ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=4926">Teclado para ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6099">ZX-UNO: Etiquetas para Teclado (2º Tiraje)</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5934">Addon Z80 de McLeod para el ZX-Uno</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6155">ZX-Uno: Diseñando una caja de cartón / impreso 3D</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=5936">Conector expansión Spectrum para ZX-Uno</a></li></ul>
+    <li><a href="http://zxuno.com/forum/viewtopic.php?f=27&t=17">Todos los enlaces</a></li></ul>
   <br/>
 
   <strong>Cuenta Twitter del proyecto:</strong>

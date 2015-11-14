@@ -24,15 +24,15 @@
   <span>·</span>
   <a href="descarga_e.shtml"  style="width:62px">[English]</a></div>
 <div id="main">
-  <strong>Esquemas (v0.12):</strong>
+  <strong>Diseños (v4):</strong>
   <ul>
-    <li><a href="ficheros/ZX-Uno.0.12.gerber.zip">Ficheros Gerber</a> 84 Kb - ZIP</li>
-    <li><a href="ficheros/ZX-Uno.0.12.pdf">Esquema Teórico</a> 41 Kb. - PDF</li></ul>
+    <li><a href="ficheros/zxuno_v4_sch.zip">Esquemas</a> 48 Kb. - ZIP</li>
+    <li><a href="ficheros/zxuno_v4_pcb.pdf">PCB</a> 108 Kb. - PDF</li></ul>
   <br/>
   <strong>Etiquetas para teclado:</strong>
   <ul>
-    <li><a href="ficheros/Teclados_A5_PROD_003_CorelDraw_CUT.pdf">v1 - Diseños preliminares para Plotter de corte / Corte Manual</a> 1 Mb. - PDF</li>
-    <li><a href="ficheros/Teclados_A4_CorelDraw_CUT_v3.pdf">v3 - Formato PDF compatible Coreldraw X6 (para plotter de corte)</a> 1,6 Mb. - PDF</li></ul>
+    <li><a href="ficheros/Teclados_A4_CorelDraw_CUT_v3_2015_004">v3 - Formato PDF compatible Coreldraw X6 (para plotter de corte)</a> 3,8 Mb. - PDF</li>
+    <li><a href="ficheros/Teclado_Layout_MJ_v4_PRODUCCION_Marzo2015.pdf">v4 - Layout MJ</a> 470 Kb. - PDF</li></ul>
   <br/>
   <strong>Documentación Técnica:</strong>
   <ul>
