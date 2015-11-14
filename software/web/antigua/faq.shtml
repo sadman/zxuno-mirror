@@ -165,27 +165,35 @@
     <li>
       <strong>¿Cuánto costará?</strong>
       <br/>
-      Tampoco me gusta dar precios pero espero que la placa montada con los conectores sin
+      <strike>Tampoco me gusta dar precios pero espero que la placa montada con los conectores sin
       soldar salga por menos de 30 euros. El prototipo es más barato porque viene sin montar.
       Por mi parte no voy a incrementar el coste de lo que me cobre seeedstudio para los
       prototipos. Para la versión final, si la distribución se le encarga a otra persona, no
       puedo descartar que haya algún beneficio, sobre todo porque conllevará un trabajo
-      adicional: soldar conectores, grabar firmware, testear la placa, empaquetado, etc...</li>
+      adicional: soldar conectores, grabar firmware, testear la placa, empaquetado, etc...</strike>
+      <br/>
+      <br/>
+      Actualización Nov-2015:
+      <br/>
+      Sin montar: 30 euros (gastos de envío incluidos)
+      <br/>
+      Montado: 60 euros (gastos de envío incluidos)</li>
     <br/>
     <li>
       <strong>¿Quiénes trabajan en el proyecto?</strong>
       <br/>
-      Somos 4 personas.
+      Somos 5 personas.
       <ul>
-        <li><strong>McLeod.</strong> Revisa y propone, es un colaborador de facto.</li>
-        <li><strong>Superfo.</strong> Ruteador, el que se encarga de diseñar la PCB.</li>
-        <li><strong>AntonioVillena.</strong> Idea inicial, crear los esquemas y distribución de prototipos.</li>
+        <li><strong>McLeod.</strong> Diseño de cores principales, también colabora en hardware.</li>
+        <li><strong>superfo.</strong> Ruteador, el que se encarga de diseñar la PCB.</li>
+        <li><strong>antoniovillena.</strong> Idea inicial, diseño de esquemas, programación firmware y distribución de prototipos.</li>
+        <li><strong>Quest.</strong> Diseño de cores secundarios (ports), colabora en firmware y en web.</li>
         <li><strong>Hark0.</strong> Diseño gráfico y web. Todo la parte relativa al grafismo del proyecto.</li></ul>
     <br/>
     <li>
       <strong>¿Cuándo estará a la venta?</strong>
       <br/>
-      No hay una fecha estimada concreta, en principio habrá 2 tiradas: una para desarrolladores
+      <strike>No hay una fecha estimada concreta, en principio habrá 2 tiradas: una para desarrolladores
       (prototipo) de 10 unidades que ya se ha realizado y otra para el público general de 50
       ó 100 unidades. Las PCBs de los prototipos se pidieron a seeedstudio.com, y junto con
       los componentes y los gastos de envío salieron por 22 euros. Estos prototipos vienen
@@ -198,7 +206,14 @@
       sitopway. Irá casi todo montado salvo los conectores, que opcionalmente el que las
       distribuya puede soldarlos a mano a petición del usuario por un precio adicional.
       El firmware vendrá pregrabado y también habrá opción de adquirir complementos por
-      separado: caja, pegatina con logo, manual, cables, fuente de alimentación.</li></ol>
+      separado: caja, pegatina con logo, manual, cables, fuente de alimentación.</strike>
+      <br/>
+      <br/>
+      Actualización Nov-2015:
+      <br/>
+      Para Marzo de 2016 tenemos planeada la campaña de crowfunding. El precio de
+      venta estimado es de 60 euros (30 euros sin montar) con los gastos de envío incluidos. Hemos hecho todo lo posible
+      para mantener el precio bajo.</li></ol>
   <br/>
   Faq. ZX-Uno. Rev 002 - Oct. 2013.</div>
 <div id="footer">
