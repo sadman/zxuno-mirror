@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="home.css"/>
+  <title>ZX-Uno [Clon de ordenador ZX Spectrum basado en FPGA]</title>
+</head>
+<body>
+<div id="logo" style="background:url(imagen/logo.png)"></div>
+<div id="menu">
+  <a href="index.shtml"    style="width:50px">Inicio</a>
+  <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:40px">Foro</a>
+  <span>·</span>
+  <a href="maquina.shtml"  style="width:95px">La Máquina</a>
+  <span>·</span>
+  <a href="descarga.shtml" style="width:78px">Descarga</a>
+  <span>·</span>
+  <a href="media.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <span                    style="width:45px">FAQ</span>
+  <span>·</span>
+  <a href="contacto.shtml" style="width:75px">Contacto</a>
+  <span>·</span>
+  <a href="faq_e.shtml"    style="width:62px">[English]</a></div>
+<div id="main">
+  <strong>Preguntas y respuestas frecuentes:</strong>
+  <br/>
+  <br/>
+  <ol>
+    <li>
+      <strong>¿Qué es ZX-Uno?</strong>
+      <br/>
+      Básicamente se trata de una placa con una FPGA programada para trabajar como un
+      ordenador ZX Spectrum, del mismo tamaño que Raspberry Pi.</li>
+    <br/>
+    <li>
+      <strong>¿Qué máquinas caben en la FPGA?</strong>
+      <br/>
+      En principio está pensado para toda la gama ZX Spectrum aunque también se le
+      podrán instalar máquinas inferiores. Sólo caben máquinas de 8 bits con un tamaño
+      máximo de 512K entre ROM y RAM, y que la circuitería a sintetizar sea relativamente
+      sencilla (nada de sprites hardware y cosas así). El <em>corazón</em> del aparato es
+      una FPGA XC3S250E, que es una FPGA relativamente modesta. Emplear una FPGA más
+      <em>grande</em> supondría poder sintetizar más máquinas aparte del ZX Spectrum, pero
+      también encarecería el precio considerablemente.</li>
+    <br/>
+    <li>
+      <strong>¿Qué conectores incluye?</strong>
+      <br/>
+      La placa base está pensada para poder usar las mismas cajas de Raspberry Pi, los
+      conectores siguen la misma disposición  y son los siguientes:
+      <ul>
+        <li><strong>Vídeo:</strong> Vídeo compuesto por conector RCA, compatible con caja RPi</li>
+        <li><strong>Audio:</strong> Audio estéreo por conector jack 3.5mm, compatible con caja RPi</li>
+        <li><strong>Teclado:</strong> Conector PS/2 en el lugar que ocupa el cable Ethernet de la caja</li>
+        <li><strong>Alimentación:</strong> 5 voltios regulados que entran por un conector micro-USB, compatible con caja RPi</li>
+        <li><strong>Joystick:</strong> Conector DB9 norma Atari, en el lugar que ocupan los puertos USB de la caja</li>
+        <li><strong>Almacenamiento:</strong> Tarjeta SD, compatible con caja RPi</li>
+        <li><strong>Carga en cinta:</strong> Conector jack 3.5mm al lado del audio, no compatible con caja RPi, hay que taladrarlo</li>
+        <li><strong>Expansión:</strong> 3 tiras de pines de 15 cada una en la misma ubicación que la Raspberry Pi, tampoco va a ningún agujero de la caja</li>
+        <li><strong>Cable JTAG y RGB:</strong> Header de 2x6 pines en el lugar que ocupa el puerto HDMI de la caja</li></ul></li>
+    <br/>
+    <li>
+      <strong>¿Por qué no tiene conector de expansión como el de un ZX Spectrum?</strong>
+      <br/>
+      Básicamente por incompatibilidad eléctrica, la FPGA trabaja a 3.3V y las señales del
+      conector de expansión van a 5V. También porque el tamaño es reducido y queremos que el
+      precio sea bajo (poner conversores de voltaje lo encarecería). De todas formas hay un
+      conector de expansión genérico del que salen 40 pines de la FPGA, por lo que mediante
+      una placa externa que contenga el conector EDGE y los conversores de voltaje podría hacerse.</li>
+    <br/>
+    <li>
+      <strong>¿Sería muy complejo añadir soporte USB (teclados/joystick)? Por una parte, ya no
+      es tan fácil comprar teclados PS/2 nuevos; por otra parte dos joysticks son mejor que uno.</strong>
+      <br/>
+      Sí, sería muy complejo y creo que además funciona a otros voltajes. Si alguien consigue
+      implementarlo por el puerto de expansión no habría problema en sustituir el conector
+      PS/2 por uno USB, pero sería para una revisión futura de la placa. Por ahora nos
+      tenemos que conformar con PS/2.</li>
+    <br/>
+    <li>
+      <strong>¿Necesito algún cable especial?</strong>
+      <br/>
+      Para el prototipo sí, el Xilinx Platform Cable. En la versión definitiva no hace
+      falta porque daremos la posibilidad de actualizar el firmware vía SD. El resto de
+      cables son genéricos: la alimentación es micro-USB, el video es RCA y el audio/EAR
+      son jacks de 3.5mm. El único cable personalizado (como pasa con todas las máquinas)
+      es el RGB/Scart, aunque no hace falta porque la calidad que da el AD724 para el
+      video compuesto es excelente.</li>
+    <br/>
+    <li>
+      <strong>¿Cómo se usará la tarjeta SD? ¿Permitirá TZX o sólo TAP básicos?</strong>
+      <br/>
+      TZX es un formato de audio compacto. Sólo puede usarse con el puerto EAR. Los sistemas
+      que has visto que soportan TZX (ResiDOS, por ejemplo) realmente lo que hacen es
+      soportar un subconjunto del TZX que es esencialmente un TAP. TAP sí que es un formato
+      que permite cargas desde memoria masiva.</li>
+    <br/>
+    <li>
+      <strong>¿Se podrá escribir en las cintas/discos? ¿TRD ó DSK?</strong>
+      <br/>
+      Como esto no es emulación, lo que se puede hacer o no con ficheros del tipo que sea depende
+      del S.O. que pongas en el ZX Spectrum. ESXDOS permite grabar a un .TAP si mal no recuerdo.
+      Lo mismo con el TRD o el DSK: si alguno de los S.O. lo soporta, entonces sí, pero si no,
+      no. En los emuladores se soporta DSK o TRD porque se emula el hardware de la disquetera.
+      Aquí se podría implementar algo por el estilo pero probablemente no cabría en la FPGA.
+      Para que te hagas una idea, dar soporte de TRD o DSK de forma transparente (sin usar
+      un S.O. especial que sea quien se encargue de ello) implica:
+      <br/>
+      <br/>
+      - Hay que implementar un chip que tenga la misma interfaz que el uPD765. Esto es, que
+      soporte los registros del uPD, y su interfaz física (bus de datos, CS, etc).
+      <br/>
+      <br/>
+      - Pero por el otro lado, lo que se le conecta no es una disquetera, sino que tendrá
+      que ir a un sistema que permita elegir una imagen DSK o TRD y ese sistema debe enviar
+      la información (sector) solicitado bajo demanda. Es decir, hay que integrar un
+      microcontrolador que sea quien se encargue de leer la tarjeta SD, presentar algún
+      tipo de menú OSD para elegir la imagen a usar, y enviar la información a la
+      controladora de disquetes "medio falsa" que hemos hecho. El Z80 se come bastante de
+      la FPGA, así que no queda mucho espacio para implementar otro procesador que se
+      encargue de esta tarea (además del procesador hay que incorporar su pequeña memoria
+      RAM y ROM, que debe contener nada menos que rutinas que sean capaces de leer sistemas
+      de ficheros FAT en la SD).
+      <br/>
+      <br/>
+      - En otras palabras: dar ese tipo de soporte implica meter dentro de la FPGA la
+      circuitería equivalente a la de un HxC completito (la versión autónoma) sustituyendo
+      la pantalla LCD por un menú OSD en pantalla y teclas especiales en el teclado PS/2
+      para moverse.
+      <br/>
+      <br/>
+      Lo más que podría hacerse, que se me ocurra, sería añadir el core del uPD765 al sistema,
+      para que el Spectrum tuviera una controladora de disco. Exponer los pines que van a la
+      disquetera en el conector de 40 pines de la FPGA, añadirle un level shifter para pasar
+      de forma de segura entre 3.3 y 5V, y a ese conector, pincharle un HxC (o una disquetera
+      de verdad).</li>
+    <br/>
+    <li>
+      <strong>¿Cabrán los <em>clones rusos</em>? ¿Y el SAM coupé?</strong>
+      <br/>
+      Muy probablemente sí. Respecto al SAM, no recuerdo cómo es el formato de la paleta,
+      pero si usa como mucho 3 bits por color primario, entonces sí que se podrá implementar
+      sin pegas (estoy suponiendo que el diseño permitirá sintetizar la ULAplus). Además
+      cabrá el ZX80, ZX81, Jupiter ACE, y algunos arcades que usan un solo Z80, como el Pacman.</li>
+    <br/>
+    <li>
+      <strong>¿Cuantos cambios de configuración se permiten en ese chip? Es decir, ¿se podría
+        cambiar de configuración alegremente o mejor dejarla fija para siempre?</strong>
+      <br/>
+      Tantos como escrituras permita la SPI Flash, creo que miles o cientos de miles. Eso sí,
+      si no tienes el cable Xilinx (como la mayoría de la gente) procura que las
+      configuraciones que le instales sean autoactualizables, sino tendrás que enviar la
+      placa a reflashear.</li>
+    <br/>
+    <li>
+      <strong>Me he comprado el prototipo pero no sé como se sueldan los componentes
+        SMD, ¿alguna ayuda?</strong>
+      <br/>
+      McLeod nos da una buena explicación en el
+      <a href="http://zonadepruebas.com/viewtopic.php?f=26&t=4073&start=60#p29455">
+        Foro Zona de Pruebas.</a></li>
+    <br/>
+    <li>
+      <strong>¿Cuánto costará?</strong>
+      <br/>
+      <strike>Tampoco me gusta dar precios pero espero que la placa montada con los conectores sin
+      soldar salga por menos de 30 euros. El prototipo es más barato porque viene sin montar.
+      Por mi parte no voy a incrementar el coste de lo que me cobre seeedstudio para los
+      prototipos. Para la versión final, si la distribución se le encarga a otra persona, no
+      puedo descartar que haya algún beneficio, sobre todo porque conllevará un trabajo
+      adicional: soldar conectores, grabar firmware, testear la placa, empaquetado, etc...</strike>
+      <br/>
+      <br/>
+      Actualización Nov-2015:
+      <br/>
+      Sin montar: 30 euros (gastos de envío incluidos)
+      <br/>
+      Montado: 60 euros (gastos de envío incluidos)</li>
+    <br/>
+    <li>
+      <strong>¿Quiénes trabajan en el proyecto?</strong>
+      <br/>
+      Somos 5 personas.
+      <ul>
+        <li><strong>McLeod.</strong> Diseño de cores principales, también colabora en hardware.</li>
+        <li><strong>superfo.</strong> Ruteador, el que se encarga de diseñar la PCB.</li>
+        <li><strong>antoniovillena.</strong> Idea inicial, diseño de esquemas, programación firmware y distribución de prototipos.</li>
+        <li><strong>Quest.</strong> Diseño de cores secundarios (ports), colabora en firmware y en web.</li>
+        <li><strong>Hark0.</strong> Diseño gráfico y web. Todo la parte relativa al grafismo del proyecto.</li></ul>
+    <br/>
+    <li>
+      <strong>¿Cuándo estará a la venta?</strong>
+      <br/>
+      <strike>No hay una fecha estimada concreta, en principio habrá 2 tiradas: una para desarrolladores
+      (prototipo) de 10 unidades que ya se ha realizado y otra para el público general de 50
+      ó 100 unidades. Las PCBs de los prototipos se pidieron a seeedstudio.com, y junto con
+      los componentes y los gastos de envío salieron por 22 euros. Estos prototipos vienen
+      sin montar y sin programar (requieren cable USB de Xilinx), por eso son tan baratos.
+      La versión final (montada y programada) se estima que tendrá un coste de entre 30 y 40 euros.
+      <br/>
+      <br/>
+      En cuanto a la placa definitiva, no sé si seré yo el que se encargue así que todo lo
+      que comente está sujeto a cambios. Serán unas 50 ó 100 unidades y se encargarán a
+      sitopway. Irá casi todo montado salvo los conectores, que opcionalmente el que las
+      distribuya puede soldarlos a mano a petición del usuario por un precio adicional.
+      El firmware vendrá pregrabado y también habrá opción de adquirir complementos por
+      separado: caja, pegatina con logo, manual, cables, fuente de alimentación.</strike>
+      <br/>
+      <br/>
+      Actualización Nov-2015:
+      <br/>
+      Para Marzo de 2016 tenemos planeada la campaña de crowfunding. El precio de
+      venta estimado es de 60 euros (30 euros sin montar) con los gastos de envío incluidos. Hemos hecho todo lo posible
+      para mantener el precio bajo.</li></ol>
+  <br/>
+  Faq. ZX-Uno. Rev 002 - Oct. 2013.</div>
+<div id="footer">
+  <div id="footerimg" style="background:0 90px url(imagen/logo.png)"></div>
+  <div id="footerhost">Site hospedado en <a href="http://www.speccy.org">Speccy.org</a>. Síguenos en twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>
