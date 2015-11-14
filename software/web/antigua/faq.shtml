@@ -38,11 +38,11 @@
       <strong>¿Qué máquinas caben en la FPGA?</strong>
       <br/>
       En principio está pensado para toda la gama ZX Spectrum, y capacidades extra como la ULAPlus, TurboSound, etc, aunque también se le
-      podrán instalar máquinas inferiores. Sólo caben máquinas de 8 bits con un tamaño
+      podrán instalar máquinas similares. Sólo caben máquinas de 8 bits con un tamaño
       máximo de 512K entre ROM y RAM, y que la circuitería a sintetizar sea relativamente
-      sencilla (nada de sprites hardware y cosas así). El <em>corazón</em> del aparato es
+      sencilla. El <em>corazón</em> del aparato es
       una FPGA Xilinx Spartan XC6SLX9, que es una FPGA relativamente modesta, aunque suficiente para implementar unas cuantas máquinas de 8 bits. Emplear una FPGA más
-      <em>grande</em> supondría poder sintetizar más máquinas aparte del ZX Spectrum, pero
+      <em>grande</em> supondría poder sintetizar aún más máquinas aparte del ZX Spectrum y otras comentadas más adelante en este FAQ, pero
       también encarecería el precio considerablemente.</li>
     <br/>
     <li>
