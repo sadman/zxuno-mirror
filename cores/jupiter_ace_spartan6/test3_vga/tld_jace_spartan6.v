@@ -95,12 +95,13 @@ module tld_jace_spartan6 (
         .rows(kbd_rows),
         .columns(kbd_columns),
         .kbd_reset(kbd_reset),
-        .kbd_nmi()
+        .kbd_nmi()        
     );
 	 
-	vga_scandoubler salida_vga (
+	vga_scandoubler #(.CLKVIDEO(6667)) salida_vga (
 		.clkvideo(clk65),
 		.clkvga(clkvga),
+        .disable_scaneffect(1'b1),
 		.ri(ri),
 		.gi(gi),
 		.bi(bi),

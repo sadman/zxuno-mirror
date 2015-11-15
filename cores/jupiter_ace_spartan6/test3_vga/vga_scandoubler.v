@@ -23,6 +23,7 @@
 module vga_scandoubler (
 	input wire clkvideo,
 	input wire clkvga,
+    input wire disable_scaneffect,  // 1 to disable scanlines
 	input wire [2:0] ri,
 	input wire [2:0] gi,
 	input wire [2:0] bi,
@@ -35,14 +36,14 @@ module vga_scandoubler (
 	output reg vsync
    );
 	
-	parameter CLKVIDEO = 6667;
+	parameter [31:0] CLKVIDEO = 12000;
 	
 	// http://www.epanorama.net/faq/vga2rgb/calc.html
 	// SVGA 800x600
 	// HSYNC = 3.36us  VSYNC = 114.32us
 	
-	parameter HSYNC_COUNT = (CLKVIDEO * 3360 * 2)/1000000;
-	parameter VSYNC_COUNT = (CLKVIDEO * 114320 * 2)/1000000;
+	parameter [63:0] HSYNC_COUNT = (CLKVIDEO * 3360 * 2)/1000000;
+	parameter [63:0] VSYNC_COUNT = (CLKVIDEO * 114320 * 2)/1000000;
 	
 	reg [10:0] addrvideo = 11'd0, addrvga = 11'b00000000000;
 	reg [9:0] totalhor = 10'd0;
@@ -50,9 +51,9 @@ module vga_scandoubler (
 	// Para generar scanlines:
 	wire [2:0] rout, gout, bout;
 	reg scaneffect = 1'b0;
-	assign ro = (scaneffect)? rout : {1'b0, rout[2:1]};
-	assign go = (scaneffect)? gout : {1'b0, gout[2:1]};
-	assign bo = (scaneffect)? bout : {1'b0, bout[2:1]};
+	assign ro = (scaneffect | disable_scaneffect)? rout : {1'b0, rout[2:1]};
+	assign go = (scaneffect | disable_scaneffect)? gout : {1'b0, gout[2:1]};
+	assign bo = (scaneffect | disable_scaneffect)? bout : {1'b0, bout[2:1]};
 	
 	// Memoria de doble puerto que guarda la información de dos scans
 	// Cada scan puede ser de hasta 1024 puntos, incluidos aquí los
@@ -102,7 +103,7 @@ module vga_scandoubler (
 	// El HSYNC de la VGA está bajo sólo durante HSYNC_COUNT ciclos a partir del comienzo
 	// del barrido de un scanline
 	always @* begin
-		if (addrvga[9:0] < HSYNC_COUNT)
+		if (addrvga[9:0] < HSYNC_COUNT[9:0])
 			hsync = 1'b0;
 		else
 			hsync = 1'b1;
@@ -119,7 +120,7 @@ module vga_scandoubler (
 				vsync <= 1'b0;
 			end
 			else if (cntvsync != 16'hFFFE) begin
-				if (cntvsync == VSYNC_COUNT) begin
+				if (cntvsync == VSYNC_COUNT[15:0]) begin
 					vsync <= 1'b1;
 					cntvsync <= 16'hFFFE;
 				end
