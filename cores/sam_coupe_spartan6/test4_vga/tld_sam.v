@@ -85,8 +85,8 @@ module tld_sam (
         .b(sam_b),
         .bright(sam_bright),
         .csync(),
-		  .hsync_pal(hsync_pal),
-		  .vsync_pal(vsync_pal),
+	    .hsync_pal(hsync_pal),
+		.vsync_pal(vsync_pal),
         // Audio output
         .ear(~ear),
         .audio_out_left(audio_out_left),
@@ -103,6 +103,7 @@ module tld_sam (
 	vga_scandoubler #(.CLKVIDEO(12000)) salida_vga (
 		.clkvideo(clk12),
 		.clkvga(clk24),
+        .disable_scaneffect(1'b1),
 		.ri(ri),
 		.gi(gi),
 		.bi(bi),

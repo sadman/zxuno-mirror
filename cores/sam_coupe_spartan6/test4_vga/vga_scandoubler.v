@@ -23,6 +23,7 @@
 module vga_scandoubler (
 	input wire clkvideo,
 	input wire clkvga,
+    input wire disable_scaneffect,  // 1 to disable scanlines
 	input wire [2:0] ri,
 	input wire [2:0] gi,
 	input wire [2:0] bi,
@@ -50,9 +51,9 @@ module vga_scandoubler (
 	// Para generar scanlines:
 	wire [2:0] rout, gout, bout;
 	reg scaneffect = 1'b0;
-	assign ro = (scaneffect)? rout : {1'b0, rout[2:1]};
-	assign go = (scaneffect)? gout : {1'b0, gout[2:1]};
-	assign bo = (scaneffect)? bout : {1'b0, bout[2:1]};
+	assign ro = (scaneffect | disable_scaneffect)? rout : {1'b0, rout[2:1]};
+	assign go = (scaneffect | disable_scaneffect)? gout : {1'b0, gout[2:1]};
+	assign bo = (scaneffect | disable_scaneffect)? bout : {1'b0, bout[2:1]};
 	
 	// Memoria de doble puerto que guarda la información de dos scans
 	// Cada scan puede ser de hasta 1024 puntos, incluidos aquí los
