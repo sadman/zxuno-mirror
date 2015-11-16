@@ -294,7 +294,7 @@ ParseVideo          ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ScanDblCtrl)
-                    and 0ch
+                    and 0fch
                     or 3
                     ld (ScanDblCtrl),a
                     jp OtroChar
