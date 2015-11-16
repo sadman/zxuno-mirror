@@ -17,11 +17,18 @@ Main                proc
                     ret c
 
 NoError             ld bc,ZXUNOADDR
-                    xor a
+                    xor a   ;MASTERCONF
                     out (c),a
                     inc b
                     ld a,(ConfValue)
                     out (c),a
+                    dec b
+                    ld a,11
+                    out (c),a
+                    inc b
+                    ld a,(ScanDblCtrl)
+                    out (c),a
+
 PrintAndExit        call PrintCurrentMode
                     or a
                     ret
@@ -39,6 +46,12 @@ PrintCurrentMode    proc
                     inc b
                     in a,(c)
                     ld (ConfValue),a  ;Current config value
+                    dec b
+                    ld a,11
+                    out (c),a
+                    inc b
+                    in a,(c)
+                    ld (ScanDblCtrl),a
 
                     ld hl,CurrConfString1
                     call PrintString
@@ -74,6 +87,29 @@ NoChCont            call PrintString
                     call InitMouse
                     ld hl,CurrConfString4
                     call PrintString
+                    
+                    ld hl,CurrConfString5
+                    call PrintString
+                    ld a,(ScanDblCtrl)
+                    bit 7,a
+                    ld hl,NormalSpeedStr
+                    jr z,SkipTurboPrint
+                    ld hl,TurboSpeedStr
+SkipTurboPrint      call PrintString
+
+                    ld hl,CurrConfString6
+                    call PrintString
+                    ld a,(ScanDblCtrl)
+                    ld hl,CompositeStr
+                    bit 0,a
+                    jr z,PrintVideo
+                    ld hl,VGANoScansStr
+                    and 3
+                    cp 1
+                    jr z,PrintVideo
+                    ld hl,VGAScansStr
+PrintVideo          call PrintString
+
                     ret
 
                     endp
@@ -106,6 +142,12 @@ ParseParam          proc
                     inc b
                     in a,(c)
                     ld (ConfValue),a  ;Current config value
+                    ld bc,ZXUNOADDR
+                    ld a,11   ;SCANDBLCTRL
+                    out (c),a
+                    inc b
+                    in a,(c)
+                    ld (ScanDblCtrl),a
 
                     ld hl,BufferParam
 OtroChar            ld a,(hl)
@@ -129,6 +171,10 @@ OtroChar            ld a,(hl)
                     jp z,ParseHelp
                     cp "q"
                     jp z,ParseQuiet
+                    cp "s"
+                    jp z,ParseSpeed
+                    cp "v"
+                    jp z,ParseVideo
                     jp ErrorInvalidArg
 
 ParseTimming        ld a,(hl)
@@ -211,6 +257,63 @@ PutIssue2           cp "2"
                     ld a,(ConfValue)
                     or 08h
                     ld (ConfValue),a
+                    jp OtroChar
+
+ParseSpeed          ld a,(hl)
+                    inc hl
+                    cp "0"
+                    jp z,NoTurbo
+                    cp "1"
+                    jp nz,ErrorInvalidArg
+                    ld a,(hl)
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,(ScanDblCtrl)
+                    or 80h
+                    ld (ScanDblCtrl),a
+                    jp OtroChar
+NoTurbo             ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,(ScanDblCtrl)
+                    and 0EFh
+                    ld (ScanDblCtrl),a
+                    jp OtroChar
+
+ParseVideo          ld a,(hl)
+                    inc hl
+                    cp "0"
+                    jp z,Modo15khz
+                    cp "1"
+                    jp z,ModoVGANoScans
+                    cp "2"
+                    jp nz,ErrorInvalidArg
+                    ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,(ScanDblCtrl)
+                    and 0ch
+                    or 3
+                    ld (ScanDblCtrl),a
+                    jp OtroChar
+Modo15khz           ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,(ScanDblCtrl)
+                    and 0ch
+                    ld (ScanDblCtrl),a
+                    jp OtroChar
+ModoVGANoScans      ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,(ScanDblCtrl)
+                    and 0ch
+                    or 1
+                    ld (ScanDblCtrl),a
                     jp OtroChar
 
 ParseHelp           ld a,(hl)
@@ -296,15 +399,28 @@ Uso                 db "ZXUNOCFG v1.0",13
                     db " No switches: print config",13
                     db " -h : shows this help and exits",13
                     db " -q : silent operation",13
+
                     db " -tA: choose ULA timmings",13
                     db "      A=48:   48K timmings",13
                     db "      A=128: 128K timmings",13
+
                     db " -cB: en/dis contention",13
                     db "      B=y: enable contention",13
                     db "      B=n: disable contention",13
+
                     db " -kC: choose keyboard mode",13
                     db "      C=2: issue 2 keyboard",13
-                    db "      C=3: issue 3 keyboard",13,13
+                    db "      C=3: issue 3 keyboard",13
+
+                    db " -sD: choose CPU speed",13
+                    db "      D=0: normal speed (3.5Mhz)",13
+                    db "      C=1: turbo speed (7 MHz)",13
+
+                    db " -vE: choose video output",13
+                    db "      E=0: composite/RGB 15kHz",13
+                    db "      E=1: VGA no scanlines",13
+                    db "      E=2: VGA with scanlines",13,13
+
                     db "Example: zxunocfg -t48 -cn -k3",13
                     db "  (provides Pentagon 128 compati",13
                     db "   ble mode)",13
@@ -320,11 +436,19 @@ CurrConfString2     db " Contention: ",0
 ContEnabledStr      db "ENABLED",13,0
 ContDisabledStr     db "DISABLED",13,0
 CurrConfString3     db "   Keyboard: ISSUE ",0
-CurrConfString4     db "      Mouse: initialized",13,0
+CurrConfString4     db "      Mouse: INITIALIZED",13,0
+CurrConfString5     db "      Speed: ",0
+NormalSpeedStr      db "NORMAL",13,0
+TurboSpeedStr       db "TURBO",13,0
+CurrConfString6     db "      Video: ",0
+CompositeStr        db "COMP/RGB 15kHz",13,0
+VGANoScansStr       db "VGA",13,0
+VGAScansStr         db "VGA w/scanlines",13,0
 
 ErrorMsg            db "Invalid option. Use zxunocfg -","h"+80h
 
 ConfValue           db 0
+ScanDblCtrl         db 0
 QuietMode           db 0
 
 BufferParam         equ $   ;resto de la RAM para el nombre del fichero
