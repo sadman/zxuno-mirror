@@ -277,7 +277,7 @@ NoTurbo             ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ScanDblCtrl)
-                    and 0EFh
+                    and 7Fh
                     ld (ScanDblCtrl),a
                     jp OtroChar
 
@@ -303,7 +303,7 @@ Modo15khz           ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ScanDblCtrl)
-                    and 0ch
+                    and 0fch
                     ld (ScanDblCtrl),a
                     jp OtroChar
 ModoVGANoScans      ld a,(hl)
@@ -311,7 +311,7 @@ ModoVGANoScans      ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ScanDblCtrl)
-                    and 0ch
+                    and 0fch
                     or 1
                     ld (ScanDblCtrl),a
                     jp OtroChar
