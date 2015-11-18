@@ -23,15 +23,16 @@
 module vga_scandoubler (
 	input wire clkvideo,
 	input wire clkvga,
+    input wire enable_scandoubling,
     input wire disable_scaneffect,  // 1 to disable scanlines
 	input wire [2:0] ri,
 	input wire [2:0] gi,
 	input wire [2:0] bi,
 	input wire hsync_ext_n,
 	input wire vsync_ext_n,
-	output wire [2:0] ro,
-	output wire [2:0] go,
-	output wire [2:0] bo,
+	output reg [2:0] ro,
+	output reg [2:0] go,
+	output reg [2:0] bo,
 	output reg hsync,
 	output reg vsync
    );
@@ -51,9 +52,9 @@ module vga_scandoubler (
 	// Para generar scanlines:
 	wire [2:0] rout, gout, bout;
 	reg scaneffect = 1'b0;
-	assign ro = (scaneffect | disable_scaneffect)? rout : {1'b0, rout[2:1]};
-	assign go = (scaneffect | disable_scaneffect)? gout : {1'b0, gout[2:1]};
-	assign bo = (scaneffect | disable_scaneffect)? bout : {1'b0, bout[2:1]};
+	wire [2:0] ro_vga = (scaneffect | disable_scaneffect)? rout : {1'b0, rout[2:1]};
+	wire [2:0] go_vga = (scaneffect | disable_scaneffect)? gout : {1'b0, gout[2:1]};
+	wire [2:0] bo_vga = (scaneffect | disable_scaneffect)? bout : {1'b0, bout[2:1]};
 	
 	// Memoria de doble puerto que guarda la información de dos scans
 	// Cada scan puede ser de hasta 1024 puntos, incluidos aquí los
@@ -102,26 +103,28 @@ module vga_scandoubler (
 
 	// El HSYNC de la VGA está bajo sólo durante HSYNC_COUNT ciclos a partir del comienzo
 	// del barrido de un scanline
+    reg hsync_vga, vsync_vga;
+    
 	always @* begin
 		if (addrvga[9:0] < HSYNC_COUNT[9:0])
-			hsync = 1'b0;
+			hsync_vga = 1'b0;
 		else
-			hsync = 1'b1;
+			hsync_vga = 1'b1;
 	end
 	
 	// El VSYNC de la VGA está bajo sólo durante VSYNC_COUNT ciclos a partir del flanco de
 	// bajada de la señal de sincronismo vertical original
 	reg [15:0] cntvsync = 16'hFFFF;
-	initial vsync = 1'b1;
+	initial vsync_vga = 1'b1;
 	always @(posedge clkvga) begin
 		if (vsync_ext_n == 1'b0) begin
 			if (cntvsync == 16'hFFFF) begin
 				cntvsync <= 16'd0;
-				vsync <= 1'b0;
+				vsync_vga <= 1'b0;
 			end
 			else if (cntvsync != 16'hFFFE) begin
 				if (cntvsync == VSYNC_COUNT[15:0]) begin
-					vsync <= 1'b1;
+					vsync_vga <= 1'b1;
 					cntvsync <= 16'hFFFE;
 				end
 				else
@@ -131,7 +134,24 @@ module vga_scandoubler (
 		else if (vsync_ext_n == 1'b1)
 			cntvsync <= 16'hFFFF;
 	end
-	
+
+    always @* begin
+        if (enable_scandoubling == 1'b0) begin // 15kHz output
+            ro = ri;
+            go = gi;
+            bo = bi;
+            hsync = hsync_ext_n ^ ~vsync_ext_n; // this is how the SAM Coupé generates vertical sync for composite output
+            vsync = 1'b1;
+        end
+        else begin  // VGA output
+            ro = ro_vga;
+            go = go_vga;
+            bo = bo_vga;
+            hsync = hsync_vga;
+            vsync = vsync_vga;
+        end
+    end
+    
 endmodule
 
 // Una memoria de doble puerto: uno para leer, y otro para

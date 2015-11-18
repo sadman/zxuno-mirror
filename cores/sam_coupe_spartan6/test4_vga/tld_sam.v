@@ -103,7 +103,8 @@ module tld_sam (
 	vga_scandoubler #(.CLKVIDEO(12000)) salida_vga (
 		.clkvideo(clk12),
 		.clkvga(clk24),
-        .disable_scaneffect(1'b1),
+		.enable_scandoubling(1'b1),
+      .disable_scaneffect(1'b1),
 		.ri(ri),
 		.gi(gi),
 		.bi(bi),
