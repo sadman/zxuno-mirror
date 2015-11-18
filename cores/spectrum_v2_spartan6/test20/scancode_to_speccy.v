@@ -255,7 +255,7 @@ module scancode_to_speccy (
             endcase
         end
     end
-endmodule
+endmodule	
 
 module keyboard_pressed_status (
     input wire clk,
