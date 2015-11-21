@@ -895,6 +895,15 @@ design rules under a new name.</description>
 </signal>
 <signal name="EXT33">
 <contactref element="J10" pad="10"/>
+<contactref element="MDL1" pad="1"/>
+<wire x1="31.353125" y1="17.78" x2="31.353125" y2="17.655" width="0.3048" layer="1"/>
+<wire x1="31.160625" y1="17.4625" x2="31.160625" y2="17.5875" width="0.3048" layer="1"/>
+<wire x1="31.160625" y1="17.5875" x2="31.353125" y2="17.78" width="0.3048" layer="1"/>
+<wire x1="31.59125" y1="22.38375" x2="31.59125" y2="17.893125" width="0.3048" layer="1"/>
+<wire x1="31.59125" y1="17.893125" x2="31.160625" y2="17.4625" width="0.3048" layer="1"/>
+<wire x1="31.59125" y1="22.38375" x2="29.845" y2="24.13" width="0.3048" layer="1"/>
+<wire x1="29.845" y1="24.13" x2="26.67" y2="24.13" width="0.3048" layer="1"/>
+<wire x1="26.67" y1="24.13" x2="25.4" y2="25.4" width="0.3048" layer="1"/>
 </signal>
 <signal name="EXT34">
 <contactref element="J12" pad="11"/>
@@ -916,17 +925,6 @@ design rules under a new name.</description>
 <wire x1="30.1625" y1="3.01625" x2="31.115" y2="2.06375" width="0.3048" layer="1"/>
 <wire x1="31.115" y1="2.06375" x2="31.115" y2="1.308125" width="0.3048" layer="1"/>
 <wire x1="31.115" y1="1.308125" x2="31.160625" y2="1.2625" width="0.3048" layer="1"/>
-</signal>
-<signal name="EXT36">
-<contactref element="J10" pad="11"/>
-<wire x1="27.94" y1="25.4" x2="28.575" y2="25.4" width="0.3048" layer="1"/>
-<wire x1="28.575" y1="25.4" x2="31.59125" y2="22.38375" width="0.3048" layer="1"/>
-<contactref element="MDL1" pad="1"/>
-<wire x1="31.353125" y1="17.78" x2="31.353125" y2="17.655" width="0.3048" layer="1"/>
-<wire x1="31.160625" y1="17.4625" x2="31.160625" y2="17.5875" width="0.3048" layer="1"/>
-<wire x1="31.160625" y1="17.5875" x2="31.353125" y2="17.78" width="0.3048" layer="1"/>
-<wire x1="31.59125" y1="22.38375" x2="31.59125" y2="17.893125" width="0.3048" layer="1"/>
-<wire x1="31.59125" y1="17.893125" x2="31.160625" y2="17.4625" width="0.3048" layer="1"/>
 </signal>
 <signal name="EXT6">
 <contactref element="J10" pad="1"/>
