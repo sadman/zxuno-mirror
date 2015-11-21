@@ -186,16 +186,16 @@ module asic (
         rint_n = 1'b1;
         if (hc >= (RBORDER + HFPORCH) && hc < (RBORDER + HFPORCH + HSYNC)) begin
           csync = 1'b0;
-			 hsync_pal = 1'b0;
-		  end
+          hsync_pal = 1'b0;
+		end
         if (vc >= BEGINVSYNCV && vc < ENDVSYNCV) begin
           csync = ~csync;
-			 vsync_pal = 1'b0;
-		  end
-        if (vc == BEGINVSYNCV && hc < 256)
+          vsync_pal = 1'b0;
+		end
+        if (vc == (ENDVSYNCV+3) && (hc >= 224 && hc < 480))  /* determined experimentally */
           vint_n = 1'b0;
         if (lineint >= 8'd0 && lineint <= 8'd191)
-            if ({1'b0, lineint} == vc && hc < 10'd256)
+            if ({1'b0, lineint} == vc && (hc >=16 && hc < 272))  /* determined experimentally */
               rint_n = 1'b0;
     end
     assign int_n = vint_n & rint_n;
@@ -234,28 +234,26 @@ module asic (
         mem_contention = 1'b0;
         io_contention = 1'b0;
 
-//        if (screen_off == 1'b0 && hc[3:0]<4'd10)
-//            io_contention = 1'b1;
-//        if (screen_off == 1'b1 && (hc[3:0]==4'd0 ||
-//                                        hc[3:0]==4'd1 ||
-//                                        hc[3:0]==4'd8 ||
-//                                        hc[3:0]==4'd9) )
-//            io_contention = 1'b1;
+        if (screen_off == 1'b0 && hc[3:0]<4'd10)
+            io_contention = 1'b1;
+        if (screen_off == 1'b1 && (hc[3:0]==4'd0 ||
+                                        hc[3:0]==4'd1 ||
+                                        hc[3:0]==4'd8 ||
+                                        hc[3:0]==4'd9) )
+            io_contention = 1'b1;
             
         if (fetching_pixels == 1'b1 && hc[3:0]<4'd10) begin
            mem_contention = 1'b1;
-           //io_contention = 1'b1;
         end
-        if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
-                                             hc[3:0]==4'd1 ||
-                                             hc[3:0]==4'd8 ||
-                                             hc[3:0]==4'd9) ) begin
+//        if (fetching_pixels == 1'b0 && (hc[3:0]==4'd0 ||
+//                                             hc[3:0]==4'd1 ||
+//                                             hc[3:0]==4'd8 ||
+//                                             hc[3:0]==4'd9) ) begin
+        if (fetching_pixels == 1'b0 && hc[3:0]<4'd10) begin
             mem_contention = 1'b1;
-            //io_contention = 1'b1;
         end
         if (screen_mode == 2'b00 && hc[3:0]<4'd10 && (hc<10'd128 || hc>=10'd256)) begin
             mem_contention = 1'b1;  // extra contention for MODE 1
-            //io_contention = 1'b1;
         end
     end
     assign asic_is_using_ram = mem_contention & fetching_pixels;

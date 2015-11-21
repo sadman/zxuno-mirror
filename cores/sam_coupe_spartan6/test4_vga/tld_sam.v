@@ -104,7 +104,7 @@ module tld_sam (
 		.clkvideo(clk12),
 		.clkvga(clk24),
 		.enable_scandoubling(1'b1),
-      .disable_scaneffect(1'b1),
+        .disable_scaneffect(1'b1),
 		.ri(ri),
 		.gi(gi),
 		.bi(bi),

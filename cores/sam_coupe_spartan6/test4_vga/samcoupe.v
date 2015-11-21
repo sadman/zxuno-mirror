@@ -157,7 +157,7 @@ module samcoupe (
     );
     
     rom rom_32k (
-        .clk(clk12),
+        .clk(clk24),
         .a(romaddr),
         .dout(data_from_rom)
     );
