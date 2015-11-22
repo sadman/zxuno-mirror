@@ -84,7 +84,6 @@ module tld_sam (
         .g(sam_g),
         .b(sam_b),
         .bright(sam_bright),
-        .csync(),
 	    .hsync_pal(hsync_pal),
 		.vsync_pal(vsync_pal),
         // Audio output

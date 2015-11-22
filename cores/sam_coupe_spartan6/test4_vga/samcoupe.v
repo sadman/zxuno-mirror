@@ -31,9 +31,8 @@ module samcoupe (
     output wire [1:0] g,
     output wire [1:0] b,
     output wire bright,
-    output wire csync,
-	 output wire hsync_pal,
-	 output wire vsync_pal,
+    output wire hsync_pal,
+    output wire vsync_pal,
     // Audio output
     input wire ear,
     output wire audio_out_left,
@@ -93,7 +92,7 @@ module samcoupe (
                          (asic_oe_n == 1'b0)? data_from_asic :
                          8'hFF;
 
-    tv80n el_z80 (
+    tv80a el_z80 (
       .m1_n(),
       .mreq_n(mreq_n),
       .iorq_n(iorq_n),
@@ -150,9 +149,8 @@ module samcoupe (
         .g(g),
         .b(b),
         .bright(bright),
-        .csync(csync),
-		  .hsync_pal(hsync_pal),
-		  .vsync_pal(vsync_pal),
+        .hsync_pal(hsync_pal),
+        .vsync_pal(vsync_pal),
         .int_n(int_n)
     );
     
