@@ -87,7 +87,7 @@ NoChCont            call PrintString
                     call InitMouse
                     ld hl,CurrConfString4
                     call PrintString
-                    
+
                     ld hl,CurrConfString5
                     call PrintString
                     ld a,(ScanDblCtrl)
@@ -109,6 +109,17 @@ SkipTurboPrint      call PrintString
                     jr z,PrintVideo
                     ld hl,VGAScansStr
 PrintVideo          call PrintString
+
+                    ld hl,CurrConfString7
+                    call PrintString
+                    ld a,(ScanDblCtrl)
+                    sra a
+                    sra a
+                    and 7
+                    add a,"0"
+                    rst 10h
+                    ld a,13
+                    rst 10h
 
                     ret
 
@@ -175,6 +186,8 @@ OtroChar            ld a,(hl)
                     jp z,ParseSpeed
                     cp "v"
                     jp z,ParseVideo
+                    cp "f"
+                    jp z,ParseFreq
                     jp ErrorInvalidArg
 
 ParseTimming        ld a,(hl)
@@ -316,6 +329,28 @@ ModoVGANoScans      ld a,(hl)
                     ld (ScanDblCtrl),a
                     jp OtroChar
 
+ParseFreq           ld a,(hl)
+                    inc hl
+                    cp "0"
+                    jp c,ErrorInvalidArg
+                    cp "8"
+                    jp nc,ErrorInvalidArg
+                    sub "0"
+                    ld b,a
+                    ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,b
+                    add a,a
+                    add a,a
+                    ld b,a
+                    ld a,(ScanDblCtrl)
+                    and 0e3h
+                    or b
+                    ld (ScanDblCtrl),a
+                    jp OtroChar
+
 ParseHelp           ld a,(hl)
                     inc hl
                     cp " "
@@ -400,26 +435,29 @@ Uso                 db "ZXUNOCFG v1.0",13
                     db " -h : shows this help and exits",13
                     db " -q : silent operation",13
 
-                    db " -tA: choose ULA timmings",13
-                    db "      A=48:   48K timmings",13
-                    db "      A=128: 128K timmings",13
+                    db " -tN: choose ULA timmings",13
+                    db "      N=48:   48K timmings",13
+                    db "      N=128: 128K timmings",13
 
-                    db " -cB: en/dis contention",13
-                    db "      B=y: enable contention",13
-                    db "      B=n: disable contention",13
+                    db " -cS: en/dis contention",13
+                    db "      S=y: enable contention",13
+                    db "      S=n: disable contention",13
 
-                    db " -kC: choose keyboard mode",13
-                    db "      C=2: issue 2 keyboard",13
-                    db "      C=3: issue 3 keyboard",13
+                    db " -kN: choose keyboard mode",13
+                    db "      N=2: issue 2 keyboard",13
+                    db "      N=3: issue 3 keyboard",13
 
-                    db " -sD: choose CPU speed",13
-                    db "      D=0: normal speed (3.5Mhz)",13
-                    db "      C=1: turbo speed (7 MHz)",13
+                    db " -sN: choose CPU speed",13
+                    db "      N=0: normal speed (3.5Mhz)",13
+                    db "      N=1: turbo speed (7 MHz)",13
 
-                    db " -vE: choose video output",13
-                    db "      E=0: composite/RGB 15kHz",13
-                    db "      E=1: VGA no scanlines",13
-                    db "      E=2: VGA with scanlines",13,13
+                    db " -vN: choose video output",13
+                    db "      N=0: composite/RGB 15kHz",13
+                    db "      N=1: VGA no scanlines",13
+                    db "      N=2: VGA with scanlines",13
+
+                    db " -fN: choose video output",13
+                    db "      N=0-7: master freq option",13,13
 
                     db "Example: zxunocfg -t48 -cn -k3",13
                     db "  (provides Pentagon 128 compati",13
@@ -441,9 +479,10 @@ CurrConfString5     db "      Speed: ",0
 NormalSpeedStr      db "NORMAL",13,0
 TurboSpeedStr       db "TURBO",13,0
 CurrConfString6     db "      Video: ",0
-CompositeStr        db "COMP/RGB 15kHz",13,0
+CompositeStr        db "CVBS/RGB 15kHz",13,0
 VGANoScansStr       db "VGA",13,0
 VGAScansStr         db "VGA w/scanlines",13,0
+CurrConfString7     db "  VFreq opt: ",0
 
 ErrorMsg            db "Invalid option. Use zxunocfg -","h"+80h
 
