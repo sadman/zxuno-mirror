@@ -73,7 +73,7 @@ module zxuno (
     // SCANDOUBLER CTRL
     output wire vga_enable,
     output wire scanlines_enable,
-    output wire [1:0] freq_option,
+    output wire [2:0] freq_option,
     output wire turbo_enable
     );
 
@@ -400,6 +400,9 @@ module zxuno (
 
     scandoubler_ctrl control_scandoubler (
         .clk(clk),
+        .a(cpuaddr),
+        .iorq_n(iorq_n),
+        .wr_n(wr_n),
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
         .zxuno_regwr(zxuno_regwr),
@@ -454,8 +457,8 @@ module zxuno (
     );
 
     multiboot el_multiboot (
-        .clk(clk7),
-        .clk_icap(clk7),
+        .clk(clk),
+        .clk_icap(clk),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .kb_boot_core(boot_second_core),
         .zxuno_addr(zxuno_addr),

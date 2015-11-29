@@ -64,6 +64,7 @@ module tld_zxuno (
    wire wssclk,sysclk,clk14,clk7,clk3d5,cpuclk;
    wire CPUContention;
    wire turbo_enable;
+   wire [2:0] pll_frequency_option;
 
    assign wssclk = 1'b0;  // de momento, sin WSS
    assign stdn = 1'b0;  // fijar norma PAL
@@ -73,6 +74,7 @@ module tld_zxuno (
    (// Clock in ports
     .CLK_IN1            (clk50mhz),
     .CPUContention      (CPUContention),
+    .pll_option         (pll_frequency_option),
     .turbo_enable       (turbo_enable),
     // Clock out ports
     .CLK_OUT1           (sysclk),
@@ -135,7 +137,7 @@ module tld_zxuno (
     
     .vga_enable(vga_enable),
     .scanlines_enable(scanlines_enable),
-    .freq_option(),
+    .freq_option(pll_frequency_option),
     .turbo_enable(turbo_enable)
     );
 

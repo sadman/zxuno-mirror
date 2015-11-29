@@ -144,7 +144,10 @@ module scancode_to_speccy (
                     row[5] <= 5'b11111;
                     row[6] <= 5'b11111;
                     row[7] <= 5'b11111;
-                    state <= IDLE;
+                    if (cpuread == 1'b1 || cpuwrite == 1'b1 || rewind == 1'b1)
+                        state <= CPUTIME;
+                    else
+                        state <= IDLE;
                 end
                 IDLE: begin
                     if (key_is_pending == 1'b1) begin
