@@ -1,4 +1,4 @@
-;Para ensamblar con PASMO como archivo binario (no TAP)
+;Para ensamblar con PASMO como archivo binario: pasmo --bin zxunocfg.asm zxunocfg
 
 ZXUNOADDR           equ 0fc3bh
 ZXUNODATA           equ 0fd3bh
@@ -116,10 +116,16 @@ PrintVideo          call PrintString
                     sra a
                     sra a
                     and 7
-                    add a,"0"
-                    rst 10h
-                    ld a,13
-                    rst 10h
+                    add a,a
+                    ld e,a
+                    ld d,0
+                    ld hl,TablaFreqStr
+                    add hl,de
+                    ld a,(hl)
+                    inc hl
+                    ld h,(hl)
+                    ld l,a
+                    call PrintString
 
                     ret
 
@@ -456,12 +462,12 @@ Uso                 db "ZXUNOCFG v1.0",13
                     db "      N=1: VGA no scanlines",13
                     db "      N=2: VGA with scanlines",13
 
-                    db " -fN: choose video output",13
+                    db " -fN: choose master frequency",13
                     db "      N=0-7: master freq option",13,13
 
                     db "Example: zxunocfg -t48 -cn -k3",13
                     db "  (provides Pentagon 128 compati",13
-                    db "   ble mode)",13
+                    db "   ble mode -sort of-)",13
                     db 0
 
                     ;   01234567890123456789012345678901
@@ -483,6 +489,17 @@ CompositeStr        db "CVBS/RGB 15kHz",13,0
 VGANoScansStr       db "VGA",13,0
 VGAScansStr         db "VGA w/scanlines",13,0
 CurrConfString7     db "  VFreq opt: ",0
+
+Freq0Str            db "50 Hz (0)",13,0
+Freq1Str            db "51 Hz (1)",13,0
+Freq2Str            db "53.50 Hz (2)",13,0
+Freq3Str            db "55.80 Hz (3)", 13,0
+Freq4Str            db "57.39 Hz (4)",13,0
+Freq5Str            db "59.52 Hz (5)",13,0
+Freq6Str            db "61.80 Hz (6)",13,0
+Freq7Str            db "63.77 Hz (7)",13,0
+
+TablaFreqStr        dw Freq0Str,Freq1Str,Freq2Str,Freq3Str,Freq4Str,Freq5Str,Freq6Str,Freq7Str;
 
 ErrorMsg            db "Invalid option. Use zxunocfg -","h"+80h
 
