@@ -202,6 +202,8 @@ ParseTimming        ld a,(hl)
                     jp z,Parse48K
                     cp "1"
                     jp z,Parse128K
+                    cp "p"
+                    jp z,ParsePentagon
                     jp ErrorInvalidArg
 Parse48K            ld a,(hl)
                     inc hl
@@ -212,7 +214,7 @@ Parse48K            ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ConfValue)
-                    and 0efh  ;clear bit 4
+                    and 0afh  ;clear bit 4 and 6
                     ld (ConfValue),a
                     jp OtroChar
 Parse128K           ld a,(hl)
@@ -228,7 +230,25 @@ Parse128K           ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ConfValue)
+                    and 0afh  ;clear bit 4 and 6
                     or 10h  ;set bit 4
+                    ld (ConfValue),a
+                    jp OtroChar
+
+ParsePentagon       ld a,(hl)
+                    inc hl
+                    cp "e"
+                    jp nz,ErrorInvalidArg
+                    ld a,(hl)
+                    inc hl
+                    cp "n"
+                    jp nz,ErrorInvalidArg
+                    ld a,(hl)
+                    inc hl
+                    cp " "
+                    jp nz,ErrorInvalidArg
+                    ld a,(ConfValue)
+                    or 40h  ;set bit 6
                     ld (ConfValue),a
                     jp OtroChar
 
@@ -441,9 +461,10 @@ Uso                 db "ZXUNOCFG v1.0",13
                     db " -h : shows this help and exits",13
                     db " -q : silent operation",13
 
-                    db " -tN: choose ULA timmings",13
-                    db "      N=48:   48K timmings",13
-                    db "      N=128: 128K timmings",13
+                    db " -tN: choose ULA timings",13
+                    db "      N=48:   48K timings",13
+                    db "      N=128: 128K timings",13
+                    db "      N=pen: Pentagon timings",13
 
                     db " -cS: en/dis contention",13
                     db "      S=y: enable contention",13
@@ -465,9 +486,9 @@ Uso                 db "ZXUNOCFG v1.0",13
                     db " -fN: choose master frequency",13
                     db "      N=0-7: master freq option",13,13
 
-                    db "Example: zxunocfg -t48 -cn -k3",13
+                    db "Example: zxunocfg -tpen -cn -k3",13
                     db "  (provides Pentagon 128 compati",13
-                    db "   ble mode -sort of-)",13
+                    db "   ble mode)",13
                     db 0
 
                     ;   01234567890123456789012345678901
