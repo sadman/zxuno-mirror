@@ -55,11 +55,14 @@ PrintCurrentMode    proc
 
                     ld hl,CurrConfString1
                     call PrintString
-                    ld hl,Timm48KStr
+                    ld hl,TimmPenStr
                     ld a,(ConfValue)
-                    bit 4,a
-                    jr z,NoChTimm
+                    bit 6,a
+                    jr nz,NoChTimm
                     ld hl,Timm128KStr
+                    bit 4,a
+                    jr nz,NoChTimm
+                    ld hl,Timm48KStr
 NoChTimm            call PrintString
 
                     ld hl,CurrConfString2
@@ -248,6 +251,7 @@ ParsePentagon       ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
                     ld a,(ConfValue)
+                    and 0afh  ;clear bit 4 and 6
                     or 40h  ;set bit 6
                     ld (ConfValue),a
                     jp OtroChar
@@ -497,6 +501,7 @@ StringCoreID        db "       Core: NOT AVAILABLE   ",13    ;+13
                     db "     Timing: ",0
 Timm48KStr          db "48K",13,0
 Timm128KStr         db "128K",13,0
+TimmPenStr          db "Pentagon",13,0
 CurrConfString2     db " Contention: ",0
 ContEnabledStr      db "ENABLED",13,0
 ContDisabledStr     db "DISABLED",13,0
