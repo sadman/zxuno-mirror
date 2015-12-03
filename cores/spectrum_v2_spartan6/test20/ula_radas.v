@@ -50,7 +50,8 @@ module ula_radas (
     output reg mic,
     output reg spk,
     input wire issue2_keyboard,
-    input wire timming,
+    input wire [1:0] mode,
+    input wire mode_changed,
     input wire disable_contention,
     input wire access_to_contmem,
 
@@ -78,14 +79,18 @@ module ula_radas (
     // Counters from sync module
 	 wire [8:0] hc;
 	 wire [8:0] vc;
+   
+   // Signal when the vertical counter is in the line that we use to make the INT signal
+   wire in_int_line;
 
     reg clkhalf14 = 1'b0;
     always @(posedge clk14)
         clkhalf14 <= ~clkhalf14;
 
-	 pal_sync_generator_sinclair syncs (
+	 pal_sync_generator syncs (
     .clk(clk7),
-    .timming(timming),
+    .mode_changed(mode_changed),
+    .mode(mode),
     .ri(ri),
     .gi(gi),
     .bi(bi),
@@ -95,7 +100,8 @@ module ula_radas (
     .go(g),
     .bo(b),
     .hsync(hsync),
-    .vsync(vsync)
+    .vsync(vsync),
+    .in_int_line(in_int_line)
     );
 
 //	 pal_sync_generator_progressive syncs (
@@ -506,7 +512,7 @@ module ula_radas (
          
    // INT generation
    always @* begin
-      if (vc==BVSYNC && hc>=2 && hc<=65) // 32 T-states INT pulse width
+      if (vc == in_int_line && hc >=2 && hc <= 65) // 32 T-states INT pulse width
          int_n = 1'b0;
       else
          int_n = 1'b1;

@@ -333,7 +333,8 @@ int main()
     MAPANY(PC_RALT,0,JOYFIRE,MODIFIER3);    // MD3 is ALT. Also is FIRE for keyboard joystick
     
     MAPANY(PC_LWIN,SP_CAPS,0,0); // CAPS SHIFT
-    MAPANY(PC_RWIN,SP_SYMBOL,0,0); // SYMBOL SHIFT    
+    MAPANY(PC_RWIN,SP_SYMBOL,0,0); // SYMBOL SHIFT   
+	MAPANY(PC_APPS,SP_SYMBOL,0,0); // SYMBOL SHIFT 
 
     // Basic mapping: each key from PC is mapped to a key in the Spectrum
     MAP(PC_1,SP_1,0,0);
