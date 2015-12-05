@@ -104,18 +104,18 @@ module pal_sync_generator (
                 2'b11: begin // timings for Pentagon 128
                           end_count_h <= 9'd447;
                           end_count_v <= 9'd319;
-                          begin_hblank <= 9'd328;
-                          end_hblank <= 9'd391;
-                          begin_hsync <= 9'd328;
-                          end_hsync <= 9'd359;
+                          begin_hblank <= 9'd336; // 9'd328;
+                          end_hblank <= 9'd399; // 9'd391;
+                          begin_hsync <= 9'd336; // 9'd328;
+                          end_hsync <= 9'd367; // 9'd359;
                           begin_vblank <= 9'd240;
-                          end_vblank <= 9'd255;
+                          end_vblank <= 9'd271; // 9'd255;
                           begin_vsync <= 9'd240;
-                          end_vsync <= 9'd243;
+                          end_vsync <= 9'd255; // 9'd243;
                           begin_vcint <= 9'd239;
                           end_vcint <= 9'd239;
-                          begin_hcint <= 9'd318;
-                          end_hcint <= 9'd389;
+                          begin_hcint <= 9'd320; // 9'd318;
+                          end_hcint <= 9'd391; //9'd389;
                        end
               endcase
             end          
