@@ -39,10 +39,10 @@ module coreid (
       text[ 1] = "2";
       text[ 2] = "0";
       text[ 3] = "-";
-      text[ 4] = "2";
-      text[ 5] = "9";
+      text[ 4] = "0";
+      text[ 5] = "4";
       text[ 6] = "1";
-      text[ 7] = "1";
+      text[ 7] = "2";
       text[ 8] = "2";
       text[ 9] = "0";
       text[10] = "1";

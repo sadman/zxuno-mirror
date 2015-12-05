@@ -36,7 +36,7 @@ module ula_radas (
 	 input wire iorq_n,
 	 input wire rd_n,
 	 input wire wr_n,
-	 output reg int_n,
+	 output wire int_n,
 	 input wire [7:0] din,
     output reg [7:0] dout,
 
@@ -51,7 +51,6 @@ module ula_radas (
     output reg spk,
     input wire issue2_keyboard,
     input wire [1:0] mode,
-    input wire mode_changed,
     input wire disable_contention,
     input wire access_to_contmem,
 
@@ -89,7 +88,6 @@ module ula_radas (
 
 	 pal_sync_generator syncs (
     .clk(clk7),
-    .mode_changed(mode_changed),
     .mode(mode),
     .ri(ri),
     .gi(gi),
@@ -101,23 +99,8 @@ module ula_radas (
     .bo(b),
     .hsync(hsync),
     .vsync(vsync),
-    .in_int_line(in_int_line)
+    .int_n(int_n)
     );
-
-//	 pal_sync_generator_progressive syncs (
-//    .clk(clk7),
-//    .wssclk(wssclk),
-//    .ri(ri),
-//    .gi(gi),
-//    .bi(bi),
-//    .hcnt(hc),
-//    .vcnt(vc),
-//    .ro(r),
-//    .go(g),
-//    .bo(b),
-//    .csync(csync)
-//    );
-
 
 ///////////////////////////////////////////////
 // ULA datapath
@@ -509,16 +492,7 @@ module ula_radas (
          end
       end
    end
-         
-   // INT generation
-   always @* begin
-      if (vc == in_int_line && hc >=2 && hc <= 65) // 32 T-states INT pulse width
-         int_n = 1'b0;
-      else
-         int_n = 1'b1;
-   end
-   
-
+        
 ///////////////////////////////////
 // AUXILIARY SIGNALS FOR CONTENTION CONTROL
 ///////////////////////////////////

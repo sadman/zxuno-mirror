@@ -137,7 +137,6 @@ module zxuno (
    
    // Configuración ULA
    wire [1:0] timing_mode;
-   wire mode_has_changed;
    wire issue2_keyboard;
    wire disable_contention;
    wire access_to_screen;
@@ -240,7 +239,6 @@ module zxuno (
 	 .kbd(kbdcol_to_ula),
    .issue2_keyboard(issue2_keyboard),
    .mode(timing_mode),
-   .mode_changed(mode_has_changed),
    .disable_contention(disable_contention),
 
     // Video
@@ -318,7 +316,6 @@ module zxuno (
       .vramdout(vram_dout),
       .issue2_keyboard_enabled(issue2_keyboard),
       .timing_mode(timing_mode),
-      .mode_has_changed(mode_has_changed),
       .disable_contention(disable_contention),
       .access_to_screen(access_to_screen),
    
