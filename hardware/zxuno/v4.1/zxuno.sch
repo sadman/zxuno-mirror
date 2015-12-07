@@ -20552,11 +20552,6 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="PROG" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="261.62" y1="83.82" x2="271.78" y2="83.82" width="0.1524" layer="91"/>
-<label x="261.62" y="83.82" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-6" pin="S"/>
-</segment>
-<segment>
 <wire x1="154.94" y1="25.4" x2="142.24" y2="25.4" width="0.1524" layer="91"/>
 <label x="147.32" y="25.4" size="1.778" layer="95"/>
 <pinref part="RGB" gate="-1" pin="S"/>
@@ -20583,6 +20578,11 @@ KINGFONT SDCMF-10915W010</description>
 <junction x="172.72" y="-5.08"/>
 <junction x="172.72" y="-7.62"/>
 <pinref part="GND19" gate="1" pin="GND"/>
+</segment>
+<segment>
+<wire x1="261.62" y1="93.98" x2="271.78" y2="93.98" width="0.1524" layer="91"/>
+<label x="261.62" y="93.98" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-2" pin="S"/>
 </segment>
 </net>
 <net name="XA0" class="0">
@@ -21701,9 +21701,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TMS"/>
 </segment>
 <segment>
-<wire x1="261.62" y1="91.44" x2="271.78" y2="91.44" width="0.1524" layer="91"/>
-<label x="261.62" y="91.44" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-3" pin="S"/>
+<wire x1="261.62" y1="83.82" x2="271.78" y2="83.82" width="0.1524" layer="91"/>
+<label x="261.62" y="83.82" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-6" pin="S"/>
 </segment>
 </net>
 <net name="B" class="0">
@@ -21816,9 +21816,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TCK"/>
 </segment>
 <segment>
-<wire x1="261.62" y1="88.9" x2="271.78" y2="88.9" width="0.1524" layer="91"/>
-<label x="261.62" y="88.9" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-4" pin="S"/>
+<wire x1="261.62" y1="91.44" x2="271.78" y2="91.44" width="0.1524" layer="91"/>
+<label x="261.62" y="91.44" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-3" pin="S"/>
 </segment>
 </net>
 <net name="TDO" class="0">
@@ -21828,9 +21828,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TDO"/>
 </segment>
 <segment>
-<wire x1="261.62" y1="93.98" x2="271.78" y2="93.98" width="0.1524" layer="91"/>
-<label x="261.62" y="93.98" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-2" pin="S"/>
+<wire x1="261.62" y1="88.9" x2="271.78" y2="88.9" width="0.1524" layer="91"/>
+<label x="261.62" y="88.9" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-4" pin="S"/>
 </segment>
 </net>
 <net name="TDI" class="0">

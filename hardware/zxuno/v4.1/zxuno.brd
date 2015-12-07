@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.15875" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.15875" altunitdist="mm" altunit="mm"/>
+<grid distance="0.0396875" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.0396875" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -6089,7 +6089,6 @@ by exp-lbrs.ulp</description>
 <contactref element="C33" pad="1"/>
 <contactref element="C32" pad="1"/>
 <contactref element="J10" pad="12"/>
-<contactref element="JTAG" pad="6"/>
 <contactref element="PROG" pad="1"/>
 <contactref element="PWCON" pad="1"/>
 <contactref element="PS/2" pad="3"/>
@@ -6271,6 +6270,7 @@ by exp-lbrs.ulp</description>
 <contactref element="SDCARD" pad="M4"/>
 <contactref element="SDCARD" pad="M3"/>
 <contactref element="SDCARD" pad="M2"/>
+<contactref element="JTAG" pad="2"/>
 </signal>
 <signal name="XD0">
 <contactref element="U3" pad="9"/>
@@ -6684,15 +6684,14 @@ by exp-lbrs.ulp</description>
 <wire x1="70.1675" y1="24.28875" x2="69.896875" y2="24.559375" width="0.1778" layer="1"/>
 <wire x1="69.896875" y1="24.559375" x2="69.14125" y2="24.559375" width="0.1778" layer="1"/>
 <contactref element="U1" pad="P104"/>
-<wire x1="50.00625" y1="16.8275" x2="48.5775" y2="18.25625" width="0.1778" layer="1"/>
-<wire x1="48.5775" y1="18.25625" x2="48.5775" y2="19.145" width="0.2032" layer="1"/>
-<wire x1="48.5775" y1="19.145" x2="48.50125" y2="19.22125" width="0.2032" layer="1"/>
+<wire x1="50.00625" y1="16.8275" x2="48.50125" y2="18.3325" width="0.1778" layer="1"/>
 <wire x1="70.1675" y1="24.28875" x2="70.1675" y2="21.9075" width="0.1778" layer="1"/>
 <wire x1="70.1675" y1="21.9075" x2="69.85" y2="21.59" width="0.1778" layer="1"/>
 <wire x1="69.85" y1="21.59" x2="66.3575" y2="21.59" width="0.1778" layer="1"/>
 <wire x1="66.3575" y1="21.59" x2="65.405" y2="20.6375" width="0.1778" layer="1"/>
 <wire x1="65.405" y1="20.6375" x2="65.405" y2="17.62125" width="0.1778" layer="1"/>
 <wire x1="65.405" y1="17.62125" x2="64.61125" y2="16.8275" width="0.1778" layer="1"/>
+<wire x1="48.50125" y1="19.22125" x2="48.50125" y2="18.3325" width="0.1778" layer="1"/>
 </signal>
 <signal name="XA11">
 <contactref element="U3" pad="27"/>
@@ -7784,32 +7783,36 @@ by exp-lbrs.ulp</description>
 </signal>
 <signal name="TCK">
 <contactref element="U1" pad="P109"/>
-<contactref element="JTAG" pad="4"/>
-<wire x1="59.3825" y1="19.5" x2="59.3825" y2="18.7425" width="0.1778" layer="1"/>
-<wire x1="59.3825" y1="18.7425" x2="58.7375" y2="18.0975" width="0.1778" layer="1"/>
-<wire x1="58.7375" y1="18.0975" x2="55.72125" y2="18.0975" width="0.1778" layer="1"/>
-<wire x1="55.72125" y1="18.0975" x2="52.86375" y2="20.955" width="0.1778" layer="1"/>
-<wire x1="52.86375" y1="20.955" x2="52.86375" y2="21.55875" width="0.1778" layer="1"/>
 <wire x1="52.86375" y1="21.55875" x2="52.85125" y2="21.57125" width="0.1778" layer="1"/>
+<contactref element="JTAG" pad="3"/>
+<wire x1="52.86375" y1="21.55875" x2="55.4746875" y2="21.55875" width="0.1778" layer="1"/>
+<wire x1="55.4746875" y1="21.55875" x2="55.800625" y2="21.2328125" width="0.1778" layer="1"/>
+<wire x1="55.800625" y1="21.2328125" x2="59.8090625" y2="21.2328125" width="0.1778" layer="1"/>
+<wire x1="59.8090625" y1="21.2328125" x2="60.6028125" y2="20.4390625" width="0.1778" layer="1"/>
+<wire x1="60.6028125" y1="20.4390625" x2="60.6028125" y2="19.5296875" width="0.1778" layer="1"/>
+<wire x1="60.6028125" y1="19.5296875" x2="60.6325" y2="19.5" width="0.1778" layer="1"/>
 </signal>
 <signal name="TDO">
 <contactref element="U1" pad="P106"/>
-<contactref element="JTAG" pad="2"/>
+<contactref element="JTAG" pad="4"/>
 <wire x1="49.50125" y1="19.22125" x2="49.50125" y2="18.285" width="0.1778" layer="1"/>
 <wire x1="49.50125" y1="18.285" x2="50.32375" y2="17.4625" width="0.1778" layer="1"/>
-<wire x1="50.32375" y1="17.4625" x2="61.11875" y2="17.4625" width="0.1778" layer="1"/>
-<wire x1="61.11875" y1="17.4625" x2="61.9125" y2="18.25625" width="0.1778" layer="1"/>
-<wire x1="61.8825" y1="19.5" x2="61.8825" y2="18.28625" width="0.1778" layer="1"/>
-<wire x1="61.8825" y1="18.28625" x2="61.9125" y2="18.25625" width="0.1778" layer="1"/>
+<wire x1="50.32375" y1="17.4625" x2="58.3803125" y2="17.4625" width="0.1778" layer="1"/>
+<wire x1="58.3803125" y1="17.4625" x2="59.3725" y2="18.4546875" width="0.1778" layer="1"/>
+<wire x1="59.3725" y1="18.4546875" x2="59.3725" y2="19.49" width="0.1778" layer="1"/>
+<wire x1="59.3725" y1="19.49" x2="59.3825" y2="19.5" width="0.1778" layer="1"/>
 </signal>
 <signal name="TDI">
 <contactref element="U1" pad="P110"/>
 <contactref element="JTAG" pad="5"/>
-<wire x1="52.85125" y1="22.07125" x2="54.76375" y2="22.07125" width="0.1778" layer="1"/>
-<wire x1="54.76375" y1="22.07125" x2="55.88" y2="20.955" width="0.1778" layer="1"/>
-<wire x1="55.88" y1="20.955" x2="57.62625" y2="20.955" width="0.1778" layer="1"/>
-<wire x1="57.62625" y1="20.955" x2="58.1325" y2="20.44875" width="0.1778" layer="1"/>
-<wire x1="58.1325" y1="19.5" x2="58.1325" y2="20.44875" width="0.1778" layer="1"/>
+<wire x1="52.85125" y1="22.07125" x2="51.519375" y2="22.07125" width="0.1778" layer="1"/>
+<wire x1="51.519375" y1="22.07125" x2="51.1571875" y2="21.7090625" width="0.1778" layer="1"/>
+<wire x1="51.1571875" y1="21.7090625" x2="51.1571875" y2="21.2328125" width="0.1778" layer="1"/>
+<wire x1="51.1571875" y1="21.2328125" x2="51.514375" y2="20.875625" width="0.1778" layer="1"/>
+<wire x1="51.514375" y1="20.875625" x2="57.785" y2="20.875625" width="0.1778" layer="1"/>
+<wire x1="57.785" y1="20.875625" x2="58.1421875" y2="20.5184375" width="0.1778" layer="1"/>
+<wire x1="58.1421875" y1="20.5184375" x2="58.1421875" y2="19.5096875" width="0.1778" layer="1"/>
+<wire x1="58.1421875" y1="19.5096875" x2="58.1325" y2="19.5" width="0.1778" layer="1"/>
 </signal>
 <signal name="N$10">
 <contactref element="R23" pad="1"/>
@@ -8059,13 +8062,13 @@ by exp-lbrs.ulp</description>
 </signal>
 <signal name="TMS">
 <contactref element="U1" pad="P107"/>
-<contactref element="JTAG" pad="3"/>
 <wire x1="50.00125" y1="19.22125" x2="50.00125" y2="18.26125" width="0.1778" layer="1"/>
 <wire x1="50.00125" y1="18.26125" x2="50.4825" y2="17.78" width="0.1778" layer="1"/>
-<wire x1="50.4825" y1="17.78" x2="60.16625" y2="17.78" width="0.1778" layer="1"/>
-<wire x1="60.16625" y1="17.78" x2="60.6425" y2="18.25625" width="0.1778" layer="1"/>
-<wire x1="60.6425" y1="18.25625" x2="60.6425" y2="19.49" width="0.1778" layer="1"/>
-<wire x1="60.6425" y1="19.49" x2="60.6325" y2="19.5" width="0.1778" layer="1"/>
+<contactref element="JTAG" pad="6"/>
+<wire x1="50.4825" y1="17.78" x2="56.2371875" y2="17.78" width="0.1778" layer="1"/>
+<wire x1="56.2371875" y1="17.78" x2="56.911875" y2="18.4546875" width="0.1778" layer="1"/>
+<wire x1="56.911875" y1="18.4546875" x2="56.911875" y2="19.470625" width="0.1778" layer="1"/>
+<wire x1="56.911875" y1="19.470625" x2="56.8825" y2="19.5" width="0.1778" layer="1"/>
 </signal>
 <signal name="N$19">
 <contactref element="U4" pad="8"/>
