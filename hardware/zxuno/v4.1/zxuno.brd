@@ -5793,9 +5793,9 @@ by exp-lbrs.ulp</description>
 <attribute name="NAME" x="3.27025" y="27.67533125" size="1.016" layer="25" font="vector" ratio="15"/>
 <attribute name="VALUE" x="5.55625" y="25.55875" size="1.27" layer="27"/>
 </element>
-<element name="L2" library="rcl" package="M0805" value="" x="17.87525" y="30.38475" smashed="yes">
-<attribute name="NAME" x="19.27225" y="29.87675" size="1.016" layer="25" font="vector" ratio="15"/>
-<attribute name="VALUE" x="16.60525" y="27.84475" size="1.27" layer="27"/>
+<element name="L2" library="rcl" package="M0805" value="" x="19.4230625" y="31.448375" smashed="yes" rot="R90">
+<attribute name="NAME" x="19.9310625" y="32.845375" size="1.016" layer="25" font="vector" ratio="15" rot="R90"/>
+<attribute name="VALUE" x="21.9630625" y="30.178375" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="JOYSTICK" library="SparkFun-Connectors" package="DB9_MALE" value="" x="76.35875" y="34.6075" smashed="yes" rot="R270">
 <attribute name="NAME" x="71.488725" y="17.83155625" size="1.016" layer="25" font="vector" ratio="15"/>
@@ -7641,10 +7641,10 @@ by exp-lbrs.ulp</description>
 <via x="24.13" y="34.163" extent="1-16" drill="0.3048" diameter="0.6604"/>
 <wire x1="24.13" y1="34.163" x2="20.701" y2="34.163" width="0.2286" layer="16"/>
 <via x="20.701" y="34.163" extent="1-16" drill="0.3048" diameter="0.6604"/>
-<wire x1="20.701" y1="34.163" x2="19.431" y2="34.163" width="0.2286" layer="1"/>
-<wire x1="19.431" y1="34.163" x2="18.796" y2="33.528" width="0.2286" layer="1"/>
-<wire x1="18.796" y1="33.528" x2="18.796" y2="30.414" width="0.2286" layer="1"/>
-<wire x1="18.796" y1="30.414" x2="18.82525" y2="30.38475" width="0.2286" layer="1"/>
+<wire x1="19.4230625" y1="32.398375" x2="19.4230625" y2="33.5915" width="0.2286" layer="1"/>
+<wire x1="19.4230625" y1="33.5915" x2="20.0025" y2="34.1709375" width="0.2286" layer="1"/>
+<wire x1="20.0025" y1="34.1709375" x2="20.6930625" y2="34.1709375" width="0.2286" layer="1"/>
+<wire x1="20.6930625" y1="34.1709375" x2="20.701" y2="34.163" width="0.2286" layer="1"/>
 <wire x1="51.05796875" y1="30.69828125" x2="51.01828125" y2="30.68171875" width="0" layer="19" extent="16-16"/>
 <wire x1="36.2975" y1="39.608125" x2="36.3140625" y2="39.608125" width="0" layer="19" extent="16-16"/>
 <wire x1="40.72265625" y1="21.05421875" x2="40.6796875" y2="21.05421875" width="0" layer="19" extent="1-16"/>
@@ -7981,9 +7981,8 @@ by exp-lbrs.ulp</description>
 <wire x1="14.4755" y1="24.81575" x2="14.4755" y2="27.0485" width="0.4064" layer="1"/>
 <wire x1="14.4755" y1="27.0485" x2="14.59865" y2="27.17165" width="0.4064" layer="1"/>
 <wire x1="14.59865" y1="27.17165" x2="14.59865" y2="29.58465" width="0.4064" layer="1"/>
-<wire x1="14.59865" y1="29.58465" x2="15.367" y2="30.353" width="0.4064" layer="1"/>
-<wire x1="15.367" y1="30.353" x2="16.8935" y2="30.353" width="0.4064" layer="1"/>
-<wire x1="16.8935" y1="30.353" x2="16.92525" y2="30.38475" width="0.4064" layer="1"/>
+<wire x1="14.59865" y1="29.58465" x2="15.512375" y2="30.498375" width="0.4064" layer="1"/>
+<wire x1="19.4230625" y1="30.498375" x2="15.512375" y2="30.498375" width="0.4064" layer="1"/>
 </signal>
 <signal name="N$21">
 <contactref element="U4" pad="7"/>
