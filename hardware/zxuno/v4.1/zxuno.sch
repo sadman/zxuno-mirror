@@ -20899,7 +20899,7 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="SDCARD" gate="G$1" pin="DAT0/DO"/>
 </segment>
 </net>
-<net name="B0" class="0">
+<net name="R0" class="0">
 <segment>
 <wire x1="35.56" y1="-7.62" x2="22.86" y2="-7.62" width="0.1524" layer="91"/>
 <label x="22.86" y="-7.62" size="1.778" layer="95"/>
@@ -20911,7 +20911,7 @@ KINGFONT SDCMF-10915W010</description>
 <label x="127" y="-78.74" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="B1" class="0">
+<net name="R1" class="0">
 <segment>
 <wire x1="35.56" y1="-10.16" x2="22.86" y2="-10.16" width="0.1524" layer="91"/>
 <label x="22.86" y="-10.16" size="1.778" layer="95"/>
@@ -20923,7 +20923,7 @@ KINGFONT SDCMF-10915W010</description>
 <label x="127" y="-71.12" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="B2" class="0">
+<net name="R2" class="0">
 <segment>
 <wire x1="35.56" y1="-12.7" x2="22.86" y2="-12.7" width="0.1524" layer="91"/>
 <label x="22.86" y="-12.7" size="1.778" layer="95"/>
@@ -21000,7 +21000,7 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="RGB" gate="-3" pin="S"/>
 </segment>
 </net>
-<net name="R0" class="0">
+<net name="B0" class="0">
 <segment>
 <wire x1="35.56" y1="-27.94" x2="22.86" y2="-27.94" width="0.1524" layer="91"/>
 <label x="22.86" y="-27.94" size="1.778" layer="95"/>
@@ -21012,7 +21012,7 @@ KINGFONT SDCMF-10915W010</description>
 <label x="127" y="-124.46" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="R1" class="0">
+<net name="B1" class="0">
 <segment>
 <wire x1="35.56" y1="-30.48" x2="22.86" y2="-30.48" width="0.1524" layer="91"/>
 <label x="22.86" y="-30.48" size="1.778" layer="95"/>
@@ -21024,7 +21024,7 @@ KINGFONT SDCMF-10915W010</description>
 <label x="127" y="-116.84" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="R2" class="0">
+<net name="B2" class="0">
 <segment>
 <wire x1="35.56" y1="-33.02" x2="22.86" y2="-33.02" width="0.1524" layer="91"/>
 <label x="22.86" y="-33.02" size="1.778" layer="95"/>
@@ -21706,7 +21706,7 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="JTAG" gate="-6" pin="S"/>
 </segment>
 </net>
-<net name="B" class="0">
+<net name="R" class="0">
 <segment>
 <wire x1="154.94" y1="35.56" x2="142.24" y2="35.56" width="0.1524" layer="91"/>
 <label x="147.32" y="35.56" size="1.778" layer="95"/>
@@ -21756,7 +21756,7 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="RGB" gate="-6" pin="S"/>
 </segment>
 </net>
-<net name="R" class="0">
+<net name="B" class="0">
 <segment>
 <pinref part="R14" gate="G$1" pin="1"/>
 <wire x1="142.24" y1="-109.22" x2="144.78" y2="-109.22" width="0.1524" layer="91"/>
