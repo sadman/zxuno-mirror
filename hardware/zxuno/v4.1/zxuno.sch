@@ -3491,6 +3491,10 @@ for trimmer refence see : &lt;u&gt;www.electrospec-inc.com/cross_references/trim
 <rectangle x1="-0.8382" y1="-0.4699" x2="-0.3381" y2="0.4801" layer="51"/>
 <rectangle x1="0.3302" y1="-0.4699" x2="0.8303" y2="0.4801" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.3" x2="0.1999" y2="0.3" layer="35"/>
+<wire x1="-1.5875" y1="0.635" x2="1.5875" y2="0.635" width="0.127" layer="21"/>
+<wire x1="1.5875" y1="0.635" x2="1.5875" y2="-0.635" width="0.127" layer="21"/>
+<wire x1="1.5875" y1="-0.635" x2="-1.5875" y2="-0.635" width="0.127" layer="21"/>
+<wire x1="-1.5875" y1="-0.635" x2="-1.5875" y2="0.635" width="0.127" layer="21"/>
 </package>
 <package name="C0805">
 <description>&lt;b&gt;CAPACITOR&lt;/b&gt;&lt;p&gt;</description>
@@ -3507,6 +3511,10 @@ for trimmer refence see : &lt;u&gt;www.electrospec-inc.com/cross_references/trim
 <rectangle x1="-1.0922" y1="-0.7239" x2="-0.3421" y2="0.7262" layer="51"/>
 <rectangle x1="0.3556" y1="-0.7239" x2="1.1057" y2="0.7262" layer="51"/>
 <rectangle x1="-0.1001" y1="-0.4001" x2="0.1001" y2="0.4001" layer="35"/>
+<wire x1="-1.905" y1="0.9525" x2="1.905" y2="0.9525" width="0.127" layer="21"/>
+<wire x1="1.905" y1="0.9525" x2="1.905" y2="-0.9525" width="0.127" layer="21"/>
+<wire x1="1.905" y1="-0.9525" x2="-1.905" y2="-0.9525" width="0.127" layer="21"/>
+<wire x1="-1.905" y1="-0.9525" x2="-1.905" y2="0.9525" width="0.127" layer="21"/>
 </package>
 <package name="C1005">
 <description>&lt;b&gt;CAPACITOR&lt;/b&gt;</description>
@@ -5411,6 +5419,10 @@ MELF 0.10 W</description>
 <rectangle x1="-1.0414" y1="-0.7112" x2="-0.6858" y2="0.7112" layer="51"/>
 <rectangle x1="0.6858" y1="-0.7112" x2="1.0414" y2="0.7112" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.5999" x2="0.1999" y2="0.5999" layer="35"/>
+<wire x1="-1.905" y1="0.9525" x2="1.905" y2="0.9525" width="0.127" layer="21"/>
+<wire x1="1.905" y1="0.9525" x2="1.905" y2="-0.9525" width="0.127" layer="21"/>
+<wire x1="1.905" y1="-0.9525" x2="-1.905" y2="-0.9525" width="0.127" layer="21"/>
+<wire x1="-1.905" y1="-0.9525" x2="-1.905" y2="0.9525" width="0.127" layer="21"/>
 </package>
 <package name="M1206">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;
@@ -15742,6 +15754,17 @@ Standard DB9 (D-Sub 9) serial connector. Can be used for CAN bus as well as RS48
 <rectangle x1="-0.2286" y1="0.7112" x2="0.2286" y2="1.2954" layer="51"/>
 <rectangle x1="0.7112" y1="-1.2954" x2="1.1684" y2="-0.7112" layer="51"/>
 <rectangle x1="-1.1684" y1="-1.2954" x2="-0.7112" y2="-0.7112" layer="51"/>
+<wire x1="-0.777875" y1="0.777875" x2="-0.777875" y2="2.022475" width="0.127" layer="21"/>
+<wire x1="-0.777875" y1="2.022475" x2="0.777875" y2="2.022475" width="0.127" layer="21"/>
+<wire x1="0.777875" y1="2.022475" x2="0.777875" y2="0.777875" width="0.127" layer="21"/>
+<wire x1="-1.400175" y1="-0.31115" x2="-1.711325" y2="-0.31115" width="0.127" layer="21"/>
+<wire x1="-1.711325" y1="-0.31115" x2="-1.711325" y2="-2.022475" width="0.127" layer="21"/>
+<wire x1="-1.711325" y1="-2.022475" x2="-0.31115" y2="-2.022475" width="0.127" layer="21"/>
+<wire x1="-0.31115" y1="-2.022475" x2="-0.31115" y2="-0.6223" width="0.127" layer="21"/>
+<wire x1="1.400175" y1="-0.31115" x2="1.711325" y2="-0.31115" width="0.127" layer="21"/>
+<wire x1="1.711325" y1="-0.31115" x2="1.711325" y2="-2.022475" width="0.127" layer="21"/>
+<wire x1="1.711325" y1="-2.022475" x2="0.31115" y2="-2.022475" width="0.127" layer="21"/>
+<wire x1="0.31115" y1="-2.022475" x2="0.31115" y2="-0.6223" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -17129,6 +17152,10 @@ Source: http://www.osram.convergy.de/ ... lb_r99a.pdf</description>
 <rectangle x1="-0.15" y1="0" x2="0.15" y2="0.3" layer="21"/>
 <rectangle x1="-0.675" y1="0.45" x2="0.675" y2="1.05" layer="51"/>
 <rectangle x1="-0.675" y1="-1.05" x2="0.675" y2="-0.45" layer="51"/>
+<wire x1="-0.777875" y1="1.8669" x2="0.777875" y2="1.8669" width="0.127" layer="21"/>
+<wire x1="0.777875" y1="1.8669" x2="0.777875" y2="-1.8669" width="0.127" layer="21"/>
+<wire x1="0.777875" y1="-1.8669" x2="-0.777875" y2="-1.8669" width="0.127" layer="21"/>
+<wire x1="-0.777875" y1="-1.8669" x2="-0.777875" y2="1.8669" width="0.127" layer="21"/>
 </package>
 <package name="MINI-TOPLED-SANTANA">
 <description>&lt;b&gt;Mini TOPLED Santana®&lt;/b&gt;&lt;p&gt;
