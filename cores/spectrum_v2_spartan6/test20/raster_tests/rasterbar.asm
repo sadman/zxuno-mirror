@@ -25,10 +25,7 @@ Main                di
 Init                xor a
                     out (254),a
 
-                    ld bc,7ffdh
-                    ld a,16+7        ;make shadow screen available on C000-FFFF
-                    out (c),a
-                    ld (23388),a     ;Backup
+                    call TSPlayerInit
 
                     ld hl,Scr1
                     ld de,4000h
@@ -41,6 +38,10 @@ Init                xor a
                     ldir
 
                     ;The same for the shadow screen
+                    ld bc,7ffdh
+                    ld a,16+7        ;make shadow screen available on C000-FFFF to make initial copy
+                    out (c),a
+
                     ld hl,Scr2
                     ld de,0C000h
                     ld bc,1800h
@@ -50,6 +51,11 @@ Init                xor a
                     ld bc,767
                     ld (hl),00111000b   ;bitmap will use palette entries 15 (paper) and 0 (ink)
                     ldir
+
+                    ld bc,7ffdh
+                    ld a,16
+                    out (c),a
+                    ld (23388),a     ;Backup
 
                     ld c,03bh   ;ZXI ports
                     ld b,ULAPLUSADDR
@@ -170,7 +176,7 @@ PrepareVertIntCC    ld a,(23388)
 
 BorderColors        db 00000001b,00000011b,00011011b,00011111b,00011111b,00011011b,00000011b,000000001b
 
-SineValues          dw 287, 288, 288, 288, 288, 288, 289, 289, 290, 290, 291, 292, 293, 294, 295, 296
+SineValues          dw 288, 289, 289, 289, 289, 289, 290, 290, 290, 290, 291, 292, 293, 294, 295, 296
                     dw 297, 298, 299, 300, 302, 303, 305, 306, 308, 309, 311, 1, 3, 5, 7, 9, 11
                     dw 13, 15, 17, 19, 22, 24, 26, 29, 31, 34, 36, 39, 42, 44, 47, 50
                     dw 52, 55, 58, 61, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96
@@ -185,10 +191,11 @@ SineValues          dw 287, 288, 288, 288, 288, 288, 289, 289, 290, 290, 291, 29
                     dw 93, 90, 87, 84, 81, 78, 75, 72, 69, 66, 63, 61, 58, 55, 52, 50
                     dw 47, 44, 42, 39, 36, 34, 31, 29, 26, 24, 22, 19, 17, 15, 13, 11
                     dw 9, 7, 5, 3, 1, 311, 309, 308, 306, 305, 303, 302, 300, 299, 298, 297
-                    dw 296, 295, 294, 293, 292, 291, 290, 290, 289, 289, 288, 288, 288, 288, 288
+                    dw 296, 295, 294, 293, 292, 291, 290, 290, 290, 290, 289, 289, 289, 289, 289
 
 
-NewVertInt          ld a,(BarDirection)   ;0 up, 255 down
+NewVertInt          call TSPlayerPlay
+                    ld a,(BarDirection)   ;0 up, 255 down
                     or a
                     jr z,NotUpdateScreen
 
@@ -270,27 +277,27 @@ NotAbove311           pop hl
                     out (c),a
 
                     or a
-                    ld hl,287
+                    ld hl,288
                     sbc hl,de
-                    jr nz,NoLinea287
+                    jr nz,NoLineaSuperior
                     ld hl,NewRasterIntConPaper
-                    ld (NoLinea216+1),hl  ;patch address of routine for retrace int
+                    ld (NoLineaInferior+1),hl  ;patch address of routine for retrace int
                     ld a,255
                     ld (BarDirection),a
                     ld a,(23388)
                     xor 8    ;but don't update I/O port...
                     ld (23388),a
 
-NoLinea287          or a
+NoLineaSuperior     or a
                     ld hl,216
                     sbc hl,de
-                    jr nz,NoLinea216
+                    jr nz,NoLineaInferior
                     ld hl,NewRasterIntSinPaper
-                    ld (NoLinea216+1),hl  ;patch address of routine for retrace int
+                    ld (NoLineaInferior+1),hl  ;patch address of routine for retrace int
                     ld a,0
                     ld (BarDirection),a
 
-NoLinea216          ld hl,0
+NoLineaInferior     ld hl,0
                     ld (VECTORADDR),hl
 
                     ld hl,RasterLineTable
@@ -318,5 +325,11 @@ Scr1                equ $
 
 Scr2                equ $
                     incbin "zelda.bin"
+                    
+                    org 0b500h
+TSPlayerInit        incbin "vtplayer.bin"   ;exportado del Vortex Tracker
+TSPlayerPlay        equ TSPlayerInit+5
+                    org 0bd6eh
+Module              incbin "gianna.bin"
 
                     end Main
