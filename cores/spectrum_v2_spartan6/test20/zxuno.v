@@ -152,6 +152,14 @@ module zxuno (
    // Scandoubler control
    wire [7:0] scndblctrl_dout;
    wire oe_n_scndblctrl;
+   
+   // Raster INT control
+   wire rasterint_enable;
+   wire vretraceint_disable;
+   wire [8:0] raster_line;
+   wire raster_int_in_progress;
+   wire [7:0] rasterint_dout;
+   wire oe_n_rasterint;
 
    // NMI events
    wire [7:0] nmievents_dout;
@@ -185,6 +193,7 @@ module zxuno (
                    (oe_n_kmouse==1'b0)?         kmouse_dout :
                    (oe_n_mousedata==1'b0)?      mousedata_dout :
                    (oe_n_mousestatus==1'b0)?    mousestatus_dout :
+                   (oe_n_rasterint==1'b0)?      rasterint_dout :
                                                 ula_dout;
 
    tv80n_wrapper el_z80 (
@@ -227,6 +236,10 @@ module zxuno (
 	 .int_n(int_n),
 	 .din(cpudout),
      .dout(ula_dout),
+     .rasterint_enable(rasterint_enable),
+     .vretraceint_disable(vretraceint_disable),
+     .raster_line(raster_line),
+     .raster_int_in_progress(raster_int_in_progress),
 
     // VRAM interface
 	 .va(vram_addr),  // 16KB videoram
@@ -413,6 +426,21 @@ module zxuno (
         .scanlines_enable(scanlines_enable),
         .freq_option(freq_option),
         .turbo_enable(turbo_enable)
+    );
+
+    rasterint_ctrl control_rasterint (
+        .clk(clk),
+        .rst_n(rst_n & mrst_n & power_on_reset_n),
+        .zxuno_addr(zxuno_addr),
+        .zxuno_regrd(zxuno_regrd),
+        .zxuno_regwr(zxuno_regwr),
+        .din(cpudout),
+        .dout(rasterint_dout),
+        .oe_n(oe_n_rasterint),
+        .rasterint_enable(rasterint_enable),
+        .vretraceint_disable(vretraceint_disable),
+        .raster_line(raster_line),
+        .raster_int_in_progress(raster_int_in_progress)
     );
 
     nmievents nmi_especial_de_antonio (

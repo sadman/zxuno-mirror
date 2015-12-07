@@ -22,7 +22,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module ula_radas (
-	 // Clocks
+    // Clocks
     input wire clk14,  // 14MHz master clock
     input wire clk7,
     input wire wssclk, // 5MHz WSS clock
@@ -30,23 +30,27 @@ module ula_radas (
     output wire CPUContention,
     input wire rst_n,  // reset para volver al modo normal
 
-	 // CPU interface
-	 input wire [15:0] a,
-	 input wire mreq_n,
-	 input wire iorq_n,
-	 input wire rd_n,
-	 input wire wr_n,
-	 output wire int_n,
-	 input wire [7:0] din,
+    // CPU interface
+    input wire [15:0] a,
+    input wire mreq_n,
+    input wire iorq_n,
+    input wire rd_n,
+    input wire wr_n,
+    output wire int_n,
+    input wire [7:0] din,
     output reg [7:0] dout,
-
+    input wire rasterint_enable,
+    input wire vretraceint_disable,
+    input wire [8:0] raster_line,
+    output wire raster_int_in_progress,
+    
     // VRAM interface
-	 output reg [13:0] va,  // 16KB videoram
+    output reg [13:0] va,  // 16KB videoram
     input wire [7:0] vramdata,
 
     // I/O ports
-	 input wire ear,
-	 input wire [4:0] kbd,
+    input wire ear,
+    input wire [4:0] kbd,
     output reg mic,
     output reg spk,
     input wire issue2_keyboard,
@@ -55,11 +59,11 @@ module ula_radas (
     input wire access_to_contmem,
 
     // Video
-	 output wire [2:0] r,
-	 output wire [2:0] g,
-	 output wire [2:0] b,
-	 output wire hsync,
-     output wire vsync,
+    output wire [2:0] r,
+    output wire [2:0] g,
+    output wire [2:0] b,
+    output wire hsync,
+    output wire vsync,
     output wire y_n
     );
 
@@ -89,6 +93,10 @@ module ula_radas (
 	 pal_sync_generator syncs (
     .clk(clk7),
     .mode(mode),
+    .rasterint_enable(rasterint_enable),
+    .vretraceint_disable(vretraceint_disable),
+    .raster_line(raster_line),
+    .raster_int_in_progress(raster_int_in_progress),
     .ri(ri),
     .gi(gi),
     .bi(bi),

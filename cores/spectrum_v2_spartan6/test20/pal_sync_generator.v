@@ -24,6 +24,12 @@
 module pal_sync_generator (
     input wire clk,
     input wire [1:0] mode,  // 00: 48K, 01: 128K, 10: Pentagon, 11: Reserved
+
+    input wire rasterint_enable,
+    input wire vretraceint_disable,
+    input wire [8:0] raster_line,
+    output wire raster_int_in_progress,
+    
     input wire [2:0] ri,
     input wire [2:0] gi,
     input wire [2:0] bi,
@@ -34,7 +40,7 @@ module pal_sync_generator (
     output reg [2:0] bo,
     output reg hsync,
     output reg vsync,
-    output reg int_n
+    output wire int_n
     );
 
 	reg [8:0] hc = 9'h000;
@@ -125,14 +131,24 @@ module pal_sync_generator (
       end
       else
         hc <= hc + 1;
-	end
+	 end
 
-   // INT generation
+    // INT generation
+    reg vretrace_int_n, raster_int_n;
+    assign int_n = vretrace_int_n & raster_int_n;
+    assign raster_int_in_progress = ~raster_int_n;
     always @* begin
-      if ((hc >= begin_hcint && vc == begin_vcint) && (hc <= end_hcint && vc == end_vcint))  // TO-DO: FIX this for different int lines!!!
-         int_n = 1'b0;
-      else
-         int_n = 1'b1;
+      vretrace_int_n = 1'b1;
+      if (vretraceint_disable == 1'b0 && (hc >= begin_hcint && vc == begin_vcint) && (hc <= end_hcint && vc == end_vcint))
+        vretrace_int_n = 1'b0;
+        
+      raster_int_n = 1'b1;
+      if (rasterint_enable == 1'b1 && hc >= begin_hblank && hc <= end_hblank) begin
+        if (raster_line == 9'd0 && vc == end_count_v) 
+          raster_int_n = 1'b0;
+        if (raster_line != 9'd0 && vc == (raster_line - 9'd1))
+          raster_int_n = 1'b0;
+      end
     end
    
     always @* begin
