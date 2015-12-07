@@ -143,7 +143,7 @@ module pal_sync_generator (
         vretrace_int_n = 1'b0;
         
       raster_int_n = 1'b1;
-      if (rasterint_enable == 1'b1 && hc >= begin_hblank && hc <= end_hblank) begin
+      if (rasterint_enable == 1'b1 && hc >= 256 && hc <= 319) begin
         if (raster_line == 9'd0 && vc == end_count_v) 
           raster_int_n = 1'b0;
         if (raster_line != 9'd0 && vc == (raster_line - 9'd1))
