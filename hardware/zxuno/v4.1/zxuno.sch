@@ -18800,20 +18800,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </library>
 <library name="ZX_UNO_0_15">
 <packages>
-<package name="RCA_JACK_RCJ-04X_-_DUPLICATE_1PRIMARY">
-<description>Original name &lt;b&gt;RCA_JACK_RCJ-04X_-_DUPLICATE&lt;/b&gt;&lt;p&gt;</description>
-<pad name="1" x="4.2418" y="3.1496" drill="2.5908" diameter="2.5908"/>
-<pad name="2" x="-4.2418" y="3.1496" drill="2.5908" diameter="2.5908"/>
-<pad name="3" x="0" y="-4.4958" drill="2.032" diameter="3.302"/>
-<pad name="4" x="0" y="0" drill="2.032" diameter="3.302"/>
-<wire x1="-5.08" y1="-5.9944" x2="-5.08" y2="1.4986" width="0.2032" layer="21"/>
-<wire x1="5.08" y1="-5.9944" x2="5.08" y2="1.4986" width="0.2032" layer="21"/>
-<wire x1="-5.08" y1="-5.9944" x2="-1.4986" y2="-5.9944" width="0.2" layer="21"/>
-<wire x1="-3.048" y1="4.4958" x2="3.048" y2="4.4958" width="0.2032" layer="21"/>
-<wire x1="1.4986" y1="-5.9944" x2="5.08" y2="-5.9944" width="0.2032" layer="21"/>
-<text x="-5.550003125" y="4.8434" size="2.032" layer="25" font="vector" ratio="13" rot="SR0">&gt;NAME</text>
-<text x="-5.550003125" y="4.5894" size="2.032" layer="27" font="vector" ratio="13" rot="SR0">&gt;VALUE</text>
-</package>
 <package name="SM/OSC_1PRIMARY">
 <description>Original name &lt;b&gt;SM/OSC&lt;/b&gt;&lt;p&gt;</description>
 <smd name="1" x="0" y="0" dx="1.778" dy="1.9812" layer="1"/>
@@ -18833,14 +18819,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </package>
 </packages>
 <symbols>
-<symbol name="RCA">
-<rectangle x1="-2.54" y1="-0.508" x2="0" y2="0.508" layer="94"/>
-<wire x1="-2.794" y1="3.81" x2="-2.794" y2="-3.81" width="0.254" layer="94" curve="-180"/>
-<pin name="1" x="5.08" y="0" visible="off" length="middle" direction="pas" rot="R180"/>
-<pin name="2" x="2.54" y="-2.54" visible="off" length="short" direction="pas" rot="R180"/>
-<text x="2.54" y="3.81" size="1.778" layer="95">&gt;NAME</text>
-<text x="2.54" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
-</symbol>
 <symbol name="OSC">
 <wire x1="-7.62" y1="5.08" x2="-7.62" y2="-5.08" width="0.254" layer="94"/>
 <wire x1="-7.62" y1="-5.08" x2="7.62" y2="-5.08" width="0.254" layer="94"/>
@@ -18865,22 +18843,6 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="RCA_JACK_RCJ-04X_-_DUPLICATE_1">
-<gates>
-<gate name="G$1" symbol="RCA" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="RCA_JACK_RCJ-04X_-_DUPLICATE_1PRIMARY">
-<connects>
-<connect gate="G$1" pin="1" pad="3"/>
-<connect gate="G$1" pin="2" pad="4"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="SM_OSC_1">
 <gates>
 <gate name="G$1" symbol="OSC" x="0" y="0"/>
@@ -19585,6 +19547,62 @@ KINGFONT SDCMF-10915W010</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="uzebox">
+<description>Uzebox Library V1.0</description>
+<packages>
+<package name="RCA">
+<wire x1="-5" y1="4" x2="5" y2="4" width="0.2032" layer="21"/>
+<wire x1="5" y1="4" x2="5" y2="-6" width="0.2032" layer="21"/>
+<wire x1="5" y1="-6" x2="-5" y2="-6" width="0.2032" layer="21"/>
+<wire x1="-5" y1="-6" x2="-5" y2="4" width="0.2032" layer="21"/>
+<wire x1="-3" y1="14" x2="-4" y2="13" width="0.127" layer="49" curve="90"/>
+<wire x1="-4" y1="13" x2="-4" y2="4" width="0.127" layer="49"/>
+<wire x1="-3" y1="14" x2="3" y2="14" width="0.127" layer="49"/>
+<wire x1="3" y1="14" x2="4" y2="13" width="0.127" layer="49" curve="-90"/>
+<wire x1="4" y1="13" x2="4" y2="4" width="0.127" layer="49"/>
+<wire x1="-3.35" y1="4" x2="3.35" y2="4" width="0.127" layer="21"/>
+<wire x1="-3.35" y1="2.3" x2="-5" y2="2.3" width="0.127" layer="21"/>
+<wire x1="3.35" y1="2.3" x2="5" y2="2.3" width="0.127" layer="21"/>
+<wire x1="3.35" y1="2.3" x2="3.35" y2="4" width="0.127" layer="21"/>
+<wire x1="-3.35" y1="2.3" x2="-3.35" y2="4" width="0.127" layer="21"/>
+<pad name="SIG" x="0" y="-4.5" drill="2.3" diameter="3.81"/>
+<pad name="GND" x="0" y="0" drill="2.3" diameter="3.81"/>
+<text x="-3.81" y="-8.89" size="1.27" layer="25">&gt;NAME</text>
+<hole x="-4.175" y="3.15" drill="2.8"/>
+<hole x="4.175" y="3.15" drill="2.8"/>
+</package>
+</packages>
+<symbols>
+<symbol name="RCA">
+<wire x1="-3.556" y1="0.762" x2="-3.556" y2="-0.762" width="0.254" layer="94" curve="-335.657023"/>
+<wire x1="0" y1="-7.62" x2="0" y2="-3.556" width="0.1524" layer="94"/>
+<wire x1="1.524" y1="0" x2="7.62" y2="0" width="0.1524" layer="94"/>
+<circle x="0" y="0" radius="1.4368" width="0.254" layer="94"/>
+<text x="-2.54" y="5.08" size="1.778" layer="95">&gt;NAME</text>
+<pin name="SIG" x="7.62" y="0" visible="off" length="point" direction="pas" rot="R180"/>
+<pin name="GND" x="0" y="-7.62" visible="off" length="point" direction="pas" rot="R90"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="RCA">
+<description>RCA jack</description>
+<gates>
+<gate name="G$1" symbol="RCA" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="RCA">
+<connects>
+<connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SIG" pad="SIG"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -19714,7 +19732,6 @@ KINGFONT SDCMF-10915W010</description>
 <part name="SW" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="PWCON" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="PS/2" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device="" value="PS/2 Keyb"/>
-<part name="CVBS" library="ZX_UNO_0_15" deviceset="RCA_JACK_RCJ-04X_-_DUPLICATE_1" device="" value="RCA"/>
 <part name="U5" library="ZX_UNO_0_15" deviceset="SM_OSC_1" device="" value="50MHz"/>
 <part name="D1" library="adafruit" deviceset="DIODE" device="SOD-323F"/>
 <part name="D2" library="adafruit" deviceset="DIODE" device="SOD-323F"/>
@@ -19726,6 +19743,7 @@ KINGFONT SDCMF-10915W010</description>
 <part name="R31" library="rcl" deviceset="R-US_" device="M0805" value="10K"/>
 <part name="R32" library="rcl" deviceset="R-US_" device="M0805" value="10K"/>
 <part name="J16" library="pinhead" deviceset="PINHD-2X2" device=""/>
+<part name="CVBS" library="uzebox" deviceset="RCA" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -19833,7 +19851,7 @@ KINGFONT SDCMF-10915W010</description>
 <instance part="C1" gate="G$1" x="177.8" y="-88.9"/>
 <instance part="GND12" gate="1" x="177.8" y="-96.52"/>
 <instance part="C36" gate="G$1" x="241.3" y="-104.14" rot="R90"/>
-<instance part="GND13" gate="1" x="266.7" y="-116.84"/>
+<instance part="GND13" gate="1" x="276.86" y="-119.38"/>
 <instance part="R6" gate="G$1" x="78.74" y="-129.54" rot="R180"/>
 <instance part="R7" gate="G$1" x="78.74" y="-137.16" rot="R180"/>
 <instance part="R1" gate="G$1" x="152.4" y="-78.74" rot="R270"/>
@@ -19871,7 +19889,6 @@ KINGFONT SDCMF-10915W010</description>
 <instance part="SW" gate="G$1" x="223.52" y="5.08" rot="R270"/>
 <instance part="PWCON" gate="G$1" x="205.74" y="7.62" rot="R180"/>
 <instance part="PS/2" gate="G$1" x="-25.4" y="-55.88"/>
-<instance part="CVBS" gate="G$1" x="274.32" y="-104.14" rot="MR0"/>
 <instance part="U5" gate="G$1" x="0" y="81.28"/>
 <instance part="D1" gate="G$1" x="193.04" y="71.12" rot="R90"/>
 <instance part="D2" gate="G$1" x="185.42" y="-132.08" rot="R270"/>
@@ -19883,6 +19900,7 @@ KINGFONT SDCMF-10915W010</description>
 <instance part="R31" gate="G$1" x="124.46" y="-15.24" rot="R270"/>
 <instance part="R32" gate="G$1" x="134.62" y="-15.24" rot="R270"/>
 <instance part="J16" gate="A" x="157.48" y="-53.34"/>
+<instance part="CVBS" gate="G$1" x="276.86" y="-104.14" rot="MR0"/>
 </instances>
 <busses>
 </busses>
@@ -20500,9 +20518,8 @@ KINGFONT SDCMF-10915W010</description>
 </segment>
 <segment>
 <pinref part="GND13" gate="1" pin="GND"/>
-<wire x1="266.7" y1="-114.3" x2="266.7" y2="-106.68" width="0.1524" layer="91"/>
-<wire x1="266.7" y1="-106.68" x2="271.78" y2="-106.68" width="0.1524" layer="91"/>
-<pinref part="CVBS" gate="G$1" pin="2"/>
+<wire x1="276.86" y1="-116.84" x2="276.86" y2="-111.76" width="0.1524" layer="91"/>
+<pinref part="CVBS" gate="G$1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="U1" gate="BNA" pin="SUSPEND"/>
@@ -22061,7 +22078,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
 <wire x1="269.24" y1="-104.14" x2="261.62" y2="-104.14" width="0.1524" layer="91"/>
-<pinref part="CVBS" gate="G$1" pin="1"/>
+<pinref part="CVBS" gate="G$1" pin="SIG"/>
 </segment>
 </net>
 <net name="N$31" class="0">
