@@ -14375,6 +14375,21 @@ Sourcxe: http://www.molex.com/pdm_docs/sd/530470210_sd.pdf</description>
 <text x="-1.8" y="0.9" size="0.8128" layer="25" font="vector">&gt;NAME</text>
 <text x="-2.1" y="-1.7" size="0.8128" layer="27" font="vector">&gt;VALUE</text>
 </package>
+<package name="FIDUCIAL_1MM">
+<smd name="1" x="0" y="0" dx="1" dy="1" layer="1" roundness="100" stop="no" cream="no"/>
+<polygon width="0.127" layer="29">
+<vertex x="-1" y="0" curve="90"/>
+<vertex x="0" y="-1" curve="90"/>
+<vertex x="1" y="0" curve="90"/>
+<vertex x="0" y="1" curve="90"/>
+</polygon>
+<polygon width="0.127" layer="41">
+<vertex x="-1" y="0" curve="90"/>
+<vertex x="0" y="-1" curve="90"/>
+<vertex x="1" y="0" curve="90"/>
+<vertex x="0" y="1" curve="90"/>
+</polygon>
+</package>
 </packages>
 </library>
 <library name="holes">
@@ -16380,6 +16395,8 @@ by exp-lbrs.ulp</description>
 <element name="CVBS3" library="uzebox" package="RCA" value="RCA" x="46.275625" y="134.79859375" smashed="yes">
 <attribute name="NAME" x="37.30625" y="128.80578125" size="1.016" layer="25" font="vector" ratio="15"/>
 </element>
+<element name="E$1" library="adafruit" package="FIDUCIAL_1MM" value="" x="4.82203125" y="4.841875"/>
+<element name="E$2" library="adafruit" package="FIDUCIAL_1MM" value="" x="185.47953125" y="144.72046875"/>
 </elements>
 <signals>
 <signal name="GND">
