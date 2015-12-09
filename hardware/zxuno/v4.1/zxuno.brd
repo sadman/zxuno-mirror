@@ -6105,10 +6105,10 @@ by exp-lbrs.ulp</description>
 <via x="82.39125" y="51.435" extent="1-16" drill="0.3048" diameter="0.6604"/>
 <wire x1="81.915" y1="53.975" x2="82.39125" y2="54.45125" width="0.2032" layer="16"/>
 <polygon width="0.2032" layer="16" isolate="0.4064">
-<vertex x="0.05875" y="55.82125"/>
-<vertex x="85.88375" y="55.82125"/>
-<vertex x="85.88375" y="0.15875"/>
-<vertex x="0.15875" y="0.15875"/>
+<vertex x="0.11828125" y="55.88078125"/>
+<vertex x="85.86390625" y="55.88078125"/>
+<vertex x="85.86390625" y="0.09921875"/>
+<vertex x="0.1190625" y="0.09921875"/>
 </polygon>
 <contactref element="RGB" pad="1"/>
 <wire x1="45.7175" y1="10.31875" x2="45.7175" y2="8.255" width="0.2032" layer="1"/>
@@ -6243,11 +6243,11 @@ by exp-lbrs.ulp</description>
 <wire x1="33.401" y1="41.148" x2="33.401" y2="48.514" width="0.3048" layer="16"/>
 <wire x1="33.401" y1="48.514" x2="30.48" y2="51.435" width="0.3048" layer="16"/>
 <wire x1="30.48" y1="51.435" x2="29.845" y2="51.435" width="0.3048" layer="16"/>
-<polygon width="0.1778" layer="1" isolate="0.4064">
-<vertex x="0.2" y="0.173"/>
-<vertex x="85.879" y="0.173"/>
-<vertex x="85.879" y="55.807"/>
-<vertex x="0.2" y="55.807"/>
+<polygon width="0.2032" layer="1" isolate="0.4064">
+<vertex x="0.120625" y="0.11346875"/>
+<vertex x="85.85915625" y="0.11346875"/>
+<vertex x="85.85915625" y="55.886375"/>
+<vertex x="0.120625" y="55.886375"/>
 </polygon>
 <contactref element="PWUSB" pad="5"/>
 <contactref element="SDCARD" pad="3"/>
