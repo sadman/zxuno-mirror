@@ -19610,6 +19610,7 @@ KINGFONT SDCMF-10915W010</description>
 </variantdefs>
 <classes>
 <class number="0" name="default" width="0" drill="0">
+<clearance class="0" value="0.205"/>
 </class>
 </classes>
 <parts>
@@ -19729,7 +19730,7 @@ KINGFONT SDCMF-10915W010</description>
 <part name="J10" library="pinhead" deviceset="PINHD-1X12" device=""/>
 <part name="JTAG" library="con-molex" deviceset="53?-06" device="047" value="JTAG"/>
 <part name="RST" library="pinhead" deviceset="PINHD-1X2" device=""/>
-<part name="SW" library="pinhead" deviceset="PINHD-1X2" device=""/>
+<part name="PWSW" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="PWCON" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="PS/2" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device="" value="PS/2 Keyb"/>
 <part name="U5" library="ZX_UNO_0_15" deviceset="SM_OSC_1" device="" value="50MHz"/>
@@ -19886,7 +19887,7 @@ KINGFONT SDCMF-10915W010</description>
 <instance part="JTAG" gate="-5" x="274.32" y="86.36"/>
 <instance part="JTAG" gate="-6" x="274.32" y="83.82"/>
 <instance part="RST" gate="G$1" x="119.38" y="68.58" rot="R270"/>
-<instance part="SW" gate="G$1" x="223.52" y="5.08" rot="R270"/>
+<instance part="PWSW" gate="G$1" x="223.52" y="5.08" rot="R270"/>
 <instance part="PWCON" gate="G$1" x="205.74" y="7.62" rot="R180"/>
 <instance part="PS/2" gate="G$1" x="-25.4" y="-55.88"/>
 <instance part="U5" gate="G$1" x="0" y="81.28"/>
@@ -21892,7 +21893,7 @@ KINGFONT SDCMF-10915W010</description>
 <junction x="213.36" y="12.7"/>
 <pinref part="PWCON" gate="G$1" pin="2"/>
 <wire x1="208.28" y1="7.62" x2="213.36" y2="7.62" width="0.1524" layer="91"/>
-<pinref part="SW" gate="G$1" pin="2"/>
+<pinref part="PWSW" gate="G$1" pin="2"/>
 <wire x1="223.52" y1="7.62" x2="223.52" y2="12.7" width="0.1524" layer="91"/>
 <pinref part="PWUSB" gate="G$1" pin="VCC"/>
 </segment>
@@ -21901,7 +21902,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <pinref part="L3" gate="G$1" pin="1"/>
 <wire x1="231.14" y1="12.7" x2="226.06" y2="12.7" width="0.1524" layer="91"/>
-<pinref part="SW" gate="G$1" pin="1"/>
+<pinref part="PWSW" gate="G$1" pin="1"/>
 <wire x1="226.06" y1="7.62" x2="226.06" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
