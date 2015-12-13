@@ -36,7 +36,8 @@
         define  divmap  $a046
         define  nmidiv  $a047
         define  siemp0  $a048
-        define  tmpbuf  $a100
+        define  bnames  $a100
+        define  tmpbuf  $a200
         define  stack   $aab0
         define  alto    $ae00-crctab+
 
@@ -753,7 +754,6 @@ roms6   ld      e, a
         pop     af
 roms7   ld      hl, $0104
         call    combol
-        ld      (menuop+1), a
         ld      a, (codcnt)
         sub     $0d
         jr      nc, roms9
@@ -783,7 +783,7 @@ romsc   ld      (offsel), hl
         out     (c), h
         call    romcyb
         push    bc
-        ld      ix, tmpbuf+$40
+        ld      ix, tmpbuf+$52
         call_prnstr
         inc     (ix-8)
         ld      ix, $c000
@@ -1091,22 +1091,38 @@ roms27  ld      hl, $0104
 upgrad  ld      h, 9
         ld      d, 7
         call    help
-        ld      ix, cad57
-        ld      bc, $0202
-        call_prnstr             ; Upgrade machine
-        call_prnstr             ; Upgrade BIOS
-        call_prnstr             ; Upgrade ESXDOS
-        ld      de, $1201
-        call    listas
-        defb    $02
-        defb    $03
-        defb    $04
-        defb    $ff
-        defw    cad58
-        defw    cad59
-        defw    cad595
-        jp      c, main6
-        ld      (menuop+1), a
+        ld      hl, cad57
+        ld      (cmbpnt), hl
+        ld      l, cad58 & $ff
+        ld      (cmbpnt+2), hl
+        ld      l, cad59 & $ff
+        ld      (cmbpnt+4), hl
+        ld      hl, cmbpnt+6
+        ld      ix, bnames
+        ld      bc, 32
+upgraz  ld      a, ixl
+        ld      (hl), a
+        inc     l
+        ld      (hl), bnames>>8
+        inc     l
+        ld      (ix+23), b
+        add     ix, bc
+        ld      a, (ix+31)
+        cp      ' '
+        jr      z, upgraz
+        inc     l
+        ld      (hl), $ff
+        ld      e, l
+        srl     e
+        ld      hl, $0202
+        ld      d, l
+        ld      a, (menuop+1)
+        call    combol
+        inc     a
+        ld      iyl, a
+        ld      a, (codcnt)
+        cp      $0d
+        jp      nz, main6
         ld      ix, upgra1
         call    delhel
 upgra1  ld      sp, stack-2
@@ -1115,10 +1131,11 @@ upgra1  ld      sp, stack-2
         ld      hl, (menuop+1)
         dec     l
         jr      z, upgra3
-        dec     l
-        jp      nz, upgra7
+        jp      p, upgra7
+
+;upgrade ESXDOS
         call    romcyb
-        ld      ix, tmpbuf+$40
+        ld      ix, tmpbuf+$52
         call_prnstr
         ld      ix, $e000
         ld      de, $2000
@@ -1141,18 +1158,20 @@ upgra2  jp      nc, roms12
         call    romcyb
         ld      ix, cad625
         jr      upgra6
+
+;upgrade BIOS
 upgra3  cp      $31
 upgra4  jp      nz, roms12
         ld      a, (tmpbuf+1)
         cp      $ca
         jr      nz, upgra4
         call    romcyb
-        ld      ix, tmpbuf+$40
+        ld      ix, tmpbuf+$52
         call_prnstr
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
-upgra5  jr      nc, upgra2
+        jr      nc, upgra2
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
@@ -1168,19 +1187,47 @@ upgra5  jr      nc, upgra2
         call    wrflsh
         call    romcyb
         ld      ix, cad62
-upgra6  jr      upgrac
+upgra6  jp      roms13
 
 ;upgrade machine
 upgra7  cp      $45
         jr      nz, upgra4
-        ld      de, tmpbuf+$40
+        ld      b, l
+        djnz    upgr75
+        ld      a, (tmpbuf+1)
+        cp      $cb
+tupgr4  jr      nz, upgra4
+upgr75  inc     b
+        ld      hl, $0040
+        ld      de, $0540
+upgr77  add     hl, de
+        djnz    upgr77
+        push    hl
+        ld      de, tmpbuf+$52
         ld      hl, cad60
         ld      bc, cad61-cad60
         ldir
         call    romcyb 
-        ld      ix, tmpbuf+$40
+        ld      ix, tmpbuf+$52
         call_prnstr
-upgra8  ld      a, (tmpbuf+$53 & $ff)*2
+        ld      bc, zxuno_port+$100
+        ld      de, bnames
+        ld      hl, $0071
+        ld      a, 1
+        call    alto rdflsh
+        ld      a, (menuop+1)
+        sub     3
+        jr      c, upgra8
+        ld      d, bnames>>8
+        rrca
+        rrca
+        rrca
+        ld      e, a
+        ld      hl, tmpbuf+$31
+        ld      bc, 32
+        ldir
+        call    savech
+upgra8  ld      a, (tmpbuf+$65 & $ff)*2
         sub     iyh
         rra
         ld      l, a
@@ -1197,17 +1244,19 @@ upgra9  and     a
         ld      a, 30
         sub     iyh
         call    alto copyme
+        jr      nz, tupgr4
         call    shaoff
         ex      af, af'
-        jr      nc, upgra5
+        jp      nc, roms12
         dec     iyl
         call    romcyb
-        ld      ix, tmpbuf+$40
+        ld      ix, tmpbuf+$52
         call_prnstr
         dec     iyh
         jr      nz, upgra8
-        ld      iyh, 23
+        ld      iyh, 21
         call    shaon
+        pop     de
         exx
 upgraa  ld      a, 30
         sub     iyh
@@ -1223,7 +1272,7 @@ upgrab  exx
         call    shaoff
         call    romcyb
         ld      ix, cad61
-upgrac  jp      roms13
+        jp      roms13
 
 ;****  Boot Menu  ****
 ;*********************
@@ -1459,26 +1508,26 @@ loadt1  ld      ix, cad42
         ld      ix, cad45
         call_prnstr
         ld      ix, tmpbuf
-        ld      de, $003f
+        ld      de, $0051
         call    lbytes
         ld      bc, $1109
         ret     nc
-        ld      hl, tmpbuf+$2c
+        ld      hl, tmpbuf+$3e
         ld      a, (hl)
         push    af
         ld      (hl), 0
-        ld      ixl, $1f
+        ld      ixl, $31
         call_prnstr
         pop     af
-        ld      (tmpbuf+$2c), a
-        ld      de, tmpbuf+$40
+        ld      (tmpbuf+$3e), a
+        ld      de, tmpbuf+$52
         ld      hl, cad52
         ld      bc, cad53-cad52
         ldir
-loadt2  ld      a, (tmpbuf)
+        ld      a, (tmpbuf)
         ld      iyh, a
         sub     $d0
-        ld      (tmpbuf+$4b), a
+        ld      (tmpbuf+$5d), a
         ret
 
 ; -------------------------------------
@@ -1829,6 +1878,7 @@ combo9  dec     a               ; $1d
 comboa  ld      a, h
         pop     de
         pop     hl
+        ld      (menuop+1), a
         ret
 
 ; -------------------------------------
@@ -2214,7 +2264,7 @@ loadch  ld      bc, zxuno_port+$100
         wreg    flash_cs, 1
         ld      de, config
         ld      hl, $0060   ;old $0aa0
-        ld      a, $11
+        ld      a, $12
         jp      alto rdflsh
 
 ; -----------------------------------------------------------------------------
@@ -2707,11 +2757,11 @@ copyme  ld      bc, zxuno_port+$100
         ld      b, (hl)
         ex      de, hl
         sbc     hl, bc
-        ret     z
-        pop     de
-        add     hl, hl
-        ex      (sp), hl
-        push    de
+;        ret     z
+;        pop     de
+;        add     hl, hl
+;        ex      (sp), hl
+;        push    de
         ret
 
 ; -------------------------------------
@@ -2891,7 +2941,7 @@ help    call    window
         ld      hl, $0102
         ld      d, $12
         call    window
-        ld      l, 8
+        ld      l, 9
         call    window
         ld      ix, cad13
         ld      bc, $1b0c
@@ -3483,19 +3533,9 @@ cad55   defb    'Invalid CRC in ROM 0000. Must be 0000', 0
 cad56   defb    'Check CRC in', 0
         defb    'all ROMs. Slow', 0
         defb    'but safer', 0, 0
-cad57   defb    'Upgrade machine', 0
-        defb    'Upgrade BIOS', 0
-        defb    'Upgrade ESXDOS', 0
-cad58   defb    'Upgrade entire', 0
-        defb    'machine, BIOS', 0
-        defb    'and ESXDOS', 0
-        defb    'included', 0, 0
-cad59   defb    'Upgrade only', 0
-        defb    'the BIOS', 0
-        defb    'firmware', 0, 0
-cad595  defb    'Upgrade only', 0
-        defb    'the ESXDOS', 0
-        defb    'firmware', 0, 0
+cad57   defb    'Upgrade ESXDOS', 0
+cad58   defb    'Upgrade BIOS', 0
+cad59   defb    'ZX Spectrum', 0
 cad60   defb    'Status:[           ]', 0
 cad61   defb    'Machine upgraded', 0
 cad62   defb    'BIOS upgraded', 0

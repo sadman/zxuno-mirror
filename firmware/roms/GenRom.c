@@ -4,7 +4,7 @@
 
 FILE *fi, *fo;
 int i;
-unsigned char mem[0x4004+0x43], checksum, a, b;
+unsigned char mem[0x4004+0x55], checksum, a, b;
 unsigned short j, k, crc, tab[]= {
   0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
   0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
@@ -39,13 +39,6 @@ unsigned short j, k, crc, tab[]= {
   0xf78f, 0xe606, 0xd49d, 0xc514, 0xb1ab, 0xa022, 0x92b9, 0x8330,
   0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78
 };
-
-char char2hex(char value, char * name){
-  if( value<'0' || value>'f' || value<'A' && value>'9' || value<'a' && value>'F' )
-    printf("\nInvalid character %c or '%s' not exists\n", value, name),
-    exit(-1);
-  return value>'9' ? 9+(value&7) : value-'0';
-}
 
 int main(int argc, char *argv[]) {
   if( argc==1 )
@@ -86,12 +79,12 @@ int main(int argc, char *argv[]) {
   if( !fo )
     printf("\nCannot create output file: %s\n", argv[8]),
     exit(-1);
-  fwrite(mem, 1, 0x43, fo);
+  fwrite(mem, 1, 0x55, fo);
   j= i>>14;
   mem[0]= 0x02;
   mem[1]= 0x40;
   mem[2]= 0xff;
-  mem[0x4004]= 0x41;
+  mem[0x4004]= 0x53;
   mem[0x4005]= 0x00;
   mem[0x4006]= 0xff;
   if( j )
@@ -136,12 +129,12 @@ int main(int argc, char *argv[]) {
       case 'n': mem[0x400c]^= 0b00000001;
     }
   for ( i= 0; i<32 && i<strlen(argv[6]); i++ )
-    mem[i+0x4006+0x20]= argv[6][i];
+    mem[i+0x4006+0x32]= argv[6][i];
   while( ++i<33 )
-    mem[i+0x4006+0x1f]= ' ';
-  for ( checksum= 0xff, k= 0x4007; k<0x4046; ++k )
+    mem[i+0x4006+0x31]= ' ';
+  for ( checksum= 0xff, k= 0x4007; k<0x4058; ++k )
     checksum^= mem[k];
-  mem[0x4046]= checksum;
-  fwrite(mem+0x4004, 1, 0x43, fo);
+  mem[0x4058]= checksum;
+  fwrite(mem+0x4004, 1, 0x55, fo);
   printf("\nFile generated successfully\n");
 }

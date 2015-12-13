@@ -38,10 +38,10 @@ srec_cat  tld_zxuno_mb.bin      -binary ^
           -line-termination=nl
 ..\fcut tld_zxuno_mb.bin 58000 54000 machine1.bin
 ..\fcut tld_zxuno_mb.bin AC000 54000 machine2.bin
-GenRom 0 202 0 0 0 BIOS ..\firmware.rom firmware.tap
-GenRom 0 0 0 0 0 ESXDOS ESXMMC086b4.BIN  esxdos.tap
-GenRom 0 0 0 0 0 Machine machine1.bin  machine1.tap
-GenRom 0 0 0 0 0 Machine2 machine2.bin  machine2.tap
+GenRom 0 202 0 0 0 BIOS     ..\firmware.rom firmware.tap
+GenRom 0   0 0 0 0 ESXDOS   ESXMMC086b4.BIN esxdos.tap
+GenRom 0 203 0 0 0 Machine  machine1.bin    machine1.tap
+GenRom 0   0 0 0 0 Machine2 machine2.bin    machine2.tap
 CgLeches firmware.tap firmware.wav
 CgLeches machine1.tap  machine1.wav
 CgLeches machine2.tap  machine2.wav
