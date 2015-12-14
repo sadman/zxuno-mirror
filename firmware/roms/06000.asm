@@ -53,7 +53,6 @@ l0030   Generic  0, $1bfeffff, $ffffffff, 'ZX Spectrum 48K', 1, 8, 4, 0, 0, Issu
         Cart    11, $15e7,                'Jet Set Willy (1984)'
         Cart    12, $e945,                'Lala Prologue (2010)'
         Cart    13, $dd26,                'Master Chess (1983)'
-;        Cart    14, $4934,                'Backgammon (1983)'
         Cart    14, $c054,                'Hungry Horace (1982)'
         Cart    15, $6754,                'Horace & the Spiders (1983)'
         Cart    16, $aafc,                'Planetoids (1982)'
@@ -70,7 +69,7 @@ l0030   Generic  0, $1bfeffff, $ffffffff, 'ZX Spectrum 48K', 1, 8, 4, 0, 0, Issu
 ;  44: NMI-DivMMC   0: Disable, 1: Enable
 ;  45: Issue        0: Issue 2, 1: Issue 3
 l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
-        defb    $08, $09, $0a, $0b, $0c, $0d, $0e, $ff
+        defb    $08, $09, $0a, $0b, $0c, $0d, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
@@ -80,6 +79,7 @@ l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
         defb    $00             ; active
         ;defb    $00             ; keybly
         ;defb    $00             ; joysly
+        defb    $00             ; bitstream
         defb    $00             ; quiet
         defb    $01             ; checkcrc
         defb    $02             ; Issue

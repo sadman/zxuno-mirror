@@ -28,14 +28,15 @@
         define  config  $9000
         define  indexe  $a000
         define  active  $a040
-        define  quietb  $a041
-        define  checkc  $a042
-        define  keyiss  $a043
-        define  timing  $a044
-        define  conten  $a045
-        define  divmap  $a046
-        define  nmidiv  $a047
-        define  siemp0  $a048
+        define  bitstr  $a041
+        define  quietb  $a042
+        define  checkc  $a043
+        define  keyiss  $a044
+        define  timing  $a045
+        define  conten  $a046
+        define  divmap  $a047
+        define  nmidiv  $a048
+        define  siemp0  $a049
         define  bnames  $a100
         define  tmpbuf  $a200
         define  stack   $aab0
@@ -61,8 +62,8 @@ rst20   push    bc
 
 jmptbl  defw    main
         defw    roms
-        defw    upgrad
-        defw    menu3
+        defw    upgra
+        defw    upgra
         defw    menu4
         defw    exit
 
@@ -224,7 +225,7 @@ printID
         ld      bc, zxuno_port
         out     (c), a
 	inc 	b
-	ld 	hl, cad72+$6   	; Load address of coreID string
+	ld 	hl, cad74+$6   	; Load address of coreID string
 printID2
         in      a, (c)
 	ld 	(hl), a		; copia el caracter leido de CoreID 
@@ -232,7 +233,7 @@ printID2
 	ld 	a, a
 	jr 	nz, printID2  	; si no recibimos un 0 seguimos pillando caracteres
         ld      bc, $090b
-        ld      ix, cad72       ; imprimir cadena
+        ld      ix, cad74       ; imprimir cadena
         call_prnstr             ; CoreID
 
         ld      bc, $0909
@@ -329,7 +330,7 @@ start6  ld      a, (codcnt)
         jr      c, start5
         ld      (codcnt), a
         cp      $0c
-        jp      z, boot
+        jp      z, blst
         cp      $17
         jr      nz, start5
 
@@ -510,31 +511,31 @@ mait9   call_prnstr
         defb    $ff
         defw    cad14
         defw    cad15
-        defw    cad66
+        defw    cad67
         defw    cad16
         defw    cad17
         defw    cad56
         defw    cad20
-        defw    cad64
         defw    cad65
+        defw    cad66
         defw    cad18
         defw    cad19
         jr      c, main6
         ld      (menuop+1), a
         cp      4
         ld      h, active >> 8
-        jr      c, main5
-        add     a, active-3&$ff
+        jr      c, main5        ; c->tests, nc->options
+        add     a, bitstr-3&$ff
         ld      l, a
         sub     keyiss&$ff
         jr      z, main4
         jr      nc, mait2
-        call    popupw
+        call    popupw          ; quiet or crc (enabled or disabled)
         defw    cad28
         defw    cad29
         defw    $ffff
         ret
-main4   call    popupw
+main4   call    popupw          ; keyboard issue
         defw    cad30
         defw    cad31
         defw    cadv2
@@ -542,13 +543,13 @@ main4   call    popupw
         ret
 mait2   dec     a
         jr      nz, mait3
-        call    popupw
+        call    popupw          ; timming
         defw    cadv3
         defw    cadv4
         defw    cadv2
         defw    $ffff
         ret
-mait3   call    popupw
+mait3   call    popupw          ; contended, divmmc, nmidiv
         defw    cad28
         defw    cad29
         defw    cadv2
@@ -754,6 +755,7 @@ roms6   ld      e, a
         pop     af
 roms7   ld      hl, $0104
         call    combol
+        ld      (menuop+1), a
         ld      a, (codcnt)
         sub     $0d
         jr      nc, roms9
@@ -909,7 +911,7 @@ roms14  sub     $72-$6e         ; r= Recovery
         ld      iyl, 4
         ld      hl, $030c
         ld      de, $1801
-        ld      ix, cad63
+        ld      ix, cad64
         call    window
         ld      bc, $0208
         call    prnmul
@@ -1088,19 +1090,34 @@ roms27  ld      hl, $0104
 
 ;*** Upgrade Menu ***
 ;*********************
-upgrad  ld      h, 9
+upgra   ld      bc, (menuop)
+        ld      h, 16
+        dec     c
+        dec     c
+        jr      nz, upgra1
+        ld      h, 9
         ld      d, 7
+upgra1  push    af
         call    help
-        ld      hl, cad57
-        ld      (cmbpnt), hl
-        ld      l, cad58 & $ff
-        ld      (cmbpnt+2), hl
-        ld      l, cad59 & $ff
-        ld      (cmbpnt+4), hl
-        ld      hl, cmbpnt+6
+        ld      de, $0200 | cad60>>8
+        ld      hl, cmbpnt
+        pop     af
+        jr      nz, upgra2
+        ld      (hl), cad60 & $ff
+        inc     l
+        ld      (hl), e
+        inc     l
+        ld      (hl), cad61 & $ff
+        inc     l
+        ld      (hl), e
+        inc     l
+upgra2  ld      (hl), cad62 & $ff
+        inc     l
+        ld      (hl), e
+        inc     l
         ld      ix, bnames
         ld      bc, 32
-upgraz  ld      a, ixl
+upgra3  ld      a, ixl
         ld      (hl), a
         inc     l
         ld      (hl), bnames>>8
@@ -1109,29 +1126,51 @@ upgraz  ld      a, ixl
         add     ix, bc
         ld      a, (ix+31)
         cp      ' '
-        jr      z, upgraz
+        jr      z, upgra3
         inc     l
         ld      (hl), $ff
         ld      e, l
         srl     e
-        ld      hl, $0202
-        ld      d, l
-        ld      a, (menuop+1)
+        ld      hl, (menuop)
+        dec     l
+        dec     l
+        ld      a, h
+        jr      z, upgra4
+        inc     b
+        ld      a, (bitstr)
+        push    af
+        add     a, d
+        ld      c, a
+        ld      ix, cad73
+        push    de
+        call_prnstr
+        pop     de
+        pop     af
+upgra4  ld      h, d
+        ld      l, d
         call    combol
+        ld      (menuop+1), a
         inc     a
         ld      iyl, a
         ld      a, (codcnt)
         cp      $0d
-        jp      nz, main6
-        ld      ix, upgra1
+upgra5  jp      nz, main6
+        ld      hl, (menuop)
+        dec     l
+        dec     l
+        jr      z, upgra6
+        ld      a, h
+        ld      (bitstr), a
+        jr      upgra5
+upgra6  ld      ix, upgra7
         call    delhel
-upgra1  ld      sp, stack-2
+upgra7  ld      sp, stack-2
         call    loadta
-        jr      nc, upgra2
+        jr      nc, upgra8
         ld      hl, (menuop+1)
         dec     l
-        jr      z, upgra3
-        jp      p, upgra7
+        jr      z, upgra9
+        jp      p, upgrac
 
 ;upgrade ESXDOS
         call    romcyb
@@ -1140,7 +1179,7 @@ upgra1  ld      sp, stack-2
         ld      ix, $e000
         ld      de, $2000
         call    lbytes
-upgra2  jp      nc, roms12
+upgra8  jp      nc, roms12
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
@@ -1148,64 +1187,64 @@ upgra2  jp      nc, roms12
         call    alto check0
         ld      hl, (tmpbuf+7)
         sbc     hl, de
-        jr      nz, upgra4
+        jr      nz, upgraa
         ld      a, $20
         ld      hl, $e000
         ld      bc, zxuno_port+$100
         exx
-        ld      de, $0040   ;old $0a80
+        ld      de, $0040
         call    wrflsh
         call    romcyb
-        ld      ix, cad625
-        jr      upgra6
+        ld      ix, cad59
+        jr      upgrab
 
 ;upgrade BIOS
-upgra3  cp      $31
-upgra4  jp      nz, roms12
+upgra9  cp      $31
+upgraa  jp      nz, roms12
         ld      a, (tmpbuf+1)
         cp      $ca
-        jr      nz, upgra4
+        jr      nz, upgraa
         call    romcyb
         ld      ix, tmpbuf+$52
         call_prnstr
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
-        jr      nc, upgra2
+        jr      nc, upgra8
         ld      bc, $170a
         ld      ix, cad53
         call_prnstr
         call    alto check
         ld      hl, (tmpbuf+7)
         sbc     hl, de
-        jr      nz, upgra4
+        jr      nz, upgraa
         ld      a, $40
         ld      hl, $c000
         ld      bc, zxuno_port+$100
         exx
-        ld      de, $00c0   ;old $0ac0
+        ld      de, $0080
         call    wrflsh
         call    romcyb
-        ld      ix, cad62
-upgra6  jp      roms13
+        ld      ix, cad58
+upgrab  jp      roms13
 
 ;upgrade machine
-upgra7  cp      $45
-        jr      nz, upgra4
+upgrac  cp      $45
+        jr      nz, upgraa
         ld      b, l
-        djnz    upgr75
+        djnz    upgrae
         ld      a, (tmpbuf+1)
         cp      $cb
-tupgr4  jr      nz, upgra4
-upgr75  inc     b
+upgrad  jr      nz, upgraa
+upgrae  inc     b
         ld      hl, $0040
         ld      de, $0540
-upgr77  add     hl, de
-        djnz    upgr77
+upgraf  add     hl, de
+        djnz    upgraf
         push    hl
         ld      de, tmpbuf+$52
-        ld      hl, cad60
-        ld      bc, cad61-cad60
+        ld      hl, cad63
+        ld      bc, cad64-cad63
         ldir
         call    romcyb 
         ld      ix, tmpbuf+$52
@@ -1215,9 +1254,51 @@ upgr77  add     hl, de
         ld      hl, $0071
         ld      a, 1
         call    alto rdflsh
+upgrag  ld      a, (tmpbuf+$65 & $ff)*2
+        sub     iyh
+        rra
+        ld      l, a
+        ld      h, tmpbuf>>8
+        ld      (hl), 'o'
+        jr      c, upgrah
+        ld      (hl), '-'
+upgrah  and     a
+        call    shaon
+        ld      ix, $4000
+        ld      de, $4000
+;        call    lbytes
+        ex      af, af'
+        ld      a, 30
+        sub     iyh
+        call    alto copyme
+;        jr      nz, upgrad
+        call    shaoff
+        ex      af, af'
+;        jp      nc, roms12
+        dec     iyl
+        call    romcyb
+        ld      ix, tmpbuf+$52
+        call_prnstr
+        dec     iyh
+        jr      nz, upgrag
+        ld      iyh, 21
+        call    shaon
+        pop     de
+        exx
+upgrai  ld      a, 30
+        sub     iyh
+        call    alto saveme
+        ld      a, $40
+        ld      hl, $4000
+        exx
+        call    wrflsh
+        inc     de
+        exx
+        dec     iyh
+        jr      nz, upgrai
         ld      a, (menuop+1)
         sub     3
-        jr      c, upgra8
+        jr      c, upgraj
         ld      d, bnames>>8
         rrca
         rrca
@@ -1227,58 +1308,10 @@ upgr77  add     hl, de
         ld      bc, 32
         ldir
         call    savech
-upgra8  ld      a, (tmpbuf+$65 & $ff)*2
-        sub     iyh
-        rra
-        ld      l, a
-        ld      h, tmpbuf>>8
-        ld      (hl), 'o'
-        jr      c, upgra9
-        ld      (hl), '-'
-upgra9  and     a
-        call    shaon
-        ld      ix, $4000
-        ld      de, $4000
-        call    lbytes
-        ex      af, af'
-        ld      a, 30
-        sub     iyh
-        call    alto copyme
-        jr      nz, tupgr4
-        call    shaoff
-        ex      af, af'
-        jp      nc, roms12
-        dec     iyl
+upgraj  call    shaoff
         call    romcyb
-        ld      ix, tmpbuf+$52
-        call_prnstr
-        dec     iyh
-        jr      nz, upgra8
-        ld      iyh, 21
-        call    shaon
-        pop     de
-        exx
-upgraa  ld      a, 30
-        sub     iyh
-        call    alto saveme
-        ld      a, $40
-        ld      hl, $4000
-        exx
-        call    wrflsh
-        inc     de
-upgrab  exx
-        dec     iyh
-        jr      nz, upgraa
-        call    shaoff
-        call    romcyb
-        ld      ix, cad61
+        ld      ix, cad57
         jp      roms13
-
-;****  Boot Menu  ****
-;*********************
-menu3   ld      h, 16
-        call    window
-        jp      main9
 
 ;*** Security Menu ***
 ;*********************
@@ -1351,12 +1384,12 @@ exit6   call    savech
 ;++++++++++++++++++++++++++++++++++
 ;++++++++     Boot list    ++++++++
 ;++++++++++++++++++++++++++++++++++
-boot    call    clrscr          ; borro pantalla
+blst    call    clrscr          ; borro pantalla
         call    nument
         cp      13
-        jr      c, boot1
+        jr      c, blst1
         ld      a, 13
-boot1   ld      h, a
+blst1   ld      h, a
         ld      (items), hl
         add     a, -16
         cpl
@@ -1378,10 +1411,10 @@ boot1   ld      h, a
         call_prnstr
         push    bc
         ld      iy, (items)
-boot2   ld      ix, cad4
+blst2   ld      ix, cad4
         call_prnstr             ; |                |
         dec     iyh
-        jr      nz, boot2
+        jr      nz, blst2
         ld      ix, cad3
         call_prnstr             ; |----------------|
         ld      ix, cad5 
@@ -1393,7 +1426,7 @@ boot2   ld      ix, cad4
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
-boot3   ld      l, (iy)
+blst3   ld      l, (iy)
         inc     iyl
         inc     l
         call    calcu
@@ -1405,7 +1438,7 @@ boot3   ld      l, (iy)
         ld      a, (items)
         sub     2
         sub     iyl
-        jr      nc, boot3
+        jr      nc, blst3
         ld      (ix+0), cad6&$ff
         ld      (ix+1), cad6>>8
         ld      (ix+3), a
@@ -1419,13 +1452,13 @@ boot3   ld      l, (iy)
         ld      a, %01001111
         ld      (colcmb), a
         ld      a, (active)
-boot4   call    combol
+blst4   call    combol
         ld      b, a
         ld      a, (codcnt)
         cp      $0d
         ld      a, b
-        jr      c, boot5
-        jr      nz, boot4
+        jr      c, blst5
+        jr      nz, blst4
         ld      a, (items)
         dec     a
         cp      b
@@ -1433,7 +1466,7 @@ boot4   call    combol
         jp      z, bios
         ld      a, b
         ld      (active), a
-boot5   jp      alto conti
+blst5   jp      alto conti
 
 ; -------------------------------------
 ; Prits a blank line in the actual line
@@ -1878,7 +1911,6 @@ combo9  dec     a               ; $1d
 comboa  ld      a, h
         pop     de
         pop     hl
-        ld      (menuop+1), a
         ret
 
 ; -------------------------------------
@@ -2148,12 +2180,12 @@ prnmul  call_prnstr
         inc     ix
         ret
 
-bomain  ld      ix, cad67
+bomain  ld      ix, cad68
         ld      bc, $0209
         call_prnstr             ; Performing...
         inc     c
         ld      iyh, 7
-ramts1  ld      ixl, cad68&$ff
+ramts1  ld      ixl, cad69&$ff
         call_prnstr
         dec     iyh
         jr      nz, ramts1
@@ -2864,7 +2896,7 @@ ramtst  di
         ld      bc, $040b
 ramts2  dec     b
         dec     b
-ramts3  ld      de, cad71
+ramts3  ld      de, cad72
         push    bc
         ld      bc, zxuno_port
         ld      a, master_mapper
@@ -2876,12 +2908,12 @@ ramts3  ld      de, cad71
         ld      b, 2
         call    alto wtohe1
         pop     bc
-        ld      ixl, cad71&$ff
+        ld      ixl, cad72&$ff
         call    alto prnstr-1
         dec     c
         inc     b
         inc     b
-        ld      ixl, cad69&$ff
+        ld      ixl, cad70&$ff
         ld      hl, $c000
 ramts4  ld      a, (hl)
         xor     l
@@ -2893,7 +2925,7 @@ ramts4  ld      a, (hl)
         xor     l
         xor     e
         jr      z, ramts5
-        ld      ixl, cad70&$ff
+        ld      ixl, cad71&$ff
 ramts5  inc     hl
         bit     4, h
         jr      z, ramts4
@@ -3375,7 +3407,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.30K   ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.310   ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3533,14 +3565,14 @@ cad55   defb    'Invalid CRC in ROM 0000. Must be 0000', 0
 cad56   defb    'Check CRC in', 0
         defb    'all ROMs. Slow', 0
         defb    'but safer', 0, 0
-cad57   defb    'Upgrade ESXDOS', 0
-cad58   defb    'Upgrade BIOS', 0
-cad59   defb    'ZX Spectrum', 0
-cad60   defb    'Status:[           ]', 0
-cad61   defb    'Machine upgraded', 0
-cad62   defb    'BIOS upgraded', 0
-cad625  defb    'ESXDOS upgraded', 0
-cad63   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+cad57   defb    'Machine upgraded', 0
+cad58   defb    'BIOS upgraded', 0
+cad59   defb    'ESXDOS upgraded', 0
+cad60   defb    'Upgrade ESXDOS for ZX', 0
+cad61   defb    'Upgrade BIOS for ZX', 0
+cad62   defb    'ZX Spectrum', 0
+cad63   defb    'Status:[           ]', 0
+cad64   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    ' Recovery ', $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
         defb    ' ', $10, ' ', $1e, ' ', $1f, '  Enter accept  Break cancel ', $10, 0
         defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11, $11
@@ -3555,21 +3587,22 @@ cad63   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
-cad64   defb    'Set timings', 0
+cad65   defb    'Set timings', 0
         defb    '224T if 48K', 0
         defb    '228T if 128K', 0, 0
-cad65   defb    'Memory usually', 0
+cad66   defb    'Memory usually', 0
         defb    'contended.', 0
         defb    'Disabled on', 0
         defb    'Pentagon 128K', 0, 0
-cad66   defb    'Performs a', 0
+cad67   defb    'Performs a', 0
         defb    'tape test', 0, 0
-cad67   defb    'Performing...', 0
-cad68   defb    '                       ', 0
-cad69   defb    ' OK', 0
-cad70   defb    ' Er', 0
-cad71   defb    '00', 0
-cad72	defb	'Core: 000-00000000',0
+cad68   defb    'Performing...', 0
+cad69   defb    '                       ', 0
+cad70   defb    ' OK', 0
+cad71   defb    ' Er', 0
+cad72   defb    '00', 0
+cad73   defb    $1b, 0
+cad74	defb	'Core: 000-00000000',0
 fincad
 
 ; todo
