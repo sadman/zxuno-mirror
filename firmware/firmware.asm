@@ -511,13 +511,13 @@ mait9   call_prnstr
         defb    $ff
         defw    cad14
         defw    cad15
-        defw    cad67
+        defw    cad72
         defw    cad16
         defw    cad17
         defw    cad56
         defw    cad20
-        defw    cad65
-        defw    cad66
+        defw    cad70
+        defw    cad71
         defw    cad18
         defw    cad19
         jr      c, main6
@@ -868,7 +868,10 @@ romsu   cp      (hl)
         ld      hl, tmpbuf
         ld      a, (hl)
         ld      iyh, a
-        ld      c, $3f
+        ld      c, $1f
+        ldir
+        ld      c, $20
+        ld      l, tmpbuf+$31 & $ff
         ldir
         ld      hl, %00001010
 roms10  ld      (offsel), hl
@@ -1266,15 +1269,15 @@ upgrah  and     a
         call    shaon
         ld      ix, $4000
         ld      de, $4000
-;        call    lbytes
+        call    lbytes
         ex      af, af'
         ld      a, 30
         sub     iyh
         call    alto copyme
-;        jr      nz, upgrad
+        jr      nz, upgrad
         call    shaoff
         ex      af, af'
-;        jp      nc, roms12
+        jp      nc, roms12
         dec     iyl
         call    romcyb
         ld      ix, tmpbuf+$52
@@ -2180,12 +2183,12 @@ prnmul  call_prnstr
         inc     ix
         ret
 
-bomain  ld      ix, cad68
+bomain  ld      ix, cad65
         ld      bc, $0209
         call_prnstr             ; Performing...
         inc     c
         ld      iyh, 7
-ramts1  ld      ixl, cad69&$ff
+ramts1  ld      ixl, cad66&$ff
         call_prnstr
         dec     iyh
         jr      nz, ramts1
@@ -2896,7 +2899,7 @@ ramtst  di
         ld      bc, $040b
 ramts2  dec     b
         dec     b
-ramts3  ld      de, cad72
+ramts3  ld      de, cad69
         push    bc
         ld      bc, zxuno_port
         ld      a, master_mapper
@@ -2908,12 +2911,12 @@ ramts3  ld      de, cad72
         ld      b, 2
         call    alto wtohe1
         pop     bc
-        ld      ixl, cad72&$ff
+        ld      ixl, cad69&$ff
         call    alto prnstr-1
         dec     c
         inc     b
         inc     b
-        ld      ixl, cad70&$ff
+        ld      ixl, cad67&$ff
         ld      hl, $c000
 ramts4  ld      a, (hl)
         xor     l
@@ -2925,7 +2928,7 @@ ramts4  ld      a, (hl)
         xor     l
         xor     e
         jr      z, ramts5
-        ld      ixl, cad71&$ff
+        ld      ixl, cad68&$ff
 ramts5  inc     hl
         bit     4, h
         jr      z, ramts4
@@ -3407,7 +3410,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.310   ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.311   ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3587,20 +3590,20 @@ cad64   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $15, 0, 0
-cad65   defb    'Set timings', 0
+cad65   defb    'Performing...', 0
+cad66   defb    '                       ', 0
+cad67   defb    ' OK', 0
+cad68   defb    ' Er', 0
+cad69   defb    '00', 0
+cad70   defb    'Set timings', 0
         defb    '224T if 48K', 0
         defb    '228T if 128K', 0, 0
-cad66   defb    'Memory usually', 0
+cad71   defb    'Memory usually', 0
         defb    'contended.', 0
         defb    'Disabled on', 0
         defb    'Pentagon 128K', 0, 0
-cad67   defb    'Performs a', 0
+cad72   defb    'Performs a', 0
         defb    'tape test', 0, 0
-cad68   defb    'Performing...', 0
-cad69   defb    '                       ', 0
-cad70   defb    ' OK', 0
-cad71   defb    ' Er', 0
-cad72   defb    '00', 0
 cad73   defb    $1b, 0
 cad74	defb	'Core: 000-00000000',0
 fincad
