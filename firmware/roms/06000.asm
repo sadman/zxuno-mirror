@@ -100,22 +100,4 @@ l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
 ;    10-1f: CRCs
 ;    20-3f: Name
 
-        block   $1100-$
-        defm    'Sam Coupe'
-        block   32-($ & 31), $20
-        defm    'Lady Bug'
-        block   32-($ & 31), $20
-        defm    'Sega Master System'
-        block   32-($ & 31), $20
-        defm    'Acorn Atom'
-        block   32-($ & 31), $20
-        defm    'Oric Atmos'
-        block   32-($ & 31), $20
-        defm    'Vic-20'
-        block   32-($ & 31), $20
-        defm    'Nintendo Entertaiment System'
-        block   32-($ & 31), $20
-        defm    'Jupiter Ace'
-        block   32-($ & 31), $20
 
-        block   $2000-$
