@@ -40,15 +40,15 @@
         define  config  $9000
         define  indexe  $a000
         define  active  $a040
-        define  bitstr  $a041
-        define  quietb  $a042
-        define  checkc  $a043
-        define  keyiss  $a044
-        define  timing  $a045
-        define  conten  $a046
-        define  divmap  $a047
-        define  nmidiv  $a048
-        define  siemp0  $a049
+        define  bitstr  active+1
+        define  quietb  bitstr+1
+        define  checkc  quietb+1
+        define  keyiss  checkc+1
+        define  timing  keyiss+1
+        define  conten  timing+1
+        define  divmap  conten+1
+        define  nmidiv  divmap+1
+        define  siemp0  nmidiv+1
         define  bnames  $a100
         define  tmpbuf  $a200
         define  stack   $aab0
@@ -539,8 +539,7 @@ mait3   call    popupw          ; contended, divmmc, nmidiv
 main5   and     a
         jp      z, alto ramtst
         dec     a
-        dec     a
-        jr      z, tape
+        jr      nz, maitb
         ld      l, siemp0&$ff
         call    popupw
         defw    cad23
@@ -564,9 +563,129 @@ main8   ld      a, iyl
         dec     a
         ld      (menuop+1), a
         ret
+main9   call    waitky
+maina   ld      hl, (menuop)
+        cp      $0c
+        call    z, roms8
+        cp      $16
+        call    z, romsa
+        sub     $1e
+        jr      nz, maind
+        dec     l
+        jp      m, main9
+mainb   ld      a, l
+        ld      h, 0
+        dec     a
+        jr      nz, mainc
+        ld      a, (active)
+        ld      h, a
+mainc   ld      (menuop), hl
+        ret
+maind   dec     a
+        jr      nz, main9
+        inc     l
+        ld      a, l
+        cp      6
+        jr      z, main9
+        jr      mainb
+
+maitb   dec     a
+        jp      z, tape
+        call    bomain
+        ld      c, $12
+        ld      ix, cad86
+        call_prnstr
+        ld      c, $15
+        call_prnstr
+        ld      de, $4861
+        ld      a, '1'<<1
+.pos0   ld      l, a
+        ld      h, $2c
+        add     hl, hl
+        add     hl, hl
+        ld      b, 8
+.pos00  ld      a, (hl)
+        ld      (de), a
+        inc     l
+        inc     d
+        djnz    .pos00
+        ld      hl, $f802
+        add     hl, de
+        ex      de, hl
+        ld      a, (ix)
+        inc     ix
+        add     a, a
+        jr      nc, .pos0
+        ex      af, af'
+        ld      a, $2c
+        add     a, e
+        ld      e, a
+        jr      nc, .pos01
+        ld      d, $50
+.pos01  ex      af, af'
+        jr      nz, .pos0
+.buc0   add     a, $fe
+.buc1   ld      de, $004a
+        ld      hl, $5a6f-4
+.buc2   sbc     hl, de
+        push    af
+        in      a, ($fe)
+        ld      b, 5
+.buc3   ld      (hl), 7
+        rrca
+        jr      c, .buc4
+        ld      (hl), $4e
+.buc4   inc     hl
+        inc     hl
+        djnz    .buc3
+        pop     af
+        rlca
+        cp      $ef
+        jr      nz, .buc2
+        ld      l, $77-4
+.buc5   push    af
+        in      a, ($fe)
+        ld      b, 5
+.buc6   ld      (hl), 7
+        rrca
+        jr      c, .buc7
+        ld      (hl), $4e
+.buc7   dec     hl
+        dec     hl
+        djnz    .buc6
+        add     hl, de
+        pop     af
+        rlca
+        jr      c, .buc5
+        ld      a, ($5a33)
+        ld      e, a
+        ld      a, ($5a21)
+        add     a, e
+        ret     m
+        in      a, ($7f)
+        add     a, $80
+        inc     b
+        call    .bup1
+        ld      b, 4
+        call    .bupi
+        in      a, ($1f)
+        cpl
+        ld      b, 5
+        call    .bupi
+        xor     a
+        jr      .buc0
+
+.bupi   dec     l
+        dec     l
+        rrca
+.bup1   ld      (hl), 7
+        jr      c, .bup2
+        ld      (hl), $4e
+.bup2   djnz    .bupi
+        ret
 
 tape    call    bomain
-        ld      bc, $0214
+        ld      c, $14
         ld      ix, cad51
         call_prnstr             ; Press any key to continue
         ld      hl, $4881
@@ -623,32 +742,6 @@ tape6   add     a, $81
         inc     l
         ld      (hl), %01111000
         jr      tape2
-
-main9   call    waitky
-maina   ld      hl, (menuop)
-        cp      $0c
-        call    z, roms8
-        cp      $16
-        call    z, romsa
-        sub     $1e
-        jr      nz, maind
-        dec     l
-        jp      m, main9
-mainb   ld      a, l
-        ld      h, 0
-        dec     a
-        jr      nz, mainc
-        ld      a, (active)
-        ld      h, a
-mainc   ld      (menuop), hl
-        ret
-maind   dec     a
-        jr      nz, main9
-        inc     l
-        ld      a, l
-        cp      6
-        jr      z, main9
-        jr      mainb
 
 ;****  Roms Menu  ****
 ;*********************
@@ -2224,7 +2317,11 @@ ramts1  ld      ixl, cad66&$ff
         call_prnstr
         dec     iyh
         jr      nz, ramts1
-        ld      bc, zxuno_port+$100
+;        ld      bc, $0212
+;        ld      ix, cad66
+;        call_prnstr
+;        ld      ixl, cad66 & $ff
+;        call_prnstr
         ret
 
 calcu   add     hl, hl
@@ -2834,6 +2931,7 @@ wtohe2  ld      (de), a
 ; ---------------
 ramtst  di
         call    bomain
+        ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         ld      bc, $040b
 ramts2  dec     b
@@ -3357,7 +3455,7 @@ cad10   defb    'Hardware tests', 0
         defb    $1b, ' Memory test', 0
         defb    $1b, ' Sound test', 0
         defb    $1b, ' Tape test', 0
-        defb    $1b, ' Video test', 0
+        defb    $1b, ' Input test', 0
         defb    ' ', 0
         defb    'Options', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
@@ -3373,6 +3471,11 @@ cad11   defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0, 0
@@ -3395,8 +3498,8 @@ cad15   defb    'Performs a', 0
         defb    'sound test on', 0
         defb    'your system', 0, 0
 cad16   defb    'Performs a', 0
-        defb    'video test on', 0
-        defb    'your system', 0, 0
+        defb    'keyboard &', 0
+        defb    'joystick test', 0, 0
 cad17   defb    'Hide the whole', 0
         defb    'boot screen', 0
         defb    'when enabled', 0, 0
@@ -3545,6 +3648,13 @@ cad71   defb    'Memory usually', 0
 cad72   defb    'Performs a', 0
         defb    'tape test', 0, 0
 cad73   defb    $1b, 0
+cad86   defb    'Kempston     Fuller', 0
+        defb    'Break key to return', 0
+        defb             '234567890'
+        defb    'Q'+$80, 'WERTYUIOP'
+        defb    'A'+$80, 'SDFGHJKLe'
+        defb    'c'+$80, 'ZXCVBNMsb'
+        defb    'o'+$80, $1c, $1d, $1e, $1f, $1f, $1e, $1d, $1c, 'o', $80
 fincad
 
 ; todo
