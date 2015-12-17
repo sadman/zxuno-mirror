@@ -232,19 +232,21 @@ start3  ld      a, b
         jr      z, start3
         ld      b, $13
         ldir
-        ld      bc, zxuno_port  ; print ID
-        out     (c), a          ; a = $ff = core_id
-        inc     b
-        ld      hl, cad0+6      ; Load address of coreID string
-star35  in      a, (c)
-        ld      (hl), a         ; copia el caracter leido de CoreID 
-        inc     hl
-        ld      bc, $090b
-        jr      nz, star35      ; si no recibimos un 0 seguimos pillando caracteres
-        ld      ix, cad0        ; imprimir cadena
-        call_prnstr             ; CoreID
-        ld      c, b
-        ld      ixl, cad1 & $ff ; imprimir cadenas BOOT screen
+;        ld      bc, zxuno_port  ; print ID
+;        out     (c), a          ; a = $ff = core_id
+;        inc     b
+;        ld      hl, cad0+6      ; Load address of coreID string
+;star35  in      a, (c)
+;        ld      (hl), a         ; copia el caracter leido de CoreID 
+;        inc     hl
+;        ld      bc, $090b
+;        jr      nz, star35      ; si no recibimos un 0 seguimos pillando caracteres
+;        ld      ix, cad0        ; imprimir cadena
+;        call_prnstr             ; CoreID
+;        ld      c, b
+;        ld      ixl, cad1 & $ff ; imprimir cadenas BOOT screen
+      ld      bc, $0909
+      ld      ix, cad1        ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
         call_prnstr             ; ZX-Uno BIOS version
@@ -285,15 +287,15 @@ start5  djnz    start6
         ld      hl, $0017
         ld      de, $2001
         call    window
-        ld      bc, zxuno_port+$100
-        wreg    scan_code, $f6  ; $f6 = kb set defaults
-        halt
-        halt
-        wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
-        halt
-        wreg    scan_code, $02
-        halt
-        wreg    mouse_data, $f4 ; $f4 = init Kmouse
+;        ld      bc, zxuno_port+$100
+;        wreg    scan_code, $f6  ; $f6 = kb set defaults
+;        halt
+;        halt
+;        wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
+;        halt
+;        wreg    scan_code, $02
+;        halt
+;        wreg    mouse_data, $f4 ; $f4 = init Kmouse
         jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
