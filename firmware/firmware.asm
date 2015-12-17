@@ -1,5 +1,4 @@
         output  firmware_strings.rom
-        define  debug   0
 
       macro wreg  dir, dato
         rst     $30
@@ -232,21 +231,19 @@ start3  ld      a, b
         jr      z, start3
         ld      b, $13
         ldir
-;        ld      bc, zxuno_port  ; print ID
-;        out     (c), a          ; a = $ff = core_id
-;        inc     b
-;        ld      hl, cad0+6      ; Load address of coreID string
-;star35  in      a, (c)
-;        ld      (hl), a         ; copia el caracter leido de CoreID 
-;        inc     hl
-;        ld      bc, $090b
-;        jr      nz, star35      ; si no recibimos un 0 seguimos pillando caracteres
-;        ld      ix, cad0        ; imprimir cadena
-;        call_prnstr             ; CoreID
-;        ld      c, b
-;        ld      ixl, cad1 & $ff ; imprimir cadenas BOOT screen
-      ld      bc, $0909
-      ld      ix, cad1        ; imprimir cadenas BOOT screen
+        ld      bc, zxuno_port  ; print ID
+        out     (c), a          ; a = $ff = core_id
+        inc     b
+        ld      hl, cad0+6      ; Load address of coreID string
+star35  in      a, (c)
+        ld      (hl), a         ; copia el caracter leido de CoreID 
+        inc     hl
+        ld      ix, cad0        ; imprimir cadena
+        jr      nz, star35      ; si no recibimos un 0 seguimos pillando caracteres
+        ld      bc, $090b
+        call_prnstr             ; CoreID
+        ld      c, b
+        ld      ixl, cad1 & $ff ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
         call_prnstr             ; ZX-Uno BIOS version
@@ -287,15 +284,15 @@ start5  djnz    start6
         ld      hl, $0017
         ld      de, $2001
         call    window
-;        ld      bc, zxuno_port+$100
-;        wreg    scan_code, $f6  ; $f6 = kb set defaults
-;        halt
-;        halt
-;        wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
-;        halt
-;        wreg    scan_code, $02
-;        halt
-;        wreg    mouse_data, $f4 ; $f4 = init Kmouse
+        ld      bc, zxuno_port+$100
+        wreg    scan_code, $f6  ; $f6 = kb set defaults
+        halt
+        halt
+        wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
+        halt
+        wreg    scan_code, $02
+        halt
+        wreg    mouse_data, $f4 ; $f4 = init Kmouse
         jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
@@ -2232,14 +2229,6 @@ calcu   add     hl, hl
 ; ------------------------
 ; Save flash structures from $9000 to $06000 and from $a000 to $07000 
 ; ------------------------
-      IF  debug
-wrflsh  dec     a
-        ret     z
-        inc     de
-        jr      wrflsh
-savech  ret
-        defs    126
-      ELSE
 savech  ld      bc, zxuno_port+$100
         ld      a, $20
         ld      hl, config
@@ -2315,7 +2304,6 @@ waits6  in      a, (c)
         jr      nz, waits6
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         ret
-      ENDIF
 
 ; ------------------------
 ; Load flash structures from $06000 to $9000  
@@ -2546,88 +2534,6 @@ finlog
 ; -----------------------------------------------------------------------------
         incbin  strings.bin.zx7b
 finstr
-
-; after 1 second continue boot
-      IF  debug
-saveme
-copyme
-conti   ld      a, 2
-        out     ($fe), a
-        di
-        halt
-
-rdflsh  ld      a, h
-        cp      $0a
-        ret     nz
-        ld      a, l
-        cp      $a0
-        ret     nz
-        ld      bc, l0070-l0060   ;old l0ab0-l0aa0
-        ld      hl, l0060  ;old l0aa0
-        ld      d, $90
-        ldir
-        ld      de, $a000
-        ld      c, $50 ;l0ac0-l0ab0
-        ldir
-        ret
-
-; 64 entradas
-;    00: slot offset
-;    01: slot size
-;    02: RAM offset     
-;    03: ROM SRAM size
-;    04: port 1ffd
-;    05: port 7ffd
-;    ...
-;    10-1f: CRCs
-;    20-3f: Name
-l0aa0   defb    $00, 1, $08, 1, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K Cargando Leches '
-        defb    $01, 4, $08, 4, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX +3e DivMMC                   '
-        defb    $05, 2, $0a, 2, $04, $00, $ff, $ff ;$04
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'SE Basic IV 4.0 Anya            '
-        defb    $07, 1, $08, 1, $00, $00, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defm    'ZX Spectrum 48K 1234567890123456'
-
-;  00-3f: index to entries
-;  40: active entry
-;  41: fast boot    0: Disable, 1: Enable
-;  42: Check CRC    0: Disable, 1: Enable
-;  43: DivMMC       0: Disable, 1: Enable
-;  44: NMI-DivMMC   0: Disable, 1: Enable
-;  45: Issue        0: Issue 2, 1: Issue 3
-l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-        defb    $03             ; active
-        defb    $00             ; quiet
-        defb    $01             ; checkcrc
-        defb    $02             ; Issue
-        defb    $02             ; Timing
-        defb    $02             ; Contended
-        defb    $02             ; DivMMC
-        defb    $02             ; NMI-DivMMC
-        defb    0   ; para que not implemented sea 0
-l0ac0   defs    64
-      ELSE
 
 runbit  ld      b, h
         call    calbit
@@ -2888,7 +2794,6 @@ rdfls2  ini
         wreg    flash_cs, 1
         pop     hl
         ret
-      ENDIF
 
 ; ------------------------
 ; Print Hexadecimal number
