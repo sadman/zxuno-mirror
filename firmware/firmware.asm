@@ -259,12 +259,22 @@ star35  in      a, (c)
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-        ld      hl, active
+        ld      hl, active+1
+        add     a, (hl)
+        jr      z, star37
+        dec     a
+        rrca
+        rrca
+        rrca
+        ld      l, a
+        ld      h, bnames>>8
+        jr      star38
+star37  dec     l
         ld      l, (hl)
         ld      l, (hl)
         call    calcu
         set     5, l
-        ld      de, tmpbuf
+star38  ld      de, tmpbuf
         push    de
         pop     ix
         ld      c, $1f
