@@ -13,6 +13,19 @@
         define  flash_spi       2
         define  flash_cs        3
         define  scan_code       4
+        define  key_stat        5
+        define  joy_conf        6
+        define  key_map         7
+        define  nmi_event       8
+        define  mouse_data      9
+        define  mouse_status    10
+        define  scandblctrl     11
+        define  raster_line     12
+        define  raster_ctrl     13
+        define  core_addr       $fc
+        define  core_boot       $fd
+        define  cold_boot       $fe
+        define  core_id         $ff
 
         define  cmbpnt  $8f00
         define  colcmb  $8fc6   ;lo: color de lista   hi: temporal
@@ -49,9 +62,9 @@
         inc     b
         in      f, (c)
         push    af
-        ld      hl, conti
-        ld      de, $b400-chrend+conti
-        ld      bc, chrend-conti
+        ld      hl, runbit
+        ld      de, $b400-chrend+runbit
+        ld      bc, chrend-runbit
         ldir
         call    loadch
         ei
@@ -219,25 +232,19 @@ start3  ld      a, b
         jr      z, start3
         ld      b, $13
         ldir
-
-printID
-        ld      a, $ff		; registro lectura CoreID
-        ld      bc, zxuno_port
-        out     (c), a
-	inc 	b
-	ld 	hl, cad74+$6   	; Load address of coreID string
-printID2
-        in      a, (c)
-	ld 	(hl), a		; copia el caracter leido de CoreID 
-	inc 	hl
-	ld 	a, a
-	jr 	nz, printID2  	; si no recibimos un 0 seguimos pillando caracteres
+        ld      bc, zxuno_port  ; print ID
+        out     (c), a          ; a = $ff = core_id
+        inc     b
+        ld      hl, cad0+6      ; Load address of coreID string
+star35  in      a, (c)
+        ld      (hl), a         ; copia el caracter leido de CoreID 
+        inc     hl
         ld      bc, $090b
-        ld      ix, cad74       ; imprimir cadena
+        jr      nz, star35      ; si no recibimos un 0 seguimos pillando caracteres
+        ld      ix, cad0        ; imprimir cadena
         call_prnstr             ; CoreID
-
-        ld      bc, $0909
-        ld      ix, cad1        ; imprimir cadenas BOOT screen
+        ld      c, b
+        ld      ixl, cad1 & $ff ; imprimir cadenas BOOT screen
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
         call_prnstr             ; ZX-Uno BIOS version
@@ -246,7 +253,7 @@ printID2
         call_prnstr             ; Processor
         call_prnstr             ; Memory
         call_prnstr             ; Graphics
-        ld      bc, $0b13
+        ld      b, $0b
         call_prnstr             ; hi-res, ULAplus
         push    bc
         ld      b, a
@@ -278,59 +285,24 @@ start5  djnz    start6
         ld      hl, $0017
         ld      de, $2001
         call    window
-
-;ifscratch
-;        ld      a, $fe		; registro Scratch
-;        ld      bc, zxuno_port
-;        out     (c), a
-;	inc 	b
-;        in      a, (c)
-;	jr 	z, initkb	;si es 0 inicializamos kb
-;start5a
-;        ld      a, $03          
-;        out     ($fe), a        ; output to port.
-;	jr	start5b
-
-initkb	ld	a, scan_code
-	ld	bc, zxuno_port
-	out	(c), a
-	inc 	b		
-	ld	a, $f6 		;$f6 = kb set defaults
-	out	(c), a
-	call	delayps2
-	call	delayps2
-	ld	a, $ed 		;$ed + 2 = kb set leds + numlock
-	out	(c), a
-	call	delayps2
-	ld	a, 2		;numlock
-	out	(c), a
-	call	delayps2	;	
-
-initmouse
-	ld	a, $9		;reg. Kmouse
-	ld	bc, zxuno_port
-	out	(c), a
-	inc 	b		
-	ld	a, $f4		;init Kmouse
-	out	(c), a	
-
-;ScratchLed
-;        ld      a, $fe		; registro Scratch
-;        ld      bc, zxuno_port
-;        out     (c), a
-;	inc 	b
-;	ld	a, $1 		;tras coldboot, pasamos scratch a 1
-;	out	(c), a
-
-start5b
-
+        ld      bc, zxuno_port+$100
+        wreg    scan_code, $f6  ; $f6 = kb set defaults
+        halt
+        halt
+        wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
+        halt
+        wreg    scan_code, $02
+        halt
+        wreg    mouse_data, $f4 ; $f4 = init Kmouse
         jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
         jr      c, start5
         ld      (codcnt), a
+        cp      $19
+        jr      z, start7
         cp      $0c
-        jp      z, blst
+start7  jp      z, blst
         cp      $17
         jr      nz, start5
 
@@ -1166,7 +1138,7 @@ upgra5  jp      nz, main6
         ld      (bitstr), a
         jr      upgra5
 upgra6  ld      ix, upgra7
-        call    delhel
+        jp      delhel
 upgra7  ld      sp, stack-2
         call    loadta
         jr      nc, upgra8
@@ -1239,11 +1211,7 @@ upgrac  cp      $45
         ld      a, (tmpbuf+1)
         cp      $cb
 upgrad  jr      nz, upgraa
-upgrae  inc     b
-        ld      hl, $0040
-        ld      de, $0540
-upgraf  add     hl, de
-        djnz    upgraf
+upgrae  call    calbit
         push    hl
         ld      de, tmpbuf+$52
         ld      hl, cad63
@@ -1388,7 +1356,20 @@ exit6   call    savech
 ;++++++++     Boot list    ++++++++
 ;++++++++++++++++++++++++++++++++++
 blst    call    clrscr          ; borro pantalla
-        call    nument
+        ld      h, bnames-1>>8
+        ld      c, $20
+        ld      a, c
+blst0   add     hl, bc
+        inc     e
+        cp      (hl)
+        jr      z, blst0
+        ld      a, (codcnt)
+        ld      (tmpbuf), a
+        rrca
+        inc     e
+        ld      a, e
+        ld      l, a
+        call    nc, nument
         cp      13
         jr      c, blst1
         ld      a, 13
@@ -1425,24 +1406,28 @@ blst2   ld      ix, cad4
         call_prnstr
         call_prnstr
         call_prnstr
+        ld      hl, cad62
+        ld      (cmbpnt), hl
         ld      iy, indexe
         ld      ix, cmbpnt
         ld      de, tmpbuf
         ld      b, e
+        ld      hl, bnames
+        ld      a, (de)
+        rrca
+        jr      c, bls31
 blst3   ld      l, (iy)
-        inc     iyl
         inc     l
         call    calcu
-        ld      (ix+0), e
-        ld      (ix+1), d
-        inc     ixl
-        inc     ixl
-        call    str2tmp
-        ld      a, (items)
-        sub     2
-        sub     iyl
+        call    addbls
         jr      nc, blst3
-        ld      (ix+0), cad6&$ff
+        jr      bls37
+bls31   call    addbl1
+bls33   ld      c, $20
+        add     hl, bc
+        call    addbls
+        jr      nc, bls33
+bls37   ld      (ix+0), cad6&$ff
         ld      (ix+1), cad6>>8
         ld      (ix+3), a
         ld      a, (items+1)
@@ -1450,11 +1435,16 @@ blst3   ld      l, (iy)
         ld      d, 32
         ld      hl, $1a02
         ld      (corwid), hl
-        pop     hl
-        ld      h, 4
         ld      a, %01001111
         ld      (colcmb), a
-        ld      a, (active)
+        ld      a, (cmbpnt+1)
+        rrca
+        ld      hl, (active)
+        ld      a, h
+        jr      c, bls38
+        ld      a, l
+bls38   pop     hl
+        ld      h, 4
 blst4   call    combol
         ld      b, a
         ld      a, (codcnt)
@@ -1468,8 +1458,41 @@ blst4   call    combol
         ld      a, $17
         jp      z, bios
         ld      a, b
+        ld      hl, (tmpbuf)
+        srl     l
         ld      (active), a
+        jr      nc, blst5
+        ld      (bitstr), a
 blst5   jp      alto conti
+
+; ------------------------------------
+; Calculate start address of bitstream
+;    B: number of bitstream
+; Returns:
+;   HL: address of bitstream
+; ------------------------------------
+calbit  inc     b
+        ld      hl, $0040
+        ld      de, $0540
+upgraf  add     hl, de
+        djnz    upgraf
+        ret
+
+; ----------------------------
+; Add an entry to the bootlist
+; ----------------------------
+addbls  ld      (ix+0), e
+        ld      (ix+1), d
+        push    hl
+        call    str2tmp
+        pop     hl
+addbl1  inc     iyl
+        inc     ixl
+        inc     ixl
+        ld      a, (items)
+        sub     2
+        sub     iyl
+        ret
 
 ; -------------------------------------
 ; Prits a blank line in the actual line
@@ -2522,15 +2545,6 @@ finlog
         incbin  strings.bin.zx7b
 finstr
 
-delayps2:
-		ld	bc,$7D0
-delayloop:	dec	bc
-		ld	a,c
-		or	b
-		jr	nz, delayloop
-		ld	bc, zxuno_port+$100
-		ret
-
 ; after 1 second continue boot
       IF  debug
 saveme
@@ -2613,18 +2627,31 @@ l0ab0   defb    $02, $01, $00, $03, $02, $01, $00, $03
 l0ac0   defs    64
       ELSE
 
+runbit  ld      b, h
+        call    calbit
+        ld      bc, zxuno_port
+        ld      e, core_addr
+        out     (c), e
+        inc     b
+        out     (c), h
+        out     (c), l
+        out     (c), a
+        wreg    core_boot, 1
+
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Start ROM     ++++++++
 ;++++++++++++++++++++++++++++++++++
 conti   di
-        ld      hl, active
-        ld      l, (hl)
+        xor     a
+        ld      hl, (active)
+        cp      h
+        jr      nz, runbit
+        ld      h, active>>8
         ld      l, (hl)
         call    calcu
         push    hl
         pop     ix
         ld      d, (ix+6)
-        xor     a
         ld      hl, conten
         rr      (hl)
         jr      z, ccon1
@@ -2792,11 +2819,6 @@ copyme  ld      bc, zxuno_port+$100
         ld      b, (hl)
         ex      de, hl
         sbc     hl, bc
-;        ret     z
-;        pop     de
-;        add     hl, hl
-;        ex      (sp), hl
-;        push    de
         ret
 
 ; -------------------------------------
@@ -3374,8 +3396,9 @@ l3eff   in      l,(c)
 ;++++++++++++++++++++++++++++++++++++++++
 ;++++++++++++++++++++++++++++++++++++++++
         block   $8000-$
+cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.30K', 0
+        defm    'ZX-Uno BIOS v0.312', 0
         defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3410,7 +3433,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.311   ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.312   ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3605,7 +3628,6 @@ cad71   defb    'Memory usually', 0
 cad72   defb    'Performs a', 0
         defb    'tape test', 0, 0
 cad73   defb    $1b, 0
-cad74	defb	'Core: 000-00000000',0
 fincad
 
 ; todo
