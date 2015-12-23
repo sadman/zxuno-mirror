@@ -1,19 +1,21 @@
-;Visor de pantallas simples modo 128x96
-;Para generar una pantalla compatible con este modo:
-; - Convertir una imagen RGB a 128x96, 16 colores paletizados
-; - Grabarla como BMP sin compresión
-; - Integrarla como archivo binario a este programa
+;Picture viewer for Radastan mode (128x96x16)
+;To generate a screen compatible with the Radastan mode:
+; - Use a graphics tool, like Irfanview, to resize the picture to 128x96 with a palette of 16 colours
+; - Save it as BMP without compression
+; - Include it as a binary data into this source code
+
+; To be assembled with PASMO --tapbas
 
                org 32768
 Main           di
 
-               ;Convertir la paleta del BMP a paleta de ULAplus
-               ld hl,Pantalla+36h  ;offset de la paleta en los BMP. El formato de la paleta es BGRA
+               ;Convert BMP palette to ULAplus palette entry
+               ld hl,Pantalla+36h  ;BMP palette offset. Format is BGRA
                ld bc,0bf3bh
                ld e,0
 BucPaleta      out (c),e
                ld b,0ffh
-               ld a,(hl)   ; azul
+               ld a,(hl)   ; blue
                sra a
                sra a
                sra a
@@ -23,12 +25,12 @@ BucPaleta      out (c),e
                and 3
                ld d,a
                inc hl
-               ld a,(hl)   ; verde
+               ld a,(hl)   ; green
                and 11100000b
                or d
                ld d,a
                inc hl
-               ld a,(hl)   ; rojo
+               ld a,(hl)   ; red
                sra a
                sra a
                sra a
@@ -36,7 +38,7 @@ BucPaleta      out (c),e
                or d
                out (c),a
                inc hl
-               inc hl      ; nos saltamos el byte de "alpha"
+               inc hl      ; skip the alpha byte
                ld b,0bfh
                inc e
                ld a,e
@@ -49,8 +51,8 @@ BucPaleta      out (c),e
                ld a,3
                out (c),a
 
-               ld hl,Pantalla+76h+95*64   ;offset a la última línea del BMP (la primera en pantalla)
-               ld de,16384                ;offset al comienzo de pantalla
+               ld hl,Pantalla+76h+95*64   ;offset to the last BMP stored scanline (the first we see on screen)
+               ld de,16384                ;offset to the Spectrum screen buffer
                ld b,96
 BucPintaScans  push bc
                ld bc,64
@@ -76,6 +78,6 @@ BucPintaScans  push bc
 
 
 Pantalla       equ $
-               incbin "moco.bmp"  ; <-- pon aqui el fichero BMP que quieras ver. Debe tener 6262 bytes de longitud
+               incbin "moco.bmp"  ; <-- put here the BMP you want to see. It must have 6262 bytes in length
 
                end Main
