@@ -1,6 +1,6 @@
+\emuscriptoria\sjasmplus kartusho.asm
 cd ..\..\..\firmware\roms
-..\sjasmplus ..\..\software\otros\if2\sin_leches_menu_kartusho.asm
-copy /b kartusho.rom+         ^
+copy /b ..\..\software\otros\if2\kartusho.rom+   ^
         48.rom+               ^
         lechesaa.rom+         ^
         sinleches.rom+        ^
@@ -24,13 +24,13 @@ copy /b kartusho.rom+         ^
         LocoMotion.rom+       ^
         PanamaJoe.rom+        ^
         Popeye.rom+           ^
-        QBert.rom+            ^
+        MiscoJones.rom+       ^
         ReturnJedi.rom+       ^
         StarWars.rom+         ^
         Deathchase.rom+       ^
         JetSetWilly.rom+      ^
         LalaPrologue.rom+     ^
-        ManicMiner.rom+       ^
-        MiscoJones.rom        ^
+        gw03.rom+             ^
+        QBert.rom             ^
     ..\..\software\otros\if2\kartusho.rom
 cd ..\..\software\otros\if2
