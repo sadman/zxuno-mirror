@@ -1,32 +1,34 @@
         OUTPUT  kartusho.rom
-        define  codcnt  $7ffe
+        define  codcnt  $783d
 
-        ei
-        ld      sp, codcnt
+        im      1
+        ld      sp, $8000
         ld      hl, $4000
         push    hl
         ld      de, $4001
         ld      (hl), l
         ld      bc, $1800
         ldir
-        ld      b, 3
+        ld      bc, $07fe
+        out     (c), b
         ld      (hl), $38
         ldir
         ld      ix, string
         pop     de
         call    prnscr
-        ld      de, $4800
+        ld      d, h
+        ld      e, b
         call    prnscr
-        ld      hl, LCONT
-        push    hl
-        ld      hl, gam06
-        ld      d, $7e
-        ld      bc, SELEC-gam06
+        push    ix
+        ld      c, d
+        ld      hl, game3
+        ld      d, (hl)
         push    de
         ldir
-        xor     a
-        ld      l, a
-        jr      GAMES
+        ld      (de), a
+        ld      l, c
+        ei
+        jp      games
 
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
@@ -100,18 +102,17 @@ keysc9  ld      (codcnt), hl
         pop     af
         ret
 
-GAMES   exx
-        call    SELEC
-waitky  ld      a, (codcnt)
+games   call    SELEC
+waitky  ld      a, (de)
         sub     $80
         jr      c, waitky
-        ld      (codcnt), a
+        ld      (de), a
         cp      $0d
         jr      z, gamen
         cp      $20
         jr      z, gamen
         call    SELEC
-        exx
+        ld      a, (de)
         sub     '5'
         jr      z, gamlf
         dec     a
@@ -127,7 +128,7 @@ waitky  ld      a, (codcnt)
         dec     a
         jr      z, gamrh
         dec     a
-        jr      nz, GAMES
+        jr      nz, games
 gamup   dec     l
         dec     l
 gamdw   inc     l
@@ -135,18 +136,16 @@ gamdw   inc     l
 gamlf   res     4, l
         defb    $01
 gamrh   set     4, l
-        jr      GAMES
-gamen   exx
-        ld      a, l
+        jr      games
+gamen   ld      a, l
+        ld      hl, $21c9
         and     $1f
-        jr      nz, gam05
-        ld      l, $c9
-        ld      ($7ef9), hl
-gam05   rlca
+        jr      nz, game2
+        ld      ($77fd), hl
+game2   rlca
         rlca
-        rlca
+keytab  rlca
         inc     a
-keytab  ld      h, $20
         ld      b, 6
         ret
         defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
@@ -176,28 +175,27 @@ prnsc1  ld      a, (hl)
         ex      de, hl
         jr      prnscr
 
-gam06   ld      (hl), a
+game3   ld      (hl), a
+        ld      h, $10
         rlca
-        djnz    gam06
+        rl      h
+        djnz    game3
         rst     0
 
-SELEC   push    af
+SELEC   push    hl
         exx
-        ld      a, l
-        and     $1f
-        exx
-        cp      $10
+        pop     hl
+        bit     4, l
+        ld      d, b
+        ld      e, b
         ld      b, 13
-        ld      de, 0
-        jr      c, sel01
+        jr      z, sel01
         ld      e, b
         ld      b, 19
-sel01   and     $0f
-        add     a, a
-        add     a, a
-        add     a, a
-        add     a, a
-        ld      l, a
+sel01   add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
         ld      h, $2c
         add     hl, hl
         add     hl, de
@@ -206,7 +204,7 @@ sel02   ld      a, (hl)
         ld      (hl), a
         inc     l
         djnz    sel02
-        pop     af
+        exx
         ret
 
 string  defb    '0 ManicMiner 10 Horace & Spiders'
@@ -226,21 +224,17 @@ string  defb    '0 ManicMiner 10 Horace & Spiders'
         defb    'E Chess      1E Gosh Wonderful  '
         defb    'F Planetoids 1F QBert', 0
 
-LCONT   di
-        ld      sp, $7530
+        out     ($fe), a
         ld      de, $5aff
         ld      hl, endscr-1
         call    dzx7
-        xor     a
-        out     ($fe), a
-init    in      a, ($fe)
-        or      $e0
-        inc     a
-        jr      z, init
-        ld      de, $ffff
+init    ld      a, (codcnt)
+        add     a, a
+        jr      nc, init
+        dec     d
         ld      hl, endman-1
-        call    dzx7
-        jp      $8400
+        ld      b, $84
+        push    bc
 
 dzx7b   include dzx7b_fast.asm
         incbin  manic.scr.zx7b
