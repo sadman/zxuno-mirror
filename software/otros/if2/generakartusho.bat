@@ -1,4 +1,7 @@
 \emuscriptoria\sjasmplus kartusho.asm
+\fase\ComplementosChurrera\FiltroRCS\rcs pantalla.scr pantalla.rcs
+\emuscriptoria\desprot\fcut pantalla.rcs 0 1000 pantalla.cut
+\fase\engine\bin\zx7b pantalla.cut pantalla.cut.zx7b
 cd ..\..\..\firmware\roms
 copy /b ..\..\software\otros\if2\kartusho.rom+   ^
         48.rom+               ^
@@ -9,8 +12,8 @@ copy /b ..\..\software\otros\if2\kartusho.rom+   ^
         se2.rom+              ^
         inves.rom+            ^
         seachange.rom+        ^
-        Backgammon.rom+       ^
-        Cookie.rom+           ^
+        gw03.rom+             ^
+        JetSetWilly.rom+      ^
         Pssst.rom+            ^
         Gyruss.rom+           ^
         JetPac.rom+           ^
@@ -28,9 +31,9 @@ copy /b ..\..\software\otros\if2\kartusho.rom+   ^
         ReturnJedi.rom+       ^
         StarWars.rom+         ^
         Deathchase.rom+       ^
-        JetSetWilly.rom+      ^
+        Cookie.rom+           ^
         LalaPrologue.rom+     ^
-        gw03.rom+             ^
+        Backgammon.rom+       ^
         QBert.rom             ^
     ..\..\software\otros\if2\kartusho.rom
 cd ..\..\software\otros\if2

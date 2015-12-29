@@ -1,34 +1,38 @@
         OUTPUT  kartusho.rom
-        define  codcnt  $783d
+        define  codcnt  $7800
 
+        di
         im      1
         ld      sp, $8000
-        ld      hl, $4000
-        push    hl
-        ld      de, $4001
+        ld      hl, $5000
+        ld      de, $5001
         ld      (hl), l
-        ld      bc, $1800
+        ld      bc, $0800
         ldir
         ld      bc, $07fe
         out     (c), b
         ld      (hl), $38
         ldir
-        ld      ix, string
-        pop     de
-        call    prnscr
-        ld      d, h
-        ld      e, b
-        call    prnscr
-        push    ix
-        ld      c, d
-        ld      hl, game3
-        ld      d, (hl)
-        push    de
-        ldir
-        ld      (de), a
-        ld      l, c
-        ei
-        jp      games
+        ld      hl, manic-1
+        push    hl
+        ld      d, $6f
+        call    dzx7b
+        inc     l
+        inc     hl
+        ld      b, $40
+start3  ld      a, b
+        xor     c
+        and     $f8
+        xor     c
+        ld      d, a
+        xor     b
+        xor     c
+        rlca
+        rlca
+        ld      e, a
+        inc     bc
+        ldi
+        jr      cont
 
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
@@ -102,6 +106,17 @@ keysc9  ld      (codcnt), hl
         pop     af
         ret
 
+cont    inc     bc
+        bit     4, b
+        jr      z, start3
+        ld      hl, game3
+        ld      b, h
+        ld      d, (hl)
+        push    de
+        ldir
+        ld      l, c
+        ei
+
 games   call    SELEC
 waitky  ld      a, (de)
         sub     $80
@@ -138,10 +153,10 @@ gamlf   res     4, l
 gamrh   set     4, l
         jr      games
 gamen   ld      a, l
-        ld      hl, $21c9
+        ld      hl, $20c9
         and     $1f
         jr      nz, game2
-        ld      ($77fd), hl
+        ld      ($7705), hl
 game2   rlca
         rlca
 keytab  rlca
@@ -156,29 +171,9 @@ keytab  rlca
         defb    $0d, $6c, $6b, $6a, $68 ; Enter   l       k       j       h
         defb    $20
 
-prnscr  ld      a, (ix)
-        inc     ix
-        add     a, a
-        ret     z
-        ld      l, a
-        ld      h, $0f
-        add     hl, hl
-        add     hl, hl
-        ld      b, 8
-prnsc1  ld      a, (hl)
-        ld      (de), a
-        inc     l
-        inc     d
-        djnz    prnsc1
-        ld      hl, $f801
-        add     hl, de
-        ex      de, hl
-        jr      prnscr
-
 game3   ld      (hl), a
-        ld      h, $10
         rlca
-        rl      h
+        ld      l, a
         djnz    game3
         rst     0
 
@@ -186,12 +181,11 @@ SELEC   push    hl
         exx
         pop     hl
         bit     4, l
-        ld      d, b
-        ld      e, b
-        ld      b, 13
+        ld      de, 0
+        ld      b, 15
         jr      z, sel01
         ld      e, b
-        ld      b, 19
+        ld      b, 17
 sel01   add     hl, hl
         add     hl, hl
         add     hl, hl
@@ -207,24 +201,9 @@ sel02   ld      a, (hl)
         exx
         ret
 
-string  defb    '0 ManicMiner 10 Horace & Spiders'
-        defb    '1 48K ROM    11 Space Raiders   '
-        defb    '2 CargLeches 12 Tranz Am        '
-        defb    '3 SinLeches  13 Shadow Unicorn  '
-        defb    '4 SinclairTs 14 Hungry Horace   '
-        defb    '5 McLeodTest 15 Loco Motion     '
-        defb    '6 OpenSe     16 Montezuma\'s Rev.'
-        defb    '7 Inves      17 Popeye', 0
-        defb    '8 Sea Change 18 Misco Jones     '
-        defb    '9 Backgammon 19 Return of t.Jedi'
-        defb    'A Cookie     1A Star Wars       '
-        defb    'B Pssst      1B Deathchase      '
-        defb    'C Gyruss     1C Jet Set Willy   '
-        defb    'D Jet Pac    1D Lala Prologue   '
-        defb    'E Chess      1E Gosh Wonderful  '
-        defb    'F Planetoids 1F QBert', 0
+        incbin  pantalla.cut.zx7b
 
-        out     ($fe), a
+manic   out     ($fe), a
         ld      de, $5aff
         ld      hl, endscr-1
         call    dzx7
