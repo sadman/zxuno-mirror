@@ -10,6 +10,10 @@ Path = Cobra.tzx
 Size = 48571
 CRC = 91374AF1
 
+Path = Fernando Martin.tzx
+Size = 47514
+CRC = F97E5238
+
 Path = Knight Lore.tzx
 Size = 40073
 CRC = C10F7C90

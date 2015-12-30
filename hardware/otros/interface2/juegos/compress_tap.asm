@@ -5,7 +5,7 @@
 com     ld      sp, $5cde
         di
         db      $de, $c0, $37, $0e, $8f, $39, $96 ; OVER USR 7 ($5ccb)
-ini     ld      de, $8300
+ini     ld      de, $82ff
         ld      hl, fin-1
     ELSE
         org     $5b87
@@ -17,14 +17,13 @@ com     ld      de, ini
         push    de
         ldir
         ret
-ini     ld      de, $8300
+ini     ld      de, $82ff
         ld      hl, $5ccb+fin-com-1
     ENDIF
         call    deexo
         ex      de, hl
-        ld      bc, $4000
-loop    inc     hl
-        ld      a, b
+        ld      bc, $3fff
+loop    ld      a, b
         xor     c
         and     $f8
         xor     c
@@ -34,8 +33,8 @@ loop    inc     hl
         rlca
         rlca
         ld      e, a
-        ld      a, (hl)
-        ld      (de), a
+        inc     bc
+        ldi
         inc     bc
         bit     7, h
         jr      z, loop
