@@ -2,9 +2,17 @@ Path = Atic Atac.tzx
 Size = 37726
 CRC = 28B3AD66
 
+Path = Camelot Warriors.tzx
+Size = 42015
+CRC = 48205ADE
+
 Path = Cobra.tzx
 Size = 48571
 CRC = 91374AF1
+
+Path = Knight Lore.tzx
+Size = 40073
+CRC = C10F7C90
 
 Path = Mario Bros.tzx
 Size = 45160

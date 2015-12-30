@@ -3,7 +3,7 @@ tzx2wav "tzx\%~1.tzx" temp.wav
 ticks 48rp.rom -t temp.wav -e %6 -o file.mem -c 0
 fcut file.mem 4000 1b00 file.scr
 rcs file.scr file.rcs
-if not "%5"=="%6" ticks file.mem -t temp.wav -e %5 -o file.mem -c 0
+if not "%7"=="%6" ticks file.mem -t temp.wav -e %7 -o file.mem -c 0
 if exist bat\%2.bat call bat\%2.bat
 fcut file.mem   %3   %4 file.bin
 set /a _fsh= 0x%3+0x%4
@@ -18,8 +18,7 @@ if %_fsh% GTR 0xfd80 (
 )
 call :dec2hex %_fsh%
 call compress b3- 5b00 file.rcs file.bin
-echo  define  mapbase $5b00       >  define.asm
-echo  define  startpc $%5         >> define.asm
+echo  define  startpc $%5         >  define.asm
 echo  define  address $%3         >> define.asm
 echo  define  binsize $%4         >> define.asm
 call :getfilesize file.bin.exo.opt
