@@ -10,6 +10,10 @@ Path = Cobra.tzx
 Size = 48571
 CRC = 91374AF1
 
+Path = Commando.tzx
+Size = 49327
+CRC = 97A97B9F
+
 Path = Fernando Martin.tzx
 Size = 47514
 CRC = F97E5238
@@ -26,3 +30,6 @@ Path = Nebulus.tzx
 Size = 44248
 CRC = AB56BC2A
 
+Path = Saboteur.tzx
+Size = 47973
+CRC = 124CB347

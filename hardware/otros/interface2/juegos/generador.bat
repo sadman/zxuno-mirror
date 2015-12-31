@@ -5,3 +5,5 @@ call compress_tap "Atic Atac"         AticAtac    6000 7600 6000 6000 6000
 call compress_tap "Knight Lore"       KnightLore  6100 7800 6100 6100 6100
 call compress_tap "Camelot Warriors"  CamelotWar  78c8 8737 c5a1 c5a8 c5a8
 call compress_tap "Fernando Martin"   FernMartBM  61a2 9c5b 61a2 fe34 fe34
+call compress_tap "Commando"          Commando    6300 9d00 641e 641e 641e
+call compress_tap "Saboteur"          Saboteur    6270 9d90 6270 f9e4 f9e4

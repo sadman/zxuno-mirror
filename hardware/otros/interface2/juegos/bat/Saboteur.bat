@@ -1,0 +1,1 @@
+fpoke file.mem 6270 gfd213a5cc3e4f9
