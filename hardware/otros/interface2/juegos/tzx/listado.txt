@@ -22,6 +22,10 @@ Path = Knight Lore.tzx
 Size = 40073
 CRC = C10F7C90
 
+Path = Match Day 2.tzx
+Size = 41893
+CRC = 66481642
+
 Path = Mario Bros.tzx
 Size = 45160
 CRC = E631869E
@@ -33,3 +37,19 @@ CRC = AB56BC2A
 Path = Saboteur.tzx
 Size = 47973
 CRC = 124CB347
+
+Path = Sabre Wulf.tzx
+Size = 45701
+CRC = 0EAEC7CE
+
+Path = Super Stuntman.tzx
+Size = 43577
+CRC = E6228CDD
+
+Path = Three Weeks.tzx
+Size = 49725
+CRC = 8A52549F
+
+Path = Underwurlde.tzx
+Size = 43076
+CRC = A3AE1178

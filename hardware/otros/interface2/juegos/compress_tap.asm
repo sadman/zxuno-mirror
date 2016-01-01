@@ -43,11 +43,11 @@ loop    ld      a, b
         ld      hl, startpc
         push    hl
         ld      de, exosize
-        ld      hl, address-4
+        ld      hl, address-7
         call    $07f4
         di
         ld      de, address+binsize-1
-        ld      hl, address+exosize-5
+        ld      hl, address+exosize-8
 deexo   include d.asm
 compr   incbin  file.rcs.exo.opt
 fin
