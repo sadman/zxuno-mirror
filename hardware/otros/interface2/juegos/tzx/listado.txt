@@ -22,6 +22,10 @@ Path = Knight Lore.tzx
 Size = 40073
 CRC = C10F7C90
 
+Path = Livingstone.tzx
+Size = 46130
+CRC = 0254BB77
+
 Path = Match Day 2.tzx
 Size = 41893
 CRC = 66481642

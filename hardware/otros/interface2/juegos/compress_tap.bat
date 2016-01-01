@@ -10,11 +10,7 @@ set /a _fsh= 0x%3+0x%4
 if %_fsh% GTR 0xfd80 (
   set /a _fsh= 0x%3-160
 ) else (
-  if 0x%3 LSS 0x5b04 (
-    set /a _fsh= 0x%3+0x%4+4
-  ) else (
-    set /a _fsh= 0x%3+0x%4
-  )
+  set /a _fsh= 0x%3+0x%4
 )
 call :dec2hex %_fsh%
 call compress b3- 5b00 file.rcs file.bin

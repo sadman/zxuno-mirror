@@ -12,3 +12,4 @@ call compress_tap "Underwurlde"       "Underwurld"  6800 8800 7680 7680 7680
 call compress_tap "Super Stuntman"    "S.Stuntman"  61a8 9c54 61a8 61a8 61a8
 call compress_tap "Sabre Wulf"        "Sabre Wulf"  6000 8c60 6000 6000 6000
 call compress_tap "Match Day 2"       "MatchDay 2"  78fb 8705 a05c 2aff a05c
+call compress_tap "Livingstone"       "Livingston"  5b00 9800 5b00 5b00 5b00
