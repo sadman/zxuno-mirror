@@ -6328,34 +6328,34 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <packages>
 <package name="BUS_CARTUCHO_IF2">
 <description>Bus cartucho IF2</description>
-<smd name="A0" x="-27.305" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A1" x="-24.765" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A2" x="-22.225" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A3" x="-19.685" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A4" x="-17.145" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A5" x="-14.605" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A6" x="-9.525" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A7" x="-6.985" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A8" x="-9.525" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A9" x="-14.605" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A10" x="-22.225" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A11" x="-17.145" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A12" x="-4.445" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="A13" x="-6.985" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A14" x="-24.765" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="A15" x="-4.445" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D0" x="-29.845" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="D1" x="-32.385" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="D2" x="-34.925" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="D3" x="-37.465" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D4" x="-34.925" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D5" x="-32.385" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D6" x="-29.845" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="D7" x="-27.305" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="GND" x="-37.465" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="MREQ" x="-19.685" y="3.175" dx="1.27" dy="6.35" layer="1"/>
-<smd name="ROMCS" x="-1.905" y="3.175" dx="1.27" dy="6.35" layer="16"/>
-<smd name="VCC" x="-1.905" y="3.175" dx="1.27" dy="6.35" layer="1"/>
+<smd name="A0" x="-27.305" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A1" x="-24.765" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A2" x="-22.225" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A3" x="-19.685" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A4" x="-17.145" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A5" x="-14.605" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A6" x="-9.525" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A7" x="-6.985" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A8" x="-9.525" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="A9" x="-14.605" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="A10" x="-22.225" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="A11" x="-17.145" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="A12" x="-4.445" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="A13" x="-6.985" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="A14" x="-24.765" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="A15" x="-4.445" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="D0" x="-29.845" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="D1" x="-32.385" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="D2" x="-34.925" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="D3" x="-37.465" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="D4" x="-34.925" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="D5" x="-32.385" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="D6" x="-29.845" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="D7" x="-27.305" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="GND" x="-37.465" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="MREQ" x="-19.685" y="6.35" dx="1.27" dy="12.7" layer="1"/>
+<smd name="ROMCS" x="-1.905" y="6.35" dx="1.27" dy="12.7" layer="16"/>
+<smd name="VCC" x="-1.905" y="6.35" dx="1.27" dy="12.7" layer="1"/>
 </package>
 </packages>
 <symbols>

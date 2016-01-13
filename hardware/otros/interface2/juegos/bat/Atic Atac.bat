@@ -1,1 +1,1 @@
-fpoke file.mem 6004 g3ee932b05c00
+fpoke file.mem 5ffc g31005e3ee932b05c21342522785c

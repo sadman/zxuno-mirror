@@ -6,6 +6,10 @@ Path = Camelot Warriors.tzx
 Size = 42015
 CRC = 48205ADE
 
+Path = Chuckie Egg.tzx
+Size = 20611
+CRC = 2BFDDCEF
+
 Path = Cobra.tzx
 Size = 48571
 CRC = 91374AF1
@@ -26,6 +30,10 @@ Path = Livingstone.tzx
 Size = 46130
 CRC = 0254BB77
 
+Path = Lunar Jetman.tzx
+Size = 39259
+CRC = C0C6D93B
+
 Path = Match Day 2.tzx
 Size = 41893
 CRC = 66481642
@@ -37,6 +45,10 @@ CRC = E631869E
 Path = Nebulus.tzx
 Size = 44248
 CRC = AB56BC2A
+
+Path = Rebelstar.tzx
+Size = 47998
+CRC = 07A9D9A0
 
 Path = Saboteur.tzx
 Size = 47973

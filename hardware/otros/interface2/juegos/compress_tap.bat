@@ -5,14 +5,8 @@ fcut file.mem 4000 1b00 file.scr
 rcs file.scr file.rcs
 if not "%7"=="%6" ticks file.mem -r -i 69888 -t temp.wav -e %7 -o file.mem -c 0
 if exist "bat\%~1.bat" call "bat\%~1.bat"
+ticks file.mem -o "sna\%~1.sna" -c 1
 fcut file.mem   %3   %4 file.bin
-set /a _fsh= 0x%3+0x%4
-if %_fsh% GTR 0xfd80 (
-  set /a _fsh= 0x%3-160
-) else (
-  set /a _fsh= 0x%3+0x%4
-)
-call :dec2hex %_fsh%
 call compress b3- 5b00 file.rcs file.bin
 echo  define  startpc $%5         >  define.asm
 echo  define  address $%3         >> define.asm
@@ -29,13 +23,4 @@ goto :eof
 
 :getfilesize
 set _filesize=%~z1
-goto :eof
-
-:dec2hex
-set /a "_fsh1=%1>>12&15"
-set /a "_fsh2=%1>>8&15"
-set /a "_fsh3=%1>>4&15"
-set /a "_fsh4=%1&15"
-set _map=0123456789ABCDEF
-set _res=!_map:~%_fsh1%,1!!_map:~%_fsh2%,1!!_map:~%_fsh3%,1!!_map:~%_fsh4%,1!
 goto :eof

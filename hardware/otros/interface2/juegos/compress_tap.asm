@@ -1,7 +1,7 @@
         include define.asm
         output  compress_tap.bin
-    IF address = $5b00
         org     $5ccb
+    IF address = $5b00
 com     ld      de, $ff40
         di
         db      $de, $c0, $37, $0e, $8f, $39, $96 ;OVER USR 7 ($5ccb)
@@ -10,28 +10,20 @@ com     ld      de, $ff40
         push    de
         ldir
         ret
-ini     ld      hl, $5ccb+fin-com-1
+ini     ld      de, $82ff
     ELSE
       IF address+binsize > $fd80
-        org     $5ccb
 com     ld      sp, $5cde
+      ELSE
+com     ld      de, $82ff
+      ENDIF
         di
         db      $de, $c0, $37, $0e, $8f, $39, $96 ; OVER USR 7 ($5ccb)
-ini     ld      hl, fin-1
-      ELSE
-        org     $5b87
-com     ld      de, ini
-        di
-        db      $de, $c0, $37, $0e, $8f, $39, $96 ;OVER USR 7 ($5ccb)
-        ld      hl, $5ccb+21
-        ld      bc, compr-ini
-        push    de
-        ldir
-        ret
-ini     ld      hl, $5ccb+fin-com-1
+      IF address+binsize > $fd80
+        ld      de, $82ff
       ENDIF
     ENDIF
-        ld      de, $82ff
+        ld      hl, fin-1
         call    deexo
         ex      de, hl
         ld      bc, $3fff
