@@ -8722,9 +8722,9 @@ Source: www.kingbright.com</description>
 <pinref part="IC4" gate="G$1" pin="A3"/>
 </segment>
 <segment>
-<wire x1="-10.16" y1="86.36" x2="-2.54" y2="86.36" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="A" pin="I4"/>
-<label x="-10.16" y="86.36" size="1.778" layer="95"/>
+<wire x1="-10.16" y1="71.12" x2="-2.54" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="A" pin="I10"/>
+<label x="-10.16" y="71.12" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A4" class="0">
@@ -8824,9 +8824,9 @@ Source: www.kingbright.com</description>
 <pinref part="IC4" gate="G$1" pin="A9"/>
 </segment>
 <segment>
-<wire x1="-10.16" y1="71.12" x2="-2.54" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="A" pin="I10"/>
-<label x="-10.16" y="71.12" size="1.778" layer="95"/>
+<wire x1="-10.16" y1="86.36" x2="-2.54" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="A" pin="I4"/>
+<label x="-10.16" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="A10" class="0">
