@@ -27,7 +27,8 @@
   <img width="100%" src="imagen/foto1.jpg"/>
   <strong>Noticias</strong>
   <ul>
-    <li>2015-11-18 Actualizada la web, añadido SDK Radastan: <a href="maquina.shtml">Máquina / Software</a></li>
+    <li><strong>2016-02-03 Encuesta precampaña crowfunding ZX-Uno!!!! <a href="http://tinyurl.com/hjz3hbw" target="_blank">Rellénala aquí.</a></strong></li>
+    <li>2015-11-18 Actualizada la web, añadido SDK Radastan. <a href="maquina.shtml#software">Máquina / Software</a></li>
     <li>2015-10-09 Actualizada la web, añadido nuevo <a href="http://zxuno.com/forum" target="_blank" style="width:55px">Foro</a>.</li>
     <li>2015-09-15 @Quest se incorpora al equipo ZX-Uno</li>
     <li>2015-07-10 Presentando ZEsarUX: Emulador Oficial ZX-Uno. <a href="maquina.shtml#software.shtml">Software</a></li>
