@@ -66,8 +66,8 @@
   2   J4, J5      3.5mm audio socket
   1   J6          DB9 right angle male (Joystick connector)
   1   J7          PS/2 socket
-  1   J8          9 pin molex connector 1.25mm right angle male (JTAG)
-  1   J9          6 pin molex connector 1.25mm right angle male (RGB)
+  1   J8          9 pin molex connector 1.25mm right angle male (RGB)
+  1   J9          6 pin molex connector 1.25mm right angle male (JTAG)
   3   J10-J12     12 pin female header single row
   3   J13-J15     2 pin male header single row
   3   D1-D3       SMD Diode 1N4148, SOD-523
@@ -80,10 +80,10 @@
   3   R16-R18     1K Ohm 0805 Resistor
   6   R19-R24     2K Ohm 0805 Resistor
   8   R25-R32     10K Ohm 0805 Resistor
-  1   C1          7.5pF 0805 Capacitor
+  1   C1          4.3pF 0805 Capacitor
   3   C2-C4       10nF 0805 Capacitor
  23   C5-C27      100nF 0603 Capacitor
-  8   C28-C35     10uF 0805 Capacitor
+  8   C28-C35     4.7uF 0805 Capacitor
   1   C36         220uF CPOL-0605 Capacitor
 </pre>
 
