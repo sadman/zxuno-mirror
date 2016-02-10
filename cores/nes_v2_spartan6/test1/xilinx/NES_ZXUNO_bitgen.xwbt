@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=/home/nestor/Projects/zxuno/git/zxuno_nes/xilinx/NES_ZXUNO.ncd
+OUTFILE=/home/nestor/Projects/zxuno/git/zxuno_nes/xilinx/NES_ZXUNO.bit
+FAMILY=Spartan6
+PART=xc6slx9-3tqg144
+WORKINGDIR=/home/nestor/Projects/zxuno/git/zxuno_nes/xilinx
+LICENSE=WebPack
+USER_INFO=211086823_0_0_417

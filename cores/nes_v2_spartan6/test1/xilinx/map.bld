@@ -1,0 +1,12 @@
+Release 14.7 ngdbuild P.20131013 (lin)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+Command Line: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin/unwrapped/ngdbuild map
+
+ERROR:NgdBuild:1364 - Top-level input design file "map.ngo" cannot be found or
+   created. Please make sure the source file exists and is of a recognized
+   netlist format (e.g., ngo, ngc, edif, edn, or edf).
+Total REAL time to NGDBUILD completion:  0 sec
+Total CPU time to NGDBUILD completion:   0 sec
+
+Writing NGDBUILD log file "map.bld"...
