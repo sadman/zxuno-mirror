@@ -18613,28 +18613,28 @@ straight</description>
 <description>&lt;b&gt;CONNECTOR&lt;/b&gt;&lt;p&gt;
 wire to board 1.25 mm (.049 inch) pitch header</description>
 <gates>
-<gate name="-9" symbol="MV" x="0" y="10.16" addlevel="always" swaplevel="1"/>
-<gate name="-8" symbol="M" x="0" y="7.62" addlevel="always" swaplevel="1"/>
-<gate name="-7" symbol="M" x="0" y="5.08" addlevel="always" swaplevel="1"/>
-<gate name="-6" symbol="M" x="0" y="2.54" addlevel="always" swaplevel="1"/>
+<gate name="-1" symbol="MV" x="0" y="10.16" addlevel="always" swaplevel="1"/>
+<gate name="-2" symbol="M" x="0" y="7.62" addlevel="always" swaplevel="1"/>
+<gate name="-3" symbol="M" x="0" y="5.08" addlevel="always" swaplevel="1"/>
+<gate name="-4" symbol="M" x="0" y="2.54" addlevel="always" swaplevel="1"/>
 <gate name="-5" symbol="M" x="0" y="0" addlevel="always" swaplevel="1"/>
-<gate name="-4" symbol="M" x="0" y="-2.54" addlevel="always" swaplevel="1"/>
-<gate name="-3" symbol="M" x="0" y="-5.08" addlevel="always" swaplevel="1"/>
-<gate name="-2" symbol="M" x="0" y="-7.62" addlevel="always" swaplevel="1"/>
-<gate name="-1" symbol="M" x="0" y="-10.16" addlevel="always" swaplevel="1"/>
+<gate name="-6" symbol="M" x="0" y="-2.54" addlevel="always" swaplevel="1"/>
+<gate name="-7" symbol="M" x="0" y="-5.08" addlevel="always" swaplevel="1"/>
+<gate name="-8" symbol="M" x="0" y="-7.62" addlevel="always" swaplevel="1"/>
+<gate name="-9" symbol="M" x="0" y="-10.16" addlevel="always" swaplevel="1"/>
 </gates>
 <devices>
 <device name="047" package="53047-09">
 <connects>
-<connect gate="-1" pin="S" pad="9"/>
-<connect gate="-2" pin="S" pad="8"/>
-<connect gate="-3" pin="S" pad="7"/>
-<connect gate="-4" pin="S" pad="6"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
 <connect gate="-5" pin="S" pad="5"/>
-<connect gate="-6" pin="S" pad="4"/>
-<connect gate="-7" pin="S" pad="3"/>
-<connect gate="-8" pin="S" pad="2"/>
-<connect gate="-9" pin="S" pad="1"/>
+<connect gate="-6" pin="S" pad="6"/>
+<connect gate="-7" pin="S" pad="7"/>
+<connect gate="-8" pin="S" pad="8"/>
+<connect gate="-9" pin="S" pad="9"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18647,15 +18647,15 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 <device name="048" package="53048-09">
 <connects>
-<connect gate="-1" pin="S" pad="9"/>
-<connect gate="-2" pin="S" pad="8"/>
-<connect gate="-3" pin="S" pad="7"/>
-<connect gate="-4" pin="S" pad="6"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
 <connect gate="-5" pin="S" pad="5"/>
-<connect gate="-6" pin="S" pad="4"/>
-<connect gate="-7" pin="S" pad="3"/>
-<connect gate="-8" pin="S" pad="2"/>
-<connect gate="-9" pin="S" pad="1"/>
+<connect gate="-6" pin="S" pad="6"/>
+<connect gate="-7" pin="S" pad="7"/>
+<connect gate="-8" pin="S" pad="8"/>
+<connect gate="-9" pin="S" pad="9"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18668,15 +18668,15 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 <device name="261" package="53261-09">
 <connects>
-<connect gate="-1" pin="S" pad="9"/>
-<connect gate="-2" pin="S" pad="8"/>
-<connect gate="-3" pin="S" pad="7"/>
-<connect gate="-4" pin="S" pad="6"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
 <connect gate="-5" pin="S" pad="5"/>
-<connect gate="-6" pin="S" pad="4"/>
-<connect gate="-7" pin="S" pad="3"/>
-<connect gate="-8" pin="S" pad="2"/>
-<connect gate="-9" pin="S" pad="1"/>
+<connect gate="-6" pin="S" pad="6"/>
+<connect gate="-7" pin="S" pad="7"/>
+<connect gate="-8" pin="S" pad="8"/>
+<connect gate="-9" pin="S" pad="9"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18689,15 +18689,15 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 <device name="398" package="53398-09">
 <connects>
-<connect gate="-1" pin="S" pad="9"/>
-<connect gate="-2" pin="S" pad="8"/>
-<connect gate="-3" pin="S" pad="7"/>
-<connect gate="-4" pin="S" pad="6"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
 <connect gate="-5" pin="S" pad="5"/>
-<connect gate="-6" pin="S" pad="4"/>
-<connect gate="-7" pin="S" pad="3"/>
-<connect gate="-8" pin="S" pad="2"/>
-<connect gate="-9" pin="S" pad="1"/>
+<connect gate="-6" pin="S" pad="6"/>
+<connect gate="-7" pin="S" pad="7"/>
+<connect gate="-8" pin="S" pad="8"/>
+<connect gate="-9" pin="S" pad="9"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18714,22 +18714,22 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 <description>&lt;b&gt;CONNECTOR&lt;/b&gt;&lt;p&gt;
 wire to board 1.25 mm (.049 inch) pitch header</description>
 <gates>
-<gate name="-6" symbol="MV" x="0" y="5.08" addlevel="always" swaplevel="1"/>
-<gate name="-5" symbol="M" x="0" y="2.54" addlevel="always" swaplevel="1"/>
-<gate name="-4" symbol="M" x="0" y="0" addlevel="always" swaplevel="1"/>
-<gate name="-3" symbol="M" x="0" y="-2.54" addlevel="always" swaplevel="1"/>
-<gate name="-2" symbol="M" x="0" y="-5.08" addlevel="always" swaplevel="1"/>
-<gate name="-1" symbol="M" x="0" y="-7.62" addlevel="always" swaplevel="1"/>
+<gate name="-1" symbol="MV" x="0" y="5.08" addlevel="always" swaplevel="1"/>
+<gate name="-2" symbol="M" x="0" y="2.54" addlevel="always" swaplevel="1"/>
+<gate name="-3" symbol="M" x="0" y="0" addlevel="always" swaplevel="1"/>
+<gate name="-4" symbol="M" x="0" y="-2.54" addlevel="always" swaplevel="1"/>
+<gate name="-5" symbol="M" x="0" y="-5.08" addlevel="always" swaplevel="1"/>
+<gate name="-6" symbol="M" x="0" y="-7.62" addlevel="always" swaplevel="1"/>
 </gates>
 <devices>
 <device name="047" package="53047-06">
 <connects>
-<connect gate="-1" pin="S" pad="6"/>
-<connect gate="-2" pin="S" pad="5"/>
-<connect gate="-3" pin="S" pad="4"/>
-<connect gate="-4" pin="S" pad="3"/>
-<connect gate="-5" pin="S" pad="2"/>
-<connect gate="-6" pin="S" pad="1"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
+<connect gate="-5" pin="S" pad="5"/>
+<connect gate="-6" pin="S" pad="6"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18742,12 +18742,12 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 <device name="048" package="53048-06">
 <connects>
-<connect gate="-1" pin="S" pad="6"/>
-<connect gate="-2" pin="S" pad="5"/>
-<connect gate="-3" pin="S" pad="4"/>
-<connect gate="-4" pin="S" pad="3"/>
-<connect gate="-5" pin="S" pad="2"/>
-<connect gate="-6" pin="S" pad="1"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
+<connect gate="-5" pin="S" pad="5"/>
+<connect gate="-6" pin="S" pad="6"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18760,12 +18760,12 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 <device name="261" package="53261-06">
 <connects>
-<connect gate="-1" pin="S" pad="6"/>
-<connect gate="-2" pin="S" pad="5"/>
-<connect gate="-3" pin="S" pad="4"/>
-<connect gate="-4" pin="S" pad="3"/>
-<connect gate="-5" pin="S" pad="2"/>
-<connect gate="-6" pin="S" pad="1"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
+<connect gate="-5" pin="S" pad="5"/>
+<connect gate="-6" pin="S" pad="6"/>
 </connects>
 <technologies>
 <technology name="">
@@ -18778,12 +18778,12 @@ wire to board 1.25 mm (.049 inch) pitch header</description>
 </device>
 <device name="398" package="53398-06">
 <connects>
-<connect gate="-1" pin="S" pad="6"/>
-<connect gate="-2" pin="S" pad="5"/>
-<connect gate="-3" pin="S" pad="4"/>
-<connect gate="-4" pin="S" pad="3"/>
-<connect gate="-5" pin="S" pad="2"/>
-<connect gate="-6" pin="S" pad="1"/>
+<connect gate="-1" pin="S" pad="1"/>
+<connect gate="-2" pin="S" pad="2"/>
+<connect gate="-3" pin="S" pad="3"/>
+<connect gate="-4" pin="S" pad="4"/>
+<connect gate="-5" pin="S" pad="5"/>
+<connect gate="-6" pin="S" pad="6"/>
 </connects>
 <technologies>
 <technology name="">
@@ -19723,9 +19723,11 @@ KINGFONT SDCMF-10915W010</description>
 <part name="C32" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="C33" library="rcl" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="GND18" library="supply1" deviceset="GND" device=""/>
+<part name="RGB" library="con-molex" deviceset="53?-09" device="048" value="RGB"/>
 <part name="J12" library="pinhead" deviceset="PINHD-1X12" device=""/>
 <part name="J11" library="pinhead" deviceset="PINHD-1X12" device=""/>
 <part name="J10" library="pinhead" deviceset="PINHD-1X12" device=""/>
+<part name="JTAG" library="con-molex" deviceset="53?-06" device="047" value="JTAG"/>
 <part name="RST" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="SW" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="PWCON" library="pinhead" deviceset="PINHD-1X2" device=""/>
@@ -19742,8 +19744,6 @@ KINGFONT SDCMF-10915W010</description>
 <part name="R32" library="rcl" deviceset="R-US_" device="M0805" value="10K"/>
 <part name="J16" library="pinhead" deviceset="PINHD-2X2" device=""/>
 <part name="CVBS" library="uzebox" deviceset="RCA" device=""/>
-<part name="RGB" library="con-molex" deviceset="53?-09" device="048" value="RGB"/>
-<part name="JTAG" library="con-molex" deviceset="53?-06" device="047"/>
 </parts>
 <sheets>
 <sheet>
@@ -19867,9 +19867,24 @@ KINGFONT SDCMF-10915W010</description>
 <instance part="C32" gate="G$1" x="251.46" y="-88.9" rot="R180"/>
 <instance part="C33" gate="G$1" x="261.62" y="-88.9" rot="R180"/>
 <instance part="GND18" gate="1" x="129.54" y="71.12"/>
+<instance part="RGB" gate="-1" x="139.7" y="25.4" rot="R180"/>
+<instance part="RGB" gate="-2" x="139.7" y="27.94" rot="R180"/>
+<instance part="RGB" gate="-3" x="139.7" y="30.48" rot="R180"/>
+<instance part="RGB" gate="-4" x="139.7" y="33.02" rot="R180"/>
+<instance part="RGB" gate="-5" x="139.7" y="35.56" rot="R180"/>
+<instance part="RGB" gate="-6" x="139.7" y="38.1" rot="R180"/>
+<instance part="RGB" gate="-7" x="139.7" y="40.64" rot="R180"/>
+<instance part="RGB" gate="-8" x="139.7" y="43.18" rot="R180"/>
+<instance part="RGB" gate="-9" x="139.7" y="45.72" rot="R180"/>
 <instance part="J12" gate="G$1" x="279.4" y="60.96"/>
 <instance part="J11" gate="G$1" x="279.4" y="15.24"/>
 <instance part="J10" gate="G$1" x="279.4" y="-30.48"/>
+<instance part="JTAG" gate="-1" x="274.32" y="96.52"/>
+<instance part="JTAG" gate="-2" x="274.32" y="93.98"/>
+<instance part="JTAG" gate="-3" x="274.32" y="91.44"/>
+<instance part="JTAG" gate="-4" x="274.32" y="88.9"/>
+<instance part="JTAG" gate="-5" x="274.32" y="86.36"/>
+<instance part="JTAG" gate="-6" x="274.32" y="83.82"/>
 <instance part="RST" gate="G$1" x="119.38" y="68.58" rot="R270"/>
 <instance part="SW" gate="G$1" x="223.52" y="5.08" rot="R270"/>
 <instance part="PWCON" gate="G$1" x="205.74" y="7.62" rot="R180"/>
@@ -19886,21 +19901,6 @@ KINGFONT SDCMF-10915W010</description>
 <instance part="R32" gate="G$1" x="134.62" y="-15.24" rot="R270"/>
 <instance part="J16" gate="A" x="157.48" y="-53.34"/>
 <instance part="CVBS" gate="G$1" x="276.86" y="-104.14" rot="MR0"/>
-<instance part="RGB" gate="-9" x="139.7" y="25.4" rot="R180"/>
-<instance part="RGB" gate="-8" x="139.7" y="27.94" rot="R180"/>
-<instance part="RGB" gate="-7" x="139.7" y="30.48" rot="R180"/>
-<instance part="RGB" gate="-6" x="139.7" y="33.02" rot="R180"/>
-<instance part="RGB" gate="-5" x="139.7" y="35.56" rot="R180"/>
-<instance part="RGB" gate="-4" x="139.7" y="38.1" rot="R180"/>
-<instance part="RGB" gate="-3" x="139.7" y="40.64" rot="R180"/>
-<instance part="RGB" gate="-2" x="139.7" y="43.18" rot="R180"/>
-<instance part="RGB" gate="-1" x="139.7" y="45.72" rot="R180"/>
-<instance part="JTAG" gate="-6" x="266.7" y="86.36" rot="R180"/>
-<instance part="JTAG" gate="-5" x="266.7" y="88.9" rot="R180"/>
-<instance part="JTAG" gate="-4" x="266.7" y="91.44" rot="R180"/>
-<instance part="JTAG" gate="-3" x="266.7" y="93.98" rot="R180"/>
-<instance part="JTAG" gate="-2" x="266.7" y="96.52" rot="R180"/>
-<instance part="JTAG" gate="-1" x="266.7" y="99.06" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -20189,9 +20189,14 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="J11" gate="G$1" pin="1"/>
 </segment>
 <segment>
+<wire x1="261.62" y1="96.52" x2="271.78" y2="96.52" width="0.1524" layer="91"/>
+<label x="261.62" y="96.52" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-1" pin="S"/>
+</segment>
+<segment>
 <wire x1="154.94" y1="33.02" x2="142.24" y2="33.02" width="0.1524" layer="91"/>
 <label x="147.32" y="33.02" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-6" pin="S"/>
+<pinref part="RGB" gate="-4" pin="S"/>
 </segment>
 <segment>
 <wire x1="261.62" y1="45.72" x2="276.86" y2="45.72" width="0.1524" layer="91"/>
@@ -20203,11 +20208,6 @@ KINGFONT SDCMF-10915W010</description>
 <wire x1="124.46" y1="-20.32" x2="134.62" y2="-20.32" width="0.1524" layer="91"/>
 <pinref part="R32" gate="G$1" pin="2"/>
 <label x="127" y="-25.4" size="1.778" layer="95"/>
-</segment>
-<segment>
-<wire x1="269.24" y1="86.36" x2="279.4" y2="86.36" width="0.1524" layer="91"/>
-<label x="269.24" y="86.36" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-6" pin="S"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -20571,7 +20571,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="25.4" x2="142.24" y2="25.4" width="0.1524" layer="91"/>
 <label x="147.32" y="25.4" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-9" pin="S"/>
+<pinref part="RGB" gate="-1" pin="S"/>
 </segment>
 <segment>
 <wire x1="261.62" y1="0" x2="276.86" y2="0" width="0.1524" layer="91"/>
@@ -20597,9 +20597,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="GND19" gate="1" pin="GND"/>
 </segment>
 <segment>
-<wire x1="269.24" y1="88.9" x2="279.4" y2="88.9" width="0.1524" layer="91"/>
-<label x="269.24" y="88.9" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-5" pin="S"/>
+<wire x1="261.62" y1="93.98" x2="271.78" y2="93.98" width="0.1524" layer="91"/>
+<label x="261.62" y="93.98" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-2" pin="S"/>
 </segment>
 </net>
 <net name="XA0" class="0">
@@ -20997,7 +20997,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="27.94" x2="142.24" y2="27.94" width="0.1524" layer="91"/>
 <label x="147.32" y="27.94" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-8" pin="S"/>
+<pinref part="RGB" gate="-2" pin="S"/>
 </segment>
 </net>
 <net name="CSYNC" class="0">
@@ -21014,7 +21014,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="30.48" x2="142.24" y2="30.48" width="0.1524" layer="91"/>
 <label x="147.32" y="30.48" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-7" pin="S"/>
+<pinref part="RGB" gate="-3" pin="S"/>
 </segment>
 </net>
 <net name="B0" class="0">
@@ -21718,9 +21718,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TMS"/>
 </segment>
 <segment>
-<wire x1="269.24" y1="99.06" x2="279.4" y2="99.06" width="0.1524" layer="91"/>
-<label x="269.24" y="99.06" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-1" pin="S"/>
+<wire x1="261.62" y1="83.82" x2="271.78" y2="83.82" width="0.1524" layer="91"/>
+<label x="261.62" y="83.82" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-6" pin="S"/>
 </segment>
 </net>
 <net name="R" class="0">
@@ -21770,7 +21770,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="38.1" x2="142.24" y2="38.1" width="0.1524" layer="91"/>
 <label x="147.32" y="38.1" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-4" pin="S"/>
+<pinref part="RGB" gate="-6" pin="S"/>
 </segment>
 </net>
 <net name="B" class="0">
@@ -21795,7 +21795,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="40.64" x2="142.24" y2="40.64" width="0.1524" layer="91"/>
 <label x="147.32" y="40.64" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-3" pin="S"/>
+<pinref part="RGB" gate="-7" pin="S"/>
 </segment>
 </net>
 <net name="R-OUT" class="0">
@@ -21808,7 +21808,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="43.18" x2="142.24" y2="43.18" width="0.1524" layer="91"/>
 <label x="147.32" y="43.18" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-2" pin="S"/>
+<pinref part="RGB" gate="-8" pin="S"/>
 </segment>
 </net>
 <net name="L-OUT" class="0">
@@ -21823,7 +21823,7 @@ KINGFONT SDCMF-10915W010</description>
 <segment>
 <wire x1="154.94" y1="45.72" x2="142.24" y2="45.72" width="0.1524" layer="91"/>
 <label x="147.32" y="45.72" size="1.778" layer="95"/>
-<pinref part="RGB" gate="-1" pin="S"/>
+<pinref part="RGB" gate="-9" pin="S"/>
 </segment>
 </net>
 <net name="TCK" class="0">
@@ -21833,9 +21833,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TCK"/>
 </segment>
 <segment>
-<wire x1="269.24" y1="91.44" x2="279.4" y2="91.44" width="0.1524" layer="91"/>
-<label x="269.24" y="91.44" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-4" pin="S"/>
+<wire x1="261.62" y1="91.44" x2="271.78" y2="91.44" width="0.1524" layer="91"/>
+<label x="261.62" y="91.44" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-3" pin="S"/>
 </segment>
 </net>
 <net name="TDO" class="0">
@@ -21845,9 +21845,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TDO"/>
 </segment>
 <segment>
-<wire x1="269.24" y1="93.98" x2="279.4" y2="93.98" width="0.1524" layer="91"/>
-<label x="269.24" y="93.98" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-3" pin="S"/>
+<wire x1="261.62" y1="88.9" x2="271.78" y2="88.9" width="0.1524" layer="91"/>
+<label x="261.62" y="88.9" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-4" pin="S"/>
 </segment>
 </net>
 <net name="TDI" class="0">
@@ -21857,9 +21857,9 @@ KINGFONT SDCMF-10915W010</description>
 <pinref part="U1" gate="BNA" pin="TDI"/>
 </segment>
 <segment>
-<wire x1="269.24" y1="96.52" x2="279.4" y2="96.52" width="0.1524" layer="91"/>
-<label x="269.24" y="96.52" size="1.778" layer="95"/>
-<pinref part="JTAG" gate="-2" pin="S"/>
+<wire x1="261.62" y1="86.36" x2="271.78" y2="86.36" width="0.1524" layer="91"/>
+<label x="261.62" y="86.36" size="1.778" layer="95"/>
+<pinref part="JTAG" gate="-5" pin="S"/>
 </segment>
 </net>
 <net name="N$10" class="0">
