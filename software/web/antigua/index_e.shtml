@@ -4,8 +4,63 @@
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="home.css"/>
   <title>ZX-Uno [ZX Spectrum Computer Clone Based on FPGA]</title>
+<style type="text/css">
+h1{
+  color: #000;
+  font-weight: 100;
+  font-size: 20px;
+  margin: 40px 0px 20px;
+}
+
+#clockdiv{
+  font-family: sans-serif;
+  color: #fff;
+  display: inline-block;
+  font-weight: bold;
+  text-align: center;
+  font-size: 36px;
+}
+
+#clockdiv > div{
+  padding: 10px;
+  border-radius: 3px;
+  background-color: #666666;
+  display: inline-block;
+}
+
+#clockdiv div > span{
+  padding: 15px;
+  border-radius: 3px;
+  background-color: #333333;
+  display: inline-block;
+}
+
+#clockdiv div div {
+  font-size:12px;
+  padding-top:6px;
+}
+</style>
 </head>
 <body>
+<h1 style="text-align:center">The crowdfundimg campaign starts in:</h1>
+<div id="clockdiv" style="margin:auto;width:100%">
+  <div>
+    <span class="days"></span>
+    <div>Days</div>
+  </div>
+  <div>
+    <span class="hours"></span>
+    <div>Hours</div>
+  </div>
+  <div>
+    <span class="minutes"></span>
+    <div>Minutes</div>
+  </div>
+  <div>
+    <span class="seconds"></span>
+    <div>Seconds</div>
+  </div>
+</div>
 <div id="logo" style="background:url(imagen/logo_e.png)"></div>
 <div id="menu" style="width:620px">
   <span                      style="width:52px">Home</span>
@@ -27,7 +82,12 @@
   <img width="100%" src="imagen/foto1.jpg"/>
   <strong>News</strong>
   <ul>
-    <li><strong>2016-02-03 ZX-Uno pre-campaign crowfunding survey!!!! <a href="http://tinyurl.com/hallecm" target="_blank">Fill it here!</a></strong></li>
+    <li><strong>2016-03-08 Updated links of  ZEsarUX and Pinout Scheme.</strong></li>
+    <li>2016-02-17 Added PDF Pinout FPGA-PCB Zx-Uno v4.1. <a href="descarga_e.shtml">Downloads</a></li>
+    <li>2016-02-15 Spanish video interview to McLeod_Ideafix and Antonio Villena at RetroSevilla 2015. <a href="media_e.shtml">Media</a></li>
+    <li>2016-02-11 Pictures ZX-Uno board v 4.1. <a href="media_e.shtml">Media</a></li>
+    <li>2016-02-08 ZX-Uno pre-campaign crowfunding survey closed !!!  Thanks for participate!!!</li>	
+    <li>2016-02-03 ZX-Uno pre-campaign crowfunding survey opened!!!!</li>
     <li>2015-11-18 Web updated, added Radastan's SDK. <a href="maquina_e.shtml#software">The Machine / Software</a></li>
     <li>2015-10-09 Web updated, added new <a href="http://zxuno.com/forum" target="_blank" style="width:55px">Forum</a></li>
     <li>2015-09-15 @Quest joins ZX-Uno team</li>
@@ -57,4 +117,47 @@
     <li>2013-09-21 Order of 10 prototypes: boards and components</li></ul></div>
 <div id="footer">
   <div id="footerimg" style="background:0 90px url(imagen/logo_e.png)"></div>
-  <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>
+  <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div>
+<script language="javascript" type="text/javascript">
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var daysSpan = clock.querySelector('.days');
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    daysSpan.innerHTML = t.days;
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+var deadline = new Date(Date.parse("19 Mar 2016 09:00:00 GMT"));
+initializeClock('clockdiv', deadline);
+</script></body></html>
