@@ -36,10 +36,11 @@
   <br/>
   <strong>Technical Documents:</strong>
   <ul>
-    <li><a href="ficheros/ds312.pdf">FPGA Xilinx Spartan-3E</a> 6,2 Mb. - PDF</li>
-    <li><a href="ficheros/spi_datasheet.pdf">SPI Flash Winbond W25X40BV</a> 1,6 Mb. - PDF</li>
-    <li><a href="ficheros/ram_datasheet.pdf">SRAM CY62148EV30</a> 1 Mb. - PDF</li>
-    <li><a href="ficheros/ad724_Datasheet.pdf">RGB to NTSC/PAL AD724JR</a> 210 Kb. - PDF</li></ul>
+     <li><a href="ficheros/spartan6_ds160.pdf">FPGA Xilinx Spartan 6</a> 360 Kb. - PDF</li>
+    <li><a href="ficheros/spiflash_Winbond-w25q32.pdf">SPI Flash Winbond W25Q80/Q16/Q32</a> 1,2 Mb. - PDF</li>
+    <li><a href="ficheros/sram_as7c34096a_v2.1.pdf">3.3V 512K × 8 CMOS SRAM</a> 160 kb. - PDF</li>
+    <li><a href="ficheros/ad724_Datasheet.pdf">RGB to NTSC/PAL AD724JR</a> 210 Kb. - PDF</li>
+    <li><a href="ficheros/Hoja_Esquema_Pinout_v4.1_Mar_2016.pdf">PINOUT ZX-Uno PCB 4.1</a> 38 Kb. - PDF</li></ul>
   <br/>
   <strong>Manual ZX-Uno (Rev. 0.0):</strong>
   <ul>
