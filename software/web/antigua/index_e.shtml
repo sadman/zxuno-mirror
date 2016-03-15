@@ -6,10 +6,12 @@
   <title>ZX-Uno [ZX Spectrum Computer Clone Based on FPGA]</title>
 <style type="text/css">
 h1{
-  color: #000;
+  font-family: sans-serif;
+  color: #f0f0f0;
   font-weight: 100;
   font-size: 20px;
-  margin: 40px 0px 20px;
+  background-color: #333;
+  padding: 20px 0 0 0;
 }
 
 #clockdiv{
@@ -19,6 +21,8 @@ h1{
   font-weight: bold;
   text-align: center;
   font-size: 36px;
+  background-color: #333;
+  padding: 20px 0px 20px 0px;
 }
 
 #clockdiv > div{
@@ -39,10 +43,13 @@ h1{
   font-size:12px;
   padding-top:6px;
 }
+body {
+margin:0 0 0 0;  
+}
 </style>
 </head>
 <body>
-<h1 style="text-align:center">The crowdfundimg campaign starts in:</h1>
+<h1 style="text-align:center">The crowdfunding campaign starts in:</h1>
 <div id="clockdiv" style="margin:auto;width:100%">
   <div>
     <span class="days"></span>
@@ -60,8 +67,10 @@ h1{
     <span class="seconds"></span>
     <div>Seconds</div>
   </div>
+  <p style="padding:25px 0 0 0;">
+  <img src="logo_foro2.png">
+  </p>
 </div>
-<div id="logo" style="background:url(imagen/logo_e.png)"></div>
 <div id="menu" style="width:620px">
   <span                      style="width:52px">Home</span>
   <span>·</span>
@@ -79,7 +88,7 @@ h1{
   <span>·</span>
   <a href="index.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-  <img width="100%" src="imagen/foto1.jpg"/>
+  <img width="100%" src="imagen/foto1_eng.jpg"/>
   <strong>News</strong>
   <ul>
     <li><strong>2016-03-08 Updated links of  ZEsarUX and Pinout Scheme.</strong></li>
