@@ -1,5 +1,5 @@
-        OUTPUT  kartusho.rom
-        define  codcnt  $7800
+        OUTPUT  kartushov4.rom
+        define  codcnt  $77ff
 
         di
         im      1
@@ -113,6 +113,7 @@ cont    inc     bc
         ld      b, h
         ld      d, (hl)
         push    de
+        dec     de
         ldir
         ld      l, c
         ei
@@ -153,15 +154,15 @@ gamlf   res     4, l
 gamrh   set     4, l
         jr      games
 gamen   ld      a, l
-        ld      hl, $20c9
+        ld      l, $c9
         and     $1f
         jr      nz, game2
-        ld      ($7705), hl
+        ld      ($770b), hl
 game2   rlca
-        rlca
+        ld      hl, $3ffc
 keytab  rlca
-        inc     a
-        ld      b, 6
+        rlca
+        ld      b, 5
         ret
         defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
         defb    $71, $77, $65, $72, $74 ; q       w       e       r       t
@@ -173,8 +174,12 @@ keytab  rlca
 
 game3   ld      (hl), a
         rlca
-        ld      l, a
-        djnz    game3
+        res     0, l
+        jr      nc, game4
+        inc     l
+game4   djnz    game3
+        set     1, l
+        ld      (hl), a
         rst     0
 
 SELEC   push    hl
