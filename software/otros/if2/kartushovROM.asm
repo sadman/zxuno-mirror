@@ -109,10 +109,9 @@ keysc9  ld      (codcnt), hl
 cont    inc     bc
         bit     4, b
         jr      z, start3
-        ld      hl, codcnt-$100
-        ld      (hl), $77
-        push    hl
-        ld      d, codcnt>>8
+        ld      d, codcnt-1>>8
+        push    de
+        inc     d
         ei
 
 games   call    SELEC
@@ -151,12 +150,13 @@ gamlf   res     4, l
 gamrh   set     4, l
         jr      games
 gamen   ld      a, l
-        ld      l, $c7
+        ld      hl, $c777
         and     $1f
         jr      nz, gamen1
         inc     l
         inc     l
-gamen1  ld      ($7701), hl
+gamen1  ld      ($7700), hl
+        ld      h, a
 keytab  or      $80
         ret
         defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
