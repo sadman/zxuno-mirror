@@ -12128,19 +12128,6 @@ Source: www.kingbright.com</description>
 <junction x="96.52" y="33.02"/>
 </segment>
 </net>
-<net name="ROMCS" class="0">
-<segment>
-<pinref part="U$3" gate="G$1" pin="/ROMCS"/>
-<label x="-5.08" y="-53.34" size="1.778" layer="95"/>
-<pinref part="U$3" gate="G$1" pin="NC"/>
-<wire x1="2.54" y1="73.66" x2="-12.7" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="-53.34" x2="-12.7" y2="-20.32" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="-20.32" x2="-12.7" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="-12.7" y1="-53.34" x2="2.54" y2="-53.34" width="0.1524" layer="91"/>
-<pinref part="JP2" gate="G$1" pin="1"/>
-<junction x="-12.7" y="-20.32"/>
-</segment>
-</net>
 <net name="D3" class="0">
 <segment>
 <wire x1="2.54" y1="55.88" x2="-5.08" y2="55.88" width="0.1524" layer="91"/>
@@ -12331,6 +12318,17 @@ Source: www.kingbright.com</description>
 <pinref part="C1" gate="G$1" pin="1"/>
 <wire x1="38.1" y1="10.16" x2="38.1" y2="12.7" width="0.1524" layer="91"/>
 <wire x1="38.1" y1="12.7" x2="45.72" y2="12.7" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$3" gate="G$1" pin="/ROMCS"/>
+<label x="-5.08" y="-53.34" size="1.778" layer="95"/>
+<pinref part="U$3" gate="G$1" pin="NC"/>
+<wire x1="2.54" y1="73.66" x2="-12.7" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="-53.34" x2="-12.7" y2="-20.32" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="-20.32" x2="-12.7" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="-12.7" y1="-53.34" x2="2.54" y2="-53.34" width="0.1524" layer="91"/>
+<pinref part="JP2" gate="G$1" pin="1"/>
+<junction x="-12.7" y="-20.32"/>
 </segment>
 </net>
 <net name="GND" class="0">
