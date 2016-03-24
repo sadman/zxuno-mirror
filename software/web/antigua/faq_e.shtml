@@ -31,17 +31,17 @@
     <li>
       <strong>What is ZX-Uno?</strong>
       <br/>
-      Basically it's a FPGA based board focused in the synthesis of ZX Spectrum models.
-      It has the same size of a Raspberry Pi (85.60x56mm) so it would fit into a RasPi case.</li>
+      Basically it's a FPGA based board focused in the synthesis of ZX Spectrum computer models.
+      It has the same size of a Raspberry Pi (85.60x56mm) so it would fit into a RasPi case. There are other 8 bit machines in development to be implemented under the same hardware.</li>
     <br/>
     <li>
-      <strong>What machines would fit into the FPGA and what connectors it has?</strong>
+      <strong>What machines would fit into the FPGA?</strong>
       <br/>
-      Firstly it's intended to the whole range of ZX Spectrum machines, but also will
+      Firstly it's intended to the whole range of ZX Spectrum machines and extra features like ULAPlus, Turbosound, etc, but also will
       accept other machines with the same or less complexity. Only will fit 8 bit machines
       with a maximum size of 512Kb between ROM and RAM, with a simple hardware to
       shyntetize (nothing about hardware sprites or similar stuff). The core of the
-      machine is a Xilinx FPGA, exactly the model XC3S250E, that it's relatively modest.
+      machine is a Xilinx FPGA Spartan XC6SLX9, that it's relatively modest, but big enough to synthetize several 8 bit machines.
       Using a bigger FPGA would suposse more machines that can be  shyntetized, but also
       the price would raise considerably.</li>
     <br/>
@@ -58,17 +58,18 @@
         <li><strong>Joystick:</strong> DB9 Atari port, in the same place of USB ports in the RPi case</li>
         <li><strong>Storage:</strong> SD card, RPi case compatible</li>
         <li><strong>Tape Load:</strong> 3.5mm jack conector, next to the JTAG/RGB connector. Not RPi compatible, you must make the hole</li>
-        <li><strong>Expansion:</strong> 3x14 male pin header, in the same position of the RPi layout</li>
-        <li><strong>JTAG and RGB:</strong> 2x6 right angle male pin header, in the same place of the HDMI port in the RPi case</li></ul></li>
+        <li><strong>Expansion:</strong> 3x12 female pin header, in the same position of the RPi layout</li>
+        <li><strong>RGB and VGA: </strong>9 pin Micro-JST connector in place of HDMI connector of RPi. Custom cable must be made.</li>
+        <li><strong>JTAG: </strong>6 pin Micro-JST, internal connector. </li></ul></li>
     <br/>
     <li>
       <strong>Why has no EDGE conector like the original ZX Spectrum?</strong>
       <br/>
-      Basically because electrical incompatibility. The FPGA works at 3.3V and the ZX
+      Well, it just has not it.... yet ;) Basically it exists an electrical incompatibility. The FPGA works at 3.3V and the ZX
       Spectrum expansion works at 5V. Also because his compact sized and his “low cost”
       price (voltage level shifters would raise the price). Anyway, there is a generic
       expansion connector with 36 lines mapped directly in the FPGA, so it's theorically
-      possible to build an adaptor board with level shifters inside.</li>
+      possible to build an adaptor board with level shifters inside. We are studying it.</li>
     <br/>
     <li>
       <strong>Would it be very complex to add USB support (joystick and keyboard)? Nowdays
@@ -76,7 +77,7 @@
       <br/>
       Yes, it would be complex and also it has incompatible voltage levels. If someone
       manages to implement it throw the expansion port, we can add in a future revision
-      of the board. But now we have to settle with the PS/2 one.</li>
+      of the board. But now we have to settle with the PS/2 one. Anyway, you can find PS/2 keyboards on shops easily nowadays.</li>
     <br/>
     <li>
       <strong>Do I need a special cable?</strong>
@@ -85,7 +86,7 @@
       version it's not necessary because we'll grant the SD upgrade facility. The rest
       of the cables are generic: the power cable is micro-USB, the video one is RCA
       and the audio/EAR one are 3.5mm jacks. The only custom cable (like it happens
-      in all machines) is the RGB/Scart one, but it isn't very important because the
+      in all machines) is the RGB/Scart/VGA one, but it isn't very important because the
       video quality in the composite signal is excelent thanks to the AD724.</li>
     <br/>
     <li>
@@ -94,47 +95,35 @@
       TZX is a compact audio format that only will work with the EAR port. The systems
       that supports TZX (e. g. ResiDOS) really only support a subset of the TZX
       specification, essentially the part that is like the TAP files. However TAP
-      files allways allow loading from mass memory.</li>
+      files allways allow loading from mass memory. ZX-UNO use divMMC with ESXDOS ROM, so it supports TAP, SNA and Z80 snapshots, and TRD disk images.</li>
     <br/>
     <li>
       <strong>Can I write on tapes or disks (TRD or DSK)?</strong>
       <br/>
       Since this is not emulation, this possibility depends on the OS that you put on the
-      ZX Spectrum. ESXDOS can write into TAP files, if I remember. The same with the TRD
-      or DSK: if any of the OS supports it, then yes; but if not, no. Emulators support
+      ZX Spectrum. ESXDOS can write into TAP files using .TAPEOUT command. In addition, ESXDOS is able to read and write from and to TRD disk images.<br>
+      <br>
+    About DSK: if any of the OS supports it, then yes; but if not, no. Emulators support
       DSK or TRD because they emulate the hardware of the disk drive. Here you could
       implement something like that but probably would not fit in the FPGA. To give
       you an idea, to support DSK or TRD transparently (without using a special OS that
-      is who is responsible for it) implies:
-      <br/>
-      <br/>
-      - We need to implement a chip that has the same interface as the uPD765. That is,
+      is who is responsible for it) implies implementing a chip that has the same interface as the uPD765. That is,
       records uPD support and physical interface (data bus, CS, etc).
-      <br/>
-      <br/>
-      - But on the other hand, what is connected is not a floppy drive. Instead it must
-      be replaced with a system that allow to choose a TRD or DSK image, and this system
+      and a system that allow to choose a TRD or DSK image, and this system
       must send the information (sector) on demand. That is, we must integrate a
       microcontroller that is who is responsible for reading the SD card, present some
-      kind of OSD menu to choose the image to use, and send the “half fake” information
-      to the floppy controller. The Z80 occupies much of the FPGA, so not much room to
-      implement another processor that is responsible for this task (besides the
-      processor must include its small RAM and ROM, which must contain no less than
-      routines that are capable of read FAT filesystems on SD).
-      <br/>
-      <br/>
-      - In other words: give that kind of support means putting inside the FPGA
-      circuitry equivalent to a entire HxC (the autonomous version) replacing the LCD
-      screen by OSD menu and special keys on the PS/2 keyboard for manage it.</li>
+      kind of OSD menu to choose the image to use, etc.<br/>
+    </li>
     <br/>
     <li>
       <strong>Does it fit the <em>russian clones</em> or the SAM Coupé?</strong>
       <br/>
-      Very probably yes. Regarding the SAM do not remember about the formatting palette,
-      but if it use al least 3 bits per primary color, then yes, it can be implemented
-      without problems (I'm assuming that the design will synthesize ULAplus). Furthermore
-      would fit the ZX80, ZX81, Jupiter ACE and some arcades than only have a single Z80
-      like Pacman.</li>
+      Very probably yes. Regarding the SAM, in fact it is already implemented partially. It works, apart from some Z80 timing flaws, it loads software via audio IN very well. Furthermore
+      would fit the ZX80, ZX81, Jupiter ACE (currently implemented too) and some arcades than only have a single Z80
+      like Pacman.<br>
+      <br>
+      With the upgraded FPGA (Xilinx Spartan-6), bigger than the used in v1 prototypes (Spartan-3), we could port cores of several machines. At this time, they are being developed, some of them work totally or partially: SAM Coupé, Jupiter ACE, Sega Master System, Acorn Atom, Oric Atmos, Vic-20, Apple II, Lady Bug arcade...
+    </li>
     <br/>
     <li>
       <strong>How many upgrades are allowed by the chip?</strong>
@@ -151,27 +140,31 @@
     <li>
       <strong>How much it costs?</strong>
       <br/>
-      I hope that the final board with SMD mounted and connectors unmounted will costs
+      <strike>I hope that the final board with SMD mounted and connectors unmounted will costs
       about 30 euros. The prototype is cheaper because it is not mounted. For my part
       I will not increase the cost of the PCB from seeedstudio for prototypes. For the
       final version, if the distribution is entrusted to another person, I can not rule
       out that there is some benefit, especially since require additional work: welding
-      connectors, burn firmware, test PCB, packaging, etc...</li>
+      connectors, burn firmware, test PCB, packaging, etc...</strike>
+      <br>
+      <br>
+    <strong>Upgrade Feb. 2016:</strong> Crowdfunding campaign is planned in March 2016. Final price is estimated to be near 58-60 euro plus shipping costs. We did our best to maintain the price low.    </li>
     <br/>
     <li>
       <strong>Who work in the project?</strong>
       <br/>
-      We are four guys.
+      We are 5 guys.
       <ul>
         <li><strong>McLeod.</strong> Reviews and proposes, is a de facto partner.</li>
         <li><strong>Superfo.</strong> Router, which is responsible for designing the PCB.</li>
         <li><strong>AntonioVillena.</strong> Initial idea, scheme design and prototype distribution.</li>
+        <li><strong>Quest</strong>. Ports of secondary cores. Multiboot system. Firmware and prototypes collaboration</li>
         <li><strong>Hark0.</strong> Graphic and web designer.</li></ul>
     <br/>
     <li>
       <strong>When will be the launch date?</strong>
       <br/>
-      There is no estimated date specific, in principle there will be 2 runs: one for
+      <strike>There is no estimated date specific, in principle there will be 2 runs: one for
       developers (prototype) 10 units already made ​​and another for the general public,
       50 or 100 units. The prototype PCBs together with the components and shipping
       for 22 euros (in Spain). These prototypes come unassembled and unprogrammed
@@ -184,9 +177,12 @@
       It will go almost all mounted except connectors that optionally can be hand soldering
       by request for an additional price. The firmware will be pre-programmed, and there
       will be an option to purchase separate accessories: box, sticker logo, manual,
-      cables, power supply.</li></ol>
+      cables, power supply.</strike><br>
+      <br>
+      <strong>Upgrade Feb. 2016:</strong> Crowdfunding campaign is planned in March 2016. Final price is estimated to be near 58-60 euro plus shipping costs. We did our best to maintain the price low.
+    </li></ol>
   <br/>
-  Faq. ZX-Uno. Rev 002 - Oct. 2013.</div>
+</div>
 <div id="footer">
   <div id="footerimg" style="background:0 90px url(imagen/logo_e.png)"></div>
   <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>

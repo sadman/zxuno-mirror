@@ -49,26 +49,11 @@ margin:0 0 0 0;
 </style>
 </head>
 <body>
-<h1 style="text-align:center">La campaña de crowdfunding comienza en:</h1>
+
 <div id="clockdiv" style="margin:auto;width:100%">
-  <div>
-    <span class="days"></span>
-    <div>Dias</div>
-  </div>
-  <div>
-    <span class="hours"></span>
-    <div>Horas</div>
-  </div>
-  <div>
-    <span class="minutes"></span>
-    <div>Minutos</div>
-  </div>
-  <div>
-    <span class="seconds"></span>
-    <div>Segundos</div>
-  </div>
-  <p style="padding:25px 0 0 0;">
-  <img src="logo_foro2.png">
+  <p style="padding:10px 0 0 0;font-size:16px;">La campaña ha finalizado. Gracias a todos por el apoyo :)
+  </p>
+  <p style="padding:20px 0 0 0;"><img src="logo_foro2.png">
   </p>
 </div>
 <div id="menu">
@@ -88,10 +73,15 @@ margin:0 0 0 0;
   <span>·</span>
   <a href="index_e.shtml"    style="width:62px">[English]</a></div>
 <div id="main">
-  <img width="100%" src="imagen/foto1.jpg"/>
+  <img width="100%" src="imagen/foto1_original.jpg"/>
+
+  <iframe width="788" height="591" src="https://www.youtube.com/embed/exB91h7oes4" frameborder="0" allowfullscreen></iframe>
+  <br><br>
   <strong>Noticias</strong>
   <ul>
-    <li><strong>2016-03-08 Actualizados enlaces ZEsarUX y Esquemático Pinout.</strong></li>
+    <li><strong>2016-03-23 Añadido vídeo Demo Sam Coupé sección <a href="media.shtml">Media</a>.</strong></li>
+    <li>2016-03-19 Enlace a <a href="http://www.verkami.com/projects/14074-zx-uno" target="_BLANK">Verkami</a> con información de nuestro crowdfunding (cerrado).</li>
+    <li>2016-03-08 Actualizados enlaces ZEsarUX y Esquemático Pinout.</li>
     <li>2016-02-17 Añadido PDF Pinout FPGA-PCB Zx-Uno v4.1. <a href="descarga.shtml">Descargas</a></li>
     <li>2016-02-15 Video entrevista a McLeod_Ideafix y Antonio Villena en RetroSevilla 2015. <a href="media.shtml">Media</a></li>
     <li>2016-02-11 Fotografías placa ZX-Uno versión 4.1. <a href="media.shtml">Media</a></li>
