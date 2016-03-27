@@ -27,11 +27,16 @@ module tld_zxuno (
    output wire [2:0] g,
    output wire [2:0] b,
    output wire csync,
+   output wire stdn,
+   output wire stdnb,
    
    output wire [19:0] sram_addr,
    inout wire [7:0] sram_data,
    output wire sram_we_n
    );
+
+   assign stdn = 1'b0;  // PAL
+   assign stdnb = 1'b1;   
 
    // Generación de relojes
    reg [1:0] divs = 2'b00;
