@@ -26,8 +26,13 @@ module tld_zxuno (
    output wire [2:0] r,
    output wire [2:0] g,
    output wire [2:0] b,
-   output wire csync
+   output wire csync,
+   output wire stdn,
+   output wire stdnb
    );
+
+   assign stdn = 1'b0;
+   assign stdnb = 1'b1;
 
    // Generación de relojes
    reg [1:0] divs = 2'b00;
