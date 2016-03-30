@@ -774,9 +774,9 @@ or will meet your specific requirements.&lt;p&gt;
 <pinref part="J10" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<wire x1="53.34" y1="50.8" x2="68.58" y2="50.8" width="0.1524" layer="91"/>
-<label x="53.34" y="50.8" size="1.778" layer="95"/>
-<pinref part="MDL1" gate="G$1" pin="GPIO13"/>
+<wire x1="88.9" y1="17.78" x2="88.9" y2="33.02" width="0.1524" layer="91"/>
+<label x="88.9" y="17.78" size="1.778" layer="95" rot="R90"/>
+<pinref part="MDL1" gate="G$1" pin="MOSI"/>
 </segment>
 </net>
 <net name="EXT10" class="0">
@@ -786,9 +786,9 @@ or will meet your specific requirements.&lt;p&gt;
 <pinref part="J12" gate="G$1" pin="3"/>
 </segment>
 <segment>
-<wire x1="78.74" y1="17.78" x2="78.74" y2="33.02" width="0.1524" layer="91"/>
-<label x="78.74" y="17.78" size="1.778" layer="95" rot="R90"/>
-<pinref part="MDL1" gate="G$1" pin="CS0"/>
+<wire x1="91.44" y1="17.78" x2="91.44" y2="33.02" width="0.1524" layer="91"/>
+<label x="91.44" y="17.78" size="1.778" layer="95" rot="R90"/>
+<pinref part="MDL1" gate="G$1" pin="SCLK"/>
 </segment>
 </net>
 <net name="EXT11" class="0">
@@ -893,11 +893,6 @@ or will meet your specific requirements.&lt;p&gt;
 <label x="10.16" y="88.9" size="1.778" layer="95"/>
 <pinref part="J12" gate="G$1" pin="6"/>
 </segment>
-<segment>
-<wire x1="53.34" y1="55.88" x2="68.58" y2="55.88" width="0.1524" layer="91"/>
-<label x="53.34" y="55.88" size="1.778" layer="95"/>
-<pinref part="MDL1" gate="G$1" pin="GPIO14"/>
-</segment>
 </net>
 <net name="EXT20" class="0">
 <segment>
@@ -906,9 +901,9 @@ or will meet your specific requirements.&lt;p&gt;
 <pinref part="J11" gate="G$1" pin="6"/>
 </segment>
 <segment>
-<wire x1="53.34" y1="53.34" x2="68.58" y2="53.34" width="0.1524" layer="91"/>
-<label x="53.34" y="53.34" size="1.778" layer="95"/>
-<pinref part="MDL1" gate="G$1" pin="GPIO12"/>
+<wire x1="86.36" y1="17.78" x2="86.36" y2="33.02" width="0.1524" layer="91"/>
+<label x="86.36" y="17.78" size="1.778" layer="95" rot="R90"/>
+<pinref part="MDL1" gate="G$1" pin="GPIO10"/>
 </segment>
 </net>
 <net name="EXT21" class="0">
@@ -916,11 +911,6 @@ or will meet your specific requirements.&lt;p&gt;
 <wire x1="10.16" y1="-2.54" x2="25.4" y2="-2.54" width="0.1524" layer="91"/>
 <label x="10.16" y="-2.54" size="1.778" layer="95"/>
 <pinref part="J10" gate="G$1" pin="6"/>
-</segment>
-<segment>
-<wire x1="53.34" y1="58.42" x2="68.58" y2="58.42" width="0.1524" layer="91"/>
-<label x="53.34" y="58.42" size="1.778" layer="95"/>
-<pinref part="MDL1" gate="G$1" pin="GPIO16"/>
 </segment>
 </net>
 <net name="EXT22" class="0">
@@ -930,9 +920,9 @@ or will meet your specific requirements.&lt;p&gt;
 <pinref part="J12" gate="G$1" pin="7"/>
 </segment>
 <segment>
-<wire x1="86.36" y1="17.78" x2="86.36" y2="33.02" width="0.1524" layer="91"/>
-<label x="86.36" y="17.78" size="1.778" layer="95" rot="R90"/>
-<pinref part="MDL1" gate="G$1" pin="GPIO10"/>
+<wire x1="53.34" y1="53.34" x2="68.58" y2="53.34" width="0.1524" layer="91"/>
+<label x="53.34" y="53.34" size="1.778" layer="95"/>
+<pinref part="MDL1" gate="G$1" pin="GPIO12"/>
 </segment>
 </net>
 <net name="EXT23" class="0">
@@ -940,11 +930,6 @@ or will meet your specific requirements.&lt;p&gt;
 <wire x1="10.16" y1="40.64" x2="25.4" y2="40.64" width="0.1524" layer="91"/>
 <label x="10.16" y="40.64" size="1.778" layer="95"/>
 <pinref part="J11" gate="G$1" pin="7"/>
-</segment>
-<segment>
-<wire x1="53.34" y1="60.96" x2="68.58" y2="60.96" width="0.1524" layer="91"/>
-<label x="53.34" y="60.96" size="1.778" layer="95"/>
-<pinref part="MDL1" gate="G$1" pin="CH_PD"/>
 </segment>
 </net>
 <net name="EXT24" class="0">
@@ -954,9 +939,9 @@ or will meet your specific requirements.&lt;p&gt;
 <pinref part="J10" gate="G$1" pin="7"/>
 </segment>
 <segment>
-<wire x1="88.9" y1="17.78" x2="88.9" y2="33.02" width="0.1524" layer="91"/>
-<label x="88.9" y="17.78" size="1.778" layer="95" rot="R90"/>
-<pinref part="MDL1" gate="G$1" pin="MOSI"/>
+<wire x1="53.34" y1="50.8" x2="68.58" y2="50.8" width="0.1524" layer="91"/>
+<label x="53.34" y="50.8" size="1.778" layer="95"/>
+<pinref part="MDL1" gate="G$1" pin="GPIO13"/>
 </segment>
 </net>
 <net name="EXT25" class="0">
@@ -989,6 +974,11 @@ or will meet your specific requirements.&lt;p&gt;
 <label x="10.16" y="-7.62" size="1.778" layer="95"/>
 <pinref part="J10" gate="G$1" pin="8"/>
 </segment>
+<segment>
+<wire x1="53.34" y1="55.88" x2="68.58" y2="55.88" width="0.1524" layer="91"/>
+<label x="53.34" y="55.88" size="1.778" layer="95"/>
+<pinref part="MDL1" gate="G$1" pin="GPIO14"/>
+</segment>
 </net>
 <net name="EXT28" class="0">
 <segment>
@@ -1008,12 +998,22 @@ or will meet your specific requirements.&lt;p&gt;
 <label x="10.16" y="35.56" size="1.778" layer="95"/>
 <pinref part="J11" gate="G$1" pin="9"/>
 </segment>
+<segment>
+<wire x1="53.34" y1="58.42" x2="68.58" y2="58.42" width="0.1524" layer="91"/>
+<label x="53.34" y="58.42" size="1.778" layer="95"/>
+<pinref part="MDL1" gate="G$1" pin="GPIO16"/>
+</segment>
 </net>
 <net name="EXT30" class="0">
 <segment>
 <wire x1="10.16" y1="-10.16" x2="25.4" y2="-10.16" width="0.1524" layer="91"/>
 <label x="10.16" y="-10.16" size="1.778" layer="95"/>
 <pinref part="J10" gate="G$1" pin="9"/>
+</segment>
+<segment>
+<wire x1="53.34" y1="60.96" x2="68.58" y2="60.96" width="0.1524" layer="91"/>
+<label x="53.34" y="60.96" size="1.778" layer="95"/>
+<pinref part="MDL1" gate="G$1" pin="CH_PD"/>
 </segment>
 </net>
 <net name="EXT31" class="0">
@@ -1083,9 +1083,9 @@ or will meet your specific requirements.&lt;p&gt;
 <pinref part="J10" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="91.44" y1="17.78" x2="91.44" y2="33.02" width="0.1524" layer="91"/>
-<label x="91.44" y="17.78" size="1.778" layer="95" rot="R90"/>
-<pinref part="MDL1" gate="G$1" pin="SCLK"/>
+<wire x1="78.74" y1="17.78" x2="78.74" y2="33.02" width="0.1524" layer="91"/>
+<label x="78.74" y="17.78" size="1.778" layer="95" rot="R90"/>
+<pinref part="MDL1" gate="G$1" pin="CS0"/>
 </segment>
 </net>
 <net name="5V" class="0">
