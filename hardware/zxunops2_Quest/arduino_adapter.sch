@@ -2585,13 +2585,13 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 </class>
 </classes>
 <parts>
-<part name="JP5" library="SparkFun-Connectors" deviceset="M12" device="PTH"/>
+<part name="JP5" library="SparkFun-Connectors" deviceset="M12" device="PTH" value=""/>
 <part name="JP6" library="pinhead" deviceset="PINHD-2X7" device=""/>
-<part name="JP4" library="SparkFun-Connectors" deviceset="M12" device="PTH"/>
+<part name="JP4" library="SparkFun-Connectors" deviceset="M12" device="PTH" value=""/>
 <part name="JP2" library="SparkFun-Connectors" deviceset="M06" device="SIP"/>
 <part name="JP11" library="pinhead" deviceset="PINHD-1X11" device=""/>
-<part name="ZXUNO" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device=""/>
-<part name="MOUSE" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device=""/>
+<part name="ZXUNO" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device="" value=""/>
+<part name="MOUSE" library="ZX_UNO_0_14" deviceset="DINC_MIN_TM_6_1" device="" value=""/>
 <part name="JP1" library="pinhead" deviceset="PINHD-1X4" device=""/>
 </parts>
 <sheets>
@@ -2618,21 +2618,6 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <pinref part="JP5" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<wire x1="104.14" y1="71.12" x2="114.3" y2="71.12" width="0.1524" layer="91"/>
-<label x="104.14" y="71.12" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="13"/>
-</segment>
-<segment>
-<wire x1="121.92" y1="86.36" x2="129.54" y2="86.36" width="0.1524" layer="91"/>
-<label x="127" y="86.36" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="2"/>
-</segment>
-<segment>
-<wire x1="121.92" y1="78.74" x2="129.54" y2="78.74" width="0.1524" layer="91"/>
-<label x="127" y="78.74" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="8"/>
-</segment>
-<segment>
 <pinref part="ZXUNO" gate="G$1" pin="3"/>
 <wire x1="27.94" y1="40.64" x2="33.02" y2="40.64" width="0.1524" layer="91"/>
 <label x="30.48" y="40.64" size="1.778" layer="95"/>
@@ -2640,6 +2625,7 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <segment>
 <wire x1="66.04" y1="40.64" x2="71.12" y2="40.64" width="0.1524" layer="91"/>
 <label x="68.58" y="40.64" size="1.778" layer="95"/>
+<pinref part="MOUSE" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="5V" class="0">
@@ -2656,159 +2642,71 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <wire x1="27.94" y1="76.2" x2="43.18" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="PB1" class="0">
+<net name="A15" class="0">
 <segment>
 <wire x1="60.96" y1="63.5" x2="63.5" y2="63.5" width="0.1524" layer="91"/>
 <label x="63.5" y="63.5" size="1.27" layer="95" xref="yes"/>
 <pinref part="JP4" gate="G$1" pin="1"/>
 </segment>
+<segment>
+<wire x1="121.92" y1="78.74" x2="129.54" y2="78.74" width="0.1524" layer="91"/>
+<label x="127" y="78.74" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="8"/>
+</segment>
 </net>
-<net name="D8" class="0">
+<net name="A14" class="0">
 <segment>
 <wire x1="60.96" y1="66.04" x2="63.5" y2="66.04" width="0.1524" layer="91"/>
 <label x="63.5" y="66.04" size="1.27" layer="95" xref="yes"/>
 <pinref part="JP4" gate="G$1" pin="2"/>
 </segment>
-</net>
-<net name="D3" class="0">
 <segment>
-<wire x1="60.96" y1="78.74" x2="63.5" y2="78.74" width="0.1524" layer="91"/>
-<label x="63.5" y="78.74" size="1.27" layer="95" xref="yes"/>
-<pinref part="JP4" gate="G$1" pin="7"/>
-</segment>
-</net>
-<net name="SCK" class="0">
-<segment>
-<wire x1="86.36" y1="71.12" x2="83.82" y2="71.12" width="0.1524" layer="91"/>
-<label x="83.82" y="71.12" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP5" gate="G$1" pin="9"/>
-</segment>
-</net>
-<net name="MISO" class="0">
-<segment>
-<wire x1="86.36" y1="68.58" x2="83.82" y2="68.58" width="0.1524" layer="91"/>
-<label x="83.82" y="68.58" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP5" gate="G$1" pin="10"/>
-</segment>
-</net>
-<net name="3.3V" class="0">
-<segment>
-<label x="104.14" y="81.28" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="JP6" gate="A" pin="5"/>
-<wire x1="114.3" y1="81.28" x2="104.14" y2="81.28" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<wire x1="86.36" y1="83.82" x2="83.82" y2="83.82" width="0.1524" layer="91"/>
-<label x="83.82" y="83.82" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP5" gate="G$1" pin="4"/>
-</segment>
-</net>
-<net name="SEN1" class="0">
-<segment>
-<wire x1="114.3" y1="86.36" x2="104.14" y2="86.36" width="0.1524" layer="91"/>
-<label x="104.14" y="86.36" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="1"/>
-</segment>
-</net>
-<net name="SEN3" class="0">
-<segment>
-<wire x1="114.3" y1="78.74" x2="104.14" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="114.3" y1="78.74" x2="106.68" y2="78.74" width="0.1524" layer="91"/>
 <label x="104.14" y="78.74" size="1.778" layer="95"/>
 <pinref part="JP6" gate="A" pin="7"/>
 </segment>
 </net>
-<net name="SEN4" class="0">
+<net name="D3" class="0">
 <segment>
-<wire x1="114.3" y1="76.2" x2="104.14" y2="76.2" width="0.1524" layer="91"/>
-<label x="104.14" y="76.2" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="9"/>
+<pinref part="JP11" gate="A" pin="4"/>
+<wire x1="93.98" y1="43.18" x2="83.82" y2="43.18" width="0.1524" layer="91"/>
+<label x="83.82" y="43.18" size="1.778" layer="95"/>
 </segment>
-<segment>
-<wire x1="86.36" y1="73.66" x2="83.82" y2="73.66" width="0.1524" layer="91"/>
-<label x="83.82" y="73.66" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP5" gate="G$1" pin="8"/>
-</segment>
-</net>
-<net name="SEN5" class="0">
-<segment>
-<wire x1="114.3" y1="73.66" x2="104.14" y2="73.66" width="0.1524" layer="91"/>
-<label x="104.14" y="73.66" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="11"/>
-</segment>
-<segment>
-<wire x1="60.96" y1="81.28" x2="63.5" y2="81.28" width="0.1524" layer="91"/>
-<label x="63.5" y="81.28" size="1.27" layer="95" xref="yes"/>
-<pinref part="JP4" gate="G$1" pin="8"/>
-</segment>
-</net>
-<net name="SEN6" class="0">
-<segment>
-<wire x1="121.92" y1="83.82" x2="129.54" y2="83.82" width="0.1524" layer="91"/>
-<label x="127" y="83.82" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="4"/>
-</segment>
-</net>
-<net name="SEN7" class="0">
-<segment>
-<wire x1="129.54" y1="81.28" x2="121.92" y2="81.28" width="0.1524" layer="91"/>
-<label x="127" y="81.28" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="6"/>
-</segment>
-</net>
-<net name="SEN8" class="0">
-<segment>
-<wire x1="121.92" y1="76.2" x2="129.54" y2="76.2" width="0.1524" layer="91"/>
-<label x="127" y="76.2" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="10"/>
-</segment>
-<segment>
-<wire x1="60.96" y1="76.2" x2="63.5" y2="76.2" width="0.1524" layer="91"/>
-<label x="63.5" y="76.2" size="1.27" layer="95" xref="yes"/>
-<pinref part="JP4" gate="G$1" pin="6"/>
-</segment>
-</net>
-<net name="SEN10" class="0">
-<segment>
-<wire x1="121.92" y1="71.12" x2="129.54" y2="71.12" width="0.1524" layer="91"/>
-<label x="127" y="71.12" size="1.778" layer="95"/>
-<pinref part="JP6" gate="A" pin="14"/>
-</segment>
-</net>
-<net name="M1+" class="0">
-<segment>
-<wire x1="60.96" y1="71.12" x2="63.5" y2="71.12" width="0.1524" layer="91"/>
-<label x="63.5" y="71.12" size="1.27" layer="95" xref="yes"/>
-<pinref part="JP4" gate="G$1" pin="4"/>
-</segment>
-</net>
-<net name="M1-" class="0">
-<segment>
-<wire x1="60.96" y1="73.66" x2="63.5" y2="73.66" width="0.1524" layer="91"/>
-<label x="63.5" y="73.66" size="1.27" layer="95" xref="yes"/>
-<pinref part="JP4" gate="G$1" pin="5"/>
-</segment>
-</net>
-<net name="M2+" class="0">
-<segment>
-<wire x1="86.36" y1="63.5" x2="83.82" y2="63.5" width="0.1524" layer="91"/>
-<label x="83.82" y="63.5" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP5" gate="G$1" pin="12"/>
-</segment>
-</net>
-<net name="M2-" class="0">
 <segment>
 <wire x1="86.36" y1="66.04" x2="83.82" y2="66.04" width="0.1524" layer="91"/>
 <label x="83.82" y="66.04" size="1.27" layer="95" rot="R180" xref="yes"/>
 <pinref part="JP5" gate="G$1" pin="11"/>
 </segment>
 </net>
-<net name="SW1" class="0">
+<net name="3.3V" class="0">
 <segment>
-<wire x1="86.36" y1="76.2" x2="83.82" y2="76.2" width="0.1524" layer="91"/>
-<label x="83.82" y="76.2" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP5" gate="G$1" pin="7"/>
+<wire x1="86.36" y1="83.82" x2="83.82" y2="83.82" width="0.1524" layer="91"/>
+<label x="83.82" y="83.82" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="JP5" gate="G$1" pin="4"/>
+</segment>
+</net>
+<net name="A13" class="0">
+<segment>
+<wire x1="60.96" y1="71.12" x2="63.5" y2="71.12" width="0.1524" layer="91"/>
+<label x="63.5" y="71.12" size="1.27" layer="95" xref="yes"/>
+<pinref part="JP4" gate="G$1" pin="4"/>
+</segment>
+<segment>
+<wire x1="106.68" y1="81.28" x2="114.3" y2="81.28" width="0.1524" layer="91"/>
+<label x="104.14" y="81.28" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="5"/>
+</segment>
+</net>
+<net name="A12" class="0">
+<segment>
+<wire x1="60.96" y1="73.66" x2="63.5" y2="73.66" width="0.1524" layer="91"/>
+<label x="63.5" y="73.66" size="1.27" layer="95" xref="yes"/>
+<pinref part="JP4" gate="G$1" pin="5"/>
+</segment>
+<segment>
+<wire x1="121.92" y1="83.82" x2="129.54" y2="83.82" width="0.1524" layer="91"/>
+<label x="127" y="83.82" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="4"/>
 </segment>
 </net>
 <net name="PS2_DATA" class="0">
@@ -2823,11 +2721,16 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <label x="35.56" y="35.56" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="D7" class="0">
+<net name="A8" class="0">
 <segment>
 <wire x1="60.96" y1="68.58" x2="63.5" y2="68.58" width="0.1524" layer="91"/>
 <label x="63.5" y="68.58" size="1.27" layer="95" xref="yes"/>
 <pinref part="JP4" gate="G$1" pin="3"/>
+</segment>
+<segment>
+<wire x1="121.92" y1="81.28" x2="129.54" y2="81.28" width="0.1524" layer="91"/>
+<label x="127" y="81.28" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="6"/>
 </segment>
 </net>
 <net name="PS2_CLK" class="0">
@@ -2873,6 +2776,7 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <segment>
 <wire x1="66.04" y1="43.18" x2="71.12" y2="43.18" width="0.1524" layer="91"/>
 <label x="68.58" y="43.18" size="1.778" layer="95"/>
+<pinref part="MOUSE" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -2898,34 +2802,88 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <wire x1="27.94" y1="78.74" x2="43.18" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$6" class="0">
+<net name="D0" class="0">
 <segment>
 <pinref part="JP11" gate="A" pin="1"/>
 <wire x1="93.98" y1="50.8" x2="83.82" y2="50.8" width="0.1524" layer="91"/>
+<label x="83.82" y="50.8" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="86.36" y1="76.2" x2="83.82" y2="76.2" width="0.1524" layer="91"/>
+<label x="83.82" y="76.2" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="JP5" gate="G$1" pin="7"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="D1" class="0">
 <segment>
 <pinref part="JP11" gate="A" pin="2"/>
 <wire x1="93.98" y1="48.26" x2="83.82" y2="48.26" width="0.1524" layer="91"/>
+<label x="83.82" y="48.26" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="86.36" y1="73.66" x2="83.82" y2="73.66" width="0.1524" layer="91"/>
+<label x="83.82" y="73.66" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="JP5" gate="G$1" pin="8"/>
 </segment>
 </net>
-<net name="N$8" class="0">
+<net name="D2" class="0">
 <segment>
 <pinref part="JP11" gate="A" pin="3"/>
 <wire x1="93.98" y1="45.72" x2="83.82" y2="45.72" width="0.1524" layer="91"/>
+<label x="83.82" y="45.72" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="N$9" class="0">
 <segment>
-<pinref part="JP11" gate="A" pin="4"/>
-<wire x1="93.98" y1="43.18" x2="83.82" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="68.58" x2="83.82" y2="68.58" width="0.1524" layer="91"/>
+<label x="83.82" y="68.58" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="JP5" gate="G$1" pin="10"/>
 </segment>
 </net>
-<net name="N$10" class="0">
+<net name="D4" class="0">
 <segment>
 <pinref part="JP11" gate="A" pin="5"/>
 <wire x1="93.98" y1="40.64" x2="83.82" y2="40.64" width="0.1524" layer="91"/>
+<label x="83.82" y="40.64" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="86.36" y1="63.5" x2="83.82" y2="63.5" width="0.1524" layer="91"/>
+<label x="83.82" y="63.5" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="JP5" gate="G$1" pin="12"/>
+</segment>
+</net>
+<net name="A11" class="0">
+<segment>
+<wire x1="60.96" y1="81.28" x2="63.5" y2="81.28" width="0.1524" layer="91"/>
+<label x="63.5" y="81.28" size="1.27" layer="95" xref="yes"/>
+<pinref part="JP4" gate="G$1" pin="8"/>
+</segment>
+<segment>
+<wire x1="106.68" y1="86.36" x2="114.3" y2="86.36" width="0.1524" layer="91"/>
+<label x="104.14" y="86.36" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="1"/>
+</segment>
+</net>
+<net name="A10" class="0">
+<segment>
+<wire x1="60.96" y1="78.74" x2="63.5" y2="78.74" width="0.1524" layer="91"/>
+<label x="63.5" y="78.74" size="1.27" layer="95" xref="yes"/>
+<pinref part="JP4" gate="G$1" pin="7"/>
+</segment>
+<segment>
+<wire x1="121.92" y1="86.36" x2="129.54" y2="86.36" width="0.1524" layer="91"/>
+<label x="127" y="86.36" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="2"/>
+</segment>
+</net>
+<net name="A9" class="0">
+<segment>
+<wire x1="60.96" y1="76.2" x2="63.5" y2="76.2" width="0.1524" layer="91"/>
+<label x="63.5" y="76.2" size="1.27" layer="95" xref="yes"/>
+<pinref part="JP4" gate="G$1" pin="6"/>
+</segment>
+<segment>
+<wire x1="106.68" y1="83.82" x2="114.3" y2="83.82" width="0.1524" layer="91"/>
+<label x="104.14" y="83.82" size="1.778" layer="95"/>
+<pinref part="JP6" gate="A" pin="3"/>
 </segment>
 </net>
 </nets>
