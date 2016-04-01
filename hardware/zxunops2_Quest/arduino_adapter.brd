@@ -1117,8 +1117,8 @@ design rules under a new name.</description>
 <element name="ZXUNO" library="ZX_UNO_0_14" package="DINC/MIN_TM/6_1PRIMARY" value="" x="8.41375" y="12.85875" smashed="yes">
 <attribute name="NAME" x="0.23495" y="13.21435" size="2.032" layer="25" font="vector" ratio="13" rot="SR0"/>
 </element>
-<element name="MOUSE" library="ZX_UNO_0_14" package="DINC/MIN_TM/6_1PRIMARY" value="" x="25.7175" y="12.85875" smashed="yes">
-<attribute name="NAME" x="17.5387" y="13.21435" size="2.032" layer="25" font="vector" ratio="13" rot="SR0"/>
+<element name="MOUSE" library="ZX_UNO_0_14" package="DINC/MIN_TM/6_1PRIMARY" value="" x="24.368125" y="12.85875" smashed="yes">
+<attribute name="NAME" x="16.189325" y="13.21435" size="2.032" layer="25" font="vector" ratio="13" rot="SR0"/>
 </element>
 <element name="U1" library="iwasz-logo" package="QFP50P1200X1200X160-64N" value="STM32F105RBT6" x="20.081875" y="23.098125">
 <attribute name="PACKAGE" value="LQFP-64" x="20.081875" y="23.098125" size="1.778" layer="27" display="off"/>
@@ -1134,14 +1134,13 @@ design rules under a new name.</description>
 <contactref element="JP5" pad="2"/>
 <contactref element="ZXUNO" pad="3"/>
 <contactref element="MOUSE" pad="3"/>
-<wire x1="22.3647" y1="4.34975" x2="22.3647" y2="4.2672" width="0.3048" layer="1"/>
-<wire x1="22.3647" y1="4.2672" x2="21.11375" y2="3.01625" width="0.3048" layer="1"/>
-<wire x1="21.11375" y1="3.01625" x2="5.87375" y2="3.01625" width="0.3048" layer="1"/>
 <wire x1="3.96875" y1="15.478125" x2="3.96875" y2="15.39875" width="0.3048" layer="16"/>
 <wire x1="3.96875" y1="15.39875" x2="3.96875" y2="5.44195" width="0.3048" layer="16"/>
 <wire x1="3.96875" y1="5.44195" x2="5.06095" y2="4.34975" width="0.3048" layer="16"/>
 <wire x1="5.87375" y1="3.01625" x2="5.08" y2="3.81" width="0.3048" layer="1"/>
 <wire x1="5.08" y1="4.3307" x2="5.08" y2="3.81" width="0.3048" layer="1"/>
+<wire x1="5.87375" y1="3.01625" x2="19.681825" y2="3.01625" width="0.3048" layer="1"/>
+<wire x1="19.681825" y1="3.01625" x2="21.015325" y2="4.34975" width="0.3048" layer="1"/>
 <wire x1="5.06095" y1="4.34975" x2="5.08" y2="4.3307" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="A15">
@@ -1217,7 +1216,7 @@ design rules under a new name.</description>
 <signal name="N$1">
 <contactref element="ZXUNO" pad="6"/>
 <contactref element="MOUSE" pad="5"/>
-<wire x1="11.76655" y1="1.86055" x2="22.3647" y2="1.86055" width="0.3048" layer="16"/>
+<wire x1="11.76655" y1="1.86055" x2="21.015325" y2="1.86055" width="0.3048" layer="16"/>
 </signal>
 <signal name="N$2">
 <contactref element="ZXUNO" pad="2"/>
@@ -1226,23 +1225,23 @@ design rules under a new name.</description>
 <wire x1="9.906" y1="4.34975" x2="11.27125" y2="5.715" width="0.3048" layer="16"/>
 <wire x1="11.27125" y1="5.715" x2="13.335" y2="5.715" width="0.3048" layer="16"/>
 <wire x1="13.335" y1="5.715" x2="13.97" y2="5.08" width="0.3048" layer="16"/>
-<wire x1="13.97" y1="5.08" x2="20.16125" y2="5.08" width="0.3048" layer="16"/>
-<wire x1="20.16125" y1="5.08" x2="20.79625" y2="5.715" width="0.3048" layer="16"/>
-<wire x1="20.79625" y1="5.715" x2="23.05685" y2="5.715" width="0.3048" layer="16"/>
-<wire x1="23.05685" y1="5.715" x2="24.4221" y2="4.34975" width="0.3048" layer="16"/>
+<wire x1="13.97" y1="5.08" x2="19.288125" y2="5.08" width="0.3048" layer="16"/>
+<wire x1="19.288125" y1="5.08" x2="19.923125" y2="5.715" width="0.3048" layer="16"/>
+<wire x1="19.923125" y1="5.715" x2="21.707475" y2="5.715" width="0.3048" layer="16"/>
+<wire x1="21.707475" y1="5.715" x2="23.072725" y2="4.34975" width="0.3048" layer="16"/>
 </signal>
 <signal name="VCC">
 <contactref element="ZXUNO" pad="4"/>
 <contactref element="MOUSE" pad="4"/>
 <wire x1="11.76655" y1="4.34975" x2="11.76655" y2="4.2672" width="0.3048" layer="16"/>
 <wire x1="11.76655" y1="4.2672" x2="13.0175" y2="3.01625" width="0.3048" layer="16"/>
-<wire x1="13.0175" y1="3.01625" x2="27.7368" y2="3.01625" width="0.3048" layer="16"/>
-<wire x1="27.7368" y1="3.01625" x2="29.0703" y2="4.34975" width="0.3048" layer="16"/>
 <contactref element="JP5" pad="1"/>
 <wire x1="7.14375" y1="5.87375" x2="10.24255" y2="5.87375" width="0.3048" layer="1"/>
 <wire x1="10.24255" y1="5.87375" x2="11.76655" y2="4.34975" width="0.3048" layer="1"/>
 <wire x1="7.14375" y1="5.87375" x2="1.42875" y2="11.58875" width="0.3048" layer="1"/>
 <wire x1="1.42875" y1="11.58875" x2="1.42875" y2="15.39875" width="0.3048" layer="1"/>
+<wire x1="13.0175" y1="3.01625" x2="26.387425" y2="3.01625" width="0.3048" layer="16"/>
+<wire x1="26.387425" y1="3.01625" x2="27.720925" y2="4.34975" width="0.3048" layer="16"/>
 </signal>
 <signal name="D0">
 <contactref element="JP5" pad="7"/>
