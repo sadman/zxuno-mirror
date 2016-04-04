@@ -148,8 +148,9 @@
       connectors, burn firmware, test PCB, packaging, etc...</strike>
       <br>
       <br>
-    <strong>Upgrade Feb. 2016:</strong> Crowdfunding campaign is planned in March 2016. Final price is estimated to be near 58-60 euro plus shipping costs. We did our best to maintain the price low.    </li>
-    <br/>
+      <strong>Upgrade April 2016:</strong> Crowdfunding campaign was planned in March 2016.
+      Final price was 65 euro, shipping costs included. We did our best to maintain the price low.
+    </li>
     <li>
       <strong>Who work in the project?</strong>
       <br/>
@@ -161,28 +162,64 @@
         <li><strong>Quest</strong>. Ports of secondary cores. Multiboot system. Firmware and prototypes collaboration</li>
         <li><strong>Hark0.</strong> Graphic and web designer.</li></ul>
     <br/>
-    <li>
-      <strong>When will be the launch date?</strong>
-      <br/>
-      <strike>There is no estimated date specific, in principle there will be 2 runs: one for
-      developers (prototype) 10 units already made ​​and another for the general public,
-      50 or 100 units. The prototype PCBs together with the components and shipping
-      for 22 euros (in Spain). These prototypes come unassembled and unprogrammed
-      (Xilinx USB cable required), why they are so cheap. The final version (mounted
-      and programmed) is estimated to have cost between 30 and 40 euros.
+    <li><strong>What is the license?</strong>
+      Creative Commons Share Alike, that briefly means:
       <br/>
       <br/>
-      On the final board, do not know if I who was responsible and discuss everything
-      that is subject to change. Will be 50 or 100 units and will be request to sitopway.
-      It will go almost all mounted except connectors that optionally can be hand soldering
-      by request for an additional price. The firmware will be pre-programmed, and there
-      will be an option to purchase separate accessories: box, sticker logo, manual,
-      cables, power supply.</strike><br>
-      <br>
-      <strong>Upgrade Feb. 2016:</strong> Crowdfunding campaign is planned in March 2016. Final price is estimated to be near 58-60 euro plus shipping costs. We did our best to maintain the price low.
-    </li></ol>
+      You are free to:
+      <ul>
+      <strong>Share</strong> — copy and redistribute the material in any medium or format
+      <br/>
+      <strong>Adapt</strong> — remix, transform, and build upon the material
+      <br/>
+      for any purpose, even commercially.
+      <br/>
+      The licensor cannot revoke these freedoms as long as you follow the <a href="http://creativecommons.org/licenses/by-sa/4.0/">license terms</a>.
+      <br/>
+      <br/>
+      </ul>
+      Under the following terms:
+      <ul>
+      <strong>Attribution</strong> — You must give appropriate credit, provide a link
+      to the license, and indicate if changes were made. You may do so in any reasonable
+      manner, but not in any way that suggests the licensor endorses you or your use.
+      <br/>
+      <br/>
+      <strong>ShareAlike</strong> — If you remix, transform, or build upon the material,
+      you must distribute your contributions under the same license as the original.
+      <br/>
+      <br/>
+      <strong>No additional restrictions</strong> — You may not apply legal terms or
+      technological measures that legally restrict others from doing anything the license permits.
+      <br/>
+      <br/>
+      </ul>
+      Notices:
+      <ul>
+      You do not have to comply with the license for elements of the material in the
+      public domain or where your use is permitted by an applicable exception or limitation.
+      <br/>
+      <br/>
+      No warranties are given. The license may not give you all of the permissions
+      necessary for your intended use. For example, other rights such as publicity,
+      privacy, or moral rights may limit how you use the material.
+      </ul>
+      <br/>
+    </li>
+    <li><strong>Update March 2016</strong>:
+      <br/>
+      The crowdfunding campaign was a success thanks to the backers.
+      Our plan is distribute the 250 ZX-Unos on september, but we'll try to do before
+      From that moment we trust that has commercial initiatives to sell
+      it at an affordable price. We only ask them to respect
+      the license terms: to mention the project is licensed by CC-SA,
+      name or nickname of the authors and the project website <a href="http://zxuno.com"> zxuno.com </a>.
+    <br>
+    <br>
+    </li>
+  </ol>
   <br/>
 </div>
 <div id="footer">
   <div id="footerimg" style="background:0 90px url(imagen/logo_e.png)"></div>
-  <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>
+  <div id="footerhost"><a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"><img src="imagen/CC-BY-SA.png"/></a> Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>

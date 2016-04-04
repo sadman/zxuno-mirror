@@ -51,7 +51,7 @@ margin:0 0 0 0;
 <body>
 <div id="clockdiv" style="margin:auto;width:100%">
   <p style="padding:10px 0 0 0;font-size:16px;">The crowdfunding campaing has finished. Thank you for your support! :)</p>
-  <p style="padding:20px 0 0 0;"><img src="logo_foro2.png">
+  <p style="padding:20px 0 0 0;"><img src="imagen/logo_foro2.png">
   </p>
 </div>
 <div id="menu" style="width:620px">
@@ -71,7 +71,7 @@ margin:0 0 0 0;
   <span>·</span>
   <a href="index.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-  <img width="100%" src="imagen/foto1_original.jpg"/>
+  <img width="100%" src="imagen/foto1.jpg"/>
   
   <iframe width="788" height="591" src="https://www.youtube.com/embed/exB91h7oes4" frameborder="0" allowfullscreen></iframe>
   <br><br>
@@ -114,47 +114,4 @@ margin:0 0 0 0;
     <li>2013-09-21 Order of 10 prototypes: boards and components</li></ul></div>
 <div id="footer">
   <div id="footerimg" style="background:0 90px url(imagen/logo_e.png)"></div>
-  <div id="footerhost">Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div>
-<script language="javascript" type="text/javascript">
-function getTimeRemaining(endtime) {
-  var t = Date.parse(endtime) - Date.parse(new Date());
-  var seconds = Math.floor((t / 1000) % 60);
-  var minutes = Math.floor((t / 1000 / 60) % 60);
-  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-  var days = Math.floor(t / (1000 * 60 * 60 * 24));
-  return {
-    'total': t,
-    'days': days,
-    'hours': hours,
-    'minutes': minutes,
-    'seconds': seconds
-  };
-}
-
-function initializeClock(id, endtime) {
-  var clock = document.getElementById(id);
-  var daysSpan = clock.querySelector('.days');
-  var hoursSpan = clock.querySelector('.hours');
-  var minutesSpan = clock.querySelector('.minutes');
-  var secondsSpan = clock.querySelector('.seconds');
-
-  function updateClock() {
-    var t = getTimeRemaining(endtime);
-
-    daysSpan.innerHTML = t.days;
-    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
-    }
-  }
-
-  updateClock();
-  var timeinterval = setInterval(updateClock, 1000);
-}
-
-var deadline = new Date(Date.parse("19 Mar 2016 09:00:00 GMT"));
-initializeClock('clockdiv', deadline);
-</script></body></html>
+  <div id="footerhost"><a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"><img src="imagen/CC-BY-SA.png"/></a> Site hosted on <a href="http://www.speccy.org">Speccy.org</a>. Follow us on twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>

@@ -111,7 +111,7 @@
       un S.O. especial que sea quien se encargue de ello) implicaría  implementar un chip que tenga la misma interfaz que el uPD765, un sistema que &quot;simule&quot; tener una disquetera a la que &quot;conectarle la imagen DSK e interactuar con la SD por medio de algún menú, implementar rutinas para leer sistemas de ficheros FAT, etc. <br>
     <br>
     </li>
-    <li> <strong>¿Cabrán los <em>clones rusos</em>? ¿Y el SAM coupé?
+    <li><strong>¿Cabrán los <em>clones rusos</em>? ¿Y el SAM coupé?
       ¿Y otras máquinas?</strong><br/>
       Muy probablemente sí. Respecto al SAM, de hecho actualmente ya está parcialmente implementado. Salvo por algún detalle de timings en el Z80, es funcional y se puede cargar software vía puerto EAR por audio. Además
       cabrá el ZX80, ZX81, Jupiter ACE (que también está ya implementado), y algunos arcades que usan un solo Z80, como el Pacman.<br>
@@ -120,7 +120,7 @@
     estas máquinas, además del propio Spectrum: Sam Coupé, Jupiter ACE, Sega Master System, Acorn Atom, Oric Atmos, VIC-20, Apple II, arcade lady bug.<br>
     <br>
     </li>
-    <li> <strong>¿Cuantos cambios de configuración se permiten en ese chip? Es decir, ¿se podría
+    <li><strong>¿Cuantos cambios de configuración se permiten en ese chip? Es decir, ¿se podría
         cambiar de configuración alegremente o mejor dejarla fija para siempre?</strong>
       <br/>
       Tantos como escrituras permita la SPI Flash, creo que miles o cientos de miles. Eso sí,
@@ -129,7 +129,7 @@
       placa a reflashear.<br>
       <br>
     </li>
-    <li> <strong>Me he comprado el prototipo pero no sé como se sueldan los componentes
+    <li><strong>Me he comprado el prototipo pero no sé como se sueldan los componentes
         SMD, ¿alguna ayuda?</strong>
       <br/>
       McLeod nos da una buena explicación en el
@@ -144,15 +144,15 @@
         Por mi parte no voy a incrementar el coste de lo que me cobre seeedstudio para los
         prototipos. Para la versión final, si la distribución se le encarga a otra persona, no
         puedo descartar que haya algún beneficio, sobre todo porque conllevará un trabajo
-    adicional: soldar conectores, grabar firmware, testear la placa, empaquetado, etc...<br>
-    <br>
-      </strike><strong>Actualización  2016</strong>: <br/>
-Para Marzo de 2016 está planeada la campaña de crowfunding. El precio de
-      venta estimado es de aproximadamente 58-60 euros mas lo que cueste enviarlo (previsión sujeta a cambios). Hemos hecho todo lo posible
-    para mantener el precio bajo. <br>
+        adicional: soldar conectores, grabar firmware, testear la placa, empaquetado, etc...<br>
+      <br>
+      </strike><strong>Actualización 2016</strong>: <br/>
+      Para Marzo de 2016 iniciamos la campaña de crowfunding. El precio de
+      venta fue de 65 euros incluyendo gastos de envío. Hemos hecho todo lo posible
+      para mantener el precio bajo. <br>
     <br>
     </li>
-    <li> <strong>¿Quiénes trabajan en el proyecto?</strong>
+    <li><strong>¿Quiénes trabajan en el proyecto?</strong>
       <br/>
       Somos 5 personas.
       <ul>
@@ -163,35 +163,58 @@ Para Marzo de 2016 está planeada la campaña de crowfunding. El precio de
         <li><strong>Hark0.</strong> Diseño gráfico y web. Todo la parte relativa al grafismo del proyecto.<br>
           <br>
         </li></ul></li>
-<li><strong>¿Cuándo estará a la venta?</strong>
-      <br/>
-      <strike>No hay una fecha estimada concreta, en principio habrá 2 tiradas: una para desarrolladores
-          (prototipo) de 10 unidades que ya se ha realizado y otra para el público general de 50
-          ó 100 unidades. Las PCBs de los prototipos se pidieron a seeedstudio.com, y junto con
-          los componentes y los gastos de envío salieron por 22 euros. Estos prototipos vienen
-          sin montar y sin programar (requieren cable USB de Xilinx), por eso son tan baratos.
-          La versión final (montada y programada) se estima que tendrá un coste de entre 30 y 40 euros.
+    <li><strong>¿Qué licencia tiene?</strong>
+      Creative Commons Share Alike (Compartir Igual), que se resume en:
       <br/>
       <br/>
-      En cuanto a la placa definitiva, no sé si seré yo el que se encargue así que todo lo
-      que comente está sujeto a cambios. Serán unas 50 ó 100 unidades y se encargarán a
-      sitopway. Irá casi todo montado salvo los conectores, que opcionalmente el que las
-      distribuya puede soldarlos a mano a petición del usuario por un precio adicional.
-      El firmware vendrá pregrabado y también habrá opción de adquirir complementos por
-      separado: caja, pegatina con logo, manual, cables, fuente de alimentación.</strike>
+      Usted es libre de:
+      <ul>
+      <strong>Compartir</strong> — copiar y redistribuir el material en cualquier medio o formato
+      <br/>
+      <strong>Adaptar</strong> — remezclar, transformar y crear a partir del material
+      <br/>
+      para cualquier finalidad, incluso comercial.
+      <br/>
+      El licenciador no puede revocar estas libertades mientras cumpla con los <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.es_ES">términos de la licencia</a>.
       <br/>
       <br/>
-      <strong>Actualización Feb. 2016</strong>:
+      </ul>
+      Bajo las condiciones siguientes:
+      <ul>
+      <strong>Reconocimiento</strong> — Debe reconocer adecuadamente la autoría, proporcionar un enlace a la licencia e indicar si se han realizado cambios. Puede hacerlo de cualquier manera razonable, pero no de una manera que sugiera que tiene el apoyo del licenciador o lo recibe por el uso que hace.
       <br/>
-       Para Marzo de 2016 está planeada la campaña de crowfunding. El precio de
-      venta estimado es de aproximadamente 58-60 euros mas lo que cueste enviarlo (previsión sujeta a cambios). Hemos hecho todo lo posible
-    para mantener el precio bajo. <br>
+      <br/>
+      <strong>CompartirIgual</strong> — Si remezcla, transforma o crea a partir del material, deberá difundir sus contribuciones bajo la misma licencia que el original.
+      <br/>
+      <br/>
+      No hay restricciones adicionales — No puede aplicar términos legales o medidas tecnológicas que legalmente restrinjan realizar aquello que la licencia permite.
+      <br/>
+      <br/>
+      </ul>
+      Avisos:
+      <ul>
+      No tiene que cumplir con la licencia para aquellos elementos del material en el dominio público o cuando su utilización esté permitida por la aplicación de una excepción o un límite.
+      <br/>
+      <br/>
+      No se dan garantías. La licencia puede no ofrecer todos los permisos necesarios para la utilización prevista. Por ejemplo, otros derechos como los de publicidad, privacidad, o los derechos morales pueden limitar el uso del material.
+      </ul>
+      <br/>
+    </li>
+    <li><strong>Actualización Mar. 2016</strong>:
+      <br/>
+      Hemos superado el crowdfunding con éxito gracias al apoyo de todos los colaboradores.
+      Nuestro plan es repartir los 250 ZX-Unos en septiembre, aunque haremos lo posible para
+      que sea antes. A partir de ese momento confiamos en que haya iniciativas comerciales
+      que lo vendan a un precio asequible. Sólo pedimos que lo hagan respetando los
+      términos de la licencia: que mencionen que es un proyecto con licencia CC by-SA, con
+      el nombre o nick de los autores y la web del proyecto <a href="http://zxuno.com">zxuno.com</a>.
     <br>
-</li>
+    <br>
+    </li>
   </ol>
   <p>&nbsp;</p>
 <br/>
 </div>
 <div id="footer">
   <div id="footerimg" style="background:0 90px url(imagen/logo.png)"></div>
-  <div id="footerhost">Site hospedado en <a href="http://www.speccy.org">Speccy.org</a>. Síguenos en twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>
+  <div id="footerhost"><a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"><img src="imagen/CC-BY-SA.png"/></a> Site hospedado en <a href="http://www.speccy.org">Speccy.org</a>. Síguenos en twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/></div></div></body></html>
