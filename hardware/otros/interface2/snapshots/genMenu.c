@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LREG  35//51 //35
-#define LOFF  8//24 //8
+#define LREG  53 //35
+#define LOFF  24 //8
 
 unsigned char image[0xc000], font[0x1000], rotate;
 char tmpstr[50];
@@ -71,18 +71,19 @@ int main(int argc, char *argv[]){
     font[i*LREG+LOFF+1]= font[LREG*10+25]-1;          // IM
     memcpy(font+i*LREG+LOFF+2, font+LREG*10+1, 8);    // HL',DE',BC',AF'
     memcpy(font+i*LREG+LOFF+10, font+LREG*10+11, 8);  // DE,BC,IY,IX
-    font[i*LREG+LOFF+18]= 0x21;                       // HL
-    *(unsigned short*)(font+i*LREG+LOFF+19)= *(unsigned short*)(font+LREG*10+9);
-    font[i*LREG+LOFF+21]= 0x31;                       // SP
-    *(unsigned short*)(font+i*LREG+LOFF+22)= pos;
-    font[i*LREG+LOFF+24]= 0xf3|font[LREG*10+19]<<3&8; // IFF
-    font[i*LREG+LOFF+25]= 0x18;                       // jr rel
-    if( i<3 )
-      font[i*LREG+LOFF+26]= LREG*(3-i)-2;
-    else if( i<6 )
-      font[i*LREG+LOFF+26]= LREG*(6-i)-2;
+    *(unsigned short*)(font+i*LREG+LOFF+18)= af;
+    font[i*LREG+LOFF+18+(LOFF>>2&2)]= 0x21;                       // HL
+    *(unsigned short*)(font+i*LREG+LOFF+19+(LOFF>>2&2))= *(unsigned short*)(font+LREG*10+9);
+    font[i*LREG+LOFF+21+(LOFF>>2&2)]= 0x31;                       // SP
+    *(unsigned short*)(font+i*LREG+LOFF+22+(LOFF>>2&2))= pos;
+    font[i*LREG+LOFF+24+(LOFF>>2&2)]= 0xf3|font[LREG*10+19]<<3&8; // IFF
+    font[i*LREG+LOFF+25+(LOFF>>2&2)]= 0x18;                       // jr rel
+    if( i<9 )
+      font[i*LREG+LOFF+26+(LOFF>>2&2)]= LREG-2;
+//    else if( i<6 )
+//      font[i*LREG+LOFF+26+(LOFF>>2&2)]= LREG*(6-i)-2;
     else
-      font[i*LREG+LOFF+26]= LREG*(9-i);
+      font[i*LREG+LOFF+26+(LOFF>>2&2)]= 0;
     fclose(fi);
   }
   fclose(fo);

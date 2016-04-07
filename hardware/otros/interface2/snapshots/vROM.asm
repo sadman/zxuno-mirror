@@ -1,22 +1,26 @@
         OUTPUT  vROM.rom
         define  codcnt  $7800
-        define  LREG    35
-        define  LOFF    8
-
-
-
-
-
+        define  LREG    53;35
+        define  LOFF    24;8
 
         di
         im      1
         ld      sp, game3-snaps
         ld      hl, $5000
         ld      de, $5001
+      IF  LREG=35
         jr      start2
 start1  ld      a, $9f
         ld      (0), a
 start2  ld      (hl), l
+      ELSE
+        ld      (hl), l
+        jr      start2
+        nop
+        nop
+start1  ld      ($3fff), a
+start2  
+      ENDIF
         ld      bc, $0800
         ldir
         ld      bc, $07fe
@@ -141,11 +145,11 @@ keytab  defb    $61;, $73, $64, $66, $67 ; a       s       d       f       g
         defb    $0d;$20
 
 gamen1  jp      z, manic
+      IF  LREG=35
         ld      a, $9f
         ld      bc, 0
         push    bc
         jp      $fffe
-      IF  LREG=35
 gamen3  sbc     hl, hl
         ld      d, $40
         ld      b, d
@@ -160,8 +164,16 @@ gamen3  sbc     hl, hl
         inc     a
         ld      h, l
         ld      bc, $3ff8
+        call    2-LOFF
+        ex      af, af
       ELSE
-gamen3  ld      d, $40
+        ld      bc, $3fff
+        ld      h, c
+        ld      l, c
+        ld      (hl), 2
+        jp      (hl)
+gamen3  inc     a
+        ld      d, $40
         dec     c
         add     a, a
         add     a, a
@@ -180,9 +192,10 @@ gamen3  ld      d, $40
         add     a, a
         add     a, a
         add     a, a
-      ENDIF
         call    2-LOFF
         ex      af, af
+        dec     a
+      ENDIF
 gamen4  inc     b
         sub     3
         jr      nz, gamen4
@@ -205,7 +218,7 @@ gamen6  pop     hl
         pop     de
         pop     bc
         exx
-        sbc     hl, hl
+        ld      hl, 2
         pop     af
         ex      af, af'
         pop     bc
@@ -213,11 +226,14 @@ gamen6  pop     hl
         pop     iy
         pop     ix
         add     hl, sp
+      IF  LREG>35
+        pop     af
+      ENDIF
         jp      (hl)
 
 game3
       IF  LREG>35
-ld      b, 5
+        ld      b, 5
 game4   ld      hl, $3ffc
         rlca
         jr      nc, game5
@@ -260,7 +276,7 @@ sel02   ld      a, (hl)
 
 manic   ei
         ld      a, $80
-        ld      sp, hl
+        ld      sp, $8000
         ld      d, $84
         push    de
         out     ($fe), a
@@ -269,6 +285,7 @@ manic   ei
       IF  LREG=35
         ld      (hl), a
       ELSE
+        ld      ($3ffe), a
       ENDIF
         call    deexo
 init    ld      d, e
@@ -1341,5 +1358,10 @@ L3D00:  DEFB    %00000000
         DEFB    %01000010
         DEFB    %00111100
 
-;        incbin  rest.bin
-;        incbin  sin_leches.rom
+      IF  LREG=35
+        incbin  rest.bin
+        incbin  sin_leches.rom
+      ELSE
+        incbin  sin_leches.rom
+        incbin  rest.bin
+      ENDIF
