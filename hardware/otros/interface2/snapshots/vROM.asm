@@ -1,9 +1,16 @@
         OUTPUT  vROM.rom
         define  codcnt  $7800
+        define  LREG    35
+        define  LOFF    8
+
+
+
+
+
 
         di
         im      1
-        ld      sp, 0
+        ld      sp, game3-snaps
         ld      hl, $5000
         ld      de, $5001
         jr      start2
@@ -18,17 +25,16 @@ start2  ld      (hl), l
         ldir
         ld      hl, manic-1
         ld      d, $6f
-        call    dzx7b
-        inc     l
+        call    deexo
+        ex      de, hl
         inc     hl
-        ld      b, $40
+        ld      bc, $4000
 start3  ld      a, b
         xor     c
         and     $f8
         xor     c
         ld      d, a
         xor     b
-        xor     c
         jr      cont
 
 ; ----------------------
@@ -72,7 +78,8 @@ keysc9  ld      (codcnt), hl
         pop     af
         ret
 
-cont    rlca
+cont    xor     c
+        rlca
         rlca
         ld      e, a
         inc     bc
@@ -80,12 +87,20 @@ cont    rlca
         inc     bc
         bit     4, b
         jr      z, start3
+      IF  LREG=35
         ld      bc, $c902
         push    bc
         ld      bc, $08b0
         push    bc
         ld      bc, $ed77
         push    bc
+      ELSE
+        ld      hl, snaps-$100
+        ld      d, $ff
+        ld      b, 1
+        ldir
+        ld      l, e
+      ENDIF
         ld      d, codcnt>>8
         ei
 
@@ -130,32 +145,54 @@ gamen1  jp      z, manic
         ld      bc, 0
         push    bc
         jp      $fffe
+      IF  LREG=35
 gamen3  sbc     hl, hl
         ld      d, $40
         ld      b, d
         ld      c, l
-        call    $fffa
+        call    2-LOFF
         ex      af, af
         inc     a
         ld      b, h
         ld      h, l
-        call    $fffa
+        call    2-LOFF
         ex      af, af
         inc     a
         ld      h, l
         ld      bc, $3ff8
-        call    $fffa
+      ELSE
+gamen3  ld      d, $40
+        dec     c
+        add     a, a
+        add     a, a
+        add     a, a
+        call    game3-snaps
+        ex      af, af
+        dec     c
+        inc     a
+        add     a, a
+        add     a, a
+        add     a, a
+        call    game3-snaps
+        ex      af, af
+        ld      c, $fd+game3-snaps
+        inc     a
+        add     a, a
+        add     a, a
+        add     a, a
+      ENDIF
+        call    2-LOFF
         ex      af, af
 gamen4  inc     b
         sub     3
         jr      nz, gamen4
         ld      a, b
-        ld      hl, snaps-35
-        ld      bc, 35
+        ld      hl, snaps-LREG
+        ld      bc, LREG
 gamen5  add     hl, bc
         dec     a
         jr      nz, gamen5
-        ld      c, 8
+        ld      c, LOFF
         ldir
         ld      sp, hl
         pop     hl
@@ -178,6 +215,24 @@ gamen6  pop     hl
         add     hl, sp
         jp      (hl)
 
+game3
+      IF  LREG>35
+ld      b, 5
+game4   ld      hl, $3ffc
+        rlca
+        jr      nc, game5
+        inc     l
+game5   ld      (hl), a
+        djnz    game4
+        ret     z
+        ld      b, h
+        inc     bc
+        ld      h, e
+        ld      l, e
+        ldir
+        ex      af, af'
+        jr      game3
+      ENDIF
 snaps   incbin  regs.bin
 pagin   jp      start1
 
@@ -201,7 +256,7 @@ sel02   ld      a, (hl)
         exx
         ret
 
-        incbin  screen.cut.zx7b
+        incbin  screen.cut.exo.opt
 
 manic   ei
         ld      a, $80
@@ -211,17 +266,17 @@ manic   ei
         out     ($fe), a
         ld      de, $5aff
         ld      hl, endscr-1
+      IF  LREG=35
         ld      (hl), a
-        call    dzx7
-init    ld      a, (codcnt)
-        add     a, a
-        jr      nc, init
-        dec     d
+      ELSE
+      ENDIF
+        call    deexo
+init    ld      d, e
         ld      hl, endman-1
 
-dzx7b   include dzx7b_fast.asm
-        incbin  manic.scr.zx7b
-endscr  incbin  manic.cut.zx7b
+deexo   include d.asm
+        incbin  manic.scr.exo.opt
+endscr  incbin  manic.cut.exo.opt
 endman  block   $3d00-$, $ff
 
 ; -------------------------------
@@ -1286,5 +1341,5 @@ L3D00:  DEFB    %00000000
         DEFB    %01000010
         DEFB    %00111100
 
-        incbin  rest.bin
-        incbin  sin_leches.rom
+;        incbin  rest.bin
+;        incbin  sin_leches.rom

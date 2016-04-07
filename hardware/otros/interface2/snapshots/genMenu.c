@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define LREG  35//51 //35
+#define LOFF  8//24 //8
+
 unsigned char image[0xc000], font[0x1000], rotate;
 char tmpstr[50];
 unsigned short i, j, af, pos;
@@ -49,39 +52,41 @@ int main(int argc, char *argv[]){
   fwrite(image, 1, 0x1b00, fo);
   fclose(fi);
   fclose(fo);
-  memset(font, 0, 350);
+  memset(font, 0, LREG*10);
   fo= fopen("rest.bin", "wb+");
   for ( i= 0; i<10; i++ ){
     sprintf(tmpstr, "game%d.sna", i);
     fi= fopen(tmpstr, "rb");
-    fread(font+350, 1, 0x1b, fi);
+    fread(font+LREG*10, 1, 0x1b, fi);
     fread(image, 1, 0xc000, fi);
-    pos= *(unsigned short*)(font+373);   // SP
-    af= *(unsigned short*)(font+371);    // AF
+    pos= *(unsigned short*)(font+LREG*10+23);         // SP
+    af= *(unsigned short*)(font+LREG*10+21);          // AF
+#if LOFF==8
     pos-= 2;
     *(unsigned short*)(image+pos-0x4000)= af;
+#endif
     fwrite(image, 1, 0xc000, fo);
-    memcpy(font+i*35, image+0xbff8, 8);
-    font[i*35+8]= font[350];            // I
-    font[i*35+9]= font[375]-1;          // IM
-    memcpy(font+i*35+10, font+351, 8);  // HL',DE',BC',AF'
-    memcpy(font+i*35+18, font+361, 8);  // DE,BC,IY,IX
-    font[i*35+26]= 0x21;                // HL
-    *(unsigned short*)(font+i*35+27)= *(unsigned short*)(font+359);
-    font[i*35+29]= 0x31;                // SP
-    *(unsigned short*)(font+i*35+30)= pos;
-    font[i*35+32]= 0xf3+8*(font[369]&1);//IFF
-    font[i*35+33]= 0x18;                // jr rel
+    memcpy(font+i*LREG, image+0xbff8, 8);
+    font[i*LREG+LOFF]= font[LREG*10];                 // I
+    font[i*LREG+LOFF+1]= font[LREG*10+25]-1;          // IM
+    memcpy(font+i*LREG+LOFF+2, font+LREG*10+1, 8);    // HL',DE',BC',AF'
+    memcpy(font+i*LREG+LOFF+10, font+LREG*10+11, 8);  // DE,BC,IY,IX
+    font[i*LREG+LOFF+18]= 0x21;                       // HL
+    *(unsigned short*)(font+i*LREG+LOFF+19)= *(unsigned short*)(font+LREG*10+9);
+    font[i*LREG+LOFF+21]= 0x31;                       // SP
+    *(unsigned short*)(font+i*LREG+LOFF+22)= pos;
+    font[i*LREG+LOFF+24]= 0xf3|font[LREG*10+19]<<3&8; // IFF
+    font[i*LREG+LOFF+25]= 0x18;                       // jr rel
     if( i<3 )
-      font[i*35+34]= 35*3-2-i*35;
+      font[i*LREG+LOFF+26]= LREG*(3-i)-2;
     else if( i<6 )
-      font[i*35+34]= 35*6-2-i*35;
+      font[i*LREG+LOFF+26]= LREG*(6-i)-2;
     else
-      font[i*35+34]= 35*9-i*35;
+      font[i*LREG+LOFF+26]= LREG*(9-i);
     fclose(fi);
   }
   fclose(fo);
   fo= fopen("regs.bin", "wb+");
-  fwrite(font, 1, 350, fo);
+  fwrite(font, 1, LREG*10, fo);
   fclose(fo);
 }
