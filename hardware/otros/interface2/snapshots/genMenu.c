@@ -1,22 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LREG  53 //35
-#define LOFF  24 //8
-
-unsigned char image[0xc000], font[0x1000], rotate;
+unsigned char image[0xc000], font[0x1000];
 char tmpstr[50];
-unsigned short i, j, af, pos;
-int k, mask, amask;
-long long atr, celdas[4];
+unsigned short i, j, k, af, pos, lreg, loff;
 FILE *fi, *fo, *ft;
 
 int main(int argc, char *argv[]){
+  if( argv[1][0]=='1' )
+    lreg= 53,
+    loff= 24;
+  else
+    lreg= 35,
+    loff= 8;
+ printf("%d %d %d\n", lreg, loff, loff>>3&2);
+
   ft= fopen("fuente6x8.bin", "r");
   fread(font+0x80, 1, 0x380, ft);
   for ( i= 0x400; i<0x1000; i++ )
-    rotate= font[i-0x400],
-    font[i]= (rotate >> 2) | (rotate << 6);
+    font[i]= (font[i-0x400] >> 2) | (font[i-0x400] << 6);
   fi= fopen("menu.txt", "r");
   for ( i= 0; i<12; i++ ){
     fgets(tmpstr, 50, fi);
@@ -52,42 +54,36 @@ int main(int argc, char *argv[]){
   fwrite(image, 1, 0x1b00, fo);
   fclose(fi);
   fclose(fo);
-  memset(font, 0, LREG*10);
+  memset(font, 0, lreg*10);
   fo= fopen("rest.bin", "wb+");
   for ( i= 0; i<10; i++ ){
     sprintf(tmpstr, "game%d.sna", i);
     fi= fopen(tmpstr, "rb");
-    fread(font+LREG*10, 1, 0x1b, fi);
+    fread(font+lreg*10, 1, 0x1b, fi);
     fread(image, 1, 0xc000, fi);
-    pos= *(unsigned short*)(font+LREG*10+23);         // SP
-    af= *(unsigned short*)(font+LREG*10+21);          // AF
-#if LOFF==8
-    pos-= 2;
-    *(unsigned short*)(image+pos-0x4000)= af;
-#endif
+    pos= *(unsigned short*)(font+lreg*10+23);         // SP
+    af= *(unsigned short*)(font+lreg*10+21);          // AF
+    if( loff==8 )
+      pos-= 2,
+      *(unsigned short*)(image+pos-0x4000)= af;
     fwrite(image, 1, 0xc000, fo);
-    memcpy(font+i*LREG, image+0xbff8, 8);
-    font[i*LREG+LOFF]= font[LREG*10];                 // I
-    font[i*LREG+LOFF+1]= font[LREG*10+25]-1;          // IM
-    memcpy(font+i*LREG+LOFF+2, font+LREG*10+1, 8);    // HL',DE',BC',AF'
-    memcpy(font+i*LREG+LOFF+10, font+LREG*10+11, 8);  // DE,BC,IY,IX
-    *(unsigned short*)(font+i*LREG+LOFF+18)= af;
-    font[i*LREG+LOFF+18+(LOFF>>2&2)]= 0x21;                       // HL
-    *(unsigned short*)(font+i*LREG+LOFF+19+(LOFF>>2&2))= *(unsigned short*)(font+LREG*10+9);
-    font[i*LREG+LOFF+21+(LOFF>>2&2)]= 0x31;                       // SP
-    *(unsigned short*)(font+i*LREG+LOFF+22+(LOFF>>2&2))= pos;
-    font[i*LREG+LOFF+24+(LOFF>>2&2)]= 0xf3|font[LREG*10+19]<<3&8; // IFF
-    font[i*LREG+LOFF+25+(LOFF>>2&2)]= 0x18;                       // jr rel
-    if( i<9 )
-      font[i*LREG+LOFF+26+(LOFF>>2&2)]= LREG-2;
-//    else if( i<6 )
-//      font[i*LREG+LOFF+26+(LOFF>>2&2)]= LREG*(6-i)-2;
-    else
-      font[i*LREG+LOFF+26+(LOFF>>2&2)]= 0;
+    memcpy(font+i*lreg, image+0xbff8, 8);
+    font[i*lreg+loff]= font[lreg*10];                 // I
+    font[i*lreg+loff+1]= font[lreg*10+25]-1;          // IM
+    memcpy(font+i*lreg+loff+2, font+lreg*10+1, 8);    // HL',DE',BC',AF'
+    memcpy(font+i*lreg+loff+10, font+lreg*10+11, 8);  // DE,BC,IY,IX
+    *(unsigned short*)(font+i*lreg+loff+18)= af;
+    font[i*lreg+loff+18+(loff>>3&2)]= 0x21;                       // HL
+    *(unsigned short*)(font+i*lreg+loff+19+(loff>>3&2))= *(unsigned short*)(font+lreg*10+9);
+    font[i*lreg+loff+21+(loff>>3&2)]= 0x31;                       // SP
+    *(unsigned short*)(font+i*lreg+loff+22+(loff>>3&2))= pos;
+    font[i*lreg+loff+24+(loff>>3&2)]= 0xf3|font[lreg*10+19]<<3&8; // IFF
+    font[i*lreg+loff+25+(loff>>3&2)]= 0x18;                       // jr rel
+    font[i*lreg+loff+26+(loff>>3&2)]= i<9 ? lreg-2 : 0;
     fclose(fi);
   }
   fclose(fo);
   fo= fopen("regs.bin", "wb+");
-  fwrite(font, 1, LREG*10, fo);
+  fwrite(font, 1, lreg*10, fo);
   fclose(fo);
 }

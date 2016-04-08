@@ -1,7 +1,6 @@
-        OUTPUT  vROM.rom
+        OUTPUT  flash.rom
         define  codcnt  $7800
-        define  LREG    53;35
-        define  LOFF    24;8
+        include define.asm
 
         di
         im      1
@@ -218,7 +217,11 @@ gamen6  pop     hl
         pop     de
         pop     bc
         exx
+      IF  LREG=35
+        sbc     hl, hl
+      ELSE
         ld      hl, 2
+      ENDIF
         pop     af
         ex      af, af'
         pop     bc
