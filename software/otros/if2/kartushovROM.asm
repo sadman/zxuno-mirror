@@ -153,8 +153,8 @@ gamen   ld      a, l
         ld      hl, $c777
         and     $1f
         jr      nz, gamen1
-        inc     l
-        inc     l
+        inc     h
+        inc     h
 gamen1  ld      ($7700), hl
         ld      h, a
 keytab  or      $80
