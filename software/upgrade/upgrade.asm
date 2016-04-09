@@ -1,33 +1,31 @@
-        output  UPGRADE
+                output  UPGRADE
 
-        define  FA_READ         0x01
-        define  M_GETSETDRV     0x89
-        define  F_OPEN          0x9a
-        define  F_CLOSE         0x9b
-        define  F_READ          0x9d
+                define  FA_READ         0x01
+                define  M_GETSETDRV     0x89
+                define  F_OPEN          0x9a
+                define  F_CLOSE         0x9b
+                define  F_READ          0x9d
 
-        define  zxuno_port      $fc3b
-        define  flash_spi       2
-        define  flash_cs        3
+                define  zxuno_port      $fc3b
+                define  flash_spi       2
+                define  flash_cs        3
 
-      macro wreg  dir, dato
-        call    rst30
-        defb    dir, dato
-      endm
+              macro wreg  dir, dato
+                call    rst30
+                defb    dir, dato
+              endm
 
-PILA            equ   $3dea         ;valor sugerido por Miguel Ángelo para poner la pila en el área de comando
-
-                org   $2000         ;comienzo de la ejecución de los comandos ESXDOS
+                org     $2000           ; comienzo de la ejecución de los comandos ESXDOS
 
 Main            xor     a
                 rst     $08
-                db      M_GETSETDRV   ;A = unidad actual
+                db      M_GETSETDRV     ; A = unidad actual
                 jr      nc, SDCard
                 call    Print
                 dz      'SD card not inserted'
                 ret
-SDCard          ld      b, FA_READ    ;B = modo de apertura
-                ld      hl, FileName  ;HL = Puntero al nombre del fichero (ASCIIZ)
+SDCard          ld      b, FA_READ      ; B = modo de apertura
+                ld      hl, FileName    ; HL = Puntero al nombre del fichero (ASCIIZ)
                 rst     $08
                 db      F_OPEN
                 jr      nc, FileFound
