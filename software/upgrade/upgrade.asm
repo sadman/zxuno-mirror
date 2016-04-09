@@ -45,7 +45,7 @@ Bucle           ld      hl, $8000
                 jr      nc, ReadOK
                 call    Print
                 dz      'Read Error'
-                push    af
+                pop     af
                 ret
 ReadOK          ld      a, $40
                 ld      hl, $8000
