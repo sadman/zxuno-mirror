@@ -1240,7 +1240,14 @@ upgra5  jp      nz, main6
         ld      (bitstr), a
         jr      upgra5
 upgra6  ld      ix, upgra7
-        jp      delhel
+        in      a, ($1f) ; ld a,8
+        and     h
+        and     $08
+        jp      z, delhel
+
+east    jr      east
+        block   512
+
 upgra7  ld      sp, stack-2
         call    loadta
         jr      nc, upgra8
@@ -1386,7 +1393,7 @@ upgraj  call    shaoff
         ld      ix, cad57
         jp      roms13
 
-;*** Security Menu ***
+;*** Advanced Menu ***
 ;*********************
 menu4   ld      h, 20
         ld      d, 8
@@ -2703,7 +2710,7 @@ conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMING /I2KB /DISNMI
         ccf
 conti2  adc     a, a            ; 0 0 0 /DISCONT TIMING /I2KB /DISNMI DIVEN
         add     a, a            ; 0    0 /DISCONT TIMING /I2KB /DISNMI DIVEN 0
-        xor     %10101100       ; LOCK 0  DISCONT TIMING  I2KB  DISNMI DIVEN 0
+        xor     %10101100 -$80 ;sinlock      ; LOCK 0  DISCONT TIMING  I2KB  DISNMI DIVEN 0
         ld      (alto conti9+1), a
         ld      bc, zxuno_port+$100
         wreg    master_conf, 1
@@ -3413,7 +3420,7 @@ l3eff   in      l,(c)
         block   $8000-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.312', 0
+        defm    'ZX-Uno BIOS v0.313', 0
         defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -3439,7 +3446,7 @@ cad5    defm    $10, '    ', $1c, ' and ', $1d, ' to move selection     ', $10, 
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
 cad6    defb    'Enter Setup', 0
-cad7    defb    ' Main  ROMs  Upgrade  Boot  Security  Exit', 0
+cad7    defb    ' Main  ROMs  Upgrade  Boot  Advanced  Exit', 0
         defb    $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $19, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $13, 0
@@ -3448,7 +3455,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.312   ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.313   ', $7f, '2015 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -3574,6 +3581,17 @@ cad41   defb    'Discard Chan-', 0
         defb    'far to any of', 0
         defb    'the setup', 0
         defb    'options', 0, 0
+
+cad45   defb    'Header:', 0
+cad46   defb    $12, ' Exit Without Saving ', $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, ' Quit without saving? ', $10, 0
+cad47   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, '  Save configuration? ', $10, 0
+cad48   defb    $12, ' Load Previous Values ', $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, ' Load previous values?', $10, 0
 cad42   defb    $10, '                      ', $10, 0
         defb    $16, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -3586,16 +3604,6 @@ cad43   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save conf. & Exit?  ', $10, 0
 cad44   defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
-cad45   defb    'Header:', 0
-cad46   defb    $12, ' Exit Without Saving ', $11, $13, 0
-        defb    $10, '                      ', $10, 0
-        defb    $10, ' Quit without saving? ', $10, 0
-cad47   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
-        defb    $10, '                      ', $10, 0
-        defb    $10, '  Save configuration? ', $10, 0
-cad48   defb    $12, ' Load Previous Values ', $13, 0
-        defb    $10, '                      ', $10, 0
-        defb    $10, ' Load previous values?', $10, 0
 cad49   defb    'Press play on', 0
         defb    'tape & follow', 0
         defb    'the progress', 0
