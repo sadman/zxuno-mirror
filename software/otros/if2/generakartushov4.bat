@@ -1,9 +1,9 @@
-\emuscriptoria\sjasmplus kartushov4.asm
-\fase\ComplementosChurrera\FiltroRCS\rcs pantalla.scr pantalla.rcs
-\emuscriptoria\desprot\fcut pantalla.rcs 0 1000 pantalla.cut
-\fase\engine\bin\zx7b pantalla.cut pantalla.cut.zx7b
-cd ..\..\..\firmware\roms
-copy /b ..\..\software\otros\if2\kartushov4.rom+   ^
+genMenu
+rcs screen.scr screen.rcs
+fcut screen.rcs 0 1000 screen.cut
+zx7b screen.cut screen.cut.zx7b
+sjasmplus kartushov4.asm
+copy /b kartushov4.rom+   ^
         48.rom+               ^
         lechesaa.rom+         ^
         sinleches.rom+        ^
@@ -35,5 +35,4 @@ copy /b ..\..\software\otros\if2\kartushov4.rom+   ^
         LalaPrologue.rom+     ^
         Backgammon.rom+       ^
         QBert.rom             ^
-    ..\..\software\otros\if2\kartusho4.rom
-cd ..\..\software\otros\if2
+    kartusho4.rom

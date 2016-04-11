@@ -38,8 +38,6 @@ start3  ld      a, b
 ; THE 'KEYBOARD' ROUTINE
 ; ----------------------
 rst38   push    af
-        ex      af, af'
-        push    af
         push    bc
         push    de
         push    hl
@@ -54,23 +52,9 @@ keyscn  in      a, (c)
 keysc1  inc     l
         srl     a
         jr      nc, keysc1
-        ex      af, af'
-        ld      a, l
-        cp      $25                     ;symbol, change here
-        jr      z, keysc3
-        cp      $01                     ;shift, change here
-        jr      z, keysc2
         inc     d
         dec     d
         ld      d, l
-        jr      z, keysc4
-        xor     a
-        jr      keysc6
-keysc2  ld      e, 37+keytab&$ff
-        defb    $c2                     ;JP NZ,xxxx
-keysc3  ld      e, 77+keytab&$ff
-keysc4  ex      af, af'
-        jr      nz, keysc1
 keysc5  ld      a, h
         add     a, 5
         ld      l, a
@@ -80,7 +64,7 @@ keysc5  ld      a, h
         ld      h, a
         add     a, d
         jr      z, keysc6
-        ld      d, h
+        ld      d, 1
         ld      l, a
         add     hl, de
         ld      a, (hl)
@@ -102,8 +86,6 @@ keysc9  ld      (codcnt), hl
         pop     de
         pop     bc
         pop     af
-        ex      af, af'
-        pop     af
         ret
 
 cont    inc     bc
@@ -111,6 +93,67 @@ cont    inc     bc
         jr      z, start3
         ld      d, codcnt-1>>8
         push    de
+
+        ld      bc, $f7fe
+        in      a, (c)
+        ld      b, 5
+cont1   rrca                    ; 12345
+        jr      nc, tgamen
+        inc     l
+        djnz    cont1
+        ld      b, $ef
+        in      a, (c)
+        rlca
+        rlca
+        rlca
+        ld      b, 5
+cont2   rlca                    ; 67890
+        jr      nc, tgamen
+        inc     l
+        djnz    cont2
+        ld      b, $fb
+        in      a, (c)
+        ld      b, 5
+cont3   rrca                    ; qwert
+tgamen  jr      nc, gamen
+        inc     l
+        djnz    cont3
+        ld      b, $df
+        in      a, (c)
+        rlca
+        rlca
+        rlca
+        ld      b, 5
+cont4   rlca                    ; yuiop
+        jr      nc, gamen
+        inc     l
+        djnz    cont4
+        ld      b, $fd
+        in      a, (c)
+        ld      b, 5
+cont5   rrca                    ; asdfg
+        jr      nc, gamen
+        inc     l
+        djnz    cont5
+        ld      b, $bf
+        in      a, (c)
+        rlca
+        rlca
+        rlca
+        ld      b, 4
+cont6   rlca                    ; hjkl
+        jr      nc, gamen
+        inc     l
+        djnz    cont6
+        ld      b, c
+        in      a, (c)
+        ld      b, 3
+        rrca
+cont7   rrca                    ; zxc
+        jr      nc, gamen
+        inc     l
+        djnz    cont7
+        ld      l, e
         inc     d
         ei
 
@@ -191,7 +234,7 @@ sel02   ld      a, (hl)
         exx
         ret
 
-        incbin  pantalla.cut.zx7b
+        incbin  screen.cut.zx7b
 
 manic   out     ($fe), a
         ld      de, $5aff

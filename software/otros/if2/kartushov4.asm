@@ -206,7 +206,7 @@ sel02   ld      a, (hl)
         exx
         ret
 
-        incbin  pantalla.cut.zx7b
+        incbin  screen.cut.zx7b
 
 manic   out     ($fe), a
         ld      de, $5aff
