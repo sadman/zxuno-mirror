@@ -38,52 +38,23 @@ start3  ld      a, b
 ; THE 'KEYBOARD' ROUTINE
 ; ----------------------
 rst38   push    af
-        ex      af, af'
-        push    af
         push    bc
-        push    de
         push    hl
-        ld      de, keytab-1&$ff
+        ld      hl, keytab-5
         ld      bc, $fefe
-        ld      l, d
 keyscn  in      a, (c)
         cpl
         and     $1f
-        ld      h, l
-        jr      z, keysc5
-keysc1  inc     l
-        srl     a
+        set     5, a
+        dec     hl
+keysc1  inc     hl
+        rrca
         jr      nc, keysc1
-        ex      af, af'
-        ld      a, l
-        cp      $25                     ;symbol, change here
-        jr      z, keysc3
-        cp      $01                     ;shift, change here
-        jr      z, keysc2
-        inc     d
-        dec     d
-        ld      d, l
-        jr      z, keysc4
-        xor     a
-        jr      keysc6
-keysc2  ld      e, 39+keytab&$ff
-        defb    $c2                     ;JP NZ,xxxx
-keysc3  ld      e, 79+keytab&$ff
-keysc4  ex      af, af'
-        jr      nz, keysc1
-keysc5  ld      a, h
-        add     a, 5
-        ld      l, a
+        jr      nz, keysc5
         rlc     b
         jr      c, keyscn
-        xor     a
-        ld      h, a
-        add     a, d
-        jr      z, keysc6
-        ld      d, h
-        ld      l, a
-        add     hl, de
-        ld      a, (hl)
+keysc5  ld      a, (hl)
+        or      a
 keysc6  ld      hl, (codcnt)
         jr      z, keysc8
         res     7, l
@@ -99,10 +70,7 @@ keysc8  ld      l, a
 keysc9  ld      (codcnt), hl
         ei
         pop     hl
-        pop     de
         pop     bc
-        pop     af
-        ex      af, af'
         pop     af
         ret
 
@@ -110,11 +78,34 @@ cont    inc     bc
         bit     4, b
         jr      z, start3
         ld      hl, game3
-        ld      b, h
         ld      d, (hl)
         push    de
+        ld      b, h
         ldir
         ld      l, c
+        ld      bc, $f7fe
+        call    direc
+        ld      b, $ef
+        call    c, inver
+        ld      b, $fb
+        call    c, direc
+        ld      b, $df
+        call    c, inver
+        ld      b, $fd
+        call    c, direc
+        ld      b, $bf
+        call    c, inver
+        ld      b, c
+        dec     l
+        jr      nc, gamen
+        in      a, (c)
+        rrca
+        ld      b, 3
+cont1   rrca
+        jr      nc, gamen
+        inc     l
+        djnz    cont1
+        ld      l, e
         ei
 
 games   call    SELEC
@@ -159,17 +150,35 @@ gamen   ld      a, l
         ld      ($7705), hl
 game2   rlca
         rlca
-keytab  rlca
+        rlca
         inc     a
         ld      b, 6
         ret
-        defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
+
+keytab  defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
         defb    $71, $77, $65, $72, $74 ; q       w       e       r       t
         defb    $31, $32, $33, $34, $35 ; 1       2       3       4       5
         defb    $30, $39, $38, $37, $36 ; 0       9       8       7       6
         defb    $70, $6f, $69, $75, $79 ; p       o       i       u       y
         defb    $0d, $6c, $6b, $6a, $68 ; Enter   l       k       j       h
         defb    $20
+
+inver   in      a, (c)
+        ld      b, 5
+inver1  nop
+        rrca
+        rl      e
+        djnz    inver1
+        ld      a, e
+        defb    $da
+direc   in      a, (c)
+        ld      e, 6
+direc2  dec     e
+        ret     z
+        inc     l
+        rrca
+        jr      c, direc2
+        ret
 
 game3   ld      (hl), a
         rlca

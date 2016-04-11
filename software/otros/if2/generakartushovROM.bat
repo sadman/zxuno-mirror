@@ -3,7 +3,7 @@ rcs screen.scr screen.rcs
 fcut screen.rcs 0 1000 screen.cut
 zx7b screen.cut screen.cut.zx7b
 sjasmplus kartushovROM.asm
-copy /b kartushovROM.rom+   ^
+copy /b kartushovROM.rom+     ^
         48.rom+               ^
         lechesaa.rom+         ^
         sinleches.rom+        ^

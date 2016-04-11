@@ -39,35 +39,22 @@ start3  ld      a, b
 ; ----------------------
 rst38   push    af
         push    bc
-        push    de
         push    hl
-        ld      de, keytab-3&$ff
+        ld      hl, keytab-5
         ld      bc, $fefe
-        ld      l, d
 keyscn  in      a, (c)
         cpl
         and     $1f
-        ld      h, l
-        jr      z, keysc5
-keysc1  inc     l
-        srl     a
+        set     5, a
+        dec     hl
+keysc1  inc     hl
+        rrca
         jr      nc, keysc1
-        inc     d
-        dec     d
-        ld      d, l
-keysc5  ld      a, h
-        add     a, 5
-        ld      l, a
+        jr      nz, keysc5
         rlc     b
         jr      c, keyscn
-        xor     a
-        ld      h, a
-        add     a, d
-        jr      z, keysc6
-        ld      d, 1
-        ld      l, a
-        add     hl, de
-        ld      a, (hl)
+keysc5  ld      a, (hl)
+        or      a
 keysc6  ld      hl, (codcnt)
         jr      z, keysc8
         res     7, l
@@ -83,7 +70,6 @@ keysc8  ld      l, a
 keysc9  ld      (codcnt), hl
         ei
         pop     hl
-        pop     de
         pop     bc
         pop     af
         ret
@@ -93,66 +79,28 @@ cont    inc     bc
         jr      z, start3
         ld      d, codcnt-1>>8
         push    de
-
         ld      bc, $f7fe
+        call    direc
+        ld      b, $ef
+        call    c, inver
+        ld      b, $fb
+        call    c, direc
+        ld      b, $df
+        call    c, inver
+        ld      b, $fd
+        call    c, direc
+        ld      b, $bf
+        call    c, inver
+        ld      b, c
+        dec     l
+        jr      nc, gamen
         in      a, (c)
-        ld      b, 5
-cont1   rrca                    ; 12345
-        jr      nc, tgamen
+        rrca
+        ld      b, 3
+cont1   rrca
+        jr      nc, gamen
         inc     l
         djnz    cont1
-        ld      b, $ef
-        in      a, (c)
-        rlca
-        rlca
-        rlca
-        ld      b, 5
-cont2   rlca                    ; 67890
-        jr      nc, tgamen
-        inc     l
-        djnz    cont2
-        ld      b, $fb
-        in      a, (c)
-        ld      b, 5
-cont3   rrca                    ; qwert
-tgamen  jr      nc, gamen
-        inc     l
-        djnz    cont3
-        ld      b, $df
-        in      a, (c)
-        rlca
-        rlca
-        rlca
-        ld      b, 5
-cont4   rlca                    ; yuiop
-        jr      nc, gamen
-        inc     l
-        djnz    cont4
-        ld      b, $fd
-        in      a, (c)
-        ld      b, 5
-cont5   rrca                    ; asdfg
-        jr      nc, gamen
-        inc     l
-        djnz    cont5
-        ld      b, $bf
-        in      a, (c)
-        rlca
-        rlca
-        rlca
-        ld      b, 4
-cont6   rlca                    ; hjkl
-        jr      nc, gamen
-        inc     l
-        djnz    cont6
-        ld      b, c
-        in      a, (c)
-        ld      b, 3
-        rrca
-cont7   rrca                    ; zxc
-        jr      nc, gamen
-        inc     l
-        djnz    cont7
         ld      l, e
         inc     d
         ei
@@ -200,15 +148,33 @@ gamen   ld      a, l
         inc     h
 gamen1  ld      ($7700), hl
         ld      h, a
-keytab  or      $80
+        or      $80
         ret
-        defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
+
+keytab  defb    $61, $73, $64, $66, $67 ; a       s       d       f       g
         defb    $71, $77, $65, $72, $74 ; q       w       e       r       t
         defb    $31, $32, $33, $34, $35 ; 1       2       3       4       5
         defb    $30, $39, $38, $37, $36 ; 0       9       8       7       6
         defb    $70, $6f, $69, $75, $79 ; p       o       i       u       y
         defb    $0d, $6c, $6b, $6a, $68 ; Enter   l       k       j       h
         defb    $20
+
+inver   in      a, (c)
+        ld      b, 5
+inver1  nop
+        rrca
+        rl      e
+        djnz    inver1
+        ld      a, e
+        defb    $da
+direc   in      a, (c)
+        ld      e, 6
+direc2  dec     e
+        ret     z
+        inc     l
+        rrca
+        jr      c, direc2
+        ret
 
 SELEC   push    hl
         exx
