@@ -1313,8 +1313,10 @@ upgraa  jp      nz, roms12
 upgrab  jp      roms13
 
 ;upgrade machine
-upgrac  cp      $45
-        jr      nz, upgraa
+upgrac  cp      $43
+        jr      c, upgraa
+        cp      $45
+        jr      nc, upgraa
         ld      b, l
         djnz    upgrae
         ld      a, (tmpbuf+1)
@@ -1334,6 +1336,7 @@ upgrae  call    calbit
         ld      hl, $0071
         ld      a, 1
         call    alto rdflsh
+        push    iy
 upgrag  ld      a, (tmpbuf+$65 & $ff)*2
         sub     iyh
         rra
@@ -1361,7 +1364,7 @@ upgrah  and     a
         call_prnstr
         dec     iyh
         jr      nz, upgrag
-        ld      iyh, 21
+        pop     iy
         call    shaon
         pop     de
         exx
