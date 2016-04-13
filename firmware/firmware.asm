@@ -26,6 +26,17 @@
         define  cold_boot       $fe
         define  core_id         $ff
 
+        define  SPI_PORT        $eb
+        define  OUT_PORT        $e7
+        define  MMC_0           $fe ; D0 LOW = SLOT0 active
+        define  IDLE_STATE      $40
+        define  OP_COND         $41
+        define  READ_SINGLE     $51
+        define  READ_MULTIPLE   $52
+        define  TERMINATE_MULTI $4C
+        define  WRITE_SINGLE    $58
+        define  BLOCKSIZE       $200    ; SD/MMC block size (bytes)
+
         define  cmbpnt  $8f00
         define  colcmb  $8fc6   ;lo: color de lista   hi: temporal
         define  menuop  $8fc8   ;lo: menu superior    hi: submenu
@@ -1240,13 +1251,155 @@ upgra5  jp      nz, main6
         ld      (bitstr), a
         jr      upgra5
 upgra6  ld      ix, upgra7
-        in      a, ($1f) ; ld a,8
+        in      a, ($1f)
         and     h
         and     $08
         jp      z, delhel
 
-east    jr      east
-        block   512
+east    di
+        ld      bc, zxuno_port+$100
+        wreg    master_conf, 2  ; activamos divmmc
+        ld      c, SPI_PORT
+        sbc     hl, hl          ; read MBR
+        ld      e, l
+        ld      ix, $8000
+        call    readata
+        ld      hl, ($81c6)
+        ld      a, ($81c8)
+        add     hl, hl
+        adc     a, a
+        ld      e, a
+        call    readata
+
+
+;      ld  h, 0
+;      ld  l, a
+        ld      hl, ($8000)
+        ld      de, cad55+19
+        call    alto wtohex
+        ld      ix, cad55
+        ld      bc, $0016
+        call    alto prnstr-1
+binf jr binf        
+
+;-----------------------------------------------------------------------------------------
+; READ DATA TEST subroutine
+;
+; HL, DE= MSB, LSB of 32bit address in MMC memory
+; IX    = ram buffer address
+;
+; RETURN code
+; Z OK, NZ ERROR
+
+; DESTROYS AF, B
+;-----------------------------------------------------------------------------------------
+reinit  call    mmcinit
+        ret     nz
+readata ld      a, READ_SINGLE  ; Command code for multiple block read
+        call    cs_low          ; set cs high
+        out     (c), a
+        nop
+        out     (c), e
+        nop
+        out     (c), h
+        nop
+        out     (c), l
+        nop
+        out     (c), 0
+        nop
+        out     (c), 0
+        call    waitr           ; waits for the MMC to reply != $FF
+        dec     a
+        jr      nz, reinit
+        call    waittok
+        ret     nz
+        push    bc
+        push    hl
+        push    ix
+        pop     hl              ; INI usa HL come puntatore
+        ld      b, a
+        inir
+        inir
+        pop     hl
+        pop     bc
+        ret
+
+;
+;-----------------------------------------------------------------------------------------
+; MMC SPI MODE initialization. RETURNS ERROR CODE IN A register:
+;
+; 0 = OK
+; 1 = Card RESET ERROR
+; 2 = Card INIT ERROR
+;
+; Destroys AF, B.
+;-----------------------------------------------------------------------------------------
+mmcinit push    bc
+        push    hl
+        ld      hl, $FF00 + IDLE_STATE
+        call    cs_high         ; set cs high
+        ld      b, 9            ; sends 80 clocks
+l_init  out     (c), h
+        djnz    l_init
+        call    cs_low          ; set cs low
+        out     (c), l          ; sends the command
+        ld      hl, $9540       ; $40= 64
+        call    send4z
+        cp      $02             ; MMC should respond 01 to this command
+        jr      nz, mmcfin      ; fail to reset
+resetok call    cs_high         ; set cs high
+        out     (c), h          ; 8 extra clock cycles
+        call    cs_low          ; set cs low
+        ld      a, OP_COND      ; Sends OP_COND command
+        out     (c), a          ; sends the command
+        ld      h, b
+        call    send4z          ; then this byte is ignored.
+        rrca                    ; D0 SET = initialization still in progress...
+        jr      nc, ninitok
+        call    cs_high         ; set cs high
+loop3   djnz    loop3
+        dec     h
+        jr      nz, loop3
+        jr      mmcfin
+send4z  ld      b, 4
+lsen0   out     (c), 0          ; then sends four "00" bytes (parameters = NULL)
+        djnz    lsen0
+        out     (c), h          ; then this byte is ignored.
+waitr   push    bc
+        ld      c, 50           ; retry counter
+resp    in      a, (SPI_PORT)   ; reads a byte from MMC
+        inc     a               ; $FF = no card data line activity
+        jr      nz, resp_ok
+        djnz    resp
+        dec     c
+        jr      nz, resp
+resp_ok pop     bc
+        ret
+ninitok djnz    resetok         ; if no response, tries to send the entire block 254 more times
+        dec     l
+        jr      nz, resetok
+        inc     l
+mmcfin  pop     hl
+        pop     bc
+cs_high push    af
+        ld      a, $ff
+cs_hig1 out     (OUT_PORT), a
+        pop     af
+        ret
+cs_low  push    af
+        ld      a, MMC_0
+        jr      cs_hig1
+waittok push    bc
+        ld      b, 10                         ; retry counter
+waitl   call    waitr
+        inc     a               ; waits for the MMC to reply $FE (DATA TOKEN)
+        jr      z, exitw
+        dec     a               ; but if not $FF, exits immediately (error code from MMC)
+        jr      nz, exitw
+        djnz    waitl
+        inc     a               ; return A+2, NZ 
+exitw   pop     bc
+        ret
 
 upgra7  ld      sp, stack-2
         call    loadta
