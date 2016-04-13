@@ -1265,22 +1265,173 @@ east    di
         ld      ix, $8000
         call    readata
         ld      hl, ($81c6)
-        ld      a, ($81c8)
+
+;        ld      a, ($81c8)
+        ld      a, ($81c2)
+        push    hl
         add     hl, hl
-        adc     a, a
-        ld      e, a
+        ld      b, 0
+        cp      $04
+toze    jp      z, fat16
+        cp      $06
+        jr      z, toze
+        cp      $0e
+        jr      z, toze
+;        adc     a, a
+;        ld      e, a
         call    readata
+  pop de
+;        ld      a, e
+        ex      de, hl
+        ld      hl, ($800e)
+        add     hl, hl
+;        adc     a, 0  ;b
+        add     hl, de
+;        adc     a, 0  ;b
+        ld      (items), hl     ; write fat address
+;        ld      b, a
+        ex      de, hl
+        ld      hl, ($8024)     ; Logical sectors per FAT
+;        ld      a, ($8026)
+        add     hl, hl
+;        adc     a, a
+        add     hl, hl
+;        adc     a, a
+        add     hl, de
+;        adc     a, b
+        ld      (offsel), hl
+;        ld      (offsel+2), a
+        ld      hl, ($802c)
+
+tica    push    hl
+        push    bc
+        call    calcs
+        ld      de, (offsel)
+        add     hl, de
+        ld      d, 0
+        ld      a, b
+        adc     a, d
+        ld      e, a
+        ld      ix, $9000
+        push    ix
+        ld      a, ($800d)
+        ld      b, a
+otve    call    readata
+        inc     ixh
+        inc     ixh
+        inc     l
+        inc     hl
+        djnz    otve
+        pop     hl
+        ld      a, ($800d)
+        ld      c, a
+buba    ld      b, 16
+bubi    push    bc
+        ld      b, 11
+        ld      a, (hl)
+        or      a
+        jr      z, sali
+        cp      $e5
+        jr      z, desc
+        ld      de, filena
+        push    hl
+buub    ld      a, (de)
+        cp      (hl)
+        inc     hl
+        inc     de
+        jr      nz, beeb
+        djnz    buub
+beeb    jr      z, bien
+        pop     hl
+desc    pop     bc
+        ld      de, $0020
+        add     hl, de
+        djnz    bubi
+        dec     c
+        jr      nz, buba
+        pop     bc
+;        ld      c, SPI_PORT
+        pop     hl
+;        jr      fina
+
+        add     hl, hl
+        rl      b
+        push    hl
+        rl      h
+        rl      b
+        ld      l, h
+        ld      h, b
+        ld      de, (items)
+        add     hl, de
+        ld      e, 0
+        ld      ix, $9000
+        call    readata
+        pop     hl
+        ld      h, $48
+        add     hl, hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      b, (hl)
+        ex      de, hl
+        jp      tica
 
 
-;      ld  h, 0
-;      ld  l, a
-        ld      hl, ($8000)
+        
+sali    ld      l, 1
+        jr      hhhh
+bien    ld      l, 2
+hhhh
+;        ld      hl, ($9000)
+;        ld h,d
+;        ld l,e
+
         ld      de, cad55+19
         call    alto wtohex
         ld      ix, cad55
         ld      bc, $0016
         call    alto prnstr-1
 binf jr binf        
+
+
+calcs   call    decbhl
+        call    decbhl
+        ld      a, ($800d)
+agai    add     hl, hl
+        rl      b
+        rrca
+        jr      nc, agai
+        ret
+
+decbhl  dec     hl
+        ld      a, l
+        and     h
+        inc     a
+        ret     nz
+        dec     b
+        ret
+
+;filena  defb    'BOOT    SCR'
+filena  defb    'FLASH      '
+
+fat16   call    readata
+        pop     de
+        ld      hl, ($800e)
+        add     hl, de
+        ld      d, h
+        ld      e, l
+        add     hl, hl
+        ld      (items), hl     ; write fat address
+        ld      hl, ($8016)
+;        ld      a, ($8010)
+         add     hl, hl
+        add     hl, de
+        add     hl, hl
+        ld      (offsel), hl
+        ld      hl, 2
+        jp      tica
+
 
 ;-----------------------------------------------------------------------------------------
 ; READ DATA TEST subroutine
