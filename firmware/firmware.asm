@@ -1253,7 +1253,7 @@ upgra6  ld      ix, upgra7
         in      a, ($1f)
         and     h
         and     $08
-        jp      z, delhel
+        ;jp      z, delhel
 
 east    di
         ld      bc, zxuno_port+$100
@@ -1264,8 +1264,6 @@ east    di
         ld      ix, tmpbuf
         call    readata
         ld      hl, (tmpbuf+$1c6)
-
-;        ld      a, ($81c8)
         ld      a, (tmpbuf+$1c2)
         push    hl
         add     hl, hl
@@ -1276,30 +1274,18 @@ toze    jp      z, fat16
         jr      z, toze
         cp      $0e
         jr      z, toze
-;        adc     a, a
-;        ld      e, a
         call    readata
-  pop de
-;        ld      a, e
         ex      de, hl
         ld      hl, (tmpbuf+$e)
         add     hl, hl
-;        adc     a, 0  ;b
         add     hl, de
-;        adc     a, 0  ;b
-        ld      (items), hl     ; write fat address
-;        ld      b, a
+        ld      (items), hl           ; write fat address
         ex      de, hl
-        ld      hl, (tmpbuf+$24)     ; Logical sectors per FAT
-;        ld      a, ($8026)
+        ld      hl, (tmpbuf+$24)      ; Logical sectors per FAT
         add     hl, hl
-;        adc     a, a
         add     hl, hl
-;        adc     a, a
         add     hl, de
-;        adc     a, b
         ld      (offsel), hl
-;        ld      (offsel+2), a
         ld      hl, (tmpbuf+$2c)
 
 tica    push    hl
@@ -1309,22 +1295,31 @@ tica    push    hl
         add     hl, de
 ;        ld      d, 0
         ld      a, b
-        adc     a, 0
+         adc     a, 0
         ld      e, a
-        ld      ix, $c000
-        push    ix
         ld      a, (tmpbuf+$d)
         ld      b, a
+        ld      ix, $c000
 otve    call    readata
-        inc     ixh
-        inc     ixh
+        call    buba
+        jr      z, sabe
         inc     l
         inc     hl
         djnz    otve
-        pop     hl
+  ld l, 1
+  jp hhhh
+sabe    sub     $52     ;$20
+        jr      nz, sabe2
+  ld h,a
+  ld l, 2
+  jp hhhh
+sabe2   ;pop     hl
+  ld h,a
+  ld l, 3
+  jp hhhh
+
         ld      a, (tmpbuf+$d)
         ld      c, a
-        call    buba
         dec     c
 ;        jr      nz, buba
         pop     bc
@@ -1407,8 +1402,8 @@ decbhl  dec     hl
         dec     b
         ret
 
-;filena  defb    'BOOT    SCR'
-filena  defb    'FLASH      '
+filena  defb    'BOOT    SCR'
+;filena  defb    'FLASH      '
 
 fat16   call    readata
         pop     de
@@ -1485,6 +1480,7 @@ bucop   push    hl
         jp      tica
 
 buba    push    bc
+        push    de
         push    hl
         ld      hl, $c000
         ld      b, 16
@@ -1511,6 +1507,7 @@ desc    pop     bc
         djnz    bubi
         ld      a, d
 desc1   pop     hl
+        pop     de
         pop     bc
         ret
 bien    pop     ix
