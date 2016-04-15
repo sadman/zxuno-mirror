@@ -1253,7 +1253,7 @@ upgra6  ld      ix, upgra7
         in      a, ($1f)
         and     h
         and     $08
-        ;jp      z, delhel
+        jp      z, delhel
 
 east    di
         ld      bc, zxuno_port+$100
@@ -1293,9 +1293,8 @@ tica    push    hl
         call    calcs
         ld      de, (offsel)
         add     hl, de
-;        ld      d, 0
         ld      a, b
-         adc     a, 0
+        adc     a, 0
         ld      e, a
         ld      a, (tmpbuf+$d)
         ld      b, a
@@ -1306,29 +1305,17 @@ otve    call    readata
         inc     l
         inc     hl
         djnz    otve
-  ld l, 1
-  jp hhhh
-sabe    sub     $52     ;$20
-        jr      nz, sabe2
-  ld h,a
-  ld l, 2
-  jp hhhh
-sabe2   ;pop     hl
-  ld h,a
-  ld l, 3
-  jp hhhh
-
-        ld      a, (tmpbuf+$d)
-        ld      c, a
-        dec     c
-;        jr      nz, buba
         pop     bc
-;        ld      c, SPI_PORT
         pop     hl
-;        jr      fina
-
+;        ld      a, l
+;        and     h
+;        and     b
+;        inc     a
+;        jr      z, fina
         add     hl, hl
         rl      b
+;        push    ix
+        ld      ix, tmpbuf+$200
         push    hl
         rl      h
         rl      b
@@ -1337,10 +1324,9 @@ sabe2   ;pop     hl
         ld      de, (items)
         add     hl, de
         ld      e, 0
-        ld      ix, $c000
         call    readata
         pop     hl
-        ld      h, $60
+        ld      h, (tmpbuf+$200)>>9
         add     hl, hl
         ld      e, (hl)
         inc     hl
@@ -1348,7 +1334,69 @@ sabe2   ;pop     hl
         inc     hl
         ld      b, (hl)
         ex      de, hl
-        jp      tica
+        ld      a, l
+        and     h
+        and     b
+        inc     a
+;        pop     ix
+        jr      nz, tica
+
+  ld l, 1
+  jp hhhh
+sabe    sub     $20
+        jr      z, sabe2
+
+  ld h,a
+  ld l, 2
+  jp hhhh
+sabe2   ld      b, (ix+$14)
+        ld      l, (ix+$1a)
+        ld      h, (ix+$1b)
+        ld      ix, $c000
+bucap   push    hl
+        push    bc
+        call    calcs
+        ld      de, (offsel)
+        add     hl, de
+        ld      a, b
+        adc     a, 0
+        ld      e, a
+        call    trans
+        pop     bc
+        pop     hl
+        push    ix
+        ld      ix, tmpbuf+$200
+        add     hl, hl
+        rl      b
+        push    hl
+        ld      l, h
+        ld      h, b
+        ld      b, 0
+        add     hl, hl
+        rl      b
+        ld      de, (items)
+        add     hl, de
+        ld      a, b
+        adc     a, 0
+        ld      e, a
+        call    readata
+        pop     hl
+        ld      h, (tmpbuf+$200)>>9
+        add     hl, hl
+        ld      e, (hl)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      b, (hl)
+        ex      de, hl
+        ld      a, l
+        and     h
+        and     b
+        inc     a
+        pop     ix
+        jr      nz, bucap
+  jp hhhh
+
 
 
         
@@ -1402,8 +1450,8 @@ decbhl  dec     hl
         dec     b
         ret
 
-filena  defb    'BOOT    SCR'
-;filena  defb    'FLASH      '
+;filena  defb    'BOOT    SCR'
+filena  defb    'FLASH      '
 
 fat16   call    readata
         pop     de
@@ -1476,8 +1524,6 @@ bucop   push    hl
         jr      nz, bucop
 
   jp hhhh
-        ld      hl, 2
-        jp      tica
 
 buba    push    bc
         push    de
@@ -1489,8 +1535,6 @@ bubi    push    bc
         ld      a, (hl)
         or      a
         jr      z, sali
-        cp      $e5
-        jr      z, desc
         ld      de, filena
         push    hl
 buub    ld      a, (de)
@@ -1501,18 +1545,18 @@ buub    ld      a, (de)
         djnz    buub
 beeb    jr      z, bien
         pop     hl
-desc    pop     bc
+        pop     bc
         ld      de, $0020
         add     hl, de
         djnz    bubi
         ld      a, d
-desc1   pop     hl
+desc    pop     hl
         pop     de
         pop     bc
         ret
 bien    pop     ix
 sali    pop     bc
-        jr      desc1
+        jr      desc
 
 trans   ld      a, (tmpbuf+$d)
         ld      b, a
