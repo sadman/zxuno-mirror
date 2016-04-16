@@ -604,7 +604,7 @@ maitb   dec     a
         jp      z, tape
         call    bomain
         ld      c, $12
-        ld      ix, cad86
+        ld      ix, cad74
         call_prnstr
         ld      c, $15
         call_prnstr
@@ -868,15 +868,14 @@ romsb   sub     $1e-$16
 romsc   ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
-        call    romcyb
+        call    prsta1
         push    bc
-        ld      ix, tmpbuf+$52
-        call_prnstr
         inc     (ix-8)
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
         pop     bc
+        dec     c
         jp      nc, roms12
         ld      b, $17
         ld      ix, cad53
@@ -1198,6 +1197,10 @@ upgra1  push    af
         inc     l
         ld      (hl), e
         inc     l
+        ld      (hl), cad615 & $ff
+        inc     l
+        ld      (hl), e
+        inc     l
 upgra2  ld      (hl), cad62 & $ff
         inc     l
         ld      (hl), e
@@ -1249,13 +1252,26 @@ upgra5  jp      nz, main6
         ld      a, h
         ld      (bitstr), a
         jr      upgra5
-upgra6  ld      ix, upgra7
-        in      a, ($1f)
-        and     h
-        and     $08
-        jp      z, delhel
+upgra6  dec     h
+        dec     h
+        jp      nz, upgra7
+        ld      ix, cad75
+        call    prnhel
+        call    imyesn
+        ld      ix, cad445
+        ld      bc, $0808
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        xor     a
+        call    yesno
+        jr      nz, upgra5
+        ld      iyl, 6
+        call    prstat
 
-east    di
+; be quiet, otherwise brick
+
+        di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
         ld      c, SPI_PORT
@@ -1655,7 +1671,7 @@ waitl   call    waitr
 exitw   pop     bc
         ret
 
-upgra7  ld      sp, stack-2
+upgra7  ;ld      sp, stack-2
         call    loadta
         jr      nc, upgra8
         ld      hl, (menuop+1)
@@ -1664,9 +1680,7 @@ upgra7  ld      sp, stack-2
         jp      p, upgrac
 
 ;upgrade ESXDOS
-        call    romcyb
-        ld      ix, tmpbuf+$52
-        call_prnstr
+        call    prsta1
         ld      ix, $e000
         ld      de, $2000
         call    lbytes
@@ -1694,9 +1708,7 @@ upgraa  jp      nz, roms12
         ld      a, (tmpbuf+1)
         cp      $ca
         jr      nz, upgraa
-        call    romcyb
-        ld      ix, tmpbuf+$52
-        call_prnstr
+        call    prsta1
         ld      ix, $c000
         ld      de, $4000
         call    lbytes
@@ -1717,25 +1729,29 @@ upgraa  jp      nz, roms12
         ld      ix, cad58
 upgrab  jp      roms13
 
+prstat  ld      de, tmpbuf+$52
+        ld      hl, cad63
+        ld      bc, cad64-cad63
+        ldir
+prsta1  call    romcyb
+        ld      ix, tmpbuf+$52
+        call_prnstr
+        ret
+
 ;upgrade machine
 upgrac  cp      $43
         jr      c, upgraa
         cp      $45
         jr      nc, upgraa
         ld      b, l
+        dec     b
         djnz    upgrae
         ld      a, (tmpbuf+1)
         cp      $cb
 upgrad  jr      nz, upgraa
 upgrae  call    calbit
         push    hl
-        ld      de, tmpbuf+$52
-        ld      hl, cad63
-        ld      bc, cad64-cad63
-        ldir
-        call    romcyb 
-        ld      ix, tmpbuf+$52
-        call_prnstr
+        call    prstat
         ld      bc, zxuno_port+$100
         ld      de, bnames
         ld      hl, $0071
@@ -1764,9 +1780,7 @@ upgrah  and     a
         ex      af, af'
         jp      nc, roms12
         dec     iyl
-        call    romcyb
-        ld      ix, tmpbuf+$52
-        call_prnstr
+        call    prsta1
         dec     iyh
         jr      nz, upgrag
         pop     iy
@@ -1832,12 +1846,7 @@ exit    ld      h, 28
         jp      c, main6
         ld      (menuop+1), a
 exitg   ld      (colcmb+1), a
-        call    bloq1
-        ld      ix, cad42
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        call_prnstr
+        call    imyesn
         ld      a, (colcmb+1)
         ld      b, a
         djnz    exit1
@@ -1852,8 +1861,7 @@ exit3   ld      bc, $0808
         call_prnstr
         xor     a
         call    yesno
-        dec     a
-        ret     z
+        ret     nz
         ld      a, (codcnt)
         cp      $0c
         ret     z
@@ -1981,6 +1989,14 @@ blst4   call    combol
         jr      nc, blst5
         ld      (bitstr), a
 blst5   jp      alto conti
+
+imyesn  call    bloq1
+        ld      ix, cad42
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        call_prnstr
+        ret
 
 ; ------------------------------------
 ; Calculate start address of bitstream
@@ -2139,6 +2155,7 @@ yesno5  add     a, $1e-$0c
         cp      2
         jr      nc, yesno2
         ld      a, ixl
+        and     a
         ret
 
 ; -------------------------------------
@@ -3969,10 +3986,6 @@ cad36   defb    'Delete', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $15, 0
-cad37   defb    'Save Changes & Exit', 0
-        defb    'Discard Changes & Exit', 0
-        defb    'Save Changes', 0
-        defb    'Discard Changes', 0
 cad38   defb    'Exit system', 0
         defb    'setup after', 0
         defb    'saving the', 0
@@ -3998,6 +4011,9 @@ cad46   defb    $12, ' Exit Without Saving ', $11, $13, 0
 cad47   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save configuration? ', $10, 0
+cad445  defb    $12, $11, $11, $11, $11, ' Load from SD ', $11, $11, $11, $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, ' Are you sure?        ', $10, 0
 cad48   defb    $12, ' Load Previous Values ', $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Load previous values?', $10, 0
@@ -4013,6 +4029,10 @@ cad43   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save conf. & Exit?  ', $10, 0
 cad44   defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
+cad37   defb    'Save Changes & Exit', 0
+        defb    'Discard Changes & Exit', 0
+        defb    'Save Changes', 0
+        defb    'Discard Changes', 0
 cad49   defb    'Press play on', 0
         defb    'tape & follow', 0
         defb    'the progress', 0
@@ -4033,6 +4053,7 @@ cad58   defb    'BIOS upgraded', 0
 cad59   defb    'ESXDOS upgraded', 0
 cad60   defb    'Upgrade ESXDOS for ZX', 0
 cad61   defb    'Upgrade BIOS for ZX', 0
+cad615  defb    'Upgrade flash from SD', 0
 cad62   defb    'ZX Spectrum', 0
 cad63   defb    'Status:[           ]', 0
 cad64   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -4065,13 +4086,16 @@ cad71   defb    'Memory usually', 0
 cad72   defb    'Performs a', 0
         defb    'tape test', 0, 0
 cad73   defb    $1b, 0
-cad86   defb    'Kempston     Fuller', 0
+cad74   defb    'Kempston     Fuller', 0
         defb    'Break key to return', 0
         defb             '234567890'
         defb    'Q'+$80, 'WERTYUIOP'
         defb    'A'+$80, 'SDFGHJKLe'
         defb    'c'+$80, 'ZXCVBNMsb'
         defb    'o'+$80, $1c, $1d, $1e, $1f, $1f, $1e, $1d, $1c, 'o', $80
+cad75   defb    'Insert SD with', 0
+        defb    'FLASH file on', 0
+        defb    'root', 0, 0
 fincad
 
 ; todo
