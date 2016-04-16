@@ -1,4 +1,4 @@
-zx7b      logo256x192.rcs       logo256x192.rcs.zx7b
+rem zx7b      logo256x192.rcs       logo256x192.rcs.zx7b
 sjasmplus firmware.asm
 fcut      firmware_strings.rom  8000 -8000  strings.bin
 zx7b      strings.bin           strings.bin.zx7b

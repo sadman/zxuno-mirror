@@ -62,6 +62,7 @@
         define  siemp0  nmidiv+1
         define  bnames  $a100
         define  tmpbuf  $a200
+        define  tmpbu2  $a280
         define  stack   $aab0
         define  alto    $ae00-crctab+
 
@@ -258,8 +259,8 @@ star35  in      a, (c)
         call_prnstr             ; http://zxuno.speccy.org
         ld      bc, $020d
         call_prnstr             ; ZX-Uno BIOS version
-        call_prnstr             ; Copyright
-        ld      bc, $0010       ; Copyright (c) 2015 ZX-Uno Team
+        call_prnstr             ; Copyleft
+        ld      bc, $0010       ; Copyleft (c) 2016 ZX-Uno Team
         call_prnstr             ; Processor
         call_prnstr             ; Memory
         call_prnstr             ; Graphics
@@ -1251,7 +1252,7 @@ upgra5  jp      nz, main6
         jr      z, upgra6
         ld      a, h
         ld      (bitstr), a
-        jr      upgra5
+        ret
 upgra6  dec     h
         dec     h
         jp      nz, upgra7
@@ -1259,28 +1260,28 @@ upgra6  dec     h
         call    prnhel
         call    imyesn
         ld      ix, cad445
-        ld      bc, $0808
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        xor     a
         call    yesno
-        jr      nz, upgra5
+        ret     nz
+        ld      d, h
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
         ld      iyl, 6
         call    prstat
-
-; be quiet, otherwise brick
-
+        ld      ix, cad76
+        inc     c
+        inc     c
+        call_prnstr
         di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
-        ld      ix, tmpbuf
+        ld      ix, tmpbu2
         call    readat0
+        jr      nz, errsd
         ld      b, e
-        ld      hl, (tmpbuf+$1c6)     ; read LBA address of 1st partition
-        ld      a, (tmpbuf+$1c2)      ; read partition type
+        ld      hl, (tmpbu2+$1c6)     ; read LBA address of 1st partition
+        ld      a, (tmpbu2+$1c2)      ; read partition type
         add     hl, hl
         sub     $0b
         sub     2
@@ -1291,22 +1292,26 @@ upgra6  dec     h
         sub     $7b
         sub     2
         jr      c, fat16              ; 04,06,0e -> FAT16
-
-;       error
-
+errsd   ld      ix, cad77
+ferror  ld      bc, zxuno_port+$100
+        wreg    master_conf, 0
+        ld      bc, $090d
+        call_prnstr
+        ei
+        jp      waitky
 fat16   call    readata               ; read boot sector with BPB
         ex      de, hl
-        ld      hl, (tmpbuf+$0e)      ; count of reserved logical sectors
+        ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
         add     hl, hl
         add     hl, de                ; LBA address+reserved
         ld      (items), hl           ; write FAT table address
         ex      de, hl
-        ld      hl, (tmpbuf+$16)      ; sectors per FAT
+        ld      hl, (tmpbu2+$16)      ; sectors per FAT
         add     hl, hl                ; 2*FAT
         add     hl, hl
         add     hl, de                ; LBA+reserved+2*FAT
         ex      de, hl
-        ld      hl, (tmpbuf+$11)      ; max FAT entries in root
+        ld      hl, (tmpbu2+$11)      ; max FAT entries in root
         ld      b, 3
 div8    rr      h
         rr      l
@@ -1321,14 +1326,12 @@ rotp    call    readat0               ; read 512 bytes of entries (16 entries)
         jr      z, saba               ; if found ($20) or EOF ($00), exit
         dec     b
         djnz    rotp
-erfnf ; error file not found
-  ld  hl, $404
-  jp hhhh
+erfnf   ld      ix, cad78
+terror  jr      ferror
 saba    sub     $20
         jr      nz, erfnf
-;        ld      a, (ix+$1e)           ; third byte of length
-;        sub     $40
-;        jr      nz, erfnf             ; wrong length
+        call    testl
+        jr      nz, erfnf             ; wrong length
         ld      l, (ix+$1a)           ; first cluster of the file
         ld      h, (ix+$1b)
         ld      ix, $c000
@@ -1357,28 +1360,26 @@ bucop   push    hl                    ; save current cluster
         inc     a                     ; cluster==FFFF
         pop     ix
         jr      nz, bucop
-
-;       end of burn
-  jp hhhh
-
+enbur   ld      ix, cad79
+        jr      terror
 fat32   call    readata               ; read boot sector with BPB
         ex      de, hl
-        ld      hl, (tmpbuf+$e)       ; count of reserved logical sectors
+        ld      hl, (tmpbu2+$e)       ; count of reserved logical sectors
         add     hl, hl
         add     hl, de
         ld      (items), hl           ; write fat address
         ex      de, hl
-        ld      hl, (tmpbuf+$24)      ; Logical sectors per FAT
+        ld      hl, (tmpbu2+$24)      ; Logical sectors per FAT
         add     hl, hl
         add     hl, hl
         add     hl, de
         ld      (offsel), hl
-        ld      hl, (tmpbuf+$2c)
+        ld      hl, (tmpbu2+$2c)
 
 tica    push    hl
         push    bc
         call    calcs
-        ld      a, (tmpbuf+$d)
+        ld      a, (tmpbu2+$d)
         ld      b, a
         ld      ix, $c000
 otve    call    readata
@@ -1412,10 +1413,10 @@ otve    call    readata
         and     b
         inc     a
         jr      nz, tica
-erfnf2; error file not found
-  ld  hl, $404
-  jp hhhh
+erfnf2  jp      erfnf
 sabe    sub     $20
+        jr      nz, erfnf2
+        call    testl
         jr      nz, erfnf2
         ld      b, (ix+$14)
         ld      l, (ix+$1a)
@@ -1453,20 +1454,25 @@ bucap   push    hl
         inc     a
         pop     ix
         jr      nz, bucap
+        jp      enbur
+;  jp hhhh
+;hhhh    ld      de, cad55+19
+;        call    alto wtohex
+;        ld      ix, cad55
+;        ld      bc, $0016
+;        call    alto prnstr-1
+;binf jr binf        
 
-;       end of burn
-  jp hhhh
-
-hhhh    ld      de, cad55+19
-        call    alto wtohex
-        ld      ix, cad55
-        ld      bc, $0016
-        call    alto prnstr-1
-binf jr binf        
+testl   ld      hl, ($c01c)
+        ld      a, (ix+$1e)           ; third byte of length
+        sub     $40
+        or      l
+        or      h
+        ret
 
 calcs   call    decbhl
         call    decbhl
-        ld      a, (tmpbuf+$d)
+        ld      a, (tmpbu2+$d)
 agai    add     hl, hl
         rl      b
         rrca
@@ -1522,26 +1528,34 @@ sali    pop     bc
         jr      desc
 
 trans   push    bc
-        ld      a, (tmpbuf+$d)
+        ld      a, (tmpbu2+$d)
         ld      b, a
 otva    call    readata
         inc     ixh
         inc     ixh
         jr      nz, putc0
-        push    hl
         push    bc
-        ld      de, (tmpbuf+$1e)    ; SPI address, initially 0000
+        push    hl
+        ld      hl, tmpbuf+$59
+        ld      a, (tmpbu2+$1f)
+otv2    sub     6
+        inc     hl
+        jr      nc, otv2
+        ld      (hl), 'o'
+        ld      iyl, 1
+        call    prsta1
+        ld      de, (tmpbu2+$1e)    ; SPI address, initially 0000
         exx
         ld      a, $40
         ld      hl, $c000
         exx
         call    wrflsh
         inc     de
-        ld      (tmpbuf+$1e), de
+        ld      (tmpbu2+$1e), de
         exx
-        ld      ixh, $c0
-        pop     bc
+        ld      ix, $c000
         pop     hl
+        pop     bc
 putc0   inc     l
         inc     hl
         djnz    otva
@@ -1855,16 +1869,8 @@ exit1   djnz    exit2
         ld      ix, cad47
 exit2   djnz    exit3
         ld      ix, cad48
-exit3   ld      bc, $0808
-        call_prnstr
-        call_prnstr
-        call_prnstr
-        xor     a
-        call    yesno
+exit3   call    yesno
         ret     nz
-        ld      a, (codcnt)
-        cp      $0c
-        ret     z
         ld      a, (colcmb+1)
         ld      b, a
         djnz    exit4
@@ -2128,7 +2134,11 @@ loadt1  ld      ix, cad42
 ; Returns:
 ;    A: 0: yes, 1: no
 ; -------------------------------------
-yesno   inc     a
+yesno   ld      bc, $0808
+        call_prnstr
+        call_prnstr
+        call_prnstr
+yesno0  inc     a
 yesno1  ld      ixl, a
 yesno2  ld      hl, $0b0d
         ld      de, $0801
@@ -2145,7 +2155,7 @@ yesno3  call    window
         add     a, $100-$1f
         jr      nz, yesno4
         add     a, ixl
-        jr      z, yesno
+        jr      z, yesno0
 yesno4  inc     a
         jr      nz, yesno5
         dec     a
@@ -2154,6 +2164,9 @@ yesno4  inc     a
 yesno5  add     a, $1e-$0c
         cp      2
         jr      nc, yesno2
+        ld      a, (codcnt)
+        sub     $0d
+        ret     nz 
         ld      a, ixl
         and     a
         ret
@@ -3846,8 +3859,8 @@ l3eff   in      l,(c)
         block   $8000-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.313', 0
-        defm    'Copyright ', 127, ' 2015 ZX-Uno Team', 0
+        defm    'ZX-Uno BIOS v0.315', 0
+        defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
         defm    'Graphics:  normal, hi-color', 0
@@ -3881,7 +3894,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.313   ', $7f, '2015 ZX-Uno Team', 0
+        defb    '   BIOS v0.315   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -4096,6 +4109,10 @@ cad74   defb    'Kempston     Fuller', 0
 cad75   defb    'Insert SD with', 0
         defb    'FLASH file on', 0
         defb    'root', 0, 0
+cad76   defb    'Be quiet, avoid brick', 0
+cad77   defb    'SD or partition error', 0
+cad78   defb    'Not found or bad size', 0
+cad79   defb    ' Successfully burned ', 0
 fincad
 
 ; todo
