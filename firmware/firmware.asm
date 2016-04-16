@@ -1257,26 +1257,97 @@ upgra6  ld      ix, upgra7
 
 east    di
         ld      bc, zxuno_port+$100
-        wreg    master_conf, 2  ; activamos divmmc
+        wreg    master_conf, 2        ; enable divmmc
         ld      c, SPI_PORT
-        sbc     hl, hl          ; read MBR
-        ld      e, l
+        sbc     hl, hl                ; read MBR
         ld      ix, tmpbuf
-        call    readata
-        ld      hl, (tmpbuf+$1c6)
-        ld      a, (tmpbuf+$1c2)
-        push    hl
+        call    readat0
+        ld      b, e
+        ld      hl, (tmpbuf+$1c6)     ; read LBA address of 1st partition
+        ld      a, (tmpbuf+$1c2)      ; read partition type
         add     hl, hl
-        ld      b, 0
-        cp      $04
-toze    jp      z, fat16
-        cp      $06
-        jr      z, toze
-        cp      $0e
-        jr      z, toze
-        call    readata
+        sub     $0b
+        sub     2
+        jp      c, fat32              ; 0b,0c -> FAT32
+        dec     a
+        jr      z, fat16
+        rrca
+        sub     $7b
+        sub     2
+        jr      c, fat16              ; 04,06,0e -> FAT16
+
+;       error
+
+fat16   call    readata               ; read boot sector with BPB
         ex      de, hl
-        ld      hl, (tmpbuf+$e)
+        ld      hl, (tmpbuf+$0e)      ; count of reserved logical sectors
+        add     hl, hl
+        add     hl, de                ; LBA address+reserved
+        ld      (items), hl           ; write FAT table address
+        ex      de, hl
+        ld      hl, (tmpbuf+$16)      ; sectors per FAT
+        add     hl, hl                ; 2*FAT
+        add     hl, hl
+        add     hl, de                ; LBA+reserved+2*FAT
+        ex      de, hl
+        ld      hl, (tmpbuf+$11)      ; max FAT entries in root
+        ld      b, 3
+div8    rr      h
+        rr      l
+        djnz    div8
+        ld      b, l                  ; B= (max entries in sectors)*2
+        add     hl, de                ; LBA+reserved+2*FAT+entries in sectors
+        ld      (offsel), hl          ; data= LBA+reserved+2*FAT+entries
+        ex      de, hl                ; root= LBA+reserved+2*FAT
+        ld      ix, $c000
+rotp    call    readat0               ; read 512 bytes of entries (16 entries)
+        call    buba                  ; search filename (FLASH) in entries
+        jr      z, saba               ; if found ($20) or EOF ($00), exit
+        dec     b
+        djnz    rotp
+erfnf ; error file not found
+  ld  hl, $404
+  jp hhhh
+saba    sub     $20
+        jr      nz, erfnf
+;        ld      a, (ix+$1e)           ; third byte of length
+;        sub     $40
+;        jr      nz, erfnf             ; wrong length
+        ld      l, (ix+$1a)           ; first cluster of the file
+        ld      h, (ix+$1b)
+        ld      ix, $c000
+bucop   push    hl                    ; save current cluster
+        ld      b, e
+        call    calcs                 ; translate cluster to address
+        call    trans                 ; copy from data address to SPI flash
+        pop     hl                    ; recover current cluster
+        push    ix                    ; save buffer position
+        ld      ix, tmpbuf+$200       ; small buffer to read FAT
+        push    hl                    ; hl= hhhhhhhh llllllll
+        ld      l, h
+        ld      h, 0                  ; hl= 00000000 hhhhhhhh
+        add     hl, hl                ; hl= 0000000h hhhhhhh0
+        ld      de, (items)           ; fat address
+        call    addclus
+        call    readat0
+        pop     hl                    ; hl= hhhhhhhh llllllll
+        ld      h, (tmpbuf+$200)>>9   ; hl= fatad/2  llllllll
+        add     hl, hl                ; hl= (fatad)l lllllll0
+        ld      a, (hl)
+        inc     l
+        ld      h, (hl)
+        ld      l, a                  ; next cluster in hl
+        and     h
+        inc     a                     ; cluster==FFFF
+        pop     ix
+        jr      nz, bucop
+
+;       end of burn
+  jp hhhh
+
+fat32   call    readata               ; read boot sector with BPB
+        ex      de, hl
+        ld      hl, (tmpbuf+$e)       ; count of reserved logical sectors
         add     hl, hl
         add     hl, de
         ld      (items), hl           ; write fat address
@@ -1291,30 +1362,17 @@ toze    jp      z, fat16
 tica    push    hl
         push    bc
         call    calcs
-        ld      de, (offsel)
-        add     hl, de
-        ld      a, b
-        adc     a, 0
-        ld      e, a
         ld      a, (tmpbuf+$d)
         ld      b, a
         ld      ix, $c000
 otve    call    readata
         call    buba
         jr      z, sabe
-        inc     l
-        inc     hl
         djnz    otve
         pop     bc
         pop     hl
-;        ld      a, l
-;        and     h
-;        and     b
-;        inc     a
-;        jr      z, fina
         add     hl, hl
         rl      b
-;        push    ix
         ld      ix, tmpbuf+$200
         push    hl
         rl      h
@@ -1323,46 +1381,33 @@ otve    call    readata
         ld      h, b
         ld      de, (items)
         add     hl, de
-        ld      e, 0
-        call    readata
+        call    readat0
         pop     hl
         ld      h, (tmpbuf+$200)>>9
         add     hl, hl
         ld      e, (hl)
-        inc     hl
+        inc     l
         ld      d, (hl)
-        inc     hl
+        inc     l
         ld      b, (hl)
         ex      de, hl
         ld      a, l
         and     h
         and     b
         inc     a
-;        pop     ix
         jr      nz, tica
-
-  ld l, 1
+erfnf2; error file not found
+  ld  hl, $404
   jp hhhh
 sabe    sub     $20
-        jr      z, sabe2
-
-  ld h,a
-  ld l, 2
-  jp hhhh
-sabe2   ld      b, (ix+$14)
+        jr      nz, erfnf2
+        ld      b, (ix+$14)
         ld      l, (ix+$1a)
         ld      h, (ix+$1b)
         ld      ix, $c000
 bucap   push    hl
-        push    bc
         call    calcs
-        ld      de, (offsel)
-        add     hl, de
-        ld      a, b
-        adc     a, 0
-        ld      e, a
         call    trans
-        pop     bc
         pop     hl
         push    ix
         ld      ix, tmpbuf+$200
@@ -1375,18 +1420,15 @@ bucap   push    hl
         add     hl, hl
         rl      b
         ld      de, (items)
-        add     hl, de
-        ld      a, b
-        adc     a, 0
-        ld      e, a
+        call    addclus
         call    readata
         pop     hl
         ld      h, (tmpbuf+$200)>>9
         add     hl, hl
         ld      e, (hl)
-        inc     hl
+        inc     l
         ld      d, (hl)
-        inc     hl
+        inc     l
         ld      b, (hl)
         ex      de, hl
         ld      a, l
@@ -1395,43 +1437,16 @@ bucap   push    hl
         inc     a
         pop     ix
         jr      nz, bucap
+
+;       end of burn
   jp hhhh
 
-
-
-        
-;sali    ld      l, 1
-        jr      hhhh
-;bien    pop     ix
-        pop     bc
-        ld      a, (ix+$1e)
-        sub     $40
-        jr      nz, hhhh
-        ld      b, (ix+$14)
-        ld      l, (ix+$1a)
-        ld      h, (ix+$1b)
-        call    calcs
-        ld      de, (offsel)
-        add     hl, de
-;        ld      a, b
-;        adc     a, 0
-;        ld      l, a
-;2787000
-;27db800
-
-
-hhhh
-;        ld      hl, ($9000)
-;        ld h,d
-;        ld l,e
-
-        ld      de, cad55+19
+hhhh    ld      de, cad55+19
         call    alto wtohex
         ld      ix, cad55
         ld      bc, $0016
         call    alto prnstr-1
 binf jr binf        
-
 
 calcs   call    decbhl
         call    decbhl
@@ -1440,6 +1455,11 @@ agai    add     hl, hl
         rl      b
         rrca
         jr      nc, agai
+        ld      de, (offsel)
+addclus add     hl, de
+        ld      a, b
+        adc     a, 0
+        ld      e, a
         ret
 
 decbhl  dec     hl
@@ -1449,81 +1469,6 @@ decbhl  dec     hl
         ret     nz
         dec     b
         ret
-
-;filena  defb    'BOOT    SCR'
-filena  defb    'FLASH      '
-
-fat16   call    readata
-        pop     de
-        ld      hl, (tmpbuf+$0e)
-        add     hl, de
-        ld      d, h
-        ld      e, l
-        add     hl, hl
-        ld      (items), hl     ; write fat address
-        ld      hl, (tmpbuf+$16)
-        add     hl, hl
-        add     hl, de
-        ex      de, hl
-        ld      hl, (tmpbuf+$11)
-        ld      b, 4
-div16   rr      h
-        rr      l
-        djnz    div16
-        ld      b, l
-        add     hl, de
-        add     hl, hl
-        ld      (offsel), hl
-        ex      de, hl
-        add     hl, hl
-        ld      ix, $c000
-rotp    ld      e, 0
-        call    readata
-        call    buba
-        jr      z, saba
-        inc     l
-        inc     hl
-        djnz    rotp
-saba    sub     $20
-        jr      z, saba2
-        ld  h, a
-        ld l, 1
-  jp hhhh
-saba2   ld      b, a
-        ld      l, (ix+$1a)
-        ld      h, (ix+$1b)
-        ld      ix, $c000
-bucop   push    hl
-        call    calcs
-        ld      de, (offsel)
-        add     hl, de
-        ld      e, b
-        call    trans
-        pop     hl
-        push    ix
-        ld      ix, tmpbuf+$200
-        push    hl
-        ld      l, h
-        ld      h, b
-        add     hl, hl
-        ld      de, (items)
-        add     hl, de
-        ld      e, b
-        call    readata
-        pop     hl
-        ld      h, (tmpbuf+$200)>>9
-        add     hl, hl
-        ld      e, (hl)
-        inc     hl
-        ld      d, (hl)
-        ex      de, hl
-        ld      a, l
-        and     h
-        inc     a
-        pop     ix
-        jr      nz, bucop
-
-  jp hhhh
 
 buba    push    bc
         push    de
@@ -1551,6 +1496,8 @@ beeb    jr      z, bien
         djnz    bubi
         ld      a, d
 desc    pop     hl
+        inc     hl
+        inc     hl
         pop     de
         pop     bc
         ret
@@ -1558,7 +1505,8 @@ bien    pop     ix
 sali    pop     bc
         jr      desc
 
-trans   ld      a, (tmpbuf+$d)
+trans   push    bc
+        ld      a, (tmpbuf+$d)
         ld      b, a
 otva    call    readata
         inc     ixh
@@ -1566,7 +1514,7 @@ otva    call    readata
         jr      nz, putc0
         push    hl
         push    bc
-        ld      de, (tmpbuf+$1e)
+        ld      de, (tmpbuf+$1e)    ; SPI address, initially 0000
         exx
         ld      a, $40
         ld      hl, $c000
@@ -1581,7 +1529,10 @@ otva    call    readata
 putc0   inc     l
         inc     hl
         djnz    otva
+        pop     bc
         ret
+
+filena  defb    'FLASH      '
 
 ;-----------------------------------------------------------------------------------------
 ; READ DATA TEST subroutine
@@ -1596,6 +1547,8 @@ putc0   inc     l
 ;-----------------------------------------------------------------------------------------
 reinit  call    mmcinit
         ret     nz
+        defb    $c2
+readat0 ld      e, 0
 readata ld      a, READ_SINGLE  ; Command code for multiple block read
         call    cs_low          ; set cs high
         out     (c), a
