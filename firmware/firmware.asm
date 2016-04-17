@@ -31,6 +31,7 @@
         define  MMC_0           $fe ; D0 LOW = SLOT0 active
         define  IDLE_STATE      $40
         define  OP_COND         $41
+        define  SET_BLOCKLEN    $50
         define  READ_SINGLE     $51
         define  READ_MULTIPLE   $52
         define  TERMINATE_MULTI $4C
@@ -1274,6 +1275,7 @@ upgra6  dec     h
         di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
+        wreg    scandblctrl, $80
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
@@ -1295,6 +1297,7 @@ upgra6  dec     h
 errsd   ld      ix, cad77
 ferror  ld      bc, zxuno_port+$100
         wreg    master_conf, 0
+        wreg    scandblctrl, 0
         ld      bc, $090d
         call_prnstr
         ei
@@ -1577,7 +1580,20 @@ filena  defb    'FLASH      '
 ;-----------------------------------------------------------------------------------------
 reinit  call    mmcinit
         ret     nz
-        defb    $c2
+        ld      a, SET_BLOCKLEN
+        call    cs_low
+        out     (c), a
+        xor     a
+        out     (c), a
+        inc     a
+        out     (c), 0
+        inc     a
+        out     (c), a
+        nop
+        out     (c), 0
+        call    lsen1
+        call    cs_high
+        jr      readata
 readat0 ld      e, 0
 readata ld      a, READ_SINGLE  ; Command code for multiple block read
         call    cs_low          ; set cs high
@@ -1648,7 +1664,7 @@ loop3   djnz    loop3
 send4z  ld      b, 4
 lsen0   out     (c), 0          ; then sends four "00" bytes (parameters = NULL)
         djnz    lsen0
-        out     (c), h          ; then this byte is ignored.
+lsen1   out     (c), h          ; then this byte is ignored.
 waitr   push    bc
         ld      c, 50           ; retry counter
 resp    in      a, (SPI_PORT)   ; reads a byte from MMC
