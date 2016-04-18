@@ -36,6 +36,7 @@
         define  READ_SINGLE     $51
         define  CMD41           $69
         define  CMD55           $77
+        define  CMD58           $7a
 
         define  cmbpnt  $8f00
         define  colcmb  $8fc6   ;lo: color de lista   hi: temporal
@@ -47,7 +48,8 @@
         define  offsel  $8fd2   ;lo: offset visible   hi: seleccionado
                       ; inputs   lo: cursor position  hi: max length
                       ; otro     lo: pagina actual    hi: mascara paginas
-        define  empstr  $8fd4
+        define  sdhc    $8fd4
+        define  empstr  $8fd5
         define  config  $9000
         define  indexe  $a000
         define  active  $a040
@@ -1274,7 +1276,7 @@ upgra6  dec     h
         di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
-        ;wreg    scandblctrl, $80
+        wreg    scandblctrl, $80
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
@@ -1283,7 +1285,6 @@ upgra6  dec     h
         ld      b, e
         ld      hl, (tmpbu2+$1c6)     ; read LBA address of 1st partition
         ld      a, (tmpbu2+$1c2)      ; read partition type
-        add     hl, hl
         sub     $0b
         sub     2
         jp      c, fat32              ; 0b,0c -> FAT32
@@ -1304,17 +1305,15 @@ ferror  ld      bc, zxuno_port+$100
 fat16   call    readata               ; read boot sector with BPB
         ex      de, hl
         ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
-        add     hl, hl
         add     hl, de                ; LBA address+reserved
         ld      (items), hl           ; write FAT table address
         ex      de, hl
         ld      hl, (tmpbu2+$16)      ; sectors per FAT
         add     hl, hl                ; 2*FAT
-        add     hl, hl
         add     hl, de                ; LBA+reserved+2*FAT
         ex      de, hl
         ld      hl, (tmpbu2+$11)      ; max FAT entries in root
-        ld      b, 3
+        ld      b, 4
 div8    rr      h
         rr      l
         djnz    div8
@@ -1326,7 +1325,6 @@ div8    rr      h
 rotp    call    readat0               ; read 512 bytes of entries (16 entries)
         call    buba                  ; search filename (FLASH) in entries
         jr      z, saba               ; if found ($20) or EOF ($00), exit
-        dec     b
         djnz    rotp
 erfnf   ld      ix, cad78
 terror  jr      ferror
@@ -1347,7 +1345,6 @@ bucop   push    hl                    ; save current cluster
         push    hl                    ; hl= hhhhhhhh llllllll
         ld      l, h
         ld      h, 0                  ; hl= 00000000 hhhhhhhh
-        add     hl, hl                ; hl= 0000000h hhhhhhh0
         ld      de, (items)           ; fat address
         call    addclus
         call    readat0
@@ -1367,17 +1364,14 @@ enbur   ld      ix, cad79
 fat32   call    readata               ; read boot sector with BPB
         ex      de, hl
         ld      hl, (tmpbu2+$e)       ; count of reserved logical sectors
-        add     hl, hl
         add     hl, de
         ld      (items), hl           ; write fat address
         ex      de, hl
         ld      hl, (tmpbu2+$24)      ; Logical sectors per FAT
         add     hl, hl
-        add     hl, hl
         add     hl, de
         ld      (offsel), hl
         ld      hl, (tmpbu2+$2c)
-
 tica    push    hl
         push    bc
         call    calcs
@@ -1394,8 +1388,6 @@ otve    call    readata
         rl      b
         ld      ix, tmpbuf+$200
         push    hl
-        rl      h
-        rl      b
         ld      l, h
         ld      h, b
         ld      de, (items)
@@ -1416,7 +1408,9 @@ otve    call    readata
         inc     a
         jr      nz, tica
 erfnf2  jp      erfnf
-sabe    sub     $20
+sabe    pop     bc
+        pop     hl
+        sub     $20
         jr      nz, erfnf2
         call    testl
         jr      nz, erfnf2
@@ -1436,8 +1430,6 @@ bucap   push    hl
         ld      l, h
         ld      h, b
         ld      b, 0
-        add     hl, hl
-        rl      b
         ld      de, (items)
         call    addclus
         call    readata
@@ -1475,6 +1467,7 @@ testl   ld      hl, ($c01c)
 calcs   call    decbhl
         call    decbhl
         ld      a, (tmpbu2+$d)
+        defb    $38
 agai    add     hl, hl
         rl      b
         rrca
@@ -1521,7 +1514,6 @@ beeb    jr      z, bien
         ld      a, d
 desc    pop     hl
         inc     hl
-        inc     hl
         pop     de
         pop     bc
         ret
@@ -1558,8 +1550,7 @@ otv2    sub     6
         ld      ix, $c000
         pop     hl
         pop     bc
-putc0   inc     l
-        inc     hl
+putc0   inc     hl
         djnz    otva
         pop     bc
         ret

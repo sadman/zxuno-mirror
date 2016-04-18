@@ -8,6 +8,7 @@
         define  READ_SINGLE     $51
         define  CMD41           $69
         define  CMD55           $77
+        define  CMD58           $7a
 
         output  example.bin
         org     $5ccb
@@ -20,7 +21,7 @@ prmsg   ld      a, (hl)
         inc     hl
         rst     $10
         djnz    prmsg
-        ld      bc, 16<<8 | SPI_PORT
+        ld      bc, 32<<8 | SPI_PORT
         ld      hl, $81c0
 zero    ld      (hl), 0
         inc     hl
@@ -32,6 +33,13 @@ waitk   ld      a, $fd
         ld      hl, 0
         ld      ix, $8000
         call    readat0
+
+        ld      hl, ($81c6)     ; read LBA address of 1st partition
+        ld      ix, $81d0
+        call    readat0
+;        add     hl, hl
+        
+
         ld      hl, $81c0
 repe    ld      a, (hl)
         rrca
@@ -51,7 +59,7 @@ repe    ld      a, (hl)
         jr      nz, line
         ld      a, 13
         rst     $10
-line    bit     4, l
+line    bit     5, l
         jr      z, repe
 waitnk  ld      a, $fd
         in      a, ($fe)
@@ -66,6 +74,7 @@ rdigit  and     $0f
         add     a, 7
         ret
 
-msg     defb    'Press A', 13
-
         include sd.asm
+
+msg     defb    'Press A', 13
+sdhc

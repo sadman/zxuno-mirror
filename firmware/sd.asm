@@ -1,5 +1,6 @@
 
-reinit  call    mmcinit
+reinit  pop     hl
+        call    mmcinit
         ret     nz
         ld      a, SET_BLOCKLEN
         call    cs_low
@@ -15,23 +16,35 @@ readat0 ld      e, 0
 readata ld      a, READ_SINGLE  ; Command code for multiple block read
         call    cs_low          ; set cs high
         out     (c), a
+        ld      a, (sdhc)
+        dec     a
+        push    hl
+        jr      nz, mul2
+        out     (c), 0
         out     (c), e
         out     (c), h
         out     (c), l
+        call    send0z
+        jr      mul3
+mul2    ld      a, e
+        add     hl, hl
+        adc     a, a
+        out     (c), a
+        out     (c), h
+        out     (c), l
         call    send1z
-        and     a
+mul3    and     a
         jr      nz, reinit
         push    bc
         call    waittok
         jr      nz, readsal
-        push    hl
         push    ix
         pop     hl              ; INI usa HL come puntatore
         ld      b, a
         inir
         inir
-        pop     hl
 readsal pop     bc
+        pop     hl
         ret
 
 mmcinit push    bc
@@ -64,29 +77,20 @@ repite  ld      l, CMD55
         out     (c), h
         call    send3z
         and     a
-        jr      z, dela
-        djnz    repite
-        jr      mmcfin
-;sigue   ld      l, $7a
-;        call    send5
-;        in      a, (c)
-;        cp      $c0
-;        ld      a, 1
-;        jr      z, sig2
-;        ld      a, 2
-;sig2    out     ($fe), a
-;        jr      dela
-        
-resetok ld      l, OP_COND      ; Sends OP_COND command
-        call    send5           ; then this byte is ignored.
-        and     a
-        jr      z, dela
-        djnz    resetok         ; if no response, tries to send the entire block 254 more times
-        jr      mmcfin
+        jr      nz, sigue
+        ld      l, $7a
+        call    send5
+        in      l, (c)
+        bit     6, l
+        jr      nz, delhc
+        inc     a
+delhc   ld      (sdhc), a
 dela    call    cs_high         ; set cs high
 loop3   djnz    loop3
+        inc     b
         dec     h
         jr      nz, loop3
+sigue   djnz    repite
 mmcfin  pop     hl
         pop     bc
 cs_high push    af
@@ -94,6 +98,12 @@ cs_high push    af
 cs_hig1 out     (OUT_PORT), a
         pop     af
         ret
+resetok ld      l, OP_COND      ; Sends OP_COND command
+        call    send5           ; then this byte is ignored.
+        and     a
+        jr      z, dela
+        djnz    resetok         ; if no response, tries to send the entire block 254 more times
+        jr      mmcfin
 send5   out     (c), l          ; sends the command
         out     (c), 0
 send3z  out     (c), 0
