@@ -31,12 +31,11 @@
         define  MMC_0           $fe ; D0 LOW = SLOT0 active
         define  IDLE_STATE      $40
         define  OP_COND         $41
+        define  CMD8            $48
         define  SET_BLOCKLEN    $50
         define  READ_SINGLE     $51
-        define  READ_MULTIPLE   $52
-        define  TERMINATE_MULTI $4C
-        define  WRITE_SINGLE    $58
-        define  BLOCKSIZE       $200    ; SD/MMC block size (bytes)
+        define  CMD41           $69
+        define  CMD55           $77
 
         define  cmbpnt  $8f00
         define  colcmb  $8fc6   ;lo: color de lista   hi: temporal

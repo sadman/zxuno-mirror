@@ -1,4 +1,14 @@
         define  SPI_PORT        $eb
+        define  OUT_PORT        $e7
+        define  MMC_0           $fe ; D0 LOW = SLOT0 active
+        define  IDLE_STATE      $40
+        define  OP_COND         $41
+        define  CMD8            $48
+        define  SET_BLOCKLEN    $50
+        define  READ_SINGLE     $51
+        define  CMD41           $69
+        define  CMD55           $77
+
         output  example.bin
         org     $5ccb
         defb    0, 0, 0, 0
@@ -11,7 +21,7 @@ prmsg   ld      a, (hl)
         rst     $10
         djnz    prmsg
         ld      bc, 16<<8 | SPI_PORT
-        ld      hl, $8000
+        ld      hl, $81c0
 zero    ld      (hl), 0
         inc     hl
         djnz    zero
@@ -22,7 +32,7 @@ waitk   ld      a, $fd
         ld      hl, 0
         ld      ix, $8000
         call    readat0
-        ld      hl, $8000
+        ld      hl, $81c0
 repe    ld      a, (hl)
         rrca
         rrca

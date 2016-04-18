@@ -1,11 +1,3 @@
-;        define  SPI_PORT        $eb
-        define  OUT_PORT        $e7
-        define  MMC_0           $fe ; D0 LOW = SLOT0 active
-        define  IDLE_STATE      $40
-        define  OP_COND         $41
-        define  SET_BLOCKLEN    $50
-        define  READ_SINGLE     $51
-
 
 reinit  call    mmcinit
         ret     nz
@@ -27,11 +19,11 @@ readata ld      a, READ_SINGLE  ; Command code for multiple block read
         out     (c), h
         out     (c), l
         call    send1z
-        dec     a
+        and     a
         jr      nz, reinit
-        call    waittok
-        ret     nz
         push    bc
+        call    waittok
+        jr      nz, readsal
         push    hl
         push    ix
         pop     hl              ; INI usa HL come puntatore
@@ -39,7 +31,7 @@ readata ld      a, READ_SINGLE  ; Command code for multiple block read
         inir
         inir
         pop     hl
-        pop     bc
+readsal pop     bc
         ret
 
 mmcinit push    bc
@@ -50,40 +42,51 @@ mmcinit push    bc
 l_init  out     (c), h
         djnz    l_init
         call    cs_low          ; set cs low
-        out     (c), l          ; sends the command
         ld      h, $95
-        call    send4z
-        cp      $02             ; MMC should respond 01 to this command
+        call    send5
+fail    dec     a               ; MMC should respond 01 to this command
         jr      nz, mmcfin      ; fail to reset
-resetok call    cs_high         ; set cs high
-        out     (c), h          ; 8 extra clock cycles
-        call    cs_low          ; set cs low
-        ld      a, OP_COND      ; Sends OP_COND command
-        out     (c), a          ; sends the command
-        call    send4z          ; then this byte is ignored.
-        rrca                    ; D0 SET = initialization still in progress...
-        jr      nc, ninitok
-        call    cs_high         ; set cs high
+        ld      l, CMD8
+        out     (c), l          ; sends the command
+        out     (c), 0
+        out     (c), 0
+        inc     a
+        out     (c), a
+        ld      hl, $87aa
+        out     (c), l
+        call    send0z
+        dec     a
+        jr      nz, resetok
+repite  ld      l, CMD55
+        call    send5
+        ld      hl, $40<<8 | CMD41
+        out     (c), l
+        out     (c), h
+        call    send3z
+        or      a
+        jr      z, dela
+        djnz    repite
+        jr      fail
+;sigue   ld      l, $7a
+;        call    send5
+;        in      a, (c)
+;        cp      $c0
+;        ld      a, 1
+;        jr      z, sig2
+;        ld      a, 2
+;sig2    out     ($fe), a
+;        jr      dela
+        
+resetok ld      l, OP_COND      ; Sends OP_COND command
+        call    send5           ; then this byte is ignored.
+        and     a
+        jr      z, dela
+        djnz    resetok         ; if no response, tries to send the entire block 254 more times
+        jr      fail
+dela    call    cs_high         ; set cs high
 loop3   djnz    loop3
         dec     h
         jr      nz, loop3
-        jr      mmcfin
-send4z  out     (c), 0
-        out     (c), 0
-        out     (c), 0
-send1z  out     (c), 0
-        out     (c), h          ; then this byte is ignored.
-waitr   push    bc
-        ld      c, 50           ; retry counter
-resp    in      a, (SPI_PORT)   ; reads a byte from MMC
-        inc     a               ; $FF = no card data line activity
-        jr      nz, resp_ok
-        djnz    resp
-        dec     c
-        jr      nz, resp
-resp_ok pop     bc
-        ret
-ninitok djnz    resetok         ; if no response, tries to send the entire block 254 more times
 mmcfin  pop     hl
         pop     bc
 cs_high push    af
@@ -91,17 +94,28 @@ cs_high push    af
 cs_hig1 out     (OUT_PORT), a
         pop     af
         ret
+send5   out     (c), l          ; sends the command
+        out     (c), 0
+send3z  out     (c), 0
+        out     (c), 0
+send1z  out     (c), 0
+send0z  out     (c), h          ; then this byte is ignored.
+waitr   push    bc
+        ld      c, 50           ; retry counter
+resp    in      a, (SPI_PORT)   ; reads a byte from MMC
+        cp      $ff             ; $FF = no card data line activity
+        jr      nz, resp_ok
+        djnz    resp
+        dec     c
+        jr      nz, resp
+resp_ok pop     bc
+        ret
+waittok ld      b, 10                         ; retry counter
+waitl   call    waitr
+        cp      $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
+        ret     z
+        ret     nc
+        djnz    waitl
 cs_low  push    af
         ld      a, MMC_0
         jr      cs_hig1
-waittok push    bc
-        ld      b, 10                         ; retry counter
-waitl   call    waitr
-        inc     a               ; waits for the MMC to reply $FE (DATA TOKEN)
-        jr      z, exitw
-        dec     a               ; but if not $FF, exits immediately (error code from MMC)
-        jr      nz, exitw
-        djnz    waitl
-        inc     a               ; return A+2, NZ 
-exitw   pop     bc
-        ret
