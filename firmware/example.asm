@@ -37,8 +37,6 @@ waitk   ld      a, $fd
         ld      hl, ($81c6)     ; read LBA address of 1st partition
         ld      ix, $81d0
         call    readat0
-;        add     hl, hl
-        
 
         ld      hl, $81c0
 repe    ld      a, (hl)

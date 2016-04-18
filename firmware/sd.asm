@@ -19,7 +19,7 @@ readata ld      a, READ_SINGLE  ; Command code for multiple block read
         ld      a, (sdhc)
         dec     a
         push    hl
-        jr      nz, mul2
+        jr      z, mul2
         out     (c), 0
         out     (c), e
         out     (c), h
@@ -57,7 +57,7 @@ l_init  out     (c), h
         call    cs_low          ; set cs low
         ld      h, $95
         call    send5
-        dec     a               ; MMC should respond 01 to this command
+fail    dec     a               ; MMC should respond 01 to this command
         jr      nz, mmcfin      ; fail to reset
         ld      l, CMD8
         out     (c), l          ; sends the command
@@ -77,20 +77,26 @@ repite  ld      l, CMD55
         out     (c), h
         call    send3z
         and     a
-        jr      nz, sigue
-        ld      l, $7a
+        jr      z, sigue
+        djnz    repite
+        jr      fail
+resetok ld      l, OP_COND      ; Sends OP_COND command
+        call    send5           ; then this byte is ignored.
+        and     a
+        jr      z, dela
+        djnz    resetok         ; if no response, tries to send the entire block 254 more times
+        jr      fail
+sigue   ld      l, CMD58
         call    send5
-        in      l, (c)
-        bit     6, l
-        jr      nz, delhc
-        inc     a
-delhc   ld      (sdhc), a
+        in      a, (c)
+        sub     $c0
+        jr      z, sig2
+        ld      a, 1
+sig2    ld      (sdhc), a
 dela    call    cs_high         ; set cs high
 loop3   djnz    loop3
-        inc     b
         dec     h
         jr      nz, loop3
-sigue   djnz    repite
 mmcfin  pop     hl
         pop     bc
 cs_high push    af
@@ -98,12 +104,6 @@ cs_high push    af
 cs_hig1 out     (OUT_PORT), a
         pop     af
         ret
-resetok ld      l, OP_COND      ; Sends OP_COND command
-        call    send5           ; then this byte is ignored.
-        and     a
-        jr      z, dela
-        djnz    resetok         ; if no response, tries to send the entire block 254 more times
-        jr      mmcfin
 send5   out     (c), l          ; sends the command
         out     (c), 0
 send3z  out     (c), 0
@@ -122,7 +122,7 @@ resp_ok pop     bc
         ret
 waittok ld      b, 10                         ; retry counter
 waitl   call    waitr
-        sub     $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
+        cp      $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
         ret     z
         ret     nc
         djnz    waitl
