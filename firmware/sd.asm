@@ -44,7 +44,7 @@ l_init  out     (c), h
         call    cs_low          ; set cs low
         ld      h, $95
         call    send5
-fail    dec     a               ; MMC should respond 01 to this command
+        dec     a               ; MMC should respond 01 to this command
         jr      nz, mmcfin      ; fail to reset
         ld      l, CMD8
         out     (c), l          ; sends the command
@@ -63,10 +63,10 @@ repite  ld      l, CMD55
         out     (c), l
         out     (c), h
         call    send3z
-        or      a
+        and     a
         jr      z, dela
         djnz    repite
-        jr      fail
+        jr      mmcfin
 ;sigue   ld      l, $7a
 ;        call    send5
 ;        in      a, (c)
@@ -82,7 +82,7 @@ resetok ld      l, OP_COND      ; Sends OP_COND command
         and     a
         jr      z, dela
         djnz    resetok         ; if no response, tries to send the entire block 254 more times
-        jr      fail
+        jr      mmcfin
 dela    call    cs_high         ; set cs high
 loop3   djnz    loop3
         dec     h
@@ -112,7 +112,7 @@ resp_ok pop     bc
         ret
 waittok ld      b, 10                         ; retry counter
 waitl   call    waitr
-        cp      $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
+        sub     $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
         ret     z
         ret     nc
         djnz    waitl

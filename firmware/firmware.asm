@@ -1274,7 +1274,7 @@ upgra6  dec     h
         di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
-        wreg    scandblctrl, $80
+        ;wreg    scandblctrl, $80
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2

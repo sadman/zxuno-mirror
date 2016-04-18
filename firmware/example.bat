@@ -1,7 +1,7 @@
 sjasmplus example.asm
 gentape example.tap basic "EXAMPLE" 0 example.bin
-cgleches example.tap example.wav 3
-example.wav
+rem cgleches example.tap example.wav 3
+rem example.wav
 rem cd \_Downloads\ZEsarUX_win-4.0\
 rem zesarux --nosplash --noautoload --nowelcomemessage ^
 rem         --zxunospiwriteenable --quickexit --enableulaplus ^
