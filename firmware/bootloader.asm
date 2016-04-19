@@ -114,7 +114,7 @@ ldsync  ld      b, $c9          ; two edges must be spaced apart.
         jr      z, binf
         xor     3
         ld      c, a
-ldloop  ld      (ix+2), l       ; place loaded byte at memory location.
+ldloop  ld      (ix-2), l       ; place loaded byte at memory location.
         inc     ix              ; increment byte pointer.
         dec     de              ; decrement length.
         ld      l, $01          ; initialize as %00000001
