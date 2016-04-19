@@ -9,6 +9,7 @@
         define  master_mapper   1
         define  flash_spi       2
         define  flash_cs        3
+        define  joystick        6
         di
         ld      bc, zxuno_port + $100
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
@@ -61,21 +62,24 @@ boot    ini
         inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
         jr      c, boot         ; repito si no lo es
+        wreg    joystick, %00100000     ; desactivamos spi, enviando un 0
         dec     b
         out     (c), h          ; a master_conf quiero enviar un 0 para pasar
         in      a, ($1f)
         or      %11100111       ; arriba y disparo a la vez
         inc     a
         inc     b
-        ld      de, $bffc-61
-        push    de
-        ret     nz
         jr      nbreak
+        nop
+        nop
 
 nmi66   jp      $c000
         retn
 
-nbreak  ld      de, $0051
+nbreak  ld      de, $bffc-61
+        push    de
+        ret     nz
+        ld      de, $0051
         ld      ixh, e
         call    lbytes
         ld      ix, $c000
