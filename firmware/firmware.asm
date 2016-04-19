@@ -1449,13 +1449,6 @@ bucap   push    hl
         pop     ix
         jr      nz, bucap
         jp      enbur
-;  jp hhhh
-;hhhh    ld      de, cad55+19
-;        call    alto wtohex
-;        ld      ix, cad55
-;        ld      bc, $0016
-;        call    alto prnstr-1
-;binf jr binf        
 
 testl   ld      hl, ($c01c)
         ld      a, (ix+$1e)           ; third byte of length
@@ -1559,9 +1552,23 @@ filena  defb    'FLASH      '
 
         include sd.asm
 
-upgra7  ;call    popupw
-        ;defw    cad23
-        ;defw    $ffff
+upgra7  ld      hl, $0040 ; first zero in ROM
+        call    popupw
+        defw    cad80
+        defw    cad81
+        defw    $ffff
+        or      a
+        ld      hl, $1201
+        ld      (corwid), hl
+        ld      a, %00111001
+        ld      (colcmb), a
+        ret     nz
+;hhhh    ld      de, cad55+19
+;        call    alto wtohex
+;        ld      ix, cad55
+;        ld      bc, $0016
+;        call    alto prnstr-1
+;binf jr binf        
 
   ;ld      sp, stack-2
         call    loadta
@@ -3991,6 +3998,9 @@ cad76   defb    'Be quiet, avoid brick', 0
 cad77   defb    'SD or partition error', 0
 cad78   defb    'Not found or bad size', 0
 cad79   defb    ' Successfully burned ', 0
+cad80   defb    'EAR input', 0
+cad81   defb    'SD file', 0
+
 fincad
 
 ; todo
