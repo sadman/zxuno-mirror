@@ -63,26 +63,19 @@ boot    ini
         jr      c, boot         ; repito si no lo es
         dec     b
         out     (c), h          ; a master_conf quiero enviar un 0 para pasar
-        ld      a, $f7
-        in      a, ($fe)
-        rrca
-        rrca
-        ld      e, a
-        ld      a, $fe
-        in      a, ($fe)
+        in      a, ($1f)
+        or      %11100111       ; arriba y disparo a la vez
+        inc     a
+        inc     b
+        ld      de, $bffc-61
+        push    de
+        ret     nz
         jr      nbreak
 
 nmi66   jp      $c000
         retn
 
-nbreak  or      e
-        rrca
-        inc     b
-        ld      de, $bffc-61
-        push    de
-;        ret     nc
-        ret     c
-        ld      de, $0051
+nbreak  ld      de, $0051
         ld      ixh, e
         call    lbytes
         ld      ix, $c000
