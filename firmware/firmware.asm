@@ -1559,7 +1559,11 @@ filena  defb    'FLASH      '
 
         include sd.asm
 
-upgra7  ;ld      sp, stack-2
+upgra7  ;call    popupw
+        ;defw    cad23
+        ;defw    $ffff
+
+  ;ld      sp, stack-2
         call    loadta
         jr      nc, upgra8
         ld      hl, (menuop+1)
