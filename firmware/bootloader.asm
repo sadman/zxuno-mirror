@@ -10,18 +10,21 @@
         define  flash_spi       2
         define  flash_cs        3
         define  joyconf         6
-        di
-        ld      bc, zxuno_port + $100
-        wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
-        ld      sp, $bfff-61
-        xor     a               ; byte mas significativo de direccion
-        wreg    master_mapper, 8  ; paginamos la ROM en $c000
-        jr      cont
+
+        ld      sp, $bfff-81
+        ld      de, $c761       ; tras el out (c), h de bffc se ejecuta
+        push    de              ; un rst 0 para iniciar la nueva ROM
+        ld      de, $ed80       ; en $bffc para evitar que el cambio de ROM
+        push    de              ; colisione con la siguiente instruccion
+        ld      bc, $bffc-81
+        jr      lspi
 
 ldedg2  rst     $18             ; call routine ld-edge-1 below.
-        ret     z               ; return if space pressed or time-out.
-        jr      ldedg1
-        defb    '2016'
+        jr      nz, ldedg1
+lspi2   out     (c), h          ; a master_conf quiero enviar un 0 para pasar
+        inc     b
+        xor     a
+        ret
 
 ldedg1  ld      a, $16          ; a delay value of twenty two.
 ldelay  dec     a               ; decrement counter
@@ -48,38 +51,34 @@ rst30   pop     hl
         jp      (hl)
 
 rst38   jp      $c003
-cont    wreg    flash_cs, 0     ; activamos spi, enviando un 0
+
+lspi    di
+        push    bc
+        ld      bc, zxuno_port + $100
+        wreg    joyconf, %00010000
+        in      a, ($1f)
+        or      %11100111       ; arriba y disparo a la vez
+        inc     a
+        jr      z, ltape
+        wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
+        xor     a               ; byte mas significativo de direccion
+        wreg    master_mapper, 8  ; paginamos la ROM en $c000
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
         out     (c), a          ; envia direccion 008000, a=00,e=80,a=00
-        ld      de, $c761       ; tras el out (c), h de bffc se ejecuta
-        push    de              ; un rst 0 para iniciar la nueva ROM
-        ld      de, $ed80       ; en $bffc para evitar que el cambio de ROM
-        push    de              ; colisione con la siguiente instruccion
         add     hl, sp
         out     (c), e
         out     (c), a
-boot    ini
+lspi1   ini
         inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
-        jr      c, boot         ; repito si no lo es
-        wreg    joyconf, %00010000
-        dec     b
-        out     (c), h          ; a master_conf quiero enviar un 0 para pasar
-        in      a, ($1f)
-        or      %11100111       ; arriba y disparo a la vez
-        inc     b
-        inc     a
-        jr      nbreak
-        nop
-        nop
+        jr      c, lspi1        ; repito si no lo es
+        jr      lspi2-1
 
 nmi66   jp      $c000
         retn
 
-nbreak  ld      de, $bffc-61
-        push    de
-        ret     nz
-        ld      de, $0051+2
+ltape   ld      de, $0051+2
         ld      ixh, e
         call    lbytes
         ld      ix, $c000
