@@ -1,5 +1,6 @@
-        output  firmware_strings.rom
+        define  version         4
 
+        output  firmware_strings.rom
       macro wreg  dir, dato
         rst     $30
         defb    dir, dato
@@ -1385,7 +1386,7 @@ rotp    call    readat0               ; read 512 bytes of entries (16 entries)
         djnz    rotp
 erfnf   ld      ix, cad78
 terror  jr      ferror
-saba    sub     $20
+saba    sub     $31
         jr      nz, erfnf
         call    testl
         jr      nz, erfnf             ; wrong length
@@ -1465,7 +1466,7 @@ otve    call    readata
 erfnf2  jp      erfnf
 sabe    pop     bc
         pop     hl
-        sub     $20
+        sub     $31
         jr      nz, erfnf2
         call    testl
         jr      nz, erfnf2
@@ -4098,11 +4099,37 @@ cad78   defb    'Not found or bad size', 0
 cad79   defb    ' Successfully burned ', 0
 cad80   defb    'EAR input', 0
 cad81   defb    'SD file', 0
-files   defb    'ESXDOS     '
-        defb    'FIRMWARE   '
-        defb    'FLASH      '
-        defb    'SPECTRUM   '
-fileco  defb    'CORE       '
+      IF version=4
+files   defb    'ESXDOS  ZX1'
+        defb    'FIRMWAREZX1'
+        defb    'FLASH   ZX1'
+        defb    'SPECTRUMZX1'
+fileco  defb    'CORE    ZX1'
+      ELSE
+      IF version=3
+files   defb    'ESXDOS  ZZ3'
+        defb    'FIRMWAREZZ3'
+        defb    'FLASH   ZZ3'
+        defb    'SPECTRUMZZ3'
+fileco  defb    'CORE    ZZ3'
+      ELSE
+      IF version=2
+files   defb    'ESXDOS  ZZ2'
+        defb    'FIRMWAREZZ2'
+        defb    'FLASH   ZZ2'
+        defb    'SPECTRUMZZ2'
+fileco  defb    'CORE    ZZ2'
+      ELSE
+      IF version=1
+files   defb    'ESXDOS  ZXA'
+        defb    'FIRMWAREZXA'
+        defb    'FLASH   ZXA'
+        defb    'SPECTRUMZXA'
+fileco  defb    'CORE    ZXA'
+      ENDIF
+      ENDIF
+      ENDIF
+      ENDIF
 
 cad100  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
