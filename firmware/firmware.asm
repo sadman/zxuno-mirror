@@ -1342,7 +1342,10 @@ tosd3   inc     hl
         ldi
 tosd4   add     $2d
         ld      (fileco+4), a
-        ld      c, SPI_PORT
+        cp      '1'
+        jr      nz, tosd5
+        dec     (ix+$1c)
+tosd5   ld      c, SPI_PORT
         pop     de
         pop     af
         sub     $0b
@@ -1360,8 +1363,35 @@ ferror  ld      bc, zxuno_port+$100
         wreg    scandblctrl, 0
         ld      bc, $090d
         call_prnstr
+        ld      a, cad80 & $ff
+        cp      ixl
         ei
-        jp      waitky
+twaitk  jp      nz, waitky
+        ld      a, (menuop+1)
+        sub     4
+        jr      c, twaitk
+        call    alto readna
+        ld      ix, cad82
+        ld      bc, $090a
+        call_prnstr
+        ld      a, %00000111    ; fondo negro tinta blanca
+        ld      hl, $060b
+        ld      de, $1201
+        call    window
+        ld      bc, $080b
+        ld      hl, $20ff
+        call    inputv
+        ld      a, (items)
+        add     a, empstr&$ff
+        ld      l, a
+        ld      h, empstr>>8
+        ld      bc, $20
+        ld      (hl), c
+        ld      l, empstr&$ff
+        ld      de, tmpbuf+$31
+        ldir
+        jp      savena
+
 fat16   ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
         add     hl, de                ; LBA address+reserved
         ld      (items), hl           ; write FAT table address
@@ -1385,7 +1415,7 @@ rotp    call    readat0               ; read 512 bytes of entries (16 entries)
         jr      z, saba               ; if found ($20) or EOF ($00), exit
         djnz    rotp
 erfnf   ld      ix, cad78
-terror  jr      ferror
+terror jp      ferror
 saba    sub     $31
         jr      nz, erfnf
         call    testl
@@ -1614,17 +1644,23 @@ sdtab   defw    $0020, $0040
 
         include sd.asm
 
-upgra7  ld      hl, $0040 ; first zero in ROM
-        call    popupw
+upgra7  ld      hl, items
+        ld      (hl), b
+upgr75  call    popupw
         defw    cad80
         defw    cad81
         defw    $ffff
-        or      a
-        ld      hl, $1201
-        ld      (corwid), hl
+        ld      a, (codcnt)
+        sub     $0e
+        jr      nc, upgr75
+        inc     a
+        ld      de, $1201
+        ld      (corwid), de
         ld      a, %00111001
         ld      (colcmb), a
-        jp      nz, tosd
+        ret     nz
+        dec     (hl)
+        jp      z, tosd
 
         call    loadta
         jr      nc, upgra8
@@ -1706,11 +1742,7 @@ upgrad  jr      nz, upgraa
 upgrae  call    calbit
         push    hl
         call    prstat
-        ld      bc, zxuno_port+$100
-        ld      de, bnames
-        ld      hl, $0071
-        ld      a, 1
-        call    alto rdflsh
+        call    alto readna
         push    iy
 upgrag  ld      a, (tmpbuf+$65 & $ff)*2
         sub     iyh
@@ -1752,19 +1784,8 @@ upgrai  ld      a, 30
         exx
         dec     iyh
         jr      nz, upgrai
-        ld      a, (menuop+1)
-        sub     3
-        jr      c, upgraj
-        ld      d, bnames>>8
-        rrca
-        rrca
-        rrca
-        ld      e, a
-        ld      hl, tmpbuf+$31
-        ld      bc, 32
-        ldir
-        call    savech
-upgraj  call    shaoff
+        call    savena
+        call    shaoff
         call    romcyb
         ld      ix, cad57
         jp      roms13
@@ -2718,6 +2739,18 @@ calcu   add     hl, hl
         add     hl, hl
         ret
 
+savena  ld      a, (menuop+1)
+        sub     4
+        ret     c
+        ld      d, bnames>>8
+        rrca
+        rrca
+        rrca
+        ld      e, a
+        ld      hl, tmpbuf+$31
+        ld      bc, 32
+        ldir
+
 ; ------------------------
 ; Save flash structures from $9000 to $06000 and from $a000 to $07000 
 ; ------------------------
@@ -3286,6 +3319,11 @@ saveme  ld      bc, zxuno_port+$100
         pop     bc
         wreg    master_conf, 0
         ret
+
+readna  ld      bc, zxuno_port+$100
+        ld      de, bnames
+        ld      hl, $0071
+        ld      a, 1
 
 ; ------------------------
 ; Read from SPI flash
@@ -4099,6 +4137,7 @@ cad78   defb    'Not found or bad size', 0
 cad79   defb    ' Successfully burned ', 0
 cad80   defb    'EAR input', 0
 cad81   defb    'SD file', 0
+cad82   defb    'Input machine\'s name', 0
       IF version=4
 files   defb    'ESXDOS  ZX1'
         defb    'FIRMWAREZX1'
