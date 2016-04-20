@@ -17,7 +17,7 @@ readata ld      a, READ_SINGLE  ; Command code for multiple block read
         call    cs_low          ; set cs high
         out     (c), a
         ld      a, (sdhc)
-        dec     a
+        or      a
         push    hl
         jr      z, mul2
         out     (c), 0
@@ -40,7 +40,7 @@ mul3    and     a
         jr      nz, readsal
         push    ix
         pop     hl              ; INI usa HL come puntatore
-        ld      b, a
+        ld      b, 0
         inir
         inir
 readsal pop     bc
@@ -83,15 +83,15 @@ repite  ld      l, CMD55
 resetok ld      l, OP_COND      ; Sends OP_COND command
         call    send5           ; then this byte is ignored.
         and     a
-        jr      z, dela
+        jr      z, sig2
         djnz    resetok         ; if no response, tries to send the entire block 254 more times
         jr      fail
 sigue   ld      l, CMD58
         call    send5
         in      a, (c)
-        sub     $c0
+        cp      $c0
         jr      z, sig2
-        ld      a, 1
+        xor     a
 sig2    ld      (sdhc), a
 dela    call    cs_high         ; set cs high
 loop3   djnz    loop3

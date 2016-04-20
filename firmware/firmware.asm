@@ -1258,7 +1258,8 @@ upgra5  jp      nz, main6
 upgra6  dec     h
         dec     h
         jp      nz, upgra7
-        ld      ix, cad75
+
+tosd    ld      ix, cad75
         call    prnhel
         call    imyesn
         ld      ix, cad445
@@ -1276,7 +1277,7 @@ upgra6  dec     h
         di
         ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
-        wreg    scandblctrl, $80
+;        wreg    scandblctrl, $80
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
@@ -1342,13 +1343,13 @@ bucop   push    hl                    ; save current cluster
         pop     hl                    ; recover current cluster
         push    ix                    ; save buffer position
         ld      ix, tmpbuf+$200       ; small buffer to read FAT
-        push    hl                    ; hl= hhhhhhhh llllllll
+        push    hl
         ld      l, h
-        ld      h, 0                  ; hl= 00000000 hhhhhhhh
+        ld      h, 0
         ld      de, (items)           ; fat address
         call    addclus
         call    readat0
-        pop     hl                    ; hl= hhhhhhhh llllllll
+        pop     hl
         ld      h, (tmpbuf+$200)>>9   ; hl= fatad/2  llllllll
         add     hl, hl                ; hl= (fatad)l lllllll0
         ld      a, (hl)
@@ -1562,15 +1563,8 @@ upgra7  ld      hl, $0040 ; first zero in ROM
         ld      (corwid), hl
         ld      a, %00111001
         ld      (colcmb), a
-        ret     nz
-;hhhh    ld      de, cad55+19
-;        call    alto wtohex
-;        ld      ix, cad55
-;        ld      bc, $0016
-;        call    alto prnstr-1
-;binf jr binf        
+        jp      nz, tosd
 
-  ;ld      sp, stack-2
         call    loadta
         jr      nc, upgra8
         ld      hl, (menuop+1)
@@ -2961,6 +2955,50 @@ get16   ld      b, 0
         jr      nc, get16
         ret
 
+hhhh    push    af
+        push    bc
+        push    de
+        push    hl
+        push    ix
+        push    iy
+        pop     hl
+        push    hl
+        ld      de, cad100+44
+        call    alto wtohex
+        ld      iy, 0
+        add     iy, sp
+        ld      l, (iy+2)
+        ld      h, (iy+3)
+        ld      de, cad100+37
+        call    alto wtohex
+        ld      l, (iy+4)
+        ld      h, (iy+5)
+        ld      de, cad100+23
+        call    alto wtohex
+        ld      l, (iy+6)
+        ld      h, (iy+7)
+        ld      de, cad100+16
+        call    alto wtohex
+        ld      l, (iy+8)
+        ld      h, (iy+9)
+        ld      de, cad100+9
+        call    alto wtohex
+        ld      l, (iy+10)
+        ld      h, (iy+11)
+        ld      de, cad100+2
+        call    alto wtohex
+        ld      ix, cad100
+        ld      bc, $0030
+        call    alto prnstr-1
+        pop     iy
+        pop     ix
+        pop     hl
+        pop     de
+        pop     bc
+        pop     af
+        ret
+;binf jr binf        
+
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
@@ -3992,7 +4030,7 @@ cad74   defb    'Kempston     Fuller', 0
         defb    'c'+$80, 'ZXCVBNMsb'
         defb    'o'+$80, $1c, $1d, $1e, $1f, $1f, $1e, $1d, $1c, 'o', $80
 cad75   defb    'Insert SD with', 0
-        defb    'FLASH file on', 0
+        defb    'the file on', 0
         defb    'root', 0, 0
 cad76   defb    'Be quiet, avoid brick', 0
 cad77   defb    'SD or partition error', 0
@@ -4000,6 +4038,8 @@ cad78   defb    'Not found or bad size', 0
 cad79   defb    ' Successfully burned ', 0
 cad80   defb    'EAR input', 0
 cad81   defb    'SD file', 0
+
+cad100  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
 fincad
 
