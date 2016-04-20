@@ -1283,9 +1283,67 @@ tosd    ld      ix, cad75
         ld      ix, tmpbu2
         call    readat0
         jr      nz, errsd
+
+
+;    inc hl
+;    inc hl
+;    inc hl
+;      ld      b, (hl)
+;      inc l
+;      ld      c, (hl)
+;      dec l
+;      ld      de, (tmpbu2+$1a)
+;  call hhhh
+;  jr $
+;tmpbu2+$1a   apunta a nombre
+;tmpbu2+$1c   longitud total en paginas
+;tmpbu2+$1e   dirección spi actual
+;       ld      e, 0
         ld      b, e
         ld      hl, (tmpbu2+$1c6)     ; read LBA address of 1st partition
         ld      a, (tmpbu2+$1c2)      ; read partition type
+        push    af
+        call    readata               ; read boot sector with BPB
+        push    hl
+        ld      a, (menuop+1)
+        ld      b, a
+        inc     a
+        dec     b
+        dec     b
+        call    calbi1
+        ld      (tmpbu2+$1e), hl
+        ld      b, a
+        ld      hl, sdtab-4
+        cp      4
+        push    af
+        jr      c, tosd1
+        ld      b, 4
+tosd1   cp      b
+        ld      a, files&$ff
+        jr      z, tosd3
+tosd2   add     a, 11
+tosd3   inc     hl
+        inc     hl
+        inc     hl
+        inc     hl
+        djnz    tosd2
+        ld      de, tmpbu2+$1a
+        ld      (de), a
+        inc     de
+        ld      a, files>>8
+        ld      (de), a
+        inc     de
+        ldi
+        ldi
+        pop     af
+        jr      nc, tosd4
+        ldi
+        ldi
+tosd4   add     $2d
+        ld      (fileco+4), a
+        ld      c, SPI_PORT
+        pop     de
+        pop     af
         sub     $0b
         sub     2
         jp      c, fat32              ; 0b,0c -> FAT32
@@ -1303,9 +1361,7 @@ ferror  ld      bc, zxuno_port+$100
         call_prnstr
         ei
         jp      waitky
-fat16   call    readata               ; read boot sector with BPB
-        ex      de, hl
-        ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
+fat16   ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
         add     hl, de                ; LBA address+reserved
         ld      (items), hl           ; write FAT table address
         ex      de, hl
@@ -1362,9 +1418,7 @@ bucop   push    hl                    ; save current cluster
         jr      nz, bucop
 enbur   ld      ix, cad79
         jr      terror
-fat32   call    readata               ; read boot sector with BPB
-        ex      de, hl
-        ld      hl, (tmpbu2+$e)       ; count of reserved logical sectors
+fat32   ld      hl, (tmpbu2+$e)       ; count of reserved logical sectors
         add     hl, de
         ld      (items), hl           ; write fat address
         ex      de, hl
@@ -1451,11 +1505,14 @@ bucap   push    hl
         jr      nz, bucap
         jp      enbur
 
-testl   ld      hl, ($c01c)
-        ld      a, (ix+$1e)           ; third byte of length
-        sub     $40
-        or      l
-        or      h
+testl   or      a, (ix+$1c)           ; third byte of length
+        ret     nz
+        push    de
+        ld      e, (ix+$1d)
+        ld      d, (ix+$1e)
+        ld      hl, (tmpbu2+$1c)
+        sbc     hl, de
+        pop     de
         ret
 
 calcs   call    decbhl
@@ -1491,7 +1548,7 @@ bubi    push    bc
         ld      a, (hl)
         or      a
         jr      z, sali
-        ld      de, filena
+        ld      de, (tmpbu2+$1a)
         push    hl
 buub    ld      a, (de)
         cp      (hl)
@@ -1549,7 +1606,10 @@ putc0   inc     hl
         pop     bc
         ret
 
-filena  defb    'FLASH      '
+sdtab   defw    $0020, $0040
+        defw    $0040, $0080
+        defw    $4000, $0000
+        defw    $0540;, $0580
 
         include sd.asm
 
@@ -1890,7 +1950,7 @@ imyesn  call    bloq1
 ;   HL: address of bitstream
 ; ------------------------------------
 calbit  inc     b
-        ld      hl, $0040
+calbi1  ld      hl, $0040
         ld      de, $0540
 upgraf  add     hl, de
         djnz    upgraf
@@ -4038,6 +4098,11 @@ cad78   defb    'Not found or bad size', 0
 cad79   defb    ' Successfully burned ', 0
 cad80   defb    'EAR input', 0
 cad81   defb    'SD file', 0
+files   defb    'ESXDOS     '
+        defb    'FIRMWARE   '
+        defb    'FLASH      '
+        defb    'SPECTRUM   '
+fileco  defb    'CORE       '
 
 cad100  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
