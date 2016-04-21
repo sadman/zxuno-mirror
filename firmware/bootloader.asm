@@ -1,5 +1,5 @@
       macro wreg  dir, dato
-        rst     $30
+        rst     $28
         defb    dir, dato
       endm
 
@@ -11,20 +11,19 @@
         define  flash_cs        3
         define  joyconf         6
 
-        ld      sp, $bfff-81
+        ld      sp, $bfff-78
         ld      de, $c761       ; tras el out (c), h de bffc se ejecuta
         push    de              ; un rst 0 para iniciar la nueva ROM
         ld      de, $ed80       ; en $bffc para evitar que el cambio de ROM
         push    de              ; colisione con la siguiente instruccion
-        ld      bc, $bffc-81
+        ld      bc, $bffc-78
         jr      lspi
 
 ldedg2  rst     $18             ; call routine ld-edge-1 below.
         jr      nz, ldedg1
-lspi2   out     (c), h          ; a master_conf quiero enviar un 0 para pasar
-        inc     b
-        xor     a
         ret
+
+        defm    '2016'
 
 ldedg1  ld      a, $16          ; a delay value of twenty two.
 ldelay  dec     a               ; decrement counter
@@ -32,37 +31,32 @@ ldelay  dec     a               ; decrement counter
 lsampl  inc     b               ; increment the time-out counter.
         ret     z               ; return with failure when $ff passed.
         in      a, ($fe)        ; row $7ffe. bit 6 is ear, bit 0 is space key.
-        rra
         xor     c               ; compare with initial long-term state.
-        and     $20             ; isolate bit 5
+        and     $40             ; isolate bit 5
         jr      z, lsampl       ; back to ld-sample if no edge.
-        ld      a, c            ; fetch comparison value.
-        xor     $27             ; switch the bits
-        ld      c, a            ; and put back in c for long-term.
-        out     ($fe), a        ; send to port to effect the change of colour. 
-        ret                     ; return.
-        nop
-        nop
+        jr      lcont
 
-rst30   pop     hl
+rst28   ld      bc, zxuno_port + $100
+        pop     hl
         outi
         ld      b, (zxuno_port >> 8)+2
         outi
         jp      (hl)
 
+        defm    'ZXUno'
+
 rst38   jp      $c003
 
 lspi    di
         push    bc
-        ld      bc, zxuno_port + $100
         wreg    joyconf, %00010000
+        wreg    master_mapper, 8  ; paginamos la ROM en $c000
         in      a, ($1f)
         or      %11100111       ; arriba y disparo a la vez
         inc     a
         jr      z, ltape
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
         xor     a               ; byte mas significativo de direccion
-        wreg    master_mapper, 8  ; paginamos la ROM en $c000
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
         out     (c), a          ; envia direccion 008000, a=00,e=80,a=00
@@ -73,21 +67,34 @@ lspi1   ini
         inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
         jr      c, lspi1        ; repito si no lo es
-        jr      lspi2-1
+        dec     b
+here    out     (c), h          ; a master_conf quiero enviar un 0 para pasar
+        inc     b
+        ret
 
 nmi66   jp      $c000
         retn
+
+lcont   ld      a, c            ; fetch comparison value.
+        xor     $47             ; switch the bits
+        ld      c, a            ; and put back in c for long-term.
+        out     ($fe), a        ; send to port to effect the change of colour. 
+        ret                     ; return.
 
 ltape   ld      de, $0051+2
         ld      ixh, e
         call    lbytes
         ld      ix, $c000
         ld      de, $4000+2
+        call    lbytes
+        ld      bc, zxuno_port
+        jr      here
+
 lbytes  ld      a, $0f          ; make the border white and mic off.
         out     ($fe), a        ; output to port.
         ld      c, 10
 lstart  rst     $18             ; routine ld-edge-1
-        jr      z, lstart       ; back to ld-break with time out and no edge present on tape
+        jr      nz, lstart      ; back to ld-break with time out and no edge present on tape
         xor     a               ; set up 8-bit outer loop counter for approx 0.45 second delay
 ldwait  add     hl, hl
         djnz    ldwait          ; self loop to ld-wait (for 256 times)
@@ -132,7 +139,6 @@ binf    jr      z, binf         ; return with time-out.
         jr      nz, ldloop      ; back to ld-loop while there are more.
         or      h
 bin2    jr      nz, bin2
-        ld      bc, zxuno_port + $100
         ret                     ; return
 
 

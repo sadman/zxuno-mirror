@@ -2,11 +2,11 @@
 
         output  firmware_strings.rom
       macro wreg  dir, dato
-        rst     $30
+        rst     $28
         defb    dir, dato
       endm
 
-        define  call_prnstr     rst     $20
+        define  call_prnstr     rst     $18
         define  zxuno_port      $fc3b
         define  master_conf     0
         define  master_mapper   1
@@ -84,13 +84,10 @@
         push    af
         ld      hl, runbit
         ld      de, $b400-chrend+runbit
-        ld      bc, chrend-runbit
-        ldir
-        call    loadch
         ei
         jp      start
 
-rst20   push    bc
+rst18   push    bc
         jp      alto prnstr
 
 jmptbl  defw    main
@@ -100,11 +97,18 @@ jmptbl  defw    main
         defw    advan
         defw    exit
 
-rst30   pop     hl
+rst28   ld      bc, zxuno_port + $100
+        pop     hl
         outi
         ld      b, (zxuno_port >> 8)+2
         outi
         jp      (hl)
+
+        nop
+        nop
+        nop
+        nop
+        nop
 
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
@@ -205,7 +209,10 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
 
-start   im      1
+start   ld      bc, chrend-runbit
+        ldir
+        call    loadch
+        im      1
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
         call    dzx7b
@@ -315,7 +322,6 @@ start5  djnz    start6
         ld      hl, $0017
         ld      de, $2001
         call    window
-        ld      bc, zxuno_port+$100
         wreg    scan_code, $f6  ; $f6 = kb set defaults
         halt
         halt
@@ -438,8 +444,11 @@ bios7   dec     c
         ld      c, (hl)
         inc     l
         ld      b, (hl)
-        ld      l, h
-        ld      h, d
+        ld      e, h
+        call    chcol
+        defw    $1201
+        defb    %00111001
+        ex      de, hl
         push    bc
         ld      de, $0401
         ld      a, %01111001    ; fondo blanco tinta azul
@@ -750,10 +759,7 @@ tape8   add     a, $81
 roms    push    hl
         ld      h, 5
         call    window
-        call    chcol
-        defw    $1201
-        defb    %00111001
-        dec     a               ; fondo blanco tinta negra
+        ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
         ld      d, $12
         call    window
@@ -1262,7 +1268,6 @@ tosd    ld      ix, cad75
         inc     c
         call_prnstr
         di
-        ld      bc, zxuno_port+$100
         wreg    master_conf, 2        ; enable divmmc
 ;        wreg    scandblctrl, $80
         ld      c, SPI_PORT
@@ -1344,8 +1349,7 @@ tosd5   ld      c, SPI_PORT
         sub     2
         jr      c, fat16              ; 04,06,0e -> FAT16
 errsd   ld      ix, cad77
-ferror  ld      bc, zxuno_port+$100
-        wreg    master_conf, 0
+ferror  wreg    master_conf, 0
         wreg    scandblctrl, 0
         ld      bc, $090d
         call_prnstr
@@ -2841,8 +2845,7 @@ savena  ld      a, (menuop+1)
 ; ------------------------
 ; Save flash structures from $9000 to $06000 and from $a000 to $07000 
 ; ------------------------
-savech  ld      bc, zxuno_port+$100
-        ld      a, $20
+savech  ld      a, $20
         ld      hl, config
         exx
         ld      de, $0060   ;old $0aa0
@@ -2852,12 +2855,10 @@ savech  ld      bc, zxuno_port+$100
 ; Parameters:
 ;    A: number of pages (256 bytes) to write
 ;   DE: target address without last byte
-;  BC': zxuno_port+$100 (constant)
 ;  HL': source address from memory
 ; ------------------------
 wrflsh  ex      af, af'
         xor     a
-        ld      bc, zxuno_port+$100
 wrfls1  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
@@ -2921,8 +2922,7 @@ waits6  in      a, (c)
 ; ------------------------
 ; Load flash structures from $06000 to $9000  
 ; ------------------------
-loadch  ld      bc, zxuno_port+$100
-        wreg    flash_cs, 1
+loadch  wreg    flash_cs, 1
         ld      de, config
         ld      hl, $0060   ;old $0aa0
         ld      a, $12
@@ -3255,7 +3255,6 @@ conti2  adc     a, a            ; 0 0 0 /DISCONT TIMING /I2KB /DISNMI DIVEN
         add     a, a            ; 0    0 /DISCONT TIMING /I2KB /DISNMI DIVEN 0
         xor     %10101100 -$80 ;sinlock      ; LOCK 0  DISCONT TIMING  I2KB  DISNMI DIVEN 0
         ld      (alto conti9+1), a
-        ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         and     $02
         jr      z, conti4
@@ -3358,8 +3357,7 @@ conti9  ld      a, 0
 ; Put page A in mode 1 and copies from 4000 to C000
 ;      A: page number
 ; -------------------------------------
-copyme  ld      bc, zxuno_port+$100
-        wreg    master_conf, 1
+copyme  wreg    master_conf, 1
         ld      de, $c000 | master_mapper
         dec     b
         out     (c), e
@@ -3390,8 +3388,7 @@ copyme  ld      bc, zxuno_port+$100
 ; Put page A in mode 1 and copies from C000 to 4000
 ;      A: page number
 ; -------------------------------------
-saveme  ld      bc, zxuno_port+$100
-        wreg    master_conf, 1
+saveme  wreg    master_conf, 1
         ld      hl, $c000 | master_mapper
         dec     b
         out     (c), l
@@ -3407,8 +3404,7 @@ saveme  ld      bc, zxuno_port+$100
         wreg    master_conf, 0
         ret
 
-readna  ld      bc, zxuno_port+$100
-        ld      de, bnames
+readna  ld      de, bnames
         ld      hl, $0071
         ld      a, 1
 
@@ -3486,7 +3482,6 @@ wtohe2  ld      (de), a
 ; ---------------
 ramtst  di
         call    bomain
-        ld      bc, zxuno_port+$100
         wreg    master_conf, 1
         ld      bc, $040b
 ramts2  dec     b
@@ -3536,7 +3531,6 @@ ramts5  inc     hl
         ld      a, iyh
         cp      32
         jr      nz, ramts3
-        ld      bc, zxuno_port+$100
         wreg    master_conf, 0
         ld      bc, $0214
         jp      toanyk
