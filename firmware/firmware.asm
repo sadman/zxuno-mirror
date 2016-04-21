@@ -62,7 +62,13 @@
         define  conten  timing+1
         define  divmap  conten+1
         define  nmidiv  divmap+1
-        define  siemp0  nmidiv+1
+
+        define  layout  nmidiv+1
+        define  joykey  layout+1
+        define  joydb9  joykey+1
+        define  outvid  joydb9+1
+
+        define  siemp0  outvid+1
         define  bnames  $a100
         define  tmpbuf  $a200
         define  tmpbu2  $a280
@@ -91,7 +97,7 @@ jmptbl  defw    main
         defw    roms
         defw    upgra
         defw    upgra
-        defw    menu4
+        defw    advan
         defw    exit
 
 rst30   pop     hl
@@ -1792,10 +1798,96 @@ upgrai  ld      a, 30
 
 ;*** Advanced Menu ***
 ;*********************
-menu4   ld      h, 20
+advan   ld      h, 20
         ld      d, 8
-        call    window
-        jp      main9
+        call    help
+
+        ld      ix, cad83
+        ld      bc, $0202
+        call    prnmul
+        ld      bc, $0f04
+adva1   ld      a, (layout)
+        ld      ix, ca188
+        dec     a
+        jr      nz, adva2
+        ld      ixl, ca189 & $ff
+adva2   dec     a
+        jr      nz, adva3
+        ld      ixl, ca190 & $ff
+adva3   ld      iy, joykey
+adva4   call_prnstr
+        ld      a, (iy)
+        ld      ix, cad24
+        dec     a
+        jp      m, adva8
+        ld      ix, ca195
+        jr      nz, adva5
+        ld      ixl, ca191 & $ff
+adva5   dec     a
+        jr      nz, adva6
+        ld      ixl, ca192 & $ff
+adva6   dec     a
+        jr      nz, adva7
+        ld      ixl, ca193 & $ff
+adva7   dec     a
+        jr      nz, adva8
+        ld      ixl, ca194 & $ff
+adva8   inc     iyl
+        ld      a, iyl
+        rrca
+        jr      c, adva4
+        call_prnstr
+        ld      c, $0b
+        ld      a, (outvid)
+        ld      ix, ca196
+        dec     a
+        jr      nz, adva10
+        ld      ixl, ca197 & $ff
+adva10  dec     a
+        jr      nz, adva11
+        ld      ixl, ca198 & $ff
+adva11  call_prnstr
+        ld      de, $1201
+        call    listas
+        defb    $04
+        defb    $05
+        defb    $06
+        defb    $0b
+        defb    $ff
+        defw    cad84
+        defw    cad85
+        defw    cad86
+        defw    cad87
+        jp      c, main6
+        ld      hl, layout
+        ld      e, a
+        add     hl, de
+        jr      nz, adva12
+        call    popupw
+        defw    cad88
+        defw    cad89
+        defw    cad90
+        defw    $ffff
+        ret
+adva12  sub     3
+        jr      nc, adva13
+        call    popupw
+        defw    cad28
+        defw    cad91
+        defw    cad92
+        defw    cad93
+        defw    cad94
+        defw    cad95
+        defw    $ffff
+        ret
+adva13  call    popupw
+        defw    cad96
+        defw    cad97
+        defw    cad98
+        defw    $ffff
+        ret
+
+
 
 ;****  Exit Menu  ****
 ;*********************
@@ -3057,31 +3149,31 @@ hhhh    push    af
         push    iy
         pop     hl
         push    hl
-        ld      de, cad100+44
+        ld      de, cad199+44
         call    alto wtohex
         ld      iy, 0
         add     iy, sp
         ld      l, (iy+2)
         ld      h, (iy+3)
-        ld      de, cad100+37
+        ld      de, cad199+37
         call    alto wtohex
         ld      l, (iy+4)
         ld      h, (iy+5)
-        ld      de, cad100+23
+        ld      de, cad199+23
         call    alto wtohex
         ld      l, (iy+6)
         ld      h, (iy+7)
-        ld      de, cad100+16
+        ld      de, cad199+16
         call    alto wtohex
         ld      l, (iy+8)
         ld      h, (iy+9)
-        ld      de, cad100+9
+        ld      de, cad199+9
         call    alto wtohex
         ld      l, (iy+10)
         ld      h, (iy+11)
-        ld      de, cad100+2
+        ld      de, cad199+2
         call    alto wtohex
-        ld      ix, cad100
+        ld      ix, cad199
         ld      bc, $0030
         call    alto prnstr-1
         pop     iy
@@ -3878,7 +3970,7 @@ l3eff   in      l,(c)
 ;++++++++++++               +++++++++++++
 ;++++++++++++++++++++++++++++++++++++++++
 ;++++++++++++++++++++++++++++++++++++++++
-        block   $8000-$
+        block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
         defm    'ZX-Uno BIOS v0.315', 0
@@ -4038,7 +4130,6 @@ cad41   defb    'Discard Chan-', 0
         defb    'far to any of', 0
         defb    'the setup', 0
         defb    'options', 0, 0
-
 cad45   defb    'Header:', 0
 cad46   defb    $12, ' Exit Without Saving ', $11, $13, 0
         defb    $10, '                      ', $10, 0
@@ -4169,8 +4260,51 @@ fileco  defb    'CORE    ZXA'
       ENDIF
       ENDIF
       ENDIF
+cad83   defb    'Input', 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+        defb    $11, $11, $11, $11, 0
+        defb    'Keyb Layout', 0
+        defb    'Joy Keypad', 0
+        defb    'Joy DB9', 0
+        defb    ' ', 0
+        defb    ' ', 0
+        defb    'Output', 0
+        defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
+        defb    'Video', 0, 0
+cad84   defb    'Select PS/2', 0
+        defb    'mapping to', 0
+        defb    'spectrum', 0, 0
+cad85   defb    'Simulated', 0
+        defb    'joystick', 0
+        defb    'configuration', 0, 0
+cad86   defb    'Real joystick', 0
+        defb    'configuration', 0, 0
+cad87   defb    'Select default', 0
+        defb    'video output', 0, 0
+cad88   defb    'Spanish', 0
+cad89   defb    'English', 0
+cad90   defb    'Spectrum', 0
+cad91   defb    'Kempston', 0
+cad92   defb    'SJS1', 0
+cad93   defb    'SJS2', 0
+cad94   defb    'Protek', 0
+cad95   defb    'Fuller', 0
+cad96   defb    'PAL', 0
+cad97   defb    'NTSC', 0
+cad98   defb    'VGA', 0
+ca188   defb    '[Spanish]', 0
+ca189   defb    '[English]', 0
+ca190   defb    '[Spectrum]', 0
+ca191   defb    '[Kempston]', 0
+ca192   defb    '[SJS1]', 0
+ca193   defb    '[SJS2]', 0
+ca194   defb    '[Protek]', 0
+ca195   defb    '[Fuller]', 0
+ca196   defb    '[PAL]', 0
+ca197   defb    '[NTSC]', 0
+ca198   defb    '[VGA]', 0
 
-cad100  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
+cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
 fincad
 

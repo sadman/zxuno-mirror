@@ -87,6 +87,11 @@ l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
         defb    $02             ; Contended
         defb    $02             ; DivMMC
         defb    $02             ; NMI-DivMMC
+        defb    $00             ; layout
+        defb    $00             ; joykey
+        defb    $00             ; joydb9
+        defb    $00             ; outvid
+
         defb    0   ; para que not implemented sea 0
 
 ; 64 entradas
