@@ -1,15 +1,16 @@
         output  06000.bin
 
         define  Issue2  $00
-        define  Issue3  $10
+        define  Issue3  $20
         define  Tim48   $00
-        define  Tim128  $08
+        define  Tim128  $01
+        define  TimPen  $02
         define  NonContended $00
-        define  Contended    $04
+        define  Contended    $10
         define  DisableDiv   $00
-        define  EnableDiv    $02
+        define  EnableDiv    $08
         define  DisableNMI   $00
-        define  EnableNMI    $01
+        define  EnableNMI    $04
 
       macro Generic  slot, crc1, crc2, cadena, par1, par2, par3, par4, par5, par6
         defb    slot, par1, par2, par3, par4, par5, par6, $ff
@@ -77,13 +78,11 @@ l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
         defb    $00             ; active
-        ;defb    $00             ; keybly
-        ;defb    $00             ; joysly
         defb    $00             ; bitstream
         defb    $00             ; quiet
         defb    $01             ; checkcrc
         defb    $02             ; Issue
-        defb    $02             ; Timing
+        defb    $03             ; Timing
         defb    $02             ; Contended
         defb    $02             ; DivMMC
         defb    $02             ; NMI-DivMMC

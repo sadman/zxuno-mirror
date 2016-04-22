@@ -49,7 +49,8 @@ int main(int argc, char *argv[]) {
     "  <params>       Set 5 flags parameters, combinable\n"
     "     0           Default values Issue3, Tim48K, Contended, Disabled Div & NMI\n"
     "     i           Change Issue2\n"
-    "     t           Force Timming to 128\n"
+    "     t           Force Timing to 128\n"
+    "     p           Force Timing to Pentagon\n"
     "     c           Disable Contention\n"
     "     d           Enable DivMMC\n"
     "     n           Enable NMI-DivMMC\n"
@@ -122,11 +123,12 @@ int main(int argc, char *argv[]) {
   mem[0x400c]= 0b00010100;
   for ( i= 0; i<strlen(argv[1]); i++ )
     switch( argv[1][i] ){
-      case 'i': mem[0x400c]^= 0b00010000; break;
-      case 't': mem[0x400c]^= 0b00001000; break;
-      case 'c': mem[0x400c]^= 0b00000100; break;
-      case 'd': mem[0x400c]^= 0b00000010; break;
-      case 'n': mem[0x400c]^= 0b00000001;
+      case 'i': mem[0x400c]^= 0b00100000; break;
+      case 'c': mem[0x400c]^= 0b00010000; break;
+      case 'd': mem[0x400c]^= 0b00001000; break;
+      case 'n': mem[0x400c]^= 0b00000100; break;
+      case 'p': mem[0x400c]^= 0b00000010; break;
+      case 't': mem[0x400c]^= 0b00000001;
     }
   for ( i= 0; i<32 && i<strlen(argv[6]); i++ )
     mem[i+0x4006+0x32]= argv[6][i];

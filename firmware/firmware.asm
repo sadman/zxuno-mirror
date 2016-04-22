@@ -511,6 +511,7 @@ main2   call    showop
 main3   call    showop
         defw    cadv3
         defw    cadv4
+        defw    cadv5
         defw    cadv2
         defw    $ffff
 main4   call    showop
@@ -572,6 +573,7 @@ main6   dec     a
         call    popupw          ; timming
         defw    cadv3
         defw    cadv4
+        defw    cadv5
         defw    cadv2
         defw    $ffff
         ret
@@ -3101,49 +3103,52 @@ conti   di
         push    hl
         pop     ix
         ld      d, (ix+6)
-        ld      hl, conten
-        rr      (hl)
-        jr      z, ccon1
-        bit     2, d
-        jr      z, ccon1
-        ccf
-ccon1   adc     a, a            ; 0 0 0 0 0 0 0 /DISCONT
-        dec     l
-        rr      (hl)
+        ld      hl, timing
+        ld      a, 3
+        cp      (hl)            ; timing
+        ld      b, (hl)
+        jr      nz, ccon1
+        ld      b, d
+ccon1   and     b               ; 0 0 0 0 0 0 MODE1 MODE0
+        rrca                    ; MODE0 0 0 0 0 0 0 MODE1
+        inc     l
+        rr      (hl)            ; conten
         jr      z, ccon2
-        bit     3, d
-        jr      z, ccon2
-        ccf
-ccon2   adc     a, a            ; 0 0 0 0 0 0 /DISCONT TIMING
-        dec     l
-        rr      (hl)
-        jr      z, ccon3
         bit     4, d
+        jr      z, ccon2
+        ccf
+ccon2   adc     a, a            ; 0 0 0 0 0 0 MODE1 /DISCONT
+        ld      l, keyiss & $ff
+        rr      b
+        adc     a, a            ; 0 0 0 0 0 MODE1 /DISCONT MODE0
+        rr      (hl)            ; keyiss
+        jr      z, ccon3
+        bit     5, d
         jr      z, ccon3
         ccf
-ccon3   adc     a, a            ; 0 0 0 0 0 /DISCONT TIMING /I2KB
+ccon3   adc     a, a            ; 0 0 0 0 MODE1 /DISCONT MODE0 /I2KB
         ld      l, nmidiv & $ff
-        rr      (hl)
+        rr      (hl)            ; nmidiv
         jr      z, conti1
-        bit     0, d
+        bit     2, d
         jr      z, conti1
         ccf
-conti1  adc     a, a            ; 0 0 0 0 /DISCONT TIMING /I2KB /DISNMI
+conti1  adc     a, a            ; 0 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI
         dec     l
-        rr      (hl)
+        rr      (hl)            ; divmap
         jr      z, conti2
-        bit     1, d
+        bit     3, d
         jr      z, conti2
         ccf
-conti2  adc     a, a            ; 0 0 0 /DISCONT TIMING /I2KB /DISNMI DIVEN
-        add     a, a            ; 0    0 /DISCONT TIMING /I2KB /DISNMI DIVEN 0
-        xor     %10101100 -$80 ;sinlock      ; LOCK 0  DISCONT TIMING  I2KB  DISNMI DIVEN 0
+conti2  adc     a, a            ; 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI DIVEN
+        add     a, a            ; 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI DIVEN 0
+        xor     %10101100 -$80 ;sinlock      ; LOCK MODE1 DISCONT MODE0 I2KB DISNMI DIVEN 0
         ld      (alto conti9+1), a
         wreg    master_conf, 1
         and     $02
         jr      z, conti4
         wreg    master_mapper, 12
-        ld      hl, $0040   ;old $0a80
+        ld      hl, $0040
         ld      de, $c000
         ld      a, $20
         call    alto rdflsh
@@ -4128,6 +4133,7 @@ cad31   defb    'Issue 3', 0
 cadv2   defb    'Auto', 0
 cadv3   defb    '48K', 0
 cadv4   defb    '128K', 0
+cadv5   defb    'Pentagon', 0
 cad32   defb    'Move Up', 0
 cad33   defb    'Set Active', 0
 cad34   defb    'Move Down', 0
