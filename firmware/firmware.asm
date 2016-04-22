@@ -19,7 +19,7 @@
         define  nmi_event       8
         define  mouse_data      9
         define  mouse_status    10
-        define  scandblctrl     11
+        define  scandbl_ctrl    11
         define  raster_line     12
         define  raster_ctrl     13
         define  core_addr       $fc
@@ -239,7 +239,6 @@ start2  ld      a, (hl)
 star25  ld      hl, finlog-1
         ld      d, $7a
         call    dzx7b           ; descomprimir
-        inc     l
         inc     hl
         ld      b, $40          ; filtro RCS inverso
 start3  ld      a, b
@@ -287,7 +286,7 @@ star35  in      a, (c)
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
-        ld      hl, active+1
+        ld      hl, bitstr
         add     a, (hl)
         jr      z, star37
         dec     a
@@ -330,6 +329,42 @@ start5  djnz    start6
         wreg    scan_code, $02
         halt
         wreg    mouse_data, $f4 ; $f4 = init Kmouse
+star51  ld      a, (layout)
+        ld      b, a
+        ld      hl, fines-1
+        djnz    star52
+        ld      hl, finus-1
+star52  djnz    star53
+        ld      hl, finav-1
+star53  ld      de, $ffff
+        call    dzx7b
+        wreg    key_map, 0
+        ld      hl, $c001
+star54  inc     b
+        outi
+        bit     7, h              ; compruebo si la direccion es 0000 (final)
+        jr      nz, star54        ; repito si no lo es
+        ld      hl, (joykey)
+        inc     h
+        inc     l
+        ld      a, h
+        rlca
+        rlca
+        rlca
+        rlca
+        or      l
+        ld      hl, joy_conf<<8 | scandbl_ctrl
+        dec     b
+        out     (c), h
+        inc     b
+        out     (c), a
+        ld      a, (outvid)
+        rrca
+        and     1
+        dec     b
+        out     (c), l
+        inc     b
+        out     (c), a
         jp      alto conti
 start6  ld      a, (codcnt)
         sub     $80
@@ -434,21 +469,18 @@ bios7   dec     c
         ld      ix, cad11
         ld      bc, $1908
         call    prnmul          ; borde medio
-        ld      hl, (menuop)
-        ld      d, h
         ld      h, a
-        ld      a, l
+        ld      a, (menuop)
         add     a, a
         add     a, jmptbl&$ff
         ld      l, a
         ld      c, (hl)
         inc     l
         ld      b, (hl)
-        ld      e, h
         call    chcol
         defw    $1201
         defb    %00111001
-        ex      de, hl
+        ld      hl, (menuop-1)
         push    bc
         ld      de, $0401
         ld      a, %01111001    ; fondo blanco tinta azul
@@ -1269,7 +1301,7 @@ tosd    ld      ix, cad75
         call_prnstr
         di
         wreg    master_conf, 2        ; enable divmmc
-;        wreg    scandblctrl, $80
+;        wreg    scandbl_ctrl, $80
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
@@ -1350,7 +1382,7 @@ tosd5   ld      c, SPI_PORT
         jr      c, fat16              ; 04,06,0e -> FAT16
 errsd   ld      ix, cad77
 ferror  wreg    master_conf, 0
-        wreg    scandblctrl, 0
+        wreg    scandbl_ctrl, 0
         ld      bc, $090d
         call_prnstr
         ld      a, cad80 & $ff
@@ -1891,13 +1923,13 @@ exit3   call    yesno
         ld      b, a
         djnz    exit4
         call    loadch
-        jp      alto conti
+        jr      exit7
 exit4   djnz    exit5
         jp      savech
 exit5   djnz    exit6
         jp      loadch
 exit6   call    savech
-        jp      alto conti
+exit7   jp      star51
 
 ;++++++++++++++++++++++++++++++++++
 ;++++++++     Boot list    ++++++++
@@ -2971,162 +3003,8 @@ offend  rr      e
         lddr
 exitdz  pop     hl
         jr      nc, mainlo
-getbit  ld      a, (hl)
-        dec     hl
-        adc     a, a
         ret
 
-lbytes  di                      ; disable interrupts
-        ld      a, $0f          ; make the border white and mic off.
-        out     ($fe), a        ; output to port.
-        push    ix
-        pop     hl              ; pongo la direccion de comienzo en hl
-        ld      c, 2
-        exx                     ; salvo de, en caso de volver al cargador estandar y para hacer luego el checksum
-        ld      c, a
-ultr0   defb    $2a             ; en (1220) bit bajo de l=1 alto de h=0
-ultr1   jr      nz, ultr3       ; return if at any time space is pressed.
-ultr2   ld      b, 0
-        call    lsampl          ; leo la duracion de un pulso (positivo o negativo)
-        jr      nc, ultr1       ; si el pulso es muy largo retorno a bucle
-        ld      a, b
-        cp      40              ; si el contador esta entre 24 y 40
-        jr      nc, ultr4       ; y se reciben 8 pulsos (me falta inicializar hl a 00ff)
-        cp      24
-        rl      l
-        jr      nz, ultr4
-ultr3   exx
-lbreak  ret     nz              ; return if at any time space is pressed.
-lstart  call    ldedg1          ; routine ld-edge-1
-        jr      nc, lbreak      ; back to ld-break with time out and no edge present on tape
-        xor     a               ; set up 8-bit outer loop counter for approx 0.45 second delay
-ldwait  add     hl, hl
-        djnz    ldwait          ; self loop to ld-wait (for 256 times)
-        dec     a               ; decrease outer loop counter.
-        jr      nz, ldwait      ; back to ld-wait, if not zero, with zero in b.
-        call    ldedg2          ; routine ld-edge-2
-        jr      nc, lbreak      ; back to ld-break if no edges at all.
-leader  ld      b, $9c          ; two edges must be spaced apart.
-        call    ldedg2          ; routine ld-edge-2
-        jr      nc, lbreak      ; back to ld-break if time-out
-        ld      a, $c6          ; two edges must be spaced apart.
-        cp      b               ; compare
-        jr      nc, lstart      ; back to ld-start if too close together for a lead-in.
-        inc     h               ; proceed to test 256 edged sample.
-        jr      nz, leader      ; back to ld-leader while more to do.
-ldsync  ld      b, $c9          ; two edges must be spaced apart.
-        call    ldedg1          ; routine ld-edge-1
-        jr      nc, lbreak      ; back to ld-break with time-out.
-        ld      a, b            ; fetch augmented timing value from b.
-        cp      $d4             ; compare 
-        jr      nc, ldsync      ; back to ld-sync if gap too big, that is, a normal lead-in edge gap
-        call    ldedg1          ; routine ld-edge-1
-        ret     nc              ; return with time-out.
-        ld      a, c            ; fetch long-term mask from c
-        xor     $03             ; and make blue/yellow.
-        ld      c, a            ; store the new long-term byte.
-        jr      marker          ; forward to ld-marker 
-ldloop  ex      af, af'         ; restore entry flags and type in a.
-        jr      nz, ldflag      ; forward to ld-flag if awaiting initial flag, to be discarded
-        ld      (ix), l         ; place loaded byte at memory location.
-        inc     ix              ; increment byte pointer.
-        dec     de              ; decrement length.
-        defb    $c2
-ldflag  inc     l               ; compare type in a with first byte in l.
-        ret     nz              ; return if no match e.g. code vs. data.
-marker  ex      af, af'         ; store the flags.
-        ld      l, $01          ; initialize as %00000001
-l8bits  ld      b, $b2          ; timing.
-        call    ldedg2          ; routine ld-edge-2 increments b relative to gap between 2 edges
-        ret     nc              ; return with time-out.
-        ld      a, $cb          ; the comparison byte.
-        cp      b               ; compare to incremented value of b.
-        rl      l               ; rotate the carry bit into l.
-        jr      nc, l8bits      ; jump back to ld-8-bits
-        ld      a, h            ; fetch the running parity byte.
-        xor     l               ; include the new byte.
-        ld      h, a            ; and store back in parity register.
-        ld      a, d            ; check length of
-        or      e               ; expected bytes.
-        jr      nz, ldloop      ; back to ld-loop while there are more.
-        ld      a, h            ; fetch parity byte.
-        cp      1               ; set carry if zero.
-        ret                     ; return
-ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono guia
-        rr      h               ; de las ultracargas, si los ultimos 8 pulsos
-        cp      10              ; son de tono guia h debe valer ff
-        jr      nc, ultr2
-        inc     h
-        inc     h
-        jr      nz, ultr0       ; si detecto sincronismo sin 8 pulsos de tono guia retorno a bucle
-        call    lsampl          ; leo pulso negativo de sincronismo
-        ld      l, $01          ; hl vale 0001, marker para leer 16 bits en hl (checksum y byte flag)
-        call    get16           ; leo 16 bits, ahora temporizo cada 2 pulsos
-        ld      a, l
-        inc     l               ; lo comparo con el que me encuentro en la ultracarga
-        ret     nz              ; salgo si no coinciden
-        xor     h               ; xoreo el checksum con en byte flag, resultado en a
-        exx                     ; guardo checksum por duplicado en h' y l'
-        push    hl              ; pongo direccion de comienzo en pila
-        ld      c, a
-        ld      a, $d8          ; a' tiene que valer esto para entrar en raudo
-        ex      af, af'
-        exx
-        ld      h, $01          ; leo 8 bits en hl
-        call    get16
-        push    hl
-        pop     ix
-        pop     de              ; recupero en de la direccion de comienzo del bloque
-        rr      c               ; pongo en flag z el signo del pulso
-        ld      bc, $effe       ; este valor es el que necesita b para entrar en raudo
-        jp      nc, ult55
-        ld      h, $3e
-ultr5   in      f, (c)
-        jp      pe, ultr5
-        call    l3ec3           ; salto a raudo segun el signo del pulso en flag z
-        jr      ultr7
-ult55   ld      h, $3c
-ultr6   in      f, (c)
-        jp      po, ultr6
-        call    l3d03           ; salto a raudo
-ultr7   sbc     a, a
-        exx                     ; ya se ha acabado la ultracarga (raudo)
-        dec     de
-        ld      b, e
-        inc     b
-        inc     d
-ultr8   xor     (hl)
-        inc     hl
-        djnz    ultr8
-        dec     d
-        jp      nz, ultr8
-        push    hl              ; ha ido bien
-        xor     c
-        pop     ix              ; ix debe apuntar al siguiente byte despues del bloque
-        ret     nz              ; si no coincide el checksum salgo con carry desactivado
-        scf
-        ret
-ldedg2  call    ldedg1          ; call routine ld-edge-1 below.
-        ret     nc              ; return if space pressed or time-out.
-ldedg1  ld      a, $16          ; a delay value of twenty two.
-ldelay  dec     a               ; decrement counter
-        jr      nz, ldelay      ; loop back to ld-delay 22 times.
-;        and     a               ; clear carry.
-lsampl  inc     b               ; increment the time-out counter.
-        ret     z               ; return with failure when $ff passed.
-        ld      a, $7f          ; prepare to read keyboard and ear port
-        in      a, ($fe)        ; row $7ffe. bit 6 is ear, bit 0 is space key.
-        rra                     ; test outer key the space. (bit 6 moves to 5)
-        ret     nc              ; return if space pressed.  >>>
-        xor     c               ; compare with initial long-term state.
-        and     $20             ; isolate bit 5
-        jr      z, lsampl       ; back to ld-sample if no edge.
-        ld      a, c            ; fetch comparison value.
-        xor     $27             ; switch the bits
-        ld      c, a            ; and put back in c for long-term.
-        out     ($fe), a        ; send to port to effect the change of colour. 
-        scf                     ; set carry flag signaling edge found within time allowed
-        ret                     ; return.
 get16   ld      b, 0
         call    lsampl
         call    lsampl
@@ -3179,6 +3057,12 @@ hhhh    push    af
         pop     af
         ret
 ;binf jr binf        
+
+
+        incbin  es.zx7b
+fines   incbin  us.zx7b
+finus   incbin  av.zx7b
+finav
 
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
@@ -3951,6 +3835,161 @@ l3ec3   ld      a, ixl
 l3eff   in      l,(c)
         jp      (hl)
 
+lbytes  di                      ; disable interrupts
+        ld      a, $0f          ; make the border white and mic off.
+        out     ($fe), a        ; output to port.
+        push    ix
+        pop     hl              ; pongo la direccion de comienzo en hl
+        ld      c, 2
+        exx                     ; salvo de, en caso de volver al cargador estandar y para hacer luego el checksum
+        ld      c, a
+ultr0   defb    $2a             ; en (1220) bit bajo de l=1 alto de h=0
+ultr1   jr      nz, ultr3       ; return if at any time space is pressed.
+ultr2   ld      b, 0
+        call    lsampl          ; leo la duracion de un pulso (positivo o negativo)
+        jr      nc, ultr1       ; si el pulso es muy largo retorno a bucle
+        ld      a, b
+        cp      40              ; si el contador esta entre 24 y 40
+        jr      nc, ultr4       ; y se reciben 8 pulsos (me falta inicializar hl a 00ff)
+        cp      24
+        rl      l
+        jr      nz, ultr4
+ultr3   exx
+lbreak  ret     nz              ; return if at any time space is pressed.
+lstart  call    ldedg1          ; routine ld-edge-1
+        jr      nc, lbreak      ; back to ld-break with time out and no edge present on tape
+        xor     a               ; set up 8-bit outer loop counter for approx 0.45 second delay
+ldwait  add     hl, hl
+        djnz    ldwait          ; self loop to ld-wait (for 256 times)
+        dec     a               ; decrease outer loop counter.
+        jr      nz, ldwait      ; back to ld-wait, if not zero, with zero in b.
+        call    ldedg2          ; routine ld-edge-2
+        jr      nc, lbreak      ; back to ld-break if no edges at all.
+leader  ld      b, $9c          ; two edges must be spaced apart.
+        call    ldedg2          ; routine ld-edge-2
+        jr      nc, lbreak      ; back to ld-break if time-out
+        ld      a, $c6          ; two edges must be spaced apart.
+        cp      b               ; compare
+        jr      nc, lstart      ; back to ld-start if too close together for a lead-in.
+        inc     h               ; proceed to test 256 edged sample.
+        jr      nz, leader      ; back to ld-leader while more to do.
+ldsync  ld      b, $c9          ; two edges must be spaced apart.
+        call    ldedg1          ; routine ld-edge-1
+        jr      nc, lbreak      ; back to ld-break with time-out.
+        ld      a, b            ; fetch augmented timing value from b.
+        cp      $d4             ; compare 
+        jr      nc, ldsync      ; back to ld-sync if gap too big, that is, a normal lead-in edge gap
+        call    ldedg1          ; routine ld-edge-1
+        ret     nc              ; return with time-out.
+        ld      a, c            ; fetch long-term mask from c
+        xor     $03             ; and make blue/yellow.
+        ld      c, a            ; store the new long-term byte.
+        jr      marker          ; forward to ld-marker 
+ldloop  ex      af, af'         ; restore entry flags and type in a.
+        jr      nz, ldflag      ; forward to ld-flag if awaiting initial flag, to be discarded
+        ld      (ix), l         ; place loaded byte at memory location.
+        inc     ix              ; increment byte pointer.
+        dec     de              ; decrement length.
+        defb    $c2
+ldflag  inc     l               ; compare type in a with first byte in l.
+        ret     nz              ; return if no match e.g. code vs. data.
+marker  ex      af, af'         ; store the flags.
+        ld      l, $01          ; initialize as %00000001
+l8bits  ld      b, $b2          ; timing.
+        call    ldedg2          ; routine ld-edge-2 increments b relative to gap between 2 edges
+        ret     nc              ; return with time-out.
+        ld      a, $cb          ; the comparison byte.
+        cp      b               ; compare to incremented value of b.
+        rl      l               ; rotate the carry bit into l.
+        jr      nc, l8bits      ; jump back to ld-8-bits
+        ld      a, h            ; fetch the running parity byte.
+        xor     l               ; include the new byte.
+        ld      h, a            ; and store back in parity register.
+        ld      a, d            ; check length of
+        or      e               ; expected bytes.
+        jr      nz, ldloop      ; back to ld-loop while there are more.
+        ld      a, h            ; fetch parity byte.
+        cp      1               ; set carry if zero.
+        ret                     ; return
+ultr4   cp      16              ; si el contador esta entre 10 y 16 es el tono guia
+        rr      h               ; de las ultracargas, si los ultimos 8 pulsos
+        cp      10              ; son de tono guia h debe valer ff
+        jr      nc, ultr2
+        inc     h
+        inc     h
+        jr      nz, ultr0       ; si detecto sincronismo sin 8 pulsos de tono guia retorno a bucle
+        call    lsampl          ; leo pulso negativo de sincronismo
+        ld      l, $01          ; hl vale 0001, marker para leer 16 bits en hl (checksum y byte flag)
+        call    get16           ; leo 16 bits, ahora temporizo cada 2 pulsos
+        ld      a, l
+        inc     l               ; lo comparo con el que me encuentro en la ultracarga
+        ret     nz              ; salgo si no coinciden
+        xor     h               ; xoreo el checksum con en byte flag, resultado en a
+        exx                     ; guardo checksum por duplicado en h' y l'
+        push    hl              ; pongo direccion de comienzo en pila
+        ld      c, a
+        ld      a, $d8          ; a' tiene que valer esto para entrar en raudo
+        ex      af, af'
+        exx
+        ld      h, $01          ; leo 8 bits en hl
+        call    get16
+        push    hl
+        pop     ix
+        pop     de              ; recupero en de la direccion de comienzo del bloque
+        rr      c               ; pongo en flag z el signo del pulso
+        ld      bc, $effe       ; este valor es el que necesita b para entrar en raudo
+        jp      nc, ult55
+        ld      h, $3e
+ultr5   in      f, (c)
+        jp      pe, ultr5
+        call    l3ec3           ; salto a raudo segun el signo del pulso en flag z
+        jr      ultr7
+ult55   ld      h, $3c
+ultr6   in      f, (c)
+        jp      po, ultr6
+        call    l3d03           ; salto a raudo
+ultr7   sbc     a, a
+        exx                     ; ya se ha acabado la ultracarga (raudo)
+        dec     de
+        ld      b, e
+        inc     b
+        inc     d
+ultr8   xor     (hl)
+        inc     hl
+        djnz    ultr8
+        dec     d
+        jp      nz, ultr8
+        push    hl              ; ha ido bien
+        xor     c
+        pop     ix              ; ix debe apuntar al siguiente byte despues del bloque
+        ret     nz              ; si no coincide el checksum salgo con carry desactivado
+        scf
+        ret
+ldedg2  call    ldedg1          ; call routine ld-edge-1 below.
+        ret     nc              ; return if space pressed or time-out.
+ldedg1  ld      a, $16          ; a delay value of twenty two.
+ldelay  dec     a               ; decrement counter
+        jr      nz, ldelay      ; loop back to ld-delay 22 times.
+lsampl  inc     b               ; increment the time-out counter.
+        ret     z               ; return with failure when $ff passed.
+        ld      a, $7f          ; prepare to read keyboard and ear port
+        in      a, ($fe)        ; row $7ffe. bit 6 is ear, bit 0 is space key.
+        rra                     ; test outer key the space. (bit 6 moves to 5)
+        ret     nc              ; return if space pressed.  >>>
+        xor     c               ; compare with initial long-term state.
+        and     $20             ; isolate bit 5
+        jr      z, lsampl       ; back to ld-sample if no edge.
+        ld      a, c            ; fetch comparison value.
+        xor     $27             ; switch the bits
+        ld      c, a            ; and put back in c for long-term.
+        out     ($fe), a        ; send to port to effect the change of colour. 
+        scf                     ; set carry flag signaling edge found within time allowed
+        ret                     ; return.
+
+getbit  ld      a, (hl)
+        dec     hl
+        adc     a, a
+        ret
 
 ;++++++++++++++++++++++++++++++++++++++++
 ;++++++++++++++++++++++++++++++++++++++++

@@ -45,7 +45,7 @@ rst28   ld      bc, zxuno_port + $100
 
         defm    'ZXUno'
 
-rst38   jp      $c003
+rst38   jp      $c043
 
 lspi    di
         push    bc
@@ -72,7 +72,7 @@ here    out     (c), h          ; a master_conf quiero enviar un 0 para pasar
         inc     b
         ret
 
-nmi66   jp      $c000
+nmi66   jp      $c040
         retn
 
 lcont   ld      a, c            ; fetch comparison value.
@@ -86,9 +86,8 @@ ltape   ld      de, $0051+2
         call    lbytes
         ld      ix, $c000
         ld      de, $4000+2
-        call    lbytes
-        ld      bc, zxuno_port
-        jr      here
+        ld      l, here&$ff
+        push    hl
 
 lbytes  ld      a, $0f          ; make the border white and mic off.
         out     ($fe), a        ; output to port.
@@ -139,6 +138,7 @@ binf    jr      z, binf         ; return with time-out.
         jr      nz, ldloop      ; back to ld-loop while there are more.
         or      h
 bin2    jr      nz, bin2
+        ld      bc, zxuno_port
         ret                     ; return
 
 
