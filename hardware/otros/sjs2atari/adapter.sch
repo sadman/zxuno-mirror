@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.5.0">
+<eagle version="7.3.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -873,15 +873,15 @@ Source: Digi-Key, subd.pdf</description>
 <plain>
 </plain>
 <instances>
-<instance part="FEMALE" gate="-1" x="35.56" y="83.82"/>
-<instance part="FEMALE" gate="-2" x="35.56" y="81.28"/>
-<instance part="FEMALE" gate="-3" x="35.56" y="78.74"/>
-<instance part="FEMALE" gate="-4" x="35.56" y="76.2"/>
-<instance part="FEMALE" gate="-5" x="35.56" y="73.66"/>
-<instance part="FEMALE" gate="-6" x="35.56" y="71.12"/>
-<instance part="FEMALE" gate="-7" x="35.56" y="68.58"/>
-<instance part="FEMALE" gate="-8" x="35.56" y="66.04"/>
-<instance part="FEMALE" gate="-9" x="35.56" y="63.5"/>
+<instance part="FEMALE" gate="-1" x="43.18" y="83.82"/>
+<instance part="FEMALE" gate="-2" x="43.18" y="81.28"/>
+<instance part="FEMALE" gate="-3" x="43.18" y="78.74"/>
+<instance part="FEMALE" gate="-4" x="43.18" y="76.2"/>
+<instance part="FEMALE" gate="-5" x="43.18" y="73.66"/>
+<instance part="FEMALE" gate="-6" x="43.18" y="71.12"/>
+<instance part="FEMALE" gate="-7" x="43.18" y="68.58"/>
+<instance part="FEMALE" gate="-8" x="43.18" y="66.04"/>
+<instance part="FEMALE" gate="-9" x="43.18" y="63.5"/>
 <instance part="MALE" gate="-1" x="12.7" y="83.82" rot="MR0"/>
 <instance part="MALE" gate="-2" x="12.7" y="81.28" rot="MR0"/>
 <instance part="MALE" gate="-3" x="12.7" y="78.74" rot="MR0"/>
@@ -895,58 +895,107 @@ Source: Digi-Key, subd.pdf</description>
 <busses>
 </busses>
 <nets>
-<net name="N$1" class="0">
-<segment>
-<pinref part="MALE" gate="-5" pin="F"/>
-<wire x1="15.24" y1="73.66" x2="20.32" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="20.32" y1="73.66" x2="20.32" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="FEMALE" gate="-1" pin="F"/>
-<wire x1="20.32" y1="83.82" x2="33.02" y2="83.82" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="MALE" gate="-9" pin="F"/>
-<wire x1="15.24" y1="63.5" x2="27.94" y2="63.5" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="63.5" x2="27.94" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="FEMALE" gate="-2" pin="F"/>
-<wire x1="27.94" y1="81.28" x2="33.02" y2="81.28" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="MALE" gate="-4" pin="F"/>
-<wire x1="15.24" y1="76.2" x2="25.4" y2="76.2" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="76.2" x2="25.4" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="FEMALE" gate="-6" pin="F"/>
-<wire x1="25.4" y1="71.12" x2="33.02" y2="71.12" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$4" class="0">
 <segment>
 <pinref part="MALE" gate="-8" pin="F"/>
 <pinref part="FEMALE" gate="-8" pin="F"/>
-<wire x1="15.24" y1="66.04" x2="33.02" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="15.24" y1="66.04" x2="40.64" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="P7_3" class="0">
+<segment>
+<pinref part="FEMALE" gate="-3" pin="F"/>
+<wire x1="33.02" y1="78.74" x2="40.64" y2="78.74" width="0.1524" layer="91"/>
+<label x="33.02" y="78.74" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="MALE" gate="-7" pin="F"/>
+<wire x1="15.24" y1="68.58" x2="22.86" y2="68.58" width="0.1524" layer="91"/>
+<label x="17.78" y="68.58" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P6_4" class="0">
 <segment>
 <pinref part="MALE" gate="-6" pin="F"/>
 <wire x1="15.24" y1="71.12" x2="22.86" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="71.12" x2="22.86" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="68.58" x2="30.48" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="30.48" y1="68.58" x2="30.48" y2="76.2" width="0.1524" layer="91"/>
+<label x="17.78" y="71.12" size="1.778" layer="95"/>
+</segment>
+<segment>
 <pinref part="FEMALE" gate="-4" pin="F"/>
-<wire x1="30.48" y1="76.2" x2="33.02" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="76.2" x2="40.64" y2="76.2" width="0.1524" layer="91"/>
+<label x="33.02" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$6" class="0">
+<net name="P4_6" class="0">
 <segment>
-<pinref part="MALE" gate="-7" pin="F"/>
-<wire x1="15.24" y1="68.58" x2="17.78" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="17.78" y1="68.58" x2="17.78" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="FEMALE" gate="-3" pin="F"/>
-<wire x1="17.78" y1="78.74" x2="33.02" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="MALE" gate="-4" pin="F"/>
+<wire x1="15.24" y1="76.2" x2="22.86" y2="76.2" width="0.1524" layer="91"/>
+<label x="17.78" y="76.2" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="FEMALE" gate="-6" pin="F"/>
+<wire x1="33.02" y1="71.12" x2="40.64" y2="71.12" width="0.1524" layer="91"/>
+<label x="33.02" y="71.12" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P5_1" class="0">
+<segment>
+<pinref part="MALE" gate="-5" pin="F"/>
+<wire x1="15.24" y1="73.66" x2="22.86" y2="73.66" width="0.1524" layer="91"/>
+<label x="17.78" y="73.66" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="FEMALE" gate="-1" pin="F"/>
+<wire x1="33.02" y1="83.82" x2="40.64" y2="83.82" width="0.1524" layer="91"/>
+<label x="33.02" y="83.82" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P9_2" class="0">
+<segment>
+<pinref part="MALE" gate="-9" pin="F"/>
+<wire x1="15.24" y1="63.5" x2="22.86" y2="63.5" width="0.1524" layer="91"/>
+<label x="17.78" y="63.5" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="FEMALE" gate="-2" pin="F"/>
+<wire x1="33.02" y1="81.28" x2="40.64" y2="81.28" width="0.1524" layer="91"/>
+<label x="33.02" y="81.28" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P3_7" class="0">
+<segment>
+<pinref part="MALE" gate="-3" pin="F"/>
+<wire x1="15.24" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
+<label x="17.78" y="78.74" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="FEMALE" gate="-7" pin="F"/>
+<wire x1="40.64" y1="68.58" x2="33.02" y2="68.58" width="0.1524" layer="91"/>
+<label x="33.02" y="68.58" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P2_9" class="0">
+<segment>
+<pinref part="MALE" gate="-2" pin="F"/>
+<wire x1="15.24" y1="81.28" x2="22.86" y2="81.28" width="0.1524" layer="91"/>
+<label x="17.78" y="81.28" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="FEMALE" gate="-9" pin="F"/>
+<wire x1="40.64" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
+<label x="33.02" y="63.5" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P1_5" class="0">
+<segment>
+<pinref part="MALE" gate="-1" pin="F"/>
+<wire x1="15.24" y1="83.82" x2="22.86" y2="83.82" width="0.1524" layer="91"/>
+<label x="17.78" y="83.82" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="FEMALE" gate="-5" pin="F"/>
+<wire x1="40.64" y1="73.66" x2="33.02" y2="73.66" width="0.1524" layer="91"/>
+<label x="33.02" y="73.66" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
