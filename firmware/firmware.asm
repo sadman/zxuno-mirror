@@ -67,8 +67,10 @@
         define  joykey  layout+1
         define  joydb9  joykey+1
         define  outvid  joydb9+1
+        define  scanli  outvid+1
+        define  freque  scanli+1
 
-        define  siemp0  outvid+1
+        define  siemp0  freque+1
         define  bnames  $a100
         define  tmpbuf  $a200
         define  tmpbu2  $a280
@@ -353,21 +355,26 @@ star54  inc     b
         rlca
         rlca
         or      l
-        ld      hl, joy_conf<<8 | scandbl_ctrl
+        ld      de, joy_conf<<8 | scandbl_ctrl
         dec     b
-        out     (c), h
+        out     (c), d
         inc     b
         out     (c), a
+        ld      hl, (scanli)
         ld      a, (outvid)
+        rr      l
+        rl      h
         rrca
-        and     1
+        rrca
+        ld      a, h
+        adc     a, a
         dec     b
-        out     (c), l
+        out     (c), e
         inc     b
         out     (c), a
         jp      alto conti
 start6  ld      a, (codcnt)
-        sub     $80
+tstart5 sub     $80
         jr      c, start5
         ld      (codcnt), a
         cp      $19
@@ -375,7 +382,7 @@ start6  ld      a, (codcnt)
         cp      $0c
 start7  jp      z, blst
         cp      $17
-        jr      nz, start5
+        jr      nz, tstart5
 
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Enter Setup   ++++++++
@@ -467,7 +474,7 @@ bios7   dec     c
         ei
         ld      sp, stack-2
         ld      ix, cad11
-        ld      bc, $1908
+        ld      bc, $1906
         call    prnmul          ; borde medio
         ld      h, a
         ld      a, (menuop)
@@ -1844,17 +1851,35 @@ advan1  call    showop
         defw    cad97
         defw    cad98
         defw    $ffff
+        call    showop
+        defw    cad28
+        defw    cad29
+        defw    $ffff
+        call    showop
+        defw    cad101
+        defw    cad102
+        defw    cad103
+        defw    cad104
+        defw    cad105
+        defw    cad106
+        defw    cad107
+        defw    cad108
+        defw    $ffff
         ld      de, $1201
         call    listas
         defb    $04
         defb    $05
         defb    $06
         defb    $0b
+        defb    $0c
+        defb    $0d
         defb    $ff
         defw    cad84
         defw    cad85
         defw    cad86
         defw    cad87
+        defw    cad99
+        defw    cad100
         jp      c, main9
         ld      (menuop+1), a
         ld      hl, layout
@@ -1877,13 +1902,31 @@ advan2  sub     3
         defw    cad95
         defw    $ffff
         ret
-advan3  call    popupw
+advan3  ld      b, a
+        djnz    advan4
+        call    popupw
+        defw    cad28
+        defw    cad29
+        defw    $ffff
+        ret
+advan4  djnz    advan5
+        call    popupw
+        defw    cad101
+        defw    cad102
+        defw    cad103
+        defw    cad104
+        defw    cad105
+        defw    cad106
+        defw    cad107
+        defw    cad108
+        defw    $ffff
+        ret
+advan5  call    popupw
         defw    cad96
         defw    cad97
         defw    cad98
         defw    $ffff
         ret
-
 
 
 ;****  Exit Menu  ****
@@ -4006,7 +4049,7 @@ getbit  ld      a, (hl)
         block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.315', 0
+        defm    'ZX-Uno BIOS v0.316', 0
         defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -4041,7 +4084,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.315   ', $7f, '2016 ZX-Uno Team', 0
+        defb    '   BIOS v0.316   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -4060,6 +4103,8 @@ cad10   defb    'Hardware tests', 0
         defb    'DivMMC', 0
         defb    'NMI-DivMMC', 0, 0
 cad11   defb    ' ', $10, 0
+        defb    ' ', $10, 0
+        defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $10, 0
         defb    ' ', $16, $11, $11, $11, $11, $11, $11, $11
@@ -4307,7 +4352,9 @@ cad83   defb    'Input', 0
         defb    ' ', 0
         defb    'Output', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
-        defb    'Video', 0, 0
+        defb    'Video', 0
+        defb    'Scanlines', 0
+        defb    'Frequency', 0, 0
 cad84   defb    'Select PS/2', 0
         defb    'mapping to', 0
         defb    'spectrum', 0, 0
@@ -4318,7 +4365,19 @@ cad86   defb    'Real joystick', 0
         defb    'configuration', 0, 0
 cad87   defb    'Select default', 0
         defb    'video output', 0, 0
-cad100
+cad99   defb    'Enable VGA', 0
+        defb    'scanlines', 0, 0
+cad100  defb    'Set VGA', 0
+        defb    'horizontal',0
+        defb    'frequency', 0, 0
+cad101  defb    '50', 0
+cad102  defb    '51', 0
+cad103  defb    '53.5', 0
+cad104  defb    '55.8', 0
+cad105  defb    '57.4', 0
+cad106  defb    '59.5', 0
+cad107  defb    '61.8', 0
+cad108  defb    '63.8', 0
 
 cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 

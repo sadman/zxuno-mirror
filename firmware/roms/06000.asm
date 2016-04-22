@@ -90,6 +90,8 @@ l0040   defb    $00, $01, $02, $03, $04, $05, $06, $07
         defb    $00             ; joykey
         defb    $00             ; joydb9
         defb    $00             ; outvid
+        defb    $00             ; scanli
+        defb    $00             ; freque
 
         defb    0   ; para que not implemented sea 0
 
