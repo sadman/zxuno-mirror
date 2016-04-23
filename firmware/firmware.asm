@@ -1761,7 +1761,7 @@ prsta1  call    romcyb
 ;upgrade machine
 upgrac  cp      $43
         jr      c, upgraa
-        cp      $45
+        cp      $46
         jr      nc, upgraa
         ld      b, l
         dec     b
@@ -4220,9 +4220,6 @@ cad46   defb    $12, ' Exit Without Saving ', $11, $13, 0
 cad47   defb    $12, $11, ' Save Setup Values ', $11, $11, $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save configuration? ', $10, 0
-cad445  defb    $12, $11, $11, $11, $11, ' Load from SD ', $11, $11, $11, $11, $13, 0
-        defb    $10, '                      ', $10, 0
-        defb    $10, ' Are you sure?        ', $10, 0
 cad48   defb    $12, ' Load Previous Values ', $13, 0
         defb    $10, '                      ', $10, 0
         defb    $10, ' Load previous values?', $10, 0
@@ -4238,6 +4235,9 @@ cad43   defb    $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $10, '                      ', $10, 0
         defb    $10, '  Save conf. & Exit?  ', $10, 0
 cad44   defb    $12, $11, $11, $11, ' Load from tape ', $11, $11, $11, $13, 0
+cad445  defb    $12, $11, $11, $11, $11, ' Load from SD ', $11, $11, $11, $11, $13, 0
+        defb    $10, '                      ', $10, 0
+        defb    $10, ' Are you sure?        ', $10, 0
 cad37   defb    'Save Changes & Exit', 0
         defb    'Discard Changes & Exit', 0
         defb    'Save Changes', 0
