@@ -941,33 +941,6 @@ romsd   dec     iyh
         ld      a, (codcnt)
         rrca
         ret     nc
-        ld      hl, items
-        ld      a, l
-        dec     (hl)
-        ld      l, empstr & $ff
-        ret     m
-        jr      z, romsf
-;        add     a, (hl)
-;        ld      b, a
-;        sub     (hl)
-romse   add     a, 10
-;        djnz    romse
-        inc     l
-romsf   add     a, (hl)
-        cp      20
-        ret     nc
-        push    af
-        rlca
-        rlca
-        add     a, 12
-        rlca
-        ld      l, a
-        ld      h, 0
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        ex      de, hl
-        exx
         call    nument
         dec     l
         ld      e, l
@@ -982,7 +955,8 @@ romsu   cp      (hl)
         ld      (hl), a
         ld      l, a
         call    calcu
-        pop     af
+        call    atoi
+        ld      (items), a
         ld      (hl), a
         inc     l
         ex      de, hl
@@ -998,11 +972,15 @@ romsu   cp      (hl)
 roms10  ld      (offsel), hl
         ld      bc, $7ffd
         out     (c), h
-        ld      a, $40
         ld      hl, $c000
         exx
+        ld      hl, items
+        ld      a, (hl)
+        inc     (hl)
+        call    alto slot2a
+        ex      de, hl
+        ld      a, $40
         call    wrflsh
-        inc     de
         exx
         ld      hl, (offsel)
         inc     h
@@ -2901,11 +2879,7 @@ ramts1  ld      ixl, cad66&$ff
 calcu   add     hl, hl
         add     hl, hl
         ld      h, 9
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-        ret
+        jp      alto slot2c
 
 savena  ld      a, (menuop+1)
         sub     4
@@ -3057,6 +3031,27 @@ get16   ld      b, 0
         cp      12
         adc     hl, hl
         jr      nc, get16
+        ret
+
+; Parameters:
+;(empstr): input string
+; Returns:
+;       A: binary number
+atoi    push    hl
+        ld      hl, items
+        ld      b, (hl)
+        ld      l, empstr & $ff
+        xor     a
+romse   add     a, a
+        ld      c, a
+        add     a, a
+        add     a, a
+        add     a, c
+romsf   add     a, (hl)
+        inc     l
+        sub     $30
+        djnz    romse
+        pop     hl
         ret
 
 hhhh    push    af
@@ -3212,17 +3207,9 @@ conti3  ld      de, $c000 | master_mapper
         jr      nz, conti3
 conti4  ld      a, (ix+1)
         ld      iyl, a
-        ld      a, (ix)
-        rlca
-        rlca
-        add     a, 12
-        rlca
-        ld      l, a
-        ld      h, 0
-        add     hl, hl
-        add     hl, hl
-        add     hl, hl
-conti5  ld      a, master_mapper
+conti5  ld      a, (ix)
+        call    alto slot2a
+        ld      a, master_mapper
         dec     b
         out     (c), a
         inc     b
@@ -3235,7 +3222,6 @@ conti5  ld      a, master_mapper
         ld      a, (checkc)
         dec     a
         jr      nz, conti8
-        push    hl
         call    alto check
         push    ix
         ld      a, iyl
@@ -3262,19 +3248,17 @@ conti6  in      a, (c)
         or      $e0
         inc     a
         jr      z, conti6
-conti7  ld      bc, zxuno_port+$100
-        pop     ix
-        pop     hl
-conti8  ld      de, $0040  
-        add     hl, de
+conti7  pop     ix
+conti8  ld      bc, zxuno_port+$100
         dec     (ix+3)
         jr      z, conti9
         dec     iyl
         jr      z, conti4
+        inc     (ix)
         jr      conti5
 conti9  ld      a, 0
         dec     b
-        out     (c), d
+        out     (c), 0;d
         inc     b
         out     (c), a
         ld      bc, $1ffd
@@ -3487,6 +3471,26 @@ check1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
         inc     h
         jr      nz, check1
         ld      e, a
+        ret
+
+; Parameters:
+;    A: input slot
+; Returns:
+;   HL: destination address
+slot2a  ld      de, 3
+        and     $3f
+        cp      19
+        ld      h, d
+        ld      l, a
+        jr      c, slot2b
+        ld      e, $c0
+slot2b  add     hl, de          ; $00c0 y 2f80
+        add     hl, hl
+        add     hl, hl
+slot2c  add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
         ret
 
 help    call    window
