@@ -72,7 +72,6 @@ int main(int argc, char *argv[]) {
     exit(-1);
   fseek(fi, 0, SEEK_END);
   i= ftell(fi);
-  fseek(fi, 0, SEEK_SET);
   if( i&0x3fff && i!=8192 )
     printf("\nInput file size must be multiple of 16384: %s\n", argv[7]),
     exit(-1);
@@ -88,7 +87,17 @@ int main(int argc, char *argv[]) {
   mem[0x4004]= 0x53;
   mem[0x4005]= 0x00;
   mem[0x4006]= 0xff;
-  if( j )
+  if( j ){
+    for ( i= j; i--; ){
+      fseek(fi, i<<14, SEEK_SET);
+      fread(mem+3, 1, 0x4000, fi);
+      for ( checksum= 0, k= 3; k<0x4003; ++k )
+        checksum|= mem[k];
+      if( checksum )
+        break;
+    }
+    j= i+1;
+    fseek(fi, 0, SEEK_SET);
     for ( i= 0; i<j; i++ ){
       fread(mem+3, 1, 0x4000, fi);
       crc= 0x4c2b;
@@ -101,7 +110,9 @@ int main(int argc, char *argv[]) {
       mem[0x4003]= checksum;
       fwrite(mem, 1, 0x4004, fo);
     }
+  }
   else{
+    fseek(fi, 0, SEEK_SET);
     mem[1]= 0x20;
     fread(mem+3, j= 1, 0x2000, fi);
     crc= 0x4c2b;

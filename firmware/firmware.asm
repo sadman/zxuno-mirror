@@ -3222,8 +3222,9 @@ conti5  ld      a, (ix)
         ld      a, (checkc)
         dec     a
         jr      nz, conti8
-        call    alto check
         push    ix
+        push    bc
+        call    alto check
         ld      a, iyl
         add     a, a
         add     a, ixl
@@ -3248,9 +3249,9 @@ conti6  in      a, (c)
         or      $e0
         inc     a
         jr      z, conti6
-conti7  pop     ix
-conti8  ld      bc, zxuno_port+$100
-        dec     (ix+3)
+conti7  pop     bc
+        pop     ix
+conti8  dec     (ix+3)
         jr      z, conti9
         dec     iyl
         jr      z, conti4

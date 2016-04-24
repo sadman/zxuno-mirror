@@ -9,7 +9,7 @@ unsigned short j;
 int main(int argc, char *argv[]) {
   if( argc==1 )
     printf("\n"
-    "Bit2Bin v0.01, strip .bit header and align binary to 16k, 2016-02-23\n\n"
+    "Bit2Bin v0.02, strip .bit header and align binary to 16k, 2016-02-23\n\n"
     "  Bit2Bin        <input_file> <output_file>\n\n"
     "  <input_file>   Input BIT file\n"
     "  <output_file>  Output BIN file\n\n"
@@ -54,5 +54,8 @@ int main(int argc, char *argv[]) {
   memset(mem, 0, 0x4000);
   fread(mem, 1, length&0x3fff, fi),
   fwrite(mem, 1, 0x4000, fo);
+  memset(mem, 0, 0x4000);
+  for ( i= 0; i<20-j; i++ )
+    fwrite(mem, 1, 0x4000, fo);
   printf("\nFile generated successfully\n");
 }
