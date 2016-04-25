@@ -1288,7 +1288,7 @@ tosd    ld      ix, cad75
         inc     c
         call_prnstr
         di
-        wreg    master_conf, 2        ; enable divmmc
+;        wreg    master_conf, 2        ; enable divmmc
 ;        wreg    scandbl_ctrl, $80
         ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
@@ -1369,7 +1369,7 @@ tosd5   ld      c, SPI_PORT
         sub     2
         jr      c, fat16              ; 04,06,0e -> FAT16
 errsd   ld      ix, cad77
-ferror  wreg    master_conf, 0
+ferror  ;wreg    master_conf, 0
         wreg    scandbl_ctrl, 0
         ld      bc, $090d
         call_prnstr
@@ -3125,7 +3125,7 @@ runbit  ld      b, h
         inc     b
         out     (c), h
         out     (c), l
-        out     (c), a
+        out     (c), 0
         wreg    core_boot, 1
 
 ;++++++++++++++++++++++++++++++++++
