@@ -30,8 +30,8 @@
         define  SPI_PORT        $eb
         define  OUT_PORT        $e7
         define  MMC_0           $fe ; D0 LOW = SLOT0 active
-        define  IDLE_STATE      $40
-        define  OP_COND         $41
+        define  CMD0            $40
+        define  CMD1            $41
         define  CMD8            $48
         define  SET_BLOCKLEN    $50
         define  READ_SINGLE     $51
@@ -487,7 +487,8 @@ bios7   dec     c
         call    chcol
         defw    $1201
         defb    %00111001
-        ld      hl, (menuop-1)
+        ld      hl, (menuop)
+        ld      l, 0
         push    bc
         ld      de, $0401
         ld      a, %01111001    ; fondo blanco tinta azul
@@ -4054,7 +4055,7 @@ getbit  ld      a, (hl)
         block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.316', 0
+        defm    'ZX-Uno BIOS v0.317', 0
         defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -4089,7 +4090,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.316   ', $7f, '2016 ZX-Uno Team', 0
+        defb    '   BIOS v0.317   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
