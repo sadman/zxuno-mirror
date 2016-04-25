@@ -1,6 +1,5 @@
 
-reinit  ld      (ix), 0
-        call    mmcinit
+reinit  call    mmcinit
         pop     bc
         pop     hl
         ret     nz
@@ -10,6 +9,7 @@ readata push    hl
         push    bc
         ld      a, READ_SINGLE  ; Command code for multiple block read
         call    cs_low          ; set cs high
+        ld      c, SPI_PORT
         out     (c), a
         ld      a, (sdhc)
         or      a
@@ -31,33 +31,25 @@ mul3    or      a
         jr      nz, reinit
         ld      b, 10                         ; retry counter
 waitl   call    waitr
-        cp      $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
+        sub     $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
         jr      z, waitm
-        jr      nc, waitm
         djnz    waitl
 waitm   push    ix
         pop     hl              ; INI usa HL come puntatore
-        ld      b, 0
+        ld      b, a
         inir
         inir
         pop     bc
         pop     hl
         ret
 
-;
-;-----------------------------------------------------------------------------------------
-; MMC SPI MODE initialization. RETURNS ERROR CODE IN A register:
-;
-; 0 = OK
-; 1 = Card RESET ERROR
-; 2 = Card INIT ERROR
-;
-; Destroys AF, B.
-;-----------------------------------------------------------------------------------------
-mmcinit ld      h, $ff
+mmcinit xor     a
+        ld      (sdhc), a
+        ld      (ix), a
+        dec     a
         call    cs_high         ; set cs high
         ld      b, 9            ; sends 80 clocks
-l_init  out     (c), h
+l_init  out     (c), a
         djnz    l_init
         call    cs_low          ; set cs low
         ld      hl, $95<<8 | CMD0 
@@ -100,10 +92,9 @@ sdv2    ld      h, $40
         call    send5
         in      a, (c)
         cp      $c0
-        jr      z, sig2
-        xor     a
-sig2    ld      (sdhc), a
-        in      a, (c)
+        jr      nz, sig2
+        ld      (sdhc), a
+sig2    in      a, (c)
         in      a, (c)
         in      a, (c)
 

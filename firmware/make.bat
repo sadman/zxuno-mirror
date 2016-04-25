@@ -7,3 +7,7 @@ fcut      firmware_strings.rom  7e00 -7e00  strings.bin
 zx7b      strings.bin           strings.bin.zx7b
 sjasmplus firmware.asm
 fcut      firmware_strings.rom  0000  4000  firmware.rom
+
+rem roms\GenRom 0 202 0 0 0 BIOS firmware.rom firmware.tap
+rem cgleches firmware.tap firmware.wav 3
+rem firmware.wav

@@ -1290,7 +1290,6 @@ tosd    ld      ix, cad75
         di
 ;        wreg    master_conf, 2        ; enable divmmc
         wreg    scandbl_ctrl, $80
-        ld      c, SPI_PORT
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
         call    readat0

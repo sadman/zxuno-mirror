@@ -21,7 +21,7 @@ prmsg   ld      a, (hl)
         inc     hl
         rst     $10
         djnz    prmsg
-        ld      bc, 32<<8 | SPI_PORT
+        ld      b, 32
         ld      hl, $81c0
 zero    ld      (hl), 0
         inc     hl
@@ -30,6 +30,9 @@ waitk   ld      a, $fd
         in      a, ($fe)
         rrca
         jr      c, waitk
+        ld      c, SPI_PORT
+        call    mmcinit
+
         ld      hl, 0
         ld      ix, $8000
         call    readat0
