@@ -1,8 +1,8 @@
         define  SPI_PORT        $eb
         define  OUT_PORT        $e7
         define  MMC_0           $fe ; D0 LOW = SLOT0 active
-        define  IDLE_STATE      $40
-        define  OP_COND         $41
+        define  CMD0            $40
+        define  CMD1            $41
         define  CMD8            $48
         define  SET_BLOCKLEN    $50
         define  READ_SINGLE     $51
@@ -40,13 +40,23 @@ waitk   ld      a, $fd
 
         ld      hl, $81c0
 repe    ld      a, (hl)
+        call    rbyte
+        bit     5, l
+        jr      z, repe
+waitnk  ld      a, $fd
+        in      a, ($fe)
+        rrca
+        jr      nc, waitnk
+        jr      init
+
+rbyte   push    af
         rrca
         rrca
         rrca
         rrca
         call    rdigit
         rst     $10
-        ld      a, (hl)
+        pop     af
         call    rdigit
         rst     $10
         ld      a, ' '
@@ -54,16 +64,10 @@ repe    ld      a, (hl)
         inc     hl
         ld      a, l
         and     7
-        jr      nz, line
+        ret     nz
         ld      a, 13
         rst     $10
-line    bit     5, l
-        jr      z, repe
-waitnk  ld      a, $fd
-        in      a, ($fe)
-        rrca
-        jr      nc, waitnk
-        jr      init
+        ret
 
 rdigit  and     $0f
         or      $30
@@ -75,4 +79,4 @@ rdigit  and     $0f
         include sd.asm
 
 msg     defb    'Press A', 13
-sdhc
+sdhc    defb    0
