@@ -45,7 +45,7 @@ waitm   push    ix
 
 mmcinit xor     a
         ld      (sdhc), a
-        ld      (ix), a
+        ld      iyl, a
         dec     a
         call    cs_high         ; set cs high
         ld      b, 9            ; sends 80 clocks
@@ -84,7 +84,7 @@ mmc     ld      l, CMD1
         jr      nz, mmc1
 count   dec     b
         ret     nz
-        dec     (ix)
+        dec     iyl
         ret
 sdv2    ld      h, $40
         call    sdv1

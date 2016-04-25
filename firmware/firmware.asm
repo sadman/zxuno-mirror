@@ -1289,28 +1289,22 @@ tosd    ld      ix, cad75
         call_prnstr
         di
 ;        wreg    master_conf, 2        ; enable divmmc
-        wreg    scandbl_ctrl, $80
+
+;        ld      hl, SET_BLOCKLEN<<8 | 2
+;        call    cs_low
+;        out     (c), h
+;        out     (c), 0
+;        out     (c), 0
+;        out     (c), l
+;        call    send1z
+
+
+;        wreg    scandbl_ctrl, $80
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
         call    readat0
         jr      nz, errsd
-
-
-;    inc hl
-;    inc hl
-;    inc hl
-;      ld      b, (hl)
-;      inc l
-;      ld      c, (hl)
-;      dec l
-;      ld      de, (tmpbu2+$1a)
-;  call hhhh
-;  jr $
-;tmpbu2+$1a   apunta a nombre
-;tmpbu2+$1c   longitud total en paginas
-;tmpbu2+$1e   dirección spi actual
-;       ld      e, 0
-        ld      b, e
+;        ld      b, e
         ld      hl, (tmpbu2+$1c6)     ; read LBA address of 1st partition
         ld      a, (tmpbu2+$1c2)      ; read partition type
         push    af
@@ -1358,18 +1352,14 @@ tosd4   add     $2d
 tosd5   ld      c, SPI_PORT
         pop     de
         pop     af
-        sub     $0b
-        sub     2
-        jp      c, fat32              ; 0b,0c -> FAT32
-        dec     a
-        jr      z, fat16
-        rrca
-        sub     $7b
-        sub     2
-        jr      c, fat16              ; 04,06,0e -> FAT16
+        cp      $0b
+        jr      z, fatxx
+        and     $f5
+        sub     4
+        jr      z, fatxx        ; 04,06,0b,0c,0e -> FAT32
 errsd   ld      ix, cad77
 ferror  ;wreg    master_conf, 0
-        wreg    scandbl_ctrl, 0
+        ;wreg    scandbl_ctrl, 0
         ld      bc, $090d
         call_prnstr
         ld      a, cad80 & $ff
@@ -1401,12 +1391,15 @@ twaitk  jp      nz, waitky
         ldir
         jp      savena
 
-fat16   ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
+fatxx   ld      hl, (tmpbu2+$0e)      ; count of reserved logical sectors
         add     hl, de                ; LBA address+reserved
         ld      (items), hl           ; write FAT table address
         ex      de, hl
         ld      hl, (tmpbu2+$16)      ; sectors per FAT
-        add     hl, hl                ; 2*FAT
+        ld      a, l
+        or      h
+        jr      z, fat32
+fat16   add     hl, hl                ; 2*FAT
         add     hl, de                ; LBA+reserved+2*FAT
         ex      de, hl
         ld      hl, (tmpbu2+$11)      ; max FAT entries in root
@@ -1458,11 +1451,7 @@ bucop   push    hl                    ; save current cluster
         jr      nz, bucop
 enbur   ld      ix, cad79
         jr      terror
-fat32   ld      hl, (tmpbu2+$e)       ; count of reserved logical sectors
-        add     hl, de
-        ld      (items), hl           ; write fat address
-        ex      de, hl
-        ld      hl, (tmpbu2+$24)      ; Logical sectors per FAT
+fat32   ld      hl, (tmpbu2+$24)      ; Logical sectors per FAT
         add     hl, hl
         add     hl, de
         ld      (offsel), hl
