@@ -298,33 +298,6 @@
 </deviceset>
 </devicesets>
 </library>
-<library name="SparkFun">
-<packages>
-</packages>
-<symbols>
-<symbol name="3.3V">
-<wire x1="0.762" y1="1.27" x2="0" y2="2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="2.54" x2="-0.762" y2="1.27" width="0.254" layer="94"/>
-<text x="-1.016" y="3.556" size="1.778" layer="96">&gt;VALUE</text>
-<pin name="3.3V" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="3.3V" prefix="P+">
-<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-<gates>
-<gate name="G$1" symbol="3.3V" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="supply1">
 <packages>
 </packages>
@@ -334,12 +307,31 @@
 <text x="-2.54" y="-2.54" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
 </symbol>
+<symbol name="VCC">
+<wire x1="1.27" y1="-1.905" x2="0" y2="0" width="0.254" layer="94"/>
+<wire x1="0" y1="0" x2="-1.27" y2="-1.905" width="0.254" layer="94"/>
+<text x="-2.54" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
+<pin name="VCC" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="GND" prefix="GND">
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
 <gate name="1" symbol="GND" x="0" y="0"/>
+</gates>
+<devices>
+<device name="">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="VCC" prefix="P+">
+<description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
+<gates>
+<gate name="VCC" symbol="VCC" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -5729,20 +5721,20 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="R3" library="rcl" deviceset="R-US_" device="R0805" value="10K"/>
 <part name="SUPPLY1" library="supply2" deviceset="+5V" device=""/>
-<part name="P+1" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="C1" library="rcl" deviceset="C-EU" device="C0805K" value="100nF"/>
 <part name="IC2" library="burr-brown" deviceset="REG1117" device=""/>
 <part name="SUPPLY2" library="supply2" deviceset="+5V" device=""/>
-<part name="P+2" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
 <part name="C2" library="rcl" deviceset="C-EU" device="C0805K" value="10uF"/>
 <part name="C3" library="rcl" deviceset="C-EU" device="C0805K" value="10uF"/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
-<part name="P+3" library="SparkFun" deviceset="3.3V" device=""/>
 <part name="L1" library="wuerth-elektronik" deviceset="WE-CBF" device="_0805"/>
 <part name="U$1" library="zxuno" deviceset="ZXUNO_CONNECTOR" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
+<part name="P+1" library="supply1" deviceset="VCC" device=""/>
+<part name="P+2" library="supply1" deviceset="VCC" device=""/>
+<part name="P+4" library="supply1" deviceset="VCC" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5754,24 +5746,24 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <instance part="GND1" gate="1" x="55.88" y="12.7"/>
 <instance part="R3" gate="G$1" x="-20.32" y="68.58" rot="R90"/>
 <instance part="SUPPLY1" gate="+5V" x="185.42" y="99.06"/>
-<instance part="P+1" gate="G$1" x="55.88" y="40.64"/>
 <instance part="C1" gate="G$1" x="63.5" y="30.48"/>
 <instance part="IC2" gate="G$1" x="93.98" y="38.1"/>
 <instance part="SUPPLY2" gate="+5V" x="76.2" y="43.18"/>
-<instance part="P+2" gate="G$1" x="111.76" y="43.18"/>
 <instance part="GND3" gate="1" x="93.98" y="17.78"/>
 <instance part="C2" gate="G$1" x="76.2" y="30.48"/>
 <instance part="C3" gate="G$1" x="111.76" y="30.48"/>
 <instance part="GND4" gate="1" x="76.2" y="17.78"/>
 <instance part="GND5" gate="1" x="111.76" y="17.78"/>
-<instance part="P+3" gate="G$1" x="-20.32" y="76.2"/>
 <instance part="L1" gate="G$1" x="177.8" y="91.44" smashed="yes">
 <attribute name="VALUE" x="173.99" y="90.17" size="1.778" layer="96"/>
-<attribute name="NAME" x="177.8" y="90.424" size="1.778" layer="95"/>
+<attribute name="NAME" x="177.8" y="95.504" size="1.778" layer="95"/>
 </instance>
 <instance part="U$1" gate="G$1" x="81.28" y="88.9"/>
 <instance part="GND2" gate="1" x="170.18" y="76.2"/>
 <instance part="IC1" gate="X" x="15.24" y="93.98"/>
+<instance part="P+1" gate="VCC" x="55.88" y="43.18"/>
+<instance part="P+2" gate="VCC" x="111.76" y="45.72"/>
+<instance part="P+4" gate="VCC" x="-20.32" y="78.74"/>
 </instances>
 <busses>
 <bus name="A[0..15]">
@@ -5824,9 +5816,9 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="WR"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P7"/>
-<wire x1="45.72" y1="76.2" x2="45.72" y2="60.96" width="0.1524" layer="91"/>
-<label x="45.72" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="U$1" gate="G$1" pin="P8"/>
+<wire x1="50.8" y1="76.2" x2="50.8" y2="60.96" width="0.1524" layer="91"/>
+<label x="50.8" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="/RD" class="0">
@@ -5835,9 +5827,9 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="RD"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P8"/>
-<wire x1="50.8" y1="76.2" x2="50.8" y2="60.96" width="0.1524" layer="91"/>
-<label x="50.8" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="U$1" gate="G$1" pin="P9"/>
+<wire x1="55.88" y1="76.2" x2="55.88" y2="60.96" width="0.1524" layer="91"/>
+<label x="55.88" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="/IORQ" class="0">
@@ -5846,9 +5838,9 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="IORQ"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P9"/>
-<wire x1="55.88" y1="76.2" x2="55.88" y2="60.96" width="0.1524" layer="91"/>
-<label x="55.88" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="U$1" gate="G$1" pin="P7"/>
+<wire x1="45.72" y1="76.2" x2="45.72" y2="60.96" width="0.1524" layer="91"/>
+<label x="45.72" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="/MREQ" class="0">
@@ -6083,15 +6075,15 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <label x="43.18" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
-<net name="3.3V" class="1">
+<net name="VCC" class="1">
 <segment>
 <wire x1="55.88" y1="38.1" x2="55.88" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="33.02" x2="63.5" y2="38.1" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="38.1" x2="55.88" y2="38.1" width="0.1524" layer="91"/>
 <junction x="55.88" y="38.1"/>
 <pinref part="IC1" gate="P" pin="VCC"/>
-<pinref part="P+1" gate="G$1" pin="3.3V"/>
 <pinref part="C1" gate="G$1" pin="1"/>
+<pinref part="P+1" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="106.68" y1="38.1" x2="111.76" y2="38.1" width="0.1524" layer="91"/>
@@ -6099,13 +6091,13 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="111.76" y1="33.02" x2="111.76" y2="38.1" width="0.1524" layer="91"/>
 <junction x="111.76" y="38.1"/>
 <pinref part="IC2" gate="G$1" pin="VOUT"/>
-<pinref part="P+2" gate="G$1" pin="3.3V"/>
 <pinref part="C3" gate="G$1" pin="1"/>
+<pinref part="P+2" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="-20.32" y1="76.2" x2="-20.32" y2="73.66" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="2"/>
-<pinref part="P+3" gate="G$1" pin="3.3V"/>
+<pinref part="P+4" gate="VCC" pin="VCC"/>
 </segment>
 </net>
 <net name="+5V" class="1">
