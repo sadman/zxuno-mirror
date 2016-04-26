@@ -5771,6 +5771,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 </instance>
 <instance part="U$1" gate="G$1" x="81.28" y="88.9"/>
 <instance part="GND2" gate="1" x="170.18" y="76.2"/>
+<instance part="IC1" gate="X" x="15.24" y="93.98"/>
 </instances>
 <busses>
 <bus name="A[0..15]">
@@ -5822,11 +5823,21 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="-2.54" y1="68.58" x2="-5.08" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="WR"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="P7"/>
+<wire x1="45.72" y1="76.2" x2="45.72" y2="60.96" width="0.1524" layer="91"/>
+<label x="45.72" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="/RD" class="0">
 <segment>
 <wire x1="-2.54" y1="71.12" x2="-5.08" y2="73.66" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="RD"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="P8"/>
+<wire x1="50.8" y1="76.2" x2="50.8" y2="60.96" width="0.1524" layer="91"/>
+<label x="50.8" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="/IORQ" class="0">
@@ -5834,11 +5845,21 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="-2.54" y1="73.66" x2="-5.08" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="IORQ"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="P9"/>
+<wire x1="55.88" y1="76.2" x2="55.88" y2="60.96" width="0.1524" layer="91"/>
+<label x="55.88" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="/MREQ" class="0">
 <segment>
 <wire x1="-2.54" y1="76.2" x2="-5.08" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="MREQ"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="P10"/>
+<wire x1="58.42" y1="76.2" x2="58.42" y2="60.96" width="0.1524" layer="91"/>
+<label x="58.42" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="/M1" class="0">
@@ -6055,6 +6076,11 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <segment>
 <wire x1="-2.54" y1="53.34" x2="-5.08" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="WAIT"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="P6"/>
+<wire x1="43.18" y1="76.2" x2="43.18" y2="60.96" width="0.1524" layer="91"/>
+<label x="43.18" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="3.3V" class="1">
