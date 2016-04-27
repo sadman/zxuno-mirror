@@ -2,7 +2,7 @@ cd ..
 echo  define version 4 > version.asm
 call  make.bat
 cd roms
-Bit2Bin ..\..\cores\spectrum_v2_spartan6\test20\tld_zxuno_v4.bit tmp.bin
+Bit2Bin ..\..\cores\spectrum_v2_spartan6\test20\tld_zxunov4_BL.bit tmp.bin
 fpad 2000 00 tmp0.bin
 fpad 4c000 00 tmp1.bin
 fpad 354000 00 tmp2.bin
