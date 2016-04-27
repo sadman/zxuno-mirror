@@ -144,4 +144,4 @@ rst30           pop     hl
                 outi
                 jp      (hl)
 
-FileName        dz      'FLASH'
+FileName        dz      'FLASH.ZX1'
