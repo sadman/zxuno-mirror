@@ -5730,7 +5730,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="L1" library="wuerth-elektronik" deviceset="WE-CBF" device="_0805"/>
-<part name="U$1" library="zxuno" deviceset="ZXUNO_CONNECTOR" device=""/>
+<part name="CONN_ZXUNO" library="zxuno" deviceset="ZXUNO_CONNECTOR" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="P+1" library="supply1" deviceset="VCC" device=""/>
 <part name="P+2" library="supply1" deviceset="VCC" device=""/>
@@ -5758,7 +5758,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <attribute name="VALUE" x="173.99" y="90.17" size="1.778" layer="96"/>
 <attribute name="NAME" x="177.8" y="95.504" size="1.778" layer="95"/>
 </instance>
-<instance part="U$1" gate="G$1" x="81.28" y="88.9"/>
+<instance part="CONN_ZXUNO" gate="G$1" x="81.28" y="88.9"/>
 <instance part="GND2" gate="1" x="170.18" y="76.2"/>
 <instance part="IC1" gate="X" x="15.24" y="93.98"/>
 <instance part="P+1" gate="VCC" x="55.88" y="43.18"/>
@@ -5797,6 +5797,11 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="-2.54" y1="27.94" x2="-5.08" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="CLK"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P19"/>
+<wire x1="93.98" y1="76.2" x2="93.98" y2="60.96" width="0.1524" layer="91"/>
+<label x="93.98" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="/RESET" class="0">
 <segment>
@@ -5809,6 +5814,11 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="-2.54" y1="48.26" x2="-5.08" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="INT"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P12"/>
+<wire x1="66.04" y1="76.2" x2="66.04" y2="60.96" width="0.1524" layer="91"/>
+<label x="66.04" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="/WR" class="0">
 <segment>
@@ -5816,7 +5826,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="WR"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P8"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P8"/>
 <wire x1="50.8" y1="76.2" x2="50.8" y2="60.96" width="0.1524" layer="91"/>
 <label x="50.8" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
@@ -5827,7 +5837,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="RD"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P9"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P9"/>
 <wire x1="55.88" y1="76.2" x2="55.88" y2="60.96" width="0.1524" layer="91"/>
 <label x="55.88" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
@@ -5838,7 +5848,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="IORQ"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P7"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P7"/>
 <wire x1="45.72" y1="76.2" x2="45.72" y2="60.96" width="0.1524" layer="91"/>
 <label x="45.72" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
@@ -5849,9 +5859,9 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="MREQ"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P10"/>
-<wire x1="58.42" y1="76.2" x2="58.42" y2="60.96" width="0.1524" layer="91"/>
-<label x="58.42" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P11"/>
+<wire x1="63.5" y1="76.2" x2="63.5" y2="60.96" width="0.1524" layer="91"/>
+<label x="63.5" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="/M1" class="0">
@@ -5866,12 +5876,22 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="35.56" y1="17.78" x2="38.1" y2="20.32" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D7"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P15"/>
+<wire x1="78.74" y1="76.2" x2="78.74" y2="60.96" width="0.1524" layer="91"/>
+<label x="78.74" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="D6" class="0">
 <segment>
 <wire x1="33.02" y1="20.32" x2="35.56" y2="20.32" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="20.32" x2="38.1" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D6"/>
+</segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P17"/>
+<wire x1="86.36" y1="76.2" x2="86.36" y2="60.96" width="0.1524" layer="91"/>
+<label x="86.36" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="D5" class="0">
@@ -5880,12 +5900,22 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="35.56" y1="22.86" x2="38.1" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D5"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P16"/>
+<wire x1="81.28" y1="76.2" x2="81.28" y2="60.96" width="0.1524" layer="91"/>
+<label x="81.28" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="D4" class="0">
 <segment>
 <wire x1="33.02" y1="25.4" x2="35.56" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="25.4" x2="38.1" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D4"/>
+</segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P20"/>
+<wire x1="96.52" y1="76.2" x2="96.52" y2="60.96" width="0.1524" layer="91"/>
+<label x="96.52" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="D3" class="0">
@@ -5894,12 +5924,22 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="35.56" y1="27.94" x2="38.1" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D3"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P21"/>
+<wire x1="101.6" y1="76.2" x2="101.6" y2="60.96" width="0.1524" layer="91"/>
+<label x="101.6" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="D2" class="0">
 <segment>
 <wire x1="33.02" y1="30.48" x2="35.56" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="30.48" x2="38.1" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D2"/>
+</segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P18"/>
+<wire x1="88.9" y1="76.2" x2="88.9" y2="60.96" width="0.1524" layer="91"/>
+<label x="88.9" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="D1" class="0">
@@ -5908,12 +5948,22 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="35.56" y1="33.02" x2="38.1" y2="35.56" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D1"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P14"/>
+<wire x1="73.66" y1="76.2" x2="73.66" y2="60.96" width="0.1524" layer="91"/>
+<label x="73.66" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="D0" class="0">
 <segment>
 <wire x1="33.02" y1="35.56" x2="35.56" y2="35.56" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="35.56" x2="38.1" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="D0"/>
+</segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P13"/>
+<wire x1="71.12" y1="76.2" x2="71.12" y2="60.96" width="0.1524" layer="91"/>
+<label x="71.12" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="A15" class="0">
@@ -6038,10 +6088,10 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="C3" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="GND@1"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="GND@1"/>
 <wire x1="170.18" y1="86.36" x2="170.18" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="GND2" gate="1" pin="GND"/>
-<pinref part="U$1" gate="G$1" pin="GND@2"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="GND@2"/>
 <junction x="170.18" y="83.82"/>
 <wire x1="170.18" y1="83.82" x2="170.18" y2="78.74" width="0.1524" layer="91"/>
 </segment>
@@ -6063,6 +6113,11 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="-2.54" y1="45.72" x2="-5.08" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="NMI"/>
 </segment>
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P10"/>
+<wire x1="58.42" y1="76.2" x2="58.42" y2="60.96" width="0.1524" layer="91"/>
+<label x="58.42" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="/WAIT" class="0">
 <segment>
@@ -6070,7 +6125,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="WAIT"/>
 </segment>
 <segment>
-<pinref part="U$1" gate="G$1" pin="P6"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P6"/>
 <wire x1="43.18" y1="76.2" x2="43.18" y2="60.96" width="0.1524" layer="91"/>
 <label x="43.18" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
@@ -6120,8 +6175,97 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <net name="N$1" class="0">
 <segment>
 <pinref part="L1" gate="G$1" pin="1"/>
-<pinref part="U$1" gate="G$1" pin="5V"/>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="5V"/>
 <wire x1="172.72" y1="93.98" x2="170.18" y2="93.98" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$9" class="0">
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P22"/>
+<wire x1="104.14" y1="76.2" x2="104.14" y2="60.96" width="0.1524" layer="91"/>
+<label x="104.14" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$10" class="0">
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P23"/>
+<wire x1="109.22" y1="76.2" x2="109.22" y2="60.96" width="0.1524" layer="91"/>
+<label x="109.22" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$11" class="0">
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P24"/>
+<wire x1="111.76" y1="76.2" x2="111.76" y2="60.96" width="0.1524" layer="91"/>
+<label x="111.76" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$12" class="0">
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P25"/>
+<wire x1="116.84" y1="76.2" x2="116.84" y2="60.96" width="0.1524" layer="91"/>
+<label x="116.84" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$13" class="0">
+<segment>
+<pinref part="CONN_ZXUNO" gate="G$1" pin="P26"/>
+<wire x1="119.38" y1="76.2" x2="119.38" y2="60.96" width="0.1524" layer="91"/>
+<label x="119.38" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$14" class="0">
+<segment>
+<wire x1="124.46" y1="76.2" x2="124.46" y2="60.96" width="0.1524" layer="91"/>
+<label x="124.46" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$15" class="0">
+<segment>
+<wire x1="127" y1="76.2" x2="127" y2="60.96" width="0.1524" layer="91"/>
+<label x="127" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$16" class="0">
+<segment>
+<wire x1="132.08" y1="76.2" x2="132.08" y2="60.96" width="0.1524" layer="91"/>
+<label x="132.08" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$17" class="0">
+<segment>
+<wire x1="134.62" y1="76.2" x2="134.62" y2="60.96" width="0.1524" layer="91"/>
+<label x="134.62" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$18" class="0">
+<segment>
+<wire x1="139.7" y1="76.2" x2="139.7" y2="60.96" width="0.1524" layer="91"/>
+<label x="139.7" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$19" class="0">
+<segment>
+<wire x1="142.24" y1="76.2" x2="142.24" y2="60.96" width="0.1524" layer="91"/>
+<label x="142.24" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$20" class="0">
+<segment>
+<wire x1="147.32" y1="76.2" x2="147.32" y2="60.96" width="0.1524" layer="91"/>
+<label x="147.32" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$21" class="0">
+<segment>
+<wire x1="149.86" y1="76.2" x2="149.86" y2="60.96" width="0.1524" layer="91"/>
+<label x="149.86" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
+</net>
+<net name="N$22" class="0">
+<segment>
+<wire x1="154.94" y1="76.2" x2="154.94" y2="60.96" width="0.1524" layer="91"/>
+<label x="154.94" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 </nets>
