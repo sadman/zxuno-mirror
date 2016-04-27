@@ -1289,7 +1289,6 @@ tosd    ld      ix, cad75
         call_prnstr
         di
 ;        wreg    master_conf, 2        ; enable divmmc
-
 ;        ld      hl, SET_BLOCKLEN<<8 | 2
 ;        call    cs_low
 ;        out     (c), h
@@ -1298,13 +1297,11 @@ tosd    ld      ix, cad75
 ;        out     (c), l
 ;        call    send1z
 
-
-;        wreg    scandbl_ctrl, $80
+        wreg    scandbl_ctrl, $80
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
-        call    readat0
+        call    inirea
         jr      nz, errsd
-;        ld      b, e
         ld      hl, (tmpbu2+$1c6)     ; read LBA address of 1st partition
         ld      a, (tmpbu2+$1c2)      ; read partition type
         push    af
@@ -1359,7 +1356,7 @@ tosd5   ld      c, SPI_PORT
         jr      z, fatxx        ; 04,06,0b,0c,0e -> FAT32
 errsd   ld      ix, cad77
 ferror  ;wreg    master_conf, 0
-        ;wreg    scandbl_ctrl, 0
+        wreg    scandbl_ctrl, 0
         ld      bc, $090d
         call_prnstr
         ld      a, cad80 & $ff
@@ -4043,7 +4040,7 @@ getbit  ld      a, (hl)
         block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.321', 0
+        defm    'ZX-Uno BIOS v0.322', 0
         defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -4078,7 +4075,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.321   ', $7f, '2016 ZX-Uno Team', 0
+        defb    '   BIOS v0.322   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0

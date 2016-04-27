@@ -1,6 +1,6 @@
         define  SPI_PORT        $eb
         define  OUT_PORT        $e7
-        define  MMC_0           $fe ; D0 LOW = SLOT0 active
+        define  MMC_0           $fe
         define  CMD0            $40
         define  CMD1            $41
         define  CMD8            $48
@@ -30,17 +30,12 @@ waitk   ld      a, $fd
         in      a, ($fe)
         rrca
         jr      c, waitk
-        ld      c, SPI_PORT
-        call    mmcinit
-
-        ld      hl, 0
+        sbc     hl, hl          ; read MBR
         ld      ix, $8000
-        call    readat0
-
+        call    inirea
         ld      hl, ($81c6)     ; read LBA address of 1st partition
         ld      ix, $81d0
         call    readat0
-
         ld      hl, $81c0
 repe    ld      a, (hl)
         call    rbyte
@@ -51,7 +46,6 @@ waitnk  ld      a, $fd
         rrca
         jr      nc, waitnk
         jr      init
-
 rbyte   push    af
         rrca
         rrca
@@ -71,15 +65,12 @@ rbyte   push    af
         ld      a, 13
         rst     $10
         ret
-
 rdigit  and     $0f
         or      $30
         cp      $3a
         ret     c
         add     a, 7
         ret
-
         include sd.asm
-
 msg     defb    'Press A', 13
 sdhc    defb    0

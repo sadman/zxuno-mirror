@@ -1,16 +1,18 @@
 
+inirea  push    hl
+        push    bc
 reinit  call    mmcinit
         pop     bc
         pop     hl
         ret     nz
-        defb    $32
+;        defb    $32
 readat0 ld      e, 0
 readata push    hl
         push    bc
         ld      a, READ_SINGLE  ; Command code for multiple block read
         call    cs_low          ; set cs high
-        ld      c, SPI_PORT
-        out     (c), a
+        ld      bc, READ_SINGLE<<8 | SPI_PORT
+        out     (c), b
         ld      a, (sdhc)
         or      a
         jr      z, mul2
@@ -29,7 +31,6 @@ mul2    ld      a, e
         call    send1z
 mul3    or      a
         jr      nz, reinit
-        ld      b, 10                         ; retry counter
 waitl   call    waitr
         sub     $fe             ; waits for the MMC to reply $FE (DATA TOKEN)
         jr      z, waitm
@@ -48,7 +49,7 @@ mmcinit xor     a
         ld      iyl, a
         dec     a
         call    cs_high         ; set cs high
-        ld      b, 9            ; sends 80 clocks
+        ld      bc, $09<<8 | SPI_PORT
 l_init  out     (c), a
         djnz    l_init
         call    cs_low          ; set cs low
