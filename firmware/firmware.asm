@@ -1,4 +1,4 @@
-        define  version         4
+        include version.asm
 
         output  firmware_strings.rom
       macro wreg  dir, dato
