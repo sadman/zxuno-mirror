@@ -5702,6 +5702,45 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 </deviceset>
 </devicesets>
 </library>
+<library name="wirepad">
+<description>&lt;b&gt;Single Pads&lt;/b&gt;&lt;p&gt;
+&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
+<packages>
+<package name="SMD2,54-5,08">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<smd name="1" x="0" y="0" dx="2.54" dy="5.08" layer="1"/>
+<text x="0" y="0" size="0.0254" layer="27">&gt;VALUE</text>
+<text x="-1.5" y="-2.5" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+</package>
+</packages>
+<symbols>
+<symbol name="PAD">
+<wire x1="-1.016" y1="1.016" x2="1.016" y2="-1.016" width="0.254" layer="94"/>
+<wire x1="-1.016" y1="-1.016" x2="1.016" y2="1.016" width="0.254" layer="94"/>
+<text x="-1.143" y="1.8542" size="1.778" layer="95">&gt;NAME</text>
+<text x="-1.143" y="-3.302" size="1.778" layer="96">&gt;VALUE</text>
+<pin name="P" x="2.54" y="0" visible="off" length="short" direction="pas" rot="R180"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="SMD5" prefix="PAD" uservalue="yes">
+<description>&lt;b&gt;SMD PAD&lt;/b&gt;</description>
+<gates>
+<gate name="1" symbol="PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SMD2,54-5,08">
+<connects>
+<connect gate="1" pin="P" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -5735,6 +5774,18 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <part name="P+2" library="supply1" deviceset="VCC" device=""/>
 <part name="P+4" library="supply1" deviceset="VCC" device=""/>
 <part name="ZXUNO_EXP" library="zxuno" deviceset="ZXUNO_CONNECTOR" device=""/>
+<part name="R1" library="rcl" deviceset="R-US_" device="R0805" value="10K"/>
+<part name="P+3" library="supply1" deviceset="VCC" device=""/>
+<part name="PAD1" library="wirepad" deviceset="SMD5" device=""/>
+<part name="R2" library="rcl" deviceset="R-US_" device="R0805" value="10K"/>
+<part name="P+5" library="supply1" deviceset="VCC" device=""/>
+<part name="PAD2" library="wirepad" deviceset="SMD5" device=""/>
+<part name="R4" library="rcl" deviceset="R-US_" device="R0805" value="10K"/>
+<part name="P+6" library="supply1" deviceset="VCC" device=""/>
+<part name="PAD3" library="wirepad" deviceset="SMD5" device=""/>
+<part name="R5" library="rcl" deviceset="R-US_" device="R0805" value="10K"/>
+<part name="P+7" library="supply1" deviceset="VCC" device=""/>
+<part name="PAD4" library="wirepad" deviceset="SMD5" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5744,7 +5795,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <instance part="IC1" gate="G$1" x="15.24" y="50.8"/>
 <instance part="IC1" gate="P" x="55.88" y="27.94"/>
 <instance part="GND1" gate="1" x="55.88" y="12.7"/>
-<instance part="R3" gate="G$1" x="-20.32" y="68.58" rot="R90"/>
+<instance part="R3" gate="G$1" x="129.54" y="20.32" rot="R90"/>
 <instance part="SUPPLY1" gate="+5V" x="185.42" y="99.06"/>
 <instance part="C1" gate="G$1" x="63.5" y="30.48"/>
 <instance part="IC2" gate="G$1" x="93.98" y="38.1"/>
@@ -5759,11 +5810,22 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <attribute name="NAME" x="177.8" y="95.504" size="1.778" layer="95"/>
 </instance>
 <instance part="GND2" gate="1" x="170.18" y="76.2"/>
-<instance part="IC1" gate="X" x="15.24" y="93.98"/>
 <instance part="P+1" gate="VCC" x="55.88" y="43.18"/>
 <instance part="P+2" gate="VCC" x="111.76" y="45.72"/>
-<instance part="P+4" gate="VCC" x="-20.32" y="78.74"/>
+<instance part="P+4" gate="VCC" x="129.54" y="33.02"/>
 <instance part="ZXUNO_EXP" gate="G$1" x="81.28" y="88.9"/>
+<instance part="R1" gate="G$1" x="137.16" y="20.32" rot="R90"/>
+<instance part="P+3" gate="VCC" x="137.16" y="33.02"/>
+<instance part="PAD1" gate="1" x="144.78" y="12.7" rot="R180"/>
+<instance part="R2" gate="G$1" x="149.86" y="20.32" rot="R90"/>
+<instance part="P+5" gate="VCC" x="149.86" y="33.02"/>
+<instance part="PAD2" gate="1" x="157.48" y="12.7" rot="R180"/>
+<instance part="R4" gate="G$1" x="162.56" y="20.32" rot="R90"/>
+<instance part="P+6" gate="VCC" x="162.56" y="33.02"/>
+<instance part="PAD3" gate="1" x="170.18" y="12.7" rot="R180"/>
+<instance part="R5" gate="G$1" x="175.26" y="20.32" rot="R90"/>
+<instance part="P+7" gate="VCC" x="175.26" y="33.02"/>
+<instance part="PAD4" gate="1" x="182.88" y="12.7" rot="R180"/>
 </instances>
 <busses>
 <bus name="A[0..15]">
@@ -5782,12 +5844,15 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <label x="40.64" y="45.72" size="1.778" layer="95"/>
 </segment>
 </bus>
-<bus name="/M1,/MREQ,/IORQ,/RD,/WR,/INT,/RESET,CLK,/NMI,/WAIT,/BUSREQ">
+<bus name="/M1,/MREQ,/IORQ,/RD,/WR,/INT,/RESET,CLK,/NMI,/WAIT,/BUSREQ,/RFSH,/HALT">
 <segment>
-<wire x1="-5.08" y1="27.94" x2="-5.08" y2="88.9" width="0.762" layer="92"/>
+<wire x1="-5.08" y1="10.16" x2="-5.08" y2="88.9" width="0.762" layer="92"/>
 <wire x1="-5.08" y1="88.9" x2="-7.62" y2="91.44" width="0.762" layer="92"/>
 <wire x1="-7.62" y1="91.44" x2="-12.7" y2="91.44" width="0.762" layer="92"/>
 <label x="-7.62" y="88.9" size="1.778" layer="95" rot="R270"/>
+<wire x1="-5.08" y1="10.16" x2="-2.54" y2="7.62" width="0.762" layer="92"/>
+<wire x1="-2.54" y1="7.62" x2="160.02" y2="7.62" width="0.762" layer="92"/>
+<label x="88.9" y="5.08" size="1.778" layer="95"/>
 </segment>
 </bus>
 </busses>
@@ -5863,6 +5928,11 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <segment>
 <wire x1="-2.54" y1="78.74" x2="-5.08" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="M1"/>
+</segment>
+<segment>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P35"/>
+<wire x1="154.94" y1="76.2" x2="154.94" y2="60.96" width="0.1524" layer="91"/>
+<label x="154.94" y="60.96" size="1.778" layer="95" rot="R90"/>
 </segment>
 </net>
 <net name="D7" class="0">
@@ -5999,11 +6069,21 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="33.02" y1="78.74" x2="35.56" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="A0"/>
 </segment>
+<segment>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P34"/>
+<wire x1="149.86" y1="76.2" x2="149.86" y2="60.96" width="0.1524" layer="91"/>
+<label x="149.86" y="60.96" size="1.778" layer="95" rot="R90"/>
+</segment>
 </net>
 <net name="A1" class="0">
 <segment>
 <wire x1="33.02" y1="76.2" x2="35.56" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="A1"/>
+</segment>
+<segment>
+<wire x1="142.24" y1="76.2" x2="142.24" y2="60.96" width="0.1524" layer="91"/>
+<label x="142.24" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P32"/>
 </segment>
 </net>
 <net name="A2" class="0">
@@ -6011,11 +6091,21 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="33.02" y1="73.66" x2="35.56" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="A2"/>
 </segment>
+<segment>
+<wire x1="147.32" y1="76.2" x2="147.32" y2="60.96" width="0.1524" layer="91"/>
+<label x="147.32" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P33"/>
+</segment>
 </net>
 <net name="A3" class="0">
 <segment>
 <wire x1="33.02" y1="71.12" x2="35.56" y2="73.66" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="A3"/>
+</segment>
+<segment>
+<wire x1="139.7" y1="76.2" x2="139.7" y2="60.96" width="0.1524" layer="91"/>
+<label x="139.7" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P31"/>
 </segment>
 </net>
 <net name="A4" class="0">
@@ -6023,11 +6113,21 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <wire x1="33.02" y1="68.58" x2="35.56" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="A4"/>
 </segment>
+<segment>
+<wire x1="132.08" y1="76.2" x2="132.08" y2="60.96" width="0.1524" layer="91"/>
+<label x="132.08" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P29"/>
+</segment>
 </net>
 <net name="A5" class="0">
 <segment>
 <wire x1="33.02" y1="66.04" x2="35.56" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="A5"/>
+</segment>
+<segment>
+<wire x1="134.62" y1="76.2" x2="134.62" y2="60.96" width="0.1524" layer="91"/>
+<label x="134.62" y="60.96" size="1.778" layer="95" rot="R90"/>
+<pinref part="ZXUNO_EXP" gate="G$1" pin="P30"/>
 </segment>
 </net>
 <net name="A6" class="0">
@@ -6147,8 +6247,7 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="IC1" gate="G$1" pin="BUSREQ"/>
 </segment>
 <segment>
-<wire x1="-5.08" y1="58.42" x2="-20.32" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="-20.32" y1="58.42" x2="-20.32" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="7.62" x2="129.54" y2="15.24" width="0.1524" layer="91"/>
 <label x="-25.4" y="55.88" size="1.778" layer="95"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 </segment>
@@ -6163,6 +6262,14 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <segment>
 <wire x1="-2.54" y1="53.34" x2="-5.08" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="WAIT"/>
+</segment>
+<segment>
+<pinref part="R1" gate="G$1" pin="1"/>
+<wire x1="137.16" y1="15.24" x2="137.16" y2="12.7" width="0.1524" layer="91"/>
+<pinref part="PAD1" gate="1" pin="P"/>
+<wire x1="142.24" y1="12.7" x2="137.16" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="137.16" y1="7.62" x2="137.16" y2="12.7" width="0.1524" layer="91"/>
+<junction x="137.16" y="12.7"/>
 </segment>
 </net>
 <net name="VCC" class="1">
@@ -6185,9 +6292,29 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="P+2" gate="VCC" pin="VCC"/>
 </segment>
 <segment>
-<wire x1="-20.32" y1="76.2" x2="-20.32" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="30.48" x2="129.54" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="2"/>
 <pinref part="P+4" gate="VCC" pin="VCC"/>
+</segment>
+<segment>
+<pinref part="P+3" gate="VCC" pin="VCC"/>
+<pinref part="R1" gate="G$1" pin="2"/>
+<wire x1="137.16" y1="30.48" x2="137.16" y2="25.4" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+5" gate="VCC" pin="VCC"/>
+<pinref part="R2" gate="G$1" pin="2"/>
+<wire x1="149.86" y1="30.48" x2="149.86" y2="25.4" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+6" gate="VCC" pin="VCC"/>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="162.56" y1="30.48" x2="162.56" y2="25.4" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+7" gate="VCC" pin="VCC"/>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="175.26" y1="30.48" x2="175.26" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="1">
@@ -6214,39 +6341,40 @@ Source: http://www.vishay.com/docs/10129/hpc0201a.pdf</description>
 <pinref part="ZXUNO_EXP" gate="G$1" pin="5V"/>
 </segment>
 </net>
-<net name="N$18" class="0">
+<net name="/RFSH" class="0">
 <segment>
-<wire x1="132.08" y1="76.2" x2="132.08" y2="60.96" width="0.1524" layer="91"/>
-<label x="132.08" y="60.96" size="1.778" layer="95" rot="R90"/>
-<pinref part="ZXUNO_EXP" gate="G$1" pin="P29"/>
+<pinref part="IC1" gate="G$1" pin="RFSH"/>
+<wire x1="-2.54" y1="63.5" x2="-5.08" y2="66.04" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$19" class="0">
+<net name="/HALT" class="0">
 <segment>
-<wire x1="134.62" y1="76.2" x2="134.62" y2="60.96" width="0.1524" layer="91"/>
-<label x="134.62" y="60.96" size="1.778" layer="95" rot="R90"/>
-<pinref part="ZXUNO_EXP" gate="G$1" pin="P30"/>
+<pinref part="IC1" gate="G$1" pin="HALT"/>
+<wire x1="-2.54" y1="58.42" x2="-5.08" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$20" class="0">
+<net name="/WAIT1" class="0">
 <segment>
-<wire x1="139.7" y1="76.2" x2="139.7" y2="60.96" width="0.1524" layer="91"/>
-<label x="139.7" y="60.96" size="1.778" layer="95" rot="R90"/>
-<pinref part="ZXUNO_EXP" gate="G$1" pin="P31"/>
+<pinref part="R2" gate="G$1" pin="1"/>
+<wire x1="149.86" y1="15.24" x2="149.86" y2="12.7" width="0.1524" layer="91"/>
+<pinref part="PAD2" gate="1" pin="P"/>
+<wire x1="154.94" y1="12.7" x2="149.86" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$21" class="0">
+<net name="/WAIT2" class="0">
 <segment>
-<wire x1="142.24" y1="76.2" x2="142.24" y2="60.96" width="0.1524" layer="91"/>
-<label x="142.24" y="60.96" size="1.778" layer="95" rot="R90"/>
-<pinref part="ZXUNO_EXP" gate="G$1" pin="P32"/>
+<pinref part="R4" gate="G$1" pin="1"/>
+<wire x1="162.56" y1="15.24" x2="162.56" y2="12.7" width="0.1524" layer="91"/>
+<pinref part="PAD3" gate="1" pin="P"/>
+<wire x1="167.64" y1="12.7" x2="162.56" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$22" class="0">
+<net name="/WAIT3" class="0">
 <segment>
-<wire x1="147.32" y1="76.2" x2="147.32" y2="60.96" width="0.1524" layer="91"/>
-<label x="147.32" y="60.96" size="1.778" layer="95" rot="R90"/>
-<pinref part="ZXUNO_EXP" gate="G$1" pin="P33"/>
+<pinref part="R5" gate="G$1" pin="1"/>
+<wire x1="175.26" y1="15.24" x2="175.26" y2="12.7" width="0.1524" layer="91"/>
+<pinref part="PAD4" gate="1" pin="P"/>
+<wire x1="180.34" y1="12.7" x2="175.26" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
