@@ -443,41 +443,41 @@
 <wire x1="83.82" y1="-7.62" x2="83.82" y2="7.62" width="0.254" layer="94"/>
 <wire x1="83.82" y1="7.62" x2="-40.64" y2="7.62" width="0.254" layer="94"/>
 <wire x1="-40.64" y1="7.62" x2="-40.64" y2="-7.62" width="0.254" layer="94"/>
-<pin name="P6" x="-38.1" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P7" x="-35.56" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P8" x="-30.48" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P9" x="-25.4" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P10" x="-22.86" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P11" x="-17.78" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P12" x="-15.24" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P13" x="-10.16" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P14" x="-7.62" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P15" x="-2.54" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P16" x="0" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P17" x="5.08" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P18" x="7.62" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P19" x="12.7" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P20" x="15.24" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P21" x="20.32" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P22" x="22.86" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P23" x="27.94" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P24" x="30.48" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P25" x="35.56" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P26" x="38.1" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P27" x="43.18" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P28" x="45.72" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P29" x="50.8" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P30" x="53.34" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P31" x="58.42" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P32" x="60.96" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P33" x="66.04" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P34" x="68.58" y="-12.7" visible="pin" length="middle" rot="R90"/>
-<pin name="P35" x="73.66" y="-12.7" visible="pin" length="middle" rot="R90"/>
+<pin name="P6" x="-38.1" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P7" x="-35.56" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P8" x="-30.48" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P9" x="-25.4" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P10" x="-22.86" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P11" x="-17.78" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P12" x="-15.24" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P13" x="-10.16" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P14" x="-7.62" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P15" x="-2.54" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P16" x="0" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P17" x="5.08" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P18" x="7.62" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P19" x="12.7" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P20" x="15.24" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P21" x="20.32" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P22" x="22.86" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P23" x="27.94" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P24" x="30.48" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P25" x="35.56" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P26" x="38.1" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P27" x="43.18" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P28" x="45.72" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P29" x="50.8" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P30" x="53.34" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P31" x="58.42" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P32" x="60.96" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P33" x="66.04" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P34" x="68.58" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
+<pin name="P35" x="73.66" y="-12.7" visible="pin" length="middle" swaplevel="1" rot="R90"/>
 <pin name="5V" x="88.9" y="5.08" visible="pin" length="middle" direction="pwr" rot="R180"/>
-<pin name="3.3V@1" x="88.9" y="2.54" visible="pin" length="middle" direction="pwr" rot="R180"/>
-<pin name="3.3V@2" x="88.9" y="0" visible="pin" length="middle" direction="pwr" rot="R180"/>
-<pin name="GND@1" x="88.9" y="-2.54" visible="pin" length="middle" direction="pwr" rot="R180"/>
-<pin name="GND@2" x="88.9" y="-5.08" visible="pin" length="middle" direction="pwr" rot="R180"/>
+<pin name="3.3V@1" x="88.9" y="2.54" visible="pin" length="middle" direction="pwr" swaplevel="3" rot="R180"/>
+<pin name="3.3V@2" x="88.9" y="0" visible="pin" length="middle" direction="pwr" swaplevel="3" rot="R180"/>
+<pin name="GND@1" x="88.9" y="-2.54" visible="pin" length="middle" direction="pwr" swaplevel="2" rot="R180"/>
+<pin name="GND@2" x="88.9" y="-5.08" visible="pin" length="middle" direction="pwr" swaplevel="2" rot="R180"/>
 <text x="-40.64" y="8.382" size="1.27" layer="95">&gt;NAME</text>
 <text x="76.2" y="8.382" size="1.27" layer="95">&gt;VALUE</text>
 </symbol>
