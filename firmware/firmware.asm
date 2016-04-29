@@ -1302,9 +1302,13 @@ tosd    ld      ix, cad75
         ld      ix, tmpbu2
         call    inirea
         jr      nz, errsd
+        ld      a, (tmpbu2)           ; read first type
+        sub     $e0
+        cp      $0b
+        jr      z, tosd0
         ld      hl, (tmpbu2+$1c6)     ; read LBA address of 1st partition
         ld      a, (tmpbu2+$1c2)      ; read partition type
-        push    af
+tosd0   push    af
         call    readata               ; read boot sector with BPB
         push    hl
         ld      a, (menuop+1)
