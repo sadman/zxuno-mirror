@@ -1,3 +1,4 @@
+        define  debug   0
 
 inirea  push    hl
         push    bc
@@ -72,6 +73,10 @@ l_init  out     (c), a
         call    acmd41
         cp      2
         jr      nc, mmc
+      IF debug=1
+        ld      a, 1
+        out     ($fe), a
+      ENDIF
 sdv1    call    acmd41
         call    count
         jr      z, count

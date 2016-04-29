@@ -33,7 +33,12 @@ waitk   ld      a, $fd
         sbc     hl, hl          ; read MBR
         ld      ix, $8000
         call    inirea
-        ld      hl, ($81c6)     ; read LBA address of 1st partition
+        ld      a, ($8000)           ; read first type
+        cp      $eb
+        jr      nz, conmbr
+        ld      hl, $8000
+        jr      repe
+conmbr  ld      hl, ($81c6)     ; read LBA address of 1st partition
         ld      ix, $81d0
         call    readat0
         ld      hl, $81c0
