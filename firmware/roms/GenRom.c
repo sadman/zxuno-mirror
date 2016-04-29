@@ -43,7 +43,7 @@ unsigned short j, k, crc, tab[]= {
 int main(int argc, char *argv[]) {
   if( argc==1 )
     printf("\n"
-    "GenRom v0.03, generates a TAP for loading a ROM in the ZX-Uno, 2015-06-16\n\n"
+    "GenRom v0.03, generates a TAP for loading a ROM in the ZX-Uno, 2016-04-29\n\n"
     "  GenRom         <params> <start_ram> <length_ram> <byte_1FFD> <byte_7FFD>\n"
     "                 <name> <input_file> <output_file>\n\n"
     "  <params>       Set 5 flags parameters, combinable\n"
@@ -54,10 +54,10 @@ int main(int argc, char *argv[]) {
     "     c           Disable Contention\n"
     "     d           Enable DivMMC\n"
     "     n           Enable NMI-DivMMC\n"
-    "  <start_ram>    Number of start bank to SRAM, between 08 and 0f (in hex)\n"
-    "  <length_ram>   Number of banks used, in hexadecimal\n"
-    "  <byte_1FFD>    Last byte to send to 1FFD port, in hexadecimal\n"
-    "  <byte_7FFD>    Last byte to send to 7FFD port, in hexadecimal\n"
+    "  <start_ram>    Number of start bank to SRAM, between 8 and 15\n"
+    "  <length_ram>   Number of banks used\n"
+    "  <byte_1FFD>    Last byte to send to 1FFD port\n"
+    "  <byte_7FFD>    Last byte to send to 7FFD port\n"
     "  <name>         Name between single quotes up to 32 chars\n"
     "  <input_file>   Input ROM file\n"
     "  <output_file>  Output TAP file\n\n"
