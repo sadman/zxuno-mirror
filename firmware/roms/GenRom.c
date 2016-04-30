@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
   mem[0x4009]= atoi(argv[3]);
   mem[0x400a]= atoi(argv[4]);
   mem[0x400b]= atoi(argv[5]);
-  mem[0x400c]= 0b00010100;
+  mem[0x400c]= 0b00110000;
   for ( i= 0; i<strlen(argv[1]); i++ )
     switch( argv[1][i] ){
       case 'i': mem[0x400c]^= 0b00100000; break;

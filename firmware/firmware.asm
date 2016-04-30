@@ -3145,7 +3145,7 @@ conti   di
 ccon1   and     b               ; 0 0 0 0 0 0 MODE1 MODE0
         rrca                    ; MODE0 0 0 0 0 0 0 MODE1
         inc     l
-        rr      (hl)            ; conten
+        srl     (hl)            ; conten
         jr      z, ccon2
         bit     4, d
         jr      z, ccon2
@@ -3154,21 +3154,21 @@ ccon2   adc     a, a            ; 0 0 0 0 0 0 MODE1 /DISCONT
         ld      l, keyiss & $ff
         rr      b
         adc     a, a            ; 0 0 0 0 0 MODE1 /DISCONT MODE0
-        rr      (hl)            ; keyiss
+        srl     (hl)            ; keyiss
         jr      z, ccon3
         bit     5, d
         jr      z, ccon3
         ccf
 ccon3   adc     a, a            ; 0 0 0 0 MODE1 /DISCONT MODE0 /I2KB
         ld      l, nmidiv & $ff
-        rr      (hl)            ; nmidiv
+        srl     (hl)            ; nmidiv
         jr      z, conti1
         bit     2, d
         jr      z, conti1
         ccf
 conti1  adc     a, a            ; 0 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI
         dec     l
-        rr      (hl)            ; divmap
+        srl     (hl)            ; divmap
         jr      z, conti2
         bit     3, d
         jr      z, conti2
@@ -4049,7 +4049,7 @@ getbit  ld      a, (hl)
         block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.323', 0
+        defm    'ZX-Uno BIOS v0.324', 0
         defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -4084,7 +4084,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.323   ', $7f, '2016 ZX-Uno Team', 0
+        defb    '   BIOS v0.324   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
