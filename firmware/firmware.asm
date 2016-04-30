@@ -3200,9 +3200,15 @@ conti3  ld      de, $c000 | master_mapper
         inc     a
         cp      24
         jr      nz, conti3
+        defb    $c2
+conti35 dec     iyl
+        jr      nz, conti5
 conti4  ld      a, (ix+1)
         ld      iyl, a
-conti5  ld      a, (ix)
+        ld      a, (ix)
+        ld      iyh, a
+conti5  ld      a, iyh
+        inc     iyh
         call    alto slot2a
         ld      a, master_mapper
         dec     b
@@ -3247,11 +3253,7 @@ conti6  in      a, (c)
 conti7  pop     bc
         pop     ix
 conti8  dec     (ix+3)
-        jr      z, conti9
-        dec     iyl
-        jr      z, conti4
-        inc     (ix)
-        jr      conti5
+        jr      nz, conti35
 conti9  ld      a, 0
         dec     b
         out     (c), 0;d

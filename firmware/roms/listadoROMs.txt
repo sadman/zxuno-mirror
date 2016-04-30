@@ -35,7 +35,7 @@ ROMs de 32K
   plus2es.rom           5660F4B4  0C982DB1  Original +2 española
   plus2fr.rom           8F769DE7  D7903ED3  Original +2 francesa
   pentagon.rom          AA1CE4BD  D942A239  Pentagon 128
-  se.rom                D7AC4169  BFD5C9E8  SE Basic IV 4.0 Anya por Andrew Owen
+  se.rom                1622E3CD  EE572CD5  SE Basic IV 4.0 Anya por Andrew Owen
 
 ROMs de 64K
   plus3en40.rom         96E3C17A  5E9007CCF72BCD95  Original +2A/+3 inglesa 4.0
