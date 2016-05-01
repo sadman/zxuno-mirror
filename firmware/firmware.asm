@@ -1514,12 +1514,8 @@ bucap   push    hl
         push    hl
         ld      l, h
         ld      h, b
-;        ld      b, 0
         ld      de, (items)
         add     hl, de
-;        ld      a, b
-;        adc     a, 0
-;        ld      e, a
         call    readat0
         pop     hl
         ld      h, (tmpbuf+$200)>>9
@@ -1565,13 +1561,6 @@ calc2   rrca
         pop     bc
         ret
 
-decbhl  dec     hl
-        ld      a, l
-        and     h
-        inc     a
-        ret     nz
-        dec     b
-        ret
 
 buba    push    bc
         push    de
@@ -3019,6 +3008,11 @@ exitdz  pop     hl
         jr      nc, mainlo
         ret
 
+getbit  ld      a, (hl)
+        dec     hl
+        adc     a, a
+        ret
+
 get16   ld      b, 0
         call    lsampl
         call    lsampl
@@ -4034,9 +4028,12 @@ lsampl  inc     b               ; increment the time-out counter.
         scf                     ; set carry flag signaling edge found within time allowed
         ret                     ; return.
 
-getbit  ld      a, (hl)
-        dec     hl
-        adc     a, a
+decbhl  dec     hl
+        ld      a, l
+        and     h
+        inc     a
+        ret     nz
+        dec     b
         ret
 
 ;++++++++++++++++++++++++++++++++++++++++
