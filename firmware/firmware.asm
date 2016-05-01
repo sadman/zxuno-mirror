@@ -814,12 +814,11 @@ roms    push    hl
         ld      bc, $1b0c
         call_prnstr
         call_prnstr
-        ld      c, $11
+        ld      c, $10
         call_prnstr
         call_prnstr
         call_prnstr
         ld      c, $0e
-        call_prnstr
         call_prnstr
         call_prnstr
         ld      iy, indexe
@@ -942,20 +941,7 @@ romsd   dec     iyh
         ld      a, (codcnt)
         rrca
         ret     nc
-        call    nument
-        dec     l
-        ld      e, l
-        ld      a, -1
-romst   inc     a
-        ld      b, e
-        ld      l, 0
-romsu   cp      (hl)
-        jr      z, romst
-        inc     l
-        djnz    romsu
-        ld      (hl), a
-        ld      l, a
-        call    calcu
+        call    newent
         call    atoi
         ld      (items), a
         ld      (hl), a
@@ -999,16 +985,14 @@ toanyk  ei
         ld      ix, cad51
         call_prnstr
         jp      waitky
+roms139 ld      a, (menuop+1)
+        jp      roms7
 roms14  sub     $72-$6e         ; r= Recovery
-        jr      nz, roms149
+        jr      nz, roms139
         ld      hl, $0309
-        ld      de, $1b08
         ld      a, %00000111    ; fondo negro tinta blanca
-        call    window
-        dec     h
-        dec     l
-        ld      a, %01001111    ; fondo azul tinta blanca
-        call    window
+        call    rest1
+        call    resto
         sub     l               ; fondo negro tinta blanca
         ld      iyl, 4
         ld      hl, $030c
@@ -1020,17 +1004,64 @@ roms14  sub     $72-$6e         ; r= Recovery
         ld      bc, $040c
         ld      hl, $20ff
         call    inputv
-
-        ld      bc, $040e
-        ld      hl, $02ff
+        ld      a, (codcnt)
+        rrca
+        jr      nc, roms149
+        call    newent
+        push    hl
+        set     5, l
+        ex      de, hl
+        ld      hl, empstr
+        ld      a, (items)
+        ld      c, a
+        inc     c
+        ldir
+        sub     32
+        ex      de, hl
+        dec     hl
+roms145 ld      (hl), 32
+        inc     hl
+        inc     a
+        jr      nz, roms145
+        pop     iy
+roms146 inc     iy
+        call    resto
+        ld      de, $0301
+        ld      a, iyl
+        and     7
+        ld      l, a
+        add     a, a
+        push    af
+        add     a, l
+        ld      h, a
+        ld      l, $0e
+        ld      a, %01000111    ; fondo negro tinta blanca
+        call    window
+        pop     af
+        add     a, a
+        ld      b, a
+        ld      c, $0e
+        ld      hl, $03ff
         call    inputv
-
-  di
-  halt
+        ld      a, (codcnt)
+        rrca
+        jr      c, roms148
+        call    nument
+        dec     l
+        dec     l
+        ld      (hl), $ff
+        jr      roms149
+roms148 call    atoi
+        ld      (iy-1), a
+        ld      a, iyl
+        inc     a
+        and     7
+        jr      nz, roms146
+roms149 ld      a, %00111001    ; fondo blanco tinta azul
+        ld      hl, $0a08
+        ld      de, $1409
+        call    window
         ret
-
-roms149 ld      a, (menuop+1)
-        jp      roms7
 roms15  ld      hl, tmpbuf
         ld      (hl), 1
 roms16  call    popupw
@@ -2664,6 +2695,12 @@ listaa  pop     de
         dec     a
         jp      (hl)
 
+; restore background color in recovery dialog
+resto   ld      a, %01001111    ; fondo azul tinta blanca
+        ld      hl, $0208
+rest1   ld      de, $1b08
+        
+        
 ; -------------------------------------
 ; Draw a window in the attribute area
 ; Parameters:
@@ -2853,13 +2890,24 @@ ramts1  ld      ixl, cad66&$ff
         call_prnstr
         dec     iyh
         jr      nz, ramts1
-;        ld      bc, $0212
-;        ld      ix, cad66
-;        call_prnstr
-;        ld      ixl, cad66 & $ff
-;        call_prnstr
         ret
 
+; create a new ROM entry
+newent  call    nument
+        dec     l
+        ld      e, l
+        ld      a, -1
+romst   inc     a
+        ld      b, e
+        ld      l, 0
+romsu   cp      (hl)
+        jr      z, romst
+        inc     l
+        djnz    romsu
+        ld      (hl), a
+        ld      l, a
+
+; points to the ROM table, input L entry, output HL
 calcu   add     hl, hl
         add     hl, hl
         ld      h, 9
@@ -3235,7 +3283,7 @@ conti5  ld      a, iyh
         ld      e, cad55+19&$ff
         call    alto wtohex
         ld      ix, cad55
-        ld      bc, $0016
+        ld      bc, $0015
         call    alto prnstr-1
         call    alto prnstr-1
         ld      c, $fe
@@ -4123,7 +4171,6 @@ cad13   defb    $1e, ' ', $1f, ' Sel.Screen', 0
         defb    'Graph Save&Exi', 0
         defb    'Break Exit', 0
         defb    'N   New Entry', 0
-        defb    'C   Check CRCs', 0
         defb    'R   Recovery', 0
 cad14   defb    'Run a diagnos-', 0
         defb    'tic test on', 0
@@ -4271,7 +4318,7 @@ cad64   defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $17, 0
         defb    ' ', $10, 'Name                             ', $10, 0
         defb    ' ', $10, '                                 ', $10, 0
-        defb    ' ', $10, 'Slot Size Bank Size  1FFD  7FFD  ', $10, 0
+        defb    ' ', $10, 'Slt Siz Bnk Siz p1F p7F Flags    ', $10, 0
         defb    ' ', $10, '                                 ', $10, 0
         defb    ' ', $14, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11
