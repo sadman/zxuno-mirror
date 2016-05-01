@@ -898,7 +898,7 @@ romsb   sub     $1e-$16
         dec     a
         jp      z, roms27
         sub     $6e-$1f         ; n= New Entry
-        jp      nz, roms14
+        jp      nz, roms144
         call    loadta
         jp      nc, roms12
         ld      hl, %00001010
@@ -985,16 +985,13 @@ toanyk  ei
         ld      ix, cad51
         call_prnstr
         jp      waitky
-roms139 ld      a, (menuop+1)
-        jp      roms7
-roms14  sub     $72-$6e         ; r= Recovery
+roms144 sub     $72-$6e         ; r= Recovery
         jr      nz, roms139
         ld      hl, $0309
         ld      a, %00000111    ; fondo negro tinta blanca
         call    rest1
         call    resto
         sub     l               ; fondo negro tinta blanca
-        ld      iyl, 4
         ld      hl, $030c
         ld      de, $1801
         ld      ix, cad64
@@ -1051,6 +1048,14 @@ roms146 inc     iy
         dec     l
         ld      (hl), $ff
         jr      roms149
+roms139 inc     a               ; q= move item up
+        jr      nz, nmovup
+        ld      a, (menuop+1)
+        jr      moveup
+nmovup  add     a, 'q'-'a'
+        ld      a, (menuop+1)
+        jr      z, movedw
+        jp      roms7
 roms148 call    atoi
         ld      (iy-1), a
         ld      a, iyl
@@ -1080,7 +1085,7 @@ roms16  call    popupw
         ld      b, (hl)
         inc     b
         djnz    roms1a
-        or      a               ; move up
+moveup  or      a               ; move up
         ret     z
         ld      hl, active
         ld      b, (hl)
@@ -1104,13 +1109,13 @@ roms1a  djnz    roms1b
         ld      (active), a     ; set active
         ret
 roms1b  djnz    roms1f
-        ld      b, a            ; move down
+movedw  ld      b, a            ; move down
         call    nument
         sub     2
         cp      b
 roms1c  ret     z
         ld      a, b
-        ld      l, $20
+        ld      l, active & $ff
         ld      b, (hl)
         cp      b
         jr      nz, roms1d
@@ -4223,9 +4228,9 @@ cadv2   defb    'Auto', 0
 cadv3   defb    '48K', 0
 cadv4   defb    '128K', 0
 cadv5   defb    'Pentagon', 0
-cad32   defb    'Move Up', 0
+cad32   defb    'Move Up    q', 0
 cad33   defb    'Set Active', 0
-cad34   defb    'Move Down', 0
+cad34   defb    'Move Down  a', 0
 cad35   defb    'Rename', 0
 cad36   defb    'Delete', 0
         defb    ' ', $12, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
@@ -4430,5 +4435,3 @@ fincad
 ; todo
 ; * generar tablas CRC por código
 ; * descomprimir en lugar de copiar codigo alto
-; * mover posición ROMs con + y - (Quest)
-; * modificar parámetros (issue, timing...) de cada ROM (Quest)
