@@ -3095,6 +3095,7 @@ romsf   add     a, (hl)
         pop     hl
         ret
 
+      IF  0
 hhhh    push    af
         push    bc
         push    de
@@ -3138,7 +3139,7 @@ hhhh    push    af
         pop     af
         ret
 ;binf jr binf        
-
+      ENDIF
 
         incbin  es.zx7b
 fines   incbin  us.zx7b
@@ -4099,7 +4100,7 @@ decbhl  dec     hl
         block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.324', 0
+        defm    'ZX-Uno BIOS v0.325', 0
         defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -4134,7 +4135,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.324   ', $7f, '2016 ZX-Uno Team', 0
+        defb    '   BIOS v0.325   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
@@ -4428,7 +4429,7 @@ cad106  defb    '59.5', 0
 cad107  defb    '61.8', 0
 cad108  defb    '63.8', 0
 
-cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
+;cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
 fincad
 
