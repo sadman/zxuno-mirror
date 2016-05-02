@@ -310,7 +310,7 @@ star38  ld      de, tmpbuf
         ldir
         ld      (de), a
         pop     bc
-        call_prnstr
+        call_prnstr             ; Imprime máquina (ROM o core)
 start4  ld      d, a
         pop     af
         jr      nz, start5
@@ -320,10 +320,10 @@ start5  djnz    start6
         ld      a, d
         or      e
         jr      nz, start6
-        ld      hl, $0017
-        ld      de, $2001
+        ld      hl, $0017       ; Si se acaba el temporizador borrar
+        ld      de, $2001       ; lo de presione Break
         call    window
-        wreg    scan_code, $f6  ; $f6 = kb set defaults
+start50 wreg    scan_code, $f6  ; $f6 = kb set defaults
         halt
         halt
         wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
@@ -2092,7 +2092,7 @@ blst4   call    combol
         ld      (active), a
         jr      nc, blst5
         ld      (bitstr), a
-blst5   jp      alto conti
+blst5   jp      start50
 
 imyesn  call    bloq1
         ld      ix, cad42
