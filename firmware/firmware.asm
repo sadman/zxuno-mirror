@@ -69,8 +69,8 @@
         define  outvid  joydb9+1
         define  scanli  outvid+1
         define  freque  scanli+1
+        define  cpuspd  freque+1
 
-;        define  siemp0  freque+1
         define  bnames  $a100
         define  tmpbuf  $a200
         define  tmpbu2  $a280
@@ -360,6 +360,8 @@ star54  inc     b
         out     (c), d
         inc     b
         out     (c), a
+        ld      a, (cpuspd)
+        rrca
         ld      hl, (scanli)
         ld      a, (outvid)
         rr      l
@@ -368,6 +370,7 @@ star54  inc     b
         rrca
         ld      a, h
         adc     a, a
+        or      l
         dec     b
         out     (c), e
         inc     b
@@ -596,7 +599,7 @@ main8   and     a
         dec     a
         jr      nz, main17
         call    bomain
-        ld      ix, cad109
+        ld      ix, cad112
         call_prnstr
         ld      a, $08
         ld      bc, $7ffe
@@ -1862,7 +1865,6 @@ advan1  call    showop
         defw    cad29
         defw    $ffff
         call    showop
-        defw    cad101
         defw    cad102
         defw    cad103
         defw    cad104
@@ -1870,6 +1872,11 @@ advan1  call    showop
         defw    cad106
         defw    cad107
         defw    cad108
+        defw    cad109
+        defw    $ffff
+        call    showop
+        defw    cad110
+        defw    cad111
         defw    $ffff
         ld      de, $1201
         call    listas
@@ -1879,6 +1886,7 @@ advan1  call    showop
         defb    $0b
         defb    $0c
         defb    $0d
+        defb    $0e
         defb    $ff
         defw    cad84
         defw    cad85
@@ -1886,6 +1894,7 @@ advan1  call    showop
         defw    cad87
         defw    cad99
         defw    cad100
+        defw    cad101
         jp      c, main9
         ld      (menuop+1), a
         ld      hl, layout
@@ -1917,7 +1926,6 @@ advan3  ld      b, a
         ret
 advan4  djnz    advan5
         call    popupw
-        defw    cad101
         defw    cad102
         defw    cad103
         defw    cad104
@@ -1925,15 +1933,21 @@ advan4  djnz    advan5
         defw    cad106
         defw    cad107
         defw    cad108
+        defw    cad109
         defw    $ffff
         ret
-advan5  call    popupw
+advan5  djnz    advan6
+        call    popupw
+        defw    cad110
+        defw    cad111
+        defw    $ffff
+        ret
+advan6  call    popupw
         defw    cad96
         defw    cad97
         defw    cad98
         defw    $ffff
         ret
-
 
 ;****  Exit Menu  ****
 ;*********************
@@ -4411,7 +4425,8 @@ cad83   defb    'Input', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, 0
         defb    'Video', 0
         defb    'Scanlines', 0
-        defb    'Frequency', 0, 0
+        defb    'Frequency', 0
+        defb    'CPU Speed', 0, 0
 cad84   defb    'Select PS/2', 0
         defb    'mapping to', 0
         defb    'spectrum', 0, 0
@@ -4427,15 +4442,19 @@ cad99   defb    'Enable VGA', 0
 cad100  defb    'Set VGA', 0
         defb    'horizontal',0
         defb    'frequency', 0, 0
-cad101  defb    '50', 0
-cad102  defb    '51', 0
-cad103  defb    '53.5', 0
-cad104  defb    '55.8', 0
-cad105  defb    '57.4', 0
-cad106  defb    '59.5', 0
-cad107  defb    '61.8', 0
-cad108  defb    '63.8', 0
-cad109  defb    'Break to exit', 0
+cad101  defb    'Set CPU', 0
+        defb    'speed', 0, 0
+cad102  defb    '50', 0
+cad103  defb    '51', 0
+cad104  defb    '53.5', 0
+cad105  defb    '55.8', 0
+cad106  defb    '57.4', 0
+cad107  defb    '59.5', 0
+cad108  defb    '61.8', 0
+cad109  defb    '63.8', 0
+cad110  defb    '1X', 0
+cad111  defb    '2X', 0
+cad112  defb    'Break to exit', 0
 ;cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
 fincad
