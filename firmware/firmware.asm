@@ -70,7 +70,7 @@
         define  scanli  outvid+1
         define  freque  scanli+1
 
-        define  siemp0  freque+1
+;        define  siemp0  freque+1
         define  bnames  $a100
         define  tmpbuf  $a200
         define  tmpbu2  $a280
@@ -595,10 +595,18 @@ main8   and     a
         jp      z, alto ramtst
         dec     a
         jr      nz, main17
-        ld      l, siemp0&$ff
-        call    popupw
-        defw    cad23
-        defw    $ffff
+        call    bomain
+        ld      ix, cad109
+        call_prnstr
+        ld      a, $08
+        ld      bc, $7ffe
+main83  xor     $10
+        out     ($fe), a
+main86  dec     h
+        jr      nz, main86      ; self loop to ld-wait (for 256 times)
+        in      l, (c)
+        bit     0, l
+        jr      nz, main83
         ret
 main9   cp      $0c
         call    z, roms8
@@ -4220,7 +4228,6 @@ cad95   defb    'Fuller', 0
 cad96   defb    'PAL', 0
 cad97   defb    'NTSC', 0
 cad98   defb    'VGA', 0
-cad23   defb    'Not implem.', 0
 cad28   defb    'Disabled', 0
 cad29   defb    'Enabled', 0
 cad30   defb    'Issue 2', 0
@@ -4428,7 +4435,7 @@ cad105  defb    '57.4', 0
 cad106  defb    '59.5', 0
 cad107  defb    '61.8', 0
 cad108  defb    '63.8', 0
-
+cad109  defb    'Break to exit', 0
 ;cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
 fincad
