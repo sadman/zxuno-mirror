@@ -58,6 +58,11 @@ module new_memory (
    input wire ior,
    input wire iow,
    output wire in_boot_mode,
+   
+   // Interface con modulo de habilitacion de opciones
+   input wire disable_7ffd,
+   input wire disable_1ffd,
+   input wire enable_timexmmu,
 
    // Interface con la SRAM
    output wire [18:0] sram_addr,
@@ -156,8 +161,8 @@ module new_memory (
       end
    end
     
-//`define ADDR_7FFD (a[0] && !a[1] && a[14] && !a[15])  // TO-DO repasar esta codificacion!!!!
-`define ADDR_7FFD (a[0] && !a[1] && !a[15])
+`define ADDR_7FFD_PLUS2A (a[0] && !a[1] && a[14] && !a[15])  // TO-DO repasar esta codificacion!!!!
+`define ADDR_7FFD_SP128 (a[0] && !a[1] && !a[15])
 `define ADDR_1FFD (a[0] && !a[1] && a[12] && a[15:13]==3'b000)
 `define ADDR_TIMEX_MMU (a[7:0] == 8'hF4)
 
@@ -187,11 +192,13 @@ module new_memory (
          bankplus3 <= 8'h00;
          timex_mmu <= 8'h00;
       end
-      else if (!iorq_n && !wr_n && `ADDR_7FFD && !puerto_bloqueado)
-         bank128 <= din;
-      else if (!iorq_n && !wr_n && `ADDR_1FFD && !puerto_bloqueado)
+      else if (!disable_1ffd && !iorq_n && !wr_n && `ADDR_1FFD && !puerto_bloqueado)
          bankplus3 <= din;
-      else if (!iorq_n && !wr_n && `ADDR_TIMEX_MMU)
+      else if (!disable_7ffd && disable_1ffd && !iorq_n && !wr_n && `ADDR_7FFD_SP128 && !puerto_bloqueado)
+         bank128 <= din;
+      else if (!disable_7ffd && !disable_1ffd && !iorq_n && !wr_n && `ADDR_7FFD_PLUS2A && !puerto_bloqueado)
+         bank128 <= din;
+      else if (enable_timexmmu && !iorq_n && !wr_n && `ADDR_TIMEX_MMU)
          timex_mmu <= din;
    end
    
@@ -227,7 +234,7 @@ module new_memory (
                          we2_n = 1'b1;  // en este modo, la ROM es intocable
                       end
                       else begin  // mapram mode
-                         addr_port2 = {2'b10,4'b0011,a[12:0]};  // pagina 3 de la SRAM del DIVMMC
+                         addr_port2 = {6'b100011,a[12:0]};  // pagina 3 de la SRAM del DIVMMC
                          we2_n = 1'b1;
                       end
                    end
@@ -260,12 +267,12 @@ module new_memory (
                     end
                     
                     // Miramos si hay que paginar DOC o EXT y actualizamos addr_port2 y we2_n segun sea el caso
-                    if (a[13] == 1'b0 && timex_mmu[0] == 1'b1) begin
-                        addr_port2 = {doc_ext_option,5'b11000,a[12:0]};
+                    if (!amstrad_allram_page_mode && a[13] == 1'b0 && timex_mmu[0] == 1'b1) begin
+                        addr_port2 = {2'b11,doc_ext_option,3'b000,a[12:0]};
                         we2_n = mreq_n | wr_n;
                     end
-                    if (a[13] == 1'b1 && timex_mmu[1] == 1'b1) begin
-                        addr_port2 = {doc_ext_option,5'b11001,a[12:0]};
+                    if (!amstrad_allram_page_mode && a[13] == 1'b1 && timex_mmu[1] == 1'b1) begin
+                        addr_port2 = {2'b11,doc_ext_option,3'b001,a[12:0]};
                         we2_n = mreq_n | wr_n;
                     end
                 end
@@ -288,12 +295,12 @@ module new_memory (
          end
 
          // Miramos si hay que paginar DOC o EXT y actualizamos addr_port2 y we2_n segun sea el caso
-         if (!initial_boot_mode) begin
+         if (!amstrad_allram_page_mode && !initial_boot_mode) begin
                 if (a[13] == 1'b0 && timex_mmu[2] == 1'b1) begin
-                    addr_port2 = {doc_ext_option,5'b11010,a[12:0]};
+                    addr_port2 = {2'b11,doc_ext_option,3'b010,a[12:0]};
                 end
                 if (a[13] == 1'b1 && timex_mmu[3] == 1'b1) begin
-                    addr_port2 = {doc_ext_option,5'b11011,a[12:0]};
+                    addr_port2 = {2'b11,doc_ext_option,3'b011,a[12:0]};
                 end
          end
       end // de a[15:14] == 2'b01
@@ -313,12 +320,12 @@ module new_memory (
          end
 
          // Miramos si hay que paginar DOC o EXT y actualizamos addr_port2 y we2_n segun sea el caso
-         if (!initial_boot_mode) begin
+         if (!amstrad_allram_page_mode && !initial_boot_mode) begin
                 if (a[13] == 1'b0 && timex_mmu[4] == 1'b1) begin
-                    addr_port2 = {doc_ext_option,5'b11100,a[12:0]};
+                    addr_port2 = {2'b11,doc_ext_option,3'b100,a[12:0]};
                 end
                 if (a[13] == 1'b1 && timex_mmu[5] == 1'b1) begin
-                    addr_port2 = {doc_ext_option,5'b11101,a[12:0]};
+                    addr_port2 = {2'b11,doc_ext_option,3'b101,a[12:0]};
                 end
          end
       end // de a[15:14] == 2'b10
@@ -343,12 +350,12 @@ module new_memory (
          end
 
          // Miramos si hay que paginar DOC o EXT y actualizamos addr_port2 y we2_n segun sea el caso
-         if (!initial_boot_mode) begin
+         if (!amstrad_allram_page_mode && !initial_boot_mode) begin
                 if (a[13] == 1'b0 && timex_mmu[6] == 1'b1) begin
-                    addr_port2 = {doc_ext_option,5'b11110,a[12:0]};
+                    addr_port2 = {2'b11,doc_ext_option,3'b110,a[12:0]};
                 end
                 if (a[13] == 1'b1 && timex_mmu[7] == 1'b1) begin
-                    addr_port2 = {doc_ext_option,5'b11111,a[12:0]};
+                    addr_port2 = {2'b11,doc_ext_option,3'b111,a[12:0]};
                 end
          end
       end // de a[15:14] == 2'b11
@@ -414,7 +421,7 @@ module new_memory (
          dout = ram_dout;
          oe_n = 1'b0;
       end
-      else if (iorq_n == 1'b0 && rd_n == 1'b0 && `ADDR_TIMEX_MMU) begin
+      else if (enable_timexmmu && iorq_n == 1'b0 && rd_n == 1'b0 && `ADDR_TIMEX_MMU) begin
          oe_n = 1'b0;
          dout = timex_mmu;
       end
