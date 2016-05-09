@@ -1,0 +1,45 @@
+BOM for ZX-Uno 0.15
+
+Qty   Ref                   Description
+-----------------------------------------------------------------------
+ 1    U1                    FPGA XC6SLX9-2TQG144C
+ 1    U2                    SPI Flash Winbond W25Q80BV
+ 1    U3                    SRAM CY62148EV30
+ 1    U4                    Analog Devices AD724JR
+ 1    U5                    Oscilator 50MHz 5*7
+ 1    U6                    SOT223 ZLDO1117 3.3V Regulator
+ 1    U8                    SOT223 ZLDO1117 1.2V Regulator
+ 1    J1                    Micro USB socket
+ 1    J2                    SD/MMC socket
+ 1    J3                    RCA socket
+ 2    J4, J5                3.5mm audio socket
+ 1    J6                    DB9 right angle male (Joystick connector)
+ 1    J7                    PS/2 socket
+ 1    J8                    2x7 pin right angle header
+ 3    J9, J10, J11          14 pin male header single row
+ 1    J12                   2 pin male header single row
+ 1    J13                   3 pin male header single row
+ 2    L1, L2                SMD 0805 magnetic bead 1k 1.5A
+ 1    L3                    SMD 0805 magnetic bead 1k 3A
+ 3    D1, D2, D3            SMD Diode 1N4148
+ 2    D4, D5                SMD 0805 LED
+ 1    Q1                    BC846 SOT-23 NPN Transistor
+ 1    Y1                    HC-49S Low profile 3.58MHz Crystal
+ 1    Y2                    HC-49S Low profile 4.43MHz Crystal
+ 4    R1, R2, R3, R4        75 Ohm 0805 Resistor
+ 4    R8, R9, R30, R31      270 Ohm 0805 Resistor
+ 4    R5, R6, R7, R10       300 Ohm 0805 Resistor
+ 4    R11, R12, R13, R14    470 Ohm 0805 Resistor
+ 3    R15, R16, R17         1K Ohm 0805 Resistor
+ 5    R18-R20, R25-R26      2K Ohm 0805 Resistor
+ 2    R21, R22              3K9 Ohm 0805 Resistor
+ 2    R23, R24              4K7 Ohm 0805 Resistor
+ 2    R32, R33              6K8 ohm 0805 resistor (sug. McLeod)
+ 2    R28, R29              9K1 Ohm 0805 Resistor
+ 4    R27, R34              10K Ohm 0805 Resistor
+ 1    C1                    5pF 0805 Capacitor (sug. McLeod)
+ 3    C2, C3, C4            10nF 0805 Capacitor
+ 23   C5-12, C20-32, C35-36 100nF 0603 Capacitor
+ 4    C14, C15, C18, C19    4.7uF 0805 Capacitor
+ 2    C33, C34              10uF 0805 Capacitor
+ 1    C13                   220uF Electrolytic Capacitor
