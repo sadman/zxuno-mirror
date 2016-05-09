@@ -94,11 +94,14 @@ NoChCont            call PrintString
                     ld hl,CurrConfString5
                     call PrintString
                     ld a,(ScanDblCtrl)
-                    bit 7,a
-                    ld hl,NormalSpeedStr
-                    jr z,SkipTurboPrint
-                    ld hl,TurboSpeedStr
-SkipTurboPrint      call PrintString
+                    and 0c0h
+                    ld hl,Speed3d5Str
+                    jr z,GoTurboPrint
+                    cp 40h
+                    ld hl,Speed7Str
+                    jr z,GoTurboPrint
+                    ld hl,Speed14Str
+GoTurboPrint        call PrintString
 
                     ld hl,CurrConfString6
                     call PrintString
@@ -305,22 +308,25 @@ PutIssue2           cp "2"
 ParseSpeed          ld a,(hl)
                     inc hl
                     cp "0"
-                    jp z,NoTurbo
-                    cp "1"
-                    jp nz,ErrorInvalidArg
+                    jp c,ErrorInvalidArg
+                    cp "3"
+                    jp nc,ErrorInvalidArg
+                    ld b,a
                     ld a,(hl)
                     cp " "
                     jp nz,ErrorInvalidArg
+                    ld a,b
+                    and 3
+                    add a,a
+                    add a,a
+                    add a,a
+                    add a,a
+                    add a,a
+                    add a,a
+                    ld b,a
                     ld a,(ScanDblCtrl)
-                    or 80h
-                    ld (ScanDblCtrl),a
-                    jp OtroChar
-NoTurbo             ld a,(hl)
-                    inc hl
-                    cp " "
-                    jp nz,ErrorInvalidArg
-                    ld a,(ScanDblCtrl)
-                    and 7Fh
+                    and 3fh
+                    or b
                     ld (ScanDblCtrl),a
                     jp OtroChar
 
@@ -508,8 +514,9 @@ ContDisabledStr     db "DISABLED",13,0
 CurrConfString3     db "   Keyboard: ISSUE ",0
 CurrConfString4     db "      Mouse: INITIALIZED",13,0
 CurrConfString5     db "      Speed: ",0
-NormalSpeedStr      db "NORMAL",13,0
-TurboSpeedStr       db "TURBO",13,0
+Speed3d5Str         db "3.5 MHz",13,0
+Speed7Str           db "7 MHz",13,0
+Speed14Str          db "14 MHz",13,0
 CurrConfString6     db "      Video: ",0
 CompositeStr        db "CVBS/RGB 15kHz",13,0
 VGANoScansStr       db "VGA",13,0
