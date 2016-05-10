@@ -13,8 +13,6 @@ int main(int argc, char *argv[]){
   else
     lreg= 35,
     loff= 8;
- printf("%d %d %d\n", lreg, loff, loff>>3&2);
-
   ft= fopen("fuente6x8.bin", "r");
   fread(font+0x80, 1, 0x380, ft);
   for ( i= 0x400; i<0x1000; i++ )
