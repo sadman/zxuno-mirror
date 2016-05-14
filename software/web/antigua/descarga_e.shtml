@@ -24,10 +24,23 @@
   <span>·</span>
   <a href="descarga.shtml"      style="width:63px">[Spanish]</a></div>
 <div id="main">
-  <strong>Designs (v4):</strong>
+  <strong>Bitstreams (v4.1):</strong>
   <ul>
-    <li><a href="ficheros/zxuno_v4_sch.pdf">Schematics</a> 48 Kb. - ZIP</li>
-    <li><a href="ficheros/zxuno_v4_pcb.pdf">PCB</a> 108 Kb. - PDF</li></ul>
+    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb. - ZIP</li>
+    <li><a href="ficheros/4.1/acorn_atom.bit">Acorn Atom</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/bbc_micro.bit">BBC Micro</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/jupiter_ace.bit">Jupiter Ace</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/nes.bit">Nintendo Entertainment System</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/oric.bit">Oric</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/sam_coupe.bit">Sam Coupé</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/sms.bit">Sega Master System</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/spectrum.bit">ZX Spectrum</a> 300 Kb. - BIT</li>
+    </ul>
+  <br/>
+  <strong>Designs (v4.1):</strong>
+  <ul>
+    <li><a href="ficheros/zxuno_v41_sch.pdf">Schematics</a> 48 Kb. - ZIP</li>
+    <li><a href="ficheros/zxuno_v41_pcb.pdf">PCB</a> 108 Kb. - PDF</li></ul>
   <br/>
   <strong>Stickers for keyboard:</strong>
   <ul>
