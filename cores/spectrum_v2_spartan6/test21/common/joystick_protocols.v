@@ -29,9 +29,6 @@ module joystick_protocols(
     input wire [7:0] din,
     output reg [7:0] dout,
     output reg oe_n,
-    //-- interface with device control
-    input wire disable_kempston,
-    input wire disable_fuller,
     //-- interface with ZXUNO reg bank
     input wire [7:0] zxuno_addr,
     input wire zxuno_regrd,
@@ -100,7 +97,7 @@ module joystick_protocols(
             oe_n = 1'b0;
             dout = joyconf;
         end
-        else if (disable_kempston == 1'b0 && iorq_n == 1'b0 && a[7:0]==KEMPSTONADDR && rd_n==1'b0) begin
+        else if (iorq_n == 1'b0 && a[7:0]==KEMPSTONADDR && rd_n==1'b0) begin
             dout = 8'h00;
             oe_n = 1'b0;
             if (joyconf[2:0]==KEMPSTON)
@@ -108,7 +105,7 @@ module joystick_protocols(
             if (joyconf[6:4]==KEMPSTON)
                 dout = dout | {3'b000, db9joyfire_processed, db9joyup, db9joydown, db9joyleft, db9joyright};
         end
-        else if (disable_fuller == 1'b0 && iorq_n == 1'b0 && a[7:0]==FULLERADDR && rd_n==1'b0) begin
+        else if (iorq_n == 1'b0 && a[7:0]==FULLERADDR && rd_n==1'b0) begin
             dout = 8'hFF;
             oe_n = 1'b0;
             if (joyconf[2:0]==FULLER)

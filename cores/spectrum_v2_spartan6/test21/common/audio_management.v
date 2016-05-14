@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-`define MSBI 9 // Most significant Bit of DAC input
+`define MSBI 7 // Most significant Bit of DAC input
 
 //This is a Delta-Sigma Digital to Analog Converter
 module dac (DACout, DACin, Clk, Reset);
@@ -37,7 +37,7 @@ module dac (DACout, DACin, Clk, Reset);
 	always @(SigmaLatch) DeltaB = {SigmaLatch[`MSBI+2], SigmaLatch[`MSBI+2]} << (`MSBI+1);
 	always @(DACin or DeltaB) DeltaAdder = DACin + DeltaB;
 	always @(DeltaAdder or SigmaLatch) SigmaAdder = DeltaAdder + SigmaLatch;
-	always @(posedge Clk or posedge Reset)
+	always @(posedge Clk)
 	begin
 		if(Reset)
 		begin
@@ -63,7 +63,11 @@ module mixer (
 	output wire audio
 	);
 
-	reg [9:0] mezcla = 10'h000;
+    parameter
+        SRC_BEEPER = 2'd0,
+        SRC_AY1    = 2'd1,
+        SRC_AY2    = 2'd2;
+
 	wire [7:0] beeper = ({ear,spk,mic}==3'b000)? 8'd17 :
 						({ear,spk,mic}==3'b001)? 8'd36 :
 					    ({ear,spk,mic}==3'b010)? 8'd184 :
@@ -72,10 +76,21 @@ module mixer (
 		                ({ear,spk,mic}==3'b101)? 8'd48 :
 					    ({ear,spk,mic}==3'b110)? 8'd244 : 8'd255;
 	
-   wire [9:0] mezcla10bits = {2'b00,ay1} + {2'b00,ay2} + {2'b00,beeper} ;
+    reg [7:0] mezcla;
+    reg [3:0] cntsamples = 4'd0;
+    reg [1:0] sndsource = 2'd0;
 	
-	always @(posedge clkdac)
-		mezcla <= mezcla10bits;
+	always @(posedge clkdac) begin
+        if (cntsamples == 4'd0) begin  // cada 256 cuentas de reloj, cambiamos de fuente de sonido
+            case (sndsource)
+                SRC_BEEPER: mezcla <= beeper;
+                SRC_AY1   : mezcla <= ay1;
+                SRC_AY2   : mezcla <= ay2;
+            endcase
+            sndsource <= (sndsource == 2'd2)? 2'd0 : sndsource + 2'd1;  // en lugar de sumar, multiplexamos en el tiempo las fuentes de sonido
+        end
+        cntsamples <= cntsamples + 4'd1;
+    end
 
 	dac audio_dac (
 		.DACout(audio),

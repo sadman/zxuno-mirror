@@ -167,9 +167,9 @@ module zxuno (
    wire disable_turboay;
    wire disable_7ffd;
    wire disable_1ffd;
+   wire disable_romsel7f;
+   wire disable_romsel1f;
    wire enable_timexmmu;
-   wire disable_kempston;
-   wire disable_fuller;
    wire disable_spisd;
    wire [7:0] devoptions_dout;
    wire oe_n_devoptions;
@@ -362,6 +362,8 @@ module zxuno (
    // Interface con modulo de habilitacion de opciones
       .disable_7ffd(disable_7ffd),
       .disable_1ffd(disable_1ffd),
+      .disable_romsel7f(disable_romsel7f),
+      .disable_romsel1f(disable_romsel1f),
       .enable_timexmmu(enable_timexmmu),
    
    // Interface con la SRAM
@@ -408,9 +410,6 @@ module zxuno (
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
         .zxuno_regwr(zxuno_regwr),
-        //-- interface with device control
-        .disable_kempston(disable_kempston),
-        .disable_fuller(disable_fuller),
         //-- actual joystick and keyboard signals
         .kbdjoy_in(kbd_joy),
         .db9joy_in({joyfire, joyup, joydown, joyleft, joyright}),
@@ -453,9 +452,9 @@ module zxuno (
         .disable_turboay(disable_turboay),
         .disable_7ffd(disable_7ffd),
         .disable_1ffd(disable_1ffd),
+        .disable_romsel7f(disable_romsel7f),
+        .disable_romsel1f(disable_romsel1f),
         .enable_timexmmu(enable_timexmmu),
-        .disable_kempston(disable_kempston),
-        .disable_fuller(disable_fuller),
         .disable_spisd(disable_spisd)
     );
 

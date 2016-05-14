@@ -31,9 +31,9 @@ module control_enable_options(
     output wire disable_turboay,
     output wire disable_7ffd,
     output wire disable_1ffd,
+    output wire disable_romsel7f,
+    output wire disable_romsel1f,
     output wire enable_timexmmu,
-    output wire disable_kempston,
-    output wire disable_fuller,
     output wire disable_spisd
     );
 
@@ -45,9 +45,9 @@ module control_enable_options(
     assign disable_turboay = devoptions[1];
     assign disable_7ffd = devoptions[2];
     assign disable_1ffd = devoptions[3];
-    assign enable_timexmmu = devoptions[4];
-    assign disable_kempston = devoptions[5];
-    assign disable_fuller = devoptions[6];
+    assign disable_romsel7f = devoptions[4];
+    assign disable_romsel1f = devoptions[5];
+    assign enable_timexmmu = devoptions[6];
     assign disable_spisd = devoptions[7];
     always @(posedge clk) begin
         if (rst_n == 1'b0)

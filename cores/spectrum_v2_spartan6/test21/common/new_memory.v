@@ -62,6 +62,8 @@ module new_memory (
    // Interface con modulo de habilitacion de opciones
    input wire disable_7ffd,
    input wire disable_1ffd,
+   input wire disable_romsel7f,
+   input wire disable_romsel1f,
    input wire enable_timexmmu,
 
    // Interface con la SRAM
@@ -182,7 +184,7 @@ module new_memory (
    wire puerto_bloqueado = bank128[5];
    wire [2:0] banco_ram = bank128[2:0];
    wire vrampage = bank128[3];
-   wire [1:0] banco_rom = {bankplus3[2],bank128[4]};
+   wire [1:0] banco_rom = {bankplus3[2] & ~disable_romsel1f, bank128[4] & ~disable_romsel7f};
    wire amstrad_allram_page_mode = bankplus3[0];
    wire [1:0] plus3_memory_arrangement = bankplus3[2:1];
    
