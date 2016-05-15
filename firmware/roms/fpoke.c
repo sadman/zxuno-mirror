@@ -82,8 +82,7 @@ int main(int argc, char* argv[]){
       printf("\nOut of buffer\n"),
       exit(-1);
     if( rep==-1 )
-      
-      printf("hola %d %d %d\n", argc, length, fread(mem, 1, length, fi2)),
+      fread(mem, 1, length, fi2),
       fclose(fi2);
     else if( bytes[-1]=='g' )
       for ( i= 0; i < length; i++ )

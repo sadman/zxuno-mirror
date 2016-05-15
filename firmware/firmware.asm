@@ -214,6 +214,7 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
 
 start   ld      bc, chrend-runbit
         ldir
+        wreg    scandbl_ctrl, $80
         call    loadch
         im      1
         ld      de, fincad-1    ; descomprimo cadenas
@@ -312,10 +313,10 @@ star38  ld      de, tmpbuf
         ld      (de), a
         pop     bc
         call_prnstr             ; Imprime máquina (ROM o core)
-start4  ld      d, a
+start4  ld      d, 4
         pop     af
         jr      nz, start5
-        ld      d, a
+        ld      d, 16
 start5  djnz    start6
         dec     de
         ld      a, d
@@ -1379,7 +1380,6 @@ tosd    ld      ix, cad75
 ;        out     (c), l
 ;        call    send1z
 
-        wreg    scandbl_ctrl, $80
         sbc     hl, hl                ; read MBR
         ld      ix, tmpbu2
         call    inirea
@@ -1442,7 +1442,6 @@ tosd5   ld      c, SPI_PORT
         jr      z, fatxx        ; 04,06,0b,0c,0e -> FAT32
 errsd   ld      ix, cad77
 ferror  ;wreg    master_conf, 0
-        wreg    scandbl_ctrl, 0
         ld      bc, $090d
         call_prnstr
         ld      a, cad80 & $ff
@@ -3284,7 +3283,10 @@ conti1  adc     a, a            ; 0 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI
         ccf
 conti2  adc     a, a            ; 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI DIVEN
         add     a, a            ; 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI DIVEN 0
-        xor     %10101100 -$80 ;sinlock      ; LOCK MODE1 DISCONT MODE0 I2KB DISNMI DIVEN 0
+        xor     d
+        and     %01111111
+        xor     d
+        xor     %10101100       ; LOCK MODE1 DISCONT MODE0 I2KB DISNMI DIVEN 0
         ld      (alto conti9+1), a
         wreg    master_conf, 1
         and     $02
@@ -4156,7 +4158,7 @@ decbhl  dec     hl
         block   $7e00-$
 cad0    defb    'Core:             ',0
 cad1    defm    'http://zxuno.speccy.org', 0
-        defm    'ZX-Uno BIOS v0.327', 0
+        defm    'ZX-Uno BIOS v0.328', 0
         defm    'Copyleft ', 127, ' 2016 ZX-Uno Team', 0
         defm    'Processor: Z80 3.5MHz', 0
         defm    'Memory:    512K Ok', 0
@@ -4191,7 +4193,7 @@ cad8    defm    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.327   ', $7f, '2016 ZX-Uno Team', 0
+        defb    '   BIOS v0.328   ', $7f, '2016 ZX-Uno Team', 0
 cad10   defb    'Hardware tests', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, 0
