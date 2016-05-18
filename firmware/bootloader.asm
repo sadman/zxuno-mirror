@@ -10,13 +10,14 @@
         define  flash_spi       2
         define  flash_cs        3
         define  joyconf         6
+        define  scandbl_ctrl    11
 
-        ld      sp, $bfff-78
+        ld      sp, $bfff-81
         ld      de, $c761       ; tras el out (c), h de bffc se ejecuta
         push    de              ; un rst 0 para iniciar la nueva ROM
         ld      de, $ed80       ; en $bffc para evitar que el cambio de ROM
         push    de              ; colisione con la siguiente instruccion
-        ld      bc, $bffc-78
+        ld      bc, $bffc-81
         jr      lspi
 
 ldedg2  rst     $18             ; call routine ld-edge-1 below.
@@ -43,7 +44,10 @@ rst28   ld      bc, zxuno_port + $100
         outi
         jp      (hl)
 
-        defm    'ZXUno'
+lspi2   dec     b
+lspi3   out     (c), h          ; a master_conf quiero enviar un 0 para pasar
+        inc     b
+        ret
 
 rst38   jp      $c043
 
@@ -52,25 +56,22 @@ lspi    di
         wreg    joyconf, %00010000
         wreg    master_mapper, 8  ; paginamos la ROM en $c000
         in      a, ($1f)
-        or      %11100111       ; arriba y disparo a la vez
-        inc     a
+        and     %00011111
+        cp      %00011000       ; arriba y disparo a la vez
         jr      z, ltape
+        wreg    scandbl_ctrl, $80
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
-        xor     a               ; byte mas significativo de direccion
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-        out     (c), a          ; envia direccion 008000, a=00,e=80,a=00
-        add     hl, sp
+        out     (c), h          ; envia direccion 008000, a=00,e=80,a=00
         out     (c), e
-        out     (c), a
+        out     (c), h
+        add     hl, sp
 lspi1   ini
         inc     b
         cp      h               ; compruebo si la direccion es 0000 (final)
         jr      c, lspi1        ; repito si no lo es
-        dec     b
-here    out     (c), h          ; a master_conf quiero enviar un 0 para pasar
-        inc     b
-        ret
+        jr      lspi2
 
 nmi66   jp      $c040
         retn
@@ -86,7 +87,7 @@ ltape   ld      de, $0051+2
         call    lbytes
         ld      ix, $c000
         ld      de, $4000+2
-        ld      l, here&$ff
+        ld      l, lspi3&$ff
         push    hl
 
 lbytes  ld      a, $0f          ; make the border white and mic off.
@@ -140,5 +141,3 @@ binf    jr      z, binf         ; return with time-out.
 bin2    jr      nz, bin2
         ld      bc, zxuno_port
         ret                     ; return
-
-
