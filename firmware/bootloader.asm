@@ -59,7 +59,7 @@ lspi    di
         and     %00011111
         cp      %00011000       ; arriba y disparo a la vez
         jr      z, ltape
-        wreg    scandbl_ctrl, $80
+        wreg    scandbl_ctrl, $c0 ; lo pongo a 28MHz
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 0
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
