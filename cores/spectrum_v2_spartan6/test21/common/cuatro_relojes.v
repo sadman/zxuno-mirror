@@ -95,6 +95,13 @@ module clock_generator
   always @(posedge CLK_OUT1)
     clkdivider <= clkdivider + 3'd1;
     
+  BUFGMUX speed_3_and_2 (  // 28MHz and 14MHz for CPU
+    .O(cpuclk_3_2),
+    .I0(clkdivider[0]),
+    .I1(CLK_OUT1),
+    .S(turbo_enable[0])
+    );
+
   BUFGMUX speed_1_and_0 (  // 7MHz and 3.5MHz for CPU
     .O(cpuclk_1_0),
     .I0(clkdivider[2]),
@@ -105,7 +112,7 @@ module clock_generator
   BUFGMUX cpuclk_selector (
     .O(cpuclk_selected),
     .I0(cpuclk_1_0),
-    .I1(clkdivider[0]),
+    .I1(cpuclk_3_2/*clkdivider[0]*/),
     .S(turbo_enable[1])
     );
   

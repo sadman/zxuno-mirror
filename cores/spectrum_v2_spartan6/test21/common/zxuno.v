@@ -78,7 +78,7 @@ module zxuno (
     );
 
    // Señales de la CPU
-   wire mreq_n,iorq_n,rd_n,wr_n,int_n,m1_n,nmi_n,rfsh_n;
+   wire mreq_n,iorq_n,rd_n,wr_n,int_n,m1_n,nmi_n,rfsh_n,wait_n;
    wire enable_nmi_n;
    wire [15:0] cpuaddr;
    reg [7:0] cpudin;
@@ -191,24 +191,6 @@ module zxuno (
 
    // Asignación de dato para la CPU segun la decodificación de todos los dispositivos
    // conectados a ella.
-//   assign cpudin = (oe_n_romyram==1'b0)?        memory_dout :
-//                   (oe_n_ay==1'b0)?             ay_dout :
-//                   (oe_n_joystick==1'b0)?       joystick_dout :
-//                   (oe_n_zxunoaddr==1'b0)?      zxuno_addr_to_cpu :
-//                   (oe_n_spi==1'b0)?            spi_dout :
-//                   (oe_n_scancode==1'b0)?       scancode_dout :
-//                   (oe_n_kbstatus==1'b0)?       kbstatus_dout :
-//                   (oe_n_coreid==1'b0)?         coreid_dout :
-//                   (oe_n_keymap==1'b0)?         keymap_dout :
-//                   (oe_n_scratch==1'b0)?        scratch_dout :
-//                   (oe_n_scndblctrl==1'b0)?     scndblctrl_dout :
-//                   (oe_n_nmievents==1'b0)?      nmievents_dout :
-//                   (oe_n_kmouse==1'b0)?         kmouse_dout :
-//                   (oe_n_mousedata==1'b0)?      mousedata_dout :
-//                   (oe_n_mousestatus==1'b0)?    mousestatus_dout :
-//                   (oe_n_rasterint==1'b0)?      rasterint_dout :
-//                   (oe_n_devoptions==1'b0)?     devoptions_dout :
-//                                                ula_dout;
    always @* begin
         case (1'b0)
             oe_n_ay          : cpudin = ay_dout;
@@ -246,7 +228,7 @@ module zxuno (
 
       .reset_n(rst_n & mrst_n & power_on_reset_n),  // cualquiera de los dos resets
       .clk(cpuclk),
-      .wait_n(1'b1),
+      .wait_n(wait_n),
       .int_n(int_n),
       .nmi_n((nmi_n | enable_nmi_n) & nmispecial_n),
       .busrq_n(1'b1),
@@ -255,9 +237,9 @@ module zxuno (
 
    ula_radas la_ula (
 	  // Clocks
+     .clk28(clk),
      .clk14(clk14),     // 14MHz master clock
      .clk7(clk7),
-     .wssclk(wssclk),   // 5MHz WSS clock
      .cpuclk(cpuclk),
      .CPUContention(CPUContention),
      .rst_n(mrst_n & rst_n & power_on_reset_n),
@@ -328,6 +310,7 @@ module zxuno (
       .din(cpudout),
       .dout(spi_dout),
       .oe_n(oe_n_spi),
+      .wait_n(wait_n),
    
       .in_boot_mode(in_boot_mode),
       .flash_cs_n(flash_cs_n),
