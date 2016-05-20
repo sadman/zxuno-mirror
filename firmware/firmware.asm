@@ -51,7 +51,8 @@
                       ; inputs   lo: cursor position  hi: max length
                       ; otro     lo: pagina actual    hi: mascara paginas
         define  sdhc    $8fd4
-        define  empstr  $8fd5
+        define  scnbak  $8fd5
+        define  empstr  $8fd6
         define  config  $9000
         define  indexe  $a000
         define  active  $a040
@@ -214,8 +215,16 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
 
 start   ld      bc, chrend-runbit
         ldir
-        wreg    scandbl_ctrl, $80
         call    loadch
+        ld      a, scandbl_ctrl
+        ld      bc, zxuno_port
+        out     (c), a
+        inc     b
+        ld      a, (outvid)
+        scf
+        rra
+        ld      (scnbak), a
+        out     (c), a
         im      1
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, finstr-1
@@ -262,7 +271,7 @@ start3  ld      a, b
         jr      z, start3
         ld      b, $13
         ldir
-        ld      bc, zxuno_port  ; print ID
+        ld      bc, zxuno_port
         out     (c), a          ; a = $ff = core_id
         inc     b
         ld      hl, cad0+6      ; Load address of coreID string
@@ -3989,11 +3998,18 @@ l3ec3   ld      a, ixl
         in      l, (c)
         jp      (hl)
 
-        block   $3ef5-$         ; 40 bytes
+        block   $3ee6-$         ; 25 bytes
 
-lbytes  wreg    scandbl_ctrl, 0
+lbytes  ld      a, (scnbak)
+        and     %01111111
+        call    setvid
         call    lbytes2
-        wreg    scandbl_ctrl, $80
+        ld      a, (scnbak)
+setvid  ld      l, scandbl_ctrl
+        ld      bc, zxuno_port
+        out     (c), l
+        inc     b
+        out     (c), a
         ret
 
 l3eff   in      l,(c)
