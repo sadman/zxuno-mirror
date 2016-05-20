@@ -100,7 +100,10 @@ NoChCont            call PrintString
                     cp 40h
                     ld hl,Speed7Str
                     jr z,GoTurboPrint
+                    cp 80h
                     ld hl,Speed14Str
+                    jr z,GoTurboPrint
+                    ld hl,Speed28Str
 GoTurboPrint        call PrintString
 
                     ld hl,CurrConfString6
@@ -309,7 +312,7 @@ ParseSpeed          ld a,(hl)
                     inc hl
                     cp "0"
                     jp c,ErrorInvalidArg
-                    cp "3"
+                    cp "4"
                     jp nc,ErrorInvalidArg
                     ld b,a
                     ld a,(hl)
@@ -485,8 +488,9 @@ Uso                 db "ZXUNOCFG v1.0",13
                     db "      N=3: issue 3 keyboard",13
 
                     db " -sN: choose CPU speed",13
-                    db "      N=0: normal speed (3.5Mhz)",13
-                    db "      N=1: turbo speed (7 MHz)",13
+                    db "      N=0: std. speed (3.5 Mhz)",13
+                    db "      N=1, 2 or 3: turbo speed",13
+                    db "             (7, 14 or 28 MHz)",13
 
                     db " -vN: choose video output",13
                     db "      N=0: composite/RGB 15kHz",13
@@ -517,8 +521,9 @@ CurrConfString5     db "      Speed: ",0
 Speed3d5Str         db "3.5 MHz",13,0
 Speed7Str           db "7 MHz",13,0
 Speed14Str          db "14 MHz",13,0
+Speed28Str          db "28 MHz",13,0
 CurrConfString6     db "      Video: ",0
-CompositeStr        db "CVBS/RGB 15kHz",13,0
+CompositeStr        db "CVBS/RGB 15 kHz",13,0
 VGANoScansStr       db "VGA",13,0
 VGAScansStr         db "VGA w/scanlines",13,0
 CurrConfString7     db "  VFreq opt: ",0
