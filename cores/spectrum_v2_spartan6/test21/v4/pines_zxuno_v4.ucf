@@ -2,7 +2,15 @@
 NET "clk50mhz" LOC="P55" | IOSTANDARD = LVCMOS33;
 NET "testled" LOC="P11" | IOSTANDARD = LVCMOS33;
 NET "clk50mhz" PERIOD=20 ns;
-NET "sysclk" PERIOD=35 ns;
+NET "sysclk" PERIOD=35.555 ns;  # 28.125 MHz actual frequency for 50Hz vertical refresh
+NET "clk14" PERIOD=71.111 ns;
+NET "clk7" PERIOD=142.222 ns;
+NET "clk3d5" PERIOD=284.444 ns;
+#NET "sysclk" PERIOD=28 ns;  # 28.125 MHz actual frequency for 50Hz vertical refresh
+#NET "clk14" PERIOD=56 ns;
+#NET "clk7" PERIOD=112 ns;
+#NET "clk3d5" PERIOD=224 ns;
+
 
 # Video output
 NET "b<2>" LOC="P93" | IOSTANDARD = LVCMOS33;
@@ -50,8 +58,8 @@ NET "sram_addr<15>" LOC="P131" | IOSTANDARD = LVCMOS33;
 NET "sram_addr<16>" LOC="P138" | IOSTANDARD = LVCMOS33;
 NET "sram_addr<17>" LOC="P140" | IOSTANDARD = LVCMOS33;
 NET "sram_addr<18>" LOC="P142" | IOSTANDARD = LVCMOS33;
-#NET "sram_addr<19>" LOC="P105" | IOSTANDARD = LVCMOS33;
-#NET "sram_addr<20>" LOC="P143" | IOSTANDARD = LVCMOS33;
+NET "sram_addr<19>" LOC="P105" | IOSTANDARD = LVCMOS33;
+NET "sram_addr<20>" LOC="P143" | IOSTANDARD = LVCMOS33;
 
 NET "sram_data<0>" LOC="P132" | IOSTANDARD = LVCMOS33;
 NET "sram_data<1>" LOC="P127" | IOSTANDARD = LVCMOS33;

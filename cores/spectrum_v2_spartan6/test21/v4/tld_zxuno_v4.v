@@ -39,7 +39,7 @@ module tld_zxuno_v4 (
    output wire stdn,
    output wire stdnb,
    
-   output wire [18:0] sram_addr,
+   output wire [20:0] sram_addr,
    inout wire [7:0] sram_data,
    output wire sram_we_n,
    
@@ -69,6 +69,9 @@ module tld_zxuno_v4 (
    assign wssclk = 1'b0;  // de momento, sin WSS
    assign stdn = 1'b0;  // fijar norma PAL
    assign stdnb = 1'b1; // y conectamos reloj PAL
+   
+   assign sram_addr[19] = 1'b0;
+   assign sram_addr[20] = 1'b0;
 
    clock_generator relojes_maestros
    (// Clock in ports
