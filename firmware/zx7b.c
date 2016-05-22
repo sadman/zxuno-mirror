@@ -1,8 +1,7 @@
 /*
- * ZX7b (c) Copyright 2013 by Antonio Villena. All rights reserved.
- *
- * Based on ZX7 <http://www.worldofspectrum.org/infoseekid.cgi?id=0027996>
  * (c) Copyright 2012 by Einar Saukas. All rights reserved.
+ *
+ * Modified in 2013 by Antonio Villena
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -61,13 +60,13 @@ int main(int argc, char *argv[]) {
   int i, j;
 
   if( argc==1 )
-    printf("\nZX7 Backwards compressor v1.01 by Einar Saukas/AntonioVillena, 28 Dec 2013\n\n"
+    printf("\nZX7 Backwards compressor v1.0 by Einar Saukas/AntonioVillena, 28 Dec 2013\n\n"
            "  zx7b <input_file> <output_file>\n\n"
            "  <input_file>    Raw input file\n"
            "  <output_file>   Compressed output file\n\n"
-           "Example: zx7b Cobra.scr Cobra.zx7b\n"),
+           "Example: zx7b Cobra.scr Cobra.zx7\n"),
     exit(0);
-  if( argc!=3 )
+  if( argc!=3 && argc!=4 )
     printf("\nInvalid number of parameters\n"),
     exit(-1);
 
@@ -133,7 +132,7 @@ int main(int argc, char *argv[]) {
   fclose(ofp);
 
   /* done! */
-  printf("\nFile %s compressed from %s (%d to %d bytes)\n", argv[2], argv[1], (int) input_size, (int) output_size);
+  printf("\nFile %s compressed from %s (%d to %d bytes)\n", argv[2], argv[1], input_size, output_size);
   return 0;
 }
 
@@ -188,7 +187,7 @@ unsigned char *compress(Optimal *optimal, unsigned char *input_data, size_t inpu
 
   /* calculate and allocate output buffer */
   input_index= input_size-1;
-  *output_size= (optimal[input_index].bits+16+7)/8;
+  *output_size= (optimal[input_index].bits+17+7)/8;
   output_data= (unsigned char *)malloc(*output_size);
   if( !output_data )
     fprintf(stderr, "Error: Insufficient memory\n"),
