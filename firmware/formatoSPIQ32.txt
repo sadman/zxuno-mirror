@@ -1,0 +1,25 @@
+000000-004000 Boot Header Xilinx
+004000-058000 Firmware-ROMs (19 ROMs)(detallado debajo)
+--(004000-006000) ESXDOS
+--(006000-008000) Directorio de ROMs
+--(008000-00C000) Firmware-BIOS
+--(00C000-058000) 19 ROMs de Spectrum
+058000-0AC000 Bitstream 1
+0AC000-100000 Bitstream 2
+100000-154000 Bitstream 3
+154000-1A8000 Bitstream 4
+1A8000-1FC000 Bitstream 5
+1FC000-250000 Bitstream 6
+250000-2A4000 Bitstream 7
+2A4000-2F8000 Bitstream 8
+2F8000-34C000 Bitstream 9 / ROMs de otros cores (48k por core)
+34C000-400000 (tamaño B4000 = 720K) Reservado para otras 45 roms de spectrum (64 en total)
+
+(006000-008000) Directorio de ROMs
+--6000-7000 Entradas de ROMs y nombres de Bitstreams
+----6000-64C0 Primeras 19 entradas (apuntan a 004000)
+----64C0-7000 Últimas 45 entradas (apuntan a 34C000)
+--7000-8000 Índice de entradas y nombres bitstream
+----7000-704F Índice de entradas
+----7100-7200 8 nombres de Bitstreams (32 bytes cada uno)
+----7200-8000 Reservado
