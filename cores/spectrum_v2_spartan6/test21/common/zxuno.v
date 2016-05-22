@@ -22,13 +22,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 module zxuno (
     // Relojes
-    input wire clk,      // 28MHz, reloj del sistema
-    input wire wssclk,   //  5MHz, reloj de la señal WSS
+    input wire clk28,
     input wire clk14,
     input wire clk7,
     input wire clk3d5,
-    input wire cpuclk,
-    output wire CPUContention,
+	 input wire cpuclkplain,  // reloj seleccionado para la CPU, antes de aplicar contención
+    input wire cpuclk,       // reloj seleccionado par ala CPU, después de aplicar contención
+    output wire CPUContention,  // Señal de contención del reloj de la CPU
     input wire power_on_reset_n,
     
     // E/S
@@ -237,7 +237,8 @@ module zxuno (
 
    ula_radas la_ula (
 	  // Clocks
-     .clk28(clk),
+	  .clk28(clk28),
+     .clkregs(cpuclkplain),
      .clk14(clk14),     // 14MHz master clock
      .clk7(clk7),
      .cpuclk(cpuclk),
@@ -245,14 +246,14 @@ module zxuno (
      .rst_n(mrst_n & rst_n & power_on_reset_n),
 
 	 // CPU interface
-	 .a(cpuaddr),
+     .a(cpuaddr),
      .access_to_contmem(access_to_screen),
-	 .mreq_n(mreq_n),
-	 .iorq_n(iorq_n),
-	 .rd_n(rd_n),
-	 .wr_n(wr_n),
-	 .int_n(int_n),
-	 .din(cpudout),
+	  .mreq_n(mreq_n),
+     .iorq_n(iorq_n),
+     .rd_n(rd_n),
+     .wr_n(wr_n),
+     .int_n(int_n),
+     .din(cpudout),
      .dout(ula_dout),
      .rasterint_enable(rasterint_enable),
      .vretraceint_disable(vretraceint_disable),
@@ -275,15 +276,15 @@ module zxuno (
      .enable_timexmmu(enable_timexmmu),
 
     // Video
-	 .r(r),
-	 .g(g),
-	 .b(b),
-	 .hsync(hsync),
+     .r(r),
+     .g(g),
+     .b(b),
+     .hsync(hsync),
      .vsync(vsync)
     );
 
    zxunoregs addr_reg_zxuno (
-      .clk(clk),
+      .clk(cpuclkplain),
       .rst_n(rst_n & mrst_n & power_on_reset_n),
       .a(cpuaddr),
       .iorq_n(iorq_n),
@@ -299,7 +300,7 @@ module zxuno (
    );
 
    flash_and_sd cacharros_con_spi (
-      .clk(clk),
+      .clk(clk28),
       .a(cpuaddr),
       .iorq_n(iorq_n),
       .rd_n(rd_n),
@@ -326,8 +327,8 @@ module zxuno (
 
    new_memory bootrom_rom_y_ram (
    // Relojes y reset
-      .clk(clk),        // Reloj del sistema CLK7
-      .mclk(clk),        // Reloj para el modulo de memoria de doble puerto
+      .clk(cpuclkplain),   // Reloj para registros de configuración
+      .mclk(clk28),        // Reloj para el modulo de memoria de doble puerto
       .mrst_n(mrst_n & power_on_reset_n),
       .rst_n(rst_n & power_on_reset_n),
    
@@ -378,7 +379,7 @@ module zxuno (
    );
 
     ps2_keyb el_teclado (
-      .clk(clk),
+      .clk(cpuclkplain),
       .clkps2(clkps2),
       .dataps2(dataps2),
       .rows(kbdrow),
@@ -403,7 +404,7 @@ module zxuno (
       );
 
     joystick_protocols los_joysticks (
-        .clk(clk),
+        .clk(cpuclkplain),
         //-- cpu interface
         .a(cpuaddr),
         .iorq_n(iorq_n),
@@ -424,7 +425,7 @@ module zxuno (
     );
 
     coreid identificacion_del_core (
-        .clk(clk),
+        .clk(cpuclkplain),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
@@ -434,7 +435,7 @@ module zxuno (
     );
 
     scratch_register scratch (
-        .clk(clk),
+        .clk(cpuclkplain),
         .poweron_rst_n(power_on_reset_n),
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
@@ -445,7 +446,7 @@ module zxuno (
     );
 
     control_enable_options device_enables (
-        .clk(clk),
+        .clk(cpuclkplain),
         .rst_n(mrst_n & power_on_reset_n),
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
@@ -464,7 +465,7 @@ module zxuno (
     );
 
     scandoubler_ctrl control_scandoubler (
-        .clk(clk),
+        .clk(cpuclkplain),
         .a(cpuaddr),
         .iorq_n(iorq_n),
         .wr_n(wr_n),
@@ -481,7 +482,7 @@ module zxuno (
     );
 
     rasterint_ctrl control_rasterint (
-        .clk(clk),
+        .clk(cpuclkplain),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .zxuno_addr(zxuno_addr),
         .zxuno_regrd(zxuno_regrd),
@@ -496,7 +497,7 @@ module zxuno (
     );
 
     nmievents nmi_especial_de_antonio (
-        .clk(clk),
+        .clk(cpuclkplain),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         //------------------------------
         .zxuno_addr(zxuno_addr),
@@ -515,7 +516,7 @@ module zxuno (
     );
 
     ps2_mouse_kempston el_raton (
-        .clk(clk),
+        .clk(cpuclkplain),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .clkps2(mouseclk),
         .dataps2(mousedata),
@@ -537,7 +538,7 @@ module zxuno (
     );
 
     multiboot el_multiboot (
-        .clk(clk),
+        .clk(cpuclkplain),
         .clk_icap(clk14),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .kb_boot_core(boot_second_core),
@@ -560,7 +561,7 @@ module zxuno (
   assign bc1 = (cpuaddr[15] && cpuaddr[1:0]==2'b01 && cpuaddr[14] && !iorq_n)? 1'b1 : 1'b0;                                                              
 
   turbosound dos_ays (
-    .clk(clk),
+    .clk(cpuclkplain),
     .clkay(clk3d5),
     .disable_ay(disable_ay),
     .disable_turboay(disable_turboay),
@@ -579,13 +580,15 @@ module zxuno (
 ///////////////////////////////////
    // 8-bit mixer to generate different audio levels according to input sources
 	mixer audio_mix(
-		.clkdac(clk),
+		.clkdac(clk28),
 		.reset(1'b0),
+      // Audio sources to mix 
 		.mic(mic),
 		.spk(spk),
-        .ear(ear),
-        .ay1(ay1_audio),
+      .ear(ear),
+      .ay1(ay1_audio),
 		.ay2(ay2_audio),
+		// PWM output mixed (monoaural ATM)
 		.audio(audio_out)
 	);
 

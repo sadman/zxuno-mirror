@@ -14,7 +14,8 @@ module clock_generator
   output wire       CLK_OUT2,
   output wire       CLK_OUT3,
   output wire       CLK_OUT4,
-  output wire       cpuclk
+  output wire       cpuclk,
+  output wire       cpuclkplain
   );
 
   wire clkin1_buffered;
@@ -123,5 +124,6 @@ module clock_generator
         .S(CPUContention)  // contention signal
         );
 
+  assign cpuclkplain = cpuclk_selected;
 
 endmodule

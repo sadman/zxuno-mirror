@@ -61,12 +61,11 @@ module tld_zxuno_v4 (
    input wire joyfire
    );
 
-   wire wssclk,sysclk,clk14,clk7,clk3d5,cpuclk;
+   wire wssclk,sysclk,clk14,clk7,clk3d5,cpuclk,cpuclkplain;
    wire CPUContention;
    wire [1:0] turbo_enable;
    wire [2:0] pll_frequency_option;
 
-   assign wssclk = 1'b0;  // de momento, sin WSS
    assign stdn = 1'b0;  // fijar norma PAL
    assign stdnb = 1'b1; // y conectamos reloj PAL
    
@@ -84,7 +83,8 @@ module tld_zxuno_v4 (
     .CLK_OUT2           (clk14),
     .CLK_OUT3           (clk7),
     .CLK_OUT4           (clk3d5),
-    .cpuclk             (cpuclk)
+    .cpuclk             (cpuclk),
+	 .cpuclkplain        (cpuclkplain)
     );
 
    wire audio_out;
@@ -97,12 +97,12 @@ module tld_zxuno_v4 (
    wire vga_enable, scanlines_enable;
 
    zxuno la_maquina (
-    .clk(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
-    .wssclk(wssclk),      //  5MHz, reloj para el WSS
+    .clk28(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
     .clk14(clk14),
     .clk7(clk7),
     .clk3d5(clk3d5),
     .cpuclk(cpuclk),
+	 .cpuclkplain(cpuclkplain),
     .CPUContention(CPUContention),
     .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
     .r(ri),
@@ -147,8 +147,8 @@ module tld_zxuno_v4 (
 	vga_scandoubler #(.CLKVIDEO(14000)) salida_vga (
 		.clkvideo(clk14),
 		.clkvga(sysclk),
-        .enable_scandoubling(vga_enable),
-        .disable_scaneffect(~scanlines_enable),
+      .enable_scandoubling(vga_enable),
+      .disable_scaneffect(~scanlines_enable),
 		.ri(ri),
 		.gi(gi),
 		.bi(bi),
@@ -170,7 +170,5 @@ module tld_zxuno_v4 (
 //            monoestable <= monoestable + 1;
 //    end
 //    assign testled = ~monoestable[21];
-
-
 
 endmodule
