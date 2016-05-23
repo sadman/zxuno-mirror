@@ -220,10 +220,15 @@ start   ld      bc, chrend-runbit
         ld      bc, zxuno_port
         out     (c), a
         inc     b
+        ld      hl, (scanli)
+        rrc     l
+        add     hl, hl
         ld      a, (outvid)
-        scf
-        rra
-        or      $40
+        rrca
+        rrca
+        ld      a, h
+        adc     a, a
+        or      $c0
         ld      (scnbak), a       ; lo pongo a 28Mhz
         out     (c), a
         im      1
@@ -374,17 +379,10 @@ star54  inc     b
         out     (c), a
         ld      a, (cpuspd)
         rrca
-        ld      hl, (scanli)
-        rr      l
-        rl      h
         rrca
-        rr      l
-        ld      a, (outvid)
-        rrca
-        rrca
-        ld      a, h
-        adc     a, a
-        or      l
+        or      $3f
+        ld      hl, scnbak
+        and     (hl)
         dec     b
         out     (c), e
         inc     b
