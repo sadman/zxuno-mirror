@@ -77,7 +77,9 @@ margin:0 0 0 0;
   <br><br>
   <strong>News</strong>
   <ul>
-    <li><strong>2016-03-23 Added Video Demo Sam Coupé <a href="media_e.shtml">Media</a> section.</strong></li>
+    <li><strong>2016-05-18 Added snapshots of 3D PCB Sketch-Up by Mejias3D. <a href="media_e.shtml">Media</a>.</strong><br></li>
+    <li><strong>2016-05-18 Updated file PDF Pin Out in section <a href="descarga_e.shtml">Downloads</a>.</strong><br></li>
+    <li>2016-03-23 Added Video Demo Sam Coupé <a href="media_e.shtml">Media</a> section.</li>
     <li>2016-03-19 Link to <a href="http://www.verkami.com/projects/14074-zx-uno" target="_BLANK">Verkami</a> with information about our crowdfunding campaign (closed).</li>
     <li>2016-03-08 Updated links of  ZEsarUX and Pinout Scheme.</li>
     <li>2016-02-17 Added PDF Pinout FPGA-PCB Zx-Uno v4.1. <a href="descarga_e.shtml">Downloads</a></li>

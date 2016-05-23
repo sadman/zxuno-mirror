@@ -26,15 +26,17 @@
 <div id="main">
   <strong>Bitstreams (v4.1):</strong>
   <ul>
-    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb. - ZIP</li>
-    <li><a href="ficheros/4.1/acorn_atom.bit">Acorn Atom</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/bbc_micro.bit">BBC Micro</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/jupiter_ace.bit">Jupiter Ace</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/nes.bit">Nintendo Entertainment System</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/oric.bit">Oric</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/sam_coupe.bit">Sam Coupé</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/sms.bit">Sega Master System</a> 300 Kb. - BIT</li>
-    <li><a href="ficheros/4.1/spectrum.bit">ZX Spectrum</a> 300 Kb. - BIT</li>
+    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb - ZIP</li>
+    <li><a href="ficheros/4.1/firmware.zip">FIRMWARE file</a> 16 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/Spectrum.zip">ZX Spectrum</a> 135 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/SamCoupe.zip">Sam Coupé</a> 187 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/JupiterAce.zip">Jupiter Ace</a> 103 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/MasterSystem.zip">Sega Master System</a> 127 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/OricAtmos.zip">Oric Atmos</a> 162 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/BBCMicro.zip">BBC Micro</a> 236 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/Apple2_VGA.zip">Apple 2</a> 96 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/AcornAtom_VGA.zip">Acorn Atom</a> 250 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/NES_VGA.zip">Nintendo Entertainment System</a> 237 Kb - ZIP</li>
     </ul>
   <br/>
   <strong>Designs (v4.1):</strong>
@@ -55,9 +57,9 @@
     <li><a href="ficheros/ad724_Datasheet.pdf">RGB to NTSC/PAL AD724JR</a> 210 Kb. - PDF</li>
     <li><a href="ficheros/Hoja_Esquema_Pinout_v4.1_Mar_2016.pdf">PINOUT ZX-Uno PCB 4.1</a> 38 Kb. - PDF</li></ul>
   <br/>
-  <strong>Manual ZX-Uno (Rev. 0.0):</strong>
+  <strong>User manual (Done by <a href="http://elblogdemanu.com/">Manuel Sagra</a>):</strong>
   <ul>
-    <li>Not avaliable yet.</li></ul>
+    <li><a href="https://docs.google.com/document/d/1NI0zgCDRk7c-5CVi-lfZEK6q8Lnpnco7PhpsEEdxD60">Download</a></li></ul>
   <br/>
   <strong>Logo Design:</strong>
   <ul>
