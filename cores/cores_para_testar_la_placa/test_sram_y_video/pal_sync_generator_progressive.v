@@ -79,10 +79,10 @@ module pal_sync_generator_progressive (
 			if (rvcnt == `END_COUNT_V)
 				rvcnt <= 0;
 			else
-				rvcnt <= rvcnt + 1;
+				rvcnt <= rvcnt + 9'd1;
 		end
 		else
-			rhcnt <= rhcnt + 1;
+			rhcnt <= rhcnt + 9'd1;
 	end
 	
 	always @(posedge clk) begin
@@ -91,10 +91,10 @@ module pal_sync_generator_progressive (
 			if (vc == `END_COUNT_V)
 				vc <= 0;
 			else
-				vc <= vc + 1;
+				vc <= vc + 9'd1;
 		end
 		else
-			hc <= hc + 1;
+			hc <= hc + 9'd1;
 	end
 	
 	reg rsync = 1;
@@ -200,7 +200,7 @@ module pal_sync_generator_progressive (
 			1: begin
 					wss_data <= {wss_data[135:0],wss_data[136]};
 					if (wss_cnt != 0)
-						wss_cnt <= wss_cnt - 1;
+						wss_cnt <= wss_cnt - 8'd1;
 					else begin
 						wss_cnt <= 136;
 						wss_mstate <= 0;

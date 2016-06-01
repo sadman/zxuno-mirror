@@ -46,7 +46,7 @@ module zxuno (
    reg [3:0] vrampagina = 4'b000;  // Para usar una de las 16 posibles páginas de 64K
    always @(posedge clk) begin
       if (h>=0 && h<256 && v>=0 && v<192)
-         vramaddr <= vramaddr + 1;
+         vramaddr <= vramaddr + 16'd1;
       else if (v>=192)
          vramaddr <= 16'h0000;
    end
@@ -57,10 +57,10 @@ module zxuno (
       if (v==192 && h>=0 && h<256 && h[1:0]==2'b01) begin  // Durante la linea 192, hago un poke por cada 4 pixeles (64 pokes en una linea)
          if (pokeaddr == 16'hBFFF) begin
             pokeaddr <= 16'h0000;
-            vrampagina <= vrampagina + 1;
+            vrampagina <= vrampagina + 4'd1;
          end
          else   
-            pokeaddr <= pokeaddr + 1;
+            pokeaddr <= pokeaddr + 16'd1;
       end
    end
 
