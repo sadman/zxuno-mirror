@@ -2,22 +2,22 @@
 `default_nettype none
 
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    02:28:18 02/06/2014 
-// Design Name: 
-// Module Name:    test1 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
+// Company:
+// Engineer:
 //
-// Dependencies: 
+// Create Date:    02:28:18 02/06/2014
+// Design Name:
+// Module Name:    test1
+// Project Name:
+// Target Devices:
+// Tool versions:
+// Description:
 //
-// Revision: 
+// Dependencies:
+//
+// Revision:
 // Revision 0.01 - File Created
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -38,22 +38,22 @@ module tld_zxuno_v2 (
    output wire audio_out_right,
    output wire stdn,
    output wire stdnb,
-   
+
    output wire [18:0] sram_addr,
    inout wire [7:0] sram_data,
    output wire sram_we_n,
-   
+
    output wire flash_cs_n,
    output wire flash_clk,
    output wire flash_mosi,
    input wire flash_miso,
-   
-   output wire sd_cs_n,    
-   output wire sd_clk,     
-   output wire sd_mosi,    
+
+   output wire sd_cs_n,
+   output wire sd_clk,
+   output wire sd_mosi,
    input wire sd_miso,
-   output wire testled,   // nos servirï¿½ como testigo de uso de la SPI
-   
+   output wire testled,   // nos servirá como testigo de uso de la SPI
+
    input wire joyup,
    input wire joydown,
    input wire joyleft,
@@ -61,12 +61,11 @@ module tld_zxuno_v2 (
    input wire joyfire
    );
 
-   wire wssclk,sysclk,clk14,clk7,clk3d5,cpuclk;
+   wire wssclk,sysclk,clk14,clk7,clk3d5,cpuclk,cpuclkplain;
    wire CPUContention;
    wire [1:0] turbo_enable;
    wire [2:0] pll_frequency_option;
 
-   assign wssclk = 1'b0;  // de momento, sin WSS
    assign stdn = 1'b0;  // fijar norma PAL
    assign stdnb = 1'b1; // y conectamos reloj PAL
 
@@ -81,7 +80,8 @@ module tld_zxuno_v2 (
     .CLK_OUT2           (clk14),
     .CLK_OUT3           (clk7),
     .CLK_OUT4           (clk3d5),
-    .cpuclk             (cpuclk)
+    .cpuclk             (cpuclk),
+	 .cpuclkplain        (cpuclkplain)
     );
 
    wire audio_out;
@@ -89,19 +89,19 @@ module tld_zxuno_v2 (
    assign audio_out_right = audio_out;
 
    wire [2:0] ri, gi, bi;
-   wire hsync_pal, vsync_pal;   
-   
+   wire hsync_pal, vsync_pal;
+
    wire vga_enable, scanlines_enable;
 
    zxuno la_maquina (
-    .clk(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahï¿½, para el resto del circuito
-    .wssclk(wssclk),      //  5MHz, reloj para el WSS
+    .clk28(sysclk),         // 28MHz, reloj base para la memoria de doble puerto, y de ahí, para el resto del circuito
     .clk14(clk14),
     .clk7(clk7),
     .clk3d5(clk3d5),
     .cpuclk(cpuclk),
+	 .cpuclkplain(cpuclkplain),
     .CPUContention(CPUContention),
-    .power_on_reset_n(1'b1),  // sï¿½lo para simulaciï¿½n. Para implementacion, dejar a 1
+    .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
     .r(ri),
     .g(gi),
     .b(bi),
@@ -115,26 +115,26 @@ module tld_zxuno_v2 (
     .sram_addr(sram_addr),
     .sram_data(sram_data),
     .sram_we_n(sram_we_n),
-    
+
     .flash_cs_n(flash_cs_n),
     .flash_clk(flash_clk),
     .flash_di(flash_mosi),
     .flash_do(flash_miso),
-    
+
     .sd_cs_n(sd_cs_n),
     .sd_clk(sd_clk),
     .sd_mosi(sd_mosi),
     .sd_miso(sd_miso),
-    
+
     .joyup(joyup),
     .joydown(joydown),
     .joyleft(joyleft),
     .joyright(joyright),
     .joyfire(joyfire),
-	 
+
     .mouseclk(mouseclk),
     .mousedata(mousedata),
-    
+
     .vga_enable(vga_enable),
     .scanlines_enable(scanlines_enable),
     .freq_option(pll_frequency_option),
@@ -144,8 +144,8 @@ module tld_zxuno_v2 (
 	vga_scandoubler #(.CLKVIDEO(14000)) salida_vga (
 		.clkvideo(clk14),
 		.clkvga(sysclk),
-        .enable_scandoubling(vga_enable),
-        .disable_scaneffect(~scanlines_enable),
+      .enable_scandoubling(vga_enable),
+      .disable_scaneffect(~scanlines_enable),
 		.ri(ri),
 		.gi(gi),
 		.bi(bi),
@@ -156,8 +156,8 @@ module tld_zxuno_v2 (
 		.bo(b),
 		.hsync(hsync),
 		.vsync(vsync)
-   );	 
-       
+   );
+
     assign testled = (!flash_cs_n || !sd_cs_n);
 //    reg [21:0] monoestable = 22'hFFFFFF;
 //    always @(posedge sysclk) begin
@@ -167,7 +167,5 @@ module tld_zxuno_v2 (
 //            monoestable <= monoestable + 1;
 //    end
 //    assign testled = ~monoestable[21];
-
-
 
 endmodule
