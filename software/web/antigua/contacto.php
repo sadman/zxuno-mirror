@@ -1,10 +1,10 @@
-<?mail('_@antoniovillena.es, thehark0@gmail.com', 'Formulario de Contacto',
+<?php mail('_@antoniovillena.es, administracion@zxuno.com', 'Formulario de Contacto',
           "  Nombre:   $_POST[author]\n".
           "  Email:    $_POST[email]\n".
           "  Asunto:   $_POST[asunto]\n".
           "  Mensaje:\n$_POST[comment]\n\n",
           "Reply-To: $_POST[email]\nMIME-Version:1.0\nContent-type:text/plain;charset=utf-8\n")?>
-<?if ($_GET['lang']=='es'){
+<?php if ($_GET['lang']=='es'){
     echo file_get_contents('header.html')?>
     <div id="menu">
       <a href="index.shtml"      style="width:50px">Inicio</a>
@@ -24,7 +24,7 @@
       <a href="contacto_e.shtml" style="width:62px">[English]</a></div>
     <div id="main">
       Gracias por contactar con nosotros. En pocos días recibirá nuestra respuesta.</div>
-<?  echo file_get_contents('footer.html');
+<?php echo file_get_contents('footer.html');
   }
   else{
     echo file_get_contents('header_e.html')?>
@@ -46,5 +46,5 @@
       <a href="contacto.shtml"   style="width:63px">[Spanish]</a></div>
     <div id="main">
       Thank you for contact with us. Briefly you\'ll receive our answer.</div>
-<?  echo file_get_contents('footer_e.html');
+<?php echo file_get_contents('footer_e.html');
   }

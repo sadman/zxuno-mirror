@@ -75,10 +75,12 @@ margin:0 0 0 0;
   
   <iframe width="788" height="591" src="https://www.youtube.com/embed/exB91h7oes4" frameborder="0" allowfullscreen></iframe>
   <br><br>
-  <strong>News</strong>
+  <strong>News (F5 to update)</strong>
   <ul>
-    <li><strong>2016-05-18 Added snapshots of 3D PCB Sketch-Up by Mejias3D. <a href="media_e.shtml">Media</a>.</strong><br></li>
-    <li><strong>2016-05-18 Updated file PDF Pin Out in section <a href="descarga_e.shtml">Downloads</a>.</strong><br></li>
+      <li><strong>2016-05-31 Transparent box for ZX-Uno 4.1 - Design by @Arananet. <a href="descarga_e.shtml">Downloads</a>. <a href="media_e.shtml">Media</a>.</strong><br></li>
+    <li>2016-05-25 Added snapshots in high resolution 3D PCB Sketch-Up. <a href="media_e.shtml">Media</a>.<br></li>
+    <li>2016-05-18 Added snapshots of 3D PCB Sketch-Up by Mejias3D. <a href="media_e.shtml">Media</a>.<br></li>
+    <li>2016-05-18 Updated file PDF Pin Out in section <a href="descarga_e.shtml">Downloads</a>.<br></li>
     <li>2016-03-23 Added Video Demo Sam Coupé <a href="media_e.shtml">Media</a> section.</li>
     <li>2016-03-19 Link to <a href="http://www.verkami.com/projects/14074-zx-uno" target="_BLANK">Verkami</a> with information about our crowdfunding campaign (closed).</li>
     <li>2016-03-08 Updated links of  ZEsarUX and Pinout Scheme.</li>
