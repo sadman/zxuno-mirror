@@ -173,13 +173,13 @@ gamen3  sbc     hl, hl
         jp      (hl)
 gamen3  inc     a
         ld      d, $40
-        dec     c
+        ld      c, $fc
         add     a, a
         add     a, a
         add     a, a
         call    game3-snaps
         ex      af, af
-        dec     c
+        ld      c, l
         inc     a
         add     a, a
         add     a, a
@@ -244,10 +244,9 @@ game4   ld      hl, $3ffc
 game5   ld      (hl), a
         djnz    game4
         ret     z
+        ld      l, b
         ld      b, h
-        inc     bc
-        ld      h, e
-        ld      l, e
+        ld      h, l
         ldir
         ex      af, af'
         jr      game3
