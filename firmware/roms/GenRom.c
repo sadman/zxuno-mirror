@@ -54,15 +54,14 @@ int main(int argc, char *argv[]) {
     "     d           Enable DivMMC paging\n"
     "     n           Enable NMI-DivMMC\n"
     "  <params2>      Set 8 flags parameters, combinable\n"
-    "     0           Default values DISD, DIFUL, DIKEMP, ENMMU, DI1FFD, DI7FFD,"
-    "                                                             DITAY and DIAY\n"
+    "     0           Default DISD=ENMMU=DIROM1F=DIROM7F=DI1FFD=DI7FFD=DITAY=DIAY=0\n"
     "     s           Disable SD ports (DivMMC and ZXMMC)\n"
     "     m           Enable horizontal MMU in Timex Sinclair\n"
     "     h           Disable high bit ROM (1FFD bit 2)\n"
     "     l           Disable low bit ROM (7FFD bit 4)\n"
     "     1           Disable 1FFD port (+2A/+3 memory paging)\n"
     "     7           Disable 7FFD port (128K memory paging)\n"
-    "     t           Disable second AY chip\n"
+    "     2           Disable 2nd AY chip\n"
     "     a           Disable main AY chip\n"
     "  <name>         Name between single quotes up to 32 chars\n"
     "  <input_file>   Input ROM file\n"
@@ -152,7 +151,7 @@ int main(int argc, char *argv[]) {
       case 'l': mem[0x4009]^= 0b00010000; break;
       case '1': mem[0x4009]^= 0b00001000; break;
       case '7': mem[0x4009]^= 0b00000100; break;
-      case 't': mem[0x4009]^= 0b00000010; break;
+      case '2': mem[0x4009]^= 0b00000010; break;
       case 'a': mem[0x4009]^= 0b00000001;
     }
   for ( i= 0; i<32 && i<strlen(argv[3]); i++ )
