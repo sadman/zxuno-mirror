@@ -1,0 +1,5 @@
+ZX Spectrum 48K          lh71
+ZX Spectrum 128K/+2     t h 1
+ZX Spectrum +2A/+3      t
+Pentagon 128          pc  h 1
+
