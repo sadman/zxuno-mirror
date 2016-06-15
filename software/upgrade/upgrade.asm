@@ -30,37 +30,18 @@ SDCard          ld      b, FA_READ      ; B = modo de apertura
                 db      F_OPEN
                 jr      nc, FileFound
                 call    Print
-                dz      'File ROMS.ZX1 not found'
+                dz      'File FLASH not found'
                 ret
-FileFound       push    af
-                ld      ixl, 64
-                ld      de, $8000
-                ld      hl, $0060
-                ld      a, $20
-                call    rdflsh
-                ld      de, $0060
+FileFound       ld      ixl, 0
+                ld      de, $0000
                 exx
-                ld      hl, $8000
-                ld      bc, $1041
-                pop     af
-                push    af
-                rst     $08
-                db      F_READ
-                jr      c, tError
-                ld      a, $20
-                ld      hl, $8000
-                exx
-                call    wrflsh
-                ld      e, $c0
-                exx
-                pop     af
 Bucle           ld      hl, $8000
                 ld      bc, $4000
                 push    af
                 rst     $08
                 db      F_READ
                 jr      nc, ReadOK
-tError          call    Print
+                call    Print
                 dz      'Read Error'
                 pop     af
                 ret
@@ -69,11 +50,7 @@ ReadOK          ld      a, $40
                 exx
                 call    wrflsh
                 inc     de
-                ld      a, ixl
-                cp      46
-                jr      nz, o45roms
-                ld      de, $34c0
-o45roms         exx
+                exx
                 pop     af
                 dec     ixl
                 jr      nz, Bucle
@@ -91,55 +68,11 @@ Print1          rst     $10
                 jp      (hl)
 
 ; ------------------------
-; Read from SPI flash
-; Parameters:
-;   DE: destination address
-;   HL: source address without last byte
-;    A: number of pages (256 bytes) to read
-; ------------------------
-rdflsh          ex      af, af'
-                xor     a
-                push    hl
-                wreg    flash_cs, 0     ; activamos spi, enviando un 0
-                wreg    flash_spi, 3    ; envio flash_spi un 3, orden de lectura
-                pop     hl
-                push    hl
-                out     (c), h
-                out     (c), l
-                out     (c), a
-                ex      af, af'
-                ex      de, hl
-                in      f, (c)
-rdfls1          ld      e, $20
-rdfls2          ini
-                inc     b
-                ini
-                inc     b
-                ini
-                inc     b
-                ini
-                inc     b
-                ini
-                inc     b
-                ini
-                inc     b
-                ini
-                inc     b
-                ini
-                inc     b
-                dec     e
-                jr      nz, rdfls2
-                dec     a
-                jr      nz, rdfls1
-                wreg    flash_cs, 1
-                pop     hl
-                ret
-
-; ------------------------
 ; Write to SPI flash
 ; Parameters:
 ;    A: number of pages (256 bytes) to write
 ;   DE: target address without last byte
+;  BC': zxuno_port+$100 (constant)
 ;  HL': source address from memory
 ; ------------------------
 wrflsh          ex      af, af'
@@ -211,4 +144,4 @@ rst28           ld      bc, zxuno_port + $100
                 outi
                 jp      (hl)
 
-FileName        dz      'ROMS.ZX1'
+FileName        dz      'FLASH.ZX1'
