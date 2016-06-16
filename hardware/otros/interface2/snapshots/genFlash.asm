@@ -177,21 +177,21 @@ gamen3  inc     a
         add     a, a
         add     a, a
         add     a, a
-        call    game3-snaps
+        call    10-LOFF
         ex      af, af
         ld      c, l
         inc     a
         add     a, a
         add     a, a
         add     a, a
-        call    game3-snaps
+        call    10-LOFF
         ex      af, af
         ld      c, $fd+game3-snaps
         inc     a
         add     a, a
         add     a, a
         add     a, a
-        call    2-LOFF
+        call    10-LOFF
         ex      af, af
         dec     a
       ENDIF
@@ -217,11 +217,11 @@ gamen6  pop     hl
         pop     de
         pop     bc
         exx
-      IF  LREG=35
+;      IF  LREG=35
         sbc     hl, hl
-      ELSE
-        ld      hl, 2
-      ENDIF
+;      ELSE
+;        ld      hl, 2
+;      ENDIF
         pop     af
         ex      af, af'
         pop     bc

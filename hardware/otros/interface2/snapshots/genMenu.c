@@ -9,7 +9,7 @@ FILE *fi, *fo, *ft;
 int main(int argc, char *argv[]){
   if( argv[1][0]=='1' )
     lreg= 61,
-    loff= 24;
+    loff= 32;
   else
     lreg= 35,
     loff= 8;
@@ -64,13 +64,12 @@ int main(int argc, char *argv[]){
     if( loff==8 )
       pos-= 2,
       *(unsigned short*)(image+pos-0x4000)= af,
-      fwrite(image, 1, 0xc000, fo),
-      memcpy(font+i*lreg, image+0xbff8, 8);
+      fwrite(image, 1, 0xc000, fo);
     else
       fwrite(image, 1, 0x4000, fo),
       fwrite(image+0x3ffc, 1, 0x4000, fo),
-      fwrite(image+0x7ff8, 1, 0x4000, fo),
-      memcpy(font+i*lreg, image+0xbff0, 16);
+      fwrite(image+0x7ff8, 1, 0x4000, fo);
+    memcpy(font+i*lreg, image+0xc000-loff, loff);
     font[i*lreg+loff]= font[lreg*10];                 // I
     font[i*lreg+loff+1]= font[lreg*10+25]-1;          // IM
     memcpy(font+i*lreg+loff+2, font+lreg*10+1, 8);    // HL',DE',BC',AF'
