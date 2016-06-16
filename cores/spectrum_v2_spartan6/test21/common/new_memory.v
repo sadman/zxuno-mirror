@@ -23,7 +23,7 @@
 
 module new_memory (
    // Relojes y reset
-   input wire clk,        // Reloj del sistema CLK7
+   input wire clk,        // Reloj de la CPU
    input wire mclk,       // Reloj para la BRAM
    input wire mrst_n,
    input wire rst_n,

@@ -46,7 +46,7 @@ module vga_scandoubler (
 	parameter [63:0] HSYNC_COUNT = (CLKVIDEO * 3360 * 2)/1000000;
 	parameter [63:0] VSYNC_COUNT = (CLKVIDEO * 114320 * 2)/1000000;
 	
-	reg [10:0] addrvideo = 11'd0, addrvga = 11'b00000000000;
+	reg [10:0] addrvideo = 11'd0, addrvga = 11'b10000000000;
 	reg [9:0] totalhor = 10'd0;
 
 	// Para generar scanlines:
@@ -72,7 +72,10 @@ module vga_scandoubler (
 	// Cambio de mitad cada vez que encuentro un pulso de sincronismo horizontal
 	// En "totalhor" mido el número de ciclos de reloj que hay en un scan
 	always @(posedge clkvideo) begin
-		if (hsync_ext_n == 1'b0 && addrvideo[9:7] != 3'b000) begin
+        if (vsync_ext_n == 1'b0) begin
+            addrvideo <= 11'd0;
+        end    
+		else if (hsync_ext_n == 1'b0 && addrvideo[9:7] != 3'b000) begin
 			totalhor <= addrvideo[9:0];
 			addrvideo <= {~addrvideo[10],10'b0000000000};
 		end
@@ -89,12 +92,16 @@ module vga_scandoubler (
 	// uso después para mostrar los píxeles a su brillo nominal, o con su brillo
 	// reducido para un efecto chachi de scanlines en la VGA
 	always @(posedge clkvga) begin
-		if (hsync_ext_n == 1'b0 && addrvga[9:7] != 3'b000) begin
-			addrvga <= {~addrvga[10],10'b000000000};
-			scaneffect <= ~scaneffect;
-		end
+        if (vsync_ext_n == 1'b0) begin
+            addrvga <= 11'b10000000000;
+            scaneffect <= 1'b0;
+        end    
 		else if (addrvga[9:0] == totalhor && hsync_ext_n == 1'b1) begin
 			addrvga <= {addrvga[10], 10'b000000000};
+			scaneffect <= ~scaneffect;
+		end
+		else if (hsync_ext_n == 1'b0 && addrvga[9:7] != 3'b000) begin
+			addrvga <= {~addrvga[10],10'b000000000};
 			scaneffect <= ~scaneffect;
 		end
 		else

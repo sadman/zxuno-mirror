@@ -300,7 +300,7 @@ module zxuno (
    );
 
    flash_and_sd cacharros_con_spi (
-      .clk(clk28),
+      .clk(clk14),
       .a(cpuaddr),
       .iorq_n(iorq_n),
       .rd_n(rd_n),
