@@ -217,15 +217,15 @@ gamen6  pop     hl
         pop     de
         pop     bc
         exx
-;      IF  LREG=35
+      IF  LREG=35
         sbc     hl, hl
-;      ELSE
-;        ld      hl, 2
-;      ENDIF
+      ELSE
+        ld      hl, 2
+      ENDIF
         pop     af
         ex      af, af'
-        pop     bc
         pop     de
+        pop     bc
         pop     iy
         pop     ix
         add     hl, sp
