@@ -7,7 +7,7 @@
                 defb    dir, dato
               endm
 
-                org     $2000           ; comienzo de la ejecución de los comandos ESXDOS
+                org     $2000
 
 Main            xor     a
                 rst     $08
@@ -16,7 +16,7 @@ Main            xor     a
                 call    Print
                 dz      'SD card not inserted'
                 ret
-SDCard          ld      b, FA_READ | FA_OPEN_AL ; B = modo de apertura
+SDCard          ld      b, FA_WRITE | FA_OPEN_AL ; B = modo de apertura
                 ld      hl, FileName    ; HL = Puntero al nombre del fichero (ASCIIZ)
                 rst     $08
                 db      F_OPEN
@@ -45,6 +45,7 @@ Bucle           ld      hl, $8000
                 ld      de, $34c0
 o45roms         ld      a, $40
                 call    rdflsh
+                ld      hl, $8000
                 ld      bc, $4000
                 pop     af
                 push    af
