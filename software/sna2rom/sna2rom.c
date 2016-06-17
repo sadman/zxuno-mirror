@@ -8,6 +8,13 @@ unsigned short i, j, k, af, pos;
 FILE *fi, *fo, *ft;
 
 int main(int argc, char *argv[]){
+  if( argc==1 )
+    printf("\n"
+    "sna2rom, generates +2A/+3 ROM from 48K SNA file. Antonio Villena 2016-06-17\n\n"
+    "  sna2rom <input_file> <output_file>\n\n"
+    "  <input_file>  SNA input file\n"
+    "  <output_file> ROM output file\n\n"),
+    exit(0);
   if( argc!=3 )
     printf("\nInvalid number of parameters\n"),
     exit(-1);
@@ -17,7 +24,6 @@ int main(int argc, char *argv[]){
     exit(-1);
   fread(temp, 1, 0x401d, ft);
   fclose(ft);
-
   fi= fopen(argv[1], "rb");
   if( !fi )
     printf("\nInput file not found: %s\n", argv[1]),
