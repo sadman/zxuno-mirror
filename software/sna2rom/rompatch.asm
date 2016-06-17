@@ -19108,8 +19108,31 @@ L386E:  ld      bc, game5-game+4
         ld      c, $fd
         exx
         call    game-game5-4
-        jr      $
-
+        ld      hl, $3901
+        ld      c, $1d
+        ldir
+        ld      sp, hl
+        pop     hl
+        ld      a, l
+        ld      i, a
+        dec     h
+        im      1
+        jr      nz, gamen6
+        im      2
+gamen6  pop     hl
+        pop     de
+        pop     bc
+        exx
+        ld      hl, 2
+        pop     af
+        ex      af, af'
+        pop     de
+        pop     bc
+        pop     iy
+        pop     ix
+        add     hl, sp
+        pop     af
+        jp      (hl)
 game    call    game3-game5-4
         ld      hl, $1d
         ld      de, $4000

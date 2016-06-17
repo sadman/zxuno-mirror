@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define  LREG   0x3a01
+#define  LREG   0x3901
 #define  LLEN   0x1d
 unsigned char image[0xc01b], temp[0x401d];
 char tmpstr[50];
@@ -42,9 +42,9 @@ int main(int argc, char *argv[]){
   temp[LREG+LLEN+23]= 0x31;                         // SP
   *(unsigned short*)(temp+LREG+LLEN+24)= pos;
   temp[LREG+LLEN+26]= 0xf3|image[19]<<3&8;          // IFF
+  temp[LREG+LLEN+27]= 0xc9;                         // ret
   fwrite(temp, 1, 0x4000, fo);
-//  temp[LREG+LLEN+25]= 0x18;                       // jr rel
-//  temp[LREG+LLEN+26]= i<9 ? lreg-2 : 0;
+  printf("%x\n", af);
   fclose(fi);
   fclose(fo);
 }

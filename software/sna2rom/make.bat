@@ -1,1 +1,1 @@
-\emuscriptoria\sjasmplus rompatch.asm
+sjasmplus rompatch.asm
