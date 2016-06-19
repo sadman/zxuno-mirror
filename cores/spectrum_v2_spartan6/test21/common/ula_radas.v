@@ -60,6 +60,9 @@ module ula_radas (
     input wire access_to_contmem,
     output wire doc_ext_option,
     input wire enable_timexmmu,
+    input wire disable_timexscr,
+    input wire disable_ulaplus,    
+    input wire disable_radas,
 
     // Video
     output wire [2:0] r,
@@ -277,7 +280,7 @@ module ula_radas (
    // ConfigReg register (ULAplus)
    reg [1:0] ConfigReg = 2'b00;
    wire ULAplusEnabled = ConfigReg[0];
-   assign RadasEnabled = ConfigReg[1];
+   assign RadasEnabled = ConfigReg[1] & ~disable_radas;
    always @(posedge clkregs) begin
       if (rst_n == 1'b0)
          ConfigReg <= 2'b00;
@@ -463,11 +466,11 @@ module ula_radas (
       if (iorq_n==1'b0 && wr_n==1'b0) begin
          if (a[0]==1'b0 && a[7:0]!=TIMEXMMU)
             WriteToPortFE = 1'b1;
-         else if (a[7:0]==TIMEXPORT)
+         else if (a[7:0]==TIMEXPORT && !disable_timexscr)
             TimexConfigLoad = 1'b1;
-         else if (a==ULAPLUSADDR)
+         else if (a==ULAPLUSADDR && !disable_ulaplus)
             PaletteRegLoad = 1'b1;
-         else if (a==ULAPLUSDATA) begin
+         else if (a==ULAPLUSDATA && !disable_ulaplus) begin
             if (PaletteReg[6]==1'b0)  // writting a new value into palette LUT
                PaletteLoad = 1'b1;
             else
@@ -490,13 +493,13 @@ module ula_radas (
       if (iorq_n==1'b0 && rd_n==1'b0) begin
          if (a[0]==1'b0 && a[7:0]!=8'hF4)
             dout = {1'b1,post_processed_ear,1'b1,kbd};
-         else if (a==ULAPLUSADDR)
+         else if (a==ULAPLUSADDR && !disable_ulaplus)
             dout = {1'b0,PaletteReg};
-         else if (a==ULAPLUSDATA && PaletteReg[6]==1'b0)
+         else if (a==ULAPLUSDATA && PaletteReg[6]==1'b0 && !disable_ulaplus)
             dout = PaletteEntryToCPU;
-         else if (a==ULAPLUSDATA && PaletteReg[6]==1'b1)
+         else if (a==ULAPLUSDATA && PaletteReg[6]==1'b1 && !disable_ulaplus)
             dout = {7'b0000000,ConfigReg};
-         else if (a[7:0]==TIMEXPORT && enable_timexmmu)
+         else if (a[7:0]==TIMEXPORT && enable_timexmmu && !disable_timexscr)
             dout = TimexConfigReg;
          else begin
             if (BitmapAddr || AttrAddr)

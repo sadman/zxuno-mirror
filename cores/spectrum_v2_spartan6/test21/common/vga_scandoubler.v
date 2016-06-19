@@ -46,16 +46,10 @@ module vga_scandoubler (
 	parameter [63:0] HSYNC_COUNT = (CLKVIDEO * 3360 * 2)/1000000;
 	parameter [63:0] VSYNC_COUNT = (CLKVIDEO * 114320 * 2)/1000000;
 	
-	reg [10:0] addrvideo = 11'd0, addrvga = 11'b10000000000;
+	reg [10:0] addrvideo = 11'd0, addrvga = 11'b00000000000;
 	reg [9:0] totalhor = 10'd0;
 
-	// Para generar scanlines:
 	wire [2:0] rout, gout, bout;
-	reg scaneffect = 1'b0;
-	wire [2:0] ro_vga = (scaneffect | disable_scaneffect)? rout : {1'b0, rout[2:1]};
-	wire [2:0] go_vga = (scaneffect | disable_scaneffect)? gout : {1'b0, gout[2:1]};
-	wire [2:0] bo_vga = (scaneffect | disable_scaneffect)? bout : {1'b0, bout[2:1]};
-	
 	// Memoria de doble puerto que guarda la información de dos scans
 	// Cada scan puede ser de hasta 1024 puntos, incluidos aquí los
 	// puntos en negro que se pintan durante el HBlank
@@ -67,15 +61,25 @@ module vga_scandoubler (
 		.din({ri,gi,bi}),
 		.dout({rout,gout,bout})
 	);
-	
+
+	// Para generar scanlines:
+	reg scaneffect = 1'b0;
+    wire [2:0] rout_dimmed, gout_dimmed, bout_dimmed;
+    color_dimmed apply_to_red   (rout, rout_dimmed);
+    color_dimmed apply_to_green (gout, gout_dimmed);
+    color_dimmed apply_to_blue  (bout, bout_dimmed);
+	wire [2:0] ro_vga = (scaneffect | disable_scaneffect)? rout : rout_dimmed;
+	wire [2:0] go_vga = (scaneffect | disable_scaneffect)? gout : gout_dimmed;
+	wire [2:0] bo_vga = (scaneffect | disable_scaneffect)? bout : bout_dimmed;
+		
 	// Voy alternativamente escribiendo en una mitad o en otra del scan buffer
 	// Cambio de mitad cada vez que encuentro un pulso de sincronismo horizontal
 	// En "totalhor" mido el número de ciclos de reloj que hay en un scan
 	always @(posedge clkvideo) begin
-        if (vsync_ext_n == 1'b0) begin
-            addrvideo <= 11'd0;
-        end    
-		else if (hsync_ext_n == 1'b0 && addrvideo[9:7] != 3'b000) begin
+//        if (vsync_ext_n == 1'b0) begin
+//            addrvideo <= 11'd0;
+//        end    
+		if (hsync_ext_n == 1'b0 && addrvideo[9:7] != 3'b000) begin
 			totalhor <= addrvideo[9:0];
 			addrvideo <= {~addrvideo[10],10'b0000000000};
 		end
@@ -92,11 +96,11 @@ module vga_scandoubler (
 	// uso después para mostrar los píxeles a su brillo nominal, o con su brillo
 	// reducido para un efecto chachi de scanlines en la VGA
 	always @(posedge clkvga) begin
-        if (vsync_ext_n == 1'b0) begin
-            addrvga <= 11'b10000000000;
-            scaneffect <= 1'b0;
-        end    
-		else if (addrvga[9:0] == totalhor && hsync_ext_n == 1'b1) begin
+//        if (vsync_ext_n == 1'b0) begin
+//            addrvga <= 11'b10000000000;
+//            scaneffect <= 1'b0;
+//        end    
+		if (addrvga[9:0] == totalhor && hsync_ext_n == 1'b1) begin
 			addrvga <= {addrvga[10], 10'b000000000};
 			scaneffect <= ~scaneffect;
 		end
@@ -180,3 +184,24 @@ module vgascanline_dport (
 			scan[addrwrite] <= din;
 	end
 endmodule
+
+module color_dimmed (
+    input wire [2:0] in,
+    output reg [2:0] out // out is scaled to roughly 70% of in
+    );
+    
+    always @* begin  // a LUT
+        case (in)  
+            3'd0 : out = 3'd0;
+            3'd1 : out = 3'd1;
+            3'd2 : out = 3'd1;
+            3'd3 : out = 3'd2;
+            3'd4 : out = 3'd3;
+            3'd5 : out = 3'd3;
+            3'd6 : out = 3'd4;
+            3'd7 : out = 3'd5;
+            default: out = 3'd0;
+        endcase
+    end
+endmodule
+        

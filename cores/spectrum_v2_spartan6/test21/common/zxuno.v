@@ -171,6 +171,9 @@ module zxuno (
    wire disable_romsel1f;
    wire enable_timexmmu;
    wire disable_spisd;
+   wire disable_timexscr;
+   wire disable_ulaplus;
+   wire disable_radas;
    wire [7:0] devoptions_dout;
    wire oe_n_devoptions;
  
@@ -274,6 +277,9 @@ module zxuno (
      .disable_contention(disable_contention),
      .doc_ext_option(doc_ext_option),
      .enable_timexmmu(enable_timexmmu),
+     .disable_timexscr(disable_timexscr),
+     .disable_ulaplus(disable_ulaplus),
+     .disable_radas(disable_radas),
 
     // Video
      .r(r),
@@ -461,7 +467,10 @@ module zxuno (
         .disable_romsel7f(disable_romsel7f),
         .disable_romsel1f(disable_romsel1f),
         .enable_timexmmu(enable_timexmmu),
-        .disable_spisd(disable_spisd)
+        .disable_spisd(disable_spisd),
+        .disable_timexscr(disable_timexscr),
+        .disable_ulaplus(disable_ulaplus),
+        .disable_radas(disable_radas)
     );
 
     scandoubler_ctrl control_scandoubler (
