@@ -3,9 +3,8 @@
 #define  LREG   0x3901
 #define  LLEN   0x1d
 unsigned char image[0xc01b], temp[0x401d];
-char tmpstr[50];
-unsigned short i, j, k, af, pos;
-FILE *fi, *fo, *ft;
+unsigned short af, pos;
+FILE *fi, *fo;
 
 int main(int argc, char *argv[]){
   if( argc==1 )
@@ -18,12 +17,12 @@ int main(int argc, char *argv[]){
   if( argc!=3 )
     printf("\nInvalid number of parameters\n"),
     exit(-1);
-  ft= fopen("rompatch.rom", "rb");
-  if( !ft )
+  fi= fopen("rompatch.rom", "rb");
+  if( !fi )
     printf("\nFile rompatch.rom not found"),
     exit(-1);
-  fread(temp, 1, 0x401d, ft);
-  fclose(ft);
+  fread(temp, 1, 0x401d, fi);
+  fclose(fi);
   fi= fopen(argv[1], "rb");
   if( !fi )
     printf("\nInput file not found: %s\n", argv[1]),
@@ -47,10 +46,9 @@ int main(int argc, char *argv[]){
   *(unsigned short*)(temp+LREG+LLEN+21)= *(unsigned short*)(image+9);
   temp[LREG+LLEN+23]= 0x31;                         // SP
   *(unsigned short*)(temp+LREG+LLEN+24)= pos;
-  temp[LREG+LLEN+26]= 0xf3|image[19]<<3&8;          // IFF
+  temp[LREG+LLEN+26]= 0xf3|image[19]<<1&8;          // IFF
   temp[LREG+LLEN+27]= 0xc9;                         // ret
   fwrite(temp, 1, 0x4000, fo);
-  printf("%x\n", af);
   fclose(fi);
   fclose(fo);
 }
