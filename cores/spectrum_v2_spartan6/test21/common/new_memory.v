@@ -200,12 +200,12 @@ module new_memory (
         if (!disable_1ffd && !disable_7ffd) begin
             if (!iorq_n && !wr_n && `ADDR_1FFD && !puerto_bloqueado)
                 bankplus3 <= din;
-            if (!iorq_n && !wr_n && `ADDR_7FFD_PLUS2A && !puerto_bloqueado)
+            else if (!iorq_n && !wr_n && `ADDR_7FFD_PLUS2A && !puerto_bloqueado)
                 bank128 <= din;
         end
-        if (!disable_7ffd && disable_1ffd && !iorq_n && !wr_n && `ADDR_7FFD_SP128 && !puerto_bloqueado)
+        else if (!disable_7ffd && disable_1ffd && !iorq_n && !wr_n && `ADDR_7FFD_SP128 && !puerto_bloqueado)
             bank128 <= din;
-        if (enable_timexmmu && !iorq_n && !wr_n && `ADDR_TIMEX_MMU)
+        else if (enable_timexmmu && !iorq_n && !wr_n && `ADDR_TIMEX_MMU)
             timex_mmu <= din;
       end
    end
