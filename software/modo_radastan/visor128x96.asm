@@ -45,9 +45,10 @@ BucPaleta      out (c),e
                cp 16
                jr nz,BucPaleta
 
+               ld b,0fch  ;NEW! now this is how to enable Radastan mode
                ld a,64
-               out (c),a
-               ld b,0ffh
+               out (c),a  ;NEW! now this is how to enable Radastan mode
+               ld b,0fdh
                ld a,3
                out (c),a
 
@@ -67,10 +68,11 @@ BucPintaScans  push bc
                ld bc,0
                call 7997 ;PAUSE 0
 
-               ld bc,0bf3bh
+               ;Exit Radastan mode.
+               ld bc,0fc3bh
                ld a,64
                out (c),a
-               ld b,0ffh
+               ld b,0fdh
                xor a
                out (c),a
 
@@ -78,6 +80,6 @@ BucPintaScans  push bc
 
 
 Pantalla       equ $
-               incbin "moco.bmp"  ; <-- put here the BMP you want to see. It must have 6262 bytes in length
+               incbin "gravity.bmp"  ; <-- put here the BMP you want to see. It must have 6262 bytes in length
 
                end Main

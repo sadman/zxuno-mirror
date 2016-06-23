@@ -20,6 +20,9 @@ BORDERCLR           equ 23624
 PAPERCOLOR          equ 23693
 ULAPLUSADDR         equ 0bf3bh
 ULAPLUSDATA         equ 0ff3bh
+ZXUNOADDR           equ 0fc3bh
+ZXUNODATA           equ 0fd3bh
+RADASCTRL           equ 40h
 BANKM               equ 7ffdh
 PILA                equ 3deah   ;valor sugerido por Miguel Ângelo para poner la pila en el área de comando
 
@@ -116,11 +119,11 @@ FinPlay             ld a,(FHandle)
 SetupVideoMemory    proc
                     di
 
-                    ld bc,ULAPLUSADDR
-                    ld a,64
+                    ld bc,ZXUNOADDR
+                    ld a,RADASCTRL
                     out (c),a
-                    ld bc,ULAPLUSDATA
-                    ld a,3   ;ULAPLUS + modo radastaniano
+                    ld bc,ZXUNODATA
+                    ld a,3   ;modo radastaniano
                     out (c),a
 
                     ld bc,BANKM
@@ -138,10 +141,10 @@ RestoreVideoMemory  proc
                     ld a,00010000b   ;banco 0, pantalla normal, ROM 3
                     out (c),a
 
-                    ld bc,ULAPLUSADDR
-                    ld a,64
+                    ld bc,ZXUNOADDR
+                    ld a,RADASCTRL
                     out (c),a
-                    ld bc,ULAPLUSDATA
+                    ld bc,ZXUNODATA
                     ld a,0   ;modo ULA normal
                     out (c),a
 
