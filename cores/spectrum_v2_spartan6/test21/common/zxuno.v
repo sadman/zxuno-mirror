@@ -267,6 +267,11 @@ module zxuno (
      .va(vram_addr),  // 16KB videoram, 2 pages
      .vramdata(vram_dout),
 	 
+    // ZX-UNO register interface
+     .zxuno_addr(zxuno_addr),
+     .zxuno_regrd(zxuno_regrd),
+     .zxuno_regwr(zxuno_regwr),
+    
     // I/O ports
      .ear(ear),
      .mic(mic),
