@@ -1,5 +1,7 @@
 ULAPLUSADDR      equ 48955
 ULAPLUSDATA      equ 65339
+ZXUNOADDR        equ 0fc3bh
+ZXUNODATA        equ 0fd3bh
 
                  org 32768
                  
@@ -18,9 +20,9 @@ BucPonPaleta     ld bc,ULAPLUSADDR
                  cp 64
                  jr nz,BucPonPaleta
 
-                 ld bc,ULAPLUSADDR
+                 ld bc,ZXUNOADDR
                  out (c),d
-                 ld bc,ULAPLUSDATA
+                 ld bc,ZXUNODATA
                  ld a,3   ;Modo radastaniano
                  out (c),a
 
