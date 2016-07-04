@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
     *(unsigned short*)(font+i*lreg+loff+19+(loff>>3&2))= *(unsigned short*)(font+lreg*10+9);
     font[i*lreg+loff+21+(loff>>3&2)]= 0x31;                       // SP
     *(unsigned short*)(font+i*lreg+loff+22+(loff>>3&2))= pos;
-    font[i*lreg+loff+24+(loff>>3&2)]= 0xf3|font[lreg*10+19]<<3&8; // IFF
+    font[i*lreg+loff+24+(loff>>3&2)]= 0xf3|font[lreg*10+19]<<1&8; // IFF
     font[i*lreg+loff+25+(loff>>3&2)]= 0x18;                       // jr rel
     font[i*lreg+loff+26+(loff>>3&2)]= i<9 ? lreg-2 : 0;
     fclose(fi);
