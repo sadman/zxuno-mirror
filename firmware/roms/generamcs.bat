@@ -11,7 +11,7 @@ fpoke FLASH.ZX1 00000 file:header.bin      ^
                 08000 file:..\firmware.rom ^
                 58000 file:tmp.bin
 ..\fcut tmp.bin 0 53f00 sd_binaries\SPECTRUM.ZX1
-GenRom 0 sm1ta Machine tmp.bin core_taps\SPECTRUM.TAP
+GenRom sm1ta Machine tmp.bin core_taps\SPECTRUM.TAP
 rem CgLeches core_taps\SPECTRUM.TAP core_wavs\SPECTRUM.WAV 4
 call :CreateMachine CORE2 "Sam Coupe"        sam_coupe_spartan6\test4\tld_sam_v4.bit
 call :CreateMachine CORE3 "Jupiter ACE"      jupiter_ace_spartan6\test2\tld_jace_spartan6_v4.bit
@@ -23,8 +23,8 @@ call :CreateMachine CORE8 "Acorn Atom (VGA)" acorn_atom_spartan6\test2\working\a
 call :CreateMachine CORE9 "NES (VGA)"        nes_v2_spartan6\test1_v4\xilinx\nes_zxuno_v4.bit
 copy /y esxdos.rom sd_binaries\ESXDOS.ZX1
 copy /y ..\firmware.rom sd_binaries\FIRMWARE.ZX1
-GenRom 0 sm1t BIOS ..\firmware.rom core_taps\FIRMWARE.TAP
-GenRom 0 0    ESXDOS esxdos.rom core_taps\ESXDOS.TAP
+GenRom sm1t BIOS ..\firmware.rom core_taps\FIRMWARE.TAP
+GenRom 0    ESXDOS esxdos.rom core_taps\ESXDOS.TAP
 call :CreateRom 0  "ZX Spectrum 48K Cargando Leches" leches         dnlh
 call :CreateRom 1  "ZX +2A 4.1"                    plus3en41        t
 call :CreateRom 5  "SE Basic IV 4.0 Anya"          se               dh
@@ -59,13 +59,13 @@ goto :eof
 
 :CreateMachine
 Bit2Bin ..\..\cores\%3 sd_binaries\%1.ZX1
-GenRom 0 0 %2 sd_binaries\%1.ZX1 core_taps\%1.TAP
+GenRom 0 %2 sd_binaries\%1.ZX1 core_taps\%1.TAP
 AddItem %1 core_taps\%1.tap
 rem CgLeches core_taps\%1.TAP core_wavs\%1.WAV 4
 goto :eof
 
 :CreateRom
-GenRom %4 %5 %2 %3.rom rom_taps\%3.tap
+GenRom %4 %2 %3.rom rom_taps\%3.tap
 AddItem ROM %1 rom_taps\%3.tap
 rem CgLeches rom_taps\%3.tap rom_wavs\%3.wav 4
 :eof
