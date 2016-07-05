@@ -26,17 +26,18 @@
 <div id="main">
   <strong>Bitstreams (v4.1):</strong>
   <ul>
-    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb - ZIP</li>
-    <li><a href="ficheros/4.1/firmware.zip">FIRMWARE file</a> 16 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/Spectrum.zip">ZX Spectrum</a> 135 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/SamCoupe.zip">Sam Coupé</a> 187 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/JupiterAce.zip">Jupiter Ace</a> 103 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/MasterSystem.zip">Sega Master System</a> 127 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/OricAtmos.zip">Oric Atmos</a> 162 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/BBCMicro.zip">BBC Micro</a> 236 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/Apple2_VGA.zip">Apple 2</a> 96 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/AcornAtom_VGA.zip">Acorn Atom</a> 250 Kb - ZIP</li>
-    <li><a href="ficheros/4.1/NES_VGA.zip">Nintendo Entertainment System</a> 237 Kb - ZIP</li>
+    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb - ZIP - 0.43/05072016</li>
+    <li><a href="ficheros/4.1/firmware.zip">FIRMWARE file</a> 16 Kb - ZIP - 0.43</li>
+    <li><a href="ficheros/4.1/Spectrum.zip">ZX Spectrum</a> 135 Kb - ZIP - T21-05072016</li>
+    <li><a href="ficheros/4.1/SamCoupe.zip">Sam Coupé</a> 187 Kb - ZIP - 831</li>
+    <li><a href="ficheros/4.1/JupiterAce.zip">Jupiter Ace</a> 103 Kb - ZIP - 855</li>
+    <li><a href="ficheros/4.1/MasterSystem.zip">Sega Master System</a> 127 Kb - ZIP - 1035</li>
+    <li><a href="ficheros/4.1/OricAtmos.zip">Oric Atmos</a> 162 Kb - ZIP - 832</li>
+    <li><a href="ficheros/4.1/BBCMicro.zip">BBC Micro</a> 236 Kb - ZIP - 832</li>
+    <li><a href="ficheros/4.1/Atari2600.zip">Atari 2600 (VGA)</a> 96 Kb - ZIP - 816</li>
+    <li><a href="ficheros/4.1/Apple2.zip">Apple 2 (VGA)</a> 96 Kb - ZIP - 830</li>
+    <li><a href="ficheros/4.1/AcornAtom.zip">Acorn Atom (VGA)</a> 250 Kb - ZIP - 832</li>
+    <li><a href="ficheros/4.1/NES.zip">Nintendo Entertainment System (VGA)</a> 237 Kb - ZIP - 819</li>
     </ul>
   <br/>
   <strong>Designs (v4.1):</strong>

@@ -16,8 +16,8 @@ rem CgLeches core_taps\SPECTRUM.TAP core_wavs\SPECTRUM.WAV 4
 call :CreateMachine CORE2 "Sam Coupe"        sam_coupe_spartan6\test4\tld_sam_v4.bit
 call :CreateMachine CORE3 "Jupiter ACE"      jupiter_ace_spartan6\test2\tld_jace_spartan6_v4.bit
 call :CreateMachine CORE4 "Master System"    sms_v2_spartan6\test4\sms_final_v4.bit
-call :CreateMachine CORE5 "Oric Atmos"       oric_spartan6\test1\build\oric_v4.bit
-call :CreateMachine CORE6 "BBC Micro"        BBCMicro\test3\working\bbc_micro_v4.bit
+call :CreateMachine CORE5 "BBC Micro"        BBCMicro\test3\working\bbc_micro_v4.bit
+call :CreateMachine CORE6 "Atari 2600 (VGA)" atari_2600_spartan6\test1\zxuno\zxuno_a2601.bit
 call :CreateMachine CORE7 "Apple 2 (VGA)"    Apple2_spartan6\test2\build\apple2_top_v4.bit
 call :CreateMachine CORE8 "Acorn Atom (VGA)" acorn_atom_spartan6\test2\working\atomic_top_zxuno_v4.bit
 call :CreateMachine CORE9 "NES (VGA)"        nes_v2_spartan6\test1_v4\xilinx\nes_zxuno_v4.bit
