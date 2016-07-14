@@ -30,7 +30,7 @@ module rom (
       for (i=0;i<8192;i=i+1) begin
         mem[i] = 8'h00;
       end
-      $readmemh ("bootloader_hex.txt", mem, 0);
+      $readmemh ("bootloader_hex_8KB.txt", mem, 0);
    end
 
    always @(posedge clk) begin
