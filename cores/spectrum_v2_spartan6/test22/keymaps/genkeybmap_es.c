@@ -481,8 +481,6 @@ int main()
     MAP(MD3|MD2|PC_LESS,SP_NOTEQ,0,0);
     MAP(MD3|MD2|MD1|PC_LESS,SP_NOTEQ,0,0);
 
-    MAP(PC_SCRLOCK,0,0,USER1); // Key to roll over video output modes
-    // End of mapping. Save .HEX file for Verilog
     SAVEMAPHEX("keyb_es_hex.txt");
     // And map file for loading from ESXDOS
     SAVEMAPBIN("ES");

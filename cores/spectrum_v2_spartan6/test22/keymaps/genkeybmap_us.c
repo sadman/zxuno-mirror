@@ -474,10 +474,10 @@ int main()
     MAP(PC_SEMICOL,SP_SEMICOL,0,0);
     MAP(MD1|PC_SEMICOL,SP_COLON,0,0);
 
-    MAP(PC_SCRLOCK,0,0,USER1); // Evento de usuario 1. Roll over video output options
-
     // End of mapping. Save .HEX file for Verilog
     //SAVEMAPHEX("keyb_us_hex.txt");
     // And map file for loading from ESXDOS
     SAVEMAPBIN("US");
+	
+	return 0;
 }
