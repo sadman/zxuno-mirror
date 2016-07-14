@@ -62,6 +62,7 @@ module samcoupe (
     wire [7:0] kbcolumns;
     wire kb_nmi_n;
     wire kb_rst_n;
+    wire kb_mrst_n;
     wire rdmsel;
     assign kbrows = {rdmsel, cpuaddr[15:8]};
     
@@ -202,7 +203,7 @@ module samcoupe (
         .cols(kbcolumns),
         .rst_out_n(kb_rst_n),
         .nmi_out_n(kb_nmi_n),
-        .mrst_out_n(),
+        .mrst_out_n(kb_mrst_n),
         .user_toggles(),
         //---------------------------------
         .zxuno_addr(8'h00),
@@ -241,4 +242,8 @@ module samcoupe (
         .audio_right(audio_out_right)
 	);
     
+    multiboot back_to_bios (
+        .clk_icap(clk24),   // WARNING: this clock must not be greater than 20MHz (50ns period)
+        .mrst_n(kb_mrst_n)
+    );
 endmodule

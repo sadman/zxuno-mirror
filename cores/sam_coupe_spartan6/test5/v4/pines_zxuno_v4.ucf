@@ -1,14 +1,6 @@
-#NET "sysclk" PERIOD=28 ns;  # 28.125 MHz actual frequency for 50Hz vertical refresh
-#NET "clk14" PERIOD=56 ns;
-#NET "clk7" PERIOD=112 ns;
-#NET "clk3d5" PERIOD=224 ns;
-
-
-############################################################################
-
 # Clocks & debug
 NET "clk50mhz" LOC="P55" | IOSTANDARD = LVCMOS33;
-NET "testled" LOC="P11" | IOSTANDARD = LVCMOS33;
+#NET "testled" LOC="P11" | IOSTANDARD = LVCMOS33;
 
 # Video output
 NET "b<2>" LOC="P93" | IOSTANDARD = LVCMOS33;
@@ -33,8 +25,8 @@ NET "ear" LOC="P94" | IOSTANDARD = LVCMOS33;
 # Keyboard and mouse
 NET "clkps2" LOC="P99"    | IOSTANDARD = LVCMOS33 | PULLUP;  # pin 1 DIN
 NET "dataps2" LOC="P98"   | IOSTANDARD = LVCMOS33 | PULLUP;  # pin 5 DIN
-NET "mouseclk" LOC="P95"  | IOSTANDARD = LVCMOS33 | PULLUP;  # pin 6 DIN
-NET "mousedata" LOC="P97" | IOSTANDARD = LVCMOS33 | PULLUP;  # pin 2 DIN
+#NET "mouseclk" LOC="P95"  | IOSTANDARD = LVCMOS33 | PULLUP;  # pin 6 DIN
+#NET "mousedata" LOC="P97" | IOSTANDARD = LVCMOS33 | PULLUP;  # pin 2 DIN
 
 # SRAM
 NET "sram_addr<0>"  LOC="P141" | IOSTANDARD = LVCMOS33;
@@ -70,22 +62,22 @@ NET "sram_data<7>" LOC="P126" | IOSTANDARD = LVCMOS33;
 
 NET "sram_we_n" 	 LOC="P121" | IOSTANDARD = LVCMOS33;
 
-# SPI Flash
-NET "flash_cs_n" LOC="P38" | IOSTANDARD = LVCMOS33;
-NET "flash_clk"  LOC="P70" | IOSTANDARD = LVCMOS33;
-NET "flash_mosi" LOC="P64" | IOSTANDARD = LVCMOS33;
-NET "flash_miso" LOC="P65" | IOSTANDARD = LVCMOS33;
-
-# SD/MMC
-NET "sd_cs_n" LOC="P59" | IOSTANDARD = LVCMOS33;
-NET "sd_clk"  LOC="P75" | IOSTANDARD = LVCMOS33;
-NET "sd_mosi" LOC="P74" | IOSTANDARD = LVCMOS33;
-NET "sd_miso" LOC="P78" | IOSTANDARD = LVCMOS33;
-
-# JOYSTICK
-NET "joyup"    LOC="P1"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY6
-NET "joydown"  LOC="P5"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY4
-NET "joyleft"  LOC="P6"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY3
-NET "joyright" LOC="P7"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY2
-NET "joyfire"  LOC="P2"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY7
-#NET "btn2"    LOC="P8"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY5
+## SPI Flash
+#NET "flash_cs_n" LOC="P38" | IOSTANDARD = LVCMOS33;
+#NET "flash_clk"  LOC="P70" | IOSTANDARD = LVCMOS33;
+#NET "flash_mosi" LOC="P64" | IOSTANDARD = LVCMOS33;
+#NET "flash_miso" LOC="P65" | IOSTANDARD = LVCMOS33;
+#
+## SD/MMC
+#NET "sd_cs_n" LOC="P59" | IOSTANDARD = LVCMOS33;
+#NET "sd_clk"  LOC="P75" | IOSTANDARD = LVCMOS33;
+#NET "sd_mosi" LOC="P74" | IOSTANDARD = LVCMOS33;
+#NET "sd_miso" LOC="P78" | IOSTANDARD = LVCMOS33;
+#
+## JOYSTICK
+#NET "joyup"    LOC="P1"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY6
+#NET "joydown"  LOC="P5"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY4
+#NET "joyleft"  LOC="P6"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY3
+#NET "joyright" LOC="P7"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY2
+#NET "joyfire"  LOC="P2"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY7
+##NET "btn2"    LOC="P8"  | IOSTANDARD = LVCMOS33 | PULLUP;  #JOY5
