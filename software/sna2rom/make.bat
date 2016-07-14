@@ -1,13 +1,15 @@
 sjasmplus rompatch.asm
-sna2rom SNAs\AventuraOriginalParte1.sna ROMs\AventuraOriginalParte1.rom
-sna2rom SNAs\CoronaEncantada.sna        ROMs\CoronaEncantada.rom
-sna2rom SNAs\FistRoFighter.sna          ROMs\FistRoFighter.rom
-sna2rom SNAs\HombreSusurrabaBalas.sna   ROMs\HombreSusurrabaBalas.rom
-sna2rom SNAs\InvasionZombieMonsters.sna ROMs\InvasionZombieMonsters.rom
-sna2rom SNAs\KingsValley.sna            ROMs\KingsValley.rom
-sna2rom SNAs\MaritriniIncreiblesEng.sna ROMs\MaritriniIncreiblesEng.rom
-sna2rom SNAs\NeloQuqoEng.sna            ROMs\NeloQuqoEng.rom
-sna2rom SNAs\NightmareHaloween.sna      ROMs\NightmareHaloween.rom
-sna2rom SNAs\SokobanEng.sna             ROMs\SokobanEng.rom
-sna2rom SNAs\SoulsRemaster.sna          ROMs\SoulsRemaster.rom
-sna2rom SNAs\SpeccyBros.sna             ROMs\SpeccyBros.rom
+sna2rom SNAEsp\AventuraOriginalParte1.sna ROMEsp\AventuraOriginalParte1.rom
+sna2rom SNAEsp\CoronaEncantada.sna        ROMEsp\CoronaEncantada.rom
+sna2rom SNAEsp\FistRoFighter.sna          ROMEsp\FistRoFighter.rom
+sna2rom SNAEsp\HombreSusurrabaBalas.sna   ROMEsp\HombreSusurrabaBalas.rom
+sna2rom SNAEsp\InvasionZombieMonsters.sna ROMEsp\InvasionZombieMonsters.rom
+sna2rom SNAEsp\KingsValley.sna            ROMEsp\KingsValley.rom
+sna2rom SNAEsp\KnightMare2.sna            ROMEsp\KnightMare2.rom
+sna2rom SNAEsp\MaritriniIncreiblesEsp.sna ROMEsp\MaritriniIncreiblesEsp.rom
+sna2rom SNAEsp\NeloQuqoEsp.sna            ROMEsp\NeloQuqoEsp.rom
+sna2rom SNAEsp\NightmareHaloween.sna      ROMEsp\NightmareHaloween.rom
+sna2rom SNAEsp\SirAbabolEsp.sna           ROMEsp\SirAbabolEsp.rom
+sna2rom SNAEsp\SokobanEsp.sna             ROMEsp\SokobanEsp.rom
+sna2rom SNAEsp\SoulsRemaster.sna          ROMEsp\SoulsRemaster.rom
+sna2rom SNAEsp\SpeccyBros.sna             ROMEsp\SpeccyBros.rom

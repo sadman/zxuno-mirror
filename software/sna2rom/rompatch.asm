@@ -19108,12 +19108,15 @@ L386E:  ld      bc, game5-game+4
         ld      c, $fd
         exx
         call    game-game5-4
+        ld      bc, $7ffd
+        ld      a, $30
+        out     (c), a
         ei
 L3881:  halt
         djnz    L3881
         di
         ld      hl, $3901
-        ld      c, $1d
+        ld      bc, $1d
         ldir
         ld      sp, hl
         pop     hl
