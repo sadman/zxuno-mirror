@@ -1,14 +1,6 @@
                 output  UPGRADE
 
-                define  FA_READ         0x01
-                define  M_GETSETDRV     0x89
-                define  F_OPEN          0x9a
-                define  F_CLOSE         0x9b
-                define  F_READ          0x9d
-
-                define  zxuno_port      $fc3b
-                define  flash_spi       2
-                define  flash_cs        3
+                include zxuno.inc
 
               macro wreg  dir, dato
                 call    rst28

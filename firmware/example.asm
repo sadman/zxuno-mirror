@@ -30,9 +30,14 @@ waitk   ld      a, $fd
         in      a, ($fe)
         rrca
         jr      c, waitk
-        sbc     hl, hl          ; read MBR
+        call    mmcinit
+        ld      iy, $5c3a
+
+        ld      hl, 0
+;        ld      de, 0
         ld      ix, $8000
-        call    inirea
+        call    readat0
+
         ld      a, ($8000)           ; read first type
         cp      $eb
         jr      nz, conmbr
