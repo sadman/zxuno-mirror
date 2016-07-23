@@ -9,7 +9,32 @@
 
                 org     $2000           ; comienzo de la ejecución de los comandos ESXDOS
 
-Main            xor     a
+Main            ld      bc, zxuno_port
+                out     (c), 0
+                inc     b
+                in      f, (c)
+                jp      p, Nonlock
+                call    Print
+                dz      'ROM not rooted'
+                ret
+Nonlock         ld      a, scandbl_ctrl
+                dec     b
+                out     (c), a
+                inc     b
+                in      a, (c)
+                and     $3f
+                ld      (normal+1), a
+                or      $c0
+                out     (c), a
+                call    init
+                ld      bc, zxuno_port
+                ld      a, scandbl_ctrl
+                out     (c), a
+                inc     b
+normal          ld      a, 0
+                out     (c), a
+                ret
+init            xor     a
                 rst     $08
                 db      M_GETSETDRV     ; A = unidad actual
                 jr      nc, SDCard
@@ -20,22 +45,35 @@ SDCard          ld      b, FA_READ      ; B = modo de apertura
                 ld      hl, FileName    ; HL = Puntero al nombre del fichero (ASCIIZ)
                 rst     $08
                 db      F_OPEN
+                ld      (handle+1), a
                 jr      nc, FileFound
                 call    Print
                 dz      'File FLASH not found'
                 ret
-FileFound       ld      ixl, 0
+FileFound       call    Print
+                db      'Upgrading FLASH.ZX1 from SD', 13
+                dz      '[', 6, ' ]', 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
+                ld      ixl, 0
                 ld      de, $0000
                 exx
-Bucle           ld      hl, $8000
+Bucle           ld      a, ixl
+                inc     a
+                and     $0f
+                jr      nz, punto
+                ld      a, 'o'
+                exx
+                push    de
+                rst     $10
+                pop     de
+                exx
+punto           ld      hl, $8000
                 ld      bc, $4000
-                push    af
+handle          ld      a, 0
                 rst     $08
                 db      F_READ
                 jr      nc, ReadOK
                 call    Print
                 dz      'Read Error'
-                pop     af
                 ret
 ReadOK          ld      a, $40
                 ld      hl, $8000
@@ -43,11 +81,13 @@ ReadOK          ld      a, $40
                 call    wrflsh
                 inc     de
                 exx
-                pop     af
                 dec     ixl
                 jr      nz, Bucle
+                ld      a, (handle+1)
                 rst     $08
                 db      F_CLOSE
+                call    Print
+                dz      13, 'Upgrade complete'
                 ret
 
 Print           pop     hl

@@ -9,7 +9,32 @@
 
                 org     $2000           ; comienzo de la ejecución de los comandos ESXDOS
 
-Main            xor     a
+Main            ld      bc, zxuno_port
+                out     (c), 0
+                inc     b
+                in      f, (c)
+                jp      p, Nonlock
+                call    Print
+                dz      'ROM not rooted'
+                ret
+Nonlock         ld      a, scandbl_ctrl
+                dec     b
+                out     (c), a
+                inc     b
+                in      a, (c)
+                and     $3f
+                ld      (normal+1), a
+                or      $c0
+                out     (c), a
+                call    init
+                ld      bc, zxuno_port
+                ld      a, scandbl_ctrl
+                out     (c), a
+                inc     b
+normal          ld      a, 0
+                out     (c), a
+                ret
+init            xor     a
                 rst     $08
                 db      M_GETSETDRV     ; A = unidad actual
                 jr      nc, SDCard
@@ -20,36 +45,44 @@ SDCard          ld      b, FA_WRITE | FA_OPEN_AL ; B = modo de apertura
                 ld      hl, FileName    ; HL = Puntero al nombre del fichero (ASCIIZ)
                 rst     $08
                 db      F_OPEN
+                ld      (handle+1), a
                 jr      nc, FileFound
                 call    Print
                 dz      'Can\'t open FLASH.ZX1'
                 ret
-FileFound       ld      hl, $0000
+FileFound       call    Print
+                db      'Backing up FLASH.ZX1 to SD', 13
+                dz      '[', 6, ' ]', 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
+                ld      hl, $0000
 Bucle           push    hl
-                push    af
                 ld      de, $8000
                 ld      a, $40
                 call    rdflsh
-                ld      hl, $8000
+                add     hl, hl
+                add     hl, hl
+                ld      a, h
+                and     $0f
+                jr      nz, punto
+                ld      a, 'o'
+                rst     $10
+punto           ld      hl, $8000
                 ld      bc, $4000
-                pop     af
-                push    af
+handle          ld      a, 0
                 rst     $08
                 db      F_WRITE
+                pop     hl
                 jr      nc, WriteOK
                 call    Print
                 dz      'Write Error'
-                pop     af
-                pop     hl
                 ret
-WriteOK         pop     af
-                pop     hl
-                ld      de, $0040
+WriteOK         ld      de, $0040
                 add     hl, de
                 bit     6, h
                 jr      z, Bucle
                 rst     $08
                 db      F_CLOSE
+                call    Print
+                dz      13, 'Backup complete'
                 ret
 
 Print           pop     hl
