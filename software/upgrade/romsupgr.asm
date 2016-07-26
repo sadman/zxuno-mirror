@@ -97,7 +97,7 @@ ReadOK          ld      a, $40
                 call    wrflsh
                 inc     de
                 ld      a, ixl
-                cp      45
+                cp      46
                 jr      nz, o45roms
                 ld      de, $34c0
 o45roms         exx
@@ -107,7 +107,7 @@ o45roms         exx
                 rst     $08
                 db      F_CLOSE
                 call    Print
-                dz      13, 'Upgrade complete'
+                dz      13, 'Upgrade complete', 13
                 ret
 
 Print           pop     hl

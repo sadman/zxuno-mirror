@@ -97,7 +97,7 @@ ReadOK          dec     ixl
                 rst     $08
                 db      F_CLOSE
                 call    Print
-                dz      13, 'Backup complete'
+                dz      13, 'Backup complete', 13
                 ret
 
 Print           pop     hl
