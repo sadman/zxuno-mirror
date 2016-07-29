@@ -3033,11 +3033,11 @@ Source: www.kingbright.com</description>
 <part name="S2" library="switch-omron" deviceset="10-XX" device=""/>
 <part name="S3" library="switch-omron" deviceset="10-XX" device=""/>
 <part name="S4" library="switch-omron" deviceset="10-XX" device=""/>
-<part name="RN1" library="resistor-sil" deviceset="E4R" device="" value="2K2"/>
-<part name="RN2" library="resistor-sil" deviceset="E4R" device="" value="2K2"/>
-<part name="RN4" library="resistor-sil" deviceset="E4R" device=""/>
+<part name="RN1" library="resistor-sil" deviceset="E4R" device="" value="100"/>
+<part name="RN2" library="resistor-sil" deviceset="E4R" device="" value="100"/>
+<part name="RN4" library="resistor-sil" deviceset="E4R" device="" value="2K2"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
-<part name="RN3" library="resistor-sil" deviceset="G06R" device=""/>
+<part name="RN3" library="resistor-sil" deviceset="G06R" device="" value="330"/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
@@ -3090,9 +3090,9 @@ Source: www.kingbright.com</description>
 <instance part="GND3" gate="1" x="139.7" y="-27.94"/>
 <instance part="GND4" gate="1" x="162.56" y="88.9"/>
 <instance part="P+5" gate="VCC" x="167.64" y="109.22"/>
-<instance part="JP1" gate="G$1" x="7.62" y="30.48"/>
-<instance part="S5" gate="1" x="-7.62" y="30.48" rot="R270"/>
-<instance part="GND5" gate="1" x="-20.32" y="22.86"/>
+<instance part="JP1" gate="G$1" x="132.08" y="0"/>
+<instance part="S5" gate="1" x="116.84" y="0" rot="R270"/>
+<instance part="GND5" gate="1" x="104.14" y="-7.62"/>
 </instances>
 <busses>
 </busses>
@@ -3386,8 +3386,8 @@ Source: www.kingbright.com</description>
 <segment>
 <pinref part="S5" gate="1" pin="P"/>
 <pinref part="GND5" gate="1" pin="GND"/>
-<wire x1="-12.7" y1="30.48" x2="-20.32" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="-20.32" y1="30.48" x2="-20.32" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="0" x2="104.14" y2="0" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="0" x2="104.14" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DISDP" class="0">
@@ -3753,7 +3753,7 @@ Source: www.kingbright.com</description>
 <segment>
 <pinref part="JP1" gate="G$1" pin="1"/>
 <pinref part="S5" gate="1" pin="S"/>
-<wire x1="5.08" y1="30.48" x2="-2.54" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="0" x2="121.92" y2="0" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
