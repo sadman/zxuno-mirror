@@ -236,7 +236,7 @@ start   ld      bc, chrend-runbit
         rrc     l
         add     hl, hl
         ld      a, (outvid)
-        rrca
+;        rrca
         rrca
         ld      a, h
         adc     a, a
@@ -412,6 +412,8 @@ tstart5 sub     $80
         jr      z, start7
         cp      $0c
 start7  jp      z, blst
+        cp      $3a
+        jp      z, alto easter
         cp      $17
         jr      nz, tstart5
       ELSE
@@ -1438,10 +1440,13 @@ tosd    ld      ix, cad75
 ;        call    send1z
 
         call    mmcinit
-        sbc     hl, hl                ; read MBR
+        jr      nz, errsd
+
+        ;sbc     hl, hl                ; read MBR
+        ld   hl, 0
         ld      ix, tmpbu2
         call    readat0
-        jr      nz, errsd
+
         ld      a, (tmpbu2)           ; read first type
         sub     $e0
         cp      $0b
@@ -1772,6 +1777,7 @@ otva    call    readata
         jr      nz, putc0
         push    bc
         push    hl
+        push    de
         ld      hl, tmpbuf+$59
         ld      a, (tmpbu2+$1f)
 otv2    sub     6
@@ -1790,6 +1796,7 @@ otv2    sub     6
         ld      (tmpbu2+$1e), de
         exx
         ld      ix, $c000
+        pop     de
         pop     hl
         pop     bc
 putc0   inc     hl
@@ -1982,7 +1989,7 @@ advan1  call    showop
         ld      c, $0b
         call    showop
         defw    cad96
-        defw    cad97
+;        defw    cad97
         defw    cad98
         defw    $ffff
         call    showop
@@ -2003,7 +2010,7 @@ advan1  call    showop
         defw    cad110
         defw    cad111
         defw    cad112
-        defw    cad113
+;        defw    cad113
         defw    $ffff
         ld      de, $1201
         call    listas
@@ -2068,12 +2075,12 @@ advan5  djnz    advan6
         defw    cad110
         defw    cad111
         defw    cad112
-        defw    cad113
+;        defw    cad113
         defw    $ffff
         ret
 advan6  call    popupw
         defw    cad96
-        defw    cad97
+;        defw    cad97
         defw    cad98
         defw    $ffff
         ret
@@ -3435,12 +3442,12 @@ conti5  ld      a, (ix)
         push    ix
         push    bc
         call    alto check
-        ld      a, iyl
+        ld      a, (ix+1)
         add     a, a
         add     a, ixl
         ld      ixl, a
-        ld      l, (ix+$06)
-        ld      h, (ix+$07)
+        ld      l, (ix+6)
+        ld      h, (ix+7)
         sbc     hl, de
         jr      z, conti7
         add     hl, de
@@ -3527,6 +3534,13 @@ saveme  wreg    master_conf, 1
         pop     bc
         wreg    master_conf, 0
         ret
+
+easter  di
+        ld      a, (scnbak)
+        and     %00111111
+        call    setvid
+        wreg    master_conf, 1
+        jp      $0100
 
 readna  ld      de, bnames
         ld      hl, $0071
@@ -4112,7 +4126,7 @@ setvid  ld      l, scandbl_ctrl
         out     (c), a
         ret
 
-l3eff   in      l,(c)
+l3eff   in      l, (c)
         jp      (hl)
 
 lbytes2 di                      ; disable interrupts
