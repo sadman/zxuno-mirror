@@ -23,3 +23,51 @@
 ----7000-704F Entry index
 ----7100-7200 8 Bitstream names (32 bytes each)
 ----7200-8000 Reserved
+
+ROM entry
+  00 slot offset
+  01 slot size
+  02 flags 1
+      Bits 0-1. Machine timings: 00=48K, 01=128K, 10=Pentagon
+      Bit 2. NMI DivMMC: 0=disabled, 1=enabled
+      Bit 3. DivMMC: 0=disabled, 1=enabled
+      Bit 4. Contention: 0=disabled, 1=enabled
+      Bit 5. Keyboard issue: 0=issue 2, 1=issue 3
+  03 flags 2
+      Bit 0. AY chip: 0=enabled, 1=disabled
+      Bit 1. 2nd AY chip (TurboSound): 0=enabled, 1=disabled
+      Bit 2. 7ffd port: 0=enabled, 1=disabled
+      Bit 3. 1ffd port: 0=enabled, 1=disabled
+      Bit 4. ROM low bit: 0=enabled, 1=disabled
+      Bit 5. ROM high bit: 0=enabled, 1=disabled
+      Bit 6. horizontal MMU in Timex: 0=disabled, 1=enabled
+      Bit 7. DivMMC and ZXMMC ports: 0=enabled, 1=disabled
+  08-0f crc16-ccitt values. Up to 4 16-bit values in reverse order
+  10-20 unused
+  20-3f Name of ROM in ASCII, space padded
+
+Tape format
+  Block 1. 0x51 length header
+  Block 2,3.. 16Kb length data blocks
+  Header format:
+    00 slot size
+    01 flags 1
+        Bits 0-1. Machine timings: 00=48K, 01=128K, 10=Pentagon
+        Bit 2. NMI DivMMC: 0=disabled, 1=enabled
+        Bit 3. DivMMC: 0=disabled, 1=enabled
+        Bit 4. Contention: 0=disabled, 1=enabled
+        Bit 5. Keyboard issue: 0=issue 2, 1=issue 3
+    02 flags 2 or special
+        Bit 0. AY chip: 0=enabled, 1=disabled
+        Bit 1. 2nd AY chip (TurboSound): 0=enabled, 1=disabled
+        Bit 2. 7ffd port: 0=enabled, 1=disabled
+        Bit 3. 1ffd port: 0=enabled, 1=disabled
+        Bit 4. ROM low bit: 0=enabled, 1=disabled
+        Bit 5. ROM high bit: 0=enabled, 1=disabled
+        Bit 6. horizontal MMU in Timex: 0=disabled, 1=enabled
+        Bit 7. DivMMC and ZXMMC ports: 0=enabled, 1=disabled
+        special=0x00 normal core or esxdos
+        special=0xcb spectrum core
+        special=0xca firmware
+    07-30 crc16-ccitt values. Up to 21 16-bit values in reverse order
+    31-50 Name in ASCII, space padded
