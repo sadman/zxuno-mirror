@@ -71,3 +71,19 @@ Tape format
         special=0xca firmware
     07-30 crc16-ccitt values. Up to 21 16-bit values in reverse order
     31-50 Name in ASCII, space padded
+
+Each block follows the .TAP file standard. That is a header with 2+1 bytes
+for lenght+type and a tail of one byte with the checksum. For example:
+
+Lenght+2   Type (always FF)
+    v      v 
+    vvvvv vv
+    53 00 FF<01 3C 3C 00 00 00 00 FD 5E 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00 00 00 00 5A 58 20 53 70 65 63 74 72 75 6D 20
+    34 38 4B 20 20 20 20 20 20 20 20 20 20 20 20 20
+    20 20 20 20>03 02 40 FF<F3 AF 11 FF FF C3 CB 11
+                ^^ ^^^^^ ^^Type
+                |    |    
+         Checksum  Length+2
