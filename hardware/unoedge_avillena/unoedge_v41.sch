@@ -8979,6 +8979,12 @@ Surface Mounting type.</description>
 <wire x1="-53.34" y1="93.98" x2="-43.18" y2="93.98" width="0.1524" layer="91"/>
 <label x="-53.34" y="93.98" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="VOUT"/>
+<pinref part="C2" gate="G$1" pin="1"/>
+<wire x1="198.12" y1="20.32" x2="203.2" y2="20.32" width="0.1524" layer="91"/>
+<label x="198.12" y="20.32" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="D4" class="0">
 <segment>
@@ -9482,14 +9488,6 @@ Surface Mounting type.</description>
 <wire x1="96.52" y1="38.1" x2="106.68" y2="38.1" width="0.1524" layer="91"/>
 <label x="93.98" y="38.1" size="1.778" layer="95"/>
 <pinref part="U$2" gate="G$1" pin="FB7MC6"/>
-</segment>
-</net>
-<net name="+3.3V" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="VOUT"/>
-<pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="198.12" y1="20.32" x2="203.2" y2="20.32" width="0.1524" layer="91"/>
-<label x="198.12" y="20.32" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="/HALT" class="1">
