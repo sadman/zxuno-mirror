@@ -1,0 +1,168 @@
+                 device zxspectrum128
+
+ULAPLUSADDR      equ 48955
+ULAPLUSDATA      equ 65339
+ZXUNOADDR        equ 0fc3bh
+ZXUNODATA        equ 0fd3bh
+BANKM            equ 23388
+SCANDBLCTRL      equ 0Bh
+MASTERCONF       equ 00h
+RASTERLINE       equ 0Ch
+RASTERCTRL       equ 0Dh
+
+                 page 0
+                 include "scan00_to_15.sjasm"
+
+                 page 1
+                 include "scan16_to_31.sjasm"
+
+                 page 2
+                 include "scan32_to_47.sjasm"
+
+                 page 3
+                 include "scan48_to_63.sjasm"
+
+                 page 4
+                 include "scan64_to_79.sjasm"
+
+                 page 6
+                 include "scan80_to_95.sjasm"
+
+                 macro readzxreg nreg
+                  ld bc,ZXUNOADDR
+                  ld a,nreg
+                  out (c),a
+                  inc b
+                  in a,(c)
+                 endm
+
+                 macro writezxreg nreg,val
+                  ld bc,ZXUNOADDR
+                  ld a,nreg
+                  out (c),a
+                  inc b
+                  ld a,val
+                  out (c),a
+                 endm
+
+                 macro setpage pg
+                  ld a,(BANKM)
+                  and 11111000b
+                  or pg
+                  ld (BANKM),a
+                  push bc
+                  ld bc,7ffdh
+                  out (c),a
+                  pop bc
+                 endm
+
+                 macro togglesc
+                  ld a,(BANKM)
+                  xor 00001000b
+                  ld (BANKM),a
+                  ld bc,7ffdh
+                  out (c),a
+                 endm
+
+                 org 5EFFh
+                 dw NewIM2
+
+                 org 6000h
+Main             di
+                 ld a,4
+                 out (254),a
+                 
+                 ld a,5eh
+                 ld i,a
+                 im 2
+
+                 ld sp,8000h   ;Stack at the end of page 5
+                 ld a,16
+                 ld (BANKM),a  ;just in case we are loaded from USR 0
+                 setpage 0
+
+                 readzxreg SCANDBLCTRL
+                 and 3Fh
+                 or 80h
+                 ld d,a
+                 writezxreg SCANDBLCTRL,d
+                 writezxreg RASTERLINE,192
+                 writezxreg RASTERCTRL,6
+
+                 ld hl,Palette
+                 ld d,0
+BucPonPaleta     ld bc,ULAPLUSADDR
+                 out (c),d
+                 ld bc,ULAPLUSDATA
+                 ld a,(hl)
+                 out (c),a
+                 inc hl
+                 inc d
+                 ld a,d
+                 cp 16
+                 jr nz,BucPonPaleta
+
+                 ld a,64
+                 ld bc,ZXUNOADDR
+                 out (c),a
+                 ld bc,ZXUNODATA
+                 ld a,3   ;Enable Radastanian mode
+                 out (c),a
+
+                 ei
+Scroll           ld de,0  ;Offset to start drawing from
+LoopScroll       halt
+                 call PutMap
+                 inc de
+                 ld a,e
+                 cp 0xC0
+                 jr nz,LoopScroll
+                 ld a,d
+                 cp 0x03
+                 jr nz,LoopScroll
+
+                 jr Scroll
+                 halt
+
+PutMap           ld bc,16384
+                 setpage 0  ;Page in bank 0 into $C000-$FFFF
+                 call PutScans
+                 setpage 1  ;Page in bank 1 into $C000-$FFFF
+                 call PutScans
+                 setpage 2  ;Page in bank 2 into $C000-$FFFF
+                 call PutScans
+                 setpage 3  ;Page in bank 3 into $C000-$FFFF
+                 call PutScans
+                 setpage 4  ;Page in bank 4 into $C000-$FFFF
+                 call PutScans
+                 setpage 6  ;Page in bank 6 into $C000-$FFFF
+                 call PutScans
+                 setpage 0
+                 ret
+
+PutScans         push de
+                 ld hl,0c000h  ;Start of scans
+                 add hl,de     ;Start of scan offset
+                 ld d,b
+                 ld e,c
+                 ld b,16
+LoopPutScans     push bc
+                 ld bc,64
+                 ldir
+                 push de
+                 ld de,1024-64
+                 add hl,de
+                 pop de
+                 pop bc
+                 djnz LoopPutScans
+                 ld b,d
+                 ld c,e
+                 pop de
+                 ret
+
+                 include "palette.sjasm"
+
+NewIM2           ei
+                 reti
+
+                 savesna "demoscr.sna",Main
