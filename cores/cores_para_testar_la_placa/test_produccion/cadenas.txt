@@ -1,0 +1,1 @@
+     ZXUNO PCB TESTER v1.0     컴컴컴컴컴컴컴컴컴컴�  Video :    DNA :             RAM TEST :        JOYSTICK TEST :   LINE IN (EAR) TEST :         SD SLOT TEST :       FLASH SPI TEST :       EXPANSION TEST : 1. PAL / 2. NTSC / 3. VGA 60Hz
