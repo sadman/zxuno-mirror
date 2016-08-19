@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2016-08-19T07:13:54</DateModified>
+  <DateModified>2016-08-19T15:41:11</DateModified>
   <ModuleName>tld_test_prod_v4</ModuleName>
-  <SummaryTimeStamp>2016-08-19T07:06:10</SummaryTimeStamp>
+  <SummaryTimeStamp>2016-08-19T15:37:29</SummaryTimeStamp>
   <SavedFilePath>D:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/cores_para_testar_la_placa/test_produccion/iseconfig/tld_test_prod_v4.xreport</SavedFilePath>
   <ImplementationReportsDirectory>D:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/cores_para_testar_la_placa/test_produccion\</ImplementationReportsDirectory>
   <DateInitialized>2016-08-15T03:09:44</DateInitialized>

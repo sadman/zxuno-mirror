@@ -71,7 +71,7 @@ module ramtest (
                test_in_progress <= 1'b1;
                test_result <= 1'b0;
                sram_a <= 21'h000000;
-               sram_dout <= 8'b01111111;
+               sram_dout <= 8'b01010101;
                estado <= DATOINICIAL;
             end
          DATOINICIAL:
@@ -97,7 +97,7 @@ module ramtest (
             end
          ADD:
             begin
-               sram_dout <= data + 8'd1;
+               sram_dout <= data + 8'b01010101;
                estado <= WRITE;
                retorno_de_write <= INCMODIFY;
             end
@@ -119,7 +119,7 @@ module ramtest (
             end
          INCCHECK:
             begin
-               if (data != 8'b10000000) begin
+               if (data != 8'b10101010) begin
                   test_in_progress <= 1'b0;
                   test_result <= 1'b0;                 
                   estado <= HALT;
