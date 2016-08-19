@@ -24,7 +24,8 @@ module switch_mode (
    input wire dataps2,
    output reg mode,
    output reg vga,
-   output reg memtest,
+   output reg memtestf,
+   output reg memtests,
    output reg sdtest,
    output reg flashtest,
    output reg mousetest
@@ -48,14 +49,17 @@ module switch_mode (
    initial begin
       mode = 1'b0;
       vga = 1'b0;
-      memtest = 1'b0;
+      memtestf = 1'b0;
+      memtests = 1'b0;
       sdtest = 1'b0;
       flashtest = 1'b0;
       mousetest = 1'b0;
    end
    always @(posedge clk) begin
-      if (memtest == 1'b1)
-         memtest <= 1'b0;
+      if (memtestf == 1'b1)
+         memtestf <= 1'b0;
+      if (memtests == 1'b1)
+         memtests <= 1'b0;
       if (sdtest == 1'b1)
          sdtest <= 1'b0;
       if (flashtest == 1'b1)
@@ -78,7 +82,10 @@ module switch_mode (
                               vga <= 1'b1;
                             end
                8'h25,8'h6B: begin // tecla 4
-                              memtest <= 1'b1;
+                              memtestf <= 1'b1;
+                            end
+               8'h2E,8'h73: begin // tecla 5
+                              memtests <= 1'b1;
                             end
                8'h3D,8'h6C: begin // tecla 7
                               sdtest <= 1'b1;

@@ -65,7 +65,7 @@ module tld_test_prod_v4 (
    output wire audio_out_right
     );
 
-   wire clk50, clk14, clk7;
+   wire clk100, clk14, clk7;
 
    wire mode, vga;
    assign stdn = mode;
@@ -74,7 +74,7 @@ module tld_test_prod_v4 (
    wire [2:0] r_to_vga, g_to_vga, b_to_vga;
    wire hsync_to_vga, vsync_to_vga, csync_to_vga;
    
-   wire memtest_init, memtest_progress, memtest_result;
+   wire memtest_init_fast, memtest_init_slow, memtest_progress, memtest_result;
    wire sdtest_init, sdtest_progress, sdtest_result;
    wire flashtest_init, flashtest_progress, flashtest_result;
    
@@ -90,7 +90,7 @@ module tld_test_prod_v4 (
    
    relojes instance_name (
     .CLK_IN1(clk50mhz),
-    .CLK_OUT1(clk50),
+    .CLK_OUT1(clk100),
     .CLK_OUT2(clk14),
     .CLK_OUT3(clk7)
     );
@@ -101,15 +101,18 @@ module tld_test_prod_v4 (
       .dataps2(dataps2),
       .mode(mode),
       .vga(vga),
-      .memtest(memtest_init),
+      .memtestf(memtest_init_fast),
+      .memtests(memtest_init_slow),
       .sdtest(sdtest_init),
       .flashtest(flashtest_init),
       .mousetest(mousetest_init)
    );
 
    ramtest test_de_ram (
-      .clk(clk50),
-      .rst(memtest_init),
+      .clkf(clk100),
+      .clks(clk14),
+      .rstf(memtest_init_fast),
+      .rsts(memtest_init_slow),
       .sram_a(sram_addr),
       .sram_d(sram_data),
       .sram_we_n(sram_we_n),

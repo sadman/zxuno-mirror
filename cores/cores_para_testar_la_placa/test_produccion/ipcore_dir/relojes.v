@@ -55,7 +55,7 @@
 // "Output    Output      Phase     Duty      Pk-to-Pk        Phase"
 // "Clock    Freq (MHz) (degrees) Cycle (%) Jitter (ps)  Error (ps)"
 //----------------------------------------------------------------------------
-// CLK_OUT1____50.000______0.000______50.0______264.548____199.399
+// CLK_OUT1___100.000______0.000______50.0______226.561____199.399
 // CLK_OUT2____14.000______0.000______50.0______342.124____199.399
 // CLK_OUT3_____7.000______0.000______50.0______391.159____199.399
 //
@@ -104,7 +104,7 @@ module relojes
     .DIVCLK_DIVIDE          (1),
     .CLKFBOUT_MULT          (14),
     .CLKFBOUT_PHASE         (0.000),
-    .CLKOUT0_DIVIDE         (14),
+    .CLKOUT0_DIVIDE         (7),
     .CLKOUT0_PHASE          (0.000),
     .CLKOUT0_DUTY_CYCLE     (0.500),
     .CLKOUT1_DIVIDE         (50),

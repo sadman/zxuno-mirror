@@ -21,8 +21,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module ramtest (
-   input wire clk,
-   input wire rst,
+   input wire clkf,
+   input wire clks,
+   input wire rstf,
+   input wire rsts,
    output reg [20:0] sram_a,
    inout wire [7:0] sram_d,
    output reg sram_we_n,
@@ -63,6 +65,15 @@ module ramtest (
    reg [7:0] sram_dout, data;
    wire [7:0] sram_din = sram_d;
    assign sram_d = (sram_we_n == 1'b0)? sram_dout : 8'hZZ;
+   
+   wire clk;
+   reg fastslow = 1'b0;
+   BUFGMUX (
+      .I0(clkf),
+      .I1(clks),
+      .O(clk),
+      .S(fastslow)
+      );
    
    always @(posedge clk) begin
       case (estado)
@@ -136,42 +147,66 @@ module ramtest (
             end
          HALT:
             begin
-               if (rst == 1'b1)
+               if (rstf == 1'b1) begin
+                  fastslow <= 1'b0;
                   estado <= INIT;
+               end
+               else if (rsts == 1'b1) begin
+                  fastslow <= 1'b1;
+                  estado <= INIT;
+               end
             end
          
-         READ:
+//         READ:
 //            begin
 //               estado <= READ1;
 //            end
 //         READ1:
-            begin
-               data <= sram_din;
+//            begin
+//               data <= sram_din;
 //               estado <= READ2;
 //            end
 //         READ2:
 //            begin
+//               estado <= retorno_de_read;
+//            end
+//         
+//         WRITE:
+//            begin
+//               estado <= WRITE1;
+//            end
+//         WRITE1:
+//            begin
+//               sram_we_n <= 1'b0;
+//               estado <= WRITE2;
+//            end
+//         WRITE2:
+//            begin
+//               sram_we_n <= 1'b1;
+//               estado <= WRITE3;
+//            end
+//         WRITE3:
+//            begin
+//               estado <= retorno_de_write;
+//            end
+
+         READ:
+            begin
+               data <= sram_din;
                estado <= retorno_de_read;
             end
          
          WRITE:
             begin
-//               estado <= WRITE1;
-//            end
-//         WRITE1:
-//            begin
                sram_we_n <= 1'b0;
                estado <= WRITE2;
             end
          WRITE2:
             begin
                sram_we_n <= 1'b1;
-//               estado <= WRITE3;
-//            end
-//         WRITE3:
-//            begin
                estado <= retorno_de_write;
             end
+
       endcase
    end
 endmodule

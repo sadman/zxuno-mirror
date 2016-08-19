@@ -1,4 +1,5 @@
 # Output products list for <relojes>
+_xmsgs\pn_parser.xmsgs
 relojes.asy
 relojes.gise
 relojes.sym
