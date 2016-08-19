@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2016-08-17T02:26:03</DateModified>
+  <DateModified>2016-08-19T07:13:54</DateModified>
   <ModuleName>tld_test_prod_v4</ModuleName>
-  <SummaryTimeStamp>2016-08-17T02:23:58</SummaryTimeStamp>
+  <SummaryTimeStamp>2016-08-19T07:06:10</SummaryTimeStamp>
   <SavedFilePath>D:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/cores_para_testar_la_placa/test_produccion/iseconfig/tld_test_prod_v4.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>D:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/cores_para_testar_la_placa/test_produccion</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>D:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/cores_para_testar_la_placa/test_produccion\</ImplementationReportsDirectory>
   <DateInitialized>2016-08-15T03:09:44</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
@@ -22,7 +22,7 @@
    <view inputState="Translated" program="map" locator="MAP_IOB_TABLE" contextTags="FPGA_ONLY" type="IOBProperties" file="tld_test_prod_v4_map.xrpt" label="IOB Properties" />
    <view inputState="Translated" program="map" contextTags="FPGA_ONLY" hidden="true" type="Control_Sets" file="tld_test_prod_v4_map.xrpt" label="Control Set Information" />
    <view inputState="Translated" program="map" locator="MAP_MODULE_HIERARCHY" contextTags="FPGA_ONLY" type="Module_Utilization" file="tld_test_prod_v4_map.xrpt" label="Module Level Utilization" />
-   <view inputState="Mapped" program="par" locator="CONSTRAINT_TABLE" contextTags="FPGA_ONLY" type="ConstraintsData" file="tld_test_prod_v4.ptwx" label="Timing Constraints" translator="ptwxToTableXML.xslt" />
+   <view inputState="Mapped" program="par" locator="CONSTRAINT_TABLE" contextTags="FPGA_ONLY" type="ConstraintsData" file="tld_test_prod_v4.ptwx" showConstraints="0" label="Timing Constraints" translator="ptwxToTableXML.xslt" />
    <view inputState="Mapped" program="par" locator="PAR_PINOUT_BY_PIN_NUMBER" contextTags="FPGA_ONLY" type="PinoutData" file="tld_test_prod_v4_par.xrpt" label="Pinout Report" />
    <view inputState="Mapped" program="par" locator="PAR_CLOCK_TABLE" contextTags="FPGA_ONLY" type="ClocksData" file="tld_test_prod_v4_par.xrpt" label="Clock Report" />
    <view inputState="Mapped" program="par" contextTags="FPGA_ONLY,EDK_OFF" type="Timing_Analyzer" file="tld_test_prod_v4.twx" label="Static Timing" />

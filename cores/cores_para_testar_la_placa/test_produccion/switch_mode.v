@@ -23,7 +23,11 @@ module switch_mode (
    input wire clkps2,
    input wire dataps2,
    output reg mode,
-   output reg vga
+   output reg vga,
+   output reg memtest,
+   output reg sdtest,
+   output reg flashtest,
+   output reg mousetest
    );
 
    wire key_event, released, extended;
@@ -32,6 +36,7 @@ module switch_mode (
    ps2_port teclado (
       .clk(clk),  // se recomienda 1 MHz <= clk <= 600 MHz
       .enable_rcv(1'b1),  // habilitar la maquina de estados de recepcion
+      .kb_or_mouse(1'b0),
       .ps2clk_ext(clkps2),
       .ps2data_ext(dataps2),
       .kb_interrupt(key_event),  // a 1 durante 1 clk para indicar nueva tecla recibida
@@ -40,9 +45,23 @@ module switch_mode (
       .extended(extended)  // extendida=1, no extendida=0
    );
     
-   initial mode = 1'b0;
-   initial vga = 1'b0;
+   initial begin
+      mode = 1'b0;
+      vga = 1'b0;
+      memtest = 1'b0;
+      sdtest = 1'b0;
+      flashtest = 1'b0;
+      mousetest = 1'b0;
+   end
    always @(posedge clk) begin
+      if (memtest == 1'b1)
+         memtest <= 1'b0;
+      if (sdtest == 1'b1)
+         sdtest <= 1'b0;
+      if (flashtest == 1'b1)
+         flashtest <= 1'b0;
+      if (mousetest == 1'b1)
+         mousetest <= 1'b0;
       if (key_event == 1'b1) begin
          if (extended == 1'b0 && released == 1'b1) begin
             case (scancode)
@@ -57,6 +76,18 @@ module switch_mode (
                8'h26,8'h7A: begin // tecla 3
                               mode <= 1'b1;
                               vga <= 1'b1;
+                            end
+               8'h25,8'h6B: begin // tecla 4
+                              memtest <= 1'b1;
+                            end
+               8'h3D,8'h6C: begin // tecla 7
+                              sdtest <= 1'b1;
+                            end
+               8'h3E,8'h75: begin // tecla 8
+                              flashtest <= 1'b1;
+                            end
+               8'h46,8'h7D: begin // tecla 9
+                              mousetest <= 1'b1;
                             end
             endcase
          end

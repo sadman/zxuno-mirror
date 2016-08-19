@@ -175,7 +175,7 @@ module window_on_background (
     
     always @* begin
       {r,g,b} = {rb,gb,bb};
-      if (showing_text_window)  // ventana de 24x16 caracteres de 8x8
+      if (showing_text_window)  // ventana de 32x16 caracteres de 8x8
          {r,g,b} = {9{shiftreg[7]}};  // texto blanco sobre fondo negro
     end
 endmodule
@@ -190,10 +190,8 @@ module screenfb (
    );
    
    reg [7:0] screenrom[0:511];
-   integer i;
    initial begin
-     for (i=0; i<512; i=i+1)
-        screenrom[i] = i[7:0];
+     $readmemh ("texto_inicial.hex", screenrom);
    end
     
    always @(posedge clk) begin
@@ -242,7 +240,7 @@ module teletype (
       ATR = 4'd3,
       ATC = 4'd4,
       CLS = 4'd5,
-      PUTCHAR = 4'd6
+      PUTCHAR = 4'd6      
       ;
       
    parameter
@@ -310,8 +308,8 @@ module teletype (
             end
          PUTCHAR:
             begin
-               busy <= 1'b0;
                wescreen <= 1'b0;
+               busy <= 1'b0;
                addr <= addr + 9'd1;
                estado <= IDLE;
             end
@@ -322,6 +320,19 @@ endmodule
 module updater (
    input wire clk,
    input wire mode,
+   //--------------------------
+   input wire vga,
+   input wire [56:0] dna,
+   input wire memtest_progress,
+   input wire memtest_result,
+   input wire [5:0] joystick,
+   input wire [7:0] earcode,
+   input wire sdtest_progress,
+   input wire sdtest_result,
+   input wire flashtest_progress,
+   input wire flashtest_result,
+   input wire [2:0] mousebutton,
+   //--------------------------
    output wire [2:0] r,
    output wire [2:0] g,
    output wire [2:0] b,
@@ -330,12 +341,6 @@ module updater (
    output wire csync
    );
       
-   parameter
-      AT = 8'd22,
-      CR = 8'd13,
-      HOME = 8'd12
-      ;
-
    reg [7:0] chr = 8'd0;
    reg we = 1'b0;
    wire busy;
@@ -354,48 +359,283 @@ module updater (
      .csync(csync)
      );
    
-   reg [7:0] stringlist[0:511];
+   reg [59:0] regdna = 60'h000000000000000;
+   reg [3:0] cntdigitsdna = 4'd0;
+   reg [7:0] hexvalues[0:15];
+   reg [7:0] stringlist[0:2047];
    integer i;
    initial begin
-      for (i=0;i<512;i=i+1) begin
+      for (i=0;i<10;i=i+1) begin
+         hexvalues[i] = "0" + i;
+      end
+      for (i=10;i<16;i=i+1) begin
+         hexvalues[i] = "A" - 10 + i;
+      end
+      for (i=0;i<2048;i=i+1) begin
          stringlist[i] = 8'hFF;
       end
-      $readmemh ("cadenas.hex", stringlist);
+      stringlist[0] = 8'd22;
+      stringlist[1] = 8'd3;
+      stringlist[2] = 8'd10;
+      stringlist[3] = "V";
+      stringlist[4] = "G";
+      stringlist[5] = "A";
+      stringlist[6] = " ";
+      stringlist[7] = 8'hFF;
+      
+      stringlist[8] = 8'd22;
+      stringlist[9] = 8'd3;
+      stringlist[10] = 8'd10;
+      stringlist[11] = "N";
+      stringlist[12] = "T";
+      stringlist[13] = "S";
+      stringlist[14] = "C";
+      stringlist[15] = 8'hFF;
+
+      stringlist[16] = 8'd22;
+      stringlist[17] = 8'd3;
+      stringlist[18] = 8'd10;
+      stringlist[19] = "P";
+      stringlist[20] = "A";
+      stringlist[21] = "L";
+      stringlist[22] = " ";
+      stringlist[23] = 8'hFF;
+      
+      stringlist[24] = 8'd22;
+      stringlist[25] = 8'd4;
+      stringlist[26] = 8'd10;
+      stringlist[27] = 8'hFF;
+      
+      stringlist[28] = 8'd22;
+      stringlist[29] = 8'd6;
+      stringlist[30] = 8'd25;
+      stringlist[31] = 8'hFF;
+      
+      stringlist[32] = "O";
+      stringlist[33] = "K";
+      stringlist[34] = " ";
+      stringlist[35] = " ";
+      stringlist[36] = " ";
+      stringlist[37] = 8'hFF;
+      
+      stringlist[38] = "E";
+      stringlist[39] = "R";
+      stringlist[40] = "R";
+      stringlist[41] = "O";
+      stringlist[42] = "R";
+      stringlist[43] = 8'hFF;
+      
+      stringlist[44] = "w";
+      stringlist[45] = "a";
+      stringlist[46] = "i";
+      stringlist[47] = "t";
+      stringlist[48] = " ";
+      stringlist[49] = 8'hFF;
+      
+      stringlist[50] = 8'd22;
+      stringlist[51] = 8'd7;
+      stringlist[52] = 8'd25;
+      stringlist[53] = "U";
+      stringlist[54] = "D";
+      stringlist[55] = "L";
+      stringlist[56] = "R";
+      stringlist[57] = "1";
+      stringlist[58] = "2";
+      stringlist[59] = 8'hFF;
+
+      stringlist[60] = 8'd22;
+      stringlist[61] = 8'd8;
+      stringlist[62] = 8'd25;
+      stringlist[63] = 8'hFF;
+
+      stringlist[64] = 8'd22;
+      stringlist[65] = 8'd11;
+      stringlist[66] = 8'd25;
+      stringlist[67] = " ";
+      stringlist[68] = " ";
+      stringlist[69] = " ";
+      stringlist[70] = 8'hFF;
+
+      stringlist[78] = 8'd22;
+      stringlist[79] = 8'd9;
+      stringlist[80] = 8'd25;
+      stringlist[81] = 8'hFF;
+
+      stringlist[82] = 8'd22;
+      stringlist[83] = 8'd10;
+      stringlist[84] = 8'd25;
+      stringlist[85] = 8'hFF;
    end
-   reg [8:0] addrstr = 8'd0;
-   
-   reg [3:0] estado = INIT, 
-             retorno_de_sendchar = INIT, 
-             retorno_de_sendstr = INIT;
+   reg [10:0] addrstr = 11'd0;
+
    parameter
-      INIT = 4'd0,
-      SENDCHAR = 4'd1,
-      SENDCHAR1 = 4'd2,
-      SENDSTR = 4'd3,
-      SENDSTR1 = 4'd4,
-      MSG = 4'd5,
-      HALT = 4'd15
+      ADDRVGA = 11'd0,
+      ADDRNTSC = 11'd8,
+      ADDRPAL = 11'd16,
+      ADDRATDNA = 11'd24,
+      ADDRATMEM = 11'd28,
+      ADDROK = 11'd32,
+      ADDRERROR = 11'd38,
+      ADDRINPROGRESS = 11'd44,
+      ADDRJOYSTATE = 11'd50,
+      ADDREAR = 11'd60,
+      ADDRMOUSE = 11'd64,
+      ADDRATSD = 11'd78,
+      ADDRATFLASH = 11'd82
+      ;
+   
+   reg [4:0] estado = PUTVIDEO, 
+             retorno_de_sendchar = PUTVIDEO, 
+             retorno_de_sendstr = PUTVIDEO;
+   parameter
+      PUTVIDEO = 5'd0,
+      PUTDNA = 5'd1,
+      PUTDNA1 = 5'd2,
+      PUTRAMTEST = 5'd3,
+      PUTRAMTEST1 = 5'd4,
+      PUTJOYTEST = 5'd5,
+      PUTEARTEST = 5'd6,
+      PUTSDTEST = 5'd7,
+      PUTSDTEST1 = 5'd8,
+      PUTFLASHTEST = 5'd9,
+      PUTFLASHTEST1 = 5'd10,
+      PUTEARTEST1 = 5'd11,
+      PUTMOUSETEST = 5'd12,
+      SENDCHAR = 5'd28,
+      SENDCHAR1 = 5'd29,
+      SENDSTR = 5'd30,
+      SENDSTR1 = 5'd31
       ;
       
    always @(posedge clk) begin
       case (estado)
-         INIT:
+         PUTVIDEO:
             begin
-               chr <= HOME;
-               estado <= SENDCHAR;
-               retorno_de_sendchar <= MSG;
-            end
-         MSG:
-            begin
-               addrstr <= 8'd0;
+               if (vga == 1'b1)
+                  addrstr <= ADDRVGA;
+               else if (mode == 1'b0)
+                  addrstr <= ADDRPAL;
+               else
+                  addrstr <= ADDRNTSC;
                estado <= SENDSTR;
-               retorno_de_sendstr <= HALT;
-            end         
+               retorno_de_sendstr <= PUTDNA;
+            end
+            
+         PUTDNA:
+            begin
+               addrstr <= ADDRATDNA;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTDNA1;
+               regdna <= {3'b000,dna};
+               cntdigitsdna <= 4'd0;
+            end
+         PUTDNA1:
+            begin
+               if (cntdigitsdna == 4'd15)
+                  estado <= PUTRAMTEST;
+               else begin
+                  cntdigitsdna <= cntdigitsdna + 4'd1;
+                  chr <= hexvalues[regdna[59:56]];
+                  regdna <= {regdna[55:0],4'b0000};
+                  retorno_de_sendchar <= PUTDNA1;
+                  estado <= SENDCHAR;
+               end
+            end
+            
+         PUTRAMTEST:
+            begin
+               addrstr <= ADDRATMEM;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTRAMTEST1;
+            end
+         PUTRAMTEST1:
+            begin
+               if (memtest_progress == 1'b1)
+                  addrstr <= ADDRINPROGRESS;
+               else if (memtest_result == 1'b1)
+                  addrstr <= ADDROK;
+               else
+                  addrstr <= ADDRERROR;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTJOYTEST;
+            end
+            
+         PUTJOYTEST:
+            begin
+               stringlist[ADDRJOYSTATE+3] <= (joystick[5] == 1'b1)? "U" : " ";
+               stringlist[ADDRJOYSTATE+4] <= (joystick[4] == 1'b1)? "D" : " ";
+               stringlist[ADDRJOYSTATE+5] <= (joystick[3] == 1'b1)? "L" : " ";
+               stringlist[ADDRJOYSTATE+6] <= (joystick[2] == 1'b1)? "R" : " ";
+               stringlist[ADDRJOYSTATE+7] <= (joystick[1] == 1'b1)? "1" : " ";
+               stringlist[ADDRJOYSTATE+8] <= (joystick[0] == 1'b1)? "2" : " ";
+               addrstr <= ADDRJOYSTATE;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTEARTEST;
+            end
+            
+         PUTEARTEST:
+            begin
+               addrstr <= ADDREAR;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTEARTEST1;
+            end
+         PUTEARTEST1:
+            begin
+               chr <= earcode;
+               estado <= SENDCHAR;
+               retorno_de_sendchar <= PUTSDTEST;
+            end
 
+         PUTSDTEST:
+            begin
+               addrstr <= ADDRATSD;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTSDTEST1;
+            end
+         PUTSDTEST1:
+            begin
+               if (sdtest_progress == 1'b1)
+                  addrstr <= ADDRINPROGRESS;
+               else if (sdtest_result == 1'b1)
+                  addrstr <= ADDROK;
+               else
+                  addrstr <= ADDRERROR;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTFLASHTEST;
+            end
+            
+         PUTFLASHTEST:
+            begin
+               addrstr <= ADDRATFLASH;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTFLASHTEST1;
+            end
+         PUTFLASHTEST1:
+            begin
+               if (flashtest_progress == 1'b1)
+                  addrstr <= ADDRINPROGRESS;
+               else if (flashtest_result == 1'b1)
+                  addrstr <= ADDROK;
+               else
+                  addrstr <= ADDRERROR;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTMOUSETEST;
+            end
+            
+         PUTMOUSETEST:
+            begin
+               stringlist[ADDRMOUSE+3] <= (mousebutton[0]==1'b1)? "L" : " ";
+               stringlist[ADDRMOUSE+4] <= (mousebutton[2]==1'b1)? "M" : " ";
+               stringlist[ADDRMOUSE+5] <= (mousebutton[1]==1'b1)? "R" : " ";
+               addrstr <= ADDRMOUSE;
+               estado <= SENDSTR;
+               retorno_de_sendstr <= PUTVIDEO;
+            end
+               
          SENDSTR:
             begin
                chr <= stringlist[addrstr];
-               addrstr <= addrstr + 9'd1;
+               addrstr <= addrstr + 11'd1;
                estado <= SENDSTR1;
             end
          SENDSTR1:
@@ -423,3 +663,4 @@ module updater (
       endcase
    end
 endmodule
+
