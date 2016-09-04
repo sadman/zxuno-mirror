@@ -14607,97 +14607,6 @@ applications.</description>
 <label x="43.18" y="45.72" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="P10" class="0">
-<segment>
-<wire x1="154.94" y1="132.08" x2="162.56" y2="132.08" width="0.1524" layer="91"/>
-<label x="154.94" y="132.08" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P10"/>
-</segment>
-</net>
-<net name="P11" class="0">
-<segment>
-<wire x1="154.94" y1="127" x2="162.56" y2="127" width="0.1524" layer="91"/>
-<label x="154.94" y="127" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P11"/>
-</segment>
-</net>
-<net name="P12" class="0">
-<segment>
-<wire x1="154.94" y1="124.46" x2="162.56" y2="124.46" width="0.1524" layer="91"/>
-<label x="154.94" y="124.46" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P12"/>
-</segment>
-</net>
-<net name="P13" class="0">
-<segment>
-<wire x1="154.94" y1="119.38" x2="162.56" y2="119.38" width="0.1524" layer="91"/>
-<label x="154.94" y="119.38" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P13"/>
-</segment>
-</net>
-<net name="P14" class="0">
-<segment>
-<wire x1="154.94" y1="116.84" x2="162.56" y2="116.84" width="0.1524" layer="91"/>
-<label x="154.94" y="116.84" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P14"/>
-</segment>
-</net>
-<net name="P15" class="0">
-<segment>
-<wire x1="154.94" y1="111.76" x2="162.56" y2="111.76" width="0.1524" layer="91"/>
-<label x="154.94" y="111.76" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P15"/>
-</segment>
-</net>
-<net name="P17" class="0">
-<segment>
-<wire x1="154.94" y1="104.14" x2="162.56" y2="104.14" width="0.1524" layer="91"/>
-<label x="154.94" y="104.14" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P17"/>
-</segment>
-</net>
-<net name="P18" class="0">
-<segment>
-<wire x1="154.94" y1="101.6" x2="162.56" y2="101.6" width="0.1524" layer="91"/>
-<label x="154.94" y="101.6" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P18"/>
-</segment>
-</net>
-<net name="P20" class="0">
-<segment>
-<wire x1="154.94" y1="93.98" x2="162.56" y2="93.98" width="0.1524" layer="91"/>
-<label x="154.94" y="93.98" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P20"/>
-</segment>
-</net>
-<net name="P21" class="0">
-<segment>
-<wire x1="154.94" y1="88.9" x2="162.56" y2="88.9" width="0.1524" layer="91"/>
-<label x="154.94" y="88.9" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P21"/>
-</segment>
-</net>
-<net name="P23" class="0">
-<segment>
-<wire x1="154.94" y1="81.28" x2="162.56" y2="81.28" width="0.1524" layer="91"/>
-<label x="154.94" y="81.28" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P23"/>
-</segment>
-</net>
-<net name="P24" class="0">
-<segment>
-<wire x1="154.94" y1="78.74" x2="162.56" y2="78.74" width="0.1524" layer="91"/>
-<label x="154.94" y="78.74" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P24"/>
-</segment>
-</net>
-<net name="P26" class="0">
-<segment>
-<wire x1="154.94" y1="71.12" x2="162.56" y2="71.12" width="0.1524" layer="91"/>
-<label x="154.94" y="71.12" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P26"/>
-</segment>
-</net>
 <net name="ROUT" class="0">
 <segment>
 <wire x1="68.58" y1="10.16" x2="73.66" y2="10.16" width="0.1524" layer="91"/>
@@ -14829,6 +14738,11 @@ applications.</description>
 <wire x1="119.38" y1="157.48" x2="111.76" y2="157.48" width="0.1524" layer="91"/>
 <label x="109.22" y="157.48" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="71.12" x2="162.56" y2="71.12" width="0.1524" layer="91"/>
+<label x="154.94" y="71.12" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P26"/>
+</segment>
 </net>
 <net name="2P_DOWN" class="0">
 <segment>
@@ -14840,6 +14754,11 @@ applications.</description>
 <pinref part="X2" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="154.94" x2="111.76" y2="154.94" width="0.1524" layer="91"/>
 <label x="109.22" y="154.94" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="81.28" x2="162.56" y2="81.28" width="0.1524" layer="91"/>
+<label x="154.94" y="81.28" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P23"/>
 </segment>
 </net>
 <net name="2P_LEFT" class="0">
@@ -14853,6 +14772,11 @@ applications.</description>
 <wire x1="119.38" y1="152.4" x2="111.76" y2="152.4" width="0.1524" layer="91"/>
 <label x="109.22" y="152.4" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="93.98" x2="162.56" y2="93.98" width="0.1524" layer="91"/>
+<label x="154.94" y="93.98" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P20"/>
+</segment>
 </net>
 <net name="2P_RIGHT" class="0">
 <segment>
@@ -14864,6 +14788,11 @@ applications.</description>
 <pinref part="X2" gate="G$1" pin="4"/>
 <wire x1="119.38" y1="149.86" x2="111.76" y2="149.86" width="0.1524" layer="91"/>
 <label x="109.22" y="149.86" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="104.14" x2="162.56" y2="104.14" width="0.1524" layer="91"/>
+<label x="154.94" y="104.14" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P17"/>
 </segment>
 </net>
 <net name="2P_FIRE1" class="0">
@@ -14877,6 +14806,11 @@ applications.</description>
 <wire x1="134.62" y1="154.94" x2="142.24" y2="154.94" width="0.1524" layer="91"/>
 <label x="137.16" y="154.94" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="119.38" x2="162.56" y2="119.38" width="0.1524" layer="91"/>
+<label x="154.94" y="119.38" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P13"/>
+</segment>
 </net>
 <net name="2P_FIRE2" class="0">
 <segment>
@@ -14888,6 +14822,11 @@ applications.</description>
 <pinref part="X2" gate="G$1" pin="9"/>
 <wire x1="134.62" y1="147.32" x2="142.24" y2="147.32" width="0.1524" layer="91"/>
 <label x="137.16" y="147.32" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="124.46" x2="162.56" y2="124.46" width="0.1524" layer="91"/>
+<label x="154.94" y="124.46" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P12"/>
 </segment>
 </net>
 <net name="2P_FIRE3" class="0">
@@ -14902,9 +14841,9 @@ applications.</description>
 <label x="76.2" y="144.78" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="154.94" y1="134.62" x2="162.56" y2="134.62" width="0.1524" layer="91"/>
-<label x="154.94" y="134.62" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P9"/>
+<wire x1="154.94" y1="127" x2="162.56" y2="127" width="0.1524" layer="91"/>
+<label x="154.94" y="127" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P11"/>
 </segment>
 </net>
 <net name="N$15" class="0">
@@ -15105,12 +15044,22 @@ applications.</description>
 <wire x1="27.94" y1="66.04" x2="35.56" y2="66.04" width="0.1524" layer="91"/>
 <label x="30.48" y="66.04" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="66.04" x2="162.56" y2="66.04" width="0.1524" layer="91"/>
+<label x="154.94" y="66.04" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P27"/>
+</segment>
 </net>
 <net name="1P_DOWN" class="0">
 <segment>
 <pinref part="JAMMA2" gate="G$1" pin="1P2_DOWN"/>
 <wire x1="27.94" y1="63.5" x2="35.56" y2="63.5" width="0.1524" layer="91"/>
 <label x="30.48" y="63.5" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="78.74" x2="162.56" y2="78.74" width="0.1524" layer="91"/>
+<label x="154.94" y="78.74" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P24"/>
 </segment>
 </net>
 <net name="1P_LEFT" class="0">
@@ -15119,12 +15068,22 @@ applications.</description>
 <wire x1="27.94" y1="60.96" x2="35.56" y2="60.96" width="0.1524" layer="91"/>
 <label x="30.48" y="60.96" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="88.9" x2="162.56" y2="88.9" width="0.1524" layer="91"/>
+<label x="154.94" y="88.9" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P21"/>
+</segment>
 </net>
 <net name="1P_RIGHT" class="0">
 <segment>
 <pinref part="JAMMA2" gate="G$1" pin="1P4_RIGHT"/>
 <wire x1="27.94" y1="58.42" x2="35.56" y2="58.42" width="0.1524" layer="91"/>
 <label x="30.48" y="58.42" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="101.6" x2="162.56" y2="101.6" width="0.1524" layer="91"/>
+<label x="154.94" y="101.6" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P18"/>
 </segment>
 </net>
 <net name="1P_FIRE1" class="0">
@@ -15133,12 +15092,22 @@ applications.</description>
 <wire x1="27.94" y1="55.88" x2="35.56" y2="55.88" width="0.1524" layer="91"/>
 <label x="30.48" y="55.88" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="111.76" x2="162.56" y2="111.76" width="0.1524" layer="91"/>
+<label x="154.94" y="111.76" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P15"/>
+</segment>
 </net>
 <net name="1P_FIRE2" class="0">
 <segment>
 <pinref part="JAMMA2" gate="G$1" pin="1P6_PUSH2"/>
 <wire x1="27.94" y1="53.34" x2="35.56" y2="53.34" width="0.1524" layer="91"/>
 <label x="30.48" y="53.34" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="116.84" x2="162.56" y2="116.84" width="0.1524" layer="91"/>
+<label x="154.94" y="116.84" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P14"/>
 </segment>
 </net>
 <net name="1P_FIRE3" class="0">
@@ -15147,12 +15116,22 @@ applications.</description>
 <wire x1="27.94" y1="50.8" x2="35.56" y2="50.8" width="0.1524" layer="91"/>
 <label x="30.48" y="50.8" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="154.94" y1="132.08" x2="162.56" y2="132.08" width="0.1524" layer="91"/>
+<label x="154.94" y="132.08" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P10"/>
+</segment>
 </net>
 <net name="1P_FIRE4" class="0">
 <segment>
 <pinref part="JAMMA2" gate="G$1" pin="1P8"/>
 <wire x1="27.94" y1="48.26" x2="35.56" y2="48.26" width="0.1524" layer="91"/>
 <label x="30.48" y="48.26" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="154.94" y1="134.62" x2="162.56" y2="134.62" width="0.1524" layer="91"/>
+<label x="154.94" y="134.62" size="1.778" layer="95"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P9"/>
 </segment>
 </net>
 <net name="JGND" class="1">
@@ -15380,13 +15359,6 @@ applications.</description>
 <wire x1="154.94" y1="109.22" x2="162.56" y2="109.22" width="0.1524" layer="91"/>
 <label x="154.94" y="109.22" size="1.778" layer="95"/>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P16"/>
-</segment>
-</net>
-<net name="P27" class="0">
-<segment>
-<wire x1="154.94" y1="66.04" x2="162.56" y2="66.04" width="0.1524" layer="91"/>
-<label x="154.94" y="66.04" size="1.778" layer="95"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P27"/>
 </segment>
 </net>
 </nets>
