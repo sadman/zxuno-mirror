@@ -26,9 +26,9 @@
 <div id="main">
   <strong>Bitstreams (v4.1):</strong>
   <ul>
-    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb - ZIP - 0.43/05072016</li>
-    <li><a href="ficheros/4.1/firmware.zip">FIRMWARE file</a> 16 Kb - ZIP - 0.43</li>
-    <li><a href="ficheros/4.1/Spectrum.zip">ZX Spectrum</a> 135 Kb - ZIP - T21-05072016</li>
+    <li><a href="ficheros/4.1/flash.zip">FLASH file</a> 3 Mb - ZIP - 0.51/01082016</li>
+    <li><a href="ficheros/4.1/firmware.zip">FIRMWARE file</a> 16 Kb - ZIP - 0.51</li>
+    <li><a href="ficheros/4.1/Spectrum.zip">ZX Spectrum</a> 135 Kb - ZIP - T22-01082016</li>
     <li><a href="ficheros/4.1/SamCoupe.zip">Sam Coupé</a> 187 Kb - ZIP - 831</li>
     <li><a href="ficheros/4.1/JupiterAce.zip">Jupiter Ace</a> 103 Kb - ZIP - 855</li>
     <li><a href="ficheros/4.1/MasterSystem.zip">Sega Master System</a> 127 Kb - ZIP - 1035</li>
@@ -38,6 +38,7 @@
     <li><a href="ficheros/4.1/Apple2.zip">Apple 2 (VGA)</a> 96 Kb - ZIP - 830</li>
     <li><a href="ficheros/4.1/AcornAtom.zip">Acorn Atom (VGA)</a> 250 Kb - ZIP - 832</li>
     <li><a href="ficheros/4.1/NES.zip">Nintendo Entertainment System (VGA)</a> 237 Kb - ZIP - 819</li>
+    <li><a href="ficheros/4.1/generator.zip">Utility for generate ZX1/TAP files from BIT file</a> 165 Kb - ZIP</li>
     </ul>
   <br/>
   <strong>Designs (v4.1):</strong>

@@ -141,12 +141,12 @@ Contraseña: zxuno</pre>
     <ul>
       <li>Basado en el compilador Z88DK, el kit permite desarrollar juegos y aplicaciones en lenguaje C.</li>
       <li>Compatible con modo gráfico estandard ZX-Spectrum.</li>
-      <li>Funciones básicas <i>(0.1 beta)</i> específicas para el Modo Radastaniano.</li></ul>
+      <li>Funciones básicas <i>(0.3 beta)</i> específicas para el Modo Radastaniano.</li></ul>
     <br/>
     <i>Enlaces: </i>
     <ul>
       <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/cursoz88dk.zip">SDK "Original" ZX-Spectrum.</a></li>
-      <li><a href="http://www.zonadepruebas.com/download/file.php?id=3863">SDK específico Modo Radastaniano <i>(0.1 beta)</i>.</a></li>
+      <li><strong>NUEVO! </strong><a href="http://zxuno.speccy.org/ficheros/ZX_Uno_kit_03c.zip">SDK Modo Radastaniano<i> (0.3 beta)</i>. </a></li>
       <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/">Tutorial original Radastan (ZIP+PDF).</a></li>
       <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6302">Foro Zona de Pruebas Modo Radastaniano.</a></li>
       <li><a href="http://www.mojontwins.com/mojoniaplus/">Foro Mojon Twins.</a></li>

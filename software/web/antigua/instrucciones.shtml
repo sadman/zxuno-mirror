@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="home.css"/>
+  <title>ZX-Uno [Clon de ordenador ZX Spectrum basado en FPGA]</title>
+</head>
+<body>
+<div id="logo" style="background:url(imagen/logo.png)"></div>
+<div id="menu">
+  <a href="index.shtml"    style="width:50px">Inicio</a>
+  <span>·</span>
+  <a href="http://zxuno.com/forum" target="_blank" style="width:40px">Foro</a>
+  <span>·</span>
+  <a href="maquina.shtml"  style="width:95px">La Máquina</a>
+  <span>·</span>
+  <span                    style="width:78px">Descarga</span>
+  <span>·</span>
+  <a href="media.shtml"    style="width:52px">Media</a>
+  <span>·</span>
+  <a href="faq.shtml"      style="width:45px">FAQ</a>
+  <span>·</span>
+  <a href="contacto.shtml" style="width:75px">Contacto</a>
+  <span>·</span>
+  <a href="descarga_e.shtml"  style="width:62px">[English]</a></div>
+<div id="main">
+  <p><strong>INSTRUCCIONES PARA ACTUALIZAR LOS ZX-UNO DEL CROWDFUNDING CON ROMS DE SPECTRUM</strong></p>
+  <p>&nbsp;</p>
+  <p>¡Bienvenido!</p>
+  <p>&nbsp;</p>
+  <p>Seguramente has llegado aquí por que ya has recibido tu ZX-UNO y quieres actualizarlo para tener incluidas las ROMs de Spectrum originales (Spectrum 48K, 128K, +2A, Inves... etc).</p>
+  <p>&nbsp;</p>
+  <p>Tal como explicábamos en la hoja de instrucciones básicas adjunta al ZX-UNO que recibiste, por motivos legales no incluimos en vuestras placas las ROMs originales del sistema, pero sí la ROM libre <strong>SE Basic IV</strong>. A pesar de que con ella se puede hacer funcionar gran parte de los juegos y programas de Spectrum, si quieres reproducir fielmente el funcionamiento de tu viejo y querido Spectrum, y tener la máxima compatibilidad, aquí te explicamos cómo actualizar tu ZX-UNO y te proporcionamos los archivos que has de descargar para hacerlo.</p>
+  <p>&nbsp;</p>
+  <p><strong>0. Antes de actualizar:</strong></p>
+  <p>&nbsp;</p>
+  <p>Para comprobar que todo va a ir correctamente, comprueba que al conectar tu ZX-UNO, se inicia mostrando por un breve espacio de tiempo la<strong> pantalla A</strong>. Pasados unos 
+  segundos, y si no se pulsa ninguna tecla, el ZX-UNO quedará como se muestra en la <strong>pantalla B</strong>.</p>
+  <p>&nbsp;</p>
+  <p class="centrado">
+  <div style="clear:both">
+  <div style="height:280px;width:380px; float:left" class="centrado">
+    <p><strong>PANTALLA A</strong><br>
+    <img src="imagen/zxuno_logo.jpg" width="335" height="242" alt="A">    </p> 
+  </div>
+    <div style="height:280px;width:380px; float:left;clear:right" class="centrado">
+    <p><strong>PANTALLA B</strong><br>
+    <img src="imagen/sebasic_boot.jpg" width="322" height="242" alt="B">    </p> 
+  </div> 
+  </div>
+  <div style="clear:both"></div>
+  </p>
+  <p>&nbsp;</p> 
+  <p>Una vez estamos en la pantalla B, significa que el Spectrum ya ha arrancado correctamente con la ROM SE Basic IV. A partir de aquí, ya sabemos que el Spectrum arranca y es operativo para actualizar. Ya Podemos comenzar con los pasos de actualización:</p>
+  <p>&nbsp;</p>
+  <p><strong>1. Descarga los siguientes archivos:</strong></p>
+  <p>&nbsp;</p>
+  <ul>
+    <li><a href="ficheros/ESXDOS_ZX1.zip">Archivos de ESXDOS para la tarjeta SD</a> (ESXDOS_ZX1.zip) 597 Kb</li>
+    <li><a href="ficheros/ROMS_ZX1.zip">Archivo de actualización de ROMs</a> (ROMS_ZX1.zip) 529 Kb</li>
+  </ul>
+<p>&nbsp;</p>
+<p><strong>2. Preparación de la tarjeta SD</strong></p>
+<p>&nbsp;</p>
+<ul>
+  <li> Descomprime <strong>ESXDOS_ZX1.zip</strong> en el directorio raíz de la tarjeta SD (deberán quedar en la raíz de la SD las carpetas llamadas &quot;<strong>BIN</strong>&quot; y &quot;<strong>SYS</strong>&quot; - Opcional carpeta <strong>TAP</strong> con algunas demostraciones -).<br>
+    <br>
+  </li>
+  <li> Descomprime<strong> ROMS_ZX1.zip</strong> (deberá quedar en la raíz de la SD el archivo <strong>ROMS.ZX1</strong>)</li>
+  </ul>
+<p>&nbsp;</p>
+<p><strong>3. Actualización</strong></p>
+<p>&nbsp;</p>
+<ul>
+  <li>Con el ZX-UNO apagado, Introduce la tarjeta SD en el ZX-UNO con los archivos que has copiado en el paso anterior.<br>
+    <br>
+  </li>
+  <li>Enciéndelo, y tras unos segundos, después de la pantalla del logotipo del ZX-UNO, deberías ver una pantalla similar a esta, indicando que ESXDOS ha detectado correctamente tu SD y los archivos necesarios:<br>
+    <br>
+    <div style="clear:both;text-align:center"><img src="imagen/sebasic_esxdos.jpg" width="360" height="242" alt="ESXDOS Boot"><br></div>
+<br>
+  </li>
+  <li>Una vez arrancado (cuando aparezca la pantalla B indicada al principio), procedemos a actualizar el pack de ROMs, tecleando lo siguiente (incluido el punto): <strong>.romsupgr</strong> y pulsa ENTER.<br>
+    <br>
+    <div style="clear:both;text-align:center"><img src="imagen/romsupgr.jpg" width="320" height="182" alt=".romsupgr"><br>
+    </div>
+<br>
+    <br>
+    Si el archivo ROMS.ZX1 es encontrado en la SD y todo va bien, debería aparecer una pantalla con el progreso de la actualización.<strong class="rojo"> ¡¡ES MUY IMPORTANTE QUE NO TOQUES NADA MIENTRAS ACTUALIZA!! ¡¡NO APAGUES NI RESETEES EL ZXUNO, NI TOQUES NINGUNA TECLA HASTA QUE ACABE EL PROCESO!!</strong><br>
+    <br>
+    Debería aparecer una pantalla como esta (la barra de progreso se habrá llenado de &quot;o&quot; entera y aparecerá &quot;OK, 0:1&quot; abajo, cuando la actualización esté completa), indicando que el proceso ha finalizado correctamente:
+    <br>
+    <br>
+    <div style="clear:both;text-align:center"><img src="imagen/romsupgr_ok.jpg" width="360" height="242" alt="upgraded ROMS.ZX1"><br>
+    </div>
+    <br>
+    <br>
+  </li>
+  <li>¡Ya está! Para comprobar que todo ha ido bien, apaga y enciende el ZX-UNO o bien haz un Master Reset (Pulsando Control + Alt + Backspace), y verás como ahora arranca por defecto la ROM de Spectrum 48K, la famosa del Gomas o Plus.</li>
+  </ul>
+<p>&nbsp;</p>
+<p><strong>TRAS LA ACTUALIZACIÓN, ¿QUÉ MODELOS DE SPECTRUM / ROMS PUEDO ARRANCAR AHORA EN EL ZXUNO?</strong></p>
+<p>&nbsp;</p> 
+<ul>
+  <li>Ahora dispones de estos modelos de Spectrum / clónicos / compatibles para arrancar:<br>
+    <br>
+<ul>
+  <li>ZX Spectrum 48K (arranque por defecto)</li>
+      <li>ZX Spectrum +2A</li>
+      <li>ZX Spectrum 128K &quot;radiador&quot;</li>
+      <li>Inves Spectrum+ (Clon español)</li>
+      <li>Pentagon 128 (Clon ruso, muy usado en la Demoscene)</li>
+      <li>ZX 48K Cargando Leches (para cargas ultra por EAR)</li>
+      <li>SE Basic IV Anya (Rooted) <br>
+        <br>
+      </li>
+  </ul>
+  </li>
+  <li>También se incluyen las siguientes ROMs de juegos de arranque directo:<br>
+    <br>
+<ul>
+  <li><a href="http://www.mojontwins.com/juegos_mojonos/lala-prologue/" target="_blank">Lala Prologue</a></li>
+  <li><a href="http://www.bytemaniacos.com/?page_id=2887" target="_blank">Misco Jones</a></li>
+  <li><a href="http://www.mojontwins.com/juegos_mojonos/sir-ababol/" target="_blank">Sir Ababol</a></li>
+  <li><a href="http://retrobytesproductions.blogspot.com.es/2016/05/souls-remaster.html" target="_blank">Souls Remaster</a></li>
+  <li><a href="http://www.retroworks.es/php/game_en.php?id=4" target="_blank">King's Valley</a></li>
+  <li><a href="http://www.relevovideogames.com/la-corona-encantada/" target="_blank">La Corona Encantada</a></li>
+  <li><a href="https://compiler.speccy.org/spectrum-sokoban.html" target="_blank">Sokoban</a></li>
+  <li><a href="http://www.bytemaniacos.com/?page_id=1968" target="_blank">Speccy Bros</a></li>
+  <li><a href="http://retrobytesproductions.blogspot.com.es/2016/03/fist-ro-fighter.html" target="_blank">Fist-Ro Fighter</a></li>
+  <li><a href="http://www.bytemaniacos.com/?page_id=2197" target="_blank">Knight Mare 2</a></li>
+  <li><a href="http://www.mojontwins.com/juegos_mojonos/maritrini-freelance-monster-precuela/" target="_blank">Maritrini: Increibiles...</a></li>
+  <li><a href="http://www.relevovideogames.com/invasion-of-the-zombie-monsters/" target="_blank">Invasion of the Zombie Monsters</a></li>
+  <li><a href="http://www.retroworks.es/php/game_en.php?id=5" target="_blank">Nelo &amp; Quqo y la última butifarra</a><br>
+    <br>
+  (Juegos cortesía de sus respectivos autores, a los cuales agradecemos haber dado permiso para su uso.)<br>
+  <br>
+  </li>
+  </ul>
+  </li>
+  <li>La ROM del<strong> Spectrum 48K arrancará ahora por defecto</strong>, <strong>pero puedes elegir cualquier otra ROM de las instaladas para que sea la que arranque por defecto</strong> al encender el ZX-UNO. <br>
+    <br>
+    Para ello puedes hacerlo entrando en la BIOS de configuración del ZX-UNO, pulsando la tecla<strong> F2</strong> justo cuando aparece el logo del ZX-UNO al encenderlo o cuando aparece tras hacer un Master Reset (Control + Alt + Backspace). <br>
+    <br>
+    Una vez dentro, ve a la pestaña &quot;ROMs&quot;, y navega con los cursores por el listado de rom hasta seleccionar la que quieres usar por defecto, <strong>por ejemplo &quot;ZX Spectrum 128K EN&quot;</strong>. Pulsa ENTER y del listado que aparece selecciona &quot;<strong>Set Active</strong>&quot;. Entonces una pequeña flecha aparecerá delante del nombre de la ROM seleccionada.<br>
+    <br>
+    Para salvar los cambios, ve a la pestaña &quot;Exit&quot;, selecciona &quot;Save Changes &amp; Exit&quot; y pulsa ENTER. Cuando salga el cuadro preguntando, elige &quot;Yes&quot;. Ya está, a partir de ahora tu ZX-UNO arrancará como un Spectrum 128K.<br>
+    <br>
+    <div style="clear:both;text-align:center"><img src="imagen/bios_roms.jpg" width="336" height="250" alt="BIOS ROMs"><br>
+    </div>
+    <br> 
+  <br>
+  </li>
+  <li>Si simplemente quieres <strong>arrancar desde otro modelo / ROM de Spectrum rápidamente</strong>, sin que sea la ROM de arranque por defecto, y sin necesidad de entrar en BIOS, es muy sencillo hacerlo. Haz un Master Reset (o apaga y enciende el ZX-UNO) <strong>y en la pantalla del logo, pulsa rápidamente la tecla ESC</strong>. Aparecerá un listado de ROMs para elegir. Elige con la que quieres arrancar, y pulsa ENTER. Arrancará de inmediato.<br>
+    <br>
+    <div style="clear:both;text-align:center"><img src="imagen/lista_roms.jpg" width="353" height="242" alt="Boot ROMs list"><br>
+    </div>
+  </li>
+  </ul>
+<p>&nbsp;</p>
+<p><strong><br>
+  ¿CÓMO CARGO UN JUEGO O PROGRAMA DE SPECTRUM DE LA SD (.TAP /  .SNA / .TRD...)?</strong></p>
+<p>&nbsp;</p>
+<ul>
+  <li>Una vez arracado el Spectrum, sólo  tienes que pulsar Control + Alt + F5 para que se abra el menú NMI de ESXDOS. Una vez dentro, selecciona con los cursores el .TAP (o el formato que sea) que quieres cargar.<br>
+    <br>
+    El juego o programa cargará directamente (salvo si has arrancado con la ROM &quot;SE Basic IV&quot;
+, que habrá que hacer un paso más, y es, tras elegir el TAP a cargar, teclear el famoso LOAD&quot;&quot; y ENTER).<br>
+<br>
+  </li>
+  <li>ANEXO: ¿CÓMO CARGAR DESDE UNA CINTA REAL,  MP3, MOVIL, ETC?
+    <ul>
+      <li>Sencillo: Simplemente conecta con un cable jack-jack tu cassete, movil o mp3 al puerto EAR del ZX-UNO (el que está junto al conector RGB) y  teclea LOAD&quot;&quot; como siempre y dale a Play en tu dispositivo, donde tengas la cinta, carga en audio del juego, WAV o aplicación para móvil de reproducción de .TAPs. (Puedes ir a merendar mientras carga :D)<br>
+        <br>
+      </li>
+    </ul>
+  </li>
+  </ul>
+<p>&nbsp;</p>
+<p><strong>NO ME FUNCIONA EL JUEGO O PROGRAMA &quot;XXXXXXX&quot;</strong></p>
+<p>&nbsp;</p>
+<ul>
+  <li>Que un juego o programa no cargue o no funcione puede deberse a muchos factores, pero lo más seguro es que simplemente se trate de que estás iniciando con la máquina / ROM incorrecta:<br>
+    <br>
+    Si por ejemplo quieres cargar un juego que requiera 128K, como por ejemplo &quot;Bonanza Bros&quot; o 
+  &quot;Pang&quot;, deberás arrancar eligiendo como modelo / ROM el de un Spectrum que tenga 128K, como por ejemplo el Spectrum +2A o el 128K EN. Si has arrancado con un Spectrun 48K, no van a funcionar (exactamente igual que si lo hicieras con un Spectrum real).<br>
+  <br>
+  Para juegos de 48K, para mejor compatibilidad, se recomienda arrancar como un Spectrum 48K.<br>
+  <br>
+  </li>
+  <li>Para cualquier problema que te surja, no dudes en preguntar en el <a href="http://www.zxuno.com/forum" target="_blank">Foro</a>.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>ALGUNAS NOTAS CON RESPECTO A LAS ROMS DE SPECTRUM:</strong></p>
+<p>&nbsp;</p>
+<ul>
+  <li>Por defecto, todas las ROMs que hemos incluido en el pack (Salvo la 48K Cargando Leches), llevan activada la interfaz DivMMC y NMI-DivMMC, para poder usar la SD con todas ellas. Si prefieres que arranquen sin soporte SD para ver los menús originales, por ejemplo, el menú del +2A con el cargador, el BASIC 128, etc, puedes ir a la BIOS (pulsando F2 al arranque) y en la primera pestaña &quot;Main&quot;, ir abajo al apartado de Options y en las secciones &quot;DivMMC&quot; y &quot;NMI-DivMMC&quot;, pulsar enter y elegir en el desplegable &quot;Disabled&quot;. No olvides guardar los cambios yendo luego a &quot;Exit&quot; y &quot;Save Changes &amp; Exit&quot;. Podrás seguir cargando tus juegos o programas usando la entrada EAR de jack con un cassete, un MP3, móvil, etc.<br>
+    <br>
+  </li>
+  <li>Futuras actualizaciones: Para poder actualizar de nuevo el pack de ROMs a otro distinto (con el mismo método explicado aquí), es necesario previamente arrancar con una ROM &quot;Rooteada&quot;. Una ROM Rooteada es una ROM con una característica especial: desbloquea el ZX-UNO para permitir su actualización. En el pack de ROMs que incluimos, la única ROM Rooteada es la &quot;SE Basic IV Anya (Rooted)&quot;.<br>
+    <br>
+  </li>
+  <li>¿Puedo actualizar una única ROM, o añadir una ROM suelta al ZX-UNO? Es posible hacerlo, únicamente a través de BIOS y únicamente mediante carga por EAR (entrada de audio por Jack). En la sección ROMs de la BIOS se puede editar la lista, quitar, renombrar, añadir... (añadir pulsando &quot;N&quot;), para añadir, el ZX-UNO espera escuchar por el puerto EAR una carga de TAP especial que contiene una ROM de sistema. En la zona de descargas o en el <a href="http://www.zxuno.com/forum" target="_blank">Foro</a> dispondrás de más información de cómo conseguir estos TAPs y utilizarlos. Si tienes dudas, pregunta en el <a href="http://www.zxuno.com/forum" target="_blank">Foro</a>.(PD: ¡No borres la ROM Rooted!)<br>
+    <br>
+  </li>
+  </ul>
+<p><br>
+  <strong>¿PREGUNTAS? ¿DUDAS? ¿MAS ROMS, CORES Y CONFIGURACIONES?</strong></p>
+<p>&nbsp;</p>
+<p>Entra en el <a href="http://www.zxuno.com/forum" target="_blank">FORO</a> y resuelve cualquier duda. También encontraras nuevos packs de ROMs que entre toda la comunidad van creando, ayuda con la configuración y puesta en marcha y todo lo que necesites.</p>
+<p>&nbsp;</p>
+<p>No obstante, esta página se irá actualizando periódicamente con más información.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p></div>
+<div id="footer">
+  <div id="footerimg" style="background:0 90px url(imagen/logo.png)"></div>
+  <div id="footerhost"><a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode"><img src="imagen/CC-BY-SA.png"/></a> Site hospedado en <a href="http://www.speccy.org">Speccy.org</a>. Síguenos en twitter <a href="http://twitter.com/zxuno"><img src="imagen/twitter_icon.png"/>
+ 
+ </div>
+</div>
+</body>
+</html>

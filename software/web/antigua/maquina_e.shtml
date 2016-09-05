@@ -139,14 +139,14 @@ Pass:  zxuno</pre>
     <strong><span style="color:#084">SDK Radastan </span></strong> <i>for ZX Spectrum / ZX-Uno</i>
     <br/><br/>
     <ul>
-      <li>Based on the compiler z88dk, the kit allows to develop games and applications in C language.</li>
+      <li>Based on the compiler Z88DK, the kit allows to develop games and applications in C language.</li>
       <li>Compatible with ZX-Spectrum standard graphics mode.</li>
-      <li>Specific functions <i>(0.1 beta)</i> for Radastanian Mode.</li></ul>
+      <li>Specific functions <i>(0.3 beta)</i> for Radastanian Mode.</li></ul>
 <br/>
     <i>Links: </i>
 <ul>
       <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/cursoz88dk.zip">SDK "Original" ZX-Spectrum.</a></li>
-      <li><a href="http://www.zonadepruebas.com/download/file.php?id=3863">SDK specific Radastanian Mode <i>(0.1 beta)</i>.</a></li>
+      <li><strong>NEW! </strong><a href="http://zxuno.speccy.org/ficheros/ZX_Uno_kit_03c.zip">SDK Radastanian Mode<i> (0.3 beta)</i>. </a></li>
     <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/">Tutorial original Radastan (ZIP+PDF).</a></li>
     <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6302">Zona de Pruebas Radastanian Mode Forum (ES).</a></li>
     <li><a href="http://www.mojontwins.com/mojoniaplus/">Mojon Twins Forum.</a></li>
