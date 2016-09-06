@@ -1,0 +1,1 @@
+copy /B Apple33.nib + LodeRunner.nib + MarioBros.nib + MoonPatrol.nib + SpyVsSpy.nib + Zaxxon.nib + ZorkIII.nib + Choplifter.nib + Karateka.nib + Pacman.nib + Xevious.do.nib + TrackField.do.nib + MsPacman.do.nib + Frogger.nib + Popeye.do.nib + Defender.do.nib + MrDo.do.nib + Galaxian.do.nib + Pengo.do.nib + SATURN_128KRAM-SOFT.nib apple2_20disks.img
