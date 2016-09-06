@@ -12330,6 +12330,11 @@ Source: www.kingbright.com</description>
 <pinref part="JP2" gate="G$1" pin="1"/>
 <junction x="-12.7" y="-20.32"/>
 </segment>
+<segment>
+<wire x1="116.84" y1="-20.32" x2="124.46" y2="-20.32" width="0.1524" layer="91"/>
+<label x="116.84" y="-20.32" size="1.778" layer="95"/>
+<pinref part="IC4" gate="G$1" pin="WE/"/>
+</segment>
 </net>
 <net name="GND" class="0">
 <segment>
@@ -12592,11 +12597,6 @@ Source: www.kingbright.com</description>
 <wire x1="2.54" y1="35.56" x2="-5.08" y2="35.56" width="0.1524" layer="91"/>
 <label x="-5.08" y="35.56" size="1.778" layer="95"/>
 <pinref part="U$3" gate="G$1" pin="/WR"/>
-</segment>
-<segment>
-<wire x1="116.84" y1="-20.32" x2="124.46" y2="-20.32" width="0.1524" layer="91"/>
-<label x="116.84" y="-20.32" size="1.778" layer="95"/>
-<pinref part="IC4" gate="G$1" pin="WE/"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="B" pin="I0"/>
