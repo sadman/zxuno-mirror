@@ -142,6 +142,7 @@ module zxuno (
    wire disable_contention;
    wire access_to_screen;
    wire doc_ext_option; // bit 7 del puerto $FF del Timex
+   wire ioreqbank;
 
    // CoreID
    wire oe_n_coreid;
@@ -277,6 +278,7 @@ module zxuno (
      .kbd(kbdcol_to_ula),
      .issue2_keyboard(issue2_keyboard),
      .mode(timing_mode),
+     .ioreqbank(ioreqbank),
      .disable_contention(disable_contention),
      .doc_ext_option(doc_ext_option),
      .enable_timexmmu(enable_timexmmu),
@@ -363,6 +365,7 @@ module zxuno (
       .timing_mode(timing_mode),
       .disable_contention(disable_contention),
       .access_to_screen(access_to_screen),
+      .ioreqbank(ioreqbank),
    
    // Interface con el bus externo (TO-DO)
       .inhibit_rom(1'b0),

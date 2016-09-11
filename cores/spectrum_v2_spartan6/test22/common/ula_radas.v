@@ -61,6 +61,7 @@ module ula_radas (
     output reg spk,
     input wire issue2_keyboard,
     input wire [1:0] mode,
+    input wire ioreqbank,
     input wire disable_contention,
     input wire access_to_contmem,
     output wire doc_ext_option,
@@ -218,12 +219,16 @@ module ula_radas (
     
     // AttrOutput register
     reg [7:0] AttrOutput = 8'h00;
+    reg [7:0] BorderColorDelayed;  // used to delay 0.5T the assignment from border to AttrOutput while in Pentagon mode
     wire [2:0] StdPaperColour = AttrOutput[5:3];
     wire [2:0] StdInkColour = AttrOutput[2:0];
     wire Bright = AttrOutput[6];
     wire Flash = AttrOutput[7];
     always @(posedge clk7) begin
-      if (AttrOutputLoad)
+      BorderColorDelayed <= {2'b00,Border,3'b000};  // update always BorderColorDelayed
+      if (mode == PENTAGON && (hc<(BHPIXEL+8) || hc>(EHPIXEL+12) || vc<BVPIXEL || vc>EVPIXEL))
+         AttrOutput <= BorderColorDelayed;  // and in next pixel clock, update AttrOutput if in border and Pentagon mode is on
+      else if (AttrOutputLoad)
          AttrOutput <= InputToAttrOutput;
     end
     
@@ -429,15 +434,8 @@ module ula_radas (
                 SerializerLoad = 1'b1;  // updated every 8 pixel clocks, if we are in paper area
             end
          end
-         if (mode == PENTAGON) begin
-            if (hc<(BHPIXEL+8) || hc>(EHPIXEL+12) || vc<BVPIXEL || vc>EVPIXEL)
-               AttrOutputLoad = 1'b1;  // updated every clock for Pentagon border
-            else if (hc[2:0] == 3'd4)  // hc=4,12,20,28,etc
-               AttrOutputLoad = 1'b1;  // updated every 8 pixel clocks for Pentagon paper
-         end
-         else begin
-            if (hc[2:0] == 3'd4)         // hc=4,12,20,28,etc
-               AttrOutputLoad = 1'b1;  // updated every 8 pixel clocks
+         if (hc[2:0] == 3'd4) begin        // hc=4,12,20,28,etc
+            AttrOutputLoad = 1'b1;  // updated every 8 pixel clocks
          end
          if (hc[2:0]==3'd3) begin
             CALoad = 1'b1;
@@ -554,7 +552,7 @@ module ula_radas (
 ///////////////////////////////////
    wire iorequla = !iorq_n && (a[0]==0);
    wire iorequlaplus = !iorq_n && (a==ULAPLUSADDR || a==ULAPLUSDATA);
-   wire ioreqall_n = !(iorequlaplus || iorequla);
+   wire ioreqall_n = !(iorequlaplus || iorequla || ioreqbank);
 
 ///////////////////////////////////
 // CPU CLOCK GENERATION (Altwasser method)
@@ -568,13 +566,12 @@ module ula_radas (
 //    wire N4 = ~Border_n | ~ioreqtw3 | ~mreqt23 | ~cpuclk;
 //    wire N5 = ~(N1y2 | N3 | N4);
 //    wire N6 = ~(hc[3:0]>=4'd4 | ~Border_n | ~cpuclk | ioreqall_n | ~ioreqtw3);
-//    assign cpuclk = (hc[0] | N5 | N6);
 //    
 //	always @(posedge cpuclk) begin
 //       ioreqtw3 <= ioreqall_n;
 //       mreqt23 <= mreq_n;
 //	end
-
+//
 //	wire Nor1 = (~access_to_contmem & ioreqall_n) | (hc[3:0]<4'd12) | 
 //                (~Border_n | ~ioreqtw3 | ~cpuclk | ~mreqt23);
 //	wire Nor2 = (hc[3:0]<4'd4) | ~Border_n | ~cpuclk | ioreqall_n | ~ioreqtw3;
@@ -587,26 +584,14 @@ module ula_radas (
 //      end
 //	end
 //
-//   assign cpuclk = (!CLKContention || RadasEnabled || disable_contention)? hc[0] : 1'b1;
-//
-//  reg CPUInternalClock = 0;
-//	always @(posedge `MASTERCPUCLK) begin
-//		if (!CLKContention || RadasEnabled || disable_contention)
-//			CPUInternalClock <= ~CPUInternalClock;
-//	   else
-//		   CPUInternalClock <= 1'b1;
-//   end
-//
-//   assign cpuclk = CPUInternalClock;
-
-
+//   assign CPUContention = ~(!CLKContention || RadasEnabled || disable_contention);
 
 ///////////////////////////////////
 // CPU CLOCK GENERATION (CSmith method)
 ///////////////////////////////////
 
     reg MayContend_n;
-    always @* begin  // esto era negedge clk7 en el esquemático
+    always @(negedge clk7) begin  // esto era negedge clk7 en el esquemático
        if (hc[3:0]>4'd3 && Border_n==1'b1)
          MayContend_n <= 1'b0;
        else
