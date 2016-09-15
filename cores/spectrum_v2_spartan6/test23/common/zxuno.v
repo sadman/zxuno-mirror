@@ -37,6 +37,7 @@ module zxuno (
     output wire [2:0] b,
     output wire hsync,
     output wire vsync,
+    output wire csync,
     inout wire clkps2,
     inout wire dataps2,
     input wire ear,
@@ -291,7 +292,8 @@ module zxuno (
      .g(g),
      .b(b),
      .hsync(hsync),
-     .vsync(vsync)
+     .vsync(vsync),
+     .csync(csync)
     );
 
    zxunoregs addr_reg_zxuno (

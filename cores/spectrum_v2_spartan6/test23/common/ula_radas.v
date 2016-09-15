@@ -76,6 +76,7 @@ module ula_radas (
     output wire [2:0] b,
     output wire hsync,
     output wire vsync,
+    output wire csync,
     output wire y_n
     );
 
@@ -125,6 +126,7 @@ module ula_radas (
     .bo(b),
     .hsync(hsync),
     .vsync(vsync),
+    .csync(csync),
     .int_n(int_n)
     );
 

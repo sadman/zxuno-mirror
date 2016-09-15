@@ -40,11 +40,15 @@ module pal_sync_generator (
     output reg [2:0] bo,
     output reg hsync,
     output reg vsync,
+    output reg csync,
     output wire int_n
     );
 
 	reg [8:0] hc = 9'h000;
 	reg [8:0] vc = 9'h000;
+
+	reg [8:0] hc_sync = 9'd104;
+	reg [8:0] vc_sync = 9'd0;
 
     reg [8:0] end_count_h = 9'd447;
     reg [8:0] end_count_v = 9'd311;
@@ -67,16 +71,31 @@ module pal_sync_generator (
 	assign vcnt = vc;
   
 	always @(posedge clk) begin
+      if (hc_sync == end_count_h) begin
+         hc_sync <= 9'd0;
+         if (vc_sync == end_count_v) begin
+            vc_sync <= 9'd0;
+         end
+         else begin
+            vc_sync <= vc_sync + 9'd1;
+         end
+      end
+      else begin
+         hc_sync <= hc_sync + 9'd1;
+      end
+      
       if (hc == end_count_h) begin
-        hc <= 0;
+        hc <= 9'd0;
         if (vc == end_count_v) begin
-            vc <= 0;
+            vc <= 9'd0;
             if (mode != old_mode) begin
               old_mode <= mode;
               case (mode)
                 2'b00: begin // timings for Sinclair 48K
                           end_count_h <= 9'd447;
                           end_count_v <= 9'd311;
+                          hc_sync <= 9'd104;
+                          vc_sync <= 9'd0;
                           begin_hblank <= 9'd320;
                           end_hblank <= 9'd415;
                           begin_hsync <= 9'd344;
@@ -93,6 +112,8 @@ module pal_sync_generator (
                 2'b01: begin // timings for Sinclair 128K/+2 grey
                           end_count_h <= 9'd455;
                           end_count_v <= 9'd310;
+                          hc_sync <= 9'd104;
+                          vc_sync <= 9'd0;
                           begin_hblank <= 9'd320;
                           end_hblank <= 9'd415;
                           begin_hsync <= 9'd344;
@@ -110,6 +131,8 @@ module pal_sync_generator (
                 2'b11: begin // timings for Pentagon 128
                           end_count_h <= 9'd447;
                           end_count_v <= 9'd319;
+                          hc_sync <= 9'd112;
+                          vc_sync <= 9'd0;
                           begin_hblank <= 9'd336; // 9'd328;
                           end_hblank <= 9'd399; // 9'd391;
                           begin_hsync <= 9'd336; // 9'd328;
@@ -170,14 +193,21 @@ module pal_sync_generator (
 
     always @* begin
       csync = 1'b1;
-      if (vc < 9'd248 || vc > 9'd255) begin
-         if (hc >= 9'd336 && hc <= 9'd363)
+      if (vc_sync < 9'd248 || vc_sync > 9'd255) begin
+         if (hc_sync >= 9'd0 && hc_sync <= 9'd27)
             csync = 1'b0;
       end
-      else if (vc == 9'd248 || vc == 9'd249 || vc == 9'd250 || vc == 9'd254 || vc == 9'd255) begin
-         if ((hc >= 9'd336 && hc <= 9'd349) || (hc >= 9'd112 && hc <= 9'd125))
+      else if (vc_sync == 9'd248 || vc_sync == 9'd249 || vc_sync == 9'd250 || vc_sync == 9'd254 || vc_sync == 9'd255) begin
+         if ((hc_sync >= 9'd0 && hc_sync <= 9'd13) || (hc_sync >= 9'd224 && hc_sync <= 9'd237))
             csync = 1'b0;
       end
-      else if (vc == 9'd251 || vc == 9'd252) begin
-         if ((hc >= 9'd336 && hc <= 9'd97) || (hc >= 9'd112 && hc <= 9'd125))
+      else if (vc_sync == 9'd251 || vc_sync == 9'd252) begin
+         if ((hc_sync >= 9'd0 && hc_sync <= 9'd210) || (hc_sync >= 9'd224 && hc_sync <= 9'd433))
+            csync = 1'b0;
+      end
+      else begin // linea 253
+         if ((hc_sync >= 9'd0 && hc_sync <= 9'd210) || (hc_sync >= 9'd224 && hc_sync <= 9'd237))
+            csync = 1'b0;
+      end
+    end
 endmodule

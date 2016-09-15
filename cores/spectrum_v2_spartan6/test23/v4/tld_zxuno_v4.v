@@ -92,7 +92,7 @@ module tld_zxuno_v4 (
    assign audio_out_right = audio_out;
 
    wire [2:0] ri, gi, bi;
-   wire hsync_pal, vsync_pal;   
+   wire hsync_pal, vsync_pal, csync_pal;   
    
    wire vga_enable, scanlines_enable;
 
@@ -110,6 +110,7 @@ module tld_zxuno_v4 (
     .b(bi),
     .hsync(hsync_pal),
     .vsync(vsync_pal),
+    .csync(csync_pal),
     .clkps2(clkps2),
     .dataps2(dataps2),
     .ear(~ear),  // negada porque el hardware tiene un transistor inversor
@@ -154,6 +155,7 @@ module tld_zxuno_v4 (
 		.bi(bi),
 		.hsync_ext_n(hsync_pal),
 		.vsync_ext_n(vsync_pal),
+      .csync_ext_n(csync_pal),
 		.ro(r),
 		.go(g),
 		.bo(b),
