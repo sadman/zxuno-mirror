@@ -166,5 +166,18 @@ module pal_sync_generator (
             if (vc >= begin_vsync && vc <= end_vsync) 
                 vsync = 1'b0;
         end
-     end        
+     end    
+
+    always @* begin
+      csync = 1'b1;
+      if (vc < 9'd248 || vc > 9'd255) begin
+         if (hc >= 9'd336 && hc <= 9'd363)
+            csync = 1'b0;
+      end
+      else if (vc == 9'd248 || vc == 9'd249 || vc == 9'd250 || vc == 9'd254 || vc == 9'd255) begin
+         if ((hc >= 9'd336 && hc <= 9'd349) || (hc >= 9'd112 && hc <= 9'd125))
+            csync = 1'b0;
+      end
+      else if (vc == 9'd251 || vc == 9'd252) begin
+         if ((hc >= 9'd336 && hc <= 9'd97) || (hc >= 9'd112 && hc <= 9'd125))
 endmodule
