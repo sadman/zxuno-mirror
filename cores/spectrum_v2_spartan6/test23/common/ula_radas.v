@@ -101,6 +101,14 @@ module ula_radas (
     // Counters from sync module
 	 wire [8:0] hc;
 	 wire [8:0] vc;
+    
+    // Initial values for synch, syncv for all supported timings
+    reg [8:0] hinit48k = 9'd110;
+    reg [8:0] vinit48k = 9'd0;
+    reg [8:0] hinit128k = 9'd110;
+    reg [8:0] vinit128k = 9'd0;
+    reg [8:0] hinitpen = 9'd112;
+    reg [8:0] vinitpen = 9'd0;    
    
    // Signal when the vertical counter is in the line that we use to make the INT signal
    wire in_int_line;
@@ -116,6 +124,14 @@ module ula_radas (
     .vretraceint_disable(vretraceint_disable),
     .raster_line(raster_line),
     .raster_int_in_progress(raster_int_in_progress),
+    
+    .hinit48k(hinit48k),
+    .vinit48k(vinit48k),
+    .hinit128k(hinit128k),
+    .vinit128k(vinit128k),
+    .hinitpen(hinitpen),
+    .vinitpen(vinitpen),
+    
     .ri(ri),
     .gi(gi),
     .bi(bi),
@@ -484,6 +500,14 @@ module ula_radas (
       ULAPLUSADDR  = 16'hBF3B,
       ULAPLUSDATA  = 16'hFF3B,
       RADASCTRL    = 8'h40;
+      
+   parameter
+      HOFFS48K     = 8'h80,
+      VOFFS48K     = 8'h81,
+      HOFFS128K    = 8'h82,
+      VOFFS128K    = 8'h83,
+      HOFFSPEN     = 8'h84,
+      VOFFSPEN     = 8'h85;
          
    // Z80 writes values into registers
    // Port 0xFE
@@ -515,6 +539,20 @@ module ula_radas (
          end
       end
    end
+   
+   // Sync adjustment
+   always @(posedge clkregs) begin
+      if (zxuno_regwr == 1'b1) begin
+         case (zxuno_addr)
+            HOFFS48K:  hinit48k  <= {din,1'b0};
+            VOFFS48K:  vinit48k  <= {din,1'b0};
+            HOFFS128K: hinit128k <= {din,1'b0};
+            VOFFS128K: vinit128k <= {din,1'b0};
+            HOFFSPEN:  hinitpen  <= {din,1'b0};
+            VOFFSPEN:  vinitpen  <= {din,1'b0};
+         endcase
+      end
+   end
 
 	reg post_processed_ear;  // EAR signal after being altered by the keyboard current issue
 	always @* begin
@@ -540,6 +578,18 @@ module ula_radas (
             dout = {7'b0000000,ConfigReg};
          else if (a[7:0]==TIMEXPORT && enable_timexmmu && !disable_timexscr)
             dout = TimexConfigReg;
+         else if (zxuno_addr == HOFFS48K && zxuno_regrd == 1'b1)
+            dout = hinit48k[8:1];
+         else if (zxuno_addr == VOFFS48K && zxuno_regrd == 1'b1)
+            dout = vinit48k[8:1];
+         else if (zxuno_addr == HOFFS128K && zxuno_regrd == 1'b1)
+            dout = hinit128k[8:1];
+         else if (zxuno_addr == VOFFS128K && zxuno_regrd == 1'b1)
+            dout = vinit128k[8:1];
+         else if (zxuno_addr == HOFFSPEN && zxuno_regrd == 1'b1)
+            dout = hinitpen[8:1];
+         else if (zxuno_addr == VOFFSPEN && zxuno_regrd == 1'b1)
+            dout = vinitpen[8:1];
          else begin
             if (BitmapAddr || AttrAddr)
                 dout = vramdata;

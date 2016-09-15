@@ -30,6 +30,13 @@ module pal_sync_generator (
     input wire [8:0] raster_line,
     output wire raster_int_in_progress,
     
+    input wire [8:0] hinit48k,
+    input wire [8:0] vinit48k,
+    input wire [8:0] hinit128k,
+    input wire [8:0] vinit128k,
+    input wire [8:0] hinitpen,
+    input wire [8:0] vinitpen,    
+    
     input wire [2:0] ri,
     input wire [2:0] gi,
     input wire [2:0] bi,
@@ -65,7 +72,7 @@ module pal_sync_generator (
     reg [8:0] begin_hcint = 9'd2;
     reg [8:0] end_hcint = 9'd65;
     
-    reg [1:0] old_mode = 2'b11;
+    //reg [1:0] old_mode = 2'b11;
 
 	assign hcnt = hc;
 	assign vcnt = vc;
@@ -88,14 +95,14 @@ module pal_sync_generator (
         hc <= 9'd0;
         if (vc == end_count_v) begin
             vc <= 9'd0;
-            if (mode != old_mode) begin
-              old_mode <= mode;
+//            if (mode != old_mode) begin
+//              old_mode <= mode;
               case (mode)
                 2'b00: begin // timings for Sinclair 48K
                           end_count_h <= 9'd447;
                           end_count_v <= 9'd311;
-                          hc_sync <= 9'd104;
-                          vc_sync <= 9'd0;
+                          hc_sync <= hinit48k;
+                          vc_sync <= vinit48k;
                           begin_hblank <= 9'd320;
                           end_hblank <= 9'd415;
                           begin_hsync <= 9'd344;
@@ -112,8 +119,8 @@ module pal_sync_generator (
                 2'b01: begin // timings for Sinclair 128K/+2 grey
                           end_count_h <= 9'd455;
                           end_count_v <= 9'd310;
-                          hc_sync <= 9'd104;
-                          vc_sync <= 9'd0;
+                          hc_sync <= hinit128k;
+                          vc_sync <= vinit128k;
                           begin_hblank <= 9'd320;
                           end_hblank <= 9'd415;
                           begin_hsync <= 9'd344;
@@ -131,8 +138,8 @@ module pal_sync_generator (
                 2'b11: begin // timings for Pentagon 128
                           end_count_h <= 9'd447;
                           end_count_v <= 9'd319;
-                          hc_sync <= 9'd112;
-                          vc_sync <= 9'd0;
+                          hc_sync <= hinitpen;
+                          vc_sync <= vinitpen;
                           begin_hblank <= 9'd336; // 9'd328;
                           end_hblank <= 9'd399; // 9'd391;
                           begin_hsync <= 9'd336; // 9'd328;
@@ -147,7 +154,7 @@ module pal_sync_generator (
                           end_hcint <= 9'd386; //9'd386;
                        end
               endcase
-            end          
+//            end          
         end
         else
           vc <= vc + 9'd1;
