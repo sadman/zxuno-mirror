@@ -108,7 +108,7 @@ module ula_radas (
     reg [8:0] vinit48k = 9'd2;
     reg [8:0] hinit128k = 9'd116;
     reg [8:0] vinit128k = 9'd2;
-    reg [8:0] hinitpen = 9'd112;
+    reg [8:0] hinitpen = 9'd110;
     reg [8:0] vinitpen = 9'd0;    
    
    // Signal when the vertical counter is in the line that we use to make the INT signal

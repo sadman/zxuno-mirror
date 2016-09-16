@@ -184,7 +184,7 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="32"/>
     </file>
     <file xil_pn:name="../common/timings.xcf" xil_pn:type="FILE_USERDOC"/>
-    <file xil_pn:name="tb_syncs.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/tb_syncs.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="44"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="44"/>
