@@ -153,7 +153,7 @@ module vga_scandoubler (
             go = gi;
             bo = bi;
             hsync = csync_ext_n;
-            vsync = vsync_ext_n;
+            vsync = 1'b1;
         end
         else begin  // VGA output
             ro = ro_vga;

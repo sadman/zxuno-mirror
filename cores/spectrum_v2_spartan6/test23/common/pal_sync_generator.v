@@ -29,6 +29,7 @@ module pal_sync_generator (
     input wire vretraceint_disable,
     input wire [8:0] raster_line,
     output wire raster_int_in_progress,
+    input wire csync_option,
     
     input wire [8:0] hinit48k,
     input wire [8:0] vinit48k,
@@ -94,67 +95,64 @@ module pal_sync_generator (
       if (hc == end_count_h) begin
         hc <= 9'd0;
         if (vc == end_count_v) begin
-            vc <= 9'd0;
-//            if (mode != old_mode) begin
-//              old_mode <= mode;
-              case (mode)
-                2'b00: begin // timings for Sinclair 48K
-                          end_count_h <= 9'd447;
-                          end_count_v <= 9'd311;
-                          hc_sync <= hinit48k;
-                          vc_sync <= vinit48k;
-                          begin_hblank <= 9'd320;
-                          end_hblank <= 9'd415;
-                          begin_hsync <= 9'd344;
-                          end_hsync <= 9'd375;
-                          begin_vblank <= 9'd248;
-                          end_vblank <= 9'd255;
-                          begin_vsync <= 9'd248;
-                          end_vsync <= 9'd251;
-                          begin_vcint <= 9'd248;
-                          end_vcint <= 9'd248;
-                          begin_hcint <= 9'd2;
-                          end_hcint <= 9'd65;
-                       end
-                2'b01: begin // timings for Sinclair 128K/+2 grey
-                          end_count_h <= 9'd455;
-                          end_count_v <= 9'd310;
-                          hc_sync <= hinit128k;
-                          vc_sync <= vinit128k;
-                          begin_hblank <= 9'd320;
-                          end_hblank <= 9'd415;
-                          begin_hsync <= 9'd344;
-                          end_hsync <= 9'd375;
-                          begin_vblank <= 9'd248;
-                          end_vblank <= 9'd255;
-                          begin_vsync <= 9'd248;
-                          end_vsync <= 9'd251;
-                          begin_vcint <= 9'd248;
-                          end_vcint <= 9'd248;
-                          begin_hcint <= 9'd4;
-                          end_hcint <= 9'd67;
-                       end
-                2'b10,
-                2'b11: begin // timings for Pentagon 128
-                          end_count_h <= 9'd447;
-                          end_count_v <= 9'd319;
-                          hc_sync <= hinitpen;
-                          vc_sync <= vinitpen;
-                          begin_hblank <= 9'd336; // 9'd328;
-                          end_hblank <= 9'd399; // 9'd391;
-                          begin_hsync <= 9'd336; // 9'd328;
-                          end_hsync <= 9'd367; // 9'd359;
-                          begin_vblank <= 9'd240;
-                          end_vblank <= 9'd271; // 9'd255;
-                          begin_vsync <= 9'd240;
-                          end_vsync <= 9'd255; // 9'd243;
-                          begin_vcint <= 9'd239;
-                          end_vcint <= 9'd239;
-                          begin_hcint <= 9'd323; // 9'd323;
-                          end_hcint <= 9'd386; //9'd386;
-                       end
-              endcase
-//            end          
+           vc <= 9'd0;
+           case (mode)
+             2'b00: begin // timings for Sinclair 48K
+                       end_count_h <= 9'd447;
+                       end_count_v <= 9'd311;
+                       hc_sync <= hinit48k;
+                       vc_sync <= vinit48k;
+                       begin_hblank <= 9'd320;
+                       end_hblank <= 9'd415;
+                       begin_hsync <= 9'd344;
+                       end_hsync <= 9'd375;
+                       begin_vblank <= 9'd248;
+                       end_vblank <= 9'd255;
+                       begin_vsync <= 9'd248;
+                       end_vsync <= 9'd251;
+                       begin_vcint <= 9'd248;
+                       end_vcint <= 9'd248;
+                       begin_hcint <= 9'd2;
+                       end_hcint <= 9'd65;
+                    end
+             2'b01: begin // timings for Sinclair 128K/+2 grey
+                       end_count_h <= 9'd455;
+                       end_count_v <= 9'd310;
+                       hc_sync <= hinit128k;
+                       vc_sync <= vinit128k;
+                       begin_hblank <= 9'd320;
+                       end_hblank <= 9'd415;
+                       begin_hsync <= 9'd344;
+                       end_hsync <= 9'd375;
+                       begin_vblank <= 9'd248;
+                       end_vblank <= 9'd255;
+                       begin_vsync <= 9'd248;
+                       end_vsync <= 9'd251;
+                       begin_vcint <= 9'd248;
+                       end_vcint <= 9'd248;
+                       begin_hcint <= 9'd4;
+                       end_hcint <= 9'd67;
+                    end
+             2'b10,
+             2'b11: begin // timings for Pentagon 128
+                       end_count_h <= 9'd447;
+                       end_count_v <= 9'd319;
+                       hc_sync <= hinitpen;
+                       vc_sync <= vinitpen;
+                       begin_hblank <= 9'd336; // 9'd328;
+                       end_hblank <= 9'd399; // 9'd391;
+                       begin_hsync <= 9'd336; // 9'd328;
+                       end_hsync <= 9'd367; // 9'd359;
+                       begin_vblank <= 9'd240;
+                       end_vblank <= 9'd271; // 9'd255;
+                       begin_vsync <= 9'd240;
+                       end_vsync <= 9'd255; // 9'd243;
+                       begin_vcint <= 9'd239;
+                       end_vcint <= 9'd239;
+                       begin_hcint <= 9'd323; // 9'd323;
+                       end_hcint <= 9'd386; //9'd386;
+                    end
+           endcase
         end
         else
           vc <= vc + 9'd1;
@@ -200,20 +198,26 @@ module pal_sync_generator (
 
     always @* begin
       csync = 1'b1;
-      if (vc_sync < 9'd248 || vc_sync > 9'd255) begin
-         if (hc_sync >= 9'd0 && hc_sync <= 9'd27)
-            csync = 1'b0;
+      if (csync_option == 1'b1) begin
+         if (vc_sync < 9'd248 || vc_sync > 9'd255) begin
+            if (hc_sync >= 9'd0 && hc_sync <= 9'd27)
+               csync = 1'b0;
+         end
+         else if (vc_sync == 9'd248 || vc_sync == 9'd249 || vc_sync == 9'd250 || vc_sync == 9'd254 || vc_sync == 9'd255) begin
+            if ((hc_sync >= 9'd0 && hc_sync <= 9'd13) || (hc_sync >= 9'd224 && hc_sync <= 9'd237))
+               csync = 1'b0;
+         end
+         else if (vc_sync == 9'd251 || vc_sync == 9'd252) begin
+            if ((hc_sync >= 9'd0 && hc_sync <= 9'd210) || (hc_sync >= 9'd224 && hc_sync <= 9'd433))
+               csync = 1'b0;
+         end
+         else begin // linea 253
+            if ((hc_sync >= 9'd0 && hc_sync <= 9'd210) || (hc_sync >= 9'd224 && hc_sync <= 9'd237))
+               csync = 1'b0;
+         end
       end
-      else if (vc_sync == 9'd248 || vc_sync == 9'd249 || vc_sync == 9'd250 || vc_sync == 9'd254 || vc_sync == 9'd255) begin
-         if ((hc_sync >= 9'd0 && hc_sync <= 9'd13) || (hc_sync >= 9'd224 && hc_sync <= 9'd237))
-            csync = 1'b0;
-      end
-      else if (vc_sync == 9'd251 || vc_sync == 9'd252) begin
-         if ((hc_sync >= 9'd0 && hc_sync <= 9'd210) || (hc_sync >= 9'd224 && hc_sync <= 9'd433))
-            csync = 1'b0;
-      end
-      else begin // linea 253
-         if ((hc_sync >= 9'd0 && hc_sync <= 9'd210) || (hc_sync >= 9'd224 && hc_sync <= 9'd237))
+      else begin
+         if ((hc_sync >= 9'd0 && hc_sync <= 9'd27) || (vc_sync >= 9'd248 && vc_sync <= 9'd251))
             csync = 1'b0;
       end
     end

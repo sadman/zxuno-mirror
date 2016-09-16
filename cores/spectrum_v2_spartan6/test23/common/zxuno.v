@@ -154,6 +154,7 @@ module zxuno (
    wire [7:0] scratch_dout;
    
    // Scandoubler control
+   wire csync_option;
    wire [7:0] scndblctrl_dout;
    wire oe_n_scndblctrl;
    
@@ -286,6 +287,7 @@ module zxuno (
      .disable_timexscr(disable_timexscr),
      .disable_ulaplus(disable_ulaplus),
      .disable_radas(disable_radas),
+     .csync_option(csync_option),
 
     // Video
      .r(r),
@@ -497,7 +499,8 @@ module zxuno (
         .vga_enable(vga_enable),
         .scanlines_enable(scanlines_enable),
         .freq_option(freq_option),
-        .turbo_enable(turbo_enable)
+        .turbo_enable(turbo_enable),
+        .csync_option(csync_option)
     );
 
     rasterint_ctrl control_rasterint (
