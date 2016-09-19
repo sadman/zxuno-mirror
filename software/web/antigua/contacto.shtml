@@ -52,7 +52,7 @@
       <input type="submit" value="Enviar" tabindex="5"/></form></div>
   <br/>
   <span style="font-size:12px">* Antes de enviarnos un mensaje, por favor comprueba que tu
-    pregunta no esté resuelta en el <a href="faq.html">FAQ</a> ó en el 
+    pregunta no esté resuelta en el <a href="faq.shtml">FAQ</a> ó en el 
     <a href="http://zxuno.com/forum">foro</a>, donde
     discutimos acerca del proyecto.
     <br/>
