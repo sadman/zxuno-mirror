@@ -1,0 +1,5 @@
+Para actualizar la BIOS, coloca el archivo FIRMWARE.ZX1 en el raíz de la tarjeta SD, arranca el ZX-UNO, entra a la BIOS con F2 al salir el logo, ve a la pestaña "Upgrade" y selecciona "Upgrade BIOS for ZX". Después elige SD file y espera a que finalice el proceso (NO apagues el ZX-UNO mientras).
+
+---
+
+To upgrade BIOS, put the FIRMWARE.ZX1 file on the SD card root. Turn on Zx-UNO, enter BIOS pressing F2 when the logo appears, and then go to Upgrade tab. Select "Upgrade BIOS for ZX". Then select "SD file" and wait the process to end (Do NOT power off the ZX-UNO when upgrading).
