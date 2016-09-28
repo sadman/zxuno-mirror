@@ -49,10 +49,6 @@ call :CreateRom 23 "Lala Prologue (2010)"          LalaPrologue     lh17
 ..\fcut FLASH.ZX1 00c000 04c000 tmp1.bin
 ..\fcut FLASH.ZX1 34c000 0b4000 tmp2.bin
 copy /by tmp.bin+tmp1.bin+tmp2.bin sd_binaries\ROMS.ZX1
-srec_cat  FLASH.ZX1 -binary   ^
-          -o prom.mcs -Intel  ^
-          -line-length=44     ^
-          -line-termination=nl
 del tmp.bin tmp1.bin tmp2.bin
 move /y FLASH.ZX1 sd_binaries
 goto :eof
