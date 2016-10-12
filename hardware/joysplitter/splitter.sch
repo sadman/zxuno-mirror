@@ -4517,6 +4517,7 @@ high speed (Philips)</description>
 <segment>
 <wire x1="-7.62" y1="111.76" x2="-17.78" y2="111.76" width="0.1524" layer="91"/>
 <label x="-17.78" y="111.76" size="1.778" layer="95"/>
+<pinref part="X3" gate="G$1" pin="1"/>
 </segment>
 <segment>
 <pinref part="X1" gate="G$1" pin="5"/>
@@ -4533,6 +4534,7 @@ high speed (Philips)</description>
 <segment>
 <wire x1="-7.62" y1="109.22" x2="-17.78" y2="109.22" width="0.1524" layer="91"/>
 <label x="-17.78" y="109.22" size="1.778" layer="95"/>
+<pinref part="X3" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="X1" gate="G$1" pin="4"/>
@@ -4549,6 +4551,7 @@ high speed (Philips)</description>
 <segment>
 <wire x1="-7.62" y1="106.68" x2="-17.78" y2="106.68" width="0.1524" layer="91"/>
 <label x="-17.78" y="106.68" size="1.778" layer="95"/>
+<pinref part="X3" gate="G$1" pin="3"/>
 </segment>
 <segment>
 <pinref part="X2" gate="G$1" pin="3"/>
@@ -4565,6 +4568,7 @@ high speed (Philips)</description>
 <segment>
 <wire x1="-7.62" y1="104.14" x2="-17.78" y2="104.14" width="0.1524" layer="91"/>
 <label x="-17.78" y="104.14" size="1.778" layer="95"/>
+<pinref part="X3" gate="G$1" pin="4"/>
 </segment>
 <segment>
 <pinref part="X1" gate="G$1" pin="2"/>
