@@ -2233,7 +2233,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="16.37" y="17.996" size="0.8128" layer="25" rot="R180"/>
 </element>
 <element name="R7" library="adafruit" package="R0805" value="50" x="31.8262" y="7.7724" smashed="yes" rot="R90">
-<attribute name="NAME" x="30.7594" y="6.6294" size="0.8128" layer="25" rot="R90"/>
+<attribute name="NAME" x="31.2166" y="9.8044" size="0.8128" layer="25" rot="R180"/>
 <attribute name="VALUE" x="34.1122" y="7.0104" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="B" library="wirepad" package="SMD1,27-2,54" value="" x="10.795" y="15.24" smashed="yes" rot="R147">
@@ -2241,15 +2241,15 @@ design rules under a new name.</description>
 <attribute name="NAME" x="11.63006875" y="17.198096875" size="0.8128" layer="25" rot="R237"/>
 </element>
 <element name="C1" library="rcl" package="C1206K" value="1uF" x="23.1394" y="11.2522" smashed="yes" rot="R270">
-<attribute name="NAME" x="24.1414" y="11.8712" size="0.8128" layer="25" rot="R270"/>
+<attribute name="NAME" x="22.2364" y="11.8712" size="0.8128" layer="25" rot="R270"/>
 <attribute name="VALUE" x="21.2394" y="12.2522" size="1.016" layer="27" rot="R270"/>
 </element>
 <element name="C2" library="rcl" package="C1206K" value="1uF" x="17.399" y="15.1892" smashed="yes" rot="R180">
-<attribute name="NAME" x="18.018" y="17.2352" size="0.8128" layer="25" rot="R180"/>
+<attribute name="NAME" x="18.018" y="16.9812" size="0.8128" layer="25" rot="R180"/>
 <attribute name="VALUE" x="18.399" y="17.0892" size="1.016" layer="27" rot="R180"/>
 </element>
 <element name="C3" library="rcl" package="C1206K" value="1uF" x="12.7" y="11.6586" smashed="yes">
-<attribute name="NAME" x="12.4112" y="9.4856" size="0.8128" layer="25"/>
+<attribute name="NAME" x="11.1412" y="12.9146" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="11.7" y="9.7586" size="1.016" layer="27"/>
 </element>
 <element name="CSYNC" library="wirepad" package="SMD1,27-2,54" value="" x="35.306" y="8.128" smashed="yes" rot="R58">
@@ -2266,22 +2266,22 @@ design rules under a new name.</description>
 </element>
 <element name="L1" library="wuerth-elektronik" package="0805" value="" x="13.5636" y="15.1384" smashed="yes" rot="R270">
 <attribute name="VALUE" x="14.5161" y="17.0434" size="0.6096" layer="27" rot="R270"/>
-<attribute name="NAME" x="11.9761" y="15.7734" size="0.8128" layer="25" rot="R270"/>
+<attribute name="NAME" x="12.2301" y="15.3924" size="0.8128" layer="25" rot="R270"/>
 </element>
 <element name="LEFT" library="wirepad" package="SMD1,27-2,54" value="" x="8.128" y="11.557" smashed="yes" rot="R147">
 <attribute name="VALUE" x="8.128" y="11.557" size="0.0254" layer="27" rot="R147"/>
 <attribute name="NAME" x="9.59806875" y="12.372096875" size="0.8128" layer="25" rot="R237"/>
 </element>
 <element name="Q1" library="transistor-npn" package="SOT23" value="2N3904" x="28.8798" y="8.0264" smashed="yes">
-<attribute name="NAME" x="30.0228" y="8.1534" size="0.8128" layer="25"/>
+<attribute name="NAME" x="26.8478" y="7.7724" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="26.9748" y="4.8514" size="1.27" layer="27"/>
 </element>
 <element name="Q2" library="transistor-npn" package="SOT23" value="2N3904" x="19.8628" y="8.4582" smashed="yes">
-<attribute name="NAME" x="19.05" y="5.5626" size="0.8128" layer="25"/>
+<attribute name="NAME" x="20.574" y="9.2456" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="17.9578" y="5.2832" size="1.27" layer="27"/>
 </element>
 <element name="Q3" library="transistor-npn" package="SOT23" value="2N3904" x="10.2616" y="8.1788" smashed="yes">
-<attribute name="NAME" x="11.6586" y="8.8138" size="0.8128" layer="25"/>
+<attribute name="NAME" x="8.3566" y="8.8138" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="8.3566" y="5.0038" size="1.27" layer="27"/>
 </element>
 <element name="R" library="wirepad" package="SMD1,27-2,54" value="" x="24.13" y="14.986" smashed="yes" rot="R58">
@@ -2289,27 +2289,27 @@ design rules under a new name.</description>
 <attribute name="NAME" x="23.074378125" y="16.083753125" size="0.8128" layer="25" rot="R148"/>
 </element>
 <element name="R2" library="adafruit" package="R0805" value="22K" x="24.0792" y="7.1628" smashed="yes">
-<attribute name="NAME" x="23.3172" y="8.1788" size="0.8128" layer="25"/>
+<attribute name="NAME" x="23.4442" y="8.0518" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="23.3172" y="4.8768" size="1.27" layer="27"/>
 </element>
 <element name="R1" library="adafruit" package="R0805" value="10K" x="26.1874" y="10.4902" smashed="yes" rot="R90">
-<attribute name="NAME" x="25.1714" y="9.7282" size="0.8128" layer="25" rot="R90"/>
+<attribute name="NAME" x="25.2984" y="9.8552" size="0.8128" layer="25" rot="R90"/>
 <attribute name="VALUE" x="28.4734" y="9.7282" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="R3" library="adafruit" package="R0805" value="10K" x="20.0406" y="12.065" smashed="yes">
-<attribute name="NAME" x="17.3736" y="12.8524" size="0.8128" layer="25" rot="R270"/>
+<attribute name="NAME" x="19.5326" y="12.9286" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="19.2786" y="9.779" size="1.27" layer="27"/>
 </element>
 <element name="R4" library="adafruit" package="R0805" value="22K" x="16.891" y="11.938" smashed="yes" rot="R90">
-<attribute name="NAME" x="18.5928" y="11.049" size="0.8128" layer="25" rot="R90"/>
+<attribute name="NAME" x="15.3162" y="12.573" size="0.8128" layer="25" rot="R270"/>
 <attribute name="VALUE" x="19.177" y="11.176" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="R5" library="adafruit" package="R0805" value="10K" x="13.7414" y="8.128" smashed="yes" rot="R90">
-<attribute name="NAME" x="12.7254" y="7.62" size="0.8128" layer="25" rot="R90"/>
+<attribute name="NAME" x="12.0396" y="9.144" size="0.8128" layer="25" rot="R270"/>
 <attribute name="VALUE" x="16.0274" y="7.366" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="R6" library="adafruit" package="R0805" value="22K" x="16.002" y="8.128" smashed="yes" rot="R270">
-<attribute name="NAME" x="15.621" y="11.557" size="0.8128" layer="25" rot="R270"/>
+<attribute name="NAME" x="17.653" y="7.493" size="0.8128" layer="25" rot="R90"/>
 <attribute name="VALUE" x="13.716" y="8.89" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="RIGHT" library="wirepad" package="SMD1,27-2,54" value="" x="5.588" y="7.874" smashed="yes" rot="R147">
