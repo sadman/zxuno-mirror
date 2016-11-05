@@ -318,6 +318,17 @@
 <a name="videos"></a>
 
   <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>RetroIcod 2016 - Charla Miguel Ángel Rodríguez (mcleod_ideafix)</strong>
+  <br/>
+  <i>La evolución de la tecnología de los ordenadores de 8 bits y la aparición del ZX-Uno y otros diseños basados en FPGA.</i>
+  <br/>
+  <br/>
+  <iframe allowfullscreen="yes" frameborder="0" height="330" src="https://www.youtube.com/embed/nhoxfSoVkJk" width="580"></iframe>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+
+  <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
   <strong>Test de core del SAM Coupé con la demo "Defender of the 8 bits"</strong>
   <br/>
   <i>por @zxprojects</i>
@@ -396,6 +407,17 @@
   <br/>
 
   <a name="otros"></a>
+
+  <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Entrevista en El Mundo del Spectrum Podcast 4x09</strong>
+  <br/>
+  <i>Por cortesía de <a href="http://elmundodelspectrum.com">www.elmundodelspectrum.com</a> / 2016-09-02</i>
+  <br/>
+  <br/>
+  <a href="http://elmundodelspectrum.com/contenido.php?id=1495&d=El-Mundo-del-Spectrum-Podcast-4x09">Enlace a la noticia publicada en EMS.</a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
 
   <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
   <strong>Audio Conferencia ZX-Uno - Retro Sevilla 2014</strong>

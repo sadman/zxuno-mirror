@@ -67,7 +67,7 @@
   1   J6          DB9 right angle male (Joystick connector)
   1   J7          PS/2 socket
   1   J8          9 pin molex connector 1.25mm right angle male (RGB)
-  1   J9          6 pin molex connector 1.25mm right angle male (JTAG)
+  1   J9          6 pin molex connector 1.25mm straight male (JTAG)
   3   J10-J12     12 pin female header single row
   3   J13-J15     2 pin male header single row
   3   D1-D3       SMD Diode 1N4148, SOD-523
@@ -101,12 +101,32 @@
     en la FPGA se encuentran en el repositorio de McLeod.
     <br/>
     <br/>
-    <a href="http://www.atc.us.es/svn/zxuno/">http://www.atc.us.es/svn/zxuno/</a>
+    <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/">http://www.atc.us.es/svn/zxuno/</a>
     <br/>
     <br/>
     <pre>
 Usuario:    guest
 Contraseña: zxuno</pre>
+    <br/></div>
+
+  <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
+  <div style="clear:left;margin:20px;"></div>
+  <div style="width:35%;float:left;padding-left:15%">
+    <img alt="Imagen" src="http://zxuno.speccy.org/imagen/zx1rompack.png"/></div>
+  <div style="width:50%;float:left">
+    <strong><span style="color:#084">ZX1ROMPACK</span></strong>
+    <i>Creador / Editor de ROMS.ZX1</i>
+    <br/>
+    <br/>
+    <ul>
+      <li>Utilidad para poder editar y crear ficheros con ROM's para el ZX-Uno.</li>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=39&t=443">Enlace al foro con explicaciones acerca de su funcionamiento.</a></li></ul>
+    <br/>
+    <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/software/ZX1RomPack/">http://www.atc.us.es/svn/zxuno/software/ZX1RomPack//</a>
+    <br/>
+    <br/>
+    <i>Desarrollado por Quest</i>
+    <br/>
     <br/></div>
 
   <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
@@ -158,7 +178,7 @@ Contraseña: zxuno</pre>
   <div style="background-color:#05a;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
   <strong style="font-size:20px">Enlaces</strong>
   <div style="clear:left;margin:20px;"></div>
-
+<br/>
   <strong>Wiki Técnico:</strong>
   <ul>
     <li><a href="http://www.zxuno.com/wiki">http://www.zxuno.com/wiki</a></li></ul>
@@ -198,6 +218,24 @@ Contraseña: zxuno</pre>
     <li><a href="http://retromaniacmagazine.blogspot.com.es/">RetroManiac Magazine</a></li>
     <li><a href="http://www.retro-sevilla.com/">Retro Sevilla</a></li></ul>
   <br/>
+
+  <strong>Dónde comprar ZX-Uno y accesorios: (enlaces ajenos a la Asociación)</strong>
+  <ul>
+    <li>Enlaces de venta de Antonio Villena (envío a España, para fuera de España pinchar <a href="maquina_e.shtml#enlaces">aquí</a>):</li>
+    <ul>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=27&t=444">Placa ZX-Uno. 65 Euros con envío certificado</a></li>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=25&t=380">Carcasa modificada Raspberry (12 euros más)</a></li>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=25&t=332">Cable VGA. 10 Euros con envío ordinario</a></li></ul>
+    <li>Enlace de venta de carmeloco (venta a España):</li>
+    <ul>
+      <li><a href="http://www.va-de-retro.com/foros/viewtopic.php?f=50&t=5212">Placa ZX-Uno. 65 Euros con envío certificado</a></li></ul></ul>
+  <br/>
+
+  <strong>Proyectos derivados del ZX-Uno</strong>
+  <ul><li><a href="http://www.ebay.com/itm//252555205006">Placa ZX-Uno-VGA. 75 Euros con carcasa y envío certificado a España</a></li>
+      <li><a href="http://www.8bits4ever.com/zx-uno-m.html">Placa ZX-Uno-M. Aún no disponible para venta</a></li></ul>
+  <br/>
+
   <span style="font-size:12px">
     * Si programas para ZX Spectrum y quieres ver tu página aquí, ponte en contacto
     con nosotros.</span></div>

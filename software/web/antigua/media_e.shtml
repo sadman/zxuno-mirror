@@ -87,12 +87,12 @@
   <img width="194" height="145" src="https://lh3.googleusercontent.com/-078geprBmNU/V0V2eDBs7_I/AAAAAAAABAg/Ckwo6JArgkI2lWd7PcLzQ3cG7Q8iSmM_wCCo/s194/ZX-Box%2Bver.%2B4.1_010.jpg"></a>
   <a href="https://lh3.googleusercontent.com/-nB9Tr-wkrzg/V0V2eVNfc7I/AAAAAAAABAk/IF_-Mq5CFW0OF8lywQzg2oDSt2caoMB_gCCo/s0/ZX-Box%2Bver.%2B4.1_011.jpg">
   <img width="194" height="145" src="https://lh3.googleusercontent.com/-nB9Tr-wkrzg/V0V2eVNfc7I/AAAAAAAABAk/IF_-Mq5CFW0OF8lywQzg2oDSt2caoMB_gCCo/s194/ZX-Box%2Bver.%2B4.1_011.jpg"></a>
-  <a href="https://lh3.googleusercontent.com/-Ut15o8IwGZY/V0V2ecmR1UI/AAAAAAAABAo/-1EynxUxIJc7ZyL800ke-Of7uahFmaqbwCCo/s0/ZX-Box%2Bver.%2B4.1_012.jpg">
+    <a href="https://lh3.googleusercontent.com/-Ut15o8IwGZY/V0V2ecmR1UI/AAAAAAAABAo/-1EynxUxIJc7ZyL800ke-Of7uahFmaqbwCCo/s0/ZX-Box%2Bver.%2B4.1_012.jpg">
   <img width="194" height="145" src="https://lh3.googleusercontent.com/-Ut15o8IwGZY/V0V2ecmR1UI/AAAAAAAABAo/-1EynxUxIJc7ZyL800ke-Of7uahFmaqbwCCo/s194/ZX-Box%2Bver.%2B4.1_012.jpg"></a>
   <div style="clear:left"></div>
   <br/>
 
-  <div style="background-color:#c03;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
+<div style="background-color:#c03;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
   <strong>ZX-Uno v4.1</strong>
   <br/>
   <i>Pictures by @Quest</i>
@@ -318,6 +318,17 @@
   <a name="videos"></a>
 
   <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>RetroIcod 2016 - Miguel Ángel Rodríguez (mcleod_ideafix) talk</strong>
+  <br/>
+  <i>The evolution of 8 bits computer technology and the appearance of the ZX-Uno and other FPGA based designs.</i>
+  <br/>
+  <br/>
+  <iframe allowfullscreen="yes" frameborder="0" height="330" src="https://www.youtube.com/embed/nhoxfSoVkJk" width="580"></iframe>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
+
+  <div style="background-color:#084;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
   <strong>SAM Coupé core testing with the "Defender of the 8 bits" demo</strong>
   <br/>
   <i>by @zxprojects</i>
@@ -396,6 +407,17 @@
   <br/>
 
   <a name="otros"></a>
+
+  <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
+  <strong>Interview on El Mundo del Spectrum Podcast 4x09</strong>
+  <br/>
+  <i>By courtesy of <a href="http://elmundodelspectrum.com">www.elmundodelspectrum.com</a> / 2016-09-02</i>
+  <br/>
+  <br/>
+  <a href="http://elmundodelspectrum.com/contenido.php?id=1495&d=El-Mundo-del-Spectrum-Podcast-4x09">Link to the new posted with EMS.</a>
+  <div style="clear:left"></div>
+  <br/>
+  <br/>
 
   <div style="background-color:#05a;height:4px;margin-top:40px;width:99.5%;clear:left"></div>
   <strong>Audio Conference ZX-Uno - Retro Sevilla 2014</strong>

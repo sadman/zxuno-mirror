@@ -67,7 +67,7 @@
   1   J6          DB9 right angle male (Joystick connector)
   1   J7          PS/2 socket
   1   J8          9 pin molex connector 1.25mm right angle male (RGB)
-  1   J9          6 pin molex connector 1.25mm right angle male (JTAG)
+  1   J9          6 pin molex connector 1.25mm straight male (JTAG)
   3   J10-J12     12 pin female header single row
   3   J13-J15     2 pin male header single row
   3   D1-D3       SMD Diode 1N4148, SOD-523
@@ -101,12 +101,32 @@
     load into FPGA are on McLeod's repository.
     <br/>
     <br/>
-    <a href="http://www.atc.us.es/svn/zxuno/">http://www.atc.us.es/svn/zxuno/</a>
+    <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/">http://www.atc.us.es/svn/zxuno/</a>
     <br/>
     <br/>
     <pre>
 User:  guest
 Pass:  zxuno</pre>
+    <br/></div>
+
+  <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
+  <div style="clear:left;margin:20px;"></div>
+  <div style="width:35%;float:left;padding-left:15%">
+    <img alt="Imagen" src="http://zxuno.speccy.org/imagen/zx1rompack.png"/></div>
+  <div style="width:50%;float:left">
+    <strong><span style="color:#084">ZX1ROMPACK</span></strong>
+    <i>ROMS.ZX1 Creator / Editor.</i>
+    <br/>
+    <br/>
+    <ul>
+      <li>Utility for edit and create ROM files for the ZX-Uno.</li>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=39&t=443">Link to forum with explanations about this software.</a></li></ul>
+    <br/>
+    <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/software/ZX1RomPack/">http://www.atc.us.es/svn/zxuno/software/ZX1RomPack//</a>
+    <br/>
+    <br/>
+    <i>Developed by Quest</i>
+    <br/>
     <br/></div>
 
   <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
@@ -131,7 +151,7 @@ Pass:  zxuno</pre>
     <br/>
     <br/></div>
 
- <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
+  <div style="background-color:#084;height:4px;margin-top:200px;width:99.5%;clear:left"></div>
   <div style="clear:left;margin:20px;"></div>
   <div style="width:35%;float:left;padding-left:15%">
     <img alt="Imagen" align=center src="imagen/logo_radastan_001.png"/></div>
@@ -142,15 +162,15 @@ Pass:  zxuno</pre>
       <li>Based on the compiler Z88DK, the kit allows to develop games and applications in C language.</li>
       <li>Compatible with ZX-Spectrum standard graphics mode.</li>
       <li>Specific functions <i>(0.3 beta)</i> for Radastanian Mode.</li></ul>
-<br/>
+    <br/>
     <i>Links: </i>
-<ul>
+    <ul>
       <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/cursoz88dk.zip">SDK "Original" ZX-Spectrum.</a></li>
       <li><strong>NEW! </strong><a href="http://zxuno.speccy.org/ficheros/ZX_Uno_kit_03c.zip">SDK Radastanian Mode<i> (0.3 beta)</i>. </a></li>
-    <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/">Tutorial original Radastan (ZIP+PDF).</a></li>
-    <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6302">Zona de Pruebas Radastanian Mode Forum (ES).</a></li>
-    <li><a href="http://www.mojontwins.com/mojoniaplus/">Mojon Twins Forum.</a></li>
-    <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/z88dk10.zip">Z88DK10.ZIP.</a></li></ul>
+      <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/">Tutorial original Radastan (ZIP+PDF).</a></li>
+      <li><a href="http://www.zonadepruebas.com/viewtopic.php?f=26&t=6302">Zona de Pruebas Radastanian Mode Forum (ES).</a></li>
+      <li><a href="http://www.mojontwins.com/mojoniaplus/">Mojon Twins Forum.</a></li>
+      <li><a href="http://www.bytemaniacos.com/ficheros/zxspectrum/z88dk10.zip">Z88DK10.ZIP.</a></li></ul>
     <br/>
     <br/></div>
 
@@ -158,7 +178,7 @@ Pass:  zxuno</pre>
   <div style="background-color:#05a;height:4px;margin-top:70px;width:99.5%;clear:left"></div>
   <strong style="font-size:20px">Links</strong>
   <div style="clear:left;margin:20px;"></div>
-
+<br/>
   <strong>Technical Wiki:</strong>
   <ul>
     <li><a href="http://www.zxuno.com/wiki">http://www.zxuno.com/wiki</a></li></ul>
@@ -198,6 +218,24 @@ Pass:  zxuno</pre>
     <li><a href="http://retromaniacmagazine.blogspot.com.es/">RetroManiac Magazine (Spanish)</a></li>
     <li><a href="http://www.retro-sevilla.com/">Retro Sevilla (Spanish)</a></li></ul>
   <br/>
+
+  <strong>Where to buy ZX-Uno and accesories: (links non related with the Asociation)</strong>
+  <ul>
+    <li>Links sales of Antonio Villena (ships Worldwide):</li>
+    <ul>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=27&t=444">ZX-Uno board. 70 Eur registered shipping included</a></li>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=25&t=380">Modified Raspberry case (+12 Eur)</a></li>
+      <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=25&t=332">VGA cable. 12 Eur unregistered shipping included</a></li></ul>
+    <li>Enlace de venta de carmeloco (ships to Spain):</li>
+    <ul>
+      <li><a href="http://www.va-de-retro.com/foros/viewtopic.php?f=50&t=5212">ZX-Uno board. 65 Eur shipping to Spain included</a></li></ul></ul>
+  <br/>
+
+  <strong>ZX-Uno derived projects</strong>
+  <ul><li><a href="http://www.ebay.com/itm//252555205006">ZX-Uno-VGA board. 83 Eur with case registered shipping included to EU</a></li>
+      <li><a href="http://www.8bits4ever.com/zx-uno-m.html">ZX-Uno-M board. Not yet available for sale</a></li></ul>
+  <br/>
+
   <span style="font-size:12px">
     * If you develope for ZX Spectrum and want to see your page web here, please
     contact us.</span></div>

@@ -39,6 +39,7 @@ body{
   height:190px;
 }
 #footerimg{
+  clear:left;
   height:90px;
 }
 #footerhost{
@@ -64,5 +65,5 @@ body{
 }
 }
 .rojo {
-	color: #F00;
+  color: red;
 }

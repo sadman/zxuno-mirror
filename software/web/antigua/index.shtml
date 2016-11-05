@@ -4,58 +4,9 @@
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="home.css"/>
   <title>ZX-Uno [Clon de ordenador ZX Spectrum basado en FPGA]</title>
-<style type="text/css">
-h1{
-  font-family: sans-serif;
-  color: #f0f0f0;
-  font-weight: 100;
-  font-size: 20px;
-  background-color: #333;
-  padding: 20px 0 0 0;
-}
-
-#clockdiv{
-  font-family: sans-serif;
-  color: #fff;
-  display: inline-block;
-  font-weight: bold;
-  text-align: center;
-  font-size: 36px;
-  background-color: #333;
-  padding: 20px 0px 20px 0px;
-}
-
-#clockdiv > div{
-  padding: 10px;
-  border-radius: 3px;
-  background-color: #666666;
-  display: inline-block;
-}
-
-#clockdiv div > span{
-  padding: 15px;
-  border-radius: 3px;
-  background-color: #333333;
-  display: inline-block;
-}
-
-#clockdiv div div {
-  font-size:12px;
-  padding-top:6px;
-}
-body {
-margin:0 0 0 0;  
-}
-</style>
 </head>
 <body>
-
-<div id="clockdiv" style="margin:auto;width:100%">
-  <p style="padding:10px 0 0 0;font-size:16px;">La campaña ha finalizado. Gracias a todos por el apoyo :)
-  </p>
-  <p style="padding:20px 0 0 0;"><img src="imagen/logo_foro2.png">
-  </p>
-</div>
+<div id="logo" style="background:url(imagen/logo.png)"></div>
 <div id="menu">
   <span                      style="width:50px">Inicio</span>
   <span>·</span>
@@ -74,12 +25,13 @@ margin:0 0 0 0;
   <a href="index_e.shtml"    style="width:62px">[English]</a></div>
 <div id="main">
   <img width="100%" src="imagen/foto1.jpg"/>
-
-  <iframe width="788" height="591" src="https://www.youtube.com/embed/exB91h7oes4" frameborder="0" allowfullscreen></iframe>
   <br><br>
   <strong>Noticias (F5 para actualizar)</strong>
   <ul>
-    <li><strong>2016-09-02 Actualizado fichero ZX-UNO Placa 4.1 Esquema Pin-Out. <a href="descarga.shtml#software">Descargas</a>.</strong><br></li>
+    <li><strong>2016-10-18 Añadido vídeo charla RetroCod 2016. <a href="Media.shtml#videos">Media</a>.</strong><br></li>
+    <li><strong>2016-10-18 Añadido enlace a Podcast El Mundo del Spectrum. <a href="media.shtml#otros">Media</a>.</strong><br></li>
+    <li><strong>2016-10-18 Añadido enlace a FAQ + Manual V2 de Uto. <a href="descarga.shtml#software">Descargas</a>.</strong><br></li>
+    <li>2016-09-02 Actualizado fichero ZX-UNO Placa 4.1 Esquema Pin-Out. <a href="descarga.shtml#software">Descargas</a>.<br></li>
     <li>2016-08-25 Actualizado SDK Modo Radastaniano (v0.3 beta) - Desarrollado por @Radastan. <a href="maquina.shtml#software">Software</a>.<br></li>
     <li>2016-06-10 Añadido Fichero formato Sketch-Up ZX-Uno (v4.1) - Desarrollo de @Mejias3D. <a href="descarga.shtml">Descargas</a>.<br></li>
     <li>2016-05-31 Caja transparente para ZX-Uno 4.1 - Diseño de @Arananet. <a href="descarga.shtml">Descargas</a>. <a href="media.shtml">Media</a>.<br></li>
