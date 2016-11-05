@@ -367,12 +367,13 @@ start50 wreg    scan_code, $f6  ; $f6 = kb set defaults
         halt
         wreg    mouse_data, $f4 ; $f4 = init Kmouse
 star51  ld      a, (layout)
-        ld      b, a
+        rr      a
         ld      hl, fines-1
-        djnz    star52
+        jr      z, star52
         ld      hl, finus-1
-star52  djnz    star53
+        jr      nc, star53
         ld      hl, finav-1
+star52  jr      nc, star55
 star53  ld      de, $ffff
         call    dzx7b
         wreg    key_map, 0
@@ -381,7 +382,7 @@ star54  inc     b
         outi
         bit     7, h              ; compruebo si la direccion es 0000 (final)
         jr      nz, star54        ; repito si no lo es
-        ld      hl, (joykey)
+star55  ld      hl, (joykey)
         inc     h
         inc     l
         ld      a, h
@@ -1990,6 +1991,7 @@ advan   ld      h, 20
         ld      bc, $0f04
         ld      iy, layout
         call    showop
+        defw    cad875
         defw    cad88
         defw    cad89
         defw    cad90
@@ -2054,6 +2056,7 @@ advan1  call    showop
         add     hl, de
         jr      nz, advan2
         call    popupw
+        defw    cad875
         defw    cad88
         defw    cad89
         defw    cad90
