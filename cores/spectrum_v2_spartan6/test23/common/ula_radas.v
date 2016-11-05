@@ -105,9 +105,9 @@ module ula_radas (
     
     // Initial values for synch, syncv for all supported timings
     reg [8:0] hinit48k = 9'd112;
-    reg [8:0] vinit48k = 9'd2;
+    reg [8:0] vinit48k = 9'd0;
     reg [8:0] hinit128k = 9'd116;
-    reg [8:0] vinit128k = 9'd2;
+    reg [8:0] vinit128k = 9'd0;
     reg [8:0] hinitpen = 9'd110;
     reg [8:0] vinitpen = 9'd0;    
    
