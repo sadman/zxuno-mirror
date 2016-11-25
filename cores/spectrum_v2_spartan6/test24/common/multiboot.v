@@ -3,36 +3,66 @@ module multiboot (
     input wire clk_icap,   // WARNING: this clock must not be greater than 20MHz (50ns period)
     input wire rst_n,
     input wire [7:0] zxuno_addr,
+    input wire regaddr_changed,
+    input wire zxuno_regrd,
     input wire zxuno_regwr,
-    input wire [7:0] din
+    input wire [7:0] din,
+    output reg [7:0] dout,
+    output reg oe_n
     );
     
     parameter ADDR_COREADDR = 8'hFC,
               ADDR_COREBOOT = 8'hFD;
               
-    reg [23:0] spi_addr = 24'h0AC000;  // default: SPI address of second core as defined by the SPI memory map
+    reg [23:0] spi_addr = 24'h058000;  // default value
     reg writting_to_spi_addr = 1'b0;
     reg writting_to_bootcore = 1'b0;
     reg boot_core = 1'b0;
+
+    reg reading_from_spi_addr = 1'b0;
+    reg [1:0] spi_addr_chunk = 2'b00; // which part of COREADDR to output
+    reg [7:0] addrout = 8'h00;
     
+    always @* begin
+      dout = 8'hFF;
+      oe_n = 1'b1;
+      if (zxuno_addr == ADDR_COREADDR && zxuno_regrd ==1'b1) begin
+        dout = addrout;
+        oe_n = 1'b0;
+      end
+    end  
+
     always @(posedge clk) begin
-        if (rst_n == 1'b0) begin
-            writting_to_spi_addr <= 1'b0;
-            writting_to_bootcore <= 1'b0;
-            boot_core <= 1'b0;
+        if (rst_n == 1'b0 || (regaddr_changed && zxuno_addr == ADDR_COREADDR)) begin
+          writting_to_spi_addr <= 1'b0;
+          writting_to_bootcore <= 1'b0;
+          reading_from_spi_addr <= 1'b0;
+          spi_addr_chunk <= 2'b00;
+          boot_core <= 1'b0;
         end
         else begin
             if (zxuno_addr == ADDR_COREADDR) begin
-                if (zxuno_regwr == 1'b1 && writting_to_spi_addr == 1'b0) begin
-                    spi_addr <= {spi_addr[15:0], din};
-                    writting_to_spi_addr <= 1'b1;
-                end
-                if (zxuno_regwr == 1'b0) begin
-                    writting_to_spi_addr <= 1'b0;
-                end
+              if (zxuno_regwr == 1'b1 && writting_to_spi_addr == 1'b0) begin
+                  spi_addr <= {spi_addr[15:0], din};
+                  writting_to_spi_addr <= 1'b1;
+              end
+              if (zxuno_regwr == 1'b0) begin
+                  writting_to_spi_addr <= 1'b0;
+              end
+              if (zxuno_regrd == 1'b1 && reading_from_spi_addr == 1'b0) begin
+                addrout <= (spi_addr_chunk == 2'b00)? spi_addr[23:16] :
+                           (spi_addr_chunk == 2'b01)? spi_addr[15:8] :
+                                                      spi_addr[7:0];
+                spi_addr_chunk <= (spi_addr_chunk == 2'b10)? 2'b00 : spi_addr_chunk + 2'b01;
+                reading_from_spi_addr <= 1'b1;
+              end   
+              if (zxuno_regrd == 1'b0) begin
+                reading_from_spi_addr <= 1'b0;
+              end                  
             end
             else begin
-                writting_to_spi_addr <= 1'b0;
+              writting_to_spi_addr <= 1'b0;
+              reading_from_spi_addr <= 1'b0;
             end
             
             if (zxuno_addr == ADDR_COREBOOT) begin

@@ -153,6 +153,10 @@ module zxuno (
    wire oe_n_scratch;
    wire [7:0] scratch_dout;
    
+   // Multiboot
+   wire oe_n_multiboot;
+   wire [7:0] multiboot_dout;
+   
    // Scandoubler control
    wire csync_option;
    wire [7:0] scndblctrl_dout;
@@ -214,6 +218,7 @@ module zxuno (
             oe_n_rasterint   : cpudin = rasterint_dout;
             oe_n_devoptions  : cpudin = devoptions_dout;
             oe_n_romyram     : cpudin = memory_dout;
+            oe_n_multiboot   : cpudin = multiboot_dout;
             default          : cpudin = ula_dout;
         endcase
    end        
@@ -565,8 +570,12 @@ module zxuno (
         .clk_icap(clk14),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .zxuno_addr(zxuno_addr),
+        .regaddr_changed(regaddr_changed),
+        .zxuno_regrd(zxuno_regrd),
         .zxuno_regwr(zxuno_regwr),
-        .din(cpudout)
+        .din(cpudout),
+        .dout(multiboot_dout),
+        .oe_n(oe_n_multiboot)
     );
 
 
