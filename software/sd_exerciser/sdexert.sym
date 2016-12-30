@@ -1,0 +1,124 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _ATTR                                                       =  00FF 
+    _DIVCS                                                      =  00E7 
+    _DIVSPI                                                     =  00EB 
+    _KEMPSTONADDR                                               =  001F 
+    _SEMIFILA1                                                  =  F7FE 
+    _SEMIFILA2                                                  =  EFFE 
+    _SEMIFILA3                                                  =  FBFE 
+    _SEMIFILA4                                                  =  DFFE 
+    _SEMIFILA5                                                  =  FDFE 
+    _SEMIFILA6                                                  =  BFFE 
+    _SEMIFILA7                                                  =  FEFE 
+    _SEMIFILA8                                                  =  7FFE 
+    _ULA                                                        =  00FE 
+    _ZXUNOADDR                                                  =  FC3B 
+    _ZXUNODATA                                                  =  FD3B 
+  0 ___sdcc_enter_ix                                               0994 GR
+  0 ___str_0                                                       00E5 R
+  0 ___str_1                                                       0109 R
+  0 ___str_10                                                      01EC R
+  0 ___str_11                                                      025C R
+  0 ___str_12                                                      02CF R
+  0 ___str_13                                                      02E5 R
+  0 ___str_14                                                      03E6 R
+  0 ___str_15                                                      03E8 R
+  0 ___str_16                                                      042A R
+  0 ___str_17                                                      0431 R
+  0 ___str_18                                                      04CF R
+  0 ___str_19                                                      04D6 R
+  0 ___str_2                                                       012A R
+  0 ___str_20                                                      04D8 R
+  0 ___str_21                                                      0528 R
+  0 ___str_22                                                      052F R
+  0 ___str_23                                                      057F R
+  0 ___str_24                                                      0586 R
+  0 ___str_25                                                      0616 R
+  0 ___str_26                                                      061D R
+  0 ___str_3                                                       014B R
+  0 ___str_4                                                       0167 R
+  0 ___str_5                                                       0176 R
+  0 ___str_6                                                       0191 R
+  0 ___str_7                                                       01AC R
+  0 ___str_8                                                       01C2 R
+  0 ___str_9                                                       01E0 R
+  0 _abs                                                           061F GR
+  0 _beep                                                          0929 GR
+  0 _border                                                        06F9 GR
+  0 _cls                                                           06C4 GR
+  0 _crc7                                                          0961 GR
+  0 _elegir_opcion                                                 01F8 GR
+  0 _elementos_estaticos                                           0065 GR
+  1 _font                                                          0000 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 _frames                                                        0656 GR
+  0 _getcoreid                                                     099E GR
+  0 _inkey                                                         089C GR
+  0 _locate                                                        07EE GR
+  0 _main                                                          0000 GR
+  0 _memcpy                                                        06A6 GR
+  0 _memset                                                        0686 GR
+  0 _pause                                                         0665 GR
+  0 _pause0                                                        0677 GR
+  0 _puthex8                                                       082F GR
+  0 _puts                                                          0712 GR
+  0 _sd_acmd41                                                     059A GR
+  0 _sd_cmd0                                                       03EE GR
+  0 _sd_cmd1                                                       0543 GR
+  0 _sd_cmd55                                                      04EC GR
+  0 _sd_cmd8                                                       0445 GR
+  0 _sd_reset                                                      0282 GR
+  0 _sd_select                                                     0270 GR
+  0 _sd_sendcommand                                                02FB GR
+  0 _setup_chars                                                   0031 GR
+  0 _sgn                                                           0642 GR
+  0 _u16tohex                                                      0801 GR
+  0 _u8tohex                                                       0850 GR
+  0 _wait_key                                                      0893 GR
+  0 buc_next_bit                                                   0975 R
+  0 buc_next_byte                                                  0971 R
+  0 buc_print                                                      072E R
+  0 bucbeep                                                        094A R
+  0 bucperiodobeep                                                 0951 R
+  0 calc_dirat                                                     07C8 R
+  0 fin_ca_attr                                                    07CB R
+  0 fin_print                                                      07E0 R
+  0 imprimible                                                     0780 R
+  0 no_at                                                          0746 R
+  0 no_attr                                                        0764 R
+  0 no_cr                                                          0758 R
+  0 no_fin_print                                                   0735 R
+  0 no_inc_fila                                                    07D8 R
+  0 no_pr_bold                                                     077A R
+  0 no_pr_over                                                     076F R
+  0 not_xor_crc                                                    0980 R
+  0 print_car                                                      07A6 R
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  A0F   flags    0
+   1 _DATA                                      size  300   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

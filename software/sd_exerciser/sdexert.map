@@ -1,0 +1,96 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           sdexert
+     00000000  l__CABS                         
+     00000000  l__DABS                         
+     00000000  l__GSFINAL                      
+     00000000  l__GSINIT                       
+     00000000  l__HOME                         
+     00000000  l__INITIALIZED                  
+     00000000  l__INITIALIZER                  
+     00000000  s__CABS                         
+     00000000  s__DABS                         
+     00000300  l__DATA                         
+     00000A0F  l__CODE                         
+     00008000  s__CODE                         
+     00008A0F  s__DATA                         
+     00008D0F  s__GSFINAL                      
+     00008D0F  s__GSINIT                       
+     00008D0F  s__HOME                         
+     00008D0F  s__INITIALIZED                  
+     00008D0F  s__INITIALIZER                  
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00008000    00000A0F =        2575. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008000  _main                              sdexert
+     00008031  _setup_chars                       sdexert
+     00008065  _elementos_estaticos               sdexert
+     000081F8  _elegir_opcion                     sdexert
+     00008270  _sd_select                         sdexert
+     00008282  _sd_reset                          sdexert
+     000082FB  _sd_sendcommand                    sdexert
+     000083EE  _sd_cmd0                           sdexert
+     00008445  _sd_cmd8                           sdexert
+     000084EC  _sd_cmd55                          sdexert
+     00008543  _sd_cmd1                           sdexert
+     0000859A  _sd_acmd41                         sdexert
+     0000861F  _abs                               sdexert
+     00008642  _sgn                               sdexert
+     00008656  _frames                            sdexert
+     00008665  _pause                             sdexert
+     00008677  _pause0                            sdexert
+     00008686  _memset                            sdexert
+     000086A6  _memcpy                            sdexert
+     000086C4  _cls                               sdexert
+     000086F9  _border                            sdexert
+     00008712  _puts                              sdexert
+     000087EE  _locate                            sdexert
+     00008801  _u16tohex                          sdexert
+     0000882F  _puthex8                           sdexert
+     00008850  _u8tohex                           sdexert
+     00008893  _wait_key                          sdexert
+     0000889C  _inkey                             sdexert
+     00008929  _beep                              sdexert
+     00008961  _crc7                              sdexert
+     00008994  ___sdcc_enter_ix                   sdexert
+     0000899E  _getcoreid                         sdexert
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               00008A0F    00000300 =         768. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00008A0F  _font                              sdexert
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+
+Files Linked                              [ module(s) ]
+
+sdexert.rel                               [ sdexert ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+
+User Base Address Definitions
+
+_CODE = 0x8000
+_DATA = 0x0000
+
+
