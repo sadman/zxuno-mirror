@@ -15,27 +15,27 @@
   <version xil_pn:ise_version="14.7" xil_pn:schema_version="2"/>
 
   <files>
-    <file xil_pn:name="ps2_port.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/ps2_port.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="3"/>
     </file>
-    <file xil_pn:name="spi.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/spi.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="2"/>
     </file>
-    <file xil_pn:name="sync_generator_pal_ntsc.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/sync_generator_pal_ntsc.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="1"/>
     </file>
-    <file xil_pn:name="vga_scandoubler.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/vga_scandoubler.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
     </file>
-    <file xil_pn:name="video_processor.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/video_processor.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
     </file>
-    <file xil_pn:name="ipcore_dir/relojes.xco" xil_pn:type="FILE_COREGEN">
+    <file xil_pn:name="../common/ipcore_dir/relojes.xco" xil_pn:type="FILE_COREGEN">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="10"/>
     </file>
@@ -46,57 +46,57 @@
     <file xil_pn:name="pines_zxuno_v4.ucf" xil_pn:type="FILE_UCF">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="audio_test.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/audio_test.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="14"/>
     </file>
-    <file xil_pn:name="switch_mode.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/switch_mode.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
     </file>
-    <file xil_pn:name="tb_window_on_background.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/tb_window_on_background.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="69"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="69"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="69"/>
     </file>
-    <file xil_pn:name="get_dna.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/get_dna.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="11"/>
     </file>
-    <file xil_pn:name="ramtest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/ramtest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="8"/>
     </file>
-    <file xil_pn:name="tb_ramtest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/tb_ramtest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="70"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="70"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="70"/>
     </file>
-    <file xil_pn:name="sdtest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/sdtest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="7"/>
     </file>
-    <file xil_pn:name="tb_sdtest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/tb_sdtest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="3"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="97"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="97"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="97"/>
     </file>
-    <file xil_pn:name="flashtest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/flashtest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="101"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="12"/>
     </file>
-    <file xil_pn:name="eartest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/eartest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="102"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="13"/>
     </file>
-    <file xil_pn:name="mousetest.v" xil_pn:type="FILE_VERILOG">
+    <file xil_pn:name="../common/mousetest.v" xil_pn:type="FILE_VERILOG">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="103"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="9"/>
     </file>
-    <file xil_pn:name="ipcore_dir/relojes.xise" xil_pn:type="FILE_COREGENISE">
+    <file xil_pn:name="../common/ipcore_dir/relojes.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
   </files>
@@ -368,7 +368,7 @@
     <property xil_pn:name="Specify Top Level Instance Names Post-Translate" xil_pn:value="Default" xil_pn:valueState="default"/>
     <property xil_pn:name="Speed Grade" xil_pn:value="-2" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Starting Placer Cost Table (1-100) Map spartan6" xil_pn:value="75" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Synthesis Constraints File" xil_pn:value="timings.xcf" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Synthesis Constraints File" xil_pn:value="../common/timings.xcf" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Synthesis Tool" xil_pn:value="XST (VHDL/Verilog)" xil_pn:valueState="default"/>
     <property xil_pn:name="Target Simulator" xil_pn:value="Please Specify" xil_pn:valueState="default"/>
     <property xil_pn:name="Timing Mode Map" xil_pn:value="Performance Evaluation" xil_pn:valueState="default"/>
