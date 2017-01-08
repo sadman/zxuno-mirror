@@ -544,7 +544,7 @@ module ula_radas (
       PaletteLoad = 1'b0;
       WriteToPortFE = 1'b0;
       if (iorq_n==1'b0 && wr_n==1'b0) begin
-         if (a[0]==1'b0 && a[7:0]!=TIMEXMMU)
+         if (a[0]==1'b0 && (!enable_timexmmu || a[7:0]!=TIMEXMMU))
             WriteToPortFE = 1'b1;
          else if (a[7:0]==TIMEXPORT && !disable_timexscr)
             TimexConfigLoad = 1'b1;
@@ -621,7 +621,7 @@ module ula_radas (
    always @* begin
       dout = 8'hFF;
       if (iorq_n==1'b0 && rd_n==1'b0) begin
-         if (a[0]==1'b0 && a[7:0]!=8'hF4)
+         if (a[0]==1'b0 && (a[7:0]!=TIMEXMMU || !enable_timexmmu))
             dout = {1'b1,post_processed_ear,1'b1,kbd};
          else if (a==ULAPLUSADDR && !disable_ulaplus)
             dout = {1'b0,PaletteReg};

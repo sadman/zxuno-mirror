@@ -39,14 +39,14 @@ module coreid (
       text[ 1] = "2";
       text[ 2] = "4";
       text[ 3] = "-";
-      text[ 4] = "2";
-      text[ 5] = "5";
-      text[ 6] = "1";
+      text[ 4] = "0";
+      text[ 5] = "8";
+      text[ 6] = "0";
       text[ 7] = "1";
       text[ 8] = "2";
       text[ 9] = "0";
       text[10] = "1";
-      text[11] = "6";
+      text[11] = "7";
     end      
     
     reg [3:0] textindx = 4'h0;

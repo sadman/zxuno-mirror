@@ -166,9 +166,9 @@ module new_memory (
       end
    end
     
-`define ADDR_7FFD_PLUS2A (!a[1] && a[15:14]==2'b01)
-`define ADDR_7FFD_SP128 (!a[1] && !a[15])
-`define ADDR_1FFD (!a[1] && a[15:12]==4'b0001)
+`define ADDR_7FFD_PLUS2A (!a[1] && a[15:14]==2'b01 && (!enable_timexmmu || a[7:0]!=8'hF4))
+`define ADDR_7FFD_SP128 (!a[1] && !a[15] && (!enable_timexmmu || a[7:0]!=8'hF4))
+`define ADDR_1FFD (!a[1] && a[15:12]==4'b0001 && (!enable_timexmmu || a[7:0]!=8'hF4))
 `define ADDR_TIMEX_MMU (a[7:0] == 8'hF4)
 
 `define PAGE0 3'b000
