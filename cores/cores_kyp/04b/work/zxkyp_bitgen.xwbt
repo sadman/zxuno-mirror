@@ -1,8 +1,0 @@
-INTSTYLE=ise
-INFILE=D:\ricardo\Proyectos\fpga\zxkyp\zxkyp04b\work\zxkyp.ncd
-OUTFILE=D:\ricardo\Proyectos\fpga\zxkyp\zxkyp04b\work\zxkyp.bit
-FAMILY=Spartan6
-PART=xc6slx9-2tqg144
-WORKINGDIR=D:\ricardo\Proyectos\fpga\zxkyp\zxkyp04b\work
-LICENSE=WebPack
-USER_INFO=210862246_0_0_612
