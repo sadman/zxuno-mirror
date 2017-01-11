@@ -1,8 +1,0 @@
-INTSTYLE=impact
-INFILE=D:\ricardo\Proyectos\fpga\zxkyp\zxkyp01\impact.xsl
-OUTFILE=D:\ricardo\Proyectos\fpga\zxkyp\zxkyp01\impact.xsl
-FAMILY=Single
-PART=Single
-WORKINGDIR=D:\ricardo\Proyectos\fpga\zxkyp\zxkyp01
-LICENSE=iMPACT
-USER_INFO=iMPACT
