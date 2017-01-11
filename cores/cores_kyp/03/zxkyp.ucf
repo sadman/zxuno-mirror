@@ -1,0 +1,94 @@
+#
+#
+#
+
+# Clock #######################################################################
+
+NET "clock50"      LOC="P55" | IOSTANDARD = LVCMOS33 | PERIOD=20ns;
+
+# Video #######################################################################
+
+NET "rgb<8>"       LOC="P81" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<7>"       LOC="P80" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<6>"       LOC="P79" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<5>"       LOC="P84" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<4>"       LOC="P83" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<3>"       LOC="P82" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<2>"       LOC="P93" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<1>"       LOC="P92" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "rgb<0>"       LOC="P88" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+
+NET "sync<1>"      LOC="P85" | IOSTANDARD = LVCMOS33 | SLEW=FAST; # vs
+NET "sync<0>"      LOC="P87" | IOSTANDARD = LVCMOS33 | SLEW=FAST; # hs
+
+NET "stdn<1>"      LOC="P66" | IOSTANDARD = LVCMOS33; # stdn <= "10" NTSC
+NET "stdn<0>"      LOC="P67" | IOSTANDARD = LVCMOS33; # stdn <= "01" PAL
+
+# Audio #######################################################################
+
+NET "ear"          LOC="P94"  | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+
+NET "audio<0>"     LOC="P10"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # left
+NET "audio<1>"     LOC="P9"   | IOSTANDARD = LVCMOS33 | SLEW=FAST; # right
+
+# PS/2 ########################################################################
+
+NET "ps2<0>"       LOC="P99"  | IOSTANDARD = LVCMOS33 | SLEW=FAST | PULLUP; # keyboard clock
+NET "ps2<1>"       LOC="P98"  | IOSTANDARD = LVCMOS33 | SLEW=FAST | PULLUP; # keyboard data
+
+# SRAM ########################################################################
+
+NET "sramWr"       LOC="P121" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+
+NET "sramData<7>"  LOC="P126" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<6>"  LOC="P119" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<5>"  LOC="P117" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<4>"  LOC="P115" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<3>"  LOC="P123" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<2>"  LOC="P124" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<1>"  LOC="P127" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramData<0>"  LOC="P132" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+
+#NET "sramAddr<20>" LOC="P143" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+#NET "sramAddr<19>" LOC="P105" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<18>" LOC="P142" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<17>" LOC="P140" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<16>" LOC="P138" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<15>" LOC="P131" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<14>" LOC="P111" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<13>" LOC="P100" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<12>" LOC="P101" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<11>" LOC="P102" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<10>" LOC="P104" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<9>"  LOC="P112" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<8>"  LOC="P114" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<7>"  LOC="P116" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<6>"  LOC="P118" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<5>"  LOC="P120" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<4>"  LOC="P133" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<3>"  LOC="P134" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<2>"  LOC="P137" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<1>"  LOC="P139" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+NET "sramAddr<0>"  LOC="P141" | IOSTANDARD = LVCMOS33 | SLEW=FAST;
+
+## Expansión ###################################################################
+#
+#NET "segment<7>"   LOC="P23"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<28>" # dot
+#NET "segment<6>"   LOC="P27"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<25>" # g
+#NET "segment<5>"   LOC="P26"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<26>" # f
+#NET "segment<4>"   LOC="P21"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<30>" # e
+#NET "segment<3>"   LOC="P12"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<35>" # d
+#NET "segment<2>"   LOC="P24"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<27>" # c
+#NET "segment<1>"   LOC="P22"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<29>" # b
+#NET "segment<0>"   LOC="P16"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<32>" # a
+#
+#NET "digit<3>"     LOC="P32"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<22>"
+#NET "digit<2>"     LOC="P15"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<33>"
+#NET "digit<1>"     LOC="P29"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<24>"
+#NET "digit<0>"     LOC="P30"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<23>"
+#
+#NET "led<4>"       LOC="P47"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<12>"
+#NET "led<3>"       LOC="P43"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<16>"
+#NET "led<2>"       LOC="P41"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<17>"
+#NET "led<1>"       LOC="P35"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<19>"
+#NET "led<0>"       LOC="P34"  | IOSTANDARD = LVCMOS33 | SLEW=FAST; # "ext<20>"
