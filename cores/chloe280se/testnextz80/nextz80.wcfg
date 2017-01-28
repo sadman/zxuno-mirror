@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="D:/Users/rodriguj/Documents/zxspectrum/zxuno/repositorio/cores/chloe280se/testnextz80/tb_nextz80_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_nextz80" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="14" />
+   <wvobject fp_name="/tb_nextz80/CLK" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/ADDR" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">ADDR[15:0]</obj_property>
+      <obj_property name="ObjectShortName">ADDR[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/MREQ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">MREQ</obj_property>
+      <obj_property name="ObjectShortName">MREQ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/M1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">M1</obj_property>
+      <obj_property name="ObjectShortName">M1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/AfterM1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">AfterM1</obj_property>
+      <obj_property name="ObjectShortName">AfterM1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/DO" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">DO[7:0]</obj_property>
+      <obj_property name="ObjectShortName">DO[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/DI" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">DI[7:0]</obj_property>
+      <obj_property name="ObjectShortName">DI[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/WR" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">WR</obj_property>
+      <obj_property name="ObjectShortName">WR</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/IORQ" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">IORQ</obj_property>
+      <obj_property name="ObjectShortName">IORQ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/HALT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">HALT</obj_property>
+      <obj_property name="ObjectShortName">HALT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/RESET" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">RESET</obj_property>
+      <obj_property name="ObjectShortName">RESET</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/INT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">INT</obj_property>
+      <obj_property name="ObjectShortName">INT</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/NMI" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">NMI</obj_property>
+      <obj_property name="ObjectShortName">NMI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_nextz80/WAIT" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">WAIT</obj_property>
+      <obj_property name="ObjectShortName">WAIT</obj_property>
+   </wvobject>
+</wave_config>
