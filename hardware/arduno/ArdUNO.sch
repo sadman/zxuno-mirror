@@ -7247,7 +7247,7 @@ Source: AVX .. aphvc.pdf</description>
 <instance part="SJ2" gate="G$1" x="203.2" y="96.52" rot="R180"/>
 <instance part="SJ3" gate="G$1" x="210.82" y="93.98" rot="R180"/>
 <instance part="SJ4" gate="G$1" x="195.58" y="88.9" rot="R180"/>
-<instance part="SJ5" gate="G$1" x="205.74" y="83.82" rot="R180"/>
+<instance part="SJ5" gate="G$1" x="205.74" y="81.28" rot="R180"/>
 <instance part="R1" gate="G$1" x="104.14" y="73.66" rot="R180"/>
 <instance part="R2" gate="G$1" x="104.14" y="68.58" rot="R180"/>
 <instance part="C2" gate="G$1" x="10.16" y="116.84" rot="R90"/>
@@ -7360,7 +7360,6 @@ Source: AVX .. aphvc.pdf</description>
 </segment>
 <segment>
 <pinref part="SJ5" gate="G$1" pin="1"/>
-<wire x1="205.74" y1="78.74" x2="205.74" y2="76.2" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="76.2" x2="210.82" y2="76.2" width="0.1524" layer="91"/>
 <label x="208.28" y="76.2" size="1.778" layer="95"/>
 </segment>
@@ -7422,6 +7421,11 @@ Source: AVX .. aphvc.pdf</description>
 <pinref part="IC1" gate="G$1" pin="(ADC1)PA1"/>
 <label x="86.36" y="104.14" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="91.44" x2="167.64" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P28"/>
+<label x="160.02" y="91.44" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="LED1" class="0">
 <segment>
@@ -7453,6 +7457,11 @@ Source: AVX .. aphvc.pdf</description>
 <label x="132.08" y="63.5" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(OC2)PD7"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="71.12" x2="167.64" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P33"/>
+<label x="160.02" y="71.12" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="IEC_10/11" class="0">
 <segment>
@@ -7462,13 +7471,13 @@ Source: AVX .. aphvc.pdf</description>
 <label x="132.08" y="58.42" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(OC1A)PD5"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="78.74" x2="167.64" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P31"/>
+<label x="160.02" y="78.74" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SS" class="0">
-<segment>
-<wire x1="83.82" y1="88.9" x2="73.66" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="IC1" gate="G$1" pin="(/SS)PB4"/>
-<label x="76.2" y="88.9" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="SJ2" gate="G$1" pin="1"/>
 <wire x1="203.2" y1="91.44" x2="203.2" y2="71.12" width="0.1524" layer="91"/>
@@ -7507,6 +7516,11 @@ Source: AVX .. aphvc.pdf</description>
 <label x="132.08" y="81.28" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(TMS)PC3"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="68.58" x2="167.64" y2="68.58" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P34"/>
+<label x="160.02" y="68.58" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="ATN" class="0">
 <segment>
@@ -7514,12 +7528,22 @@ Source: AVX .. aphvc.pdf</description>
 <pinref part="IC1" gate="G$1" pin="(ADC0)PA0"/>
 <label x="86.36" y="101.6" size="1.778" layer="95"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="86.36" x2="167.64" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P29"/>
+<label x="160.02" y="86.36" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="CLK" class="0">
 <segment>
 <wire x1="73.66" y1="106.68" x2="91.44" y2="106.68" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="(ADC2)PA2"/>
 <label x="86.36" y="106.68" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="83.82" x2="167.64" y2="83.82" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P30"/>
+<label x="160.02" y="83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$7" class="0">
@@ -7552,12 +7576,22 @@ Source: AVX .. aphvc.pdf</description>
 <label x="76.2" y="40.64" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(INT1)PD3"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="129.54" x2="167.64" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P18"/>
+<label x="160.02" y="129.54" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="TXD0" class="0">
 <segment>
 <wire x1="73.66" y1="35.56" x2="83.82" y2="35.56" width="0.1524" layer="91"/>
 <label x="76.2" y="35.56" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(TXD)PD1"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="137.16" x2="167.64" y2="137.16" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P16"/>
+<label x="160.02" y="137.16" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RXD0" class="0">
@@ -7566,12 +7600,22 @@ Source: AVX .. aphvc.pdf</description>
 <label x="76.2" y="33.02" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(RXD)PD0"/>
 </segment>
+<segment>
+<wire x1="160.02" y1="132.08" x2="167.64" y2="132.08" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P17"/>
+<label x="160.02" y="132.08" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="IECRESERVE" class="0">
 <segment>
 <wire x1="73.66" y1="109.22" x2="91.44" y2="109.22" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="(ADC3)PA3"/>
 <label x="86.36" y="109.22" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="76.2" x2="167.64" y2="76.2" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P32"/>
+<label x="160.02" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESERVE" class="0">
@@ -7581,6 +7625,11 @@ Source: AVX .. aphvc.pdf</description>
 <wire x1="93.98" y1="60.96" x2="73.66" y2="60.96" width="0.1524" layer="91"/>
 <label x="132.08" y="76.2" size="1.6764" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="(TCK)PC2"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="63.5" x2="167.64" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P35"/>
+<label x="160.02" y="63.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$8" class="0">
@@ -7668,18 +7717,21 @@ Source: AVX .. aphvc.pdf</description>
 <segment>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P6"/>
 <wire x1="160.02" y1="175.26" x2="167.64" y2="175.26" width="0.1524" layer="91"/>
+<label x="160.02" y="175.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="P7" class="0">
 <segment>
 <wire x1="160.02" y1="172.72" x2="167.64" y2="172.72" width="0.1524" layer="91"/>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P7"/>
+<label x="160.02" y="172.72" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="P8" class="0">
 <segment>
 <wire x1="160.02" y1="167.64" x2="167.64" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P8"/>
+<label x="160.02" y="167.64" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="P9" class="0">
@@ -7724,57 +7776,40 @@ Source: AVX .. aphvc.pdf</description>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P15"/>
 </segment>
 </net>
-<net name="P16" class="0">
-<segment>
-<wire x1="160.02" y1="137.16" x2="167.64" y2="137.16" width="0.1524" layer="91"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P16"/>
-</segment>
-</net>
-<net name="P17" class="0">
-<segment>
-<wire x1="160.02" y1="132.08" x2="167.64" y2="132.08" width="0.1524" layer="91"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P17"/>
-</segment>
-</net>
-<net name="P18" class="0">
-<segment>
-<wire x1="160.02" y1="129.54" x2="167.64" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P18"/>
-</segment>
-</net>
 <net name="P19" class="0">
 <segment>
 <wire x1="160.02" y1="124.46" x2="167.64" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P19"/>
+<label x="160.02" y="124.46" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="83.82" y1="86.36" x2="73.66" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="(AIN1/OC0)PB3"/>
+<label x="76.2" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="P20" class="0">
 <segment>
 <wire x1="160.02" y1="121.92" x2="167.64" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="ZXUNO_CONN" gate="G$1" pin="P20"/>
+<label x="160.02" y="121.92" size="1.778" layer="95"/>
 </segment>
-</net>
-<net name="P21" class="0">
 <segment>
-<wire x1="160.02" y1="116.84" x2="167.64" y2="116.84" width="0.1524" layer="91"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P21"/>
-</segment>
-</net>
-<net name="P22" class="0">
-<segment>
-<wire x1="160.02" y1="114.3" x2="167.64" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="ZXUNO_CONN" gate="G$1" pin="P22"/>
+<wire x1="83.82" y1="88.9" x2="73.66" y2="88.9" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="(/SS)PB4"/>
+<label x="76.2" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="SD1" gate="G$1" pin="DAT0(DO)"/>
-<pinref part="SJ5" gate="G$1" pin="2"/>
 <wire x1="233.68" y1="83.82" x2="226.06" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="R18" gate="G$1" pin="1"/>
-<wire x1="226.06" y1="83.82" x2="210.82" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="99.06" x2="226.06" y2="83.82" width="0.1524" layer="91"/>
 <junction x="226.06" y="83.82"/>
+<pinref part="SJ5" gate="G$1" pin="2"/>
+<wire x1="210.82" y1="81.28" x2="210.82" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="83.82" x2="226.06" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -7791,42 +7826,107 @@ Source: AVX .. aphvc.pdf</description>
 <wire x1="233.68" y1="96.52" x2="208.28" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$10" class="0">
+<net name="FMISO" class="0">
 <segment>
-<pinref part="SD1" gate="G$1" pin="CLK(SCLK)"/>
-<pinref part="SJ4" gate="G$1" pin="2"/>
-<wire x1="233.68" y1="88.9" x2="205.74" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="205.74" y1="88.9" x2="200.66" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="205.74" y1="88.9" x2="205.74" y2="116.84" width="0.1524" layer="91"/>
 <wire x1="205.74" y1="116.84" x2="215.9" y2="116.84" width="0.1524" layer="91"/>
+<label x="210.82" y="116.84" size="1.778" layer="95"/>
+<pinref part="SJ5" gate="G$1" pin="3"/>
+<wire x1="205.74" y1="116.84" x2="205.74" y2="86.36" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="99.06" x2="167.64" y2="99.06" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P26"/>
+<label x="160.02" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="FSCK" class="0">
 <segment>
 <pinref part="SJ4" gate="G$1" pin="3"/>
 <wire x1="195.58" y1="93.98" x2="195.58" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="195.58" y1="121.92" x2="215.9" y2="121.92" width="0.1524" layer="91"/>
+<label x="210.82" y="121.92" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="101.6" x2="167.64" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P25"/>
+<label x="160.02" y="101.6" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$15" class="0">
+<net name="FSS" class="0">
 <segment>
 <pinref part="SJ2" gate="G$1" pin="3"/>
 <wire x1="203.2" y1="101.6" x2="203.2" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="119.38" x2="215.9" y2="119.38" width="0.1524" layer="91"/>
+<label x="210.82" y="119.38" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$16" class="0">
+<net name="FMOSI" class="0">
 <segment>
 <pinref part="SJ3" gate="G$1" pin="3"/>
 <wire x1="210.82" y1="99.06" x2="210.82" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="210.82" y1="114.3" x2="215.9" y2="114.3" width="0.1524" layer="91"/>
+<label x="210.82" y="114.3" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="106.68" x2="167.64" y2="106.68" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P24"/>
+<label x="160.02" y="106.68" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$17" class="0">
+<net name="OSC" class="0">
 <segment>
 <pinref part="SJ1" gate="G$1" pin="1"/>
 <wire x1="20.32" y1="96.52" x2="20.32" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="20.32" y1="91.44" x2="12.7" y2="91.44" width="0.1524" layer="91"/>
+<label x="12.7" y="91.44" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="160.02" y1="93.98" x2="167.64" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P27"/>
+<label x="160.02" y="93.98" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$10" class="0">
+<segment>
+<pinref part="SD1" gate="G$1" pin="CLK(SCLK)"/>
+<pinref part="SJ4" gate="G$1" pin="2"/>
+<wire x1="233.68" y1="88.9" x2="200.66" y2="88.9" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="P23" class="0">
+<segment>
+<wire x1="160.02" y1="109.22" x2="167.64" y2="109.22" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P23"/>
+<label x="160.02" y="109.22" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="83.82" y1="81.28" x2="73.66" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="(T1)PB1"/>
+<label x="76.2" y="81.28" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P22" class="0">
+<segment>
+<wire x1="160.02" y1="114.3" x2="167.64" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P22"/>
+<label x="160.02" y="114.3" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="83.82" y1="78.74" x2="73.66" y2="78.74" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="(XCK/T0)PB0"/>
+<label x="76.2" y="78.74" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="P21" class="0">
+<segment>
+<wire x1="160.02" y1="116.84" x2="167.64" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="ZXUNO_CONN" gate="G$1" pin="P21"/>
+<label x="160.02" y="116.84" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="83.82" y1="83.82" x2="73.66" y2="83.82" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="(AIN0/INT2)PB2"/>
+<label x="76.2" y="83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
