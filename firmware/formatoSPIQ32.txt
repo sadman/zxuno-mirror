@@ -14,15 +14,52 @@
 2A4000-2F8000 Bitstream 8
 2F8000-34C000 Bitstream 9
 34C000-400000 (size B4000 = 720K) Reserved for other 45 spectrum roms (64 in total)
+400000-453FFF Bitstream 10
+454000-4A7FFF Bitstream 11
+4A8000-4FBFFF Bitstream 12
+4FC000-54FFFF Bitstream 13
+550000-5A3FFF Bitstream 14
+5A4000-5F7FFF Bitstream 15
+5F8000-64BFFF Bitstream 16
+64C000-69FFFF Bitstream 17
+6A0000-6F3FFF Bitstream 18
+6F4000-747FFF Bitstream 19
+748000-79BFFF Bitstream 20
+79C000-7EFFFF Bitstream 21
+7F0000-843FFF Bitstream 22
+844000-897FFF Bitstream 23
+898000-8EBFFF Bitstream 24
+8EC000-93FFFF Bitstream 25
+940000-993FFF Bitstream 26
+994000-9E7FFF Bitstream 27
+9E8000-A3BFFF Bitstream 28
+A3C000-A8FFFF Bitstream 29
+A90000-AE3FFF Bitstream 30
+AE4000-B37FFF Bitstream 31
+B38000-B8BFFF Bitstream 32
+B8C000-BDFFFF Bitstream 33
+BE0000-C33FFF Bitstream 34
+C34000-C87FFF Bitstream 35
+C88000-CDBFFF Bitstream 36
+CDC000-D2FFFF Bitstream 37
+D30000-D83FFF Bitstream 38
+D84000-DD7FFF Bitstream 39
+DD8000-E2BFFF Bitstream 40
+E2C000-E7FFFF Bitstream 41
+E80000-ED3FFF Bitstream 42
+ED4000-F27FFF Bitstream 43
+F28000-F7BFFF Bitstream 44
+F7C000-FCFFFF Bitstream 45
 
 (006000-008000) ROM Directory
 --6000-7000 ROM Entries and Bitstream names
-----6000-64C0 First 19 entries (points to 004000)
+----6000-64C0 First 19 entries (points to 00C000)
 ----64C0-7000 Last 45 entries (points to 34C000)
 --7000-8000 Entry index and Bitstream names
 ----7000-704F Entry index
-----7100-7200 8 Bitstream names (32 bytes each)
-----7200-8000 Reserved
+----7100-7200 8 Bitstream names of Q32 (32 bytes each)
+----7200-7680 36 Next bitstream names in Q128 (32 bytes each)
+----7680-8000 Reserved
 
 ROM entry
   00 slot offset

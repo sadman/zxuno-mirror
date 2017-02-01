@@ -10,26 +10,28 @@ unsigned short j, k;
 int main(int argc, char *argv[]) {
   if( argc==1 )
     printf("\n"
-    "AddItem v0.01, simulates Machine and ROM addition to the ZX-Uno flash image\n\n"
+    "AddItem v0.02, simulates Machine and ROM addition to the ZX-Uno flash image\n\n"
     "  AddItem        <type> <input_file> <slot>\n\n"
-    "  <type>         ROM or COREX, when 2<=X<=9, i.e. CORE5\n"
+    "  <type>         ROM or COREX, when 2<=X<=45, i.e. CORE5\n"
     "  <input_file>   Input .TAP file generate with GenRom\n"
     "  <slot>         Number of slot from 0 to 63, only when type is ROM\n\n"
     "All modifications occur in the file FLASH.ZX1\n\n"),
     exit(0);
   fo= fopen("FLASH.ZX1", "rb+");
-  if( strstr(argv[1], "CORE")==argv[1] && strlen(argv[1])==5
-      && argv[1][4]<='9' && argv[1][4]>='2' && argc==3 ){
-    core= argv[1][4]-'2';
+  if( strstr(argv[1], "CORE")==argv[1] && strlen(argv[1])<=6 && strlen(argv[1])>=5 && argc==3 ){
+    core= (strlen(argv[1])==5 ? argv[1][4] : (argv[1][4]-'0')*10+argv[1][5])-'2';
+    if( core>43 )
+      printf("\nCore number out of range: %d\n", core+2),
+      exit(-1);
     fi= fopen(argv[2], "rb");
     if( !fi )
       printf("\nInput file not found: %s\n", argv[2]),
       exit(-1);
     fread(mem, 1, 0x58, fi);
-    fseek(fo, 0x7100|core<<5, SEEK_SET);
+    fseek(fo, 0x7100+(core<<5), SEEK_SET);
     fwrite(mem+0x34, 1, 0x20, fo);
     j= mem[3];
-    fseek(fo, 0xac000+core*0x54000, SEEK_SET);
+    fseek(fo, (core>7?0x160000:0xac000)+core*0x54000, SEEK_SET);
     for ( i=0; i<j; i++ )
       fread(mem, 1, 0x4004, fi),
       fwrite(mem, 1, 0x4000, fo);
