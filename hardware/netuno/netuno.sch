@@ -534,8 +534,8 @@
 <wire x1="83.82" y1="-7.62" x2="83.82" y2="7.62" width="0.254" layer="94"/>
 <wire x1="83.82" y1="7.62" x2="-40.64" y2="7.62" width="0.254" layer="94"/>
 <wire x1="-40.64" y1="7.62" x2="-40.64" y2="-7.62" width="0.254" layer="94"/>
-<pin name="3.3V@1" x="88.9" y="2.54" visible="pin" length="middle" direction="pwr" rot="R180"/>
-<pin name="3.3V@2" x="88.9" y="0" visible="pin" length="middle" direction="pwr" rot="R180"/>
+<pin name="3.3V@1" x="88.9" y="2.54" visible="pin" length="middle" rot="R180"/>
+<pin name="3.3V@2" x="88.9" y="0" visible="pin" length="middle" rot="R180"/>
 <pin name="5V" x="88.9" y="5.08" visible="pin" length="middle" direction="pwr" rot="R180"/>
 <pin name="GND@1" x="88.9" y="-2.54" visible="pin" length="middle" direction="pwr" rot="R180"/>
 <pin name="GND@2" x="88.9" y="-5.08" visible="pin" length="middle" direction="pwr" rot="R180"/>
