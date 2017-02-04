@@ -40,9 +40,9 @@ module coreid (
       text[ 2] = "4";
       text[ 3] = "-";
       text[ 4] = "0";
-      text[ 5] = "8";
+      text[ 5] = "4";
       text[ 6] = "0";
-      text[ 7] = "1";
+      text[ 7] = "2";
       text[ 8] = "2";
       text[ 9] = "0";
       text[10] = "1";

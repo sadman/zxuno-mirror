@@ -117,6 +117,7 @@ module zxuno (
    wire spk;
    wire [7:0] ay1_audio;
    wire [7:0] ay2_audio;
+   wire [7:0] specdrum_audio;
    
    // Interfaz de acceso al teclado
    wire [4:0] kbdcol;
@@ -578,6 +579,16 @@ module zxuno (
         .oe_n(oe_n_multiboot)
     );
 
+    specdrum the_specdrum (
+        .clk(cpuclkplain),
+        .rst_n(rst_n & mrst_n & power_on_reset_n),
+        .a(cpuaddr[7:0]),
+        .iorq_n(iorq_n),
+        .wr_n(wr_n),
+        .d(cpudout),
+        .specdrum_out(specdrum_audio)
+    );
+
 
 ///////////////////////////////////
 // AY-3-8912 SOUND
@@ -619,6 +630,7 @@ module zxuno (
       .ear(ear),
       .ay1(ay1_audio),
 		.ay2(ay2_audio),
+      .specdrum(specdrum_audio),
 		// PWM output mixed (monoaural ATM)
 		.audio(audio_out)
 	);

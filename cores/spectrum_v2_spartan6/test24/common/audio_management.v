@@ -60,13 +60,15 @@ module mixer (
 	input wire spk,
 	input wire [7:0] ay1,
 	input wire [7:0] ay2,
+   input wire [7:0] specdrum,
 	output wire audio
 	);
 
     parameter
         SRC_BEEPER = 2'd0,
         SRC_AY1    = 2'd1,
-        SRC_AY2    = 2'd2;
+        SRC_AY2    = 2'd2,
+        SRC_SPECD  = 2'd3;
 
 	wire [7:0] beeper = ({ear,spk,mic}==3'b000)? 8'd17 :
 						({ear,spk,mic}==3'b001)? 8'd36 :
@@ -84,8 +86,9 @@ module mixer (
             SRC_BEEPER: mezcla <= beeper;
             SRC_AY1   : mezcla <= ay1;
             SRC_AY2   : mezcla <= ay2;
+            SRC_SPECD : mezcla <= specdrum;
         endcase
-        sndsource <= (sndsource == 2'd2)? 2'd0 : sndsource + 2'd1;  // en lugar de sumar, multiplexamos en el tiempo las fuentes de sonido
+        sndsource <= (sndsource == 2'd3)? 2'd0 : sndsource + 2'd1;  // en lugar de sumar, multiplexamos en el tiempo las fuentes de sonido
     end
 
 	dac audio_dac (
