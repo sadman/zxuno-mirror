@@ -55,8 +55,8 @@ module control_enable_options(
     assign disable_romsel1f = devoptions[5];
     assign enable_timexmmu = devoptions[6];
     assign disable_spisd = devoptions[7];
-    assign disable_timexscr = devopts2[0];
-    assign disable_ulaplus = devopts2[1];
+    assign disable_ulaplus = devopts2[0];
+    assign disable_timexscr = devopts2[1];
     assign disable_radas = devopts2[2];
     
     always @(posedge clk) begin
