@@ -87,10 +87,6 @@ module tld_zxuno_v4 (
 	 .cpuclkplain        (cpuclkplain)
     );
 
-   wire audio_out;
-   assign audio_out_left = audio_out;
-   assign audio_out_right = audio_out;
-
    wire [2:0] ri, gi, bi;
    wire hsync_pal, vsync_pal, csync_pal;   
    
@@ -114,7 +110,8 @@ module tld_zxuno_v4 (
     .clkps2(clkps2),
     .dataps2(dataps2),
     .ear(~ear),  // negada porque el hardware tiene un transistor inversor
-    .audio_out(audio_out),
+    .audio_out_left(audio_out_left),
+    .audio_out_right(audio_out_right),
 
     .sram_addr(sram_addr[18:0]),
     .sram_data(sram_data),

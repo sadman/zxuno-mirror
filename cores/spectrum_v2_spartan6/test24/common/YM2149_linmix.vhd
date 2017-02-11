@@ -74,6 +74,9 @@ entity YM2149 is
   I_SEL_L             : in  std_logic;
 
   O_AUDIO             : out std_logic_vector(7 downto 0);
+  O_AUDIO_A           : out std_logic_vector(7 downto 0);
+  O_AUDIO_B           : out std_logic_vector(7 downto 0);
+  O_AUDIO_C           : out std_logic_vector(7 downto 0);
   -- port a
   I_IOA               : in  std_logic_vector(7 downto 0);
   O_IOA               : out std_logic_vector(7 downto 0);
@@ -592,15 +595,27 @@ begin
         audio_final <= audio_mix;
       else
         audio_mix   <= audio_mix + ("00" & dac_amp);
-      end if;
+      end if;      
 
       if (RESET_L = '0') then
         O_AUDIO(7 downto 0) <= "00000000";
+        O_AUDIO_A(7 downto 0) <= "00000000";
+        O_AUDIO_B(7 downto 0) <= "00000000";
+        O_AUDIO_C(7 downto 0) <= "00000000";
       else
         if (audio_final(9) = '0') then
           O_AUDIO(7 downto 0) <= audio_final(8 downto 1);
         else -- clip
           O_AUDIO(7 downto 0) <= x"FF";
+        end if;
+        if (cnt_div(1 downto 0) = "11") then
+          O_AUDIO_A(7 downto 0) <= dac_amp;
+        end if;
+        if (cnt_div(1 downto 0) = "00") then
+          O_AUDIO_B(7 downto 0) <= dac_amp;
+        end if;
+        if (cnt_div(1 downto 0) = "01") then
+          O_AUDIO_C(7 downto 0) <= dac_amp;
         end if;
       end if;
     end if;

@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-`define MSBI 7 // Most significant Bit of DAC input
+`define MSBI 8 // Most significant Bit of DAC input
 
 //This is a Delta-Sigma Digital to Analog Converter
 module dac (DACout, DACin, Clk, Reset);
@@ -58,19 +58,27 @@ module mixer (
 	input wire ear,
 	input wire mic,
 	input wire spk,
-	input wire [7:0] ay1,
-	input wire [7:0] ay2,
+	input wire [7:0] ay1_cha,
+	input wire [7:0] ay1_chb,
+	input wire [7:0] ay1_chc,
+	input wire [7:0] ay2_cha,
+	input wire [7:0] ay2_chb,
+	input wire [7:0] ay2_chc,
    input wire [7:0] specdrum,
 	output wire audio
 	);
 
     parameter
-        SRC_BEEPER = 2'd0,
-        SRC_AY1    = 2'd1,
-        SRC_AY2    = 2'd2,
-        SRC_SPECD  = 2'd3;
+        SRC_BEEPER  = 3'd0,
+        SRC_AY1_CHA = 3'd1,
+        SRC_AY1_CHB = 3'd2,
+        SRC_AY1_CHC = 3'd3,
+        SRC_AY2_CHA = 3'd4,
+        SRC_AY2_CHB = 3'd5,
+        SRC_AY2_CHC = 3'd6,
+        SRC_SPECD   = 3'd7;
 
-	wire [7:0] beeper = ({ear,spk,mic}==3'b000)? 8'd17 :
+	wire [7:0] beeper = ({ear,spk,mic}==4'h0)? 8'd17 :
 						({ear,spk,mic}==3'b001)? 8'd36 :
 					    ({ear,spk,mic}==3'b010)? 8'd184 :
 					    ({ear,spk,mic}==3'b011)? 8'd192 :
@@ -79,16 +87,20 @@ module mixer (
 					    ({ear,spk,mic}==3'b110)? 8'd244 : 8'd255;
 	
     reg [7:0] mezcla;
-    reg [1:0] sndsource = 2'd0;
+    reg [2:0] sndsource = 3'd0;
 	
 	always @(posedge clkdac) begin
         case (sndsource)
-            SRC_BEEPER: mezcla <= beeper;
-            SRC_AY1   : mezcla <= ay1;
-            SRC_AY2   : mezcla <= ay2;
-            SRC_SPECD : mezcla <= specdrum;
+            SRC_BEEPER  : mezcla <= beeper;
+            SRC_AY1_CHA : mezcla <= ay1_cha;
+            SRC_AY1_CHB : mezcla <= ay1_chb;
+            SRC_AY1_CHC : mezcla <= ay1_chc;
+            SRC_AY2_CHA : mezcla <= ay2_cha;
+            SRC_AY2_CHB : mezcla <= ay2_chb;
+            SRC_AY2_CHC : mezcla <= ay2_chc;
+            SRC_SPECD   : mezcla <= specdrum;
         endcase
-        sndsource <= (sndsource == 2'd3)? 2'd0 : sndsource + 2'd1;  // en lugar de sumar, multiplexamos en el tiempo las fuentes de sonido
+        sndsource <= sndsource + 3'd1;  // en lugar de sumar, multiplexamos en el tiempo las fuentes de sonido
     end
 
 	dac audio_dac (
@@ -98,3 +110,158 @@ module mixer (
 		.Reset(reset)
 		);
 endmodule
+
+/*
+The sound mix is controlled by port #F7 (sets the mix for the
+currently selected PSG). There are two channels for the beeper.
+When one channel is active the beeper is at the same volume level as
+a single PSG channel at full volume. When both are active and have
+the same pan it is then double the volume of a single PSG channel.
+This approximates the relative loudness of the beeper on 128K
+machines.
+
+D6-7:	channel A
+D4-5:	channel B
+D3-2:	channel C
+D1-0:	channel D (beeper)
+
+Panning is limited to switching a channel on or off for a given
+speaker. The bits are decoded as follows:
+
+00 = mute
+10 = left
+01 = right
+11 = both
+
+The default port value on reset is zero (all channels off).
+*/
+module panner_and_mixer (
+   input wire clk,
+   input wire mrst_n,
+   input wire [7:0] a,
+   input wire iorq_n,
+   input wire rd_n,
+   input wire wr_n,
+   input wire [7:0] din,
+   output reg [7:0] dout,
+   output reg oe_n,
+   //--- SOUND SOURCES ---
+   input wire mic,
+   input wire ear,
+   input wire spk,
+   input wire [7:0] ay1_cha,
+   input wire [7:0] ay1_chb,
+   input wire [7:0] ay1_chc,
+   input wire [7:0] ay2_cha,
+   input wire [7:0] ay2_chb,
+   input wire [7:0] ay2_chc,
+   input wire [7:0] specdrum,
+   // --- OUTPUTs ---
+   output wire output_left,
+   output wire output_right
+   );
+   
+   // Register accepts data from CPU
+   reg [7:0] mixer = 8'b10011111; // ACB stereo mode, Specdrum and beeper on both channels
+   always @(posedge clk) begin
+      if (mrst_n == 1'b0)
+         mixer <= 8'b10011111;
+      else if (a == 8'hF7 && iorq_n == 1'b0 && wr_n == 1'b0)
+         mixer <= din;
+   end
+   
+   // CPU reads register
+   always @* begin
+      dout = mixer;
+      if (a == 8'hF7 && iorq_n == 1'b0 && rd_n == 1'b0)
+         oe_n = 1'b0;
+      else
+         oe_n = 1'b1;
+   end
+   
+   // Mixer
+	wire [7:0] beeper =  ({ear,spk,mic}==4'h0)? 8'd17 :
+                        ({ear,spk,mic}==3'b001)? 8'd36 :
+                        ({ear,spk,mic}==3'b010)? 8'd184 :
+                        ({ear,spk,mic}==3'b011)? 8'd192 :
+                        ({ear,spk,mic}==3'b100)? 8'd22 :
+                        ({ear,spk,mic}==3'b101)? 8'd48 :
+                        ({ear,spk,mic}==3'b110)? 8'd244 : 
+                                                 8'd255;
+   reg [11:0] mixleft = 12'h000;
+   reg [11:0] mixright = 12'h000;
+   reg [8:0] left, right;
+   reg [3:0] state = 4'd0;
+   always @(posedge clk) begin      
+      case (state)
+         4'd0: begin
+                  left <= mixleft[8:0];
+                  right <= mixright[8:0];
+                  
+                  if (mixer[7] == 1'b1)   // if channel A is going to the left
+                     mixleft <= {4'h0, ay1_cha} + {4'h0, ay2_cha};
+                  else
+                     mixleft <= 12'h000;
+               end
+         4'd1: begin
+                  if (mixer[6] == 1'b1)   // if channel A is going to the right...
+                     mixright <= {4'h0, ay1_cha} + {4'h0, ay2_cha};
+                  else
+                     mixright <= 12'h000;
+               end
+         4'd2: begin
+                  if (mixer[5] == 1'b1)   // if channel B is going to the left
+                     mixleft <= mixleft + {4'h0, ay1_chb} + {4'h0, ay2_chb};
+               end
+         4'd3: begin
+                  if (mixer[4] == 1'b1)   // if channel B is going to the right...
+                     mixright <= mixright + {4'h0, ay1_chb} + {4'h0, ay2_chb};
+               end
+         4'd4: begin
+                  if (mixer[3] == 1'b1)   // if channel C is going to the left
+                     mixleft <= mixleft + {4'h0, ay1_chc} + {4'h0, ay2_chc};
+               end
+         4'd5: begin
+                  if (mixer[2] == 1'b1)   // if channel C is going to the right...
+                     mixright <= mixright + {4'h0, ay1_chc} + {4'h0, ay2_chc};
+               end
+         4'd6: begin
+                  if (mixer[1] == 1'b1)   // if beeper+specdrum are going to the left
+                     mixleft <= mixleft + {4'h0, beeper} + {4'h0, specdrum};
+               end
+         4'd7: begin
+                  if (mixer[2] == 1'b1)   // if beeper+specdrum are going to the right...
+                     mixright <= mixright + {4'h0, beeper} + {4'h0, specdrum};
+               end
+         4'd8: begin // mixleft = 256+(mixleft-128*8)/4 y lo mismo con right
+                  mixleft <= mixleft + 12'hC00;
+                  mixright <= mixright + 12'hC00;
+               end
+         4'd9: begin
+                  mixleft  <= { {2{mixleft[11]}}, mixleft[11:2]};
+                  mixright <= { {2{mixright[11]}}, mixright[11:2]};
+               end
+         4'd10: begin
+                  mixleft <= mixleft + 12'd256;
+                  mixright <= mixright + 12'd256;
+                end
+      endcase
+      state <= (state == 4'd10)? 4'd0 : state + 4'd1;
+   end
+   
+   // DACs
+	dac audio_dac_left (
+		.DACout(output_left),
+		.DACin(left),
+		.Clk(clk),
+		.Reset(!mrst_n)
+		);
+   
+	dac audio_dac_right (
+		.DACout(output_right),
+		.DACin(right),
+		.Clk(clk),
+		.Reset(!mrst_n)
+		);
+endmodule
+   

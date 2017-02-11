@@ -129,10 +129,16 @@ module new_memory (
    wire mapram_mode = divmmc_ctrl[6];
    wire conmem = divmmc_ctrl[7];
    always @(posedge clk) begin
-      if (!mrst_n || !rst_n)
+      if (!mrst_n)
          divmmc_ctrl <= 8'h00;
-      else if (a[7:0]==8'he3 && !iorq_n && !wr_n)
-         divmmc_ctrl <= din;
+      else if (!rst_n)
+         divmmc_ctrl <= {1'b0, mapram_mode, 6'b000000};
+      else if (a[7:0]==8'he3 && !iorq_n && !wr_n) begin
+         if (mapram_mode == 1'b0)
+            divmmc_ctrl <= din;
+         else
+            divmmc_ctrl <= {din[7], 1'b1, din[5:0]};
+      end
    end
 
    // DIVMMC automapper
@@ -244,7 +250,7 @@ module new_memory (
                 // DIVMMC tiene más prioridad que la MMU del Timex, así que se evalua primero.
                 if (divmmc_is_enabled && (divmmc_is_paged || conmem)) begin  // DivMMC ha entrado en modo automapper o está mapeado a la fuerza
                    if (a[13]==1'b0) begin // Si estamos en los primeros 8K
-                      if (conmem || !mapram_mode) begin
+                      if (!mapram_mode || conmem) begin
                          addr_port2 = {6'b011000,a[12:0]};
                          we2_n = 1'b1;  // en este modo, la ROM es intocable
                       end
@@ -385,10 +391,10 @@ module new_memory (
    always @* begin
      access_to_screen = 1'b0;
      if (!initial_boot_mode) begin
-        if (a[15:13]==2'b010 && timex_mmu[2]==1'b1 ||  // si se ha paginado memoria de DOC o EXT, no hay contienda
-            a[15:13]==2'b011 && timex_mmu[3]==1'b1 ||
-            a[15:13]==2'b110 && timex_mmu[6]==1'b1 ||
-            a[15:13]==2'b111 && timex_mmu[7]==1'b1)
+        if (a[15:13]==3'b010 && timex_mmu[2]==1'b1 ||  // si se ha paginado memoria de DOC o EXT, no hay contienda
+            a[15:13]==3'b011 && timex_mmu[3]==1'b1 ||
+            a[15:13]==3'b110 && timex_mmu[6]==1'b1 ||
+            a[15:13]==3'b111 && timex_mmu[7]==1'b1)
                 access_to_screen = 1'b0;
         else if (!amstrad_allram_page_mode) begin
            if (a[15:14]==2'b01 || (a[15:14]==2'b11 && (/*banco_ram==3'd1 || banco_ram== 3'd3 || */banco_ram==3'd5 || banco_ram==3'd7))) begin

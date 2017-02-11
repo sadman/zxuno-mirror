@@ -32,7 +32,9 @@ module turbosound (
     output wire [7:0] dout,
     output wire oe_n,
     output wire [7:0] audio_out_ay1,
-    output wire [7:0] audio_out_ay2
+    output wire [7:0] audio_out_ay2,
+    output wire [23:0] audio_out_ay1_splitted,
+    output wire [23:0] audio_out_ay2_splitted
     );
 
 	reg ay_select = 1'b1;
@@ -61,6 +63,9 @@ YM2149 ay1 (
   .I_BC1(bc1),
   .I_SEL_L(1'b0),
   .O_AUDIO(audio_out_ay1),
+  .O_AUDIO_A(audio_out_ay1_splitted[23:16]),
+  .O_AUDIO_B(audio_out_ay1_splitted[15:8]),
+  .O_AUDIO_C(audio_out_ay1_splitted[7:0]),
   .I_IOA(8'h00),
   .O_IOA(),
   .O_IOA_OE_L(),
@@ -84,6 +89,9 @@ YM2149 ay2 (
   .I_BC1(bc1),
   .I_SEL_L(1'b0),
   .O_AUDIO(audio_out_ay2),
+  .O_AUDIO_A(audio_out_ay2_splitted[23:16]),
+  .O_AUDIO_B(audio_out_ay2_splitted[15:8]),
+  .O_AUDIO_C(audio_out_ay2_splitted[7:0]),
   .I_IOA(8'h00),
   .O_IOA(),
   .O_IOA_OE_L(),

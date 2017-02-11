@@ -41,7 +41,8 @@ module zxuno (
     inout wire clkps2,
     inout wire dataps2,
     input wire ear,
-    output wire audio_out,
+    output wire audio_out_left,
+    output wire audio_out_right,
     
     // SRAM
     output wire [18:0] sram_addr,
@@ -112,12 +113,16 @@ module zxuno (
    wire [7:0] spi_dout;
    wire oe_n_spi;
    
-   // Fuentes de sonido
+   // Fuentes de sonido y control del mixer
    wire mic;
    wire spk;
    wire [7:0] ay1_audio;
    wire [7:0] ay2_audio;
+   wire [7:0] ay1_cha, ay1_chb, ay1_chc;
+   wire [7:0] ay2_cha, ay2_chb, ay2_chc;
    wire [7:0] specdrum_audio;
+   wire [7:0] mixer_dout;
+   wire oe_n_mixer;
    
    // Interfaz de acceso al teclado
    wire [4:0] kbdcol;
@@ -220,6 +225,7 @@ module zxuno (
             oe_n_devoptions  : cpudin = devoptions_dout;
             oe_n_romyram     : cpudin = memory_dout;
             oe_n_multiboot   : cpudin = multiboot_dout;
+            oe_n_mixer       : cpudin = mixer_dout;
             default          : cpudin = ula_dout;
         endcase
    end        
@@ -614,25 +620,39 @@ module zxuno (
     .dout(ay_dout),
     .oe_n(oe_n_ay),
     .audio_out_ay1(ay1_audio),
-    .audio_out_ay2(ay2_audio)
+    .audio_out_ay2(ay2_audio),
+    .audio_out_ay1_splitted({ay1_cha, ay1_chb, ay1_chc}),
+    .audio_out_ay2_splitted({ay2_cha, ay2_chb, ay2_chc})
 	 );
   
 ///////////////////////////////////
-// SOUND MIXER
+// SOUND MIXERS
 ///////////////////////////////////
-   // 8-bit mixer to generate different audio levels according to input sources
-	mixer audio_mix(
-		.clkdac(clk28),
-		.reset(1'b0),
+
+   // 9-bit mixer to generate different audio levels according to input sources
+	panner_and_mixer audio_mix (
+		.clk(clk28),
+		.mrst_n(mrst_n),
+      .a(cpuaddr[7:0]),
+      .iorq_n(iorq_n),
+      .rd_n(rd_n),
+      .wr_n(wr_n),
+      .din(cpudout),
+      .dout(mixer_dout),
+      .oe_n(oe_n_mixer),
       // Audio sources to mix 
 		.mic(mic),
 		.spk(spk),
       .ear(ear),
-      .ay1(ay1_audio),
-		.ay2(ay2_audio),
+      .ay1_cha(ay1_cha),
+      .ay1_chb(ay1_chb),
+      .ay1_chc(ay1_chc),
+      .ay2_cha(ay2_cha),
+      .ay2_chb(ay2_chb),
+      .ay2_chc(ay2_chc),
       .specdrum(specdrum_audio),
-		// PWM output mixed (monoaural ATM)
-		.audio(audio_out)
-	);
-
+		// PWM output mixed
+		.output_left(audio_out_left),
+      .output_right(audio_out_right)
+   );
 endmodule
