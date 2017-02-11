@@ -163,7 +163,7 @@ module new_memory (
             divmmc_is_paged <= 1'b1;
             divmmc_status_after_m1 <= 1'b1;
          end
-         else if (!mreq_n && !rd_n && !m1_n && a[15:3]==13'b0001111111111) begin  // desconexión de automapper diferido
+         else if (!mreq_n && !rd_n && !m1_n && a[15:3]==13'b0001_1111_1111_1) begin  // desconexión de automapper diferido
             divmmc_status_after_m1 <= 1'b0;
          end
       end
@@ -196,7 +196,7 @@ module new_memory (
    wire [1:0] banco_rom = {bankplus3[2] & (~disable_romsel1f), bank128[4] & (~disable_romsel7f)};
    wire amstrad_allram_page_mode = bankplus3[0];
    wire [1:0] plus3_memory_arrangement = bankplus3[2:1];
-   
+
    always @(posedge clk) begin
       if (!mrst_n || !rst_n) begin
          bank128 <= 8'h00;
@@ -223,20 +223,20 @@ module new_memory (
       else
          ioreqbank = 1'b0;
    end
-   
+
    reg [18:0] addr_port2;
    reg oe_memory_n;
    reg oe_bootrom_n;
    reg we2_n;
-   
+
    // Calculo de la dirección en la SRAM a la que se va a acceder
-   
+
    always @* begin
       oe_memory_n = mreq_n | rd_n;
       we2_n = mreq_n | wr_n;
       oe_bootrom_n = 1'b1;
       addr_port2 = 19'h00000;
-      
+
       //------------------------------------------------------------------------------------------------------------------
       if (!mreq_n && a[15:14]==2'b00) begin   // la CPU quiere acceder al espacio de ROM, $0000-$3FFF
          if (initial_boot_mode) begin   // en el modo boot, sólo se accede a la ROM interna
@@ -250,7 +250,7 @@ module new_memory (
                 // DIVMMC tiene más prioridad que la MMU del Timex, así que se evalua primero.
                 if (divmmc_is_enabled && (divmmc_is_paged || conmem)) begin  // DivMMC ha entrado en modo automapper o está mapeado a la fuerza
                    if (a[13]==1'b0) begin // Si estamos en los primeros 8K
-                      if (!mapram_mode || conmem) begin
+                      if (mapram_mode == 1'b0 || conmem == 1'b1) begin
                          addr_port2 = {6'b011000,a[12:0]};
                          we2_n = 1'b1;  // en este modo, la ROM es intocable
                       end
@@ -260,7 +260,7 @@ module new_memory (
                       end
                    end
                    else begin  // Si estamos en los segundos 8K
-                      if (conmem || !mapram_mode) begin
+                      if (mapram_mode == 1'b0 || conmem == 1'b1) begin
                          addr_port2 = {2'b10,divmmc_sram_page,a[12:0]};
                       end
                       else begin  // mapram mode
@@ -270,7 +270,7 @@ module new_memory (
                       end
                    end
                 end
-                
+
                 // DivMMC no está activo, asi que comprobamos qué página toca de HOME. Luego comprobamos si hay que paginar DOC
                 // o EXT y se hace un override a lo que haya definido en HOME
                 else begin

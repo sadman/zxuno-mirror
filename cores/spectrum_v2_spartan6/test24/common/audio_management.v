@@ -230,7 +230,7 @@ module panner_and_mixer (
                      mixleft <= mixleft + {4'h0, beeper} + {4'h0, specdrum};
                end
          4'd7: begin
-                  if (mixer[2] == 1'b1)   // if beeper+specdrum are going to the right...
+                  if (mixer[0] == 1'b1)   // if beeper+specdrum are going to the right...
                      mixright <= mixright + {4'h0, beeper} + {4'h0, specdrum};
                end
          4'd8: begin // mixleft = 256+(mixleft-128*8)/4 y lo mismo con right

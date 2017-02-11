@@ -39,7 +39,9 @@ module control_enable_options(
     output wire disable_spisd,
     output wire disable_timexscr,
     output wire disable_ulaplus,
-    output wire disable_radas
+    output wire disable_radas,
+    output wire disable_specdrum,
+    output wire disable_mixer
     );
 
     parameter DEVOPTIONS = 8'h0E;
@@ -58,6 +60,8 @@ module control_enable_options(
     assign disable_ulaplus = devopts2[0];
     assign disable_timexscr = devopts2[1];
     assign disable_radas = devopts2[2];
+    assign disable_specdrum = devopts2[3];
+    assign disable_mixer = devopts2[4];
     
     always @(posedge clk) begin
         if (rst_n == 1'b0) begin

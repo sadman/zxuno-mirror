@@ -188,6 +188,8 @@ module zxuno (
    wire disable_timexscr;
    wire disable_ulaplus;
    wire disable_radas;
+   wire disable_specdrum;
+   wire disable_mixer;
    wire [7:0] devoptions_dout;
    wire oe_n_devoptions;
  
@@ -494,7 +496,9 @@ module zxuno (
         .disable_spisd(disable_spisd),
         .disable_timexscr(disable_timexscr),
         .disable_ulaplus(disable_ulaplus),
-        .disable_radas(disable_radas)
+        .disable_radas(disable_radas),
+        .disable_specdrum(disable_specdrum),
+        .disable_mixer(disable_mixer)
     );
 
     scandoubler_ctrl control_scandoubler (
@@ -589,7 +593,7 @@ module zxuno (
         .clk(cpuclkplain),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .a(cpuaddr[7:0]),
-        .iorq_n(iorq_n),
+        .iorq_n(iorq_n | disable_specdrum),
         .wr_n(wr_n),
         .d(cpudout),
         .specdrum_out(specdrum_audio)
@@ -634,7 +638,7 @@ module zxuno (
 		.clk(clk28),
 		.mrst_n(mrst_n),
       .a(cpuaddr[7:0]),
-      .iorq_n(iorq_n),
+      .iorq_n(iorq_n | disable_mixer),
       .rd_n(rd_n),
       .wr_n(wr_n),
       .din(cpudout),
