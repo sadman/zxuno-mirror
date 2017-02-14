@@ -1,1 +1,5 @@
-0.55
+Last versions:
+
+0.55 - For standard ZX-UNO with W25Q32 SPI Flash chip. Stable.
+
+0.59 - For Expanded ZX-UNO with W25Q128 SPI Flash chip. BETA Stage.
