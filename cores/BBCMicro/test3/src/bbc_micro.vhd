@@ -70,7 +70,8 @@ entity bbc_micro is
            SDMOSI         : out   std_logic;
            LED1           : out   std_logic;
 			  NTSC           : out   std_logic; 
-			  PAL            : out   std_logic 			  
+			  PAL            : out   std_logic;
+			  JOYSTICK1      : in	 std_logic_vector (5 downto 0) 			  
 
     );
 end entity;
@@ -268,8 +269,14 @@ signal sys_via_enable   :   std_logic;      -- 0xFE40-FE5F
 signal user_via_enable  :   std_logic;      -- 0xFE60-FE7F
 --signal fddc_enable      :   std_logic;      -- 0xFE80-FE9F
 --signal adlc_enable      :   std_logic;      -- 0xFEA0-FEBF (Econet)
-signal adc_enable       :   std_logic;      -- 0xFEC0-FEDF
 --signal tube_enable      :   std_logic;      -- 0xFEE0-FEFF
+signal adc_enable       :   std_logic;      -- 0xFEC0-FEDF
+signal adc_eoc_n        :   std_logic;
+signal adc_do           :   std_logic_vector(7 downto 0);
+signal adc_ch0          :   std_logic_vector(11 downto 0);
+signal adc_ch1          :   std_logic_vector(11 downto 0);
+signal adc_ch2          :   std_logic_vector(11 downto 0);
+signal adc_ch3          :   std_logic_vector(11 downto 0);
 
 -- ROM select latch
 signal romsel           :   std_logic_vector(3 downto 0);
@@ -293,22 +300,47 @@ signal scandoubler_ctrl: std_logic_vector(1 downto 0);
 signal ram_we_n: std_logic;
 signal ram_a:	std_logic_vector(18 downto 0);
 
+signal JOYSTICK2:   std_logic_vector(5 downto 0) := "111111";
+
+signal clk50_buf: std_logic;
+
+component BUFG
+  port (
+		i: in  std_logic;
+		o: out std_logic);
+end component;
+
 begin
     -------------------------
     -- COMPONENT INSTANCES
     -------------------------
 	NTSC <= '0';
 	PAL <= '1';	
-
- relojes_bbc: entity work.relojes
+	
+------NEW DCM clocks
+--Clk_in buf:
+  clk50_in_buf : BUFG
+  port map
+   (O   => clk50_buf,
+    I   => clk50);	
+	 
+ reloj32: entity work.dcm32
   port map
    (-- Clock in ports
-    CLK_IN1 => clk50,
+    CLK_IN1 => clk50_buf,
     -- Clock out ports
-    CLK_OUT1 => clock, --32
-    CLK_OUT2 => CLOCK_24 --24
-	 );
-
+    CLK_OUT1 => clock --32
+	 );	 
+	 
+ reloj24: entity work.dcm24
+  port map
+   (-- Clock in ports
+    CLK_IN1 => clk50_buf,
+    -- Clock out ports
+    CLK_OUT1 => CLOCK_24 --24
+	 );	
+	 
+-----------------------
 
     rom : entity work.rom_image port map(
         clk_i               => clock,
@@ -487,6 +519,46 @@ begin
         "00000000",
 		  scanSW
         );
+		  
+        
+   -- Analog to Digital Convertor (JOY)
+	adc: entity work.upd7002 port map (
+		clk        => clock,
+		cpu_clken  => cpu_clken,
+		mhz1_clken => mhz1_clken,
+        cs         => adc_enable,
+		reset_n    => reset_n,
+		r_nw       => cpu_r_nw,
+		addr       => cpu_a(1 downto 0),
+		di         => cpu_do,
+		do         => adc_do,
+		eoc_n      => adc_eoc_n,
+		ch0        => adc_ch0,
+		ch1        => adc_ch1,
+		ch2        => adc_ch2,
+		ch3        => adc_ch3
+	);    
+
+    -- Master Joystick Left/Right (low value = right)
+    adc_ch0 <= "111111111111" when JOYSTICK1(2) = '0' else -- left
+               "000000000000" when JOYSTICK1(3) = '0' else -- right
+               "100000000000";
+
+    -- Master Joystick Up/Down (low value = down)
+    adc_ch1 <= "111111111111" when JOYSTICK1(0) = '0' else -- up
+               "000000000000" when JOYSTICK1(1) = '0' else -- down
+               "100000000000";
+
+    -- Secondary Joystick Left/Right (low value = right)
+    adc_ch2 <= "111111111111" when JOYSTICK2(2) = '0' else -- left
+               "000000000000" when JOYSTICK2(3) = '0' else -- right
+               "100000000000";
+
+    -- Secondary Joystick Up/Down (low value = down)
+    adc_ch3 <= "111111111111" when JOYSTICK2(0) = '0' else -- up
+               "000000000000" when JOYSTICK2(1) = '0' else -- down
+               "100000000000";
+    		  
 
     -- Sound generator (and drive logic for I2S codec)
     sound : entity work.sn76489_top port map (
@@ -635,8 +707,10 @@ begin
                             acia_enable <= '1';
                         end if;
                     else
-                        -- 0xFE10
-                        serproc_enable <= '1';
+                        if cpu_a(3) = '0' then
+                            -- 0xFE10
+                            serproc_enable <= '1';
+                        end if;
                     end if;
                 when "001" =>
                     -- 0xFE20
@@ -651,7 +725,9 @@ begin
                 when "011" => user_via_enable <= '1';   -- 0xFE60
 --                when "100" => fddc_enable <= '1';       -- 0xFE80
 --                when "101" => adlc_enable <= '1';       -- 0xFEA0
-                when "110" => adc_enable <= '1';        -- 0xFEC0
+                when "110" =>
+                    -- 0xFEC0
+                        adc_enable <= '1';
 --                when "111" => tube_enable <= '1';       -- 0xFEE0
                 when others =>
                     null;
@@ -665,6 +741,7 @@ begin
         FL_DQ       when rom_enable = '1' else
         FL_DQ       when mos_enable = '1' else
         crtc_do     when crtc_enable = '1' else
+		  adc_do        when adc_enable = '1' else
         "00000010"  when acia_enable = '1' else
         sys_via_do  when sys_via_enable = '1' else
         user_via_do when user_via_enable = '1' else
@@ -714,6 +791,16 @@ begin
     end process;
  --   RAMWRn <= RAMWRn_int or (not clock);
     ram_we_n <= RAMWRn_int or (not clock);
+	 
+--	 process(clock)
+--	 begin
+--		if rising_edge(clock) then
+--			ram_we_n <= '0';
+--			if RAMWRn_int = '1' then
+--				ram_we_n <= '1';
+--			end if;
+--		end if;
+--	 end process;
 
     -- Address translation logic for calculation of display address
     process(crtc_ma,crtc_ra,disp_addr_offs)
@@ -774,7 +861,10 @@ begin
 
     -- Connections to System VIA
     -- ADC
-    sys_via_cb1_in <= '1'; -- /EOC
+    sys_via_cb1_in <= adc_eoc_n;
+    sys_via_pb_in(5) <= JOYSTICK2(5); 
+    sys_via_pb_in(4) <= JOYSTICK1(5);     
+
     -- CRTC
     sys_via_ca1_in <= crtc_vsync;
     sys_via_cb2_in <= crtc_lpstb;
@@ -787,7 +877,7 @@ begin
     -- Sound
     sound_di <= sys_via_pa_out;
     -- Others (idle until missing bits implemented)
-    sys_via_pb_in(7 downto 4) <= (others => '1');
+    sys_via_pb_in(7 downto 6) <= (others => '1');
 
     -- Connections to User VIA (user port is output on green LEDs)
     user_via_ca1_in <= '1'; -- Pulled up

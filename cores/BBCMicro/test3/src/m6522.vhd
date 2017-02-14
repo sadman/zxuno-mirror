@@ -288,7 +288,13 @@ begin
   p_write_reg : process
   begin
     wait until rising_edge(CLK);
-    if (ENA_4 = '1') then
+    if (RESET_L = '0') then
+     r_t1l_l   <= x"FE";
+     r_t1l_h   <= x"FF";
+     r_t2l_l   <= x"FE";
+     r_t2l_h   <= x"FF"; 
+	  
+    elsif (ENA_4 = '1') then
       t1_w_reset_int  <= false;
       t1_load_counter <= false;
 
@@ -361,7 +367,7 @@ begin
 			when x"B" => O_DATA <= r_acr;
 			when x"C" => O_DATA <= r_pcr;
 			when x"D" => O_DATA <= r_ifr;
-			when x"E" => O_DATA <= ('0' & r_ier);
+			when x"E" => O_DATA <= ('1' & r_ier);
 			when x"F" => O_DATA <= r_ira;
 			when others => null;
 		  end case;
