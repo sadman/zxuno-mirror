@@ -66,7 +66,7 @@ module dma (
   reg [15:0] srcidx = 16'h0000, dstidx = 16'h0000;
   reg [15:0] divisor = 16'h0000;
   reg [15:0] cntdivisor = 16'h0000;
-  reg [15:0] transferlength = 16'h0000;
+  reg [15:0] noftransfers = 16'h0000;
   reg [15:0] cnttransfers = 16'h0000;
   reg [2:0] state = NODMA;
   reg [2:0] returnstate = NODMA;
@@ -87,7 +87,7 @@ module dma (
       oe_n = 1'b0;
     end
     else if (zxuno_addr == DMASTAT && zxuno_regrd == 1'b1) begin
-      dout = 
+      dout = { 
 
   // CPU writes DMA registers
   always @(posedge clk) begin
@@ -96,7 +96,7 @@ module dma (
       mode <= 2'b00;
       srcdst <= 2'b00;      
       divisor <= 16'h0000;
-      transferlength <= 16'h0000;
+      noftransfers <= 16'h0000;
       src <= 16'h0000;
       dst <= 16'h0000;
     end
@@ -112,7 +112,7 @@ module dma (
           DMASRC: src <= {data, src[15:8]};
           DMADST: dst <= {data, dst[15:8]};
           DMADIV: divisor <= {data, divisor[15:8]};
-          DMALEN: transferlength <= {data, transferlength[15:8]};
+          DMALEN: noftransfers <= {data, noftransfers[15:9], 1'b0};  // bit 0 must be always 0 (even transfers)
         endcase
         data_received <= 1'b0;
       end
@@ -142,12 +142,12 @@ module dma (
           if (mode == 2'b01) begin
             state <= DOBURST;
             busrq_n <= 1'b0;
-            cnttransfers <= transferlength;
+            cnttransfers <= noftransfers;
           end
           else if (mode == 2'b10 || mode == 2'b11) begin
             state <= DOTIMED;
             cntdivisor <= divisor;
-            cnttransfers <= transferlength;
+            cnttransfers <= noftransfers;
           end
         end
         
@@ -193,7 +193,7 @@ module dma (
               returnstate <= DOTIMED;
             end
             else if (mode == 2'b11) begin
-              cnttransfers <= transferlength;
+              cnttransfers <= noftransfers;
               srcidx <= src;
               dstidx <= dst;
             end
