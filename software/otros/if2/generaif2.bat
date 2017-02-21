@@ -1,36 +1,34 @@
-cd ..\..\..\firmware\roms
-..\sjasmplus ..\..\software\otros\if2\sin_leches_menu_if2.asm
+sjasmplus sin_leches_menu_if2.asm
 copy /b menuif2.rom+          ^
-        48.rom+               ^
-        lechesaa.rom+         ^
-        sinleches.rom+        ^
-        SinclairTestDup.rom+  ^
-        testrom48.rom+        ^
-        se2.rom+              ^
-        inves.rom+            ^
         seachange.rom+        ^
+        48.rom+               ^
         Backgammon.rom+       ^
+        lechesaa.rom+         ^
         Cookie.rom+           ^
+        sinleches.rom+        ^
         Pssst.rom+            ^
+        testrom.rom+          ^
         Gyruss.rom+           ^
+        testrom48.rom+        ^
         JetPac.rom+           ^
+        se2.rom+              ^
         Chess.rom+            ^
+        inves.rom+            ^
         Planetoids.rom+       ^
         HoraceSpiders.rom+    ^
-        SpaceRaiders.rom+     ^
-        TranzAm.rom+          ^
-        ShadowUnicorn.rom+    ^
-        HungryHorace.rom+     ^
-        LocoMotion.rom+       ^
-        PanamaJoe.rom+        ^
-        Popeye.rom+           ^
         QBert.rom+            ^
+        SpaceRaiders.rom+     ^
         ReturnJedi.rom+       ^
+        TranzAm.rom+          ^
         StarWars.rom+         ^
+        ShadowUnicorn.rom+    ^
         Deathchase.rom+       ^
+        HungryHorace.rom+     ^
         JetSetWilly.rom+      ^
+        LocoMotion.rom+       ^
         LalaPrologue.rom+     ^
+        PanamaJoe.rom+        ^
         ManicMiner.rom+       ^
+        Popeye.rom+           ^
         MiscoJones.rom        ^
-    ..\..\software\otros\if2\romsif2.rom
-cd ..\..\software\otros\if2
+    romsif2.rom

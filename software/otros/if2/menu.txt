@@ -2,7 +2,7 @@
 2.Original 48 ROM   I.Space Raiders
 3.Cargando Leches   O.Tranz Am
 4.R&Play no tokens  P.Shadow of Unicorn
-5.Sinclair ROM Test A.Hungry Horace
+5.Alford ROM Test   A.Hungry Horace
 6.McLeod ROM Test   S.Loco Motion
 7.SE Basic IV 4.0   D.Montezuma's Revenge
 8.Inves Spectrum+   F.Popeye

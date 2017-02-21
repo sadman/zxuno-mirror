@@ -7,7 +7,7 @@ copy /b kartushovROM.rom+     ^
         48.rom+               ^
         lechesaa.rom+         ^
         sinleches.rom+        ^
-        SinclairTestDup.rom+  ^
+        testrom.rom+          ^
         testrom48.rom+        ^
         se2.rom+              ^
         inves.rom+            ^
