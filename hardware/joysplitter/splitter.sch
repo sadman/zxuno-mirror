@@ -4468,7 +4468,7 @@ high speed (Philips)</description>
 <instance part="R2" gate="G$1" x="50.8" y="109.22" rot="R90"/>
 <instance part="P+1" gate="VCC" x="50.8" y="119.38"/>
 <instance part="GND1" gate="1" x="50.8" y="86.36"/>
-<instance part="D1" gate="G$1" x="40.64" y="109.22" rot="R270"/>
+<instance part="D1" gate="G$1" x="22.86" y="111.76" rot="R270"/>
 <instance part="D2" gate="G$1" x="60.96" y="109.22" rot="R270"/>
 </instances>
 <busses>
@@ -4623,8 +4623,12 @@ high speed (Philips)</description>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="27.94" y1="96.52" x2="17.78" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="27.94" y1="96.52" x2="22.86" y2="96.52" width="0.1524" layer="91"/>
 <label x="17.78" y="96.52" size="1.778" layer="95"/>
+<pinref part="D1" gate="G$1" pin="C"/>
+<wire x1="22.86" y1="96.52" x2="17.78" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="109.22" x2="22.86" y2="96.52" width="0.1524" layer="91"/>
+<junction x="22.86" y="96.52"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -4642,19 +4646,15 @@ high speed (Philips)</description>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <pinref part="T1" gate="G$1" pin="B"/>
-<wire x1="38.1" y1="96.52" x2="40.64" y2="96.52" width="0.1524" layer="91"/>
-<pinref part="D1" gate="G$1" pin="C"/>
-<wire x1="40.64" y1="96.52" x2="45.72" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="40.64" y1="106.68" x2="40.64" y2="96.52" width="0.1524" layer="91"/>
-<junction x="40.64" y="96.52"/>
+<wire x1="38.1" y1="96.52" x2="45.72" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="S1" class="0">
 <segment>
 <pinref part="D1" gate="G$1" pin="A"/>
-<wire x1="40.64" y1="111.76" x2="40.64" y2="114.3" width="0.1524" layer="91"/>
-<wire x1="40.64" y1="114.3" x2="35.56" y2="114.3" width="0.1524" layer="91"/>
-<label x="35.56" y="114.3" size="1.778" layer="95"/>
+<wire x1="22.86" y1="114.3" x2="22.86" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="116.84" x2="17.78" y2="116.84" width="0.1524" layer="91"/>
+<label x="17.78" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="X1" gate="G$1" pin="7"/>
