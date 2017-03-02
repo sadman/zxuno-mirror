@@ -24,22 +24,36 @@
   <span>·</span>
   <a href="descarga_e.shtml"  style="width:62px">[English]</a></div>
 <div id="main">
-  <strong>Bitstreams (v4.1):</strong>
+  <strong>Bitstreams/cores (v4.1):</strong>
   <ul>
-    <li><a href="ficheros/4.1/flash.zip">Archivo FLASH</a> 3 Mb - ZIP - 0.51/01082016</li>
-    <li><a href="ficheros/4.1/firmware.zip">Archivo FIRMWARE</a> 16 Kb - ZIP - 0.51</li>
-    <li><a href="ficheros/4.1/Spectrum.zip">ZX Spectrum</a> 135 Kb - ZIP - T22-01082016</li>
-    <li><a href="ficheros/4.1/SamCoupe.zip">Sam Coupé</a> 187 Kb - ZIP - 831</li>
-    <li><a href="ficheros/4.1/JupiterAce.zip">Jupiter Ace</a> 103 Kb - ZIP - 855</li>
-    <li><a href="ficheros/4.1/MasterSystem.zip">Sega Master System</a> 127 Kb - ZIP - 1035</li>
+    <li><a href="ficheros/4.1/flash.zip">Archivo FLASH</a> 3 Mb - ZIP - 0.59/11022017</li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/BIOS/FIRMWARE.ZX1">Archivo FIRMWARE</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/BIOS/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/Spectrum/SPECTRUM.ZX1">ZX Spectrum</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/Spectrum/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/SamCoupe/COREX.ZX1">Sam Coupé</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/SamCoupe/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/JupiterACE/COREX.ZX1">Jupiter Ace</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/JupiterACE/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/SMS/COREX.ZX1">Sega Master System</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/SMS/version.txt">Versión</a></li>
     <li><a href="ficheros/4.1/OricAtmos.zip">Oric Atmos</a> 162 Kb - ZIP - 832</li>
-    <li><a href="ficheros/4.1/BBCMicro.zip">BBC Micro</a> 236 Kb - ZIP - 832</li>
-    <li><a href="ficheros/4.1/Atari2600.zip">Atari 2600 (VGA)</a> 96 Kb - ZIP - 816</li>
-    <li><a href="ficheros/4.1/Apple2.zip">Apple 2 (VGA)</a> 96 Kb - ZIP - 830</li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/BBCMicro/COREX.ZX1">BBC Micro</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/BBCMicro/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/Atari800XL/COREX.ZX1">Atari 800XL</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/Atari800XL/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/VIC20/COREX.ZX1">VIC-20</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/VIC20/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/AcornElectron/COREX.ZX1">Acorn Electron</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/AcornElectron/version.txt">Versión</a></li>
+    <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=50&t=683&start=20#p10230">PET</a></li>
+    <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=54&t=703">ZX-81</a></li>
+    <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=52&t=684&start=30#p8332">Spectrum: Kyp</a></li>
+    <li><a href="https://drive.google.com/drive/folders/0B5wpc_jDN_n0TGotYVVXbS1hMTA">Spectrum: TBBlue/Next(NTSC)</a></li>
+    <li><a href="https://drive.google.com/drive/folders/0B5wpc_jDN_n0Z1BvSms2YWJHWGc">MSX1 (NTSC)</a></li>
+    <li><a href="https://drive.google.com/drive/folders/0B5wpc_jDN_n0dEZTaTFFR2QxdzA">Colecovision (NTSC)</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/Atari2600/COREX.ZX1">Atari 2600</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/Atari2600/version.txt">Versión</a></li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/AppleII/COREX.ZX1">Apple 2 (VGA)</a> <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/AppleII/version.txt">Versión</a></li>
     <li><a href="ficheros/4.1/AcornAtom.zip">Acorn Atom (VGA)</a> 250 Kb - ZIP - 832</li>
-    <li><a href="ficheros/4.1/NES.zip">Nintendo Entertainment System (VGA)</a> 237 Kb - ZIP - 819</li>
+    <li><a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/NES/COREX.ZX1">Nintendo Entertainment System (VGA)</a>  <a href="http://guest:zxuno@www.atc.us.es/svn/zxuno/stable/binaries/NES/version.txt">Versión</a></li>
+    <li><a href="http://www.zxuno.com/forum/viewtopic.php?f=56&t=815">PC XT 512Kb</a> <a href="http://www.zxuno.com/forum/viewtopic.php?f=56&t=936">PC XT 2Mb</a></li>
     <li><a href="ficheros/4.1/generator.zip">Utilidad para generar archivos ZX1/TAP partiendo desde BIT</a> 165 Kb - ZIP</li>
     </ul>
+  <br/>
+  <strong>Manual ZX-Uno (Realizado por Uto sobre el trabajo de <a href="http://elblogdemanu.com/">Manuel Sagra</a>):</strong>
+  <ul>
+    <li><a href="https://drive.google.com/drive/folders/0B-cgqxgcKv-gVkM2bklOMWdKdUk">Enlace a Google Drive</a></li></ul>
   <br/>
   <strong>Diseños (v4.1):</strong>
   <ul>
@@ -71,10 +85,6 @@
     <li><a href="ficheros/sram_as7c34096a_v2.1.pdf">3.3V 512K × 8 CMOS SRAM</a> 160 kb. - PDF</li>
     <li><a href="ficheros/ad724_Datasheet.pdf">RGB to NTSC/PAL AD724JR</a> 210 Kb. - PDF</li>
     <li><a href="ficheros/Hoja_Esquema_Pinout_v4.1_Sep_2016.pdf">PINOUT ZX-Uno PCB 4.1</a> 38 Kb. - PDF</li></ul>
-  <br/>
-  <strong>Manual ZX-Uno (Realizado por Uto sobre el trabajo de <a href="http://elblogdemanu.com/">Manuel Sagra</a>):</strong>
-  <ul>
-    <li><a href="https://drive.google.com/drive/folders/0B-cgqxgcKv-gVkM2bklOMWdKdUk">Enlace a Google Drive</a></li></ul>
   <br/>
   <strong>Diseño logotipo:</strong>
   <ul>
