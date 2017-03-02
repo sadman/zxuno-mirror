@@ -120,7 +120,7 @@ module zxuno (
    wire [7:0] ay2_audio;
    wire [7:0] ay1_cha, ay1_chb, ay1_chc;
    wire [7:0] ay2_cha, ay2_chb, ay2_chc;
-   wire [7:0] specdrum_audio;
+   wire [7:0] specdrum_left, specdrum_right;
    wire [7:0] mixer_dout;
    wire oe_n_mixer;
    
@@ -590,13 +590,14 @@ module zxuno (
     );
 
     specdrum the_specdrum (
-        .clk(cpuclkplain),
+        .clk(clk28),
         .rst_n(rst_n & mrst_n & power_on_reset_n),
         .a(cpuaddr[7:0]),
         .iorq_n(iorq_n | disable_specdrum),
         .wr_n(wr_n),
         .d(cpudout),
-        .specdrum_out(specdrum_audio)
+        .specdrum_left(specdrum_left),
+        .specdrum_right(specdrum_right)
     );
 
 
@@ -637,26 +638,27 @@ module zxuno (
 	panner_and_mixer audio_mix (
 		.clk(clk28),
 		.mrst_n(mrst_n),
-      .a(cpuaddr[7:0]),
-      .iorq_n(iorq_n | disable_mixer),
-      .rd_n(rd_n),
-      .wr_n(wr_n),
-      .din(cpudout),
-      .dout(mixer_dout),
-      .oe_n(oe_n_mixer),
-      // Audio sources to mix 
+    .a(cpuaddr[7:0]),
+    .iorq_n(iorq_n | disable_mixer),
+    .rd_n(rd_n),
+    .wr_n(wr_n),
+    .din(cpudout),
+    .dout(mixer_dout),
+    .oe_n(oe_n_mixer),
+    // Audio sources to mix 
 		.mic(mic),
 		.spk(spk),
-      .ear(ear),
-      .ay1_cha(ay1_cha),
-      .ay1_chb(ay1_chb),
-      .ay1_chc(ay1_chc),
-      .ay2_cha(ay2_cha),
-      .ay2_chb(ay2_chb),
-      .ay2_chc(ay2_chc),
-      .specdrum(specdrum_audio),
+    .ear(ear),
+    .ay1_cha(ay1_cha),
+    .ay1_chb(ay1_chb),
+    .ay1_chc(ay1_chc),
+    .ay2_cha(ay2_cha),
+    .ay2_chb(ay2_chb),
+    .ay2_chc(ay2_chc),
+    .specdrum_left(specdrum_left),
+    .specdrum_right(specdrum_right),
 		// PWM output mixed
 		.output_left(audio_out_left),
-      .output_right(audio_out_right)
+    .output_right(audio_out_right)
    );
 endmodule
