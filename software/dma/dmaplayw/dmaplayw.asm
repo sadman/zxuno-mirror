@@ -9,7 +9,7 @@ ZXIBASEPORT         equ 3bh
 DMACTRL             equ 0a0h
 DMASRC              equ 0a1h
 DMADST              equ 0a2h
-DMADIV              equ 0a3h
+DMAPRE              equ 0a3h
 DMALEN              equ 0a4h
 DMAPROB             equ 0a5h
 DMASTAT             equ 0a6h
@@ -17,6 +17,7 @@ DMASTAT             equ 0a6h
 SPECDRUM            equ 0ffdfh
 
 LBUFFER             equ 2048
+PREESCALER          equ 224
 
 Main                ld a,h
                     or l
@@ -97,10 +98,10 @@ PrepareToPlay       di
                     out (c),h
                     dec b
 
-                    ld a,DMADIV
+                    ld a,DMAPRE
                     out (c),a
                     inc b
-                    ld hl,1792  ;divisor para 15625 Hz : 28000000/15625
+                    ld hl,PREESCALER
                     out (c),l
                     out (c),h
                     dec b
