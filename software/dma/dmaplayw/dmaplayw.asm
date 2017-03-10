@@ -17,7 +17,7 @@ DMASTAT             equ 0a6h
 SPECDRUM            equ 0ffdfh
 
 LBUFFER             equ 2048
-PREESCALER          equ 224
+PREESCALER          equ 223  ; la cuenta va de 0 a 223, es decir, 224 ciclos
 
 Main                ld a,h
                     or l
