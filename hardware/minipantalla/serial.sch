@@ -979,6 +979,11 @@
 <label x="-20.32" y="2.54" size="1.778" layer="95"/>
 <pinref part="JP2" gate="A" pin="1"/>
 </segment>
+<segment>
+<wire x1="-30.48" y1="45.72" x2="-15.24" y2="45.72" width="0.1524" layer="91"/>
+<label x="-20.32" y="45.72" size="1.778" layer="95"/>
+<pinref part="JP3" gate="A" pin="3"/>
+</segment>
 </net>
 <net name="P57" class="0">
 <segment>
@@ -1193,11 +1198,6 @@
 <wire x1="-2.54" y1="30.48" x2="12.7" y2="30.48" width="0.1524" layer="91"/>
 <label x="-2.54" y="30.48" size="1.778" layer="95"/>
 <pinref part="J10" gate="G$1" pin="1"/>
-</segment>
-<segment>
-<wire x1="-30.48" y1="45.72" x2="-15.24" y2="45.72" width="0.1524" layer="91"/>
-<label x="-20.32" y="45.72" size="1.778" layer="95"/>
-<pinref part="JP3" gate="A" pin="3"/>
 </segment>
 </net>
 <net name="5V" class="0">
