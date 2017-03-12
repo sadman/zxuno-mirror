@@ -216,7 +216,8 @@ sel02   ld      a, (hl)
 
         incbin  screen.cut.zx7b
 
-manic   out     ($fe), a
+manic   ld      (hl), a
+        out     ($fe), a
         ld      de, $5aff
         ld      hl, endscr-1
         call    dzx7
