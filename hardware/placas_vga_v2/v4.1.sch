@@ -4030,6 +4030,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="R36" library="rcl" deviceset="R-US_" device="R0805" value="255"/>
 <part name="R21" library="rcl" deviceset="R-US_" device="R0805" value="511"/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
+<part name="J11" library="pinhead" deviceset="PINHD-1X12" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4186,6 +4187,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <attribute name="VALUE" x="-46.99" y="32.258" size="1.778" layer="96"/>
 </instance>
 <instance part="GND3" gate="1" x="-35.56" y="33.02"/>
+<instance part="J11" gate="G$1" x="43.18" y="88.9"/>
 </instances>
 <busses>
 </busses>
