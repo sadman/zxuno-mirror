@@ -1,5 +1,7 @@
 Para actualizar la BIOS, coloca el archivo FIRMWARE.ZX1 en el raíz de la tarjeta SD, arranca el ZX-UNO, entra a la BIOS con F2 al salir el logo, ve a la pestaña "Upgrade" y selecciona "Upgrade BIOS for ZX". Después elige SD file y espera a que finalice el proceso (NO apagues el ZX-UNO mientras).
+Si actualizas desde una versión menor 0.59 a una mayor, es posible que veas caracteres extraños en el menú upgrade. Para solucionarlo ejecuta CORCLEAN desde ESXDOS (escribiendo .corclean).
 
 ---
 
 To upgrade BIOS, put the FIRMWARE.ZX1 file on the SD card root. Turn on Zx-UNO, enter BIOS pressing F2 when the logo appears, and then go to Upgrade tab. Select "Upgrade BIOS for ZX". Then select "SD file" and wait the process to end (Do NOT power off the ZX-UNO when upgrading).
+If you upgrade from a smaller version 0.59 to a larger version, you may see strange characters in the upgrade menu. To solve this, run CORCLEAN from ESXDOS (by typing .corclean).
