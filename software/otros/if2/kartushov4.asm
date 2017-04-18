@@ -7,11 +7,14 @@
         ld      hl, $5000
         ld      de, $5001
         ld      (hl), l
-        ld      bc, $0800
+        ld      bc, $07ff
         ldir
-        ld      bc, $07fe
+        ld      hl, $5820
+        ld      de, $5821
+        ld      b, 0
         out     (c), b
-        ld      (hl), $38
+        ld      (hl), $0f
+        ld      bc, $07de
         ldir
         ld      hl, manic-1
         push    hl
@@ -24,16 +27,8 @@ start3  ld      a, b
         xor     c
         and     $f8
         xor     c
-        ld      d, a
-        xor     b
-        xor     c
-        rlca
-        rlca
-        ld      e, a
-        inc     bc
-        ldi
         jr      cont
-
+  block $38-$
 ; ----------------------
 ; THE 'KEYBOARD' ROUTINE
 ; ----------------------
@@ -74,7 +69,15 @@ keysc9  ld      (codcnt), hl
         pop     af
         ret
 
-cont    inc     bc
+cont            ld      d, a
+        xor     b
+        xor     c
+        rlca
+        rlca
+        ld      e, a
+        inc     bc
+        ldi
+        inc     bc
         bit     4, b
         jr      z, start3
         ld      hl, game3
@@ -109,6 +112,8 @@ cont1   rrca
         ei
 
 games   call    SELEC
+        ld      bc, games
+        push    bc
 waitky  ld      a, (de)
         sub     $80
         jr      c, waitky
@@ -134,15 +139,28 @@ waitky  ld      a, (de)
         dec     a
         jr      z, gamrh
         dec     a
-        jr      nz, games
+        ret     nz
 gamup   dec     l
-        dec     l
+        ret     p
 gamdw   inc     l
-        defb    $01
-gamlf   res     4, l
-        defb    $01
-gamrh   set     4, l
-        jr      games
+        ld      a, l
+        cp      46
+        ret     c
+        dec     l
+        ret
+gamlf   ld      a, l
+        ld      l, e
+        sub     23
+        ret     c
+        ld      l, a
+        ret
+gamrh   ld      a, l
+        cp      23
+        jr      c, gamrh1
+        ld      a, 22
+gamrh1  add     a, 23
+        ld      l, a
+        ret
 gamen   ld      a, l
         ld      l, $c9
         and     $1f
@@ -193,17 +211,20 @@ game4   djnz    game3
 SELEC   push    hl
         exx
         pop     hl
-        bit     4, l
+        inc     l
+        ld      a, l
+        cp      24
         ld      de, 0
-        ld      b, 15
-        jr      z, sel01
+        ld      b, 16
+        jr      c, sel01
+        ld      e, -23
+        add     hl, de
         ld      e, b
-        ld      b, 17
 sel01   add     hl, hl
         add     hl, hl
         add     hl, hl
+        ld      h, $16
         add     hl, hl
-        ld      h, $2c
         add     hl, hl
         add     hl, de
 sel02   ld      a, (hl)
