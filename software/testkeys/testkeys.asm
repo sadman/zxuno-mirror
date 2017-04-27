@@ -161,6 +161,8 @@ NoPressJoy     ld a,(hl)
                endp
 
 Display        proc
+               ld a,255
+               in a,(254)
                in a,(c)
                ld d,a
                push hl

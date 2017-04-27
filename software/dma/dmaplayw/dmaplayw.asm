@@ -66,6 +66,13 @@ Init                call RecogerNFile  ;results DE = buffer for OPEN
                     ret c   ;Volver si hay error
                     ld (FHandle),a
 
+                    ld l,0  ;SEEK_START
+                    ld bc,0
+                    ld de,44 ;skip 44 bytes from start (WAV header)
+                    rst 08h
+                    db F_SEEK
+                    ret c
+
                     ld hl,16384
                     ld de,16385
                     ld bc,31
