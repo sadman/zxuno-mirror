@@ -84,7 +84,7 @@ module tld_zxuno_v4 (
     .CLK_OUT3           (clk7),
     .CLK_OUT4           (clk3d5),
     .cpuclk             (cpuclk),
-	 .cpuclkplain        (cpuclkplain)
+ 	  .cpuclkplain        (cpuclkplain)
     );
 
    wire [2:0] ri, gi, bi;
