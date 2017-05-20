@@ -43,12 +43,17 @@ module tv80n_wrapper (
   output wire z80_reset_n,
   output wire z80_clk,
   output wire z80_int_n,
-  output wire z80_nmi_n,
+  output wire z80_nmi_n,    
+  output wire z80_busrq_n,
+  output wire z80_wait_n,
+  input wire z80_halt_n,
+  input wire z80_rfsh_n,
   input wire z80_m1_n,
   input wire z80_mreq_n,
   input wire z80_iorq_n,
   input wire z80_rd_n,
   input wire z80_wr_n,
+  input wire z80_busak_n,
   input wire [15:0] z80_a,
   inout wire [7:0] z80_d
   );
@@ -64,15 +69,17 @@ module tv80n_wrapper (
   assign z80_reset_n = reset_n;
   assign z80_int_n = int_n;
   assign z80_nmi_n = nmi_n;
+  assign z80_wait_n = wait_n;
+  assign z80_busrq_n = busrq_n;
   assign A = z80_a;
   assign m1_n = z80_m1_n;
   assign mreq_n = z80_mreq_n;
   assign iorq_n = z80_iorq_n;
   assign rd_n = z80_rd_n;
   assign wr_n = z80_wr_n;
-  assign rfsh_n = 1'b1;
-  assign halt_n = 1'b1;
-  assign busak_n = 1'b1;
+  assign rfsh_n = z80_rfsh_n;
+  assign halt_n = z80_halt_n;
+  assign busak_n = z80_busak_n;
 
   assign dout = z80_d; 
   assign z80_d = ( (!mreq_n || !iorq_n) && !rd_n)? di : 

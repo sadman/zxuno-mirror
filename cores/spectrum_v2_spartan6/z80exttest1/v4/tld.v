@@ -27,12 +27,17 @@ module tld (
     output wire z80_reset_n,
     output wire z80_clk,
     output wire z80_int_n,
-    output wire z80_nmi_n,
+    output wire z80_nmi_n,    
+    output wire z80_busrq_n,
+    output wire z80_wait_n,
+    input wire z80_halt_n,
+    input wire z80_rfsh_n,
     input wire z80_m1_n,
     input wire z80_mreq_n,
     input wire z80_iorq_n,
     input wire z80_rd_n,
     input wire z80_wr_n,
+    input wire z80_busak_n,
     input wire [15:0] z80_a,
     inout wire [7:0] z80_d
     );

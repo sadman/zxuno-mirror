@@ -30,12 +30,17 @@ module sistema(
     output wire z80_reset_n,
     output wire z80_clk,
     output wire z80_int_n,
-    output wire z80_nmi_n,
+    output wire z80_nmi_n,    
+    output wire z80_busrq_n,
+    output wire z80_wait_n,
+    input wire z80_halt_n,
+    input wire z80_rfsh_n,
     input wire z80_m1_n,
     input wire z80_mreq_n,
     input wire z80_iorq_n,
     input wire z80_rd_n,
     input wire z80_wr_n,
+    input wire z80_busak_n,
     input wire [15:0] z80_a,
     inout wire [7:0] z80_d
     );
@@ -126,30 +131,14 @@ module sistema(
         .z80_iorq_n(z80_iorq_n),
         .z80_rd_n(z80_rd_n),
         .z80_wr_n(z80_wr_n),
+        .z80_busrq(z80_busrq),
+        .z80_busak(z80_busak),
+        .z80_wait_n(z80_wait_n),
+        .z80_halt_n(z80_halt_n),
+        .z80_rfsh_n(z80_rfsh_n),
         .z80_a(z80_a),
         .z80_d(z80_d)
   );
-
-//  tv80n_wrapper_interno la_cpu (
-//        .reset_n(reset_n),
-//        .clk(clk),
-//        .wait_n(1'b1),
-//        .int_n(1'b1),
-//        .nmi_n(1'b1),
-//        .busrq_n(1'b1),
-//        .m1_n(),
-//        .mreq_n(mreq_n),
-//        .iorq_n(iorq_n),
-//        .rd_n(rd_n),
-//        .wr_n(wr_n),
-//        .rfsh_n(),
-//        .halt_n(),
-//        .busak_n(),
-//        .A(cpuaddr),
-//        .di(cpudin),
-//        .dout(cpudout)
-//  );
-
 endmodule
 
 module memoria (
