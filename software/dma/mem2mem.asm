@@ -4,6 +4,7 @@ DMACTRL         equ 0A0h
 DMASRC          equ 0A1h
 DMADST          equ 0A2h
 DMALEN          equ 0A4h
+SCANDBLR        equ 0Bh
 
                 org 32768
 
@@ -23,7 +24,93 @@ LoopWhite       ld (hl),e
                 djnz LoopLines
 
                 ld hl,0  ; initial source address.
-Loop            ld bc,ZXUNOADDR
+
+Loop            xor a
+                ld (23560),a  ;clear LAST-K
+
+                halt    ;sync with interrupt
+                ld bc,ZXUNOADDR
+                ld a,(23560)
+                cp "1"
+                jr nz,Not7MHz
+                ld a,0
+                ld (DMAOption),a
+                ld a,SCANDBLR
+                out (c),a
+                inc b
+                in a,(c)
+                and 3Fh
+                or 40h
+                out (c),a
+                jr ExitOption
+Not7MHz         cp "2"
+                jr nz,Not14MHz
+                ld a,0
+                ld (DMAOption),a
+                ld a,SCANDBLR
+                out (c),a
+                inc b
+                in a,(c)
+                and 3Fh
+                or 80h
+                out (c),a
+                jr ExitOption
+Not14MHz        cp "3"
+                jr nz,Not28MHz
+                ld a,0
+                ld (DMAOption),a
+                ld a,SCANDBLR
+                out (c),a
+                inc b
+                in a,(c)
+                and 3Fh
+                or 0C0h
+                out (c),a
+                jr ExitOption
+Not28MHz        cp "4"
+                jr nz,ExitOption
+                ld a,1
+                ld (DMAOption),a
+                ld a,SCANDBLR
+                out (c),a
+                inc b
+                in a,(c)
+                and 3Fh
+                out (c),a
+                jr ExitOption
+ExitOption
+
+                ld a,(DMAOption)
+                or a
+                jr nz,DoDMA
+
+                ld a,2
+                out (254),a
+
+                ;-----------------------------------
+                push hl
+                ld de,16384
+                ld bc,6144
+                ldir
+                pop hl
+                ;-----------------------------------
+
+                ld a,7
+                out (254),a
+                jr NextSource
+
+
+DoDMA           ld de,899  ;a small delay so the DMA transfer begins somewhere
+WaitScan        dec de      ;within the visible screen range
+                ld a,d
+                or e
+                jr nz,WaitScan
+
+                ld a,2
+                out (254),a
+
+                ;-----------------------------------
+                ld bc,ZXUNOADDR
                 ld de,16384
 
                 ld a,DMADST
@@ -47,36 +134,35 @@ Loop            ld bc,ZXUNOADDR
                 out (c),h   ;DMASRC = address in HL (ROM)
                 dec b
 
-                halt    ;sync with interrupt
-                ld de,999  ;a small delay so the DMA transfer begins somewhere
-Wait            dec de      ;within the visible screen range
-                ld a,d
-                or e
-                jr nz,Wait
-
                 ld a,DMACTRL
                 out (c),a
                 inc b
 
-                ld a,2
-                out (254),a
-
-                ;-----------------------------------
                 ld a,1   ; MEM to MEM, BURST
                 out (c),a
                 ;-----------------------------------
-                ;DMA transfer time (us): (6144*4)/28 = 878 us = 14 scans
 
                 ld a,7
                 out (254),a
                 dec b
 
-                inc hl
+NextSource      inc hl
                 ld a,h
-                cp 28h
-                jr nz,Loop
+                cp 40h
+                jp nz,Loop
+
+                ld bc,ZXUNOADDR
+                ld a,SCANDBLR
+                out (c),a
+                inc b
+                in a,(c)
+                and 3Fh
+                out (c),a
+                dec b
 
                 ret
+
+DMAOption       db 1
 
                 end Main
 
