@@ -168,14 +168,21 @@ keysc5  ld      a, h
         ld      l, a
         rlc     b
         jr      c, keyscn
-        xor     a
-        ld      h, a
+        in      a, ($1f)
+        or      a
+        jr      z, nokemp
+        ld      hl, kemp-1
+sikemp  inc     hl
+        rrca
+        jr      nc, sikemp
+        jr      sikem2
+nokemp  ld      h, a
         add     a, d
         jr      z, keysc6
         ld      d, h
         ld      l, a
         add     hl, de
-        ld      a, (hl)
+sikem2  ld      a, (hl)
 keysc6  ld      hl, (codcnt)
         jr      z, keysc8
         res     7, l
@@ -224,6 +231,7 @@ keytab  defb    $00, $7a, $78, $63, $76 ; Caps    z       x       c       v
         defb    $22, $3b, $7f, $5d, $5b ; "       ;      (c)      ]       [
         defb    $0d, $3d, $2b, $2d, $5e ; Enter   =       +       -       ^
         defb    $20, $00, $2e, $2c, $2a ; Space   Symbol  .       ,       *
+kemp    defb    $1f, $1e, $1d, $1c, $0d ; Right   Left    Down    Up      Enter
 
 start   ld      bc, chrend-sdtab
         ldir
@@ -241,8 +249,8 @@ start   ld      bc, chrend-sdtab
         rrca
         ld      a, h
         adc     a, a
-        or      $c0
-        ld      (scnbak), a       ; lo pongo a 28Mhz
+        or      $80
+        ld      (scnbak), a       ; lo pongo a 14Mhz
         out     (c), a
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, sdtab-1
@@ -267,17 +275,17 @@ start2  ld      a, (hl)
         ld      a, (quietb)
         out     ($fe), a
         dec     a
-        jr      nz, star25
+        jr      nz, start3
         ld      h, l
         ld      d, $20
         call    window
-        jr      start4
-star25  ld      hl, finlog-1
+        jr      start8
+start3  ld      hl, finlog-1
         ld      d, $7a
         call    dzx7b           ; descomprimir
         inc     hl
         ld      b, $40          ; filtro RCS inverso
-start3  ld      a, b
+start4  ld      a, b
         xor     c
         and     $f8
         xor     c
@@ -291,18 +299,18 @@ start3  ld      a, b
         ldi
         inc     bc
         bit     3, b
-        jr      z, start3
+        jr      z, start4
         ld      b, $13
         ldir
         ld      bc, zxuno_port
         out     (c), a          ; a = $ff = core_id
         inc     b
         ld      hl, cad0+6      ; Load address of coreID string
-star33  in      a, (c)
+start5  in      a, (c)
         ld      (hl), a         ; copia el caracter leido de CoreID 
         inc     hl
         ld      ix, cad0        ; imprimir cadena
-        jr      nz, star33      ; si no recibimos un 0 seguimos pillando caracteres
+        jr      nz, start5      ; si no recibimos un 0 seguimos pillando caracteres
         ld      bc, $090b
         call_prnstr             ; CoreID
         ld      c, b
@@ -324,17 +332,17 @@ star33  in      a, (c)
         call_prnstr             ; Press <Edit> to Setup
         ld      hl, bitstr
         add     a, (hl)
-        jr      z, star37
+        jr      z, start6
         dec     a
         call    cbname
         xor     a
-        jr      star38
-star37  dec     l
+        jr      start7
+start6  dec     l
         ld      l, (hl)
         ld      l, (hl)
         call    calcu
         set     5, l
-star38  ld      de, tmpbuf
+start7  ld      de, tmpbuf
         push    de
         pop     ix
         ld      c, $1f
@@ -343,7 +351,7 @@ star38  ld      de, tmpbuf
         pop     bc
         call_prnstr             ; Imprime máquina (ROM o core)
       ENDIF
-start4  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+start8  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, $9f  ; jedec id
         in      a, (c)
         in      a, (c)
@@ -352,28 +360,15 @@ start4  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         sub     $13
         cp      5
-        jr      nz, star44
+        jr      nz, start9
         ld      hl, alto subnn+1
         ld      (hl), 6*4
-star44  ld      hl, $0800
-star45  add     hl, hl
+start9  ld      hl, $0800
+star10  add     hl, hl
         dec     a
-        jr      nz, star45
+        jr      nz, star10
         ld      (alto fllen), hl
-      IF  recovery=0
-        ld      d, 4
-        pop     af
-        jr      nz, start5
-        ld      d, 16
-start5  djnz    start6
-        dec     de
-        ld      a, d
-        or      e
-        jr      nz, start6
-        ld      hl, $0017       ; Si se acaba el temporizador borrar
-        ld      de, $2001       ; lo de presione Break
-        call    window
-start50 wreg    scan_code, $f6  ; $f6 = kb set defaults
+        wreg    scan_code, $f6  ; $f6 = kb set defaults
         halt
         halt
         wreg    scan_code, $ed  ; $ed + 2 = kb set leds + numlock
@@ -381,23 +376,37 @@ start50 wreg    scan_code, $f6  ; $f6 = kb set defaults
         wreg    scan_code, $02
         halt
         wreg    mouse_data, $f4 ; $f4 = init Kmouse
-star51  ld      a, (layout)
+star11  ld      a, (layout)
         rr      a
         ld      hl, fines-1
-        jr      z, star52
+        jr      z, star12
         ld      hl, finus-1
-        jr      nc, star53
+        jr      nc, star13
         ld      hl, finav-1
-star52  jr      nc, star55
-star53  ld      de, $ffff
+star12  jr      nc, star15
+star13  ld      de, $ffff
         call    dzx7b
         wreg    key_map, 0
         ld      hl, $c001
-star54  inc     b
+star14  inc     b
         outi
         bit     7, h              ; compruebo si la direccion es 0000 (final)
-        jr      nz, star54        ; repito si no lo es
-star55  ld      hl, (joykey)
+        jr      nz, star14        ; repito si no lo es
+star15  
+      IF  recovery=0
+        ld      d, 4
+        pop     af
+        jr      nz, star16
+        ld      d, 16
+star16  djnz    star18
+        dec     de
+        ld      a, d
+        or      e
+        jr      nz, star18
+        ld      hl, $0017       ; Si se acaba el temporizador borrar
+        ld      de, $2001       ; lo de presione Break
+        call    window
+star17  ld      hl, (joykey)
         inc     h
         inc     l
         ld      a, h
@@ -406,8 +415,8 @@ star55  ld      hl, (joykey)
         rlca
         rlca
         or      l
+        ld      bc, zxuno_port
         ld      de, joy_conf<<8 | scandbl_ctrl
-        dec     b
         out     (c), d
         inc     b
         out     (c), a
@@ -422,9 +431,9 @@ star55  ld      hl, (joykey)
         inc     b
         out     (c), a
         jp      conti
-start6  ld      a, (codcnt)
-tstart5 sub     $80
-        jr      c, start5
+star18  ld      a, (codcnt)
+star19  sub     $80
+        jr      c, star16
         ld      (codcnt), a
         sub     '1'
         cp      9
@@ -432,14 +441,16 @@ tstart5 sub     $80
         jp      c, runbit
         jp      z, alto easter
         cp      $19-'1'
-        jr      z, start7
+        jr      z, star20
         sub     $0c-'1'
-start7  jp      z, blst
-        cp      $17-$0c
-        jr      nz, tstart5
+star20  jp      z, blst
+        sub     $1d-$0c
+        jp      z, launch
+        cp      $17-$1d
+        jr      nz, star19
       ELSE
         pop     af
-repe    wreg    flash_cs, 0     ; activamos spi, enviando un 0
+star21  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         wreg    flash_cs, 0     ; activamos spi, enviando un 0
@@ -455,15 +466,14 @@ repe    wreg    flash_cs, 0     ; activamos spi, enviando un 0
         in      a, (c)
         wreg    flash_cs, 1     ; desactivamos spi, enviando un 1
         and     2
-        jr      z, repe
+        jr      z, star21
         xor     a
       ENDIF
 
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Enter Setup   ++++++++
 ;++++++++++++++++++++++++++++++++++
-bios    out     ($fe), a
-        ld      a, %01001111    ; fondo azul tinta blanca
+bios    ld      a, %01001111    ; fondo azul tinta blanca
         ld      hl, $0017
         ld      de, $2001
         call    window
@@ -570,8 +580,149 @@ bios7   dec     c
         ld      de, $0401
         ld      a, %01111001    ; fondo blanco tinta azul
         ret
-
       IF  recovery=0
+
+launch  ld      (tmpbuf+21), a
+        call    clrscr          ; borro pantalla
+        inc     hl
+        inc     de
+        ld      c, $20
+        ld      (hl), %00000111
+        ldir
+        ld      bc, $2e0
+        ld      (hl), %01001111
+        ldir
+        ld      ix, cad118
+        call_prnstr
+        ld      ix, cad62   
+        call_prnstr
+        ld      de, bnames
+laun1   ex      de, hl
+        push    hl
+        push    bc
+        ld      de, tmpbuf
+        ld      bc, 21
+        ldir
+        ld      ix, tmpbuf
+        pop     bc
+        call_prnstr
+        pop     hl
+        ld      de, $0020
+        add     hl, de
+        ex      de, hl
+        ld      hl, $a3c0
+        sbc     hl, de
+        jr      nz, laun2
+        ld      bc, $1501
+laun2   ld      hl, $a681
+        sbc     hl, de
+        jr      nz, laun1
+        ld      ix, cad6
+        call_prnstr
+
+        ld      de, codcnt
+        ld      hl, (active+1)
+games   call    SELEC
+aaitky  ld      a, (de)
+        sub     $80
+        jr      c, aaitky
+        ld      (de), a
+        cp      $0d
+        jr      z, gamen
+        cp      $20
+gamen   jp      z, runbit0
+        ld      bc, games
+        push    bc
+        call    SELEC
+        ld      a, (de)
+        sub     $1c
+        jr      z, gamup
+        dec     a
+        jr      z, gamdw
+        dec     a
+        jr      z, gamlf
+        dec     a
+        jr      z, gamrh
+        sub    'a'-$1f
+        jr      z, gamdw
+        sub    'o'-'a'
+        jr      z, gamlf
+        dec     a
+        jr      z, gamrh
+        dec     a
+        ret     nz
+gamup   dec     l
+        ret     p
+gamdw   inc     l
+        ld      a, l
+        cp      46
+        ret     c
+        dec     l
+        ret
+gamlf   ld      a, l
+        ld      l, 0
+        sub     23
+        ret     c
+        ld      l, a
+        ret
+gamrh   ld      a, l
+        cp      23
+        jr      c, gamrh1
+        ld      a, 22
+gamrh1  add     a, 23
+        ld      l, a
+        ret
+
+SELEC   push    hl
+        exx
+        pop     hl
+        inc     l
+        ld      a, l
+        cp      24
+        ld      de, 0
+        ld      b, 16
+        jr      c, sel01
+        ld      e, -23
+        add     hl, de
+        ld      e, b
+sel01   add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ld      h, $16
+        add     hl, hl
+        add     hl, hl
+        add     hl, de
+sel02   ld      a, (hl)
+        xor     %00110110
+        ld      (hl), a
+        inc     l
+        djnz    sel02
+        exx
+        ld      a, l
+        exx
+sel03   sub     23
+        jr      nc, sel03
+        add     a, 24
+        ld      c, a
+        and     %00011000
+        or      %01000000
+        ld      d, a
+        ld      a, c
+        and     %00000111
+        rrca
+        rrca
+        rrca
+        add     a, $0f
+        ld      e, a
+        ld      b, 8
+sel04   ld      a, (de)
+        xor     3
+        ld      (de), a
+        inc     d
+        djnz    sel04
+        exx
+        ret
+
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Start ROM     ++++++++
 ;++++++++++++++++++++++++++++++++++
@@ -631,6 +782,10 @@ conti2  adc     a, a            ; 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI DIVEN
         xor     %10101100       ; LOCK MODE1 DISCONT MODE0 I2KB DISNMI DIVEN 0
         ld      (alto conti9+1), a
         jp      alto micont
+runbit0 ld      a, 45
+        cp      l
+        jp      z, bios
+        ld      h, l
 runbit  ld      b, h
         call    calbit
         ld      bc, zxuno_port
@@ -1053,7 +1208,7 @@ romsb   sub     $1e-$16
         jp      z, roms27
         dec     a
         jp      z, roms27
-        sub     $6e-$1f         ; n= New Entry
+        sub     'n'-$1f         ; n= New Entry
         jp      nz, roms144
         call    qloadt
         ld      ix, cad54
@@ -1175,70 +1330,7 @@ toanyk  ei
         call_prnstr
         jp      waitky
       IF  recovery=0
-roms144 sub     $72-$6e         ; r= Recovery
-        jr      nz, roms139
-        ld      hl, $0309
-        ld      a, %00000111    ; fondo negro tinta blanca
-        call    rest1
-        call    resto
-        sub     l               ; fondo negro tinta blanca
-        ld      hl, $030c
-        ld      de, $1801
-        ld      ix, cad64
-        call    window
-        ld      bc, $0208
-        call    prnmul
-        ld      bc, $040c
-        ld      hl, $20ff
-        call    inputv
-        ld      a, (codcnt)
-        rrca
-        jr      nc, roms149
-        call    newent
-        push    hl
-        set     5, l
-        ex      de, hl
-        ld      hl, empstr
-        ld      a, (items)
-        ld      c, a
-        inc     c
-        ldir
-        sub     32
-        ex      de, hl
-        dec     hl
-roms145 ld      (hl), 32
-        inc     hl
-        inc     a
-        jr      nz, roms145
-        pop     iy
-roms146 inc     iy
-        call    resto
-        ld      de, $0301
-        ld      a, iyl
-        and     7
-        ld      l, a
-        add     a, a
-        push    af
-        add     a, l
-        ld      h, a
-        ld      l, $0e
-        ld      a, %01000111    ; fondo negro tinta blanca
-        call    window
-        pop     af
-        add     a, a
-        ld      b, a
-        ld      c, $0e
-        ld      hl, $03ff
-        call    inputv
-        ld      a, (codcnt)
-        rrca
-        jr      c, roms148
-        call    nument
-        dec     l
-        dec     l
-        ld      (hl), $ff
-        jr      roms149
-roms139 inc     a               ; q= move item up
+roms144 sub     'q'-'n'         ; q= move item up
         jr      nz, nmovup
         ld      a, (menuop+1)
         jr      moveup
@@ -1246,17 +1338,6 @@ nmovup  add     a, 'q'-'a'
         ld      a, (menuop+1)
         jr      z, movedw
         jp      roms7
-roms148 call    atoi
-        ld      (iy-1), a
-        ld      a, iyl
-        inc     a
-        and     7
-        jr      nz, roms146
-roms149 ld      a, %00111001    ; fondo blanco tinta azul
-        ld      hl, $0a08
-        ld      de, $1409
-        call    window
-        ret
 roms15  ld      hl, tmpbuf
         ld      (hl), 1
 roms16  call    popupw
@@ -1870,6 +1951,12 @@ testl   or      a, (ix+$1c)           ; third byte of length
         jr      nz, test2
 test1   ld      hl, (tmpbu2+$1c)
         sbc     hl, de
+        jr      nz, test2
+        cp      $3f
+        jr      nz, nzxco
+        inc     a
+        ld      (tmpbu2+$1c), a
+nzxco   xor     a
 test2   pop     de
         ret
 
@@ -2291,7 +2378,7 @@ exit4   djnz    exit5
 exit5   djnz    exit6
         jp      alto loadch
 exit6   call    savech
-exit7   jp      star51
+exit7   jp      star11
 
 ;++++++++++++++++++++++++++++++++++
 ;++++++++     Boot list    ++++++++
@@ -2321,7 +2408,7 @@ blst1   ld      h, a
         rra
         ld      l, a
         ld      a, h
-        add     a, 8
+        add     a, 7
         ld      e, a
         ld      a, %01001111    ; fondo azul tinta blanca
         ld      h, $01          ; coordenada X
@@ -2343,7 +2430,6 @@ blst2   ld      ix, cad4
         ld      ix, cad3
         call_prnstr             ; |----------------|
         ld      ix, cad5 
-        call_prnstr
         call_prnstr
         call_prnstr
         call_prnstr
@@ -2378,7 +2464,7 @@ bls37   ld      (ix+0), cad6&$ff
         defw    $1a02
         defb    %01001111
         ld      a, (cmbpnt+1)
-        rrca
+        rlca
         ld      hl, (active)
         ld      a, h
         jr      c, bls38
@@ -2388,9 +2474,10 @@ bls38   pop     hl
 blst4   call    combol
         ld      b, a
         ld      a, (codcnt)
-        cp      $0d
+        sub     $0d
+        ld      (bitstr), a
         ld      a, b
-        jr      c, blst5
+;        jr      c, blst5
         jr      nz, blst4
         ld      a, (items)
         dec     a
@@ -2398,12 +2485,12 @@ blst4   call    combol
         ld      a, $17
         jp      z, bios
         ld      a, (cmbpnt+1)
-        rrca
+        rlca
         ld      a, b
         ld      (active), a
         jr      nc, blst5
         ld      (bitstr), a
-blst5   jp      start50
+blst5   jp      star17
       ENDIF
 
 imyesn  call    bloq1
