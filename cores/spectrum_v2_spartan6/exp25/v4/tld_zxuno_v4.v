@@ -66,8 +66,8 @@ module tld_zxuno_v4 (
    wire [1:0] turbo_enable;
    wire [2:0] pll_frequency_option;
 
-   assign stdn = 1'b0;  // fijar norma PAL
-   assign stdnb = 1'b1; // y conectamos reloj PAL
+   //assign stdn = 1'b0;  // fijar norma PAL
+   //assign stdnb = 1'b1; // y conectamos reloj PAL
    
    assign sram_addr[19] = 1'b0;
    assign sram_addr[20] = 1'b0;
@@ -139,7 +139,10 @@ module tld_zxuno_v4 (
     .vga_enable(vga_enable),
     .scanlines_enable(scanlines_enable),
     .freq_option(pll_frequency_option),
-    .turbo_enable(turbo_enable)
+    .turbo_enable(turbo_enable),
+    
+    .ad724_xtal(stdnb),
+    .ad724_mode(stdn)
     );
 
 	vga_scandoubler #(.CLKVIDEO(14000)) salida_vga (
