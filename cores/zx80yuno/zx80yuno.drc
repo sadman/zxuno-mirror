@@ -1,0 +1,25 @@
+Release 14.7 Drc P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+Sun Mar 05 13:53:00 2017
+
+drc -z zx80yuno.ncd zx80yuno.pcf
+
+WARNING:PhysDesignRules:372 - Gated clock. Clock net
+   zx01/c_PS2_MatrixEncoder/Reset_n_inv is sourced by a combinatorial pin. This
+   is not good design practice. Use the CE pin to control the loading of data
+   into the flip-flop.
+WARNING:PhysDesignRules:372 - Gated clock. Clock net zx01/c_top/c_io81/iord is
+   sourced by a combinatorial pin. This is not good design practice. Use the CE
+   pin to control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:372 - Gated clock. Clock net zx01/c_top/c_io81/iowr is
+   sourced by a combinatorial pin. This is not good design practice. Use the CE
+   pin to control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal
+   <zx01/c_Z80/u0/Regs/Mram_RegsH11_RAMD_D1_O> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal
+   <zx01/c_Z80/u0/Regs/Mram_RegsL11_RAMD_D1_O> is incomplete. The signal does
+   not drive any load pins in the design.
+DRC detected 0 errors and 5 warnings.  Please see the previously displayed
+individual error or warning messages for more details.

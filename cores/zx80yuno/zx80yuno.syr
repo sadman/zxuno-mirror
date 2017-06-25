@@ -1,0 +1,1373 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.10 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.10 secs
+ 
+--> Reading design: zx80yuno.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "zx80yuno.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "zx80yuno"
+Output Format                      : NGC
+Target Device                      : xc6slx9-2-tqg144
+
+---- Source Options
+Top Module Name                    : zx80yuno
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\ipcore_dir\clock.v" into library work
+Parsing module <clock>.
+Analyzing Verilog file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\zx80yuno.v" into library work
+Parsing module <zx80yuno>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_Pack.vhd" into library work
+Parsing package <T80_Pack>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_Reg.vhd" into library work
+Parsing entity <T80_Reg>.
+Parsing architecture <rtl> of entity <t80_reg>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_MCode.vhd" into library work
+Parsing entity <T80_MCode>.
+Parsing architecture <rtl> of entity <t80_mcode>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_ALU.vhd" into library work
+Parsing entity <T80_ALU>.
+Parsing architecture <rtl> of entity <t80_alu>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\video81.vhd" into library work
+Parsing entity <video81>.
+Parsing architecture <beh> of entity <video81>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\res_clk.vhd" into library work
+Parsing entity <res_clk>.
+Parsing architecture <beh> of entity <res_clk>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\modes97.vhd" into library work
+Parsing entity <modes97>.
+Parsing architecture <beh> of entity <modes97>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\io81.vhd" into library work
+Parsing entity <io81>.
+Parsing architecture <beh> of entity <io81>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\busses.vhd" into library work
+Parsing entity <busses>.
+Parsing architecture <beh> of entity <busses>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80.vhd" into library work
+Parsing entity <T80>.
+Parsing architecture <rtl> of entity <t80>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\ps2me.vhd" into library work
+Parsing entity <PS2_MatrixEncoder>.
+Parsing architecture <rtl> of entity <ps2_matrixencoder>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\top.vhd" into library work
+Parsing entity <top>.
+Parsing architecture <beh> of entity <top>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\SSRAM.vhd" into library work
+Parsing entity <SSRAM>.
+Parsing architecture <behaviour> of entity <ssram>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80s.vhd" into library work
+Parsing entity <T80s>.
+Parsing architecture <rtl> of entity <t80s>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\rom\zx81.vhd" into library work
+Parsing entity <ROM81>.
+Parsing architecture <rtl> of entity <rom81>.
+Parsing VHDL file "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" into library work
+Parsing entity <zx01>.
+Parsing architecture <rtl> of entity <zx01>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+WARNING:HDLCompiler:1016 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\zx80yuno.v" Line 93: Port c1 is not connected to this instance
+
+Elaborating module <zx80yuno>.
+
+Elaborating module <clock>.
+
+Elaborating module <IBUFG>.
+
+Elaborating module <PLL_BASE(BANDWIDTH="HIGH",CLK_FEEDBACK="CLKFBOUT",COMPENSATION="SYSTEM_SYNCHRONOUS",DIVCLK_DIVIDE=1,CLKFBOUT_MULT=13,CLKFBOUT_PHASE=0.0,CLKOUT0_DIVIDE=50,CLKOUT0_PHASE=0.0,CLKOUT0_DUTY_CYCLE=0.5,CLKOUT1_DIVIDE=25,CLKOUT1_PHASE=0.0,CLKOUT1_DUTY_CYCLE=0.5,CLKIN_PERIOD=20.0,REF_JITTER=0.01)>.
+WARNING:HDLCompiler:1127 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\ipcore_dir\clock.v" Line 121: Assignment to clkout2_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\ipcore_dir\clock.v" Line 122: Assignment to clkout3_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\ipcore_dir\clock.v" Line 123: Assignment to clkout4_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\ipcore_dir\clock.v" Line 124: Assignment to clkout5_unused ignored, since the identifier is never used
+
+Elaborating module <BUFG>.
+WARNING:HDLCompiler:1127 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\zx80yuno.v" Line 181: Assignment to trigger ignored, since the identifier is never used
+Going to vhdl side to elaborate module zx01
+
+Elaborating entity <zx01> (architecture <rtl>) from library <work>.
+
+Elaborating entity <PS2_MatrixEncoder> (architecture <rtl>) from library <work>.
+
+Elaborating entity <T80s> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80_MCode> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80_ALU> (architecture <rtl>) with generics from library <work>.
+
+Elaborating entity <T80_Reg> (architecture <rtl>) from library <work>.
+
+Elaborating entity <SSRAM> (architecture <behaviour>) with generics from library <work>.
+
+Elaborating entity <ROM81> (architecture <rtl>) from library <work>.
+
+Elaborating entity <top> (architecture <beh>) with generics from library <work>.
+
+Elaborating entity <res_clk> (architecture <beh>) from library <work>.
+
+Elaborating entity <modes97> (architecture <beh>) from library <work>.
+
+Elaborating entity <video81> (architecture <beh>) with generics from library <work>.
+
+Elaborating entity <io81> (architecture <beh>) from library <work>.
+
+Elaborating entity <busses> (architecture <beh>) from library <work>.
+INFO:HDLCompiler:679 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\busses.vhd" Line 92. Case statement is complete. others clause is never selected
+Back to verilog to continue elaboration
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <zx80yuno>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\zx80yuno.v".
+WARNING:Xst:37 - Detected unknown constraint/property "noprune". This constraint/property is not supported by the current software release and will be ignored.
+WARNING:Xst:37 - Detected unknown constraint/property "noprune". This constraint/property is not supported by the current software release and will be ignored.
+WARNING:Xst:647 - Input <playbutton> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <SPI_DI> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <SPI_SCK> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <CONF_DATA0> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\zx80yuno.v" line 93: Output port <c1> of the instance <clock> is unconnected or connected to loadless signal.
+    Found 1024x1-bit dual-port RAM <Mram_line_buffer> for signal <line_buffer>.
+    Found 1-bit register for signal <clk>.
+    Found 1-bit register for signal <csD>.
+    Found 8-bit register for signal <sync_len>.
+    Found 1-bit register for signal <vs>.
+    Found 10-bit register for signal <line_cnt>.
+    Found 9-bit register for signal <sd_col>.
+    Found 1-bit register for signal <sd_toggle>.
+    Found 10-bit register for signal <zx_col>.
+    Found 1-bit register for signal <vb>.
+    Found 1-bit register for signal <tape_in_z2>.
+    Found 1-bit register for signal <tape_in_z1>.
+    Found 1-bit register for signal <tape_data>.
+    Found 8-bit register for signal <aclk>.
+    Found 1-bit register for signal <modo_video>.
+    Found 8-bit register for signal <reset_cnt>.
+    Found 8-bit adder for signal <reset_cnt[7]_GND_1_o_add_2_OUT> created at line 86.
+    Found 8-bit adder for signal <sync_len[7]_GND_1_o_add_18_OUT> created at line 192.
+    Found 9-bit adder for signal <sd_col[8]_GND_1_o_add_27_OUT> created at line 211.
+    Found 10-bit adder for signal <line_cnt[9]_GND_1_o_add_29_OUT> created at line 216.
+    Found 10-bit adder for signal <zx_col[9]_GND_1_o_add_32_OUT> created at line 223.
+    Found 8-bit adder for signal <aclk[7]_GND_1_o_add_54_OUT> created at line 286.
+    Found 1-bit tristate buffer for signal <VGA_VS> created at line 128
+    Found 9-bit comparator greater for signal <hs_INV_5_o> created at line 122
+    Found 9-bit comparator lessequal for signal <n0019> created at line 155
+    Found 9-bit comparator greater for signal <sd_col[8]_PWR_1_o_LessThan_14_o> created at line 155
+    Found 10-bit comparator lessequal for signal <n0023> created at line 158
+    Found 10-bit comparator greater for signal <line_cnt[9]_GND_1_o_LessThan_16_o> created at line 158
+    Found 8-bit comparator greater for signal <sync_len[7]_PWR_1_o_LessThan_18_o> created at line 191
+    Found 8-bit comparator greater for signal <sync_len[7]_GND_1_o_LessThan_26_o> created at line 203
+    Found 8-bit comparator greater for signal <aclk[7]_GND_1_o_LessThan_57_o> created at line 290
+    Found 10-bit comparator equal for signal <_n0135> created at line 227
+    Summary:
+	inferred   1 RAM(s).
+	inferred   6 Adder/Subtractor(s).
+	inferred  62 D-type flip-flop(s).
+	inferred   9 Comparator(s).
+	inferred   5 Multiplexer(s).
+	inferred   1 Tristate(s).
+Unit <zx80yuno> synthesized.
+
+Synthesizing Unit <clock>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\ipcore_dir\clock.v".
+    Summary:
+	no macro.
+Unit <clock> synthesized.
+
+Synthesizing Unit <zx01>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd".
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 191: Output port <teclas_f> of the instance <c_PS2_MatrixEncoder> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 208: Output port <BUSAK_n> of the instance <c_Z80> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <d_lcd> of the instance <c_top> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <oe_cpu> of the instance <c_top> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <oe_mem> of the instance <c_top> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <n_romcs> of the instance <c_top> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <s> of the instance <c_top> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <cp1> of the instance <c_top> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\zx01.vhd" line 244: Output port <cp2> of the instance <c_top> is unconnected or connected to loadless signal.
+    Found 2-bit register for signal <cnt>.
+    Found 1-bit register for signal <s_n_reset>.
+    Found 1-bit register for signal <Tick1us>.
+    Found 2-bit subtractor for signal <GND_10_o_GND_10_o_sub_2_OUT<1:0>> created at line 1308.
+    Found 1-bit tristate buffer for signal <video> created at line 280
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred   4 D-type flip-flop(s).
+	inferred   3 Multiplexer(s).
+	inferred   1 Tristate(s).
+Unit <zx01> synthesized.
+
+Synthesizing Unit <PS2_MatrixEncoder>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zxuno\ps2me.vhd".
+    Found 1-bit register for signal <PS2_Clk_State>.
+    Found 1-bit register for signal <PS2_Data_s>.
+    Found 1-bit register for signal <RX_Received>.
+    Found 1-bit register for signal <RX_Release>.
+    Found 1-bit register for signal <Matrix_Set>.
+    Found 1-bit register for signal <Matrix_Clear>.
+    Found 1-bit register for signal <PS2_Sample>.
+    Found 2-bit register for signal <PS2_Clk_r>.
+    Found 2-bit register for signal <PS2_Data_r>.
+    Found 4-bit register for signal <RX_Bit_Cnt>.
+    Found 8-bit register for signal <RX_ShiftReg>.
+    Found 8-bit register for signal <Matrix_Wr_Addr>.
+    Found 32-bit register for signal <Cnt>.
+    Found 5-bit register for signal <Matrix<0>>.
+    Found 5-bit register for signal <Matrix<1>>.
+    Found 5-bit register for signal <Matrix<2>>.
+    Found 5-bit register for signal <Matrix<3>>.
+    Found 5-bit register for signal <Matrix<4>>.
+    Found 5-bit register for signal <Matrix<5>>.
+    Found 5-bit register for signal <Matrix<6>>.
+    Found 5-bit register for signal <Matrix<7>>.
+    Found 4-bit adder for signal <RX_Bit_Cnt[3]_GND_11_o_add_14_OUT> created at line 1241.
+    Found 32-bit adder for signal <Cnt[31]_GND_11_o_add_24_OUT> created at line 128.
+    Found 256x8-bit Read Only RAM for signal <LookUp>
+    Found 5-bit 8-to-1 multiplexer for signal <Matrix_Wr_Addr[7]_Matrix[7][4]_wide_mux_64_OUT> created at line 280.
+    Summary:
+	inferred   1 RAM(s).
+	inferred   2 Adder/Subtractor(s).
+	inferred 103 D-type flip-flop(s).
+	inferred  69 Multiplexer(s).
+Unit <PS2_MatrixEncoder> synthesized.
+
+Synthesizing Unit <T80s>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80s.vhd".
+        Mode = 0
+        T2Write = 0
+        IOWait = 1
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80s.vhd" line 115: Output port <IntE> of the instance <u0> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80s.vhd" line 115: Output port <Stop> of the instance <u0> is unconnected or connected to loadless signal.
+    Found 1-bit register for signal <WR_n>.
+    Found 1-bit register for signal <IORQ_n>.
+    Found 1-bit register for signal <MREQ_n>.
+    Found 1-bit register for signal <RD_n>.
+    Found 8-bit register for signal <DI_Reg>.
+    Summary:
+	inferred  12 D-type flip-flop(s).
+	inferred  11 Multiplexer(s).
+Unit <T80s> synthesized.
+
+Synthesizing Unit <T80>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80.vhd".
+        Mode = 0
+        IOWait = 1
+        Flag_C = 0
+        Flag_N = 1
+        Flag_P = 2
+        Flag_X = 3
+        Flag_H = 4
+        Flag_Y = 5
+        Flag_Z = 6
+        Flag_S = 7
+    Found 1-bit register for signal <RFSH_n>.
+    Found 1-bit register for signal <M1_n>.
+    Found 1-bit register for signal <Alternate>.
+    Found 1-bit register for signal <Arith16_r>.
+    Found 1-bit register for signal <BTR_r>.
+    Found 1-bit register for signal <Z16_r>.
+    Found 1-bit register for signal <Save_ALU_r>.
+    Found 1-bit register for signal <PreserveC_r>.
+    Found 1-bit register for signal <XY_Ind>.
+    Found 1-bit register for signal <INT_s>.
+    Found 1-bit register for signal <NMI_s>.
+    Found 1-bit register for signal <OldNMI_n>.
+    Found 1-bit register for signal <Halt_FF>.
+    Found 1-bit register for signal <NMICycle>.
+    Found 1-bit register for signal <IntCycle>.
+    Found 1-bit register for signal <IntE_FF1>.
+    Found 1-bit register for signal <IntE_FF2>.
+    Found 1-bit register for signal <No_BTR>.
+    Found 1-bit register for signal <Auto_Wait_t1>.
+    Found 1-bit register for signal <Auto_Wait_t2>.
+    Found 16-bit register for signal <SP>.
+    Found 8-bit register for signal <F>.
+    Found 8-bit register for signal <Ap>.
+    Found 8-bit register for signal <Fp>.
+    Found 8-bit register for signal <ACC>.
+    Found 16-bit register for signal <A>.
+    Found 16-bit register for signal <TmpAddr>.
+    Found 16-bit register for signal <PC>.
+    Found 8-bit register for signal <IR>.
+    Found 8-bit register for signal <DO>.
+    Found 8-bit register for signal <I>.
+    Found 8-bit register for signal <R>.
+    Found 2-bit register for signal <ISet>.
+    Found 2-bit register for signal <XY_State>.
+    Found 2-bit register for signal <IStatus>.
+    Found 3-bit register for signal <MCycles>.
+    Found 3-bit register for signal <TState>.
+    Found 3-bit register for signal <Pre_XY_F_M>.
+    Found 5-bit register for signal <Read_To_Reg_r>.
+    Found 4-bit register for signal <ALU_Op_r>.
+    Found 3-bit register for signal <MCycle>.
+    Found 3-bit register for signal <RegAddrA_r>.
+    Found 3-bit register for signal <RegAddrB_r>.
+    Found 3-bit register for signal <RegAddrC>.
+    Found 1-bit register for signal <IncDecZ>.
+    Found 16-bit register for signal <RegBusA_r>.
+    Found 8-bit register for signal <BusB>.
+    Found 8-bit register for signal <BusA>.
+    Found 7-bit adder for signal <R[6]_GND_15_o_add_15_OUT> created at line 1241.
+    Found 16-bit adder for signal <TmpAddr[15]_GND_15_o_add_46_OUT> created at line 1241.
+    Found 16-bit adder for signal <PC[15]_DI_Reg[7]_add_69_OUT> created at line 566.
+    Found 16-bit adder for signal <PC[15]_GND_15_o_add_70_OUT> created at line 1241.
+    Found 16-bit adder for signal <RegBusC[15]_DI_Reg[7]_add_81_OUT> created at line 579.
+    Found 16-bit adder for signal <SP[15]_GND_15_o_add_88_OUT> created at line 1241.
+    Found 16-bit adder for signal <RegBusA[15]_GND_15_o_add_215_OUT> created at line 1253.
+    Found 3-bit adder for signal <Pre_XY_F_M[2]_GND_15_o_add_267_OUT> created at line 1241.
+    Found 3-bit adder for signal <MCycle[2]_GND_15_o_add_272_OUT> created at line 1241.
+    Found 3-bit adder for signal <TState[2]_GND_15_o_add_280_OUT> created at line 1241.
+    Found 16-bit subtractor for signal <GND_15_o_GND_15_o_sub_74_OUT<15:0>> created at line 1308.
+    Found 16-bit subtractor for signal <GND_15_o_GND_15_o_sub_88_OUT<15:0>> created at line 1308.
+    Found 16-bit subtractor for signal <RegBusA[15]_GND_15_o_sub_217_OUT<15:0>> created at line 1320.
+    Found 16-bit 7-to-1 multiplexer for signal <Set_Addr_To[2]_PC[15]_wide_mux_48_OUT> created at line 486.
+    Found 8-bit 3-to-1 multiplexer for signal <Special_LD[1]_ACC[7]_wide_mux_110_OUT> created at line 615.
+    Found 8-bit 11-to-1 multiplexer for signal <Set_BusB_To[3]_X_14_o_wide_mux_243_OUT> created at line 861.
+    Found 8-bit 3-to-1 multiplexer for signal <_n1450> created at line 615.
+    Found 3-bit comparator equal for signal <T_Res> created at line 344
+    Found 3-bit comparator equal for signal <MCycles[2]_MCycle[2]_equal_269_o> created at line 1045
+    WARNING:Xst:2404 -  FFs/Latches <BusReq_s<0:0>> (without init value) have a constant value of 0 in block <T80>.
+    WARNING:Xst:2404 -  FFs/Latches <BusAck<0:0>> (without init value) have a constant value of 0 in block <T80>.
+    Summary:
+	inferred  10 Adder/Subtractor(s).
+	inferred 217 D-type flip-flop(s).
+	inferred   2 Comparator(s).
+	inferred 243 Multiplexer(s).
+Unit <T80> synthesized.
+
+Synthesizing Unit <T80_MCode>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_MCode.vhd".
+        Mode = 0
+        Flag_C = 0
+        Flag_N = 1
+        Flag_P = 2
+        Flag_X = 3
+        Flag_H = 4
+        Flag_Y = 5
+        Flag_Z = 6
+        Flag_S = 7
+WARNING:Xst:647 - Input <F<1:1>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+WARNING:Xst:647 - Input <F<5:3>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 1-bit 8-to-1 multiplexer for signal <IR[5]_F[7]_Mux_192_o> created at line 172.
+    Found 4-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_wide_mux_507_OUT> created at line 250.
+    Found 4-bit 3-to-1 multiplexer for signal <Set_BusA_To> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Read_To_Reg> created at line 250.
+    Found 3-bit 3-to-1 multiplexer for signal <MCycles> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_Mux_512_o> created at line 250.
+    Found 3-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_wide_mux_513_OUT> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Write> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Read_To_Acc> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <LDZ> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <LDW> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Inc_WZ> created at line 250.
+    Found 3-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_wide_mux_519_OUT> created at line 250.
+    Found 4-bit 3-to-1 multiplexer for signal <IncDec_16> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Save_ALU> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <PreserveC> created at line 250.
+    Found 4-bit 3-to-1 multiplexer for signal <ALU_Op> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <Jump> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <ISet[1]_IR[7]_Mux_535_o> created at line 250.
+    Found 1-bit 3-to-1 multiplexer for signal <IORQ> created at line 250.
+    Summary:
+	inferred 403 Multiplexer(s).
+Unit <T80_MCode> synthesized.
+
+Synthesizing Unit <T80_ALU>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_ALU.vhd".
+        Mode = 0
+        Flag_C = 0
+        Flag_N = 1
+        Flag_P = 2
+        Flag_X = 3
+        Flag_H = 4
+        Flag_Y = 5
+        Flag_Z = 6
+        Flag_S = 7
+    Found 6-bit adder for signal <n0124> created at line 116.
+    Found 5-bit adder for signal <n0123> created at line 116.
+    Found 3-bit adder for signal <n0122> created at line 116.
+    Found 9-bit adder for signal <GND_17_o_GND_17_o_add_21_OUT> created at line 1241.
+    Found 9-bit adder for signal <GND_17_o_GND_17_o_add_24_OUT> created at line 1241.
+    Found 8-bit subtractor for signal <GND_17_o_GND_17_o_sub_29_OUT<7:0>> created at line 1308.
+    Found 9-bit subtractor for signal <GND_17_o_GND_17_o_sub_32_OUT<8:0>> created at line 1308.
+    Found 8-bit 8-to-1 multiplexer for signal <IR[5]_GND_17_o_wide_mux_42_OUT> created at line 309.
+    Found 5-bit comparator greater for signal <GND_17_o_GND_17_o_LessThan_24_o> created at line 235
+    Found 4-bit comparator greater for signal <PWR_17_o_BusA[3]_LessThan_27_o> created at line 240
+    Found 4-bit comparator greater for signal <GND_17_o_BusA[3]_LessThan_28_o> created at line 241
+    Found 8-bit comparator greater for signal <PWR_17_o_BusA[7]_LessThan_31_o> created at line 246
+    Summary:
+	inferred   7 Adder/Subtractor(s).
+	inferred   4 Comparator(s).
+	inferred  57 Multiplexer(s).
+Unit <T80_ALU> synthesized.
+
+Synthesizing Unit <T80_Reg>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\t80\T80_Reg.vhd".
+    Found 8x8-bit dual-port RAM <Mram_RegsH> for signal <RegsH>.
+    Found 8x8-bit dual-port RAM <Mram_RegsL> for signal <RegsL>.
+    Summary:
+	inferred   4 RAM(s).
+Unit <T80_Reg> synthesized.
+
+Synthesizing Unit <SSRAM>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx01\SSRAM.vhd".
+        AddrWidth = 14
+        DataWidth = 8
+    Found 16384x8-bit dual-port RAM <Mram_RAM> for signal <RAM>.
+    Found 14-bit register for signal <A_r>.
+    Summary:
+	inferred   1 RAM(s).
+	inferred  14 D-type flip-flop(s).
+Unit <SSRAM> synthesized.
+
+Synthesizing Unit <ROM81>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\rom\zx81.vhd".
+    Found 13-bit register for signal <A_r>.
+    Found 8192x8-bit Read Only RAM for signal <D>
+    Summary:
+	inferred   1 RAM(s).
+	inferred  13 D-type flip-flop(s).
+Unit <ROM81> synthesized.
+
+Synthesizing Unit <top>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\top.vhd".
+        synchronous = true
+WARNING:Xst:653 - Signal <d_lcd> is used but never assigned. This sourceless signal will be automatically connected to value GND.
+WARNING:Xst:653 - Signal <s> is used but never assigned. This sourceless signal will be automatically connected to value GND.
+WARNING:Xst:653 - Signal <cp1> is used but never assigned. This sourceless signal will be automatically connected to value GND.
+WARNING:Xst:653 - Signal <cp2> is used but never assigned. This sourceless signal will be automatically connected to value GND.
+    Summary:
+	no macro.
+Unit <top> synthesized.
+
+Synthesizing Unit <res_clk>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\res_clk.vhd".
+    Found 1-bit register for signal <i_phi>.
+    Found 3-bit register for signal <timer>.
+    Found 3-bit adder for signal <timer[2]_GND_24_o_add_2_OUT> created at line 49.
+    Found 3-bit comparator lessequal for signal <timer[2]_PWR_26_o_LessThan_1_o> created at line 38
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred   4 D-type flip-flop(s).
+	inferred   1 Comparator(s).
+	inferred   1 Multiplexer(s).
+Unit <res_clk> synthesized.
+
+Synthesizing Unit <modes97>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\modes97.vhd".
+    Found 1-bit register for signal <mode_rom0>.
+    Found 1-bit register for signal <mode_chr13>.
+    Found 1-bit register for signal <mode_reset>.
+    Found 2-bit register for signal <mode_romp>.
+    Found 1-bit register for signal <mode_v_inv>.
+    Found 2-bit register for signal <mode_ram>.
+    Summary:
+	inferred   8 D-type flip-flop(s).
+	inferred   3 Multiplexer(s).
+Unit <modes97> synthesized.
+
+Synthesizing Unit <video81>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\video81.vhd".
+        synchronous = true
+    Found 3-bit register for signal <row_count>.
+    Found 8-bit register for signal <line_cnt>.
+    Found 1-bit register for signal <chr_inv>.
+    Found 6-bit register for signal <chr_addr>.
+    Found 1-bit register for signal <faking>.
+    Found 1-bit register for signal <hsync2>.
+    Found 1-bit register for signal <video_read>.
+    Found 8-bit register for signal <video_pixel>.
+    Found 8-bit adder for signal <line_cnt[7]_GND_28_o_add_1_OUT> created at line 75.
+    Found 3-bit adder for signal <row_count[2]_GND_28_o_add_8_OUT> created at line 114.
+    Found 8-bit comparator lessequal for signal <n0002> created at line 72
+    Found 8-bit comparator lessequal for signal <n0008> created at line 80
+    Summary:
+	inferred   2 Adder/Subtractor(s).
+	inferred  29 D-type flip-flop(s).
+	inferred   2 Comparator(s).
+	inferred   5 Multiplexer(s).
+Unit <video81> synthesized.
+
+Synthesizing Unit <io81>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\io81.vhd".
+    Found 1-bit register for signal <i_nmi_enable>.
+    Found 1-bit register for signal <vsync>.
+    Summary:
+	inferred   2 D-type flip-flop(s).
+Unit <io81> synthesized.
+
+Synthesizing Unit <busses>.
+    Related source file is "E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx\zx97\busses.vhd".
+WARNING:Xst:647 - Input <a_cpu<12:9>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Found 1-bit 6-to-1 multiplexer for signal <a_cpu[15]_PWR_31_o_Mux_4_o> created at line 56.
+    Summary:
+	inferred  13 Multiplexer(s).
+Unit <busses> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 8
+ 1024x1-bit dual-port RAM                              : 1
+ 16384x8-bit dual-port RAM                             : 1
+ 256x8-bit single-port Read Only RAM                   : 1
+ 8192x8-bit single-port Read Only RAM                  : 1
+ 8x8-bit dual-port RAM                                 : 4
+# Adders/Subtractors                                   : 29
+ 10-bit adder                                          : 2
+ 16-bit adder                                          : 4
+ 16-bit addsub                                         : 2
+ 16-bit subtractor                                     : 1
+ 2-bit subtractor                                      : 1
+ 3-bit adder                                           : 5
+ 32-bit adder                                          : 1
+ 4-bit adder                                           : 1
+ 5-bit adder                                           : 1
+ 6-bit adder                                           : 1
+ 7-bit adder                                           : 1
+ 8-bit adder                                           : 4
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 3
+ 9-bit subtractor                                      : 1
+# Registers                                            : 112
+ 1-bit register                                        : 54
+ 10-bit register                                       : 2
+ 13-bit register                                       : 1
+ 14-bit register                                       : 1
+ 16-bit register                                       : 5
+ 2-bit register                                        : 8
+ 3-bit register                                        : 9
+ 32-bit register                                       : 1
+ 4-bit register                                        : 2
+ 5-bit register                                        : 9
+ 6-bit register                                        : 1
+ 8-bit register                                        : 18
+ 9-bit register                                        : 1
+# Comparators                                          : 18
+ 10-bit comparator equal                               : 1
+ 10-bit comparator greater                             : 1
+ 10-bit comparator lessequal                           : 1
+ 3-bit comparator equal                                : 2
+ 3-bit comparator lessequal                            : 1
+ 4-bit comparator greater                              : 2
+ 5-bit comparator greater                              : 1
+ 8-bit comparator greater                              : 4
+ 8-bit comparator lessequal                            : 2
+ 9-bit comparator greater                              : 2
+ 9-bit comparator lessequal                            : 1
+# Multiplexers                                         : 813
+ 1-bit 2-to-1 multiplexer                              : 318
+ 1-bit 3-to-1 multiplexer                              : 12
+ 1-bit 6-to-1 multiplexer                              : 1
+ 1-bit 8-to-1 multiplexer                              : 1
+ 10-bit 2-to-1 multiplexer                             : 1
+ 16-bit 2-to-1 multiplexer                             : 34
+ 16-bit 7-to-1 multiplexer                             : 1
+ 2-bit 2-to-1 multiplexer                              : 12
+ 3-bit 2-to-1 multiplexer                              : 124
+ 3-bit 3-to-1 multiplexer                              : 3
+ 32-bit 2-to-1 multiplexer                             : 2
+ 4-bit 2-to-1 multiplexer                              : 161
+ 4-bit 3-to-1 multiplexer                              : 4
+ 5-bit 2-to-1 multiplexer                              : 51
+ 5-bit 8-to-1 multiplexer                              : 1
+ 8-bit 11-to-1 multiplexer                             : 1
+ 8-bit 2-to-1 multiplexer                              : 77
+ 8-bit 3-to-1 multiplexer                              : 2
+ 8-bit 8-to-1 multiplexer                              : 1
+ 9-bit 2-to-1 multiplexer                              : 6
+# Tristates                                            : 2
+ 1-bit tristate buffer                                 : 2
+# Xors                                                 : 8
+ 1-bit xor2                                            : 2
+ 1-bit xor8                                            : 5
+ 8-bit xor2                                            : 1
+
+=========================================================================
+INFO:Xst:1767 - HDL ADVISOR - Resource sharing has identified that some arithmetic operations in this design can share the same physical resources for reduced device utilization. For improved clock frequency you may try to disable resource sharing.
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+WARNING:Xst:1293 - FF/Latch <modo_video> has a constant value of 0 in block <zx80yuno>. This FF/Latch will be trimmed during the optimization process.
+
+Synthesizing (advanced) Unit <PS2_MatrixEncoder>.
+INFO:Xst:3218 - HDL ADVISOR - The RAM <Mram_LookUp> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 256-word x 8-bit                    |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <RX_ShiftReg>   |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <LookUp>        |          |
+    -----------------------------------------------------------------------
+Unit <PS2_MatrixEncoder> synthesized (advanced).
+
+Synthesizing (advanced) Unit <T80>.
+The following registers are absorbed into counter <TState>: 1 register on signal <TState>.
+Unit <T80> synthesized (advanced).
+
+Synthesizing (advanced) Unit <T80_Reg>.
+INFO:Xst:3231 - The small RAM <Mram_RegsH1> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEH_1>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIH>           |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrC>         |          |
+    |     doB            | connected to signal <DOCH>          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3231 - The small RAM <Mram_RegsL1> will be implemented on LUTs in order to maximize performance and save block RAM resources. If you want to force its implementation on block, use option/constraint ram_style.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEL_1>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIL>           |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrC>         |          |
+    |     doB            | connected to signal <DOCL>          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3218 - HDL ADVISOR - The RAM <Mram_RegsH> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEH_0>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIH>           |          |
+    |     doA            | connected to signal <DOAH>          |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrB>         |          |
+    |     doB            | connected to signal <DOBH>          |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3218 - HDL ADVISOR - The RAM <Mram_RegsL> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     clkA           | connected to signal <Clk>           | rise     |
+    |     weA            | connected to signal <WEL_0>         | high     |
+    |     addrA          | connected to signal <AddrA>         |          |
+    |     diA            | connected to signal <DIL>           |          |
+    |     doA            | connected to signal <DOAL>          |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 8-word x 8-bit                      |          |
+    |     addrB          | connected to signal <AddrB>         |          |
+    |     doB            | connected to signal <DOBL>          |          |
+    -----------------------------------------------------------------------
+Unit <T80_Reg> synthesized (advanced).
+
+Synthesizing (advanced) Unit <res_clk>.
+The following registers are absorbed into counter <timer>: 1 register on signal <timer>.
+Unit <res_clk> synthesized (advanced).
+
+Synthesizing (advanced) Unit <video81>.
+The following registers are absorbed into counter <row_count>: 1 register on signal <row_count>.
+Unit <video81> synthesized (advanced).
+
+Synthesizing (advanced) Unit <zx01>.
+The following registers are absorbed into counter <cnt>: 1 register on signal <cnt>.
+INFO:Xst:3226 - The RAM <c_ROM81/Mram_D> will be implemented as a BLOCK RAM, absorbing the following register(s): <c_ROM81/A_r>
+    -----------------------------------------------------------------------
+    | ram_type           | Block                               |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 8192-word x 8-bit                   |          |
+    |     mode           | write-first                         |          |
+    |     clkA           | connected to signal <clock_2>       | rise     |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <(a_cpu<12:9>,a_mem_l)> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <d_rom>         |          |
+    -----------------------------------------------------------------------
+    | optimization       | speed                               |          |
+    -----------------------------------------------------------------------
+INFO:Xst:3226 - The RAM <c_SSRAM/Mram_RAM> will be implemented as a BLOCK RAM, absorbing the following register(s): <c_SSRAM/A_r>
+    -----------------------------------------------------------------------
+    | ram_type           | Block                               |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16384-word x 8-bit                  |          |
+    |     mode           | write-first                         |          |
+    |     clkA           | connected to signal <clock_2>       | rise     |
+    |     weA            | connected to internal node          | low      |
+    |     addrA          | connected to signal <(a_mem_h,a_cpu<12:9>,a_mem_l)> |          |
+    |     diA            | connected to signal <d_cpu_i>       |          |
+    |     doA            | connected to signal <d_ram>         |          |
+    -----------------------------------------------------------------------
+    | optimization       | speed                               |          |
+    -----------------------------------------------------------------------
+Unit <zx01> synthesized (advanced).
+
+Synthesizing (advanced) Unit <zx80yuno>.
+The following registers are absorbed into counter <aclk>: 1 register on signal <aclk>.
+The following registers are absorbed into counter <line_cnt>: 1 register on signal <line_cnt>.
+The following registers are absorbed into counter <sd_col>: 1 register on signal <sd_col>.
+The following registers are absorbed into counter <sync_len>: 1 register on signal <sync_len>.
+The following registers are absorbed into counter <zx_col>: 1 register on signal <zx_col>.
+The following registers are absorbed into counter <reset_cnt>: 1 register on signal <reset_cnt>.
+INFO:Xst:3218 - HDL ADVISOR - The RAM <Mram_line_buffer> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 1024-word x 1-bit                   |          |
+    |     clkA           | connected to signal <clk13>         | rise     |
+    |     weA            | connected to signal <zx_col<0>>     | high     |
+    |     addrA          | connected to signal <(sd_toggle,zx_col<9:1>)> |          |
+    |     diA            | connected to signal <video>         |          |
+    -----------------------------------------------------------------------
+    | Port B                                                              |
+    |     aspect ratio   | 1024-word x 1-bit                   |          |
+    |     addrB          | connected to signal <(sd_toggle_INV_13_o,sd_col)> |          |
+    |     doB            | connected to internal node          |          |
+    -----------------------------------------------------------------------
+Unit <zx80yuno> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 8
+ 1024x1-bit dual-port distributed RAM                  : 1
+ 16384x8-bit single-port block RAM                     : 1
+ 256x8-bit single-port distributed Read Only RAM       : 1
+ 8192x8-bit single-port block Read Only RAM            : 1
+ 8x8-bit dual-port distributed RAM                     : 4
+# Adders/Subtractors                                   : 19
+ 16-bit adder                                          : 4
+ 16-bit addsub                                         : 2
+ 16-bit subtractor                                     : 1
+ 3-bit adder                                           : 2
+ 32-bit adder                                          : 1
+ 4-bit adder                                           : 1
+ 5-bit adder                                           : 1
+ 6-bit adder                                           : 1
+ 7-bit adder                                           : 1
+ 8-bit adder                                           : 1
+ 8-bit subtractor                                      : 1
+ 9-bit adder                                           : 2
+ 9-bit subtractor                                      : 1
+# Counters                                             : 10
+ 10-bit up counter                                     : 2
+ 2-bit down counter                                    : 1
+ 3-bit up counter                                      : 3
+ 8-bit up counter                                      : 3
+ 9-bit up counter                                      : 1
+# Registers                                            : 377
+ Flip-Flops                                            : 377
+# Comparators                                          : 18
+ 10-bit comparator equal                               : 1
+ 10-bit comparator greater                             : 1
+ 10-bit comparator lessequal                           : 1
+ 3-bit comparator equal                                : 2
+ 3-bit comparator lessequal                            : 1
+ 4-bit comparator greater                              : 2
+ 5-bit comparator greater                              : 1
+ 8-bit comparator greater                              : 4
+ 8-bit comparator lessequal                            : 2
+ 9-bit comparator greater                              : 2
+ 9-bit comparator lessequal                            : 1
+# Multiplexers                                         : 810
+ 1-bit 2-to-1 multiplexer                              : 315
+ 1-bit 3-to-1 multiplexer                              : 12
+ 1-bit 6-to-1 multiplexer                              : 1
+ 1-bit 8-to-1 multiplexer                              : 6
+ 16-bit 2-to-1 multiplexer                             : 34
+ 16-bit 7-to-1 multiplexer                             : 1
+ 2-bit 2-to-1 multiplexer                              : 11
+ 3-bit 2-to-1 multiplexer                              : 122
+ 3-bit 3-to-1 multiplexer                              : 3
+ 32-bit 2-to-1 multiplexer                             : 2
+ 4-bit 2-to-1 multiplexer                              : 161
+ 4-bit 3-to-1 multiplexer                              : 4
+ 5-bit 2-to-1 multiplexer                              : 51
+ 8-bit 11-to-1 multiplexer                             : 1
+ 8-bit 2-to-1 multiplexer                              : 77
+ 8-bit 3-to-1 multiplexer                              : 2
+ 8-bit 8-to-1 multiplexer                              : 1
+ 9-bit 2-to-1 multiplexer                              : 6
+# Xors                                                 : 8
+ 1-bit xor2                                            : 2
+ 1-bit xor8                                            : 5
+ 8-bit xor2                                            : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+INFO:Xst:1901 - Instance clock/pll_base_inst in unit clock/pll_base_inst of type PLL_BASE has been replaced by PLL_ADV
+WARNING:Xst:3002 - This design contains one or more registers/latches that are directly
+   incompatible with the Spartan6 architecture. The two primary causes of this is
+   either a register or latch described with both an asynchronous set and
+   asynchronous reset, or a register or latch described with an asynchronous
+   set or reset which however has an initialization value of the opposite 
+   polarity (i.e. asynchronous reset with an initialization value of 1).
+    While this circuit can be built, it creates a sub-optimal implementation
+   in terms of area, power and performance. For a more optimal implementation
+   Xilinx highly recommends one of the following:
+
+          1) Remove either the set or reset from all registers and latches
+             if not needed for required functionality
+          2) Modify the code in order to produce a synchronous set
+             and/or reset (both is preferred)
+          3) Ensure all registers have the same initialization value as the
+             described asynchronous set or reset polarity
+          4) Use the -async_to_sync option to transform the asynchronous
+             set/reset to synchronous operation
+             (timing simulation highly recommended when using this option)
+
+  Please refer to http://www.xilinx.com search string "Spartan6 asynchronous set/reset" for more details.
+
+  List of register instances with asynchronous set or reset and opposite initialization value:
+    Cnt_31 in unit <PS2_MatrixEncoder>
+
+
+Optimizing unit <zx80yuno> ...
+
+Optimizing unit <zx01> ...
+
+Optimizing unit <video81> ...
+
+Optimizing unit <modes97> ...
+
+Optimizing unit <io81> ...
+
+Optimizing unit <PS2_MatrixEncoder> ...
+
+Optimizing unit <T80s> ...
+
+Optimizing unit <T80> ...
+
+Optimizing unit <T80_ALU> ...
+
+Optimizing unit <T80_MCode> ...
+WARNING:Xst:1293 - FF/Latch <modo_video> has a constant value of 0 in block <zx80yuno>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:2677 - Node <zx01/c_top/c_modes97/mode_romp_1> of sequential type is unconnected in block <zx80yuno>.
+INFO:Xst:2261 - The FF/Latch <zx01/cnt_1> in Unit <zx80yuno> is equivalent to the following FF/Latch, which will be removed : <zx01/Tick1us> 
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block zx80yuno, actual ratio is 37.
+WARNING:Xst:1426 - The value init of the FF/Latch zx01/c_PS2_MatrixEncoder/Cnt_31_LD hinder the constant cleaning in the block zx80yuno.
+   You should achieve better results by setting this init to 0.
+FlipFlop zx01/c_Z80/u0/F_0 has been replicated 1 time(s)
+FlipFlop zx01/c_Z80/u0/IR_0 has been replicated 3 time(s)
+FlipFlop zx01/c_Z80/u0/IR_1 has been replicated 4 time(s)
+FlipFlop zx01/c_Z80/u0/IR_2 has been replicated 4 time(s)
+FlipFlop zx01/c_Z80/u0/IR_3 has been replicated 3 time(s)
+FlipFlop zx01/c_Z80/u0/IR_4 has been replicated 2 time(s)
+FlipFlop zx01/c_Z80/u0/IR_5 has been replicated 3 time(s)
+FlipFlop zx01/c_Z80/u0/IR_6 has been replicated 3 time(s)
+FlipFlop zx01/c_Z80/u0/IR_7 has been replicated 4 time(s)
+FlipFlop zx01/c_Z80/u0/MCycle_0 has been replicated 1 time(s)
+FlipFlop zx01/c_Z80/u0/MCycle_1 has been replicated 1 time(s)
+FlipFlop zx01/c_Z80/u0/MCycle_2 has been replicated 2 time(s)
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 470
+ Flip-Flops                                            : 470
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : zx80yuno.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 2256
+#      GND                         : 1
+#      INV                         : 35
+#      LUT1                        : 110
+#      LUT2                        : 88
+#      LUT3                        : 140
+#      LUT4                        : 200
+#      LUT5                        : 381
+#      LUT6                        : 872
+#      MUXCY                       : 182
+#      MUXF7                       : 50
+#      VCC                         : 1
+#      XORCY                       : 196
+# FlipFlops/Latches                : 471
+#      FD                          : 64
+#      FD_1                        : 1
+#      FDC                         : 60
+#      FDCE                        : 217
+#      FDE                         : 11
+#      FDE_1                       : 7
+#      FDP                         : 31
+#      FDPE                        : 32
+#      FDR                         : 31
+#      FDRE                        : 16
+#      LD                          : 1
+# RAMS                             : 42
+#      RAM128X1D                   : 8
+#      RAM16X1D                    : 20
+#      RAM32M                      : 2
+#      RAMB16BWER                  : 12
+# Clock Buffers                    : 5
+#      BUFG                        : 5
+# IO Buffers                       : 20
+#      IBUF                        : 3
+#      IBUFG                       : 1
+#      OBUF                        : 16
+# Others                           : 1
+#      PLL_ADV                     : 1
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx9tqg144-2 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:             471  out of  11440     4%  
+ Number of Slice LUTs:                 1906  out of   5720    33%  
+    Number used as Logic:              1826  out of   5720    31%  
+    Number used as Memory:               80  out of   1440     5%  
+       Number used as RAM:               80
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:   1975
+   Number with an unused Flip Flop:    1504  out of   1975    76%  
+   Number with an unused LUT:            69  out of   1975     3%  
+   Number of fully used LUT-FF pairs:   402  out of   1975    20%  
+   Number of unique control sets:        64
+
+IO Utilization: 
+ Number of IOs:                          25
+ Number of bonded IOBs:                  20  out of    102    19%  
+
+Specific Feature Utilization:
+ Number of Block RAM/FIFO:               12  out of     32    37%  
+    Number using Block RAM only:         12
+ Number of BUFG/BUFGCTRLs:                5  out of     16    31%  
+ Number of PLL_ADVs:                      1  out of      2    50%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-------------------------------------------------------------------------+--------------------------------------------+-------+
+Clock Signal                                                             | Clock buffer(FF name)                      | Load  |
+-------------------------------------------------------------------------+--------------------------------------------+-------+
+clock/pll_base_inst/CLKOUT0                                              | BUFG                                       | 58    |
+clk                                                                      | BUFG                                       | 25    |
+zx01/c_top/c_res_clk/i_phi                                               | BUFG                                       | 427   |
+zx01/c_top/c_io81/iord(zx01/c_top/c_io81/iord1:O)                        | NONE(*)(zx01/c_top/c_io81/vsync)           | 1     |
+zx01/c_top/c_io81/iowr(zx01/c_top/c_io81/iowr1:O)                        | NONE(*)(zx01/c_top/c_io81/i_nmi_enable)    | 1     |
+zx01/c_PS2_MatrixEncoder/Reset_n_inv(zx01/c_top/c_modes97/n_reset_inv1:O)| NONE(*)(zx01/c_PS2_MatrixEncoder/Cnt_31_LD)| 1     |
+-------------------------------------------------------------------------+--------------------------------------------+-------+
+(*) These 3 clock signal(s) are generated by combinatorial logic,
+and XST is not able to identify which are the primary clock signals.
+Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -2
+
+   Minimum period: 14.589ns (Maximum Frequency: 68.544MHz)
+   Minimum input arrival time before clock: 2.382ns
+   Maximum output required time after clock: 5.458ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clock/pll_base_inst/CLKOUT0'
+  Clock period: 5.450ns (frequency: 183.486MHz)
+  Total number of paths / destination ports: 677 / 151
+-------------------------------------------------------------------------
+Delay:               5.450ns (Levels of Logic = 3)
+  Source:            sync_len_7 (FF)
+  Destination:       line_cnt_0 (FF)
+  Source Clock:      clock/pll_base_inst/CLKOUT0 rising
+  Destination Clock: clock/pll_base_inst/CLKOUT0 rising
+
+  Data Path: sync_len_7 to line_cnt_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             4   0.525   1.032  sync_len_7 (sync_len_7)
+     LUT3:I0->O            1   0.235   0.682  _n01481_SW0 (N41)
+     LUT6:I5->O            2   0.254   1.002  _n01481 (_n01481)
+     LUT4:I0->O           10   0.254   1.007  _n01482 (_n0148)
+     FDR:R                     0.459          line_cnt_0
+    ----------------------------------------
+    Total                      5.450ns (1.727ns logic, 3.723ns route)
+                                       (31.7% logic, 68.3% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 3.927ns (frequency: 254.647MHz)
+  Total number of paths / destination ports: 129 / 34
+-------------------------------------------------------------------------
+Delay:               3.927ns (Levels of Logic = 2)
+  Source:            reset_cnt_4 (FF)
+  Destination:       reset_cnt_0 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: reset_cnt_4 to reset_cnt_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             2   0.525   0.954  reset_cnt_4 (reset_cnt_4)
+     LUT3:I0->O            1   0.235   0.682  reset_SW0 (N0)
+     LUT6:I5->O            9   0.254   0.975  reset (reset)
+     FDRE:CE                   0.302          reset_cnt_0
+    ----------------------------------------
+    Total                      3.927ns (1.316ns logic, 2.611ns route)
+                                       (33.5% logic, 66.5% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'zx01/c_top/c_res_clk/i_phi'
+  Clock period: 14.589ns (frequency: 68.544MHz)
+  Total number of paths / destination ports: 2581099 / 1360
+-------------------------------------------------------------------------
+Delay:               14.589ns (Levels of Logic = 18)
+  Source:            zx01/c_Z80/u0/IR_2_1 (FF)
+  Destination:       zx01/c_Z80/u0/IncDecZ (FF)
+  Source Clock:      zx01/c_top/c_res_clk/i_phi rising
+  Destination Clock: zx01/c_top/c_res_clk/i_phi rising
+
+  Data Path: zx01/c_Z80/u0/IR_2_1 to zx01/c_Z80/u0/IncDecZ
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q             2   0.525   1.002  zx01/c_Z80/u0/IR_2_1 (zx01/c_Z80/u0/IR_2_1)
+     LUT4:I0->O            6   0.254   0.876  zx01/c_Z80/u0/mcode/_n2116<12>11 (zx01/c_Z80/u0/mcode/_n2116<12>1)
+     LUT5:I4->O           19   0.254   1.261  zx01/c_Z80/u0/mcode/_n12275<7>1 (zx01/c_Z80/u0/mcode/_n12275)
+     LUT6:I5->O            2   0.254   0.726  zx01/c_Z80/u0/mcode/_n526511 (zx01/c_Z80/u0/mcode/_n52651)
+     LUT6:I5->O            4   0.254   0.804  zx01/c_Z80/u0/mcode/_n123631 (zx01/c_Z80/u0/mcode/_n12363_mmx_out)
+     LUT6:I5->O            7   0.254   1.138  zx01/c_Z80/u0/mcode/Mmux_IncDec_1664 (zx01/c_Z80/u0/IncDec_16<2>)
+     LUT6:I3->O           12   0.235   1.069  zx01/c_Z80/u0/TState[2]_PWR_15_o_AND_135_o (zx01/c_Z80/u0/TState[2]_PWR_15_o_AND_135_o)
+     LUT6:I5->O           15   0.254   1.154  zx01/c_Z80/u0/Mmux_RegAddrA11_2 (zx01/c_Z80/u0/Mmux_RegAddrA111)
+     RAM16X1D:A0->SPO      4   0.235   0.804  zx01/c_Z80/u0/Regs/Mram_RegsL1 (zx01/c_Z80/u0/RegBusA<0>)
+     LUT6:I5->O            1   0.254   0.000  zx01/c_Z80/u0/Maddsub_ID16_lut<0> (zx01/c_Z80/u0/Maddsub_ID16_lut<0>)
+     MUXCY:S->O            1   0.215   0.000  zx01/c_Z80/u0/Maddsub_ID16_cy<0> (zx01/c_Z80/u0/Maddsub_ID16_cy<0>)
+     MUXCY:CI->O           1   0.023   0.000  zx01/c_Z80/u0/Maddsub_ID16_cy<1> (zx01/c_Z80/u0/Maddsub_ID16_cy<1>)
+     MUXCY:CI->O           1   0.023   0.000  zx01/c_Z80/u0/Maddsub_ID16_cy<2> (zx01/c_Z80/u0/Maddsub_ID16_cy<2>)
+     MUXCY:CI->O           1   0.023   0.000  zx01/c_Z80/u0/Maddsub_ID16_cy<3> (zx01/c_Z80/u0/Maddsub_ID16_cy<3>)
+     MUXCY:CI->O           1   0.023   0.000  zx01/c_Z80/u0/Maddsub_ID16_cy<4> (zx01/c_Z80/u0/Maddsub_ID16_cy<4>)
+     MUXCY:CI->O           1   0.023   0.000  zx01/c_Z80/u0/Maddsub_ID16_cy<5> (zx01/c_Z80/u0/Maddsub_ID16_cy<5>)
+     XORCY:CI->O           2   0.206   1.181  zx01/c_Z80/u0/Maddsub_ID16_xor<6> (zx01/c_Z80/u0/ID16<6>)
+     LUT6:I0->O            1   0.254   0.682  zx01/c_Z80/u0/Mmux_IncDecZ_IncDecZ_MUX_666_o11 (zx01/c_Z80/u0/Mmux_IncDecZ_IncDecZ_MUX_666_o1)
+     LUT6:I5->O            1   0.254   0.000  zx01/c_Z80/u0/Mmux_IncDecZ_IncDecZ_MUX_666_o14 (zx01/c_Z80/u0/IncDecZ_IncDecZ_MUX_666_o)
+     FDE:D                     0.074          zx01/c_Z80/u0/IncDecZ
+    ----------------------------------------
+    Total                     14.589ns (3.892ns logic, 10.697ns route)
+                                       (26.7% logic, 73.3% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 2 / 2
+-------------------------------------------------------------------------
+Offset:              2.382ns (Levels of Logic = 2)
+  Source:            EAR (PAD)
+  Destination:       tape_data (FF)
+  Destination Clock: clk rising
+
+  Data Path: EAR to tape_data
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             2   1.328   0.726  EAR_IBUF (EAR_IBUF)
+     LUT3:I2->O            1   0.254   0.000  Mmux_tape_in_z1_EAR_MUX_74_o11 (tape_in_z1_EAR_MUX_74_o)
+     FD:D                      0.074          tape_data
+    ----------------------------------------
+    Total                      2.382ns (1.656ns logic, 0.726ns route)
+                                       (69.5% logic, 30.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'zx01/c_top/c_res_clk/i_phi'
+  Total number of paths / destination ports: 2 / 2
+-------------------------------------------------------------------------
+Offset:              2.083ns (Levels of Logic = 1)
+  Source:            ps2_clk (PAD)
+  Destination:       zx01/c_PS2_MatrixEncoder/PS2_Clk_r_0 (FF)
+  Destination Clock: zx01/c_top/c_res_clk/i_phi rising
+
+  Data Path: ps2_clk to zx01/c_PS2_MatrixEncoder/PS2_Clk_r_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             1   1.328   0.681  ps2_clk_IBUF (ps2_clk_IBUF)
+     FDPE:D                    0.074          zx01/c_PS2_MatrixEncoder/PS2_Clk_r_0
+    ----------------------------------------
+    Total                      2.083ns (1.402ns logic, 0.681ns route)
+                                       (67.3% logic, 32.7% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clock/pll_base_inst/CLKOUT0'
+  Total number of paths / destination ports: 18 / 13
+-------------------------------------------------------------------------
+Offset:              5.351ns (Levels of Logic = 2)
+  Source:            aclk_7 (FF)
+  Destination:       AUDIO_L (PAD)
+  Source Clock:      clock/pll_base_inst/CLKOUT0 rising
+
+  Data Path: aclk_7 to AUDIO_L
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               2   0.525   0.954  aclk_7 (aclk_7)
+     LUT4:I1->O            2   0.235   0.725  AUDIO_L1 (AUDIO_R_OBUF)
+     OBUF:I->O                 2.912          AUDIO_L_OBUF (AUDIO_L)
+    ----------------------------------------
+    Total                      5.351ns (3.672ns logic, 1.679ns route)
+                                       (68.6% logic, 31.4% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 3 / 3
+-------------------------------------------------------------------------
+Offset:              5.458ns (Levels of Logic = 2)
+  Source:            tape_data (FF)
+  Destination:       AUDIO_L (PAD)
+  Source Clock:      clk rising
+
+  Data Path: tape_data to AUDIO_L
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               3   0.525   1.042  tape_data (tape_data)
+     LUT4:I0->O            2   0.254   0.725  AUDIO_L1 (AUDIO_R_OBUF)
+     OBUF:I->O                 2.912          AUDIO_L_OBUF (AUDIO_L)
+    ----------------------------------------
+    Total                      5.458ns (3.691ns logic, 1.767ns route)
+                                       (67.6% logic, 32.4% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock clk
+--------------------------+---------+---------+---------+---------+
+                          | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock              |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+--------------------------+---------+---------+---------+---------+
+clk                       |    3.927|         |         |         |
+zx01/c_top/c_io81/iord    |    2.917|         |         |         |
+zx01/c_top/c_res_clk/i_phi|    5.053|    2.259|         |         |
+--------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock clock/pll_base_inst/CLKOUT0
+---------------------------+---------+---------+---------+---------+
+                           | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock               |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------------------+---------+---------+---------+---------+
+clk                        |    1.565|         |         |         |
+clock/pll_base_inst/CLKOUT0|    5.450|         |         |         |
+zx01/c_top/c_io81/iord     |    6.593|         |         |         |
+zx01/c_top/c_res_clk/i_phi |    6.402|         |         |         |
+---------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock zx01/c_top/c_io81/iord
+--------------------------+---------+---------+---------+---------+
+                          | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock              |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+--------------------------+---------+---------+---------+---------+
+zx01/c_top/c_io81/iowr    |    2.603|         |         |         |
+zx01/c_top/c_res_clk/i_phi|    3.276|         |         |         |
+--------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock zx01/c_top/c_io81/iowr
+--------------------------+---------+---------+---------+---------+
+                          | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock              |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+--------------------------+---------+---------+---------+---------+
+zx01/c_top/c_res_clk/i_phi|    4.800|         |         |         |
+--------------------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock zx01/c_top/c_res_clk/i_phi
+------------------------------------+---------+---------+---------+---------+
+                                    | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock                        |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+------------------------------------+---------+---------+---------+---------+
+clk                                 |    4.084|         |         |         |
+zx01/c_PS2_MatrixEncoder/Reset_n_inv|         |    5.012|         |         |
+zx01/c_top/c_io81/iord              |    2.138|         |         |         |
+zx01/c_top/c_io81/iowr              |    8.134|         |         |         |
+zx01/c_top/c_res_clk/i_phi          |   14.589|    5.031|    5.914|         |
+------------------------------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 34.00 secs
+Total CPU time to Xst completion: 34.03 secs
+ 
+--> 
+
+Total memory usage is 399872 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   26 (   0 filtered)
+Number of infos    :   24 (   0 filtered)
+

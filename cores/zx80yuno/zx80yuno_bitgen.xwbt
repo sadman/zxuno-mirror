@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx80yuno.ncd
+OUTFILE=E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno\zx80yuno.bit
+FAMILY=Spartan6
+PART=xc6slx9-2tqg144
+WORKINGDIR=E:\fpga\ZXUNO\V4\8bit\ZX81\zx80yuno
+LICENSE=WebPack
+USER_INFO=206146466_0_0_971

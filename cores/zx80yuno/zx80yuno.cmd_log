@@ -1,0 +1,210 @@
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -i -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zxgate_vga/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 
+xst -intstyle ise -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -ifn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.xst" -ofn "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/zx80yuno.syr" 
+ngdbuild -filter "iseconfig/filter.filter" -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc zx/zxuno/pines_zxuno_v4.ucf -p xc6slx9-tqg144-2 zx80yuno.ngc zx80yuno.ngd  
+map -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -intstyle ise -p xc6slx9-tqg144-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o zx80yuno_map.ncd zx80yuno.ngd zx80yuno.pcf 
+par -filter "E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter" -w -intstyle ise -ol high -mt off zx80yuno_map.ncd zx80yuno.ncd zx80yuno.pcf 
+trce -filter E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr zx80yuno.pcf 
+bitgen -filter "iseconfig/filter.filter" -intstyle ise -f zx80yuno.ut zx80yuno.ncd 

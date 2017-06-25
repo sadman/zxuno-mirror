@@ -1,0 +1,75 @@
+--------------------------------------------------------------------------------
+Release 14.7 Trace  (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+e:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -filter
+E:/fpga/ZXUNO/V4/8bit/ZX81/zx80yuno/iseconfig/filter.filter -intstyle ise -v 3
+-s 2 -n 3 -fastpaths -xml zx80yuno.twx zx80yuno.ncd -o zx80yuno.twr
+zx80yuno.pcf
+
+Design file:              zx80yuno.ncd
+Physical constraint file: zx80yuno.pcf
+Device,package,speed:     xc6slx9,tqg144,C,-2 (PRODUCTION 1.23 2013-10-13)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Clock CLOCK_50 to Pad
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+            |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
+Destination |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+AUDIO_L     |         8.808(R)|      SLOW  |         3.909(R)|      FAST  |clk13             |   0.000|
+AUDIO_R     |         8.779(R)|      SLOW  |         3.895(R)|      FAST  |clk13             |   0.000|
+VGA_B<0>    |        10.329(R)|      SLOW  |         5.216(R)|      FAST  |clk13             |   0.000|
+VGA_B<1>    |        10.705(R)|      SLOW  |         5.420(R)|      FAST  |clk13             |   0.000|
+VGA_B<2>    |        10.734(R)|      SLOW  |         5.434(R)|      FAST  |clk13             |   0.000|
+VGA_G<0>    |         9.620(R)|      SLOW  |         4.810(R)|      FAST  |clk13             |   0.000|
+VGA_G<1>    |         9.658(R)|      SLOW  |         4.833(R)|      FAST  |clk13             |   0.000|
+VGA_G<2>    |        10.063(R)|      SLOW  |         5.051(R)|      FAST  |clk13             |   0.000|
+VGA_HS      |        10.702(R)|      SLOW  |         5.282(R)|      FAST  |clk13             |   0.000|
+VGA_R<0>    |         8.783(R)|      SLOW  |         4.332(R)|      FAST  |clk13             |   0.000|
+VGA_R<1>    |         9.159(R)|      SLOW  |         4.536(R)|      FAST  |clk13             |   0.000|
+VGA_R<2>    |         9.245(R)|      SLOW  |         4.607(R)|      FAST  |clk13             |   0.000|
+VGA_VS      |         9.379(R)|      SLOW  |         4.570(R)|      FAST  |clk13             |   0.000|
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock CLOCK_50
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+CLOCK_50       |    5.014|         |         |         |
+---------------+---------+---------+---------+---------+
+
+
+Analysis completed Sun Mar 05 13:52:55 2017 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 263 MB
+
+
+
