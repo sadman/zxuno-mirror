@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.3.0">
+<eagle version="8.2.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -4086,9 +4086,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="D7"/>
 </segment>
 <segment>
-<wire x1="71.12" y1="99.06" x2="78.74" y2="99.06" width="0.1524" layer="91"/>
-<label x="76.2" y="99.06" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="9"/>
+<pinref part="J11" gate="G$1" pin="7"/>
+<wire x1="76.2" y1="68.58" x2="66.04" y2="68.58" width="0.1524" layer="91"/>
+<label x="66.04" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D5" class="0">
@@ -4151,7 +4151,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A10"/>
 </segment>
 </net>
-<net name="A15" class="0">
+<net name="A0" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="A0"/>
 <wire x1="2.54" y1="93.98" x2="10.16" y2="93.98" width="0.1524" layer="91"/>
@@ -4188,7 +4188,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="D6"/>
 </segment>
 </net>
-<net name="A0" class="0">
+<net name="A15" class="0">
 <segment>
 <pinref part="J10" gate="G$1" pin="1"/>
 <wire x1="101.6" y1="83.82" x2="91.44" y2="83.82" width="0.1524" layer="91"/>
@@ -4212,7 +4212,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A14"/>
 </segment>
 </net>
-<net name="A2" class="0">
+<net name="A13" class="0">
 <segment>
 <pinref part="J12" gate="G$1" pin="2"/>
 <wire x1="38.1" y1="81.28" x2="48.26" y2="81.28" width="0.1524" layer="91"/>
@@ -4224,7 +4224,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A13"/>
 </segment>
 </net>
-<net name="A3" class="0">
+<net name="A12" class="0">
 <segment>
 <pinref part="J10" gate="G$1" pin="2"/>
 <wire x1="101.6" y1="81.28" x2="91.44" y2="81.28" width="0.1524" layer="91"/>
@@ -4236,7 +4236,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A12"/>
 </segment>
 </net>
-<net name="A4" class="0">
+<net name="A11" class="0">
 <segment>
 <pinref part="J11" gate="G$1" pin="3"/>
 <wire x1="76.2" y1="78.74" x2="66.04" y2="78.74" width="0.1524" layer="91"/>
@@ -4248,7 +4248,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A11"/>
 </segment>
 </net>
-<net name="A5" class="0">
+<net name="A3" class="0">
 <segment>
 <pinref part="J10" gate="G$1" pin="5"/>
 <wire x1="91.44" y1="73.66" x2="101.6" y2="73.66" width="0.1524" layer="91"/>
@@ -4260,7 +4260,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A3"/>
 </segment>
 </net>
-<net name="A6" class="0">
+<net name="A5" class="0">
 <segment>
 <pinref part="J12" gate="G$1" pin="6"/>
 <wire x1="38.1" y1="71.12" x2="48.26" y2="71.12" width="0.1524" layer="91"/>
@@ -4353,7 +4353,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="J12" gate="G$1" pin="1"/>
 </segment>
 </net>
-<net name="A17" class="0">
+<net name="A4" class="0">
 <segment>
 <pinref part="J11" gate="G$1" pin="6"/>
 <wire x1="66.04" y1="71.12" x2="76.2" y2="71.12" width="0.1524" layer="91"/>
@@ -4365,7 +4365,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A4"/>
 </segment>
 </net>
-<net name="A18" class="0">
+<net name="A2" class="0">
 <segment>
 <pinref part="J12" gate="G$1" pin="5"/>
 <wire x1="38.1" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
@@ -4377,7 +4377,7 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="A2"/>
 </segment>
 </net>
-<net name="A20" class="0">
+<net name="A6" class="0">
 <segment>
 <pinref part="J10" gate="G$1" pin="4"/>
 <wire x1="101.6" y1="76.2" x2="91.44" y2="76.2" width="0.1524" layer="91"/>
@@ -4494,11 +4494,6 @@ D = Direct mounting &lt;p&gt;
 <label x="-40.64" y="78.74" size="1.778" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="RFSH"/>
 </segment>
-<segment>
-<pinref part="J11" gate="G$1" pin="7"/>
-<wire x1="66.04" y1="68.58" x2="76.2" y2="68.58" width="0.1524" layer="91"/>
-<label x="66.04" y="68.58" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="HALT" class="0">
 <segment>
@@ -4507,9 +4502,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="HALT"/>
 </segment>
 <segment>
-<wire x1="48.26" y1="109.22" x2="55.88" y2="109.22" width="0.1524" layer="91"/>
-<label x="48.26" y="109.22" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="1"/>
+<pinref part="X1" gate="G$1" pin="4"/>
+<wire x1="55.88" y1="101.6" x2="48.26" y2="101.6" width="0.1524" layer="91"/>
+<label x="48.26" y="101.6" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="WAIT" class="0">
@@ -4519,9 +4514,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="WAIT"/>
 </segment>
 <segment>
-<pinref part="J11" gate="G$1" pin="10"/>
-<wire x1="66.04" y1="60.96" x2="76.2" y2="60.96" width="0.1524" layer="91"/>
-<label x="66.04" y="60.96" size="1.778" layer="95"/>
+<pinref part="X1" gate="G$1" pin="2"/>
+<wire x1="55.88" y1="106.68" x2="48.26" y2="106.68" width="0.1524" layer="91"/>
+<label x="48.26" y="106.68" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="INT" class="0">
@@ -4531,9 +4526,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="INT"/>
 </segment>
 <segment>
-<wire x1="48.26" y1="104.14" x2="55.88" y2="104.14" width="0.1524" layer="91"/>
-<label x="48.26" y="104.14" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="3"/>
+<pinref part="X1" gate="G$1" pin="9"/>
+<wire x1="71.12" y1="99.06" x2="78.74" y2="99.06" width="0.1524" layer="91"/>
+<label x="76.2" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="NMI" class="0">
@@ -4543,9 +4538,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="NMI"/>
 </segment>
 <segment>
-<wire x1="48.26" y1="106.68" x2="55.88" y2="106.68" width="0.1524" layer="91"/>
-<label x="48.26" y="106.68" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="2"/>
+<pinref part="X1" gate="G$1" pin="5"/>
+<wire x1="55.88" y1="99.06" x2="48.26" y2="99.06" width="0.1524" layer="91"/>
+<label x="48.26" y="99.06" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -4555,9 +4550,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="RESET"/>
 </segment>
 <segment>
-<pinref part="J10" gate="G$1" pin="7"/>
-<wire x1="101.6" y1="68.58" x2="91.44" y2="68.58" width="0.1524" layer="91"/>
-<label x="91.44" y="68.58" size="1.778" layer="95"/>
+<pinref part="X1" gate="G$1" pin="6"/>
+<wire x1="71.12" y1="106.68" x2="78.74" y2="106.68" width="0.1524" layer="91"/>
+<label x="76.2" y="106.68" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BUSREQ" class="0">
@@ -4567,9 +4562,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="BUSREQ"/>
 </segment>
 <segment>
-<pinref part="J12" gate="G$1" pin="10"/>
-<wire x1="38.1" y1="60.96" x2="48.26" y2="60.96" width="0.1524" layer="91"/>
-<label x="38.1" y="60.96" size="1.778" layer="95"/>
+<pinref part="X1" gate="G$1" pin="1"/>
+<wire x1="55.88" y1="109.22" x2="48.26" y2="109.22" width="0.1524" layer="91"/>
+<label x="48.26" y="109.22" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BUSACK" class="0">
@@ -4579,9 +4574,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="BUSACK"/>
 </segment>
 <segment>
-<pinref part="J10" gate="G$1" pin="8"/>
-<wire x1="91.44" y1="66.04" x2="101.6" y2="66.04" width="0.1524" layer="91"/>
-<label x="91.44" y="66.04" size="1.778" layer="95"/>
+<pinref part="X1" gate="G$1" pin="3"/>
+<wire x1="55.88" y1="104.14" x2="48.26" y2="104.14" width="0.1524" layer="91"/>
+<label x="48.26" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CLK" class="0">
@@ -4589,6 +4584,11 @@ D = Direct mounting &lt;p&gt;
 <wire x1="-40.64" y1="43.18" x2="-33.02" y2="43.18" width="0.1524" layer="91"/>
 <label x="-40.64" y="43.18" size="1.778" layer="95"/>
 <pinref part="IC1" gate="G$1" pin="CLK"/>
+</segment>
+<segment>
+<pinref part="J10" gate="G$1" pin="7"/>
+<wire x1="101.6" y1="68.58" x2="91.44" y2="68.58" width="0.1524" layer="91"/>
+<label x="91.44" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VCC" class="1">
@@ -4616,9 +4616,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="D2"/>
 </segment>
 <segment>
-<wire x1="48.26" y1="99.06" x2="55.88" y2="99.06" width="0.1524" layer="91"/>
-<label x="48.26" y="99.06" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="5"/>
+<pinref part="J10" gate="G$1" pin="8"/>
+<wire x1="101.6" y1="66.04" x2="91.44" y2="66.04" width="0.1524" layer="91"/>
+<label x="91.44" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D0" class="0">
@@ -4628,9 +4628,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="D0"/>
 </segment>
 <segment>
-<wire x1="71.12" y1="106.68" x2="78.74" y2="106.68" width="0.1524" layer="91"/>
-<label x="76.2" y="106.68" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="6"/>
+<pinref part="J12" gate="G$1" pin="10"/>
+<wire x1="48.26" y1="60.96" x2="38.1" y2="60.96" width="0.1524" layer="91"/>
+<label x="38.1" y="60.96" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D1" class="0">
@@ -4640,9 +4640,9 @@ D = Direct mounting &lt;p&gt;
 <pinref part="IC1" gate="G$1" pin="D1"/>
 </segment>
 <segment>
-<wire x1="48.26" y1="101.6" x2="55.88" y2="101.6" width="0.1524" layer="91"/>
-<label x="48.26" y="101.6" size="1.778" layer="95"/>
-<pinref part="X1" gate="G$1" pin="4"/>
+<pinref part="J11" gate="G$1" pin="10"/>
+<wire x1="76.2" y1="60.96" x2="66.04" y2="60.96" width="0.1524" layer="91"/>
+<label x="66.04" y="60.96" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="D4" class="0">
