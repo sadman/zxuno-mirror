@@ -1,0 +1,2 @@
+# Timing constraints
+NET "ck16" KEEP | S | PERIOD=62.5 ns;
