@@ -73,7 +73,7 @@ module ga40010 (
   // Algunas señales de uso interno útiles
   wire memread = (~mreq_n & ~rd_n);
   wire memwrite = (~mreq_n & rd_n & m1_n);
-  wire iowrite = (~iorq_n);  // cualquier acceso a I/O lo toma como escritura, pero aqui lo acotaremos sólo a escrituras de verdad
+  wire iowrite = (~iorq_n & m1_n);  // cualquier acceso a I/O lo toma como escritura, pero aqui lo acotaremos sólo a escrituras de verdad
   wire intack = (~iorq_n & ~m1_n);  // acuse de recibo de interrupción enmascarable, para resetear contador de interrupciones
   wire [1:0] high_bits_address = {a15,a14};
   assign mwe_n = mwe_n_interna | ~memwrite;  // mwe_n baja sólo cuando le toque por el secuenciador, y además no haya una lectura activa
