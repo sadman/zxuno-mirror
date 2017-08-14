@@ -25,6 +25,7 @@ module ga40010 (
   input wire iorq_n,
   input wire m1_n,
   input wire rd_n,
+  input wire rfsh_n,  // no existe. Hay que inferirla en el TLD
   output wire phi_n,
   output reg ready,
   output reg int_n,
@@ -72,8 +73,8 @@ module ga40010 (
 
   // Algunas señales de uso interno útiles
   wire memread = (~mreq_n & ~rd_n);
-  wire memwrite = (~mreq_n & rd_n & m1_n);
-  wire iowrite = (~iorq_n & m1_n);  // cualquier acceso a I/O lo toma como escritura, pero aqui lo acotaremos sólo a escrituras de verdad
+  wire memwrite = (~mreq_n & rd_n & m1_n & rfsh_n);
+  wire iowrite = (~iorq_n & m1_n);  // cualquier acceso a I/O lo toma como escritura
   wire intack = (~iorq_n & ~m1_n);  // acuse de recibo de interrupción enmascarable, para resetear contador de interrupciones
   wire [1:0] high_bits_address = {a15,a14};
   assign mwe_n = mwe_n_interna | ~memwrite;  // mwe_n baja sólo cuando le toque por el secuenciador, y además no haya una lectura activa
@@ -208,7 +209,7 @@ module ga40010 (
       ramrd_n <= 1'b1;
   end
   
-  // Interrupción enmascarable
+  // Interrupción enmascarable. http://cpctech.cpc-live.com/docs/ints.html  http://www.retroisle.com/amstrad/cpc/Technical/hardware_Interrupts.php
   reg [5:0] intcnt = 6'b000000;
   reg [1:0] vsync_count = 2'b00;
   reg hsync_prev = 1'b0;
@@ -223,7 +224,7 @@ module ga40010 (
     if (hsync == 1'b0 && hsync_prev == 1'b1) begin // flanco de bajada de HSYNC            
       intcnt <= intcnt + 6'd1;
       if (vsync == 1'b0) begin  // si no es una interrupcion por VSync
-        if (intcnt == 6'd51 && int_n == 1'b1) begin  // interrupción HSync
+        if (intcnt == 6'd51) /* && int_n == 1'b1)*/ begin  // interrupción HSync
           int_n <= 1'b0;
           intcnt <= 6'b000000;
         end
@@ -233,15 +234,15 @@ module ga40010 (
           vsync_count <= vsync_count + 2'd1;  // contamos de 0 a 2 HSyncs y nos paramos
         if (vsync_count == 2'd1) begin
           intcnt <= 6'b000000;
-          if ((intcnt[5] == 1'b0 || intcnt == 6'd51) && int_n == 1'b1)
+          if ((intcnt[5] == 1'b0 /*|| intcnt == 6'd51) && int_n == 1'b1*/))
             int_n <= 1'b0;
         end
       end
     end
-    if ((intack_prev == 1'b1 && intack == 1'b0 && int_n == 1'b0) || reset_interrupt == 1'b1) begin
+    if ((intack_prev == 1'b1 && intack == 1'b0/* && int_n == 1'b0*/) || reset_interrupt == 1'b1) begin
       int_n <= 1'b1;        // cuando termina INTACK, se quita la interrupción y se resetea bit 5 de contador
       if (reset_interrupt == 1'b1)
-        intcnt <= 6'd0;
+        intcnt <= 6'b000000;
       else
         intcnt[5] <= 1'b0;
     end

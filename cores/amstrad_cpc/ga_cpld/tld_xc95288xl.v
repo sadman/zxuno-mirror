@@ -21,7 +21,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-module tld_xc95216 (
+module tld_xc95288xl (
   // clock y reset
   input wire ck16,
   input wire reset_n,
@@ -52,14 +52,17 @@ module tld_xc95216 (
   output wire casad_n,
   output wire mwe_n,
   // salida de video
-  output wire sync_n,    // necesita adaptacion a 5V
-  output tri r,          // 
-  output tri g,          // 1, Z, o 0
-  output tri b           //
+  output wire sync_n,    // necesita adaptacion a 5V  
+  output wire r,         // 
+  output wire r_oe_n,
+  output wire g,         // 1, Z, o 0
+  output wire g_oe_n,
+  output wire b,         //
+  output wire b_oe_n
   );
 
-  wire red, green, blue;
   wire red_oe, green_oe, blue_oe;
+  wire clk_cpu;
   
   wire rfsh_n;
   rfsh_generator senal_refresh (
@@ -80,7 +83,7 @@ module tld_xc95216 (
 		.m1_n(m1_n), 
 		.rd_n(rd_n), 
     .rfsh_n(rfsh_n),
-		.phi_n(phi_n), 
+		.phi_n(clk_cpu), 
 		.ready(ready), 
 		.int_n(int_n), 
 		.d(d), 
@@ -97,16 +100,17 @@ module tld_xc95216 (
 		.casad_n(casad_n), 
 		.mwe_n(mwe_n), 
 		.sync_n(sync_n), 
-		.red(red), 
+		.red(r), 
 		.red_oe(red_oe), 
-		.green(green), 
+		.green(g), 
 		.green_oe(green_oe), 
-		.blue(blue), 
+		.blue(b), 
 		.blue_oe(blue_oe)
 	);
   
-  assign r = (red_oe)?   red   : 1'bZ;
-  assign g = (green_oe)? green : 1'bZ;
-  assign b = (blue_oe)?  blue  : 1'bZ;
+  assign r_oe_n = ~red_oe;
+  assign g_oe_n = ~green_oe;
+  assign b_oe_n = ~blue_oe;
+  assign phi_n = clk_cpu;
 
 endmodule
