@@ -211,42 +211,89 @@ module ga40010 (
   
   // Interrupción enmascarable. http://cpctech.cpc-live.com/docs/ints.html  http://www.retroisle.com/amstrad/cpc/Technical/hardware_Interrupts.php
   reg [5:0] intcnt = 6'b000000;
-  reg [1:0] vsync_count = 2'b00;
+  reg [1:0] vsync_count = 2'b11;
   reg hsync_prev = 1'b0;
-  reg intack_prev = 1'b0;
   reg vsync_prev = 1'b0;
+  reg intack_prev = 1'b0;
+  
   always @(posedge ck16) begin
     hsync_prev <= hsync;
-    intack_prev <= intack;
     vsync_prev <= vsync;
-    if (vsync_prev == 1'b0 && vsync == 1'b1)  // comienza un VSync. Reseteamos contador para contar dos HSync desde este momento
-      vsync_count <= 2'b00;
-    if (hsync == 1'b0 && hsync_prev == 1'b1) begin // flanco de bajada de HSYNC            
-      intcnt <= intcnt + 6'd1;
-      if (vsync == 1'b0) begin  // si no es una interrupcion por VSync
-        if (intcnt == 6'd51) /* && int_n == 1'b1)*/ begin  // interrupción HSync
+    intack_prev <= intack;
+  end
+  wire hsync_falling_edge = hsync_prev & ~hsync;
+  wire vsync_rising_edge = ~vsync_prev & vsync;
+  wire intack_falling_edge = intack_prev & ~intack;
+  
+  always @(posedge ck16) begin
+    if (reset_n == 1'b0) begin
+      vsync_count <= 2'b11;
+    end
+    else begin
+      if (vsync_rising_edge == 1'b1)
+        vsync_count <= 2'b00;
+      else if (vsync_count != 2'b11 && hsync_falling_edge) begin
+        vsync_count <= vsync_count + 2'b01;
+      end
+    end
+  end
+  
+  always @(posedge ck16) begin
+    if (reset_n == 1'b0) begin
+      intcnt <= 6'd0;
+      int_n <= 1'b1;
+    end
+    else begin
+      if (intack_falling_edge == 1'b1) begin
+        int_n <= 1'b1;
+        intcnt <= {1'b0, intcnt[4:0]};
+      end
+      else if (reset_interrupt || (hsync_falling_edge && vsync_count == 2'b01) || (hsync_falling_edge && intcnt == 6'd51)) begin
+        intcnt <= 6'd0;
+        if (reset_interrupt /*|| (vsync_count == 2'b01 && intcnt[5] == 1'b0)*/)
+          int_n <= 1'b1;
+        else if (intcnt == 6'd51 || (vsync_count == 2'b01 && intcnt[5] == 1'b1))
           int_n <= 1'b0;
-          intcnt <= 6'b000000;
-        end
       end
-      else begin  // si es una interrupción por VSync
-        if (vsync_count != 2'd2)
-          vsync_count <= vsync_count + 2'd1;  // contamos de 0 a 2 HSyncs y nos paramos
-        if (vsync_count == 2'd1) begin
-          intcnt <= 6'b000000;
-          if ((intcnt[5] == 1'b0 /*|| intcnt == 6'd51) && int_n == 1'b1*/))
-            int_n <= 1'b0;
-        end
+      else if (hsync_falling_edge && intcnt != 6'd51) begin
+        intcnt <= intcnt + 6'd1;
       end
     end
-    if ((intack_prev == 1'b1 && intack == 1'b0/* && int_n == 1'b0*/) || reset_interrupt == 1'b1) begin
-      int_n <= 1'b1;        // cuando termina INTACK, se quita la interrupción y se resetea bit 5 de contador
-      if (reset_interrupt == 1'b1)
-        intcnt <= 6'b000000;
-      else
-        intcnt[5] <= 1'b0;
-    end
-  end  
+  end
+        
+  
+//  always @(posedge ck16) begin
+//    hsync_prev <= hsync;
+//    intack_prev <= intack;
+//    vsync_prev <= vsync;
+//    if (vsync_prev == 1'b0 && vsync == 1'b1)  // comienza un VSync. Reseteamos contador para contar dos HSync desde este momento
+//      vsync_count <= 2'b00;
+//    if (hsync == 1'b0 && hsync_prev == 1'b1) begin // flanco de bajada de HSYNC            
+//      intcnt <= intcnt + 6'd1;
+//      if (vsync == 1'b0) begin  // si no es una interrupcion por VSync
+//        if (intcnt == 6'd51) /* && int_n == 1'b1)*/ begin  // interrupción HSync
+//          int_n <= 1'b0;
+//          intcnt <= 6'b000000;
+//        end
+//      end
+//      else begin  // si es una interrupción por VSync
+//        if (vsync_count != 2'd2)
+//          vsync_count <= vsync_count + 2'd1;  // contamos de 0 a 2 HSyncs y nos paramos
+//        if (vsync_count == 2'd1) begin
+//          intcnt <= 6'b000000;
+//          if ((intcnt[5] == 1'b0 /*|| intcnt == 6'd51) && int_n == 1'b1*/))
+//            int_n <= 1'b0;
+//        end
+//      end
+//    end
+//    if ((intack_prev == 1'b1 && intack == 1'b0/* && int_n == 1'b0*/) || reset_interrupt == 1'b1) begin
+//      int_n <= 1'b1;        // cuando termina INTACK, se quita la interrupción y se resetea bit 5 de contador
+//      if (reset_interrupt == 1'b1)
+//        intcnt <= 6'b000000;
+//      else
+//        intcnt[5] <= 1'b0;
+//    end
+//  end  
   
   // Generación de pixeles en el GA que lee de DRAM
   reg [7:0] buffer_from_ram = 8'h00;
@@ -313,7 +360,7 @@ module ga40010 (
 
   reg [3:0] conthsyncs = 4'd0;
   always @(posedge ck16) begin
-    if (vsync_prev == 1'b0 && vsync == 1'b1) begin // flanco de subida de HSYNC
+    if (vsync_prev == 1'b0 && vsync == 1'b1) begin // flanco de subida de VSYNC
       conthsyncs <= 4'd0;
     end
     else if (vsync == 1'b1 && hsync_prev == 1'b1 && hsync == 1'b0) begin // incrementamos el reloj en cada flanco negativo de HSYNC, durante un VSYNC
