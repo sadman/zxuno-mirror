@@ -110,7 +110,7 @@
     <property xil_pn:name="Local Macrocell Feedback" xil_pn:value="On" xil_pn:valueState="default"/>
     <property xil_pn:name="Logic Optimization" xil_pn:value="Speed" xil_pn:valueState="default"/>
     <property xil_pn:name="Macro Preserve" xil_pn:value="true" xil_pn:valueState="default"/>
-    <property xil_pn:name="Macrocell Power Setting" xil_pn:value="Timing Driven" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Macrocell Power Setting" xil_pn:value="Low" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Manual Implementation Compile Order" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Max Fanout" xil_pn:value="100000" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Maximum Number of Lines in Report" xil_pn:value="1000" xil_pn:valueState="default"/>
@@ -137,7 +137,7 @@
     <property xil_pn:name="Other XST Command Line Options" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Output Extended Identifiers" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Output File Name" xil_pn:value="tld_xc95288xl" xil_pn:valueState="default"/>
-    <property xil_pn:name="Output Slew Rate" xil_pn:value="Timing Driven" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Output Slew Rate" xil_pn:value="Slow" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Overwrite Compiled Libraries" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Package" xil_pn:value="TQ144" xil_pn:valueState="default"/>
     <property xil_pn:name="Pin Feedback" xil_pn:value="On" xil_pn:valueState="default"/>

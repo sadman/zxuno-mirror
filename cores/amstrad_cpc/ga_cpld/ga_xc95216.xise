@@ -23,12 +23,12 @@
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="4"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="1"/>
     </file>
-    <file xil_pn:name="tld_xc95288xl.v" xil_pn:type="FILE_VERILOG">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="37"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="37"/>
+    <file xil_pn:name="tld_xc95216.v" xil_pn:type="FILE_VERILOG">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="39"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="3"/>
     </file>
-    <file xil_pn:name="pines_placa_xc95288xl.ucf" xil_pn:type="FILE_UCF">
-      <association xil_pn:name="Implementation" xil_pn:seqID="38"/>
+    <file xil_pn:name="pines_placa_xc95216.ucf" xil_pn:type="FILE_UCF">
+      <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
   </files>
 
@@ -59,8 +59,8 @@
     <property xil_pn:name="Create Programmable GND Pins on Unused I/O" xil_pn:value="true" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Default Powerup Value of Registers" xil_pn:value="Low" xil_pn:valueState="default"/>
     <property xil_pn:name="Delay Values To Be Read from SDF" xil_pn:value="Setup Time" xil_pn:valueState="default"/>
-    <property xil_pn:name="Device" xil_pn:value="xc95288xl" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Device Family" xil_pn:value="XC9500XL CPLDs" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Device" xil_pn:value="xc95216" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Device Family" xil_pn:value="XC9500 CPLDs" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Device Speed Grade/Select ABS Minimum" xil_pn:value="-10" xil_pn:valueState="default"/>
     <property xil_pn:name="Do Not Escape Signal and Instance Names in Netlist" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Enable FASTConnect/UIM optimization" xil_pn:value="true" xil_pn:valueState="default"/>
@@ -89,7 +89,7 @@
     <property xil_pn:name="ISim UUT Instance Name" xil_pn:value="UUT" xil_pn:valueState="default"/>
     <property xil_pn:name="Implementation Template" xil_pn:value="Optimize Density" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Implementation Top" xil_pn:value="Module|tld_xc95216" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Implementation Top File" xil_pn:value="tld_xc95288xl.v" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Implementation Top File" xil_pn:value="tld_xc95216.v" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Implementation Top Instance Path" xil_pn:value="/tld_xc95216" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Include 'uselib Directive in Verilog File" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Include SIMPRIM Models in Verilog File" xil_pn:value="false" xil_pn:valueState="default"/>
@@ -110,7 +110,7 @@
     <property xil_pn:name="Local Macrocell Feedback" xil_pn:value="On" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Logic Optimization" xil_pn:value="Density" xil_pn:valueState="default"/>
     <property xil_pn:name="Macro Preserve" xil_pn:value="true" xil_pn:valueState="default"/>
-    <property xil_pn:name="Macrocell Power Setting" xil_pn:value="Timing Driven" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Macrocell Power Setting" xil_pn:value="Low" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Manual Implementation Compile Order" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Max Fanout" xil_pn:value="100000" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Maximum Number of Lines in Report" xil_pn:value="1000" xil_pn:valueState="default"/>
@@ -137,9 +137,9 @@
     <property xil_pn:name="Other XST Command Line Options" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Output Extended Identifiers" xil_pn:value="false" xil_pn:valueState="default"/>
     <property xil_pn:name="Output File Name" xil_pn:value="tld_xc95216" xil_pn:valueState="default"/>
-    <property xil_pn:name="Output Slew Rate" xil_pn:value="Timing Driven" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Output Slew Rate" xil_pn:value="Slow" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Overwrite Compiled Libraries" xil_pn:value="false" xil_pn:valueState="default"/>
-    <property xil_pn:name="Package" xil_pn:value="TQ144" xil_pn:valueState="default"/>
+    <property xil_pn:name="Package" xil_pn:value="PQ160" xil_pn:valueState="default"/>
     <property xil_pn:name="Pin Feedback" xil_pn:value="On" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Port to be used" xil_pn:value="Auto - default" xil_pn:valueState="default"/>
     <property xil_pn:name="Post Map Simulation Model Name" xil_pn:value="tld_xc95216_map.v" xil_pn:valueState="default"/>
@@ -180,7 +180,7 @@
     <property xil_pn:name="Specify 'define Macro Name and Value" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Behavioral" xil_pn:value="Default" xil_pn:valueState="default"/>
     <property xil_pn:name="Specify Top Level Instance Names Fit" xil_pn:value="Default" xil_pn:valueState="default"/>
-    <property xil_pn:name="Speed Grade" xil_pn:value="-10" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Speed Grade" xil_pn:value="-10" xil_pn:valueState="default"/>
     <property xil_pn:name="Synthesis Constraints File" xil_pn:value="timings.xcf" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Synthesis Tool" xil_pn:value="XST (VHDL/Verilog)" xil_pn:valueState="default"/>
     <property xil_pn:name="Target Simulator" xil_pn:value="Please Specify" xil_pn:valueState="default"/>
@@ -222,7 +222,7 @@
     <!--                                                                                  -->
     <property xil_pn:name="PROP_BehavioralSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_DesignName" xil_pn:value="ga_cpld" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="PROP_DevFamilyPMName" xil_pn:value="xc9500xl" xil_pn:valueState="default"/>
+    <property xil_pn:name="PROP_DevFamilyPMName" xil_pn:value="xc9500" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_FPGAConfiguration" xil_pn:value="FPGAConfiguration" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PostFitSimTop" xil_pn:value="" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_PostMapSimTop" xil_pn:value="" xil_pn:valueState="default"/>
