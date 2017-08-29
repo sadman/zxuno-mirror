@@ -49,16 +49,36 @@
  *
  * *** USER CODE LICENSE ***
  *
- * Firmware for USB Keyboard stm32 module for ZX-Uno v4.2
+ * Project description: Firmware for USB Keyboard stm32 module for ZX-Uno v4.2
  *
- * (c) MIT License 2017 Juan Jose luna Espinosa
+ * MIT Licensed 2017 by Juan Jose luna Espinosa
  * (https://github.com/yomboprime/usb_zxuno)
  *
- * PS/2 Protocol and bit banged output code derived from JOY2PS2, by Spark2k06.
+ * PS/2 Protocol and bit banged output code derived from JOY2PS2, by Spark2k06,
+ * which in turn is derived from original code by Quest.
  * License is Creative Commons by SA
- * (https://github.com/spark2k06/zxuno/tree/master/joy2ps2)
+ * (https://github.com/spark2k06/zxuno/tree/master/joy2ps2) *
  *
  *
+ * Copyright 2017 Juan Jose Luna Espinosa
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is furnished
+ * to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+ * IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * *****************************************************************************
  *
  */
 

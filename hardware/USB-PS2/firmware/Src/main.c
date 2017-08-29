@@ -54,7 +54,8 @@
  * MIT Licensed 2017 by Juan Jose luna Espinosa
  * (https://github.com/yomboprime/usb_zxuno)
  *
- * PS/2 Protocol and bit banged output code derived from JOY2PS2, by Spark2k06.
+ * PS/2 Protocol and bit banged output code derived from JOY2PS2, by Spark2k06,
+ * which in turn is derived from original code by Quest.
  * License is Creative Commons by SA
  * (https://github.com/spark2k06/zxuno/tree/master/joy2ps2)
  *
