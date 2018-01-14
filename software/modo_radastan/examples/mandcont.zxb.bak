@@ -1,0 +1,162 @@
+#include <sinclair.bas>
+#define ANCHO 256
+#define ALTO 192
+#define XMIN -2.4
+#define XMAX 0.8
+#define YMIN -1.2
+#define YMAX 1.2
+#define MAXITER 64
+
+function FuncionEscape (x as ubyte, y as ubyte) as ubyte
+    dim cr,ci,zr,zi,tr,ti as fixed
+    dim c as uinteger
+    dim zrc,zic as fixed
+
+    cr = XMIN+x*(XMAX-XMIN)/(ANCHO-1)
+    ci = YMIN+y*(YMAX-YMIN)/(ALTO-1)
+    zr = cr
+    zi = ci
+    zrc = cr*cr
+    zic = ci*ci
+    c = 1
+    while (zrc+zic)<4 and c<>MAXITER
+        tr = zrc-zic+cr
+        ti = 2*zr*zi+ci
+        zr = tr
+        zi = ti
+        zrc = zr*zr
+        zic = zi*zi
+        c = c + 1
+    end while
+    return c
+end function
+
+function CheckVecinos (x as ubyte, y as ubyte, color as ubyte) as ubyte
+    dim ofx, ofy, xx, yy as byte
+
+    if point (x,y)<>0 then
+       return 0
+    end if
+    if FuncionEscape (x,y)<>color then
+       return 0
+    end if
+
+    for ofy=-1 to 1
+        for ofx=-1 to 1
+            if ofx<>0 or ofy<>0 then
+               xx = x+ofx
+               yy = y+ofy
+               if point (xx,yy)<>0 then
+                  goto otropunto
+               end if
+               if FuncionEscape (xx,yy)<>color then
+                  return 1
+               end if
+            end if
+            otropunto:
+        next ofx
+    next ofy
+    return 0
+end function
+
+sub Pinta (x as ubyte, y as ubyte, color as ubyte)
+    Dim ofx,ofy,xx,yy as byte
+
+    if point (x,y)=1 then
+      return
+    end if
+    for ofy=-1 to 1
+        for ofx=-1 to 1
+            if ofx<>0 or ofy<>0 then
+               xx = x+ofx
+               yy = y+ofy
+               if CheckVecinos (xx, yy, color) then
+                  plot xx,yy
+                  Pinta (xx, yy, color)
+               end if
+            end if
+        next ofx
+    next ofy
+end sub
+
+function Escanear (valor as ubyte, sentido as ubyte) as uinteger
+  Dim x,y,color as ubyte
+  Dim vinicial, vfinal, paso, invy as byte
+  Dim res as uinteger
+
+  res = 0
+  if sentido=0 then
+     vinicial = 0
+     vfinal = ANCHO-1
+     paso = 1
+     invy = 0
+  elseif sentido=1 then
+     vinicial = 0
+     vfinal = ANCHO-1
+     paso = 1
+     invy = 1
+  elseif sentido=2 then
+     vinicial = ANCHO-1
+     vfinal = 0
+     paso = -1
+     invy = 0
+  else
+     vinicial = ANCHO-1
+     vfinal = 0
+     paso = -1
+     invy = 1
+  end if
+
+  for x=vinicial to vfinal step paso
+      y = CAST(uinteger,x)*(ALTO-1)/(ANCHO-1)
+      if invy=1 then
+         y = ALTO-1-y
+      end if
+      plot over 1;x,y
+      if FuncionEscape (x,y)=valor then
+         res = CAST(uinteger,x)*256+CAST(uinteger,y)
+         plot over 1;x,y
+         goto encontrado
+      end if
+      plot over 1;x,y
+  next x
+  encontrado:
+  return res
+end function
+
+Dim x,y as ubyte
+Dim color as ubyte
+Dim coords as uinteger
+
+cls
+for color = MAXITER to 1 step -1
+  coords = Escanear (color,0)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+  coords = Escanear (color,1)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+  coords = Escanear (color,2)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+  coords = Escanear (color,3)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+next color
+
+out 254,6
+poke 23560,0
+pause 0
+cls

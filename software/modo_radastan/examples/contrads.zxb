@@ -1,0 +1,199 @@
+#include <radastan.bas>
+#include <memcopy.bas>
+
+#define ANCHO 128
+#define ALTO 96
+#define XMIN -2.4
+#define XMAX 0.8
+#define YMIN -1.2
+#define YMAX 1.2
+#define MAXITER 64
+
+Dim mapa(ANCHO-1,ALTO-1) as ubyte
+
+function FuncionEscape (x as ubyte, y as ubyte) as ubyte
+    dim cr,ci,zr,zi,tr,ti as fixed
+    dim c as uinteger
+    dim zrc,zic as fixed
+
+    if mapa(x,y)<>255 then
+       return mapa (x,y)
+    end if
+    cr = XMIN+x*(XMAX-XMIN)/(ANCHO-1)
+    ci = YMIN+y*(YMAX-YMIN)/(ALTO-1)
+    zr = cr
+    zi = ci
+    zrc = cr*cr
+    zic = ci*ci
+    c = 1
+    while (zrc+zic)<4 and c<>MAXITER
+        tr = zrc-zic+cr
+        ti = 2*zr*zi+ci
+        zr = tr
+        zi = ti
+        zrc = zr*zr
+        zic = zi*zi
+        c = c + 1
+    end while
+    mapa(x,y)=c
+    return c
+end function
+
+function CheckVecinos (x as ubyte, y as ubyte, color as ubyte) as ubyte
+    dim ofx, ofy, xx, yy as byte
+
+    if RadastanPoint (x,y)<>0 then
+       return 0
+    end if
+    RadastanPlot (x,y,10)
+    if FuncionEscape (x,y)<>color then
+       RadastanPlot (x,y,0)
+       return 0
+    end if
+
+    for ofy=-1 to 1
+        for ofx=-1 to 1
+            if ofx<>0 or ofy<>0 then
+               xx = x+ofx
+               yy = y+ofy
+               if RadastanPoint (xx,yy)<>0 then
+                  goto otropunto
+               end if
+               RadastanPlot (xx,yy,12)
+               if FuncionEscape (xx,yy)<>color then
+                  RadastanPlot (xx,yy,0)
+                  return 1
+               end if
+               RadastanPlot (xx,yy,0)
+            end if
+            otropunto:
+        next ofx
+    next ofy
+
+    RadastanPlot (x,y,0)
+    return 0
+end function
+
+sub Pinta (x as ubyte, y as ubyte, color as ubyte)
+    Dim ofx,ofy,xx,yy as byte
+
+    for ofy=-1 to 1
+        for ofx=-1 to 1
+            if ofx<>0 or ofy<>0 then
+               xx = x+ofx
+               yy = y+ofy
+               if CheckVecinos (xx, yy, color)=1 then
+                  RadastanPlot (xx, yy, 15)
+                  Pinta (xx, yy, color)
+               end if
+            end if
+        next ofx
+    next ofy
+end sub
+
+function MakeRGB (r as ubyte, g as ubyte, b as ubyte) as ubyte
+    return ((g band 0xE0) bor ((r band 0xE0) shr 3) bor ((b band 0xC0) shr 6))
+end function
+
+function Escanear (valor as ubyte, sentido as ubyte) as uinteger
+  Dim x,y,color as ubyte
+  Dim vinicial, vfinal, paso, invy as byte
+  Dim res as uinteger
+
+  res = 0
+  if sentido=0 then
+     vinicial = 0
+     vfinal = ANCHO-1
+     paso = 1
+     invy = 0
+  elseif sentido=1 then
+     vinicial = 0
+     vfinal = ANCHO-1
+     paso = 1
+     invy = 1
+  elseif sentido=2 then
+     vinicial = ANCHO-1
+     vfinal = 0
+     paso = -1
+     invy = 0
+  else
+     vinicial = ANCHO-1
+     vfinal = 0
+     paso = -1
+     invy = 1
+  end if
+
+  for x=vinicial to vfinal step paso
+      y = CAST(uinteger,x)*(ALTO-1)/(ANCHO-1)
+      if invy=1 then
+         y = ALTO-1-y
+      end if
+      color = RadastanPoint (x, y)
+      RadastanPlot (x, y, 12)
+      if FuncionEscape (x,y)=valor then
+         RadastanPlot (x, y, 15)
+         res = CAST(uinteger,x)*256+CAST(uinteger,y)
+         goto encontrado
+      end if
+      RadastanPlot (x, y, color)
+  next x
+  encontrado:
+  return res
+end function
+
+Dim x,y,color as ubyte
+Dim coords as uinteger
+out 254,0
+RadastanPalette ( 0, MakeRGB(  0,  0,  0))
+RadastanPalette ( 1, MakeRGB(  0,  0,128))
+RadastanPalette ( 2, MakeRGB(128,  0,  0))
+RadastanPalette ( 3, MakeRGB(128,  0,128))
+RadastanPalette ( 4, MakeRGB(  0,128,  0))
+RadastanPalette ( 5, MakeRGB(  0,128,128))
+RadastanPalette ( 6, MakeRGB(128,128,  0))
+RadastanPalette ( 7, MakeRGB(128,128,128))
+RadastanPalette ( 8, MakeRGB(128,128,128))
+RadastanPalette ( 9, MakeRGB(  0,  0,255))
+RadastanPalette (10, MakeRGB(255,  0,  0))
+RadastanPalette (11, MakeRGB(255,  0,255))
+RadastanPalette (12, MakeRGB(  0,255,  0))
+RadastanPalette (13, MakeRGB(  0,255,255))
+RadastanPalette (14, MakeRGB(255,255,  0))
+RadastanPalette (15, MakeRGB(255,255,255))
+RadastanMode (1)
+RadastanCls(0)
+
+MemSet (@mapa(0,0), 255, 12288)
+
+for color = MAXITER to 1 step -1
+  coords = Escanear (color,0)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+  coords = Escanear (color,1)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+  coords = Escanear (color,2)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+  coords = Escanear (color,3)
+  if (coords<>0) then
+     x = coords/256
+     y = coords mod 256
+     Pinta (x,y,color)
+  end if
+next color
+
+out 254,1
+poke 23560,0
+pause 0
+RadastanMode (0)
+cls
