@@ -151,6 +151,7 @@ LoopPaleta            ld bc,ULAPLUSADDR
                       out (c),a
                       inc hl
                       inc d
+                      ld a,d
                       cp 10h
                       jr nz,LoopPaleta
 

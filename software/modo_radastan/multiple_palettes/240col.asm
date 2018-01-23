@@ -175,6 +175,7 @@ LoopPaleta            ld bc,ULAPLUSADDR     ;pero cuidando de que las entradas d
                       out (c),a
                       inc hl
                       inc d
+                      ld a,d
                       cp 40h
                       jr nz,LoopPaleta
 
