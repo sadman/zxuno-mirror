@@ -48,9 +48,9 @@ __sfr __banked __at (0xfd3b) ZXUNODATA;
 #define SCANCODE 4
 #define KEYBSTAT 5
 #define JOYCONF 6
-#define SRAMDATA 0xfd
-#define SRAMADDRINC 0xfc
-#define SRAMADDR 0xfb
+#define SRAMDATA 0xf2
+#define SRAMADDRINC 0xf1
+#define SRAMADDR 0xf0
 #define COREID 0xff
 
 /* Some ESXDOS system calls */
