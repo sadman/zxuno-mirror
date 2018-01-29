@@ -132,15 +132,20 @@ void init (void) __naked
      scf
      ret
 preparaload:
+     ld bc,#3
+     ld hl,(#23641)
+     push hl
+     rst #0x18
+     .dw 0x1655
      ld hl,#comando_load
-     ld de,(#23641)
-     ld bc,#4
+     pop de
+     ld bc,#3
      ldir
      ld hl,#0x12cf
      .db 0xc3, 0xfb, 0x1f
 
 comando_load:
-     .db 239,34,34,13
+     .db 239,34,34
      __endasm;
 }
 
