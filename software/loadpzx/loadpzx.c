@@ -128,9 +128,19 @@ void init (void) __naked
      inc sp
      ld a,l
      or a
-     ret z
+     jr z,preparaload
      scf
      ret
+preparaload:
+     ld hl,#comando_load
+     ld de,(#23641)
+     ld bc,#4
+     ldir
+     ld hl,#0x12cf
+     .db 0xc3, 0xfb, 0x1f
+
+comando_load:
+     .db 239,34,34,13
      __endasm;
 }
 
@@ -300,7 +310,7 @@ void readpzx (BYTE handle)
     writesram(0);
     incaddrsram();
 
-    puts ("\xd\xdType LOAD \"\" and press PLAY\xd");
+    puts ("\xd\xdPress PLAY (F11) to load\xd");
 }
 
 WORD readblocktag (BYTE handle)
