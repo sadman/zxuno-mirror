@@ -129,7 +129,12 @@ void init (void) __naked
      ld a,l
      or a
      jr z,preparaload
+     cp #255
+     jr z,noload
      scf
+     ret
+noload:
+     or a
      ret
 preparaload:
      ld bc,#3
@@ -154,7 +159,7 @@ BYTE main (char *p)
   if (!p)
   {
      usage();
-     return 0;
+     return 255;
   }
   else
       return commandlinemode(p);
@@ -164,6 +169,22 @@ BYTE commandlinemode (char *p)
 {
     char fname[32];
     BYTE handle, res;
+    BYTE noautoload;
+
+    noautoload = 0;
+    while (*p==' ')
+      p++;
+    if (*p=='-')
+    {
+      p++;
+      if (*p=='n')
+      {
+        noautoload = 255;
+        p++;
+      }
+    }
+    while (*p==' ')
+      p++;
 
     getfilename (p, fname);
     handle = open (fname, FMODE_READ);
@@ -175,15 +196,23 @@ BYTE commandlinemode (char *p)
        readpzx(handle);
 
     close (handle);
-    return 0;
+    
+    if (noautoload == 255)
+      puts ("\xd\xdType LOAD \"\" and p");
+    else
+      puts ("\xd\xdP");
+    puts ("ress PLAY\xd");
+
+    return noautoload;
 }
 
 void usage (void)
 {
         // 01234567890123456789012345678901
-    puts (" LOADPZX file.pzx\xd\xd"
+    puts (" LOADPZX [-n] file.pzx\xd\xd"
           "Loads a PZX file into the PZX\xd"
-          "player.\xd");
+          "player.\xd"
+          "-n : do not autoplay.\xd");
 }
 
 void getfilename (char *p, char *fname)
@@ -226,6 +255,11 @@ BYTE printheader (BYTE handle)
 void readpzx (BYTE handle)
 {
     WORD hi,lo,res;
+    BYTE scandblctrl;
+
+    ZXUNOADDR = 0xb;
+    scandblctrl = ZXUNODATA;
+    ZXUNODATA = scandblctrl | 0xc0;
 
     rewindsram();
     while(1)
@@ -315,7 +349,8 @@ void readpzx (BYTE handle)
     writesram(0);
     incaddrsram();
 
-    puts ("\xd\xdPress PLAY (F11) to load\xd");
+    ZXUNOADDR = 0xb;
+    ZXUNODATA = scandblctrl;
 }
 
 WORD readblocktag (BYTE handle)
