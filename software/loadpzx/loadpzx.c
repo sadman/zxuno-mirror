@@ -109,6 +109,7 @@ void getfilename (char *p, char *fname);
 BYTE printheader (BYTE handle);
 void readpzx (BYTE handle);
 WORD readblocktag (BYTE handle);
+WORD readword (BYTE handle);
 void convertpaus2puls (BYTE handle);
 void skipblock (BYTE handle, WORD hiskip, WORD loskip);
 void copyblock (BYTE handle, WORD hicopy, WORD locopy);
@@ -198,10 +199,13 @@ BYTE commandlinemode (char *p)
     close (handle);
     
     if (noautoload == 255)
-      puts ("\xd\xdType LOAD \"\" and p");
+      puts ("\xd\xdType LOAD \"\" and press PLAY\xd");
     else
-      puts ("\xd\xdP");
-    puts ("ress PLAY\xd");
+    {
+        ZXUNOADDR = 0xf3;
+        ZXUNODATA = 0x1;  // software assisted PLAY press
+        ZXUNODATA = 0x0;
+    }
 
     return noautoload;
 }
@@ -315,11 +319,25 @@ void readpzx (BYTE handle)
             buffer[3]=='P')
         {
             puts ("S");
-            MAKEWORD(lo,buffer[5],buffer[4]);
-            MAKEWORD(hi,buffer[7],buffer[6]);
+            res = readword (handle);
+            //MAKEWORD(lo,buffer[5],buffer[4]);
+            //MAKEWORD(hi,buffer[7],buffer[6]);
             writesram(0x1);
             incaddrsram();
+            copysram (&res, 2);
             writesram(0);
+            incaddrsram();
+            writesram(0);
+            incaddrsram();
+            //skipblock(handle,hi,lo);
+        }
+        else if (buffer[0]=='B' &&
+            buffer[1]=='R' &&
+            buffer[2]=='W' &&
+            buffer[3]=='S')
+        {
+            puts ("B");
+            writesram(0x4);
             incaddrsram();
             writesram(0);
             incaddrsram();
@@ -327,6 +345,10 @@ void readpzx (BYTE handle)
             incaddrsram();
             writesram(0);
             incaddrsram();
+            writesram(0);
+            incaddrsram();
+            MAKEWORD(lo,buffer[5],buffer[4]);
+            MAKEWORD(hi,buffer[7],buffer[6]);
             skipblock(handle,hi,lo);
         }
         else  // skip unsupported block
@@ -356,6 +378,13 @@ void readpzx (BYTE handle)
 WORD readblocktag (BYTE handle)
 {
     return read (handle, buffer, 8);
+}
+
+WORD readword (BYTE handle)
+{
+    WORD res;
+    read (handle, &res, 2);
+    return res;
 }
 
 void skipblock (BYTE handle, WORD hiskip, WORD loskip)
