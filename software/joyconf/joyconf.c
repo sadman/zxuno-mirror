@@ -161,6 +161,7 @@ void commandlinemode (char *p)
           case '2': db9conf |= 3; break;
           case 'c': db9conf |= 4; break;
           case 'f': db9conf |= 5; break;
+		  case 'o': db9conf |= 6; break;          
           default: usage(); return;
         }
         p++;
@@ -189,8 +190,7 @@ void usage (void)
 {
         // 01234567890123456789012345678901
     puts ("Configures/tests protocols for\xd"
-          "both the keyboard built-in\xd"
-          "joystick and the DB9 joystick.\xd\xd"
+          "keyb joystick and DB9 joystick\xd\xd"
           "Usage: JOYCONF [-kAx] [-jBx]\xd"
           "  where A,B can be:\xd"
           "    d: Disabled\xd"
@@ -199,6 +199,7 @@ void usage (void)
           "    2: Sinclair port 2\xd"
           "    c: Cursor/Protek/AGF\xd"
           "    f: Fuller\xd"
+          "    o: OPQA-SPACE-M (DB9 only)\xd"          
           "  where x can be:\xd"
           "    0: disable autofire\xd"
           "    1: enable autofire\xd"
@@ -241,12 +242,12 @@ void printstatictext (void)
   puts ("DB9 joystick: ");
 
   locate(5,0);
-  puts("\x4\x45Q/A to change KBD/DB9 protocol");
+  puts("\x4\x45T/G to change KBD/DB9 protocol");
 
   locate(6,0);
   puts("\x4\x45W/S to change KBD/DB9 autofire");
 
-  locate(19,0);
+  locate(20,0);
   puts("\x4\x47ZX-UNO Core ID: ");
   coreid[0]=0x4;
   coreid[1]=0x46;
@@ -257,7 +258,7 @@ void printstatictext (void)
     puts(coreid);
 
   locate(21,0);
-  puts("\x4\x70      Press SPACE to exit       ");
+  puts("\x4\x70      Press 'E'   to exit       ");
 }
 
 void getcoreid(BYTE *s)
@@ -308,16 +309,20 @@ void printjoystat (char *proto, BYTE joy)  // FUDLR
     puts ("\x4\x78 R ");
   else
     puts (" R ");
-  if (joy&0x10)
+ if (joy&0x10)
     puts ("\x4\x78 F ");
   else
     puts (" F ");
+ if (joy&0x20)
+    puts ("\x4\x78 B2 ");
+  else
+    puts (" B2 ");
 }
 
 BYTE printconf (void)
 {
   BYTE kbconf, db9conf, kbdis=0, db9dis=0;
-  BYTE joy, joy1, joy2;
+  BYTE joy, joy1, joy2, joyb2, joyOP, joyQ, joyA, joySPCM;
 
   WAIT_VRETRACE;
   ZXUNOADDR = JOYCONF;
@@ -346,6 +351,7 @@ BYTE printconf (void)
     case 3:  puts("\x4\x46""SINCL P2"); break;
     case 4:  puts("\x4\x46""CURSOR  "); break;
     case 5:  puts("\x4\x46""FULLER  "); break;
+    case 6:  puts("\x4\x46""OPQASPCM"); break;    
     default: puts("\x4\x46""DISABLED"); db9dis=1; break;
   }
   if (!db9dis && db9conf&0x8)
@@ -353,14 +359,14 @@ BYTE printconf (void)
   else
     puts("         ");
 
-  if (LASTKEY == 'q' || LASTKEY == 'Q')
+  if (LASTKEY == 't' || LASTKEY == 't')
   {
     kbconf = kbconf&0x8 | (((kbconf&7)+1==6)? 0 : (kbconf&7)+1);
     LASTKEY = 0;
   }
-  else if (LASTKEY == 'a' || LASTKEY == 'A')
+  else if (LASTKEY == 'g' || LASTKEY == 'G')
   {
-    db9conf = db9conf&0x8 | (((db9conf&7)+1==6)? 0 : (db9conf&7)+1);
+    db9conf = db9conf&0x8 | (((db9conf&7)+1==7)? 0 : (db9conf&7)+1); //q
     LASTKEY = 0;
   }
   else if (LASTKEY == 'w' || LASTKEY == 'W')
@@ -368,7 +374,7 @@ BYTE printconf (void)
     kbconf ^= 0x8;
     LASTKEY = 0;
   }
-  else if (LASTKEY == 's' || LASTKEY == 's')
+  else if (LASTKEY == 's' || LASTKEY == 'S')
   {
     db9conf ^= 0x8;
     LASTKEY = 0;
@@ -378,24 +384,35 @@ BYTE printconf (void)
   joy = KEMPSTONADDR;
   locate(8,0); printjoystat("\x4\x7Kempston  : ", joy);
 
-  joy = ~SEMIFILA2;  // LRDUF a FUDLR
-  joy = (joy&1)<<4 | (joy&2)<<2 | (joy&4) | (joy&0x10)>>3 | (joy&8)>>3;
+  joyb2 = ~SEMIFILA7; // -----2-- a --2FUDLR
+  joy = ~SEMIFILA2;  // LRDUF    a --2FUDLR
+  joy = (joyb2&4)<<3 | (joy&1)<<4 | (joy&2)<<2 | (joy&4) | (joy&0x10)>>3 | (joy&8)>>3;
   locate(10,0); printjoystat("\x4\x7Sinclair 1: ", joy);
 
-  joy = ~SEMIFILA1;  // FUDRL a FUDLR
-  joy = (joy&0x1c) | (joy&2)>>1 | (joy&1)<<1;
+  joyb2 = ~SEMIFILA7; // ------2- a --2FUDLR
+  joy = ~SEMIFILA1;  // FUDRL    a --2FUDLR
+  joy = (joyb2&2)<<4 | (joy&0x1c) | (joy&2)>>1 | (joy&1)<<1;
   locate(12,0); printjoystat("\x4\x7Sinclair 2: ", joy);
 
-  joy1 = ~SEMIFILA2;  // DUR-F a FUDLR
-  joy2 = ~SEMIFILA1;  // L---- a FUDLR
-  joy = (joy1&1)<<4 | (joy1&8) | (joy1&0x10)>>2 | (joy2&0x10)>>3 | (joy1&4)>>2;
+  joy1 = ~SEMIFILA2;  // DUR2F a --2FUDLR
+  joy2 = ~SEMIFILA1;  // L---- a --2FUDLR
+  joy = (joy1&2)<<4 | (joy1&1)<<4 | (joy1&8) | (joy1&0x10)>>2 | (joy2&0x10)>>3 | (joy1&4)>>2;
   locate(14,0); printjoystat("\x4\x7""Cursor    : ", joy);
 
-  joy = ~FULLERADDR;  // F---RLDU a FUDLR
-  joy = (joy&0x80)>>3 | (joy&1)<<3 | (joy&2)<<1 | (joy&4)>>1 | (joy&8)>>3;
+  joy = ~FULLERADDR;  // F2--RLDU a --2FUDLR
+  joy =  (joy&0x40)>>1 | (joy&0x80)>>3 | (joy&1)<<3 | (joy&2)<<1 | (joy&4)>>1 | (joy&8)>>3;
   locate(16,0); printjoystat("\x4\x7""Fuller    : ", joy);
 
-  if (LASTKEY==' ')
+  //Nuevo modo joy OPQASPCM
+  joyOP = ~SEMIFILA4;    // ------LR a --2FUDLR
+  joyQ = ~SEMIFILA3;     // -------U a --2FUDLR
+  joyA = ~SEMIFILA5;     // -------D a --2FUDLR
+  joySPCM = ~SEMIFILA8;  // -----2-F a --2FUDLR
+  joy = (joySPCM&4)<<3 | (joySPCM&1)<<4 | (joyQ&1)<<3 | (joyA&1)<<2 | (joyOP&2) | (joyOP&1);
+  locate(18,0); printjoystat("\x4\x7""OPQASPCM  : ", joy);
+
+  //if (LASTKEY==' ')
+if (LASTKEY == 'e' || LASTKEY == 'E')
     return 1;
   else
     return 0;
