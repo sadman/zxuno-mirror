@@ -359,6 +359,10 @@ void readpzx (BYTE handle)
             skipblock(handle,hi,lo);
         }
     }
+    // pequeña pausa de 20ms para evitar errores de carga
+    // a causa de la conmutación brusca de la señal de EAR
+    // del player virtual a la entrada real
+
     // Add full stop mark to the tape
     writesram(0);
     incaddrsram();
