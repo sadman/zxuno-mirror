@@ -64,6 +64,8 @@ __sfr __banked __at (0xfd3b) ZXUNODATA;
 #define F_WRITE     (FSYS_BASE+6)
 #define F_SEEK      (FSYS_BASE+7)
 #define F_GETPOS    (FSYS_BASE+8)
+#define M_TAPEIN    (MISC_BASE+3)
+#define M_AUTOLOAD  (MISC_BASE+8)
 
 #define FMODE_READ	     0x1 // Read access
 #define FMODE_WRITE      0x2 // Write access
@@ -138,20 +140,34 @@ noload:
      or a
      ret
 preparaload:
-     ld bc,#3
-     ld hl,(#23641)
-     push hl
-     rst #0x18
-     .dw 0x1655
-     ld hl,#comando_load
-     pop de
-     ld bc,#3
-     ldir
-     ld hl,#0x12cf
-     .db 0xc3, 0xfb, 0x1f
+     ;Cierra TAPE.IN
+     ld b,#1
+     rst #8
+     .db #M_TAPEIN
 
-comando_load:
-     .db 239,34,34
+     ;Auto LOAD ""
+     xor a
+     rst #8
+     .db #M_AUTOLOAD
+     
+     or a
+     ret
+
+;Codigo antiguo para hacer LOAD ""
+;     ld bc,#3
+;     ld hl,(#23641)
+;     push hl
+;     rst #0x18
+;     .dw 0x1655
+;     ld hl,#comando_load
+;     pop de
+;     ld bc,#3
+;     ldir
+;     ld hl,#0x12cf
+;     .db 0xc3, 0xfb, 0x1f
+
+;comando_load:
+;     .db 239,34,34
      __endasm;
 }
 
