@@ -55,7 +55,11 @@ int main(int argc, char *argv[]) {
   fread(mem, 1, length&0x3fff, fi),
   fwrite(mem, 1, 0x4000, fo);
   memset(mem, 0, 0x4000);
-  for ( i= 0; i<20-j; i++ )
-    fwrite(mem, 1, 0x4000, fo);
+  if( j>20 )
+    for ( i= 0; i<28-j; i++ )
+      fwrite(mem, 1, 0x4000, fo);
+  else
+    for ( i= 0; i<20-j; i++ )
+      fwrite(mem, 1, 0x4000, fo);
   printf("\nFile generated successfully\n");
 }

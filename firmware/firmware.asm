@@ -1,5 +1,6 @@
         include version.asm
         define  recovery        0
+        define  vertical        0
         output  firmware_strings.rom
       macro wreg  dir, dato
         rst     $28
@@ -24,6 +25,8 @@
         define  raster_ctrl     13
         define  dev_control     14
         define  dev_control2    15
+        define  newreg          16
+        define  ad724           $fb
         define  core_addr       $fc
         define  core_boot       $fd
         define  cold_boot       $fe
@@ -74,6 +77,7 @@
         define  scanli  outvid+1
         define  freque  scanli+1
         define  cpuspd  freque+1
+        define  copt    cpuspd+1
 
         define  tmpbuf  $7800
         define  tmpbu2  $7880
@@ -237,20 +241,28 @@ start   ld      bc, chrend-sdtab
         ldir
       IF  recovery=0
         call    alto loadch
-        ld      a, scandbl_ctrl
-        ld      bc, zxuno_port
-        out     (c), a
-        inc     b
         ld      hl, (scanli)
         rrc     l
         add     hl, hl
-        ld      a, (outvid)
-;        rrca
+        ld      a, (copt)
+        rrca
+        jr      nc, start0
+        set     4, h
+start0  ld      a, (outvid)
+        ld      de, ad724<<8 | scandbl_ctrl
+        ld      bc, zxuno_port
+        out     (c), d
+        inc     b
+        out     (c), a
+        dec     b
+        out     (c), e
+        inc     b
+        rrca
         rrca
         ld      a, h
         adc     a, a
         or      $80
-        ld      (scnbak), a       ; lo pongo a 14Mhz
+        ld      (scnbak), a     ; lo pongo a 14Mhz
         out     (c), a
         ld      de, fincad-1    ; descomprimo cadenas
         ld      hl, sdtab-1
@@ -283,25 +295,7 @@ start2  ld      a, (hl)
 start3  ld      hl, finlog-1
         ld      d, $7a
         call    dzx7b           ; descomprimir
-        inc     hl
-        ld      b, $40          ; filtro RCS inverso
-start4  ld      a, b
-        xor     c
-        and     $f8
-        xor     c
-        ld      d, a
-        xor     b
-        xor     c
-        rlca
-        rlca
-        ld      e, a
-        inc     bc
-        ldi
-        inc     bc
-        bit     3, b
-        jr      z, start4
-        ld      b, $13
-        ldir
+        call    drcs
         ld      bc, zxuno_port
         out     (c), a          ; a = $ff = core_id
         inc     b
@@ -311,6 +305,24 @@ start5  in      a, (c)
         inc     hl
         ld      ix, cad0        ; imprimir cadena
         jr      nz, start5      ; si no recibimos un 0 seguimos pillando caracteres
+        call    alto tstmem
+        jr      z, star55
+        ld      hl, cadmem
+        ld      (hl), ' '
+        inc     hl
+        ld      (hl), ' '
+        inc     hl
+        dec     e
+        jr      nz, star54
+        dec     (hl)
+star54  inc     hl
+        ld      (hl), 'M'
+star55  ld      a, (outvid)
+        rrca
+        jr      nc, star56
+        wreg    master_conf, %01010000
+star56  
+      IF  vertical=0
         ld      bc, $090b
         call_prnstr             ; CoreID
         ld      c, b
@@ -330,6 +342,28 @@ start5  in      a, (c)
         call_prnstr             ; Booting
         ld      c, $17
         call_prnstr             ; Press <Edit> to Setup
+      ELSE
+        ld      bc, $040f
+        call_prnstr             ; CoreID
+        ld      c, $0c
+        ld      ixl, cad1 & $ff ; imprimir cadenas BOOT screen
+        call_prnstr             ; http://zxuno.speccy.org
+        ld      bc, $0211
+        call_prnstr             ; ZX-Uno BIOS version
+        call_prnstr             ; Copyleft
+        ld      bc, $0014       ; Copyleft (c) 2016 ZX-Uno Team
+        call_prnstr             ; Processor
+        call_prnstr             ; Memory
+        call_prnstr             ; Graphics
+        ld      b, $0b
+        call_prnstr             ; hi-res, ULAplus
+        push    bc
+        ld      b, a
+        call_prnstr             ; Booting
+        ld      c, $1b
+        call_prnstr             ; Press <Edit> to Setup
+        call_prnstr             ; Press <Edit> to Setup
+      ENDIF
         ld      hl, bitstr
         add     a, (hl)
         jr      z, start6
@@ -351,7 +385,9 @@ start7  ld      de, tmpbuf
         pop     bc
         call_prnstr             ; Imprime máquina (ROM o core)
       ENDIF
-start8  wreg    flash_cs, 0     ; activamos spi, enviando un 0
+start8  
+      IF  version<5
+        wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, $9f  ; jedec id
         in      a, (c)
         in      a, (c)
@@ -368,6 +404,7 @@ star10  add     hl, hl
         dec     a
         jr      nz, star10
         ld      (alto fllen), hl
+      ENDIF
         wreg    scan_code, $f6  ; $f6 = kb set defaults
         halt
         halt
@@ -384,16 +421,16 @@ star11  ld      a, (layout)
         jr      nc, star13
         ld      hl, finav-1
 star12  jr      nc, star15
-star13  ld      de, $ffff
+star13  ld      de, $cfff
         call    dzx7b
         wreg    key_map, 0
         ld      hl, $c001
 star14  inc     b
         outi
-        bit     7, h              ; compruebo si la direccion es 0000 (final)
-        jr      nz, star14        ; repito si no lo es
+        bit     4, h              ; compruebo si la direccion es D000 (final)
+        jr      z, star14         ; repito si no lo es
 star15  
-      IF  recovery=0
+    IF  recovery=0
         ld      d, 4
         pop     af
         jr      nz, star16
@@ -403,8 +440,13 @@ star16  djnz    star18
         ld      a, d
         or      e
         jr      nz, star18
+      IF  vertical=0
         ld      hl, $0017       ; Si se acaba el temporizador borrar
         ld      de, $2001       ; lo de presione Break
+      ELSE
+        ld      hl, $001b       ; Si se acaba el temporizador borrar
+        ld      de, $2002       ; lo de presione Break
+      ENDIF
         call    window
 star17  ld      hl, (joykey)
         inc     h
@@ -431,14 +473,20 @@ star17  ld      hl, (joykey)
         inc     b
         out     (c), a
         jp      conti
+
+runbit0 ld      a, l
+        cp      45
+        jr      z, bios
+runbit1 ld      (bitstr), a
+        jr      star17
+
 star18  ld      a, (codcnt)
 star19  sub     $80
         jr      c, star16
         ld      (codcnt), a
         sub     '1'
         cp      9
-        ld      h, a
-        jp      c, runbit
+        jr      c, runbit1
         jp      z, alto easter
         cp      $19-'1'
         jr      z, star20
@@ -446,9 +494,20 @@ star19  sub     $80
 star20  jp      z, blst
         sub     $1d-$0c
         jp      z, launch
-        cp      $17-$1d
+        ld      hl, alto contia+1
+        cp      $2f-$1d         ;'/'
+        jr      nz, star20a
+        out     ($fe), a
+        ld      (hl), %01111111
+star20a cp      $72-$1d         ; 'r'
+        jr      nz, star20b
+        out     ($fe), a
+        ld      (hl), %11111101
+        ld      a, %00000111
+        ld      (contib+1), a
+star20b cp      $17-$1d         ; 'Edit'
         jr      nz, star19
-      ELSE
+ELSE
         pop     af
 star21  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         wreg    flash_spi, 6    ; envío write enable
@@ -468,18 +527,27 @@ star21  wreg    flash_cs, 0     ; activamos spi, enviando un 0
         and     2
         jr      z, star21
         xor     a
-      ENDIF
+    ENDIF
 
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Enter Setup   ++++++++
 ;++++++++++++++++++++++++++++++++++
 bios    ld      a, %01001111    ; fondo azul tinta blanca
+      IF  vertical=0
         ld      hl, $0017
         ld      de, $2001
         call    window
         ld      a, %00111001    ; fondo blanco tinta azul
         ld      l, h
         ld      e, $17
+      ELSE
+        ld      hl, $001f
+        ld      de, $1801
+        call    window
+        ld      a, %00111001    ; fondo blanco tinta azul
+        ld      l, h
+        ld      de, $181f
+      ENDIF
         call    window
       IF  recovery=0
         ld      (menuop), hl
@@ -488,19 +556,19 @@ bios    ld      a, %01001111    ; fondo azul tinta blanca
         ld      ix, cad7
         call_prnstr             ; menu superior
         call_prnstr             ; borde superior
-        ld      iy, $090a
+      IF  vertical=0
+        ld      iyl, $14
+      ELSE
+        ld      iyl, $1c
+      ENDIF
 bios1   ld      ix, cad8
         call_prnstr             ; |        |     |
-        dec     iyh
-        jr      nz, bios1
-        call_prnstr             ; borde medio
-bios2   ld      ix, cad8
-        call_prnstr             ; |        |     |
         dec     iyl
-        jr      nz, bios2
+        jr      nz, bios1
         ld      ix, cad9
         call_prnstr             ; borde inferior
         call_prnstr             ; info
+      IF  vertical=0
         ld      hl, %0111111001111110
         ld      ($55fc), hl
         ld      ($55fe), hl
@@ -510,12 +578,33 @@ bios2   ld      ix, cad8
         ld      ($5afc), hl
         ld      hl, %0100110101001100
         ld      ($5afe), hl
+      ELSE
+        ld      hl, $411f
+        ld      c, 4
+bios2   ld      b, 6
+bios25  ld      (hl), %00000110
+        inc     h
+        djnz    bios25
+        ld      de, $fa20
+        add     hl, de
+        dec     c
+        jr      nz, bios2
+        ld      a, %01001010
+        ld      ($587f), a
+        ld      a, %01001110
+        ld      ($585f), a
+        dec     a
+        ld      ($581f), a
+        dec     a
+        ld      ($583f), a
+      ENDIF
 bios3   ld      a, $07
         out     ($fe), a
         call    bios4
         jr      bios3
 bios4   ld      a, %00111001    ; fondo blanco tinta azul
         ld      hl, $0102
+      IF  vertical=0
         ld      de, $1814
         call    window
         ld      a, %01001111    ; fondo azul tinta blanca
@@ -564,6 +653,55 @@ bios7   dec     c
         ld      bc, $1906
         call    prnmul          ; borde medio
         ld      h, a
+      ELSE
+        ld      de, $1614
+        call    window
+        ld      a, %01001111    ; fondo azul tinta blanca
+        dec     h
+        ld      l, h
+        ld      de, $1801
+        call    window
+        di
+      IF  vertical=0
+        ld      c, $14
+      ELSE
+        ld      bc, $16
+      ENDIF
+        ld      hl, $403e
+        ld      d, b
+        ld      e, b
+bios5   ld      b, 8
+bios6   ld      sp, hl
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        push    de
+        inc     h
+        djnz    bios6
+        ld      a, l
+        add     a, $20
+        ld      l, a
+        jr      c, bios7
+        ld      a, h
+        sub     8
+        ld      h, a
+bios7   dec     c
+        jr      nz, bios5
+        ei
+        ld      sp, stack-2
+;;di borrado ei
+        ld      h, 0
+      ENDIF
         ld      a, (menuop)
         add     a, a
         add     a, jmptbl&$ff
@@ -573,15 +711,15 @@ bios7   dec     c
         ld      b, (hl)
         call    chcol
         defw    $1201
-        defb    %00111001
+        defw    %0100011100111001
         ld      hl, (menuop)
         ld      l, 0
         push    bc
         ld      de, $0401
         ld      a, %01111001    ; fondo blanco tinta azul
         ret
-      IF  recovery=0
-
+    IF  recovery=0
+      IF  vertical=0
 launch  ld      (tmpbuf+21), a
         call    clrscr          ; borro pantalla
         inc     hl
@@ -620,13 +758,9 @@ laun2   ld      hl, $a681
         ld      ix, cad6
         call_prnstr
 
-        ld      de, codcnt
         ld      hl, (active+1)
 games   call    SELEC
-aaitky  ld      a, (de)
-        sub     $80
-        jr      c, aaitky
-        ld      (de), a
+        call    waitky
         cp      $0d
         jr      z, gamen
         cp      $20
@@ -634,7 +768,7 @@ gamen   jp      z, runbit0
         ld      bc, games
         push    bc
         call    SELEC
-        ld      a, (de)
+        ld      a, (codcnt)
         sub     $1c
         jr      z, gamup
         dec     a
@@ -722,7 +856,55 @@ sel04   ld      a, (de)
         djnz    sel04
         exx
         ret
-
+      ELSE
+launch  ld      (tmpbuf), a
+        ld      hl, finbez-1
+        ld      d, $7a
+        call    dzx7b           ; descomprimir
+        call    drcs
+        ld      hl, bnames-1
+        ld      bc, $20
+        ld      a, c
+laun0   add     hl, bc
+        inc     e
+        cp      (hl)
+        jr      z, laun0
+        inc     a
+        ld      (tmpbuf), a
+        inc     e
+        ld      a, e
+        ld      l, a
+        cp      24
+        jr      c, laun1
+        ld      a, 24
+laun1   ld      h, a
+        ld      (items), hl
+        ld      hl, $0104          ; coordenada X
+        push    hl
+        ld      iy, (items)
+        ld      hl, cad62
+        ld      (cmbpnt), hl
+        ld      iy, indexe
+        ld      ix, cmbpnt
+        ld      de, tmpbuf
+        ld      b, e
+        ld      hl, bnames
+        call    addbl1
+laun2   ld      c, $20
+        add     hl, bc
+        call    addbls
+        jr      nc, laun2
+        ld      (ix+0), cad6&$ff
+        ld      (ix+1), cad6>>8
+        ld      (ix+3), a
+        ld      a, (items+1)
+        ld      e, a
+        ld      d, 24
+        call    chcol
+        defw    $1203
+        defw    %0111100001000111
+        jp      bls375
+      ENDIF
 ;++++++++++++++++++++++++++++++++++
 ;++++++++    Start ROM     ++++++++
 ;++++++++++++++++++++++++++++++++++
@@ -730,7 +912,17 @@ conti   di
         xor     a
         ld      hl, (active)
         cp      h
-        jr      nz, runbit
+        jr      z, ccon0
+runbit  ld      b, h
+        call    calbit
+        ld      bc, zxuno_port
+        ld      e, core_addr
+        out     (c), e
+        inc     b
+        out     (c), h
+        out     (c), l
+        out     (c), 0
+        wreg    core_boot, 1
 ccon0   ld      h, active>>8
         ld      l, (hl)
         call    calcu
@@ -738,7 +930,11 @@ ccon0   ld      h, active>>8
         pop     ix
         ld      d, (ix+2)
         ld      hl, timing
+        ld      a, (outvid)
+        rrca
         ld      a, 3
+        ld      b, a
+        jr      c, ccon1
         cp      (hl)            ; timing
         ld      b, (hl)
         jr      nz, ccon1
@@ -782,26 +978,18 @@ conti2  adc     a, a            ; 0 0 MODE1 /DISCONT MODE0 /I2KB /DISNMI DIVEN
         xor     %10101100       ; LOCK MODE1 DISCONT MODE0 I2KB DISNMI DIVEN 0
         ld      (alto conti9+1), a
         jp      alto micont
-runbit0 ld      a, 45
-        cp      l
-        jp      z, bios
-        ld      h, l
-runbit  ld      b, h
-        call    calbit
-        ld      bc, zxuno_port
-        ld      e, core_addr
-        out     (c), e
-        inc     b
-        out     (c), h
-        out     (c), l
-        out     (c), 0
-        wreg    core_boot, 1
 
 ;****  Main Menu  ****
 ;*********************
-main    inc     d
+main
+      IF  vertical=0
+        inc     d
         ld      h, l
         call    help
+      ELSE
+        ld      h, l
+        call    window
+      ENDIF
         ld      ix, cad10
         ld      bc, $0202
         call    prnmul          ; Harward tests ...
@@ -964,6 +1152,7 @@ main17  dec     a
         call_prnstr
         ld      c, $15
         call_prnstr
+      IF  vertical=0
         ld      de, $4861
         ld      a, '1'<<1
 tkeys1  ld      l, a
@@ -1030,12 +1219,6 @@ tkeys10 dec     hl
         add     a, e
         ret     m
         ld      l, $6b
-;        in      a, ($7f)
-;        add     a, $80
-;        inc     b
-;        call    tkeys12
-;        ld      b, 4
-;        call    tkeys11
         in      a, ($1f)
         cpl
         ld      b, 5
@@ -1050,12 +1233,103 @@ tkeys12 ld      (hl), 7
         ld      (hl), $4e
 tkeys13 djnz    tkeys11
         ret
+      ELSE
+        ld      de, $57cb
+        ld      a, '1'<<1
+tkeys1  ld      l, a
+        ld      h, $2c
+        add     hl, hl
+        add     hl, hl
+        ld      b, 6
+tkeys2  ld      a, (hl)
+        ld      (de), a
+        inc     l
+        dec     d
+        djnz    tkeys2
+        ld      hl, $05c0
+        add     hl, de
+        ld      a, l
+        or      %00111111
+        inc     a
+        jr      nz, tkeys3
+        ld      a, h
+        sub     $07
+        ld      h, a
+tkeys3  ex      de, hl
+        ld      a, (ix)
+        inc     ix
+        add     a, a
+        jr      nc, tkeys1
+        ld      hl, $1082
+        add     hl, de
+        ex      de, hl
+        jr      nz, tkeys1
+tkeys4  add     a, $fe
+        ld      hl, $5993
+tkeys5  ld      de, $013e
+        add     hl, de
+        push    af
+        in      a, ($fe)
+        ld      b, 5
+tkeys6  ld      (hl), 7
+        rrca
+        jr      c, tkeys7
+        ld      (hl), $4e
+tkeys7  ld      de, $ffc0
+        add     hl, de
+        djnz    tkeys6
+        pop     af
+        rlca
+        cp      $ef
+        jr      nz, tkeys5
+        ld      hl, $5a09
+tkeys8  ld      de, $fe82
+        add     hl, de
+        push    af
+        in      a, ($fe)
+        ld      b, 5
+tkeys9  ld      (hl), 7
+        rrca
+        jr      c, tkeys10
+        ld      (hl), $4e
+tkeys10 ld      de, $0040
+        add     hl, de
+        djnz    tkeys9
+        add     hl, de
+        pop     af
+        rlca
+        jr      c, tkeys8
+        ld      a, ($5ad1)
+        ld      e, a
+        ld      a, ($5891)
+        add     a, e
+        ret     m
+        ld      hl, $5b13
+        in      a, ($1f)
+        cpl
+        ld      b, 5
+        call    tkeys11
+        xor     a
+        jr      tkeys4
+tkeys11 ld      de, $ffc0
+        add     hl, de
+        rrca
+tkeys12 ld      (hl), 7
+        jr      c, tkeys13
+        ld      (hl), $4e
+tkeys13 djnz    tkeys11
+        ret
+      ENDIF
 
 tape    call    bomain
         ld      c, $14
         ld      ix, cad51
         call_prnstr             ; Press any key to continue
+      IF  vertical=0
         ld      hl, $4881
+      ELSE
+        ld      hl, $4882
+      ENDIF
         ld      de, $00ee
         ld      c, 8
 tape1   ld      b, 18
@@ -1066,9 +1340,15 @@ tape2   ld      (hl), %00001111
         dec     c
         jr      nz, tape1
         ld      hl, %0100100000001000
+      IF  vertical=0
         ld      ($5968), hl
         ld      hl, %0000100001001000
         ld      ($596a), hl
+      ELSE
+        ld      ($5969), hl
+        ld      hl, %0000100001001000
+        ld      ($596b), hl
+      ENDIF
 tape3   ld      h, b
         ld      l, b
         ld      bc, $7ffe
@@ -1095,10 +1375,18 @@ tape6   cp      17
         jr      c, tape8
         ld      a, 17
 tape7   srl     l
-tape8   add     a, $81
+tape8   
+      IF  vertical=0
+        add     a, $81
         rl      l
         ld      de, $5991
         ld      hl, $5992
+      ELSE
+        add     a, $82
+        rl      l
+        ld      de, $5992
+        ld      hl, $5993
+      ENDIF
         ld      c, $11
         ld      (hl), %01000000
         lddr
@@ -1113,7 +1401,11 @@ tape8   add     a, $81
 ;****  Roms Menu  ****
 ;*********************
 roms    push    hl
+      IF  vertical=0
         ld      h, 5
+      ELSE
+        ld      h, 4
+      ENDIF
         call    window
         ld      a, %00111000    ; fondo blanco tinta negra
         ld      hl, $0102
@@ -1123,6 +1415,7 @@ roms    push    hl
         ld      bc, $0202
         call_prnstr
         call_prnstr
+      IF  vertical=0
         ld      bc, $1503
         call_prnstr
         ld      bc, $1b0c
@@ -1135,6 +1428,7 @@ roms    push    hl
         ld      c, $0e
         call_prnstr
         call_prnstr
+      ENDIF
         ld      iy, indexe
         ld      ix, cmbpnt
         ld      de, tmpbuf
@@ -1181,9 +1475,15 @@ roms4   ld      (hl), a
 roms5   ld      (ix+1), $ff
         ld      d, $17
         ld      a, iyl
+      IF  vertical=0
         cp      $12
         jr      c, roms6
         ld      a, $12
+      ELSE
+        cp      $1a
+        jr      c, roms6
+        ld      a, $1a
+      ENDIF
 roms6   ld      e, a
         pop     af
 roms7   ld      hl, $0104
@@ -1251,7 +1551,12 @@ isbus1  cp      (hl)
         inc     l
         add     a, (hl)
         jr      isbusy
-isbus2  ld      bc, $090a
+isbus2
+      IF  vertical=0
+        ld      bc, $090a
+      ELSE
+        ld      bc, $0510
+      ENDIF
         ld      ix, cad115
         call_prnstr
         call_prnstr
@@ -1320,7 +1625,7 @@ roms10  ld      (offsel), hl
 roms11  dec     iyh
         jr      nz, roms10
         ret
-      ENDIF
+    ENDIF
 roms12  call    romcyb
         ld      ix, cad50
 roms13  call_prnstr
@@ -1408,20 +1713,34 @@ roms1f  djnz    roms23
         push    hl
         ld      de, empstr
         call    str2tmp
+      IF  vertical=0
         ld      hl, $0309
         ld      de, $1b07
+      ELSE
+        ld      hl, $020d
+        ld      de, $1507
+      ENDIF
         ld      a, e            ;%00000111 fondo negro tinta blanca
         call    window
         dec     h
         dec     l
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
+      IF  vertical=0
         sub     l               ; fondo negro tinta blanca
-        ld      iyl, c
+        ld      iyl, 2
         ld      hl, $030c
         ld      de, $1801
         call    window
         ld      bc, $0208
+      ELSE
+        ld      a, %01000111    ; fondo negro tinta blanca
+        ld      iyl, 2
+        ld      hl, $0310
+        ld      de, $1201
+        call    window
+        ld      bc, $010c
+      ENDIF
         call_prnstr
         call_prnstr
         call_prnstr
@@ -1432,6 +1751,7 @@ roms20  push    ix
         jr      nz, roms20
         call_prnstr
         call_prnstr
+      IF  vertical=0
         ld      bc, $040c
         ld      hl, $20ff
         call    inputs
@@ -1439,6 +1759,14 @@ roms20  push    ix
         ld      de, $0708
         ld      a, %00111001    ; fondo blanco tinta azul
         call    window
+      ELSE
+        xor     a
+        ld      (empstr+23), a
+        ld      bc, $0410
+        ld      hl, $17ff
+        call    inputs
+        ld      b, 0
+      ENDIF
         ld      a, (codcnt)
         cp      $0c
         pop     hl
@@ -1501,6 +1829,7 @@ roms27  ld      hl, $0104
 ;*** Upgrade Menu ***
 ;*********************
 upgra   ld      bc, (menuop)
+      IF  vertical=0
         ld      h, 16
         dec     c
         dec     c
@@ -1510,6 +1839,18 @@ upgra   ld      bc, (menuop)
 upgra1  push    af
         call    help
         pop     af
+      ELSE
+        ld      h, 12
+        ld      d, 3
+        dec     c
+        dec     c
+        jr      nz, upgra1
+        ld      h, 8
+        ld      d, 4
+upgra1  push    af
+        call    window
+        pop     af
+      ENDIF
         ld      de, tmpbuf
         ld      ix, cmbpnt
         ld      hl, cad60
@@ -1580,7 +1921,7 @@ upgr34  ld      (hl), a
         ld      hl, (menuop)
         dec     l
         dec     l
-      IF  recovery=0
+    IF  recovery=0
         ld      a, (alto fllen+1)
         or      l
         ld      a, ixl
@@ -1595,14 +1936,20 @@ upgr34  ld      (hl), a
 upgr35  ld      (ix-3), $ff
         dec     a
         dec     a
+      IF  vertical=0
         cp      20
         jr      c, upgr38
         ld      a, 20
-upgr38  ld      e, a
       ELSE
+        cp      $1c
+        jr      c, upgr38
+        ld      a, $1c
+      ENDIF
+upgr38  ld      e, a
+    ELSE
         ld      (ix-3), $ff
         ld      e, 4
-      ENDIF
+    ENDIF
         dec     l
         ld      a, h
         jr      nz, upgra4
@@ -1630,7 +1977,9 @@ upgra6  dec     h
         jp      nz, upgra7
 
 tosd    ld      ix, cad75
+      IF  vertical=0
         call    prnhel
+      ENDIF
         call    imyesn
         ld      ix, cad445
         call    yesno
@@ -1736,7 +2085,11 @@ tosd5   ld      bc, SPI_PORT
         jr      z, fatxx        ; 04,06,0b,0c,0e -> FAT32
 errsd   ld      ix, cad77
 ferror  ;wreg    master_conf, 0
+      IF  vertical=0
         ld      bc, $090d
+      ELSE
+        ld      bc, $0510
+      ENDIF
         call_prnstr
         ld      a, cad80 & $ff
         cp      ixl
@@ -1745,7 +2098,13 @@ twaitk  jp      nz, waitky
         ld      a, (menuop+1)
         sub     4
         jr      c, twaitk
+        call    cbname
+        ld      bc, $0020
+        add     hl, bc
+        ld      de, empstr
+        call    str2tmp
         ld      ix, cad82
+      IF  vertical=0
         ld      bc, $090a
         call_prnstr
         ld      a, %00000111    ; fondo negro tinta blanca
@@ -1754,13 +2113,32 @@ twaitk  jp      nz, waitky
         call    window
         ld      bc, $080b
         ld      hl, $20ff
-        call    inputv
+        call    inputs
         ld      a, (items)
         add     a, empstr&$ff
         ld      l, a
         ld      h, empstr>>8
         ld      bc, $20
         ld      (hl), c
+      ELSE
+        ld      bc, $050d
+        call_prnstr
+        ld      a, %00000111    ; fondo negro tinta blanca
+        ld      hl, $030e
+        ld      de, $1201
+        call    window
+        ld      bc, $040e
+        ld      hl, $1aff
+        xor     a
+        ld      (empstr+$1a), a
+        call    inputs
+        ld      a, (items)
+        add     a, empstr&$ff
+        ld      l, a
+        ld      h, empstr>>8
+        ld      bc, $1a
+        ld      (hl), $20
+      ENDIF
         ld      l, empstr&$ff
         ld      de, tmpbuf+$31
         ldir
@@ -1794,6 +2172,9 @@ rotp    call    readat0               ; read 512 bytes of entries (16 entries)
 erfnf   ld      ix, cad78
 terror  jp      ferror
 saba
+      IF version=5
+        sub     $32
+      ELSE
       IF version=4
         sub     $31
       ELSE
@@ -1805,6 +2186,7 @@ saba
       ELSE
       IF version=1
         sub     $41
+      ENDIF
       ENDIF
       ENDIF
       ENDIF
@@ -1839,7 +2221,12 @@ bucop   push    hl                    ; save current cluster
         inc     a                     ; cluster==FFFF
         pop     ix
         jr      nz, bucop
-enbur   ld      bc, $090a
+enbur   
+      IF  vertical=0
+        ld      bc, $090a
+      ELSE
+        ld      bc, $050d
+      ENDIF
         ld      ix, cad785
         call_prnstr
         jr      terror
@@ -1886,6 +2273,9 @@ otve    call    readata
 erfnf2  jp      erfnf
 sabe    pop     bc
         pop     hl
+      IF version=5
+        sub     $32
+      ELSE
       IF version=4
         sub     $31
       ELSE
@@ -1897,6 +2287,7 @@ sabe    pop     bc
       ELSE
       IF version=1
         sub     $41
+      ENDIF
       ENDIF
       ENDIF
       ENDIF
@@ -2063,7 +2454,11 @@ putc0   inc     hl
         include sd.asm
 
 upgra7  ld      hl, items
+      IF  vertical=0
         ld      (hl), b
+      ELSE
+        ld      (hl), 0
+      ENDIF
 upgr75  call    popupw
         defw    cad80
         defw    cad81
@@ -2076,7 +2471,7 @@ upgr75  call    popupw
         rrca
         call    chcol
         defw    $1201
-        defb    %00111001
+        defw    %0100011100111001
         ret     nz
         jp      c, tosd
         call    loadta
@@ -2209,41 +2604,49 @@ upgrai  ld      a, 30
       IF  recovery=0
 ;*** Advanced Menu ***
 ;*********************
-advan   ld      h, 20
+advan
+      IF  vertical=0
+        ld      h, 20
         ld      d, 8
         call    help
+      ELSE
+        ld      h, 15
+        ld      d, 5
+        call    window
+      ENDIF
         ld      ix, cad83
         ld      bc, $0202
         call    prnmul
         ld      bc, $0f04
         ld      iy, layout
-        call    showop
+        call    showop          ; Keyb Layout
         defw    cad875
         defw    cad88
         defw    cad89
         defw    cad90
         defw    $ffff
-advan1  call    showop
+advan1  call    showop          ; Joy Keypad & DB9
         defw    cad91
         defw    cad92
         defw    cad93
         defw    cad94
         defw    cad95
+        defw    cad955
         defw    $ffff
         ld      a, iyl
         rrca
         jr      nc, advan1
         ld      c, $0b
-        call    showop
+        call    showop          ; Output
         defw    cad96
-;        defw    cad97
+        defw    cad97
         defw    cad98
         defw    $ffff
-        call    showop
+        call    showop          ; Scanlines
         defw    cad28
         defw    cad29
         defw    $ffff
-        call    showop
+        call    showop          ; VSync frequency
         defw    cad102
         defw    cad103
         defw    cad104
@@ -2253,11 +2656,15 @@ advan1  call    showop
         defw    cad108
         defw    cad109
         defw    $ffff
-        call    showop
+        call    showop          ; CPU Speed
         defw    cad110
         defw    cad111
         defw    cad112
-;        defw    cad113
+        defw    cad113
+        defw    $ffff
+        call    showop          ; CSync
+        defw    cad90
+        defw    cad96
         defw    $ffff
         ld      de, $1201
         call    listas
@@ -2268,6 +2675,7 @@ advan1  call    showop
         defb    $0c
         defb    $0d
         defb    $0e
+        defb    $0f
         defb    $ff
         defw    cad84
         defw    cad85
@@ -2276,22 +2684,23 @@ advan1  call    showop
         defw    cad99
         defw    cad100
         defw    cad101
+        defw    cad10a
         jp      c, main9
         ld      (menuop+1), a
         ld      hl, layout
         ld      e, a
         add     hl, de
         jr      nz, advan2
-        call    popupw
+        call    popupw          ; Keyb Layout
         defw    cad875
         defw    cad88
         defw    cad89
         defw    cad90
         defw    $ffff
         ret
-advan2  sub     3
-        jr      nc, advan3
-        call    popupw
+advan2  ld      b, a
+        djnz    advan3
+        call    popupw          ; Joy Keypad
         defw    cad91
         defw    cad92
         defw    cad93
@@ -2299,16 +2708,32 @@ advan2  sub     3
         defw    cad95
         defw    $ffff
         ret
-advan3  ld      b, a
-        djnz    advan4
-        call    popupw
+advan3  djnz    advan4
+        call    popupw          ; Joy DB9
+        defw    cad91
+        defw    cad92
+        defw    cad93
+        defw    cad94
+        defw    cad95
+        defw    cad955
+        defw    $ffff
+        ret
+advan4  djnz    advan5
+        call    popupw          ; Output
+        defw    cad96
+        defw    cad97
+        defw    cad98
+        defw    $ffff
+        ret
+advan5  djnz    advan6
+        call    popupw          ; Scanlines
         defw    cad28
         defw    cad29
         defw    $ffff
         ret
-advan4  djnz    advan5
-        call    popupw
-        defw    cad102
+advan6  djnz    advan7
+        call    popupw          ; VSync frequency
+        defw    cad102      
         defw    cad103
         defw    cad104
         defw    cad105
@@ -2318,25 +2743,31 @@ advan4  djnz    advan5
         defw    cad109
         defw    $ffff
         ret
-advan5  djnz    advan6
-        call    popupw
+advan7  djnz    advan8
+        call    popupw          ; CPU Speed
         defw    cad110
         defw    cad111
         defw    cad112
-;        defw    cad113
+        defw    cad113
         defw    $ffff
         ret
-advan6  call    popupw
+advan8  call    popupw          ; CSync
+        defw    cad90
         defw    cad96
-;        defw    cad97
-        defw    cad98
         defw    $ffff
         ret
 
+
 ;****  Exit Menu  ****
 ;*********************
-exit    ld      h, 28
+exit    
+      IF  vertical=0
+        ld      h, 28
         call    help
+      ELSE
+        ld      h, 20
+        call    window
+      ENDIF
         ld      ix, cad37
         ld      bc, $0202
         call_prnstr
@@ -2398,12 +2829,21 @@ blst0   add     hl, bc
         ld      a, e
         ld      l, a
         call    nc, nument
+      IF  vertical=0
         cp      13
         jr      c, blst1
         ld      a, 13
 blst1   ld      h, a
         ld      (items), hl
         add     a, -16
+      ELSE
+        cp      21
+        jr      c, blst1
+        ld      a, 21
+blst1   ld      h, a
+        ld      (items), hl
+        add     a, -24
+      ENDIF
         cpl
         rra
         ld      l, a
@@ -2412,7 +2852,11 @@ blst1   ld      h, a
         ld      e, a
         ld      a, %01001111    ; fondo azul tinta blanca
         ld      h, $01          ; coordenada X
+      IF  vertical=0
         ld      d, $1c          ; anchura de ventana
+      ELSE
+        ld      d, $16          ; anchura de ventana
+      ENDIF
         push    hl
         call    window
         ld      ix, cad2
@@ -2459,11 +2903,18 @@ bls37   ld      (ix+0), cad6&$ff
         ld      (ix+3), a
         ld      a, (items+1)
         ld      e, a
+      IF  vertical=0
         ld      d, 32
         call    chcol
         defw    $1a02
-        defb    %01001111
-        ld      a, (cmbpnt+1)
+        defw    %0100011101001111
+      ELSE
+        ld      d, 25
+        call    chcol
+        defw    $1402
+        defw    %0100011101001111
+      ENDIF
+bls375  ld      a, (cmbpnt+1)
         rlca
         ld      hl, (active)
         ld      a, h
@@ -2508,12 +2959,17 @@ imyesn  call    bloq1
 ;   HL: address of bitstream
 ; ------------------------------------
 calbit  inc     b
+      IF  version<5
 calbi1  ld      a, 9
         cp      b
         ld      hl, $0040
         jr      nc, calbi2
         ld      hl, $0b80
 calbi2  ld      de, $0540
+      ELSE
+calbi1  ld      hl, $0980
+        ld      de, $0740
+      ENDIF
 calbi3  add     hl, de
         djnz    calbi3
         ret
@@ -2531,7 +2987,19 @@ deixl1  inc     ixl
 addbls  ld      (ix+0), e
         ld      (ix+1), d
         push    hl
+      IF  vertical=0
         call    str2tmp
+      ELSE
+        push    de
+        call    str2tmp
+        pop     hl
+        ld      a, l
+        add     a, 25
+        ld      l, a
+        jr      nc, addbl0
+        inc     h
+addbl0  ld      (hl), 0
+      ENDIF
         pop     hl
 addbl1  inc     iyl
         call    deixl1
@@ -2542,20 +3010,33 @@ addbl1  inc     iyl
       ENDIF
 
 ;first part of loadta
-qloadt  ld      ix, cad49
+qloadt
+      IF  vertical=0
+        ld      ix, cad49
         call    prnhel
         call    bloq1
         dec     c
         dec     c
+      ELSE
+        call    bloq1
+        ld      bc, $040c
+      ENDIF
         ld      iyl, 5
 loadt1  ld      ix, cad42
         call_prnstr
         dec     iyl
         jr      nz, loadt1
+      IF  vertical=0
         ld      ixl, cad43 & $ff
         call_prnstr
         ld      ixl, cad44 & $ff
         ld      c, b
+      ELSE
+        ld      ix, cad43
+        call_prnstr
+        ld      ixl, cad44 & $ff
+        ld      c, $0b
+      ENDIF
         call_prnstr
 
 ; -------------------------------------
@@ -2564,10 +3045,17 @@ loadt1  ld      ix, cad42
 romcyb  ld      a, iyl
 romcy1  sub     5
         jr      nc, romcy1
+      IF  vertical=0
         add     a, 5+9
         ld      c, a
         inc     iyl
         ld      b, 8
+      ELSE
+        add     a, 5+12
+        ld      c, a
+        inc     iyl
+        ld      b, 4
+      ENDIF
         ld      ix, cad42
         call_prnstr
         inc     b
@@ -2577,6 +3065,7 @@ romcy1  sub     5
 ; -------------------------------------
 ; Generates a determined box with shadow
 ; -------------------------------------
+      IF  vertical=0
 bloq1   ld      hl, $0709
         ld      de, $1207
         ld      a, %00000111     ;%00000111 fondo negro tinta blanca
@@ -2586,6 +3075,17 @@ bloq1   ld      hl, $0709
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
         ld      bc, $080b
+      ELSE
+bloq1   ld      hl, $040c
+        ld      de, $1207
+        ld      a, %00000111     ;%00000111 fondo negro tinta blanca
+        call    window
+        dec     h
+        dec     l
+        ld      a, %01001111    ; fondo azul tinta blanca
+        call    window
+        ld      bc, $040e
+      ENDIF
         ret
 
 ; -------------------------------------
@@ -2644,13 +3144,24 @@ loadta  call    qloadt
 ; Returns:
 ;    A: 0: yes, 1: no
 ; -------------------------------------
-yesno   ld      bc, $0808
+yesno
+      IF  vertical=0
+        ld      bc, $0808
         call_prnstr
         call_prnstr
         call_prnstr
 yesno0  inc     a
 yesno1  ld      ixl, a
 yesno2  ld      hl, $0b0d
+      ELSE
+        ld      bc, $040b
+        call_prnstr
+        call_prnstr
+        call_prnstr
+yesno0  inc     a
+yesno1  ld      ixl, a
+yesno2  ld      hl, $0810
+      ENDIF
         ld      de, $0801
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
@@ -2658,7 +3169,11 @@ yesno2  ld      hl, $0b0d
         ld      d, 3
         ld      b, ixl
         djnz    yesno3
+      IF  vertical=0
         ld      h, $11
+      ELSE
+        ld      h, $0e
+      ENDIF
         dec     d
 yesno3  call    window
         call    waitky
@@ -2776,6 +3291,7 @@ input7  ld      (codcnt), a
         jr      nc, input8
         ld      a, r
         ret     p
+      IF  vertical=0
 cursor  ld      a, (offsel)
         add     a, b
         ld      l, a
@@ -2817,6 +3333,36 @@ curso3  ld      a, (de)
         dec     l
         jr      nz, curso3
         ret
+      ELSE
+cursor  ld      a, (offsel)
+        add     a, b
+        ld      e, a
+        add     a, e
+        add     a, e
+        add     a, a
+        cpl
+        add     a, 192
+        ld      e, a
+        rrca
+        rrca
+        rrca
+        and     %00011000
+        xor     e
+        and     %11111000
+        xor     e
+        or      %01000000
+        ld      d, a
+        ld      a, e
+        rlca
+        rlca
+        and     %11100000
+        add     a, c
+        ld      e, a
+curso3  ld      a, (de)
+        cpl
+        ld      (de), a
+        ret
+      ENDIF
 input8  ld      hl, (offsel)
         cp      $18
         jr      nz, input9
@@ -2960,7 +3506,7 @@ combo7  ld      de, (corwid)
         ld      l, a
         ld      h, e
         ld      e, 1
-        ld      a, %01000111
+        ld      a, (colcmb-1)
         call    window
         call    waitky
         ld      hl, (offsel)
@@ -3043,12 +3589,20 @@ lista4  call    window
         ld      c, a
         add     hl, bc
         push    ix
+      IF  vertical=0
         ld      a, (hl)
         ld      ixh, a
         dec     hl
         ld      a, (hl)
         ld      ixl, a
         call    prnhel
+      ELSE
+        call    waitky
+        ld      a, (codcnt)
+        cp      $0d
+        jr      z, listaa
+        jr      lista55
+      ENDIF
         call    waitky
         ld      a, (codcnt)
         cp      $0d
@@ -3084,7 +3638,7 @@ delhe3  dec     c
         ei
         jp      (ix)
 lista5  ld      sp, stack-8
-        pop     ix
+lista55 pop     ix
         pop     de
         pop     hl
         ld      a, (codcnt)
@@ -3134,6 +3688,7 @@ rest1   ld      de, $1b08
 ;   HL: X coordinate (H) and Y coordinate (L)
 ;   DE: window width (D) and window height (E)
 ; -------------------------------------
+      IF  vertical=0
 window  push    hl
         push    de
         ld      c, h
@@ -3147,21 +3702,51 @@ window  push    hl
         add     hl, bc
 windo1  ld      b, d
 windo2  ld      (hl), a
-        inc     l
+        inc     hl
         djnz    windo2
-        ex      af, af'
-        ld      a, l
-        sub     d
-        add     a, 32
-        ld      l, a
-        jr      nc, windo3
-        inc     h
-windo3  ex      af, af'
+        ld      c, d
+        sbc     hl, bc
+        ld      c, $20
+        add     hl, bc
         dec     e
         jr      nz, windo1
         pop     de
         pop     hl
         ret
+      ELSE
+window  push    hl
+        push    de
+        ld      c, l;h
+        push    af
+        ld      a, 23
+        sub     h
+        ld      l, a
+        pop     af
+        add     hl, hl
+        add     hl, hl
+        add     hl, hl
+        ld      h, $16
+        add     hl, hl
+        add     hl, hl
+        ld      b, 0
+        add     hl, bc
+        ld      c, e
+        add     hl, bc
+
+windo1  ld      b, e;d
+windo2  dec     hl
+        ld      (hl), a
+        djnz    windo2
+        ld      c, e
+        add     hl, bc
+        ld      bc, $ffe0
+        add     hl, bc
+        dec     d;e
+        jr      nz, windo1
+        pop     de
+        pop     hl
+        ret
+      ENDIF
 
 ; -------------------------------------
 ; Change corwid and colcmb variables
@@ -3176,6 +3761,9 @@ chcol   pop     hl
         ld      a, (hl)
         inc     hl
         ld      (colcmb), a
+        ld      a, (hl)
+        inc     hl
+        ld      (colcmb-1), a
         jp      (hl)
 
 ; -------------------------------------
@@ -3222,11 +3810,19 @@ popup1  ldi
         ld      a, e
         dec     a
         ld      iyl, a
+      IF  vertical=0
         add     a, -24
         cpl
         rra
         ld      l, a
         ld      h, $16
+      ELSE
+        add     a, -32
+        cpl
+        rra
+        ld      l, a
+        ld      h, $13
+      ENDIF
         ld      d, 1
         ld      a, %00000111    ; fondo negro tinta blanca
         call    window
@@ -3236,20 +3832,32 @@ popup1  ldi
         push    hl
         add     a, l
         ld      l, a
+      IF  vertical=0
         ld      h, $0a
+      ELSE
+        ld      h, $07
+      ENDIF
         ld      de, $0d01
         ld      a, %00000111    ; fondo negro tinta blanca
         call    window
         pop     hl
         ld      e, h
         dec     l
+      IF  vertical=0
         ld      h, $09
+      ELSE
+        ld      h, $06
+      ENDIF
         push    de
         push    hl
         ld      a, %01001111    ; fondo azul tinta blanca
         call    window
         ld      ix, cad21
+      IF  vertical=0
         ld      b, $0c
+      ELSE
+        ld      b, $08
+      ENDIF
         ld      c, l
         call_prnstr
 popup2  ld      ix, cad22
@@ -3258,13 +3866,21 @@ popup2  ld      ix, cad22
         jr      nz, popup2
         call_prnstr
         call    chcol
+      IF  vertical=0
         defw    $0b0a
-        defb    %01001111
+      ELSE
+        defw    $0b07
+      ENDIF
+        defw    %0100011101001111
         pop     hl
         pop     de
         inc     l
         ld      a, h
+      IF  vertical=0
         add     a, 5
+      ELSE
+        add     a, 4
+      ENDIF
         ld      h, a
         dec     e
         dec     e
@@ -3495,6 +4111,34 @@ get16   ld      b, 0
         jr      nc, get16
         ret
 
+drcs    inc     hl
+        ld      b, $40          ; filtro RCS inverso
+start4  ld      a, b
+        xor     c
+        and     $f8
+        xor     c
+        ld      d, a
+        xor     b
+        xor     c
+        rlca
+        rlca
+        ld      e, a
+        inc     bc
+        ldi
+        inc     bc
+      IF  vertical=0
+        bit     3, b
+        jr      z, start4
+      ELSE
+        ld      a, b
+        sub     $58
+        jr      nz, start4
+        dec     a
+      ENDIF
+        ld      b, $13
+        ldir
+        ret
+
 ; Parameters:
 ;(empstr): input string
 ; Returns:
@@ -3564,7 +4208,7 @@ hhhh    push    af
 ;binf jr binf        
       ENDIF
 
-      IF  recovery=0
+    IF  recovery=0
         incbin  es.zx7b
 fines   incbin  us.zx7b
 finus   incbin  av.zx7b
@@ -3572,9 +4216,15 @@ finav
 ; -----------------------------------------------------------------------------
 ; Compressed and RCS filtered logo
 ; -----------------------------------------------------------------------------
+      IF  vertical=0
         incbin  logo256x192.rcs.zx7b
 finlog  incbin  strings.bin.zx7b
+      ELSE
+        incbin  bezel.rcs.zx7b
+finbez  incbin  logo192x256.rcs.zx7b
+finlog  incbin  strings.bin.zx7b
       ENDIF
+    ENDIF
 
 ; -----------------------------------------------------------------------------
 ; Compressed messages
@@ -3582,8 +4232,13 @@ finlog  incbin  strings.bin.zx7b
 sdtab   defw    $0020, $0040
         defw    $0040, $0080
 fllen   defw    $0000, $0000
+      IF  version<5
         defw    $0540
 subnn   sub     6
+      ELSE
+        defw    $0740
+subnn   sub     6*4
+      ENDIF
         ret
       IF  recovery=0
 micont  wreg    master_conf, 1
@@ -3658,6 +4313,7 @@ conti7  pop     bc
 conti8  dec     (ix+1)
         jr      nz, conti5
 conti9  ld      a, 0
+contia  and     %11111111
         dec     b
         out     (c), 0;d
         inc     b
@@ -3670,17 +4326,45 @@ conti9  ld      a, 0
         out     (c), a
         dec     b
         ld      a, dev_control2
+contib  or      %00000000
         out     (c), a
         inc     b
         ld      a, (grapmo)
         srl     a
-        jr      c, contia
+        jr      c, contic
         ld      a, 7            ; Resv Resv Resv Resv Resv DIRADAS DITIMEX DIULAPLUS
-        jr      z, contia
+        jr      z, contic
         ld      a, (ix+4)
-contia  out     (c), a
+contic  out     (c), a
         rst     0
       ENDIF
+; -------------------------------------
+; Detect memory size
+;      E: 00000000-> 512K
+;         00000001-> 1M
+;         00000011-> 2M
+; -------------------------------------
+tstmem  ld      de, newreg<<8 | %00000000
+        wreg    master_conf, 1
+        wreg    master_mapper, $48
+        ld      a, ($c000)
+        sub     $31
+        jr      z, tstme1
+        scf
+tstme1  rl      e
+        wreg    master_mapper, $28
+        ld      a, ($c000)
+        sub     $31
+        jr      z, tstme2
+        scf
+tstme2  rl      e
+        wreg    master_conf, 0
+        dec     b
+        out     (c), d
+        inc     b
+        out     (c), e
+        or      e
+        ret
 
 ; -------------------------------------
 ; Put page A in mode 1 and copies from 4000 to C000
@@ -3905,14 +4589,16 @@ check1  xor     (hl)            ;6*4+4*7+10= 62 ciclos/byte
 ;    A: input slot
 ; Returns:
 ;   HL: destination address
-      IF  recovery=0
+    IF  recovery=0
 slot2a  ld      de, 3
         and     $3f
-        cp      19
         ld      h, d
         ld      l, a
+      IF  version<5
+        cp      19
         jr      c, slot2b
         ld      e, $c0
+      ENDIF
 slot2b  add     hl, de          ; $00c0 y 2f80
         add     hl, hl
         add     hl, hl
@@ -3921,7 +4607,7 @@ slot2c  add     hl, hl
         add     hl, hl
         add     hl, hl
         ret
-      ENDIF
+    ENDIF
 
 help    call    window
         ld      a, %00111000    ; fondo blanco tinta negra
@@ -3943,6 +4629,7 @@ help    call    window
 ;  BC: X coord (B) and Y coord (C)
 ;  IX: null terminated string
 ; -----------------------------------------------------------------------------
+      IF  vertical=0
 prnstr  push    bc
         call    alto prnstr1
         pop     bc
@@ -4061,6 +4748,60 @@ doble2  ld      a, (de)
         add     hl, de
         ex      de, hl
         ret
+      ELSE
+prnstr  push    bc
+        call    alto prnstr1
+        pop     bc
+        inc     c
+        ret
+prnstr1 ld      a, b
+        add     a, b
+        add     a, b
+        add     a, a
+        cpl
+        add     a, 192
+        ld      e, a
+        rrca
+        rrca
+        rrca
+        and     %00011000
+        xor     e
+        and     %11111000
+        xor     e
+        or      %01000000
+        ld      d, a
+        ld      a, e
+        rlca
+        rlca
+        and     %11100000
+        add     a, c
+        ld      e, a
+prnstr2 ld      a, (ix)
+        inc     ix
+        add     a, a
+        ret     z
+        ld      h, $b0 >> 2
+        ld      b, 6
+        ld      l, a
+        add     hl, hl
+        add     hl, hl
+prnstr3 ld      a, (hl)
+        ld      (de), a
+        ld      a, d
+        and     $07
+        jr      nz, prnstr4
+        ld      a, e
+        sub     $20
+        ld      e, a
+        jr      c, prnstr4
+        ld      a, d
+        add     a, $08
+        ld      d, a
+prnstr4 dec     d
+        inc     l
+        djnz    prnstr3
+        jr      prnstr2
+      ENDIF
 
 ; ----------
 ; CRC Table
@@ -4071,7 +4812,12 @@ crctab  incbin  crctable.bin
 ; -----------------------------------------------------------------------------
 ; 6x8 character set (128 characters x 1 rotation)
 ; -----------------------------------------------------------------------------
+      IF  vertical=0
         incbin  fuente6x8.bin
+      ELSE
+        incbin  fuente8x6.bin
+      ENDIF
+
 chrend
 
       IF  recovery=1
