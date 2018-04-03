@@ -39,3 +39,4 @@
         define  F_CLOSE         0x9b
         define  F_READ          0x9d
         define  F_WRITE         0x9e
+        define  F_FSTAT         0xa1
