@@ -41,14 +41,14 @@ module jupiter_ace (
 	wire [7:0] DoutZ80;
 	wire [15:0] AZ80;
 	
-   // Señales de control, direccion y datos de parte de todas las memorias
+   // Seï¿½ales de control, direccion y datos de parte de todas las memorias
 	wire iorq_n, mreq_n, int_n, rd_n, wr_n, wait_n;
    wire rom_enable, sram_enable, cram_enable, uram_enable, xram_enable, eram_enable, data_from_jace_oe;
    wire [7:0] dout_rom, dout_sram, dout_cram, dout_uram, dout_xram, dout_eram, data_from_jace;
    wire [7:0] sram_data, cram_data;
    wire [9:0] sram_addr, cram_addr;
     
-   // Señales para la implementación de la habilitación de escritura en ROM
+   // Seï¿½ales para la implementaciï¿½n de la habilitaciï¿½n de escritura en ROM
    wire enable_write_to_rom;
    wire [7:0] dout_modulo_enable_write;
    wire modulo_enable_write_oe;

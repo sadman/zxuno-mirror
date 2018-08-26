@@ -26,13 +26,15 @@ module keyboard_for_ace(
     output wire [4:0] columns,
     output reg kbd_reset,
     output reg kbd_nmi,
-    output reg kbd_mreset
+    output reg kbd_mreset,
+	 output reg change_video_output
     );
 
     initial begin
         kbd_reset = 1'b1;
         kbd_nmi = 1'b1;
         kbd_mreset = 1'b1;
+		  change_video_output = 1'b0;
     end
 
     `include "mapa_teclado_es.vh"
@@ -109,7 +111,10 @@ module keyboard_for_ace(
                             matrix[6] <= 5'b11111;  // H J K L ENT
                             matrix[7] <= 5'b11111;  // V B N M SP
                         end
-                    end                            
+                    end  
+                `KEY_BLKSCR:
+                    if (is_extended == 1'b0)
+		                change_video_output <= ~is_released;				  
                 `KEY_F5:
                     if (ctrl_pressed && alt_pressed)
                         kbd_nmi <= is_released;

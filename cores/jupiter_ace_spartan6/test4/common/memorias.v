@@ -71,6 +71,12 @@ module ram1k_dualport(
 	);
 
     reg [7:0] mem[0:1023];
+	 
+	 integer i;
+	 initial begin
+	   for (i=0;i<1024;i=i+1)
+		  mem[i] = 65;
+    end
     always @(posedge clk) begin
         dout2 <= mem[a2];
         dout1 <= mem[a1];
