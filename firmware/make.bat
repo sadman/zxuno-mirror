@@ -4,7 +4,7 @@ rem zx7b      ES  es.zx7b
 rem zx7b      US  us.zx7b
 rem zx7b      AV  av.zx7b
 if not exist strings.bin.zx7b echo > strings.bin.zx7b
-if not exist version.asm echo  define version 4 > version.asm
+if not exist version.asm echo  define version 1 > version.asm
 sjasmplus firmware.asm
 fcut      firmware_strings.rom  7e00 -7e00  strings.bin
 zx7b      strings.bin           strings.bin.zx7b

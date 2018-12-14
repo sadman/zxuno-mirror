@@ -1,6 +1,10 @@
 cad0    defb    'Core:             ',0
+      IF version=1
 cad1    defb    'http://zxuno.speccy.org', 0
-        defb    'ZX-Uno BIOS v0.72', 0
+      ELSE
+cad1    defb    'http://zxdos.forofpga.es', 0
+      ENDIF
+        defb    'ZX-Uno BIOS v0.76', 0
         defb    'Copyleft ', 127, ' 2018 ZX-Uno Team', 0
         defb    'Processor: Z80 3.5MHz', 0
         defb    'Memory:    '
@@ -37,7 +41,7 @@ cad8    defb    $10, '                         ', $10, '              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $18, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    '   BIOS v0.72    ', $7f, '2018 ZX-Uno Team', 0
+        defb    '   BIOS v0.76    ', $7f, '2018 ZX-Uno Team', 0
       ELSE
         defb    'Press <Edit> to Setup',0
         defb    '      <Break> Boot Menu', 0
@@ -68,7 +72,7 @@ cad8    defb    $10, '                              ', $10, 0
 cad9    defb    $14, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
         defb    $11, $11, $11, $11
         defb    $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $11, $15, 0
-        defb    ' BIOS v0.72 ', $7f, '2018 ZX1 Team', 0
+        defb    ' BIOS v0.76 ', $7f, '2018 ZX1 Team', 0
         defs    $66
       ENDIF
 cad10   defb    'Hardware tests', 0
@@ -313,44 +317,18 @@ cad79   defb    ' Successfully burned ', 0
 cad80   defb    'EAR input', 0
 cad81   defb    'SD file', 0
 cad82   defb    'Input machine\'s name', 0
-      IF version=5
-files   defb    'ESXDOS  ZX2'
-        defb    'FIRMWAREZX2'
-        defb    'FLASH   ZX2'
-        defb    'SPECTRUMZX2'
-fileco  defb    'CORE    ZX2'
-      ELSE
-      IF version=4
-files   defb    'ESXDOS  ZX1'
-        defb    'FIRMWAREZX1'
-        defb    'FLASH   ZX1'
-        defb    'SPECTRUMZX1'
-fileco  defb    'CORE    ZX1'
-      ELSE
-      IF version=3
-files   defb    'ESXDOS  ZZ3'
-        defb    'FIRMWAREZZ3'
-        defb    'FLASH   ZZ3'
-        defb    'SPECTRUMZZ3'
-fileco  defb    'CORE    ZZ3'
-      ELSE
       IF version=2
-files   defb    'ESXDOS  ZZ2'
-        defb    'FIRMWAREZZ2'
-        defb    'FLASH   ZZ2'
-        defb    'SPECTRUMZZ2'
-fileco  defb    'CORE    ZZ2'
+files   defb    'ESXDOS  ZX', LX16
+        defb    'FIRMWAREZX', LX16
+        defb    'FLASH   ZX', LX16
+        defb    'SPECTRUMZX', LX16
+fileco  defb    'CORE    ZX', LX16
       ELSE
-      IF version=1
-files   defb    'ESXDOS  ZXA'
-        defb    'FIRMWAREZXA'
-        defb    'FLASH   ZXA'
-        defb    'SPECTRUMZXA'
-fileco  defb    'CORE    ZXA'
-      ENDIF
-      ENDIF
-      ENDIF
-      ENDIF
+files   defb    'ESXDOS  ZX', $30+version
+        defb    'FIRMWAREZX', $30+version
+        defb    'FLASH   ZX', $30+version
+        defb    'SPECTRUMZX', $30+version
+fileco  defb    'CORE    ZX', $30+version
       ENDIF
 cad83   defb    'Input', 0
         defb    $11, $11, $11, $11, $11, $11, $11, $11, 0
@@ -406,7 +384,9 @@ cad116  defb    'Disable for', 0
         defb    'better compa-', 0
         defb    'tibility with', 0
         defb    'old games', 0, 0
-cad117  defb    ' Add new core', 0
+cad117  defb    'Remove jumpers', 0
+        defb    'to continue', 0, 0
+cad119  defb    ' Add new core', 0
 
 ;cad199  defb    'af0000 bc0000 de0000 hl0000 sp0000 ix0000 iy0000', 0
 
