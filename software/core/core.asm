@@ -19,8 +19,10 @@
 
 ZXUNOADDR           equ 0fc3bh
 ZXUNODATA           equ 0fd3bh
+BOARDCAP            equ 10h
 COREADDR            equ 0fch
 COREBOOT            equ 0fdh
+
 
                     org 2000h  ;comienzo de la ejecución de los comandos ESXDOS.
 
@@ -28,15 +30,35 @@ Main                proc
                     ld a,h
                     or l
                     jr z,PrintAndExit
+
                     call RecogerParam
                     call ParseParam
                     jr c,Exit
 
 NoError             ld a,h
                     or l
-                    call nz,BootZX3   ;en principio, no se vuelve de esta rutina
+                    jr z,NotACore
 
-                    ld hl,ErrorBoot
+                    ld bc,ZXUNOADDR
+                    ld a,BOARDCAP
+                    out (c),a
+                    inc b
+                    in a,(c)
+                    and 11100b
+                    jr z,NotEXP27
+                    
+                    cp 00100b
+                    call z,BootZX1   ;en principio, no se vuelve de esta rutina
+                    cp 01000b
+                    call z,BootZX2   ;en principio, no se vuelve de esta rutina
+                    cp 01100b
+                    call z,BootZX3   ;en principio, no se vuelve de esta rutina
+                    jr NotACore
+
+NotEXP27            ld hl,ErrorVersion
+                    jr Exit
+
+NotACore            ld hl,ErrorBoot
                     jr Exit
 
 PrintAndExit        ld hl,UsageText
@@ -94,11 +116,44 @@ ErrorInvalidArg     ld hl,ErrorMsg
                     endp
 ;------------------------------------------------------
 
+BootZX1             proc
+                    local NoSegundoBloque
+                    ld b,h
+                    ld c,l      ; BC = core elegido (1 en adelante)
+                    ld hl,0580h ; bits 23 a 8 de la dirección. Los bits 7 a 0 valen 0
+                    ld de,0540h ; tamaño de cada core (bits 23 a 8 del tamaño)
+                    ld a,b
+                    cp 10
+                    jr c,NoSegundoBloque
+                    ld hl,4000h
+NoSegundoBloque     jr CalcAddressAndBoot
+                    endp
+;------------------------------------------------------
+
+BootZX2             proc
+                    local NoSegundoBloque
+                    ld b,h
+                    ld c,l      ; BC = core elegido (1 en adelante)
+                    ld hl,0980h ; bits 23 a 8 de la dirección. Los bits 7 a 0 valen 0
+                    ld de,0740h ; tamaño de cada core (bits 23 a 8 del tamaño)
+                    ld a,b
+                    cp 35
+                    jr c,NoSegundoBloque
+                    ld hl,4000h
+NoSegundoBloque     jr CalcAddressAndBoot
+                    endp
+;------------------------------------------------------
+
 BootZX3             proc
                     ld b,h
                     ld c,l      ; BC = core elegido (1 en adelante)
                     ld hl,0010h ; bits 31 a 16 de la dirección. Los bits 15 a 0 valen 0
                     ld de,0012h ; tamaño de cada core (bits 31 a 16 del tamaño)
+                    jr CalcAddressAndBoot
+                    endp
+;------------------------------------------------------
+
+CalcAddressAndBoot  proc
 SumaTamCore         dec bc
                     ld a,b
                     or c
@@ -110,10 +165,10 @@ DoBoot              ld bc,ZXUNOADDR
                     ld a,COREADDR
                     out (c),a
                     inc b
-                    out (c),h   ; bits 31 a 24
-                    out (c),l   ; bits 23 a 16
+                    out (c),h   ; MSB de la direccion
+                    out (c),l   ;
                     xor a
-                    out (c),a   ; bits 15 a 8 (siempre son 0)
+                    out (c),a   ; LSB de la direccion (siempre 0)
                     dec b
                     ld a,COREBOOT
                     out (c),a
@@ -146,5 +201,8 @@ ErrorMsg            db 13,"ERROR: argument must be a",13
                     db "positive integer number",13,0
 
 ErrorBoot           db 13,"ERROR: ICAP didn't answer.",13,0
+
+ErrorVersion        db 13,"ERROR: this version of .core",13
+                    db "needs core EXP27 or newer",13,0
 
 BufferParam         equ $   ;resto de la RAM para el nombre del fichero
