@@ -20,6 +20,7 @@
 ZXUNOADDR           equ 0fc3bh
 ZXUNODATA           equ 0fd3bh
 BOARDCAP            equ 10h
+SCANDBLCTRL         equ 0bh
 COREADDR            equ 0fch
 COREBOOT            equ 0fdh
 
@@ -162,6 +163,13 @@ SumaTamCore         dec bc
                     jr SumaTamCore
 
 DoBoot              ld bc,ZXUNOADDR
+                    ld a,SCANDBLCTRL
+                    out (c),a
+                    inc b
+                    in a,(c)
+                    ld (8FD5h),a  ;dejamos aqui una copia del contenido de SCANDBLCTRL para que el proximo core configure su salida de video
+
+                    dec b
                     ld a,COREADDR
                     out (c),a
                     inc b
