@@ -1,0 +1,1 @@
+The source code for EXP releases of the ZX-UNO won't be disclosed until the Spectrum core for the ZX Next is opened to the public.
