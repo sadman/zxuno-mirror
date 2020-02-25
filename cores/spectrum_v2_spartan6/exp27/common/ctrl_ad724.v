@@ -31,14 +31,14 @@ module control_ad724 (
     input wire zxuno_regwr,
     input wire [7:0] din,
     output reg [7:0] dout,
-    output wire oe_n,
+    output wire oe,
     output wire ad724_xtal,
     output wire ad724_mode
     );
 
 `include "config.vh"
     
-    assign oe_n = ~(zxuno_addr == CTRLAD724 && zxuno_regrd == 1'b1);    
+    assign oe = (zxuno_addr == CTRLAD724 && zxuno_regrd == 1'b1);    
     
     reg [7:0] ad724 = 8'h00;  // initial value
     assign ad724_xtal = ~ad724[0];

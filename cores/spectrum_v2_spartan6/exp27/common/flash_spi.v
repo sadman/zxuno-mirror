@@ -34,7 +34,7 @@ module flash_and_sd (
    input wire iow,         // escritura a un registro ZXUNO
    input wire [7:0] din,   // del bus de datos de salida de la CPU
    output wire [7:0] dout, // al bus de datos de entrada de la CPU
-   output wire oe_n,       // el dato en dout es válido
+   output wire oe,         // el dato en dout es válido
    output wire wait_n,     // pausa para la CPU. Mejora estabilidad
    
    input wire in_boot_mode,// Esta interfaz sólo es válida en modo boot
@@ -101,7 +101,7 @@ module flash_and_sd (
       .recibir_dato(recibir_dato),
       .din(din),
       .dout(dout),
-      .oe_n(oe_n),
+      .oe(oe),
       .spi_transfer_in_progress(spi_transfer_in_progress),
    
       .spi_clk(sclk),

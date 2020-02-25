@@ -36,7 +36,7 @@ module scandoubler_ctrl (
     input wire zxuno_regwr,
     input wire [7:0] din,
     output reg [7:0] dout,
-    output wire oe_n,
+    output wire oe,
     output wire vga_enable,
     output wire scanlines_enable,
     output wire [2:0] freq_option,
@@ -46,7 +46,7 @@ module scandoubler_ctrl (
 
 `include "config.vh"
     
-    assign oe_n = ~(zxuno_addr == SCANDBLCTRL && zxuno_regrd == 1'b1);
+    assign oe = (zxuno_addr == SCANDBLCTRL && zxuno_regrd == 1'b1);
     
     reg [7:0] scandblctrl = 8'h00;  // initial value
     reg [1:0] kbd_change_video_edge_detect = 2'b00;

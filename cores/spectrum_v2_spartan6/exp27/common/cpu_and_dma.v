@@ -49,7 +49,7 @@ module cpu_and_dma (
   input wire zxuno_regwr,
   input wire [7:0] dmadevicedin,
   output wire [7:0] dmadevicedout,
-  output wire oe_n
+  output wire oe
   );
 
   wire [15:0] dma_a, cpu_a;
@@ -85,7 +85,7 @@ module cpu_and_dma (
     .zxuno_regwr(zxuno_regwr),
     .din(dmadevicedin),
     .dout(dmadevicedout),
-    .oe_n(oe_n),
+    .oe(oe),
     //---- DMA bus -----
     .m1_n(m1_n),
     .busrq_n(busrq_n),

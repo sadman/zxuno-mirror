@@ -34,7 +34,7 @@ module turbosound (
     input wire bc1,
     input wire [7:0] din,
     output wire [7:0] dout,
-    output wire oe_n,
+    output wire oe,
     output reg midi_out,
     output wire [7:0] audio_out_ay1,
     output wire [7:0] audio_out_ay2,
@@ -53,9 +53,9 @@ module turbosound (
 	wire oe_n_ay1, oe_n_ay2;
 	wire [7:0] dout_ay1, dout_ay2;
 	assign dout = (ay_select)? dout_ay1 : dout_ay2;
-	assign oe_n = (ay_select && !disable_ay)? oe_n_ay1 : 
-                (!ay_select && !disable_ay && !disable_turboay)? oe_n_ay2 :
-                 1'b1;
+	assign oe = (ay_select && !disable_ay)? ~oe_n_ay1 : 
+                (!ay_select && !disable_ay && !disable_turboay)? ~oe_n_ay2 :
+                 1'b0;
 
   wire [7:0] port_a_ay1, port_a_ay2;
   wire port_a_ay1_oe_n, port_a_ay2_oe_n;

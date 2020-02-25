@@ -30,7 +30,7 @@ module zxunouart (
     input wire zxuno_regwr,
     input wire [7:0] din,
     output reg [7:0] dout,
-    output reg oe_n,
+    output reg oe,
     output wire uart_tx,
     input wire uart_rx,
     output wire uart_rts
@@ -64,15 +64,15 @@ module zxunouart (
     assign data_read = (zxuno_addr == UARTDATA && zxuno_regrd == 1'b1);
 
     always @* begin
-        oe_n = 1'b1;
+        oe = 1'b0;
         dout = 8'hZZ;
         if (zxuno_addr == UARTDATA && zxuno_regrd == 1'b1) begin
             dout = rxdata;
-            oe_n = 1'b0;
+            oe = 1'b1;
         end
         else if (zxuno_addr == UARTSTAT && zxuno_regrd == 1'b1) begin
             dout = {rxrecv, txbusy, 6'h00};
-            oe_n = 1'b0;
+            oe = 1'b1;
         end
     end
 

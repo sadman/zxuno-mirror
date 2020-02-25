@@ -33,7 +33,7 @@ module pzx_player (
     input wire zxuno_regwr,
     input wire [7:0] din,
     output wire [7:0] dout,
-    output wire oe_n,
+    output wire oe,
     //--------------------
     input wire in48kmode,
     input wire [1:0] cpu_speed,
@@ -108,7 +108,7 @@ module pzx_player (
     reg [20:0] tag_address = 21'h000000;
     assign sramaddr = a + initsram_addr;
     
-    assign oe_n = ~(zxuno_addr == SRAMDATA && zxuno_regrd == 1'b1);
+    assign oe = (zxuno_addr == SRAMDATA && zxuno_regrd == 1'b1);
     assign sramwe = (zxuno_addr == SRAMDATA && zxuno_regwr == 1'b1);
     assign sramdout = din;
     assign dout = sramdin;
