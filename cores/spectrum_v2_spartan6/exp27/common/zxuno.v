@@ -97,7 +97,7 @@ module zxuno (
   wire CPUContention;
   wire [1:0] turbo_option;
   wire clkcpu_enable;
-  wire clk14en, clk7en, clk7nen, clk35en, clk35en_n, clk175en;
+  wire clk28en, clk14en, clk7en, clk7nen, clk35en, clk35en_n, clk175en;
 
   // Señales de la CPU
   wire mreq_n,iorq_n,rd_n,wr_n,int_n,m1_n,nmi_n,rfsh_n,busak_n;
@@ -325,6 +325,7 @@ module zxuno (
     .clk(sysclk),
     .CPUContention(CPUContention),
     .turbo_option(turbo_option),
+    .clk28en(clk28en),
     .clk14en(clk14en),
     .clk7en(clk7en),
     .clk7nen(clk7nen),
@@ -451,6 +452,7 @@ module zxuno (
 
   flash_and_sd cacharros_con_spi (
     .clk(sysclk),
+    .clk28en(clk28en),
     .a(cpuaddr),
     .iorq_n(iorq_n),
     .rd_n(rd_n),

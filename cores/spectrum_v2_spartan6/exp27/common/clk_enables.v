@@ -27,6 +27,7 @@ module clk_enables (
   input wire clk,
 	input wire CPUContention,
   input wire [1:0] turbo_option,
+  output wire clk28en,
 	output wire clk14en,
 	output wire clk7en,
 	output wire clk7nen,
@@ -40,6 +41,7 @@ module clk_enables (
   always @(posedge clk)
     divclk <= {divclk[14:0], divclk[15]};
 
+  assign clk28en   = 1'b1;
   assign clk14en   = divclk[0] | divclk[2] | divclk[4] | divclk[6] | divclk[8] | divclk[10] | divclk[12] | divclk[14];
   assign clk7en    = divclk[0] | divclk[4] | divclk[8] | divclk[12];   
   assign clk7nen   = divclk[2] | divclk[6] | divclk[10] | divclk[14];
