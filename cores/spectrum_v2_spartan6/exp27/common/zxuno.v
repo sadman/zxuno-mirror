@@ -92,10 +92,11 @@ module zxuno (
   );
 
   parameter FPGA_MODEL = 3'b000;
+  parameter MASTERCLK  = 42000000;
 
   // Señales del generador de enables de reloj
   wire CPUContention;
-  wire [1:0] turbo_option;
+  wire [3:0] cpu_speed;
   wire clkcpu_enable;
   wire clk28en, clk14en, clk7en, clk7nen, clk35en, clk35en_n, clk175en;
 
@@ -324,7 +325,7 @@ module zxuno (
   clk_enables enables_de_todos_los_relojes (
     .clk(sysclk),
     .CPUContention(CPUContention),
-    .turbo_option(turbo_option),
+    .cpu_speed(cpu_speed),
     .clk28en(clk28en),
     .clk14en(clk14en),
     .clk7en(clk7en),
@@ -348,10 +349,10 @@ module zxuno (
     .dout(cpudout),
 
     .reset_n(rst_n & mrst_n & power_on_reset_n),  // cualquiera de los tres resets
-    .clkcpu(sysclk),
-    .clk_enable(clkcpu_enable),
-    .clkdma(sysclk),
-    .wait_n(wait_spi_n),
+    .clk(sysclk),
+    .clkcpuen(clkcpu_enable & wait_spi_n),
+    .clk28en(clk28en),
+    .wait_n(1'b1),
     .int_n(int_n),
     .nmi_n((nmi_n | enable_nmi_n) /*& nmispecial_n*/),
     .di(cpudin),
@@ -653,6 +654,7 @@ module zxuno (
     .kbd_turbo_boost(turbo_boost),
     .turbo_boost_allowed(speed_change_allowed),
     .iorq_n(iorq_n),
+    .rd_n(rd_n),
     .wr_n(wr_n),
     .zxuno_addr(zxuno_addr),
     .zxuno_regrd(zxuno_regrd),
@@ -663,7 +665,7 @@ module zxuno (
     .vga_enable(vga_enable),
     .scanlines_enable(scanlines_enable),
     .freq_option(freq_option),
-    .turbo_enable(turbo_option),
+    .cpu_speed(cpu_speed),
     .csync_option(csync_option)
   );
 
@@ -761,6 +763,7 @@ module zxuno (
 
   pzx_player cassette_digital (
     .clk(sysclk),
+    .clken(clk28en),
     .sram_access_allowed(enable_pzx),
     .rst_n(power_on_reset_n & mrst_n & rst_n),
   //--------------------
@@ -772,7 +775,7 @@ module zxuno (
     .oe(oe_pzx),
   //--------------------
     .in48kmode(in48kmode),
-    .cpu_speed(turbo_option),
+    .cpu_speed(cpu_speed),
     .memory_register(total_memory),
     .play_in(play),
     .stop_in(stop),
@@ -876,7 +879,7 @@ module zxuno (
   );
 
   // UART para el ESP8266
-  zxunouart uart_esp8266 (
+  zxunouart #(.CLK(MASTERCLK)) uart_esp8266 (
     .clk(sysclk),
     .zxuno_addr(zxuno_addr),
     .zxuno_regrd(zxuno_regrd),

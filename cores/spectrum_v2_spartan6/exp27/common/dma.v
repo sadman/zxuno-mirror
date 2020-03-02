@@ -25,6 +25,7 @@
 
 module dma (
   input wire clk,
+  input wire clken,
   input wire rst_n,
   input wire [7:0] zxuno_addr,
   input wire regaddr_changed,
@@ -173,7 +174,7 @@ module dma (
       cnttransfers <= 16'h0000;
       state <= NODMA;
     end
-    else begin
+    else if (clken == 1'b1) begin
       if (srcdst == 2'b00 || iocnt == 3'b000) begin  
         if (cntpreescaler == 16'h0000)
           cntpreescaler <= preescaler;

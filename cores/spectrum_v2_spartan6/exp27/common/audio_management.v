@@ -112,10 +112,10 @@ module panner_and_mixer (
 `include "config.vh"
 
   // Register accepts data from CPU
-  reg [7:0] mixer = 8'b11111111; // monoaural mode, Specdrum and beeper on both channels
+  reg [7:0] mixer = 8'b10_01_11_11; // ACB mode, Specdrum and beeper on both channels
   always @(posedge clk) begin
     if (mrst_n == 1'b0)
-      mixer <= 8'b11111111;
+      mixer <= 8'b10_01_11_11;
     else if (a == AUDIOMIXER && iorq_n == 1'b0 && wr_n == 1'b0)
       mixer <= din;
   end

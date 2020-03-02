@@ -25,9 +25,9 @@
 
 module cpu_and_dma (
   input wire reset_n,
-  input wire clkcpu,
-  input wire clk_enable,
-  input wire clkdma,
+  input wire clk,
+  input wire clkcpuen,
+  input wire clk28en,
   input wire wait_n,
   input wire int_n,
   input wire nmi_n,
@@ -77,7 +77,8 @@ module cpu_and_dma (
   assign busak_salida_n = busak_n;
   
   dma la_dma (
-    .clk(clkdma),  
+    .clk(clk),  
+    .clken(clk28en),
     .rst_n(reset_n),
     .zxuno_addr(zxuno_addr),
     .regaddr_changed(regaddr_changed),
@@ -112,8 +113,8 @@ module cpu_and_dma (
     .dout(cpu_dout),
 
     .reset_n(reset_n),
-    .clk(clkcpu),
-    .clk_enable(clk_enable),
+    .clk(clk),
+    .clk_enable(clkcpuen),
     .wait_n(wait_n),
     .int_n(int_n),
     .nmi_n(nmi_n),

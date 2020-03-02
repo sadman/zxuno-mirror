@@ -47,12 +47,10 @@ module multiboot (
     reg [7:0] addrout = 8'h00;
     
     always @* begin
-      dout = 8'hFF;
+      dout = addrout;
       oe = 1'b0;
-      if (zxuno_addr == ADDR_COREADDR && zxuno_regrd ==1'b1) begin
-        dout = addrout;
+      if (zxuno_addr == ADDR_COREADDR && zxuno_regrd ==1'b1)
         oe = 1'b1;
-      end
     end  
 
     always @(posedge clk) begin

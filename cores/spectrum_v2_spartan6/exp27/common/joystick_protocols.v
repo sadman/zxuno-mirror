@@ -101,7 +101,7 @@ module joystick_protocols(
     
     always @* begin
         oe = 1'b0;
-        dout = 8'hZZ;
+        dout = 8'hFF;
         kbdcol_out = kbdcol_in;
         if (zxuno_addr==JOYCONFADDR && zxuno_regrd==1'b1) begin
             oe = 1'b1;

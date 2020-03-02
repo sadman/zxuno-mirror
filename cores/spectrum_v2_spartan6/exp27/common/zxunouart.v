@@ -38,6 +38,7 @@ module zxunouart (
 
 `include "config.vh"
 
+    parameter CLK = 28000000;
     wire txbusy;
     wire data_received;
     wire [7:0] rxdata;
@@ -48,7 +49,7 @@ module zxunouart (
 
     wire data_read;
 
-    uart uartchip (
+    uart #(.CLK(CLK)) uartchip (
         .clk(clk),
         .txdata(din),
         .txbegin(comenzar_trans),
@@ -65,7 +66,7 @@ module zxunouart (
 
     always @* begin
         oe = 1'b0;
-        dout = 8'hZZ;
+        dout = 8'hFF;
         if (zxuno_addr == UARTDATA && zxuno_regrd == 1'b1) begin
             dout = rxdata;
             oe = 1'b1;
