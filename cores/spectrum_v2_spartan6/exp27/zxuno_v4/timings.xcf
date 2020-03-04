@@ -1,4 +1,4 @@
-#    This file is part of the ZXUNO Spectrum core. 
+#    This file is part of the ZXUNO Spectrum core.
 #    Creation date is UNKNOWN by Miguel Angel Rodriguez Jodar
 #    (c)2014-2020 ZXUNO association.
 #    ZXUNO official repository: http://svn.zxuno.com/svn/zxuno
@@ -21,9 +21,24 @@
 #    Any distributed copy of this file must keep this notice intact.
 
 # Timing constraints
-NET "clk50mhz" PERIOD = 20ns;
-#NET "clk50mhz" TNM_NET = grupo_clk50;
-#NET "sysclk" TNM_NET = grupo_sysclk;
-#TIMESPEC TS_clk50 = PERIOD "grupo_clk50" 20ns;
-#TIMESPEC TS_sysclk = PERIOD "grupo_sysclk" 35ns;
-#TIMESPEC TS_ignora_de_sysclk_a_clk50 = FROM "grupo_sysclk" TO "grupo_clk50" TIG;
+NET "clk50mhz" TNM_NET = "grupo_clk50";
+NET "sysclk" TNM_NET = "grupo_sysclk";
+
+TIMESPEC TS_clk50 = PERIOD "grupo_clk50" 20ns;
+TIMESPEC TS_clk42 = PERIOD "grupo_sysclk" 23ns;
+
+NET "la_maquina/clk28en" TNM_NET = "clk28";
+NET "la_maquina/clk14en" TNM_NET = "clk14";
+NET "la_maquina/clk7en" TNM_NET = "clk7";
+NET "la_maquina/clk7nen" TNM_NET = "clk7n";
+NET "la_maquina/clk35en" TNM_NET = "clk35";
+NET "la_maquina/clk35en_n" TNM_NET = "clk35n";
+NET "la_maquina/clk175en" TNM_NET = "clk175";
+
+TIMESPEC TS_mcycle28 = FROM "clk28" TO "clk28" 35ns;
+TIMESPEC TS_mcycle14 = FROM "clk14" TO "clk14" 70ns;
+TIMESPEC TS_mcycle7 = FROM "clk7" TO "clk7" 140ns;
+#TIMESPEC TS_mcycle7n = FROM "clk7n" TO "clk7n" 140ns;
+TIMESPEC TS_mcycle35 = FROM "clk35" TO "clk35" 280ns;
+#TIMESPEC TS_mcycle35n = FROM "clk35n" TO "clk35n" 280ns;
+TIMESPEC TS_mcycle175 = FROM "clk175" TO "clk175" 560ns;

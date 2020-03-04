@@ -25,6 +25,7 @@
 
 module scancode_to_speccy (
     input wire clk,  // el mismo clk de ps/2
+    input wire clken,
     input wire rst,
     input wire scan_received,
     input wire [6:0] scan,
@@ -101,6 +102,7 @@ module scancode_to_speccy (
     wire [2:0] modifiers = {alt_pressed, ctrl_pressed, shift_pressed};
     
     always @(posedge clk) begin
+      if (clken == 1'b1) begin
         if (scan_received == 1'b1)
             key_is_pending <= 1'b1;
         if (rst == 1'b1 || (kbclean == 1'b1 && state == IDLE && key_is_pending == 1'b0))
@@ -196,11 +198,13 @@ module scancode_to_speccy (
                 end
             endcase
         end
+      end
     end
 endmodule	
 
 module keyboard_pressed_status (
     input wire clk,
+    input wire clken,
     input wire rst,
     input wire scan_received,
     input wire [6:0] scancode,
@@ -216,18 +220,22 @@ module keyboard_pressed_status (
     end
     
 		always @(posedge clk)
-		  kbclean <= ~(|keybstat);
+      if (clken == 1'b1)
+		    kbclean <= ~(|keybstat);
 		
-    always @(posedge clk) begin		  
-      if (rst == 1'b1)
-        keybstat <= 256'h0;
-      else if (scan_received == 1'b1)
-        keybstat[{extended,scancode}] <= ~released;
+    always @(posedge clk) begin		    
+      if (clken == 1'b1) begin
+        if (rst == 1'b1)
+          keybstat <= 256'h0;
+        else if (scan_received == 1'b1)
+          keybstat[{extended,scancode}] <= ~released;
+      end
     end
 endmodule
 
 module kb_special_functions (
   input wire clk,  // el mismo clk de ps/2
+  input wire clken,
   input wire rst,
   input wire scan_received,
   input wire [7:0] scancode,
@@ -303,75 +311,77 @@ module kb_special_functions (
   end
   
   always @(posedge clk) begin
-    if (rst == 1'b1) begin
-      user_nmi <= 1'b0;
-      joyup <= 1'b0;
-      joydown <= 1'b0;
-      joyleft <= 1'b0;
-      joyright <= 1'b0;
-      joyfire <= 1'b0;
-      video_output_change <= 1'b0;
-      user_fnt <= 13'h0000;
-      shift_pressed <= 1'b0;
-      ctrl_pressed <= 1'b0;
-      alt_pressed <= 1'b0;
-    end
-    else begin
-      if (video_output_change == 1'b1)
+    if (clken == 1'b1) begin
+      if (rst == 1'b1) begin
+        user_nmi <= 1'b0;
+        joyup <= 1'b0;
+        joydown <= 1'b0;
+        joyleft <= 1'b0;
+        joyright <= 1'b0;
+        joyfire <= 1'b0;
         video_output_change <= 1'b0;
-      if (scan_received == 1'b1) begin
-        case ({extended, scancode})
-          LEFT_SHIFT,RIGHT_SHIFT: shift_pressed <= ~released;
-          LEFT_CTRL,RIGHT_CTRL  : ctrl_pressed <= ~released;
-          LEFT_ALT,RIGHT_ALT    : begin
-                                    alt_pressed <= ~released;
-                                    joyfire <= ~released;
-                                  end
-          BACKSPACE             : if (released == 1'b0 && ctrl_pressed == 1'b1 && alt_pressed == 1'b1)
-                                    master_reset <= 1'b1;
-                                  else
-                                    master_reset <= 1'b0;
-          SUPR,SUPRNUMPAD       : if (released == 1'b0 && ctrl_pressed == 1'b1 && alt_pressed == 1'b1)
-                                    user_reset <= 1'b1;
-                                  else
-                                    user_reset <= 1'b0;
-          F5                    : user_nmi <= ~released;
-          SCRLK                 : video_output_change <= ~released;
-          PAD8                  : joyup <= ~released;
-          PAD5,PAD2             : joydown <= ~released;
-          PAD4                  : joyleft <= ~released;
-          PAD6                  : joyright <= ~released;
-          PAD7                  : begin
-                                    joyup <= ~released;
-                                    joyleft <= ~released;
-                                  end
-          PAD9                  : begin
-                                    joyup <= ~released;
-                                    joyright <= ~released;
-                                  end
-          PAD1                  : begin
-                                    joydown <= ~released;
-                                    joyleft <= ~released;
-                                  end
-          PAD3                  : begin
-                                    joydown <= ~released;
-                                    joyright <= ~released;
-                                  end
-          F1                    : user_fnt[8] <= ~released;
-          F3                    : user_fnt[7] <= ~released;
-          F4                    : user_fnt[6] <= ~released;
-          F6                    : user_fnt[5] <= ~released;
-          F7                    : user_fnt[4] <= ~released;
-          F8                    : user_fnt[3] <= ~released;
-          F9                    : user_fnt[2] <= ~released;
-          F11                   : user_fnt[1] <= ~released;
-          F12                   : user_fnt[0] <= ~released;
-          PLAY                  : user_fnt[9] <= ~released;
-          PREVTRACK             : user_fnt[10] <= ~released;
-          STOP                  : user_fnt[11] <= ~released;
-          FF                    : user_fnt[12] <= ~released;
-          // 12 funciones especiales. Usaremos FF, STOP, PREVTRACK, PLAY, F1 F3 F4 F6 F7 F8 F9 F11 y F12
-        endcase
+        user_fnt <= 13'h0000;
+        shift_pressed <= 1'b0;
+        ctrl_pressed <= 1'b0;
+        alt_pressed <= 1'b0;
+      end
+      else begin
+        if (video_output_change == 1'b1)
+          video_output_change <= 1'b0;
+        if (scan_received == 1'b1) begin
+          case ({extended, scancode})
+            LEFT_SHIFT,RIGHT_SHIFT: shift_pressed <= ~released;
+            LEFT_CTRL,RIGHT_CTRL  : ctrl_pressed <= ~released;
+            LEFT_ALT,RIGHT_ALT    : begin
+                                      alt_pressed <= ~released;
+                                      joyfire <= ~released;
+                                    end
+            BACKSPACE             : if (released == 1'b0 && ctrl_pressed == 1'b1 && alt_pressed == 1'b1)
+                                      master_reset <= 1'b1;
+                                    else
+                                      master_reset <= 1'b0;
+            SUPR,SUPRNUMPAD       : if (released == 1'b0 && ctrl_pressed == 1'b1 && alt_pressed == 1'b1)
+                                      user_reset <= 1'b1;
+                                    else
+                                      user_reset <= 1'b0;
+            F5                    : user_nmi <= ~released;
+            SCRLK                 : video_output_change <= ~released;
+            PAD8                  : joyup <= ~released;
+            PAD5,PAD2             : joydown <= ~released;
+            PAD4                  : joyleft <= ~released;
+            PAD6                  : joyright <= ~released;
+            PAD7                  : begin
+                                      joyup <= ~released;
+                                      joyleft <= ~released;
+                                    end
+            PAD9                  : begin
+                                      joyup <= ~released;
+                                      joyright <= ~released;
+                                    end
+            PAD1                  : begin
+                                      joydown <= ~released;
+                                      joyleft <= ~released;
+                                    end
+            PAD3                  : begin
+                                      joydown <= ~released;
+                                      joyright <= ~released;
+                                    end
+            F1                    : user_fnt[8] <= ~released;
+            F3                    : user_fnt[7] <= ~released;
+            F4                    : user_fnt[6] <= ~released;
+            F6                    : user_fnt[5] <= ~released;
+            F7                    : user_fnt[4] <= ~released;
+            F8                    : user_fnt[3] <= ~released;
+            F9                    : user_fnt[2] <= ~released;
+            F11                   : user_fnt[1] <= ~released;
+            F12                   : user_fnt[0] <= ~released;
+            PLAY                  : user_fnt[9] <= ~released;
+            PREVTRACK             : user_fnt[10] <= ~released;
+            STOP                  : user_fnt[11] <= ~released;
+            FF                    : user_fnt[12] <= ~released;
+            // 12 funciones especiales. Usaremos FF, STOP, PREVTRACK, PLAY, F1 F3 F4 F6 F7 F8 F9 F11 y F12
+          endcase
+        end
       end
     end
   end    

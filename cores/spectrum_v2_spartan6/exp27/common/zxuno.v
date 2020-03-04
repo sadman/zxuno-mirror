@@ -82,6 +82,8 @@ module zxuno (
   inout wire mousedata,
   
   // SCANDOUBLER CTRL
+  output wire clk28en_tovga,
+  output wire clk14en_tovga,
   output wire vga_enable,
   output wire scanlines_enable,
   output wire [2:0] freq_option,
@@ -98,7 +100,9 @@ module zxuno (
   wire CPUContention;
   wire [3:0] cpu_speed;
   wire clkcpu_enable;
-  wire clk28en, clk14en, clk7en, clk7nen, clk35en, clk35en_n, clk175en;
+  (* keep = "true" *) (* s = "true" *) wire clk28en, clk14en, clk7en, clk7nen, clk35en, clk35en_n, clk175en;
+  assign clk28en_tovga = clk28en;
+  assign clk14en_tovga = clk14en;
 
   // Señales de la CPU
   wire mreq_n,iorq_n,rd_n,wr_n,int_n,m1_n,nmi_n,rfsh_n,busak_n;
@@ -543,6 +547,7 @@ module zxuno (
 
   ps2_keyb el_teclado (
     .clk(sysclk),
+    .clken(clk28en),
     .clkps2(clkps2),
     .dataps2(dataps2),
     .rows(kbdrow),

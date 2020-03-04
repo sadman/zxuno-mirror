@@ -1,4 +1,4 @@
-<DesignStrategy goal="Timing Performance" strategy="SmartXplorer - currentprojectnavigatorsettingsct90" version="14.7">
+<DesignStrategy goal="Timing Performance" strategy="SmartXplorer - currentprojectnavigatorsettingsct20" version="14.7">
    <Description><![CDATA[      This is a Timing Performance optimized strategy.This strategy is also one of the strategies used by SmartXplorer.      If you wish to run SmartXplorer to automatically try multiple Timing Performance strategies, including this one, close this dialog and then select Tools -> SmartXplorer -> Launch SmartXplorer .   ]]></Description>
    <DeviceList devices="spartan6,spartan6l,aspartan6,qspartan6,qspartan6l" />
    <Properties>
@@ -28,7 +28,7 @@
                value = "Off" />
       <property name = "Map:Power Reduction"
                value = "Off" />
-      <property name = "Map:Starting Placer Cost Table (1-100)" value="90" />
+      <property name = "Map:Starting Placer Cost Table (1-100)" value="20" />
 
       <property name = "Place &amp; Route:Place &amp; Route Effort Level (Overall)"
                value = "High" />
