@@ -30,17 +30,30 @@ module clk_enables (
   output wire clk28en,
 	output wire clk14en,
 	output wire clk7en,
-	output wire clk7nen,
+	output wire clk7en_n,
 	output wire clk35en,
 	output wire clk35en_n,
 	output wire clk175en,
 	output wire clkcpu_enable
   );
 
+// 28 MHz master clock
+  reg [15:0] divclk = 16'h00000001;
+  always @(posedge clk)
+    divclk <= {divclk[14:0], divclk[15]};
+  assign clk28en   = 1'b1;
+  assign clk14en   = divclk[0] | divclk[2] | divclk[4] | divclk[6] | divclk[8] | divclk[10] | divclk[12] | divclk[14];
+  assign clk7en    = divclk[0] | divclk[4] | divclk[8] | divclk[12];
+  assign clk7en_n  = divclk[2] | divclk[6] | divclk[10] | divclk[14];
+  assign clk35en   = divclk[0] | divclk[8];
+  assign clk35en_n = divclk[7] | divclk[15];
+  assign clk175en  = divclk[0];
+
+
+// This is to support 56 MHz master clock. Didn't meet timing closure on UNO
 //  reg [31:0] divclk = 32'h00000001;
 //  always @(posedge clk)
 //    divclk <= {divclk[30:0], divclk[31]};
-
 //  assign clk28en   = divclk[0] | divclk[2] | divclk[4] | divclk[6] | divclk[8] | divclk[10] | divclk[12] | divclk[14] | divclk[16] | divclk[18] | divclk[20] | divclk[22] | divclk[24] | divclk[26] | divclk[28] | divclk[30];
 //  assign clk14en   = divclk[0] | divclk[4] | divclk[8] | divclk[12] | divclk[16] | divclk[20] | divclk[24] | divclk[28];
 //  assign clk7en    = divclk[0] | divclk[8] | divclk[16] | divclk[24];
@@ -49,54 +62,17 @@ module clk_enables (
 //  assign clk35en_n = divclk[15] | divclk[31];
 //	assign clk175en  = divclk[0];
 
-  reg [23:0] divclk = 24'h000001;
-  always @(posedge clk)
-    divclk <= {divclk[22:0], divclk[23]};
-  assign clk28en   = divclk[0] | divclk[1] | divclk[3] | divclk[4] | divclk[6] | divclk[7] | divclk[9] | divclk[10] | divclk[12] | divclk[13] | divclk[15] | divclk[16] | divclk[18] | divclk[19] | divclk[21] | divclk[22];
-  assign clk14en   = divclk[0] | divclk[3] | divclk[6] | divclk[9] | divclk[12] | divclk[15] | divclk[18] | divclk[21];
-  assign clk7en    = divclk[0] | divclk[6] | divclk[12] | divclk[18];
-  assign clk7nen   = divclk[3] | divclk[9] | divclk[15] | divclk[21];
-  assign clk35en   = divclk[0] | divclk[12];
-  assign clk35en_n = divclk[23] | divclk[11];
-  assign clk175en  = divclk[0];
-
-//  reg [4:0] divclk = 5'd0;
-//  always @(posedge clk) begin
-//    if (divclk == 5'd23)
-//      divclk <= 5'd0;
-//    else
-//      divclk <= divclk + 5'd1;
-//  end
-//  
-//  assign clk28en   = (divclk == 5'd0  || divclk == 5'd1  || 
-//                      divclk == 5'd3  || divclk == 5'd4  || 
-//                      divclk == 5'd6  || divclk == 5'd7  || 
-//                      divclk == 5'd9  || divclk == 5'd10 || 
-//                      divclk == 5'd12 || divclk == 5'd13 || 
-//                      divclk == 5'd15 || divclk == 5'd16 || 
-//                      divclk == 5'd18 || divclk == 5'd19 || 
-//                      divclk == 5'd21 || divclk == 5'd22);
-//  assign clk14en   = (divclk == 5'd0  ||
-//                      divclk == 5'd3  ||
-//                      divclk == 5'd6  ||
-//                      divclk == 5'd9  ||
-//                      divclk == 5'd12 ||
-//                      divclk == 5'd15 ||
-//                      divclk == 5'd18 ||
-//                      divclk == 5'd21);
-//  assign clk7en    = (divclk == 5'd0  ||
-//                      divclk == 5'd6  ||
-//                      divclk == 5'd12 ||
-//                      divclk == 5'd18);
-//  assign clk7nen   = (divclk == 5'd3  ||
-//                      divclk == 5'd9  ||
-//                      divclk == 5'd15 ||
-//                      divclk == 5'd21);
-//  assign clk35en   = (divclk == 5'd0  ||
-//                      divclk == 5'd12);
-//  assign clk35en_n = (divclk == 5'd23  ||
-//                      divclk == 5'd11);                      
-//  assign clk175en  = (divclk == 5'd0);
+// This is to support 42 MHz master clock. Unfortunately, it looks ugly when VGA is used :(
+//  reg [23:0] divclk = 24'h000001;
+//  always @(posedge clk)
+//    divclk <= {divclk[22:0], divclk[23]};
+//  assign clk28en   = divclk[0] | divclk[1] | divclk[3] | divclk[4] | divclk[6] | divclk[7] | divclk[9] | divclk[10] | divclk[12] | divclk[13] | divclk[15] | divclk[16] | divclk[18] | divclk[19] | divclk[21] | divclk[22];
+//  assign clk14en   = divclk[0] | divclk[3] | divclk[6] | divclk[9] | divclk[12] | divclk[15] | divclk[18] | divclk[21];
+//  assign clk7en    = divclk[0] | divclk[6] | divclk[12] | divclk[18];
+//  assign clk7nen   = divclk[3] | divclk[9] | divclk[15] | divclk[21];
+//  assign clk35en   = divclk[0] | divclk[12];
+//  assign clk35en_n = divclk[23] | divclk[11];
+//  assign clk175en  = divclk[0];
   
   assign clkcpu_enable = (cpu_speed[2] == 1'b1)            ||
                          (cpu_speed == 4'b0011 && clk28en) ||

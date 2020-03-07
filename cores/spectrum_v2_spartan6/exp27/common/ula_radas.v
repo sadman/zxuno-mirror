@@ -28,7 +28,7 @@ module ula_radas (
     input wire sysclk,
 	  input wire clk14en,
 	  input wire clk7en,
-		input wire clk7nen,
+		input wire clk7en_n,
 	  input wire clk35en,
 	  input wire clk35en_n,
     output wire CPUContention,
@@ -747,7 +747,7 @@ module ula_radas (
 
     reg MayContend_n;
     always @(posedge sysclk) begin  // esto era negedge clk7 en el esquemático
-      if (clk7nen) begin
+      if (clk7en_n) begin
         if (hc[3:0]>4'd3 && Border_n==1'b1)
           MayContend_n <= 1'b0;
         else

@@ -100,7 +100,7 @@ module zxuno (
   wire CPUContention;
   wire [3:0] cpu_speed;
   wire clkcpu_enable;
-  (* keep = "true" *) (* s = "true" *) wire clk28en, clk14en, clk7en, clk7nen, clk35en, clk35en_n, clk175en;
+  (* KEEP = "TRUE" *) (* S = "TRUE" *) wire clk28en, clk14en, clk7en, clk7en_n, clk35en, clk35en_n, clk175en;
   assign clk28en_tovga = clk28en;
   assign clk14en_tovga = clk14en;
 
@@ -333,7 +333,7 @@ module zxuno (
     .clk28en(clk28en),
     .clk14en(clk14en),
     .clk7en(clk7en),
-    .clk7nen(clk7nen),
+    .clk7en_n(clk7en_n),
     .clk35en(clk35en),
     .clk35en_n(clk35en_n),
     .clk175en(clk175en),
@@ -375,7 +375,7 @@ module zxuno (
     .sysclk(sysclk),
     .clk14en(clk14en),
     .clk7en(clk7en),
-    .clk7nen(clk7nen),
+    .clk7en_n(clk7en_n),
     .clk35en(clk35en),
     .clk35en_n(clk35en_n),
     .CPUContention(CPUContention),
@@ -768,7 +768,6 @@ module zxuno (
 
   pzx_player cassette_digital (
     .clk(sysclk),
-    .clken(clk28en),
     .sram_access_allowed(enable_pzx),
     .rst_n(power_on_reset_n & mrst_n & rst_n),
   //--------------------

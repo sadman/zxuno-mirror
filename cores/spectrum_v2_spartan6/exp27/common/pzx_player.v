@@ -25,7 +25,6 @@
 
 module pzx_player (
     input wire clk,
-    input wire clken,
     input wire sram_access_allowed,
     input wire rst_n,
     //--------------------
@@ -37,7 +36,7 @@ module pzx_player (
     output wire oe,
     //--------------------
     input wire in48kmode,
-    input wire [3:0] cpu_speed,
+    input wire [1:0] cpu_speed,
     input wire [1:0] memory_register,
     input wire play_in,
     input wire stop_in,
@@ -150,8 +149,8 @@ module pzx_player (
     reg [30:0] duration = 31'h0;
     reg [33:0] cduration = 34'h0;   // cuenta ciclos de 28MHz hasta alcanzar el valor de duration
     reg [15:0] pulsecounter = 16'h0;
-    (* ram_style = "distributed" *) reg [15:0] pulse0[0:31];
-    (* ram_style = "distributed" *) reg [15:0] pulse1[0:31];
+    reg [15:0] pulse0[0:31];
+    reg [15:0] pulse1[0:31];
     reg [4:0] indexpulse = 5'd0;
     reg [4:0] numberpulse0 = 5'd0;
     reg [4:0] numberpulse1 = 5'd0;
@@ -163,9 +162,9 @@ module pzx_player (
     reg next_pulse = 1'b0;
     assign pulse_out = pulse;
     assign playing = play_enabled;
-    wire [33:0] adj_duration = (cpu_speed == 4'b0000)? {duration, 3'b000} :
-                               (cpu_speed == 4'b0001)? {1'b0, duration, 2'b00} :
-                               (cpu_speed == 4'b0010)? {2'b00, duration, 1'b0} :
+    wire [33:0] adj_duration = (cpu_speed == 2'b00)? {duration, 3'b000} :
+                               (cpu_speed == 2'b01)? {1'b0, duration, 2'b00} :
+                               (cpu_speed == 2'b10)? {2'b00, duration, 1'b0} :
                                                      {3'b000, duration};
     integer i;
     initial begin
@@ -227,31 +226,31 @@ module pzx_player (
                 end
                 //------------------------------------------
             READTAG:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     tag <= sramdin;
                     a <= a + 21'd1;
                     state <= READLTAG1;
                 end
             READLTAG1:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin                
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin                
                     lblock[7:0] <= sramdin;  // LSB
                     a <= a + 21'd1;
                     state <= READLTAG2;
                 end
             READLTAG2:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     lblock[15:8] <= sramdin;
                     a <= a + 21'd1;
                     state <= READLTAG3;
                 end
             READLTAG3:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     lblock[23:16] <= sramdin;
                     a <= a + 21'd1;
                     state <= READLTAG4;
                 end
             READLTAG4:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     lblock[31:24] <= sramdin;  // Ya tenemos en lblock el tamaño del bloque
                     a <= a + 21'd1;
                     if (tag == STOP) begin
@@ -277,7 +276,6 @@ module pzx_player (
                 end
 
             FULLSTOP1:
-              if (clken == 1'b1) begin
                 if (play_enabled == 1'b1) begin
                     if (durationextrapulse != 16'h0000)
                       durationextrapulse <= durationextrapulse - 1;
@@ -287,15 +285,14 @@ module pzx_player (
                       state <= IDLE;
                     end
                 end
-              end
 
             STOP1:
-                if (clken == 1'b1 && play_enabled == 1'b1) begin
+                if (play_enabled == 1'b1) begin
                     play_enabled <= 1'b0;  // se para la maquina de estados
                     state <= READTAG;
                 end
             PULSE1:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     if (lblock !=32'h00000000) begin
                         cduration <= 34'h000000000;
                         duration[7:0] <= sramdin;
@@ -309,14 +306,14 @@ module pzx_player (
                     end
                 end
             PULSE2:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     duration[15:8] <= sramdin;
                     a <= a + 21'd1;
                     lblock <= lblock - 1;
                     state <= PULSE3;
                 end
             PULSE3:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     if (duration[15:0]>16'h8000) begin
                         pulsecounter <= {1'b0,duration[14:0]};
                         duration[7:0] <= sramdin;
@@ -329,14 +326,14 @@ module pzx_player (
                     end
                 end
             PULSE4:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     duration[15:8] <= sramdin;
                     a <= a + 21'd1;
                     lblock <= lblock - 1;
                     state <= PULSE5;
                 end
             PULSE5:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     if (duration[15] == 1'b1) begin
                         duration[23:16] <= duration[7:0];
                         duration[30:24] <= duration[14:8];
@@ -351,14 +348,14 @@ module pzx_player (
                     end
                 end
             PULSE6:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     duration[15:8] <= sramdin;
                     a <= a + 21'd1;
                     lblock <= lblock - 1;
                     state <= DOPULSE;
                 end
             DOPULSE:  
-                if (clken == 1'b1 && play_enabled == 1'b1) begin
+                if (play_enabled == 1'b1) begin
                     if (duration==32'h00000000) begin  // caso especial de duration=0
                         next_pulse <= next_pulse ^ pulsecounter[0];
                         state <= PULSE1;
@@ -379,56 +376,56 @@ module pzx_player (
                     end
                 end
             DATA1:  // DATA1 a 4 para leer numero de bits en bloque
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     numberofbits[7:0] <= sramdin;
                     a <= a + 21'd1;
                     state <= DATA2;
                 end
             DATA2:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     numberofbits[15:8] <= sramdin;
                     a <= a + 21'd1;
                     state <= DATA3;
                 end
             DATA3:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     numberofbits[23:16] <= sramdin;
                     a <= a + 21'd1;
                     state <= DATA4;
                 end
             DATA4:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     {next_pulse,numberofbits[30:24]} <= sramdin;
                     a <= a + 21'd1;
                     state <= DATATAIL1;
                 end
             DATATAIL1:  // DATATAIL1 y 2 leen la duración del pulso extra
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     durationextrapulse[7:0] <= sramdin;
                     a <= a + 21'd1;
                     state <= DATATAIL2;
                 end
             DATATAIL2:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     durationextrapulse[15:8] <= sramdin;
                     a <= a + 21'd1;
                     state <= READNPULSE0;
                 end
             READNPULSE0: // Leer cantidad de pulsos para bit 0
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     numberpulse0 <= sramdin[4:0];
                     indexpulse <= 5'd0;
                     a <= a + 21'd1;
                     state <= READNPULSE1;
                 end
             READNPULSE1:  // Leer cantidad de pulsos para bit 1
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     numberpulse1 <= sramdin[4:0];
                     a <= a + 21'd1;
                     state <= READDPULSE0_1;
                 end
             READDPULSE0_1: // Leer secuencia de pulsos para 0
-                if (clken == 1'b1 && play_enabled == 1'b1) begin
+                if (play_enabled == 1'b1) begin
                     if (indexpulse == numberpulse0) begin
                         indexpulse <= 5'd0;
                         state <= READDPULSE1_1;
@@ -440,14 +437,14 @@ module pzx_player (
                     end
                 end
             READDPULSE0_2:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     pulse0[indexpulse] <= {sramdin, databyte};
                     indexpulse <= indexpulse + 1;
                     a <= a + 21'd1;
                     state <= READDPULSE0_1;
                 end
             READDPULSE1_1: // Leer secuencia de pulsos para 1
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin    
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin    
                     if (indexpulse == numberpulse1) begin
                         state <= READDATA1;
                     end
@@ -458,14 +455,14 @@ module pzx_player (
                     end
                 end
             READDPULSE1_2:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     pulse1[indexpulse] <= {sramdin,databyte};
                     indexpulse <= indexpulse + 1;
                     a <= a + 21'd1;
                     state <= READDPULSE1_1;
                 end
             READDATA1:
-                if (clken == 1'b1 && play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
+                if (play_enabled == 1'b1 && sram_access_allowed == 1'b1) begin
                     databyte <= sramdin;
                     a <= a + 21'd1;
                     countbits <= 4'd8;
@@ -473,7 +470,7 @@ module pzx_player (
                     state <= OUTPUTBIT1;
                 end
             OUTPUTBIT1:
-                if (clken == 1'b1 && play_enabled == 1'b1) begin
+                if (play_enabled == 1'b1) begin
                     if (numberofbits == 31'h0) begin
                         duration <= {15'h0000,durationextrapulse};
                         cduration <= 34'h0;
@@ -500,7 +497,7 @@ module pzx_player (
                     end
                 end
             OUTPUTBIT2:
-                if (clken == 1'b1 && play_enabled == 1'b1) begin
+                if (play_enabled == 1'b1) begin
                     if (cduration >= adj_duration) begin
                         next_pulse <= ~next_pulse;
                         state <= OUTPUTBIT1;
@@ -511,7 +508,7 @@ module pzx_player (
                     end
                 end
             DATADOTAIL:
-                if (clken == 1'b1 && play_enabled == 1'b1) begin
+                if (play_enabled == 1'b1) begin
                     pulse <= next_pulse;
                     if (cduration >= adj_duration) begin
                         //??next_pulse <= ~next_pulse;
