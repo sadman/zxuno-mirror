@@ -501,7 +501,7 @@ module new_memory (
          oe = 1'b1;
       end
       else begin
-         dout = 8'hZZ;
+         dout = 8'hFF;
          oe = 1'b0;
       end
    end

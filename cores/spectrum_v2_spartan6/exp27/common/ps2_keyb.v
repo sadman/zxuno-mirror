@@ -25,7 +25,6 @@
 
 module ps2_keyb(
     input wire clk,
-    input wire clken,
     inout wire clkps2,
     inout wire dataps2,
     //---------------------------------
@@ -77,23 +76,20 @@ module ps2_keyb(
     */
     reg reading_kbstatus = 1'b0;
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
-        kbstatus_dout[7:1] <= {ps2busy, 3'b000, kberror, released, extended};
-        if (nueva_tecla == 1'b1) begin
-            kbstatus_dout[0] <= 1'b1;
-        end
-        if (oe_kbstatus == 1'b1)
-            reading_kbstatus <= 1'b1;
-        else if (reading_kbstatus == 1'b1) begin
-            kbstatus_dout[0] <= 1'b0;
-            reading_kbstatus <= 1'b0;
-        end
+      kbstatus_dout[7:1] <= {ps2busy, 3'b000, kberror, released, extended};
+      if (nueva_tecla == 1'b1) begin
+          kbstatus_dout[0] <= 1'b1;
+      end
+      if (oe_kbstatus == 1'b1)
+          reading_kbstatus <= 1'b1;
+      else if (reading_kbstatus == 1'b1) begin
+          kbstatus_dout[0] <= 1'b0;
+          reading_kbstatus <= 1'b0;
       end
     end        
 
     ps2_port lectura_de_teclado (
         .clk(clk),
-        .clken(clken),
         .enable_rcv(~ps2busy),
         .kb_or_mouse(1'b0),
         .ps2clk_ext(clkps2),
@@ -106,7 +102,6 @@ module ps2_keyb(
 
     kb_special_functions funciones_especiales (
         .clk(clk),
-        .clken(clken),
         .rst(1'b0),
         .scan_received(nueva_tecla),
         .scancode(kbcode),
@@ -129,7 +124,6 @@ module ps2_keyb(
     
     keyboard_pressed_status teclado_limpio (
         .clk(clk),
-        .clken(clken),
         .rst(1'b0),
         .scan_received(nueva_tecla & ~kbcode[7]),
         .scancode(kbcode[6:0]),
@@ -140,7 +134,6 @@ module ps2_keyb(
 
     scancode_to_speccy traductor (
         .clk(clk),
-        .clken(clken),
         .rst(1'b0),
         .scan_received(nueva_tecla & ~kbcode[7]),
         .scan(kbcode[6:0]),
@@ -161,7 +154,6 @@ module ps2_keyb(
 
     ps2_host_to_kb escritura_a_teclado (
         .clk(clk),
-        .clken(clken),
         .ps2clk_ext(clkps2),
         .ps2data_ext(dataps2),
         .data(din),

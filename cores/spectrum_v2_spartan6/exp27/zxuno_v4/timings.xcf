@@ -22,21 +22,18 @@
 
 # Timing constraints
 NET "clk50mhz" TNM_NET = "clk50mhz";
-NET "sysclk" TNM_NET = "sysclk";
+#NET "sysclk" TNM_NET = "sysclk";
 
 TIMESPEC TS_clk50 = PERIOD "clk50mhz" 20ns high 50%;
-TIMESPEC TS_clk28 = PERIOD "sysclk" 29ns high 50%;  #pongo en realidad la frecuencia más alta que tendrá este enable
+#TIMESPEC TS_clk28 = PERIOD "sysclk" 29ns high 50%;  #pongo en realidad la frecuencia más alta que tendrá este enable
 
-NET "la_maquina/clk14en" TNM_NET = FFS "mc_clk14";
-NET "la_maquina/clk7en" TNM_NET = FFS "mc_clk7";
-NET "la_maquina/clk7en_n" TNM_NET = FFS "mc_clk7n";
-NET "la_maquina/clk35en" TNM_NET = FFS "mc_clk35";
-NET "la_maquina/clk35en_n" TNM_NET = FFS "mc_clk35n";
-NET "la_maquina/clk175en" TNM_NET = FFS "mc_clk175";
+#NET "la_maquina/clk14en" TNM_NET = FFS "mc_clk14";
+#NET "la_maquina/clk7en" TNM_NET = FFS "mc_clk7";
+#NET "la_maquina/clk7en_n" TNM_NET = FFS "mc_clk7n";
+#NET "la_maquina/clk35en" TNM_NET = FFS "mc_clk35";
+#NET "la_maquina/clk35en_n" TNM_NET = FFS "mc_clk35n";
+#NET "la_maquina/clk175en" TNM_NET = FFS "mc_clk175";
 
-TIMESPEC TS_mcycle14 = FROM "mc_clk14" TO "mc_clk14" TS_clk28*2;
-TIMESPEC TS_mcycle7 = FROM "mc_clk7" TO "mc_clk7" TS_clk28*4;
-TIMESPEC TS_mcycle7n = FROM "mc_clk7" TO "mc_clk7n" TS_clk28*2;
-TIMESPEC TS_mcycle35 = FROM "mc_clk35" TO "mc_clk35" TS_clk28*8;
-TIMESPEC TS_mcycle35n = FROM "mc_clk35" TO "mc_clk35n" TS_clk28*4;
-TIMESPEC TS_mcycle175 = FROM "mc_clk175" TO "mc_clk175" TS_clk28*16;
+#TIMESPEC TS_mcycle14 = FROM "mc_clk14" TO "mc_clk14" TS_clk28*2;
+#TIMESPEC TS_mcycle7 = FROM "mc_clk7" TO "mc_clk7" TS_clk28*4;
+#TIMESPEC TS_mcycle175 = FROM "mc_clk175" TO "mc_clk175" TS_clk28*16;

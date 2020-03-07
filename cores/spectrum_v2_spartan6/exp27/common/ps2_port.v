@@ -25,7 +25,6 @@
 
 module ps2_port (
     input wire clk,  // se recomienda 1 MHz <= clk <= 600 MHz
-    input wire clken,
     input wire enable_rcv,  // habilitar la maquina de estados de recepcion
     input wire kb_or_mouse,  // 0: kb, 1: mouse
     input wire ps2clk_ext,
@@ -49,20 +48,16 @@ module ps2_port (
     wire ps2clk = ps2clk_synchr[1];
     wire ps2data = ps2dat_synchr[1];
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
-        ps2clk_synchr[0] <= ps2clk_ext;
-        ps2clk_synchr[1] <= ps2clk_synchr[0];
-        ps2dat_synchr[0] <= ps2data_ext;
-        ps2dat_synchr[1] <= ps2dat_synchr[0];
-      end
+      ps2clk_synchr[0] <= ps2clk_ext;
+      ps2clk_synchr[1] <= ps2clk_synchr[0];
+      ps2dat_synchr[0] <= ps2data_ext;
+      ps2dat_synchr[1] <= ps2dat_synchr[0];
     end
 
     // De-glitcher. Sólo detecto flanco de bajada
     reg [15:0] negedgedetect = 16'h0000;
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
-        negedgedetect <= {negedgedetect[14:0], ps2clk};
-      end
+      negedgedetect <= {negedgedetect[14:0], ps2clk};
     end
     wire ps2clkedge = (negedgedetect == 16'hF000)? 1'b1 : 1'b0;
     
@@ -82,7 +77,6 @@ module ps2_port (
     assign kb_interrupt = rkb_interrupt;
     
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
         if (rkb_interrupt == 1'b1) begin
             rkb_interrupt <= 1'b0;
         end
@@ -140,14 +134,12 @@ module ps2_port (
                 state <= RCVSTART;
             end
         end
-      end
     end
 endmodule
 
 
 module ps2_host_to_kb (
     input wire clk,          // calibrado para 28 MHz
-    input wire clken,
     inout wire ps2clk_ext,
     inout wire ps2data_ext,
     input wire [7:0] data,
@@ -175,20 +167,16 @@ module ps2_host_to_kb (
     wire ps2clk = ps2clk_synchr[1];
     wire ps2data_in = ps2dat_synchr[1];
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
-        ps2clk_synchr[0] <= ps2clk_ext;
-        ps2clk_synchr[1] <= ps2clk_synchr[0];
-        ps2dat_synchr[0] <= ps2data_ext;
-        ps2dat_synchr[1] <= ps2dat_synchr[0];
-      end
+      ps2clk_synchr[0] <= ps2clk_ext;
+      ps2clk_synchr[1] <= ps2clk_synchr[0];
+      ps2dat_synchr[0] <= ps2data_ext;
+      ps2dat_synchr[1] <= ps2dat_synchr[0];
     end
 
     // De-glitcher. Sólo detecto flanco de bajada
     reg [15:0] edgedetect = 16'h0000;
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
-        edgedetect <= {edgedetect[14:0], ps2clk};
-      end
+      edgedetect <= {edgedetect[14:0], ps2clk};
     end
     wire ps2clknedge = (edgedetect == 16'hF000)? 1'b1 : 1'b0;
     wire ps2clkpedge = (edgedetect == 16'h0FFF)? 1'b1 : 1'b0;
@@ -208,7 +196,6 @@ module ps2_host_to_kb (
     wire paritycalculated = ~(^rdata);
 
     always @(posedge clk) begin
-      if (clken == 1'b1) begin
         // Carga de rdata desde el exterior
         if (dataload) begin
             rdata <= data;
@@ -280,7 +267,6 @@ module ps2_host_to_kb (
                 end
             end
         endcase     
-      end        
     end
     
     assign ps2data_ext = (state == `PULLCLKLOW || state == `PULLDATALOW)    ? 1'b0 :

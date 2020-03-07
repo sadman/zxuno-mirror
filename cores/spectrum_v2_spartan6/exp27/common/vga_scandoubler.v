@@ -25,7 +25,6 @@
 
 module vga_scandoubler (
   input wire clk,
-  input wire clk28en,
   input wire clk14en,
   input wire enable_scandoubling,
   input wire disable_scaneffect,  // 1 to disable scanlines
@@ -105,7 +104,6 @@ module vga_scandoubler (
  
   reg hsync_ext_n_prev2 = 1'b1;
   always @(posedge clk) begin
-    if (clk28en == 1'b1) begin
       hsync_ext_n_prev2 <= hsync_ext_n;
       if (addrvga[9:0] == totalhor && hsync_ext_n == 1'b1 && hsync_ext_n_prev2 == 1'b1) begin
          addrvga <= {addrvga[10], 10'b000000000};
@@ -117,7 +115,6 @@ module vga_scandoubler (
       end
       else
         addrvga <= addrvga + 11'd1;
-    end
   end
 
   // El HSYNC de la VGA está bajo sólo durante HSYNC_COUNT ciclos a partir del comienzo
@@ -136,7 +133,6 @@ module vga_scandoubler (
   reg [15:0] cntvsync = 16'hFFFF;
   initial vsync_vga = 1'b1;
   always @(posedge clk) begin
-    if (clk28en == 1'b1) begin
       if (vsync_ext_n == 1'b0) begin
         if (cntvsync == 16'hFFFF) begin
           cntvsync <= 16'd0;
@@ -153,7 +149,6 @@ module vga_scandoubler (
       end
       else if (vsync_ext_n == 1'b1)
         cntvsync <= 16'hFFFF;
-    end
   end
 
   always @* begin

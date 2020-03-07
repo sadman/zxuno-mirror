@@ -25,7 +25,6 @@
 
 module flash_and_sd (
    input wire clk,         //
-   input wire clk28en,     //
    input wire [15:0] a,    //
    input wire iorq_n,      // Señales de control de E/S estándar
    input wire rd_n,        // para manejar los puertos ZXMMC y DIVMMC
@@ -98,7 +97,7 @@ module flash_and_sd (
    // Instanciación del modulo SPI   
    spi mi_spi (
       .clk(clk),
-      .clken(clk28en),
+      .clken(1'b1),
       .enviar_dato(enviar_dato),
       .recibir_dato(recibir_dato),
       .din(din),

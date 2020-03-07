@@ -82,7 +82,6 @@ module zxuno (
   inout wire mousedata,
   
   // SCANDOUBLER CTRL
-  output wire clk28en_tovga,
   output wire clk14en_tovga,
   output wire vga_enable,
   output wire scanlines_enable,
@@ -100,8 +99,7 @@ module zxuno (
   wire CPUContention;
   wire [3:0] cpu_speed;
   wire clkcpu_enable;
-  (* KEEP = "TRUE" *) (* S = "TRUE" *) wire clk28en, clk14en, clk7en, clk7en_n, clk35en, clk35en_n, clk175en;
-  assign clk28en_tovga = clk28en;
+  (* KEEP = "TRUE" *) (* S = "TRUE" *) wire clk14en, clk7en, clk7en_n, clk35en, clk35en_n, clk175en;
   assign clk14en_tovga = clk14en;
 
   // Señales de la CPU
@@ -330,7 +328,6 @@ module zxuno (
     .clk(sysclk),
     .CPUContention(CPUContention),
     .cpu_speed(cpu_speed),
-    .clk28en(clk28en),
     .clk14en(clk14en),
     .clk7en(clk7en),
     .clk7en_n(clk7en_n),
@@ -355,7 +352,6 @@ module zxuno (
     .reset_n(rst_n & mrst_n & power_on_reset_n),  // cualquiera de los tres resets
     .clk(sysclk),
     .clkcpuen(clkcpu_enable & wait_spi_n),
-    .clk28en(clk28en),
     .wait_n(1'b1),
     .int_n(int_n),
     .nmi_n((nmi_n | enable_nmi_n) /*& nmispecial_n*/),
@@ -457,7 +453,6 @@ module zxuno (
 
   flash_and_sd cacharros_con_spi (
     .clk(sysclk),
-    .clk28en(clk28en),
     .a(cpuaddr),
     .iorq_n(iorq_n),
     .rd_n(rd_n),
@@ -547,7 +542,6 @@ module zxuno (
 
   ps2_keyb el_teclado (
     .clk(sysclk),
-    .clken(clk28en),
     .clkps2(clkps2),
     .dataps2(dataps2),
     .rows(kbdrow),

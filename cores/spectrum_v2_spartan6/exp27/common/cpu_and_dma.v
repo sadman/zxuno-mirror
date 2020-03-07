@@ -78,7 +78,6 @@ module cpu_and_dma (
   
   dma la_dma (
     .clk(clk),  
-    .clken(clk28en),
     .rst_n(reset_n),
     .zxuno_addr(zxuno_addr),
     .regaddr_changed(regaddr_changed),
