@@ -93,7 +93,7 @@ module zxuno (
   );
 
   parameter FPGA_MODEL = 3'b000;
-  parameter MASTERCLK  = 42000000;
+  parameter MASTERCLK  = 28000000;
 
   // Señales del generador de enables de reloj
   wire CPUContention;
