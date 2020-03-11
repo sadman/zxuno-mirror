@@ -38,7 +38,6 @@ TIMESPEC TS_clk50 = PERIOD "clk50mhz" 20ns HIGH 50%;
 #TIMESPEC TS_mcycle7 = FROM "mc_clk7" TO "mc_clk7" TS_clk28 / 0.14;
 #TIMESPEC TS_mcycle175 = FROM "mc_clk175" TO "mc_clk175" TS_clk28 / 0.035;
 
-
 # Clocks & debug
 NET "clk50mhz" LOC="P55" | IOSTANDARD = LVCMOS33;
 NET "testled" LOC="P11" | IOSTANDARD = LVCMOS33;

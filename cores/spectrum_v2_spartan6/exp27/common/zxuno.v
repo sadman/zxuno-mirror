@@ -99,7 +99,7 @@ module zxuno (
   wire CPUContention;
   wire [3:0] cpu_speed;
   wire clkcpu_enable;
-  (* KEEP = "TRUE" *) (* S = "TRUE" *) wire clk14en, clk7en, clk7en_n, clk35en, clk35en_n, clk175en;
+  wire clk14en, clk7en, clk7en_n, clk35en, clk35en_n, clk175en;
   assign clk14en_tovga = clk14en;
 
   // Señales de la CPU

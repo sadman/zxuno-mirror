@@ -75,7 +75,7 @@ module tld_zxuno_v4 (
    input wire joybtn2
    );
 
-   (* KEEP = "TRUE" *) (* S = "TRUE" *) wire sysclk;
+   wire sysclk;
    wire [2:0] pll_frequency_option;
    
    clock_generator relojes_maestros
