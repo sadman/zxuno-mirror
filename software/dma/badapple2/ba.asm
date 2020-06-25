@@ -27,7 +27,7 @@ DMAPRE              equ 0a3h   ; ZX-UNO register to set DMA preescaler
 DMALEN              equ 0a4h   ; ZX-UNO register to set DMA length
 DMASTAT             equ 0a6h
 SPECDRUM            equ 0ffdfh ; Specdrum I/O port in 16-bit format for DMA destination
-PREESCALER          equ 272    ; Preescaler for timed DMA. This number is got this way INT (3500000 / 12820)
+PREESCALER          equ 272    ; Preescaler for timed DMA. This number is got this way ( ROUND (3500000 / 12820) ) - 1
 LBUFFER             equ 1024   ; DMA buffer length
 
                     org 8000h
