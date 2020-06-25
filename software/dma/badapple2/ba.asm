@@ -279,8 +279,11 @@ WaitINT             ld a,r
                     out (254),a
                     ret
 
-;Read 512 bytes to the first or second half of the 1024 byte buffer. Switch which
-;half is to use for the next read operation
+;Read 512 bytes to the (current) first or second half of the 1024 byte buffer. Switch
+;halves to have the next one ready for the next read operation. While the DMA is playing
+;the first half, the software is filling the second half. Once DMA begins to play this
+;second half, software fills the first half with next audio data. DMA hardware automatically
+;starts reading again from the start of the buffer when it reaches the end.
 ReadAudioFrame      ld ix,(PointerSoundBuffer)
                     ld bc,512
                     call Leer
@@ -330,7 +333,7 @@ InitDMA             ld hl,SoundBuffer  ;begin of circular play buffer
                     ld a,DMACTRL
                     out (c),a
                     inc b
-                    ld a,00000111b  ;mem to I/O, redisparable, timed
+                    ld a,00000111b  ;mem to I/O, retriggeable, timed
                     out (c),a
                     dec b
 
