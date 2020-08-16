@@ -50,18 +50,15 @@ module tld_zxuno_a35t (
    output wire flash_mosi,
    input wire flash_miso,
    
+   input wire joy_data,
+   output wire joy_clk,
+   output wire joy_load_n,
+   
    output wire sd_cs_n,    
    output wire sd_clk,     
    output wire sd_mosi,    
    input wire sd_miso,
    output wire testled   // nos servirá como testigo de uso de la SPI
-   
-//   input wire joyup,
-//   input wire joydown,
-//   input wire joyleft,
-//   input wire joyright,
-//   input wire joyfire,
-//   input wire joybtn2
    );
 
    wire sysclk;
@@ -86,8 +83,35 @@ module tld_zxuno_a35t (
    assign sram_addr = sram_addr_2mb[18:0];
    
    wire vga_enable, scanlines_enable, clk14en;
+   
+   wire joy1up, joy1down, joy1left, joy1right, joy1fire1, joy1fire2;
+   wire joy2up, joy2down, joy2left, joy2right, joy2fire1, joy2fire2;
 
-   zxuno #(.FPGA_MODEL(3'b011)) la_maquina (
+   joydecoder decodificador_joysticks (
+    .clk(sysclk),
+    .joy_data(joy_data),
+    .joy_latch_megadrive(1'b1),
+    .joy_clk(joy_clk),
+    .joy_load_n(joy_load_n),
+    .joy1up(joy1up),
+    .joy1down(joy1down),
+    .joy1left(joy1left),
+    .joy1right(joy1right),
+    .joy1fire1(joy1fire1),
+    .joy1fire2(joy1fire2),
+    .joy1fire3(),
+    .joy1start(),
+    .joy2up(joy2up),
+    .joy2down(joy2down),
+    .joy2left(joy2left),
+    .joy2right(joy2right),
+    .joy2fire1(joy2fire1),
+    .joy2fire2(joy2fire2),
+    .joy2fire3(),
+    .joy2start()    
+   );   
+
+   zxuno #(.MASTERCLK(28000000), .FPGA_MODEL(3'b011)) la_maquina (
     .sysclk(sysclk),
     .power_on_reset_n(1'b1),  // sólo para simulación. Para implementacion, dejar a 1
     .r(ri),
@@ -125,19 +149,19 @@ module tld_zxuno_a35t (
     .sd_mosi(sd_mosi),
     .sd_miso(sd_miso),
     
-    .joy1up(1'b1/*joyup*/),
-    .joy1down(1'b1/*joydown*/),
-    .joy1left(1'b1/*joyleft*/),
-    .joy1right(1'b1/*joyright*/),
-    .joy1fire1(1'b1/*joyfire*/),
-    .joy1fire2(1'b1/*joybtn2*/),    
+    .joy1up(joy1up),
+    .joy1down(joy1down),
+    .joy1left(joy1left),
+    .joy1right(joy1right),
+    .joy1fire1(joy1fire1),
+    .joy1fire2(joy1fire2),    
   
-    .joy2up(1'b1/*joyup*/),
-    .joy2down(1'b1/*joydown*/),
-    .joy2left(1'b1/*joyleft*/),
-    .joy2right(1'b1/*joyright*/),
-    .joy2fire1(1'b1/*joyfire*/),
-    .joy2fire2(1'b1/*joybtn2*/),    
+    .joy2up(joy2up),
+    .joy2down(joy2down),
+    .joy2left(joy2left),
+    .joy2right(joy2right),
+    .joy2fire1(joy2fire1),
+    .joy2fire2(joy2fire2),    
 
     .mouseclk(mouseclk),
     .mousedata(mousedata),

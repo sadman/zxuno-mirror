@@ -76,12 +76,12 @@ set_property PACKAGE_PIN N9 [get_ports audio_out_right]
 set_property IOSTANDARD LVCMOS33 [get_ports audio_out_right]
 
 #Joystick
-#set_property PACKAGE_PIN M1 [get_ports joy_clk]
-#set_property IOSTANDARD LVCMOS33 [get_ports joy_clk]
-#set_property PACKAGE_PIN M2 [get_ports joy_load_n]
-#set_property IOSTANDARD LVCMOS33 [get_ports joy_load_n]
-#set_property PACKAGE_PIN N1 [get_ports joy_data]
-#set_property IOSTANDARD LVCMOS33 [get_ports joy_data]
+set_property PACKAGE_PIN M1 [get_ports joy_clk]
+set_property IOSTANDARD LVCMOS33 [get_ports joy_clk]
+set_property PACKAGE_PIN M2 [get_ports joy_load_n]
+set_property IOSTANDARD LVCMOS33 [get_ports joy_load_n]
+set_property PACKAGE_PIN N1 [get_ports joy_data]
+set_property IOSTANDARD LVCMOS33 [get_ports joy_data]
 
 #SRAM
 set_property IOSTANDARD LVCMOS33 [get_ports {sram_*}]

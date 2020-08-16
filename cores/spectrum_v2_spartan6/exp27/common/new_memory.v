@@ -582,6 +582,6 @@ module sram_and_mirror (
     assign we_n = we2_n;
     assign dout2 = (a2[20:16] == 5'b00001 && a2[14] == 1'b1)? data_from_bram : d;
     assign data_to_pzx = 8'h00;
-    assign d = (write_bus_cycle == 1'b1)? din2 : 8'hZZ;
+    assign d = (we2_n == 1'b0)? din2 : 8'hZZ;
 `endif               
 endmodule
