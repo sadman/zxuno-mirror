@@ -47,7 +47,7 @@ module tld_zxdos_lx25 (
    output wire uart_tx,
    input wire uart_rx,
    output wire uart_rts,
-   output wire uart_reset,
+//   output wire uart_reset,
 
    //output wire stdn,
    //output wire stdnb,
@@ -62,13 +62,6 @@ module tld_zxdos_lx25 (
    output wire flash_mosi,
    input wire flash_miso,
    
-   //input wire joyup,
-   //input wire joydown,
-   //input wire joyleft,
-   //input wire joyright,
-   //input wire joyfire,
-   //input wire joybtn2
-   
    input wire joy_data,
    output wire joy_clk,
    output wire joy_load_n,
@@ -78,7 +71,8 @@ module tld_zxdos_lx25 (
    output wire sd_mosi,    
    input wire sd_miso,
 
-   output wire testled   // nos servirá como testigo de uso de la SPI
+   output wire flashled,
+	output wire sdled
    );
 
    wire sysclk;
@@ -96,7 +90,7 @@ module tld_zxdos_lx25 (
    wire hsync_pal, vsync_pal, csync_pal;
    wire vga_enable, scanlines_enable;
    wire clk14en_tovga;
-
+   
    wire joy1up, joy1down, joy1left, joy1right, joy1fire1, joy1fire2;
    wire joy2up, joy2down, joy2left, joy2right, joy2fire1, joy2fire2;
 
@@ -189,26 +183,27 @@ module tld_zxdos_lx25 (
     );
 
 	vga_scandoubler #(.CLKVIDEO(14000)) salida_vga (
-		.clk(sysclk),
+    .clk(sysclk),
     .clk14en(clk14en_tovga),
     .enable_scandoubling(vga_enable),
     .disable_scaneffect(~scanlines_enable),
-		.ri(ri),
-		.gi(gi),
-		.bi(bi),
-		.hsync_ext_n(hsync_pal),
-		.vsync_ext_n(vsync_pal),
+    .ri(ri),
+    .gi(gi),
+    .bi(bi),
+    .hsync_ext_n(hsync_pal),
+    .vsync_ext_n(vsync_pal),
     .csync_ext_n(csync_pal),
-		.ro(ro),
-		.go(go),
-		.bo(bo),
-		.hsync(hsync),
-		.vsync(vsync)
+    .ro(ro),
+    .go(go),
+    .bo(bo),
+    .hsync(hsync),
+    .vsync(vsync)
    );	 
        
-   assign testled = (!flash_cs_n || !sd_cs_n);
-   assign uart_reset = 1'bz;
-   assign sram_ub = 1'b1;
+   assign flashled = flash_cs_n;
+   assign sdled = sd_cs_n;
+   //assign uart_reset = 1'bz;
+   assign sram_ub = 1'b0;
    
    assign r = {ro, ro};
    assign g = {go, go};

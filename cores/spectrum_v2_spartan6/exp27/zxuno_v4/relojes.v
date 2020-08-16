@@ -27,7 +27,8 @@ module clock_generator
   input wire        CLK_IN1,
   input wire [2:0]  pll_option,
   // Clock out ports
-  output wire       sysclk
+  output wire       sysclk,
+  output wire       mcolorclk
   );
 
   reg [2:0] pll_option_stored = 3'b000;
@@ -62,7 +63,7 @@ module clock_generator
 
       // These are the clock outputs from the PLL_ADV.
       .CLK0OUT(sysclk),
-      .CLK1OUT(),
+      .CLK1OUT(mcolorclk),
       .CLK2OUT(),
       .CLK3OUT()
    );
