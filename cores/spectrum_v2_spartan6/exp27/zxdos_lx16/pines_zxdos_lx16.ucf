@@ -107,7 +107,7 @@ NET "flash_miso"      LOC="P10" | IOSTANDARD = LVCMOS33 | PULLUP;
 NET "sd_cs_n"         LOC="N9"   | IOSTANDARD = LVCMOS33;
 NET "sd_clk"          LOC="T6"   | IOSTANDARD = LVCMOS33;
 NET "sd_mosi"         LOC="M9"   | IOSTANDARD = LVCMOS33;
-NET "sd_miso"         LOC="T7"   | IOSTANDARD = LVCMOS33;
+NET "sd_miso"         LOC="T7"   | IOSTANDARD = LVCMOS33 | PULLUP;
 
 # JOYSTICK
 NET "joy_data"        LOC="T13"  | IOSTANDARD = LVTTL;

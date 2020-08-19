@@ -47,8 +47,8 @@
 //`define PENTAGON_512K_SUPPORT
 
 // FPGA color clock generation needs AD724 control support enabled
-`define AD724_CONTROL_SUPPORT
-`define FPGA_GENERATES_COLOR_CLOCK_OPTION
+//`define AD724_CONTROL_SUPPORT
+//`define FPGA_GENERATES_COLOR_CLOCK_OPTION
 
 // ZXUNO core ID string. Must be padded with zero bytes to the right (16 bytes total)
   localparam COREID_STRING = {"EXP27-160820", 8'h00, 8'h00, 8'h00, 8'h00};
