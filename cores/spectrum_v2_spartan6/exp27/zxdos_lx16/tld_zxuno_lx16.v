@@ -31,7 +31,7 @@ module tld_zxdos_lx16 (
    output wire [5:0] b,
    output wire hsync,
    output wire vsync,
-   input wire ear,
+   //input wire ear,
    inout wire clkps2,
    inout wire dataps2,
    inout wire mouseclk,
@@ -44,24 +44,23 @@ module tld_zxdos_lx16 (
    //input wire wsbd,
    //input wire dabd,    
 
-   output wire uart_tx,
-   input wire uart_rx,
-   output wire uart_rts,
+   //output wire uart_tx,
+   //input wire uart_rx,
+   //output wire uart_rts,
    //output wire uart_reset,
 
    //output wire stdn,
    //output wire stdnb,
    
-   output wire [20:0] sram_addr,
+   output wire [18:0] sram_addr,
    inout wire [7:0] sram_data,
    output wire sram_we_n,
-   output wire sram_ub,
    
    output wire flash_cs_n,
    output wire flash_clk,
    output wire flash_mosi,
    input wire flash_miso,
-   
+
    input wire joy_data,
    output wire joy_clk,
    output wire joy_load_n,
@@ -75,14 +74,12 @@ module tld_zxdos_lx16 (
    output wire sdled
    );
 
-   assign sram_ub = 1'b0;
-
    wire sysclk;
    wire [2:0] pll_frequency_option;
    
    clock_generator relojes_maestros
    (// Clock in ports
-    .CLK_IN1            (clk50mhz),    
+    .CLK_IN1            (clk50mhz),
     .pll_option         (pll_frequency_option),
     // Clock out ports
     .sysclk             (sysclk)
@@ -96,10 +93,13 @@ module tld_zxdos_lx16 (
    wire joy1up, joy1down, joy1left, joy1right, joy1fire1, joy1fire2;
    wire joy2up, joy2down, joy2left, joy2right, joy2fire1, joy2fire2;
 
+   wire [20:0] sram_addr_int;
+   assign sram_addr = sram_addr_int[18:0];
+
    joydecoder decodificador_joysticks (
     .clk(sysclk),
     .joy_data(joy_data),
-    .joy_latch_megadrive(hsync),
+    .joy_latch_megadrive(1'b1),
     .joy_clk(joy_clk),
     .joy_load_n(joy_load_n),
     .joy1up(joy1up),
@@ -131,7 +131,7 @@ module tld_zxdos_lx16 (
     .csync(csync_pal),
     .clkps2(clkps2),
     .dataps2(dataps2),
-    .ear_ext(~ear),  // negada porque el hardware tiene un transistor inversor
+    .ear_ext(1'b0 /*~ear*/ ),  // negada porque el hardware tiene un transistor inversor
     .audio_out_left(audio_out_left),
     .audio_out_right(audio_out_right),
     
@@ -140,17 +140,17 @@ module tld_zxdos_lx16 (
     .wsbd(1'b0),
     .dabd(1'b0),
     
-    .uart_tx(uart_tx),
-    .uart_rx(uart_rx),
-    .uart_rts(uart_rts),
+    .uart_tx(),
+    .uart_rx(1'b1),
+    .uart_rts(),
 
-    .sram_addr(sram_addr),
+    .sram_addr(sram_addr_int),
     .sram_data(sram_data),
     .sram_we_n(sram_we_n),
     
     .flash_cs_n(flash_cs_n),
     .flash_clk(flash_clk),
-    .flash_di(flash_mosi), 
+    .flash_di(flash_mosi),
     .flash_do(flash_miso),
     
     .sd_cs_n(sd_cs_n),
