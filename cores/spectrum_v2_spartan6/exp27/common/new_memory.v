@@ -26,7 +26,6 @@
 module new_memory (
    // Relojes y reset
    input wire clk,        // Reloj de la CPU
-   input wire mclk,       // Reloj para la BRAM
    input wire mrst_n,
    input wire rst_n,
    
@@ -252,7 +251,6 @@ module new_memory (
    reg [20:0] addr_port2;
    reg oe_memory_n;
    reg oe_bootrom_n;
-   reg write_bus_cycle;
    reg we2_n;
    reg ram_busy;
    assign enable_pzx = ~ram_busy;
@@ -269,7 +267,6 @@ module new_memory (
    // y señales de acceso de lectura y escritura
 
    always @* begin
-      write_bus_cycle = (mreq_n == 1'b0 && rfsh_n == 1'b1 && m1_n == 1'b1 && rd_n == 1'b1);
       oe_memory_n = mreq_n | rd_n;
       we2_n = mreq_n | wr_n;
       oe_bootrom_n = 1'b1;
@@ -458,8 +455,7 @@ module new_memory (
    wire [7:0] ram_dout;
 
    sram_and_mirror toda_la_ram (  // Nuevo controlador de SRAM usando BRAM de doble puerto para evitar la contienda
-      .clk(mclk),
-      .write_bus_cycle(write_bus_cycle),
+      .clk(clk),
       .a1({vrampage,vramaddr}),
       .a2(addr_port2),
       .we2_n(we2_n),
@@ -479,7 +475,7 @@ module new_memory (
       );
 
    rom boot_rom (
-      .clk(mclk),
+      .clk(clk),
       .a(a[13:0]),
       .dout(bootrom_dout)
     );    
@@ -520,7 +516,6 @@ endmodule
 
 module sram_and_mirror (
     input wire clk,          // 28MHz
-    input wire write_bus_cycle,  // To indicate if this is a write cycle, so exposing din2 as much as possible
     input wire [14:0] a1,    // to BRAM addr bus
     input wire [20:0] a2,    // to SRAM addr bus
     input wire we2_n,        // to SRAM WE enable
@@ -565,23 +560,24 @@ module sram_and_mirror (
         dout1 <= vram[a1];
     end
     
+    reg we2_n_dly = 1'b1;
+    always @(negedge clk)
+      we2_n_dly <= we2_n;
+    
     // SRAM manager. Easy, isn't it? :D
 `ifdef PZX_PLAYER_OPTION
     assign a =    (enable_pzx)? pzx_addr : a2;
-    assign we_n = (enable_pzx)? ~write_data_pzx : we2_n;
+    assign we_n = (enable_pzx)? ~write_data_pzx : we2_n & we2_n_dly;  // pulso de escritura ligeramente ensenchado
     assign dout2 = (a2[20:16] == 5'b00001 && a2[14] == 1'b1)? data_from_bram : d;
     assign data_to_pzx = d;
-//    assign d = (write_bus_cycle == 1'b1 && write_data_pzx == 1'b0)? din2 : 
-//               (write_data_pzx == 1'b1)? data_from_pzx :
-//               8'hZZ;
-    assign d = (we2_n == 1'b0 && write_data_pzx == 1'b0)? din2 : 
-               (write_data_pzx == 1'b1)? data_from_pzx :
+    assign d = (we2_n_dly == 1'b0 && write_data_pzx == 1'b0)? din2 :  // dejo medio ciclo de reloj a Z antes de poner el dato
+               (enable_pzx == 1'b1 && write_data_pzx == 1'b1)? data_from_pzx :
                8'hZZ;
 `else
     assign a = a2;
-    assign we_n = we2_n;
+    assign we_n = we2_n & we2_n_dly;
     assign dout2 = (a2[20:16] == 5'b00001 && a2[14] == 1'b1)? data_from_bram : d;
     assign data_to_pzx = 8'h00;
-    assign d = (we2_n == 1'b0)? din2 : 8'hZZ;
+    assign d = (we2_n_dly == 1'b0)? din2 : 8'hZZ;
 `endif               
 endmodule

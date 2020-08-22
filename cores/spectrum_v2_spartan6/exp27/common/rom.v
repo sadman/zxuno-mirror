@@ -40,7 +40,7 @@ module rom (
       $readmemh ("bootloader_to_bios_and_easter_egg.hex", mem, 0);      
    end
 `else
-   reg [7:0] mem[0:9215];
+   reg [7:0] mem[0:9215];  // este tamaño es el justito para que quepa en un bloque de BRAM, que es de 9KB
    integer i;
    initial begin  
       for (i=0;i<9216;i=i+1) begin

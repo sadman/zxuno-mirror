@@ -494,7 +494,6 @@ module zxuno (
   new_memory bootrom_rom_y_ram (
   // Relojes y reset
     .clk(sysclk),   // Reloj para registros de configuración
-    .mclk(sysclk),        // Reloj para el modulo de memoria de doble puerto
     .mrst_n(mrst_n & power_on_reset_n),
     .rst_n(rst_n & power_on_reset_n),
   
